@@ -11,6 +11,15 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
+    We have {{ agents|length }} agents in our database.
+
+    {{ dump(agents) }}
+
+    {% for agent in agents %}
+
+    {{ agent.nickname }}
+
+    {% endfor %}
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ '/home/elkuku/repos/symf-postgre-heroku-test/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>

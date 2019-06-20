@@ -46,13 +46,12 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
                 $text = sprintf("Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nPlease /start me now.",$newMember->getFirstName(), $newMember->getUsername());
             } else {
                 // New chat member
-                $text = sprintf('Hello @%s welcome on board `=;)`', $newMember->getUsername());
+                $text = sprintf('Hello @%s welcome on board =;)', $newMember->getUsername());
             }
 
             $this->botApi->sendMessage(
                 $event->getUpdate()->getMessage()->getChat()->getId(),
-                $text,
-                'markdown'
+                $text
             );
         }
     }

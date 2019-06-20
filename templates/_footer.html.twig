@@ -1,0 +1,14 @@
+{% block footer %}
+    <footer class="footer text-muted d-flex flex-row bg-dark">
+        <div class="p-1">
+            &copy; 2005 - {{ "now"|date("Y") }} by 4E - Ecuador
+        </div>
+        <div class="p-1 ml-auto">
+            {% if app.user and app.user.role == 'ROLE_ADMIN' %}
+            {% endif %}
+        </div>
+        <div class="p-1 ml-auto">
+            Made with <a href="https://symfony.com">Symfony</a>
+        </div>
+    </footer>
+{% endblock %}

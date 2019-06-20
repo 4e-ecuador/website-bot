@@ -29,7 +29,7 @@ class Guides extends AbstractCommand implements PublicCommandInterface
      */
     public function getDescription()
     {
-        return 'Example command';
+        return 'Guides command';
     }
 
     /**
@@ -37,11 +37,8 @@ class Guides extends AbstractCommand implements PublicCommandInterface
      */
     public function execute(BotApi $api, Update $update)
     {
-//        preg_match(self::REGEXP, $update->getMessage()->getText(), $matches);
-//        $who  = !empty($matches[3]) ? $matches[3] : "World";
-//        $text = sprintf('Hello *%s*', $who);
-
         $text = "Guias blabla\n\n1. lala [aaa](https://aa.bb)\n1. lulu\n\nyau";
+
         $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
     }
 }

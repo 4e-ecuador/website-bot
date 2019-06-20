@@ -2,6 +2,10 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+app_logout:
+  path: /logout
+  methods: GET
+
 BoShurikTelegramBotBundle:
   resource: "@BoShurikTelegramBotBundle/Resources/config/routing.yml"
   prefix: '_telegram/%telegram_web_hook_secret%'

@@ -1,3 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+BoShurikTelegramBotBundle:
+  resource: "@BoShurikTelegramBotBundle/Resources/config/routing.yml"
+  prefix: '_telegram/%telegram_web_hook_secret%'

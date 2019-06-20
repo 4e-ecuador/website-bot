@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="agent_user")
  */
 class User implements UserInterface
 {
@@ -65,6 +66,11 @@ class User implements UserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function hasRole()
+    {
+        return $this->getRoles();
     }
 
     public function setRoles(array $roles): self

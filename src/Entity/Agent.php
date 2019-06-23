@@ -26,6 +26,16 @@ class Agent
      */
     private $realName;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     */
+    private $lon;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +61,30 @@ class Agent
     public function setRealName(?string $real_name): self
     {
         $this->realName = $real_name;
+
+        return $this;
+    }
+
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    public function setLat($lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLon()
+    {
+        return $this->lon;
+    }
+
+    public function setLon($lon): self
+    {
+        $this->lon = $lon;
 
         return $this;
     }

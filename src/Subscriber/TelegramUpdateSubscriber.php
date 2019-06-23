@@ -2,6 +2,7 @@
 
 namespace App\Subscriber;
 
+use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Event\Telegram\UpdateEvent;
 use BoShurik\TelegramBotBundle\Event\TelegramEvents;
 use Psr\Log\LoggerAwareTrait;
@@ -9,7 +10,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Inline\InputMessageContent;
-use TelegramBot\Api\Types\Inline\QueryResult\AbstractInlineQueryResult;
 use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 
 class TelegramUpdateSubscriber implements EventSubscriberInterface
@@ -21,10 +21,16 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      */
     private $botApi;
 
-    public function __construct(LoggerInterface $logger, BotApi $botApi)
+    /**
+     * @var AgentRepository
+     */
+    private $agentRepository;
+
+    public function __construct(LoggerInterface $logger, BotApi $botApi, AgentRepository $agentRepository)
     {
         $this->setLogger($logger);
         $this->botApi = $botApi;
+        $this->agentRepository = $agentRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -103,11 +109,24 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             return $this;
         }
 
-        $results = [];
+        $agents = $this->agentRepository->findAll();
 
-        $results[] = new Contact('1', '0', 'helloooo', 'aaacc',
-            null, null, null, new InputMessageContent\Text('yay'));
-        $results[] = new Contact('2', '123-456',  'helloooo222'.$inlineQuery->getQuery(),);
+        $results = [];
+        foreach ($agents as $agent) {
+            $c = new Contact($agent->getId(), 0,$agent->getNickname());
+
+            $info = sprintf('Agent %s (%s)', $agent->getNickname(), $agent->getRealName());
+            $c->setInputMessageContent(new InputMessageContent\Text($info));
+
+            $results[] = $c;
+
+//            $results[] = new Contact('1', '0', 'helloooo', 'aaacc',
+//                null, null, null, new InputMessageContent\Text('yay'));
+
+        }
+
+
+//        $results[] = new Contact('2', '123-456',  'helloooo222'.$inlineQuery->getQuery(),);
 
 //        $results[] = new InputMessageContent\Text('yay');
 

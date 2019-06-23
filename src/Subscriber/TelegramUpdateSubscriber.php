@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Inline\QueryResult\AbstractInlineQueryResult;
+use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 
 class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
@@ -97,12 +98,13 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         $results = [];
 
-        $results[] = new AbstractInlineQueryResult('123', 'helloooo');
-        $results[] = new AbstractInlineQueryResult('1234', 'helloooo22');
+        $results[] = new Contact('1', '123-456',  'helloooo',);
+        $results[] = new Contact('2', '123-456',  'helloooo222',);
 
         $this->botApi->answerInlineQuery(
             $inlineQuery->getId(),
-            $results
+            $results,
+            0
         );
 
     }

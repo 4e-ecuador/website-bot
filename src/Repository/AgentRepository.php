@@ -19,6 +19,9 @@ class AgentRepository extends ServiceEntityRepository
         parent::__construct($registry, Agent::class);
     }
 
+    /**
+     * @return Agent[]
+     */
     public function searchByAgentName(string $agentName)
     {
         return $this->createQueryBuilder('a')

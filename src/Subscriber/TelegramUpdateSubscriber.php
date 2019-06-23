@@ -111,12 +111,18 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         $search = $inlineQuery->getQuery();
 
+        if (!$search) {
+            // Empty query
+        }
+
+        $search = substr($search, 0, 3);
 
         // @todo sanitize
 
         $agents = $this->agentRepository->searchByAgentName($search);
 
         $results = [];
+
         foreach ($agents as $agent) {
             $c = new Contact($agent->getId(), 0,$agent->getNickname());
 
@@ -124,16 +130,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $c->setInputMessageContent(new InputMessageContent\Text($info));
 
             $results[] = $c;
-
-//            $results[] = new Contact('1', '0', 'helloooo', 'aaacc',
-//                null, null, null, new InputMessageContent\Text('yay'));
-
         }
-
-
-//        $results[] = new Contact('2', '123-456',  'helloooo222'.$inlineQuery->getQuery(),);
-
-//        $results[] = new InputMessageContent\Text('yay');
 
         $this->botApi->answerInlineQuery(
             $inlineQuery->getId(),

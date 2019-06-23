@@ -133,8 +133,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $info[] = '';
             $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
 
-
-//            $info = sprintf('Agent %s (%s)', $agent->getNickname(), $agent->getRealName());
             $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info)));
 
             $results[] = $c;
@@ -143,8 +141,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         $this->botApi->answerInlineQuery(
             $inlineQuery->getId(),
             $results
-
         );
-
     }
 }

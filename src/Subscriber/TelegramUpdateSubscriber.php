@@ -114,7 +114,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         // @todo sanitize
 
-        $agents = $this->agentRepository->searchByAgentName($search);
+        $agents = $this->agentRepository->findByAgentName($search);
 
         $results = [];
         foreach ($agents as $agent) {

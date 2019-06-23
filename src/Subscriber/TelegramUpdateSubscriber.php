@@ -53,7 +53,13 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     private function respondWelcome(UpdateEvent $event)
     {
-        $newChatMember = $event->getUpdate()->getMessage()->getNewChatMember();
+        $message = $event->getUpdate()->getMessage();
+
+        if (!$message) {
+            return $this;
+        }
+
+        $newChatMember = $message->getNewChatMember();
 
         if (!$newChatMember) {
             return $this;

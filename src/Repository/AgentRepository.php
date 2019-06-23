@@ -19,6 +19,19 @@ class AgentRepository extends ServiceEntityRepository
         parent::__construct($registry, Agent::class);
     }
 
+    public function searchByAgentName(string $agentName)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('LOWER(a.nickname) LIKE LOWER(:val)')
+            ->setParameter('val', '%'.$agentName.'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
+
     // /**
     //  * @return Agent[] Returns an array of Agent objects
     //  */

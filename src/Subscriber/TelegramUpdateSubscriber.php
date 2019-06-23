@@ -105,7 +105,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         $results = [];
 
-        $results[] = new Contact('1', '', 'helloooo', 'aaacc',
+        $results[] = new Contact('1', '0', 'helloooo', 'aaacc',
             null, null, null, new InputMessageContent\Text('yay'));
         $results[] = new Contact('2', '123-456',  'helloooo222'.$inlineQuery->getQuery(),);
 

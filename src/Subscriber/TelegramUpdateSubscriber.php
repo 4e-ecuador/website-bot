@@ -133,7 +133,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $info[] = '';
             $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
 
-            $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info)));
+            $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info), 'markdown'));
 
             $results[] = $c;
         }

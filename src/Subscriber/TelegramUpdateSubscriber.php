@@ -45,6 +45,12 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     public function writeLog(UpdateEvent $event): void
     {
+        $message = $event->getUpdate()->getMessage();
+
+        if (!$message) {
+            return;
+        }
+
         $this->logger->info(
             sprintf(
                 'Received a new message: %s',

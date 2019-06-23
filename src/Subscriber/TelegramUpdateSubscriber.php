@@ -8,6 +8,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Types\Inline\QueryResult\AbstractInlineQueryResult;
 
 class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
@@ -36,24 +37,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     public function processUpdate(UpdateEvent $event): void
     {
-        $newMember = $event->getUpdate()->getMessage()->getNewChatMember();
-
-        if ($newMember) {
-            $me = $this->botApi->getMe();
-
-            if ($me->getId() === $newMember->getId()) {
-                // Bot has been added to chat
-                $text = sprintf("Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nPlease /start me now.",$newMember->getFirstName(), $newMember->getUsername());
-            } else {
-                // New chat member
-                $text = sprintf('Hello @%s welcome on board =;)', $newMember->getUsername());
-            }
-
-            $this->botApi->sendMessage(
-                $event->getUpdate()->getMessage()->getChat()->getId(),
-                $text
-            );
-        }
+        $this->respondWelcome($event)
+            ->respondInlineQuery($event);
     }
 
     public function writeLog(UpdateEvent $event): void
@@ -64,5 +49,55 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
                 $event->getUpdate()->getMessage()->getText()
             )
         );
+    }
+
+    private function respondWelcome(UpdateEvent $event)
+    {
+        $newChatMember = $event->getUpdate()->getMessage()->getNewChatMember();
+
+        if (!$newChatMember) {
+            return $this;
+        }
+
+        $me = $this->botApi->getMe();
+
+        if ($me->getId() === $newChatMember->getId()) {
+            // Bot has been added to chat
+            $text = sprintf(
+                "Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nPlease /start me now.",
+                $me->getFirstName(),
+                $me->getUsername()
+            );
+        } else {
+            // New chat member
+            $text = sprintf('Hello @%s welcome on board =;)', $newChatMember->getUsername());
+        }
+
+        $this->botApi->sendMessage(
+            $event->getUpdate()->getMessage()->getChat()->getId(),
+            $text
+        );
+
+        return $this;
+    }
+
+    private function respondInlineQuery(UpdateEvent $event)
+    {
+        $inlineQuery = $event->getUpdate()->getInlineQuery();
+
+        if (!$inlineQuery) {
+            return $this;
+        }
+
+        $results = [];
+
+        $results[] = new AbstractInlineQueryResult('123', 'helloooo');
+        $results[] = new AbstractInlineQueryResult('1234', 'helloooo22');
+
+        $this->botApi->answerInlineQuery(
+            $inlineQuery->getId(),
+            $results
+        );
+
     }
 }

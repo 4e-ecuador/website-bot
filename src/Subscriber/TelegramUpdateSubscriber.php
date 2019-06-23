@@ -115,9 +115,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             // Empty query
         }
 
-        $search = substr($search, 0, 3);
+        // Keep only the first 8 chars
+        $search = substr($search, 0, 8);
 
-        // @todo sanitize
+        // @todo sanitize more?
 
         $agents = $this->agentRepository->searchByAgentName($search);
 

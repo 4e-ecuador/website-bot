@@ -127,8 +127,15 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         foreach ($agents as $agent) {
             $c = new Contact($agent->getId(), 0,$agent->getNickname());
 
-            $info = sprintf('Agent %s (%s)', $agent->getNickname(), $agent->getRealName());
-            $c->setInputMessageContent(new InputMessageContent\Text($info));
+            $info = [];
+
+            $info[] = sprintf('Intel del agente: `%s`', $agent->getNickname());
+            $info[] = '';
+            $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
+
+
+//            $info = sprintf('Agent %s (%s)', $agent->getNickname(), $agent->getRealName());
+            $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info)));
 
             $results[] = $c;
         }

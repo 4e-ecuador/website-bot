@@ -3,6 +3,7 @@
 namespace App\Subscriber;
 
 use App\Repository\AgentRepository;
+use App\Service\TelegramBotHelper;
 use App\Service\Templater;
 use BoShurik\TelegramBotBundle\Event\Telegram\UpdateEvent;
 use BoShurik\TelegramBotBundle\Event\TelegramEvents;
@@ -27,23 +28,43 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      */
     private $agentRepository;
 
+    private $isAllowedChat = false;
+
     /**
      * @var Templater
      */
     private $templater;
+    /**
+     * @var TelegramBotHelper
+     */
+    private $telegramBotHelper;
 
-    public function __construct(LoggerInterface $logger, BotApi $botApi, AgentRepository $agentRepository, Templater $templater)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        BotApi $botApi,
+        AgentRepository $agentRepository,
+        Templater $templater,
+        TelegramBotHelper $telegramBotHelper
+    ) {
         $this->setLogger($logger);
-        $this->botApi = $botApi;
-        $this->agentRepository = $agentRepository;
-        $this->templater = $templater;
+        $this->botApi            = $botApi;
+        $this->agentRepository   = $agentRepository;
+        $this->templater         = $templater;
+        $this->telegramBotHelper = $telegramBotHelper;
+    }
+
+    public function check(UpdateEvent $event)
+    {
+        $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
+            $event->getUpdate()->getMessage()->getChat()->getId()
+        );
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
             TelegramEvents::UPDATE => [
+                ['check', 99],
                 ['processUpdate', 0],
                 ['writeLog', -10],
             ],
@@ -132,24 +153,24 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         $results = [];
 
         foreach ($agents as $agent) {
-            $c = new Contact($agent->getId(), 0,$agent->getNickname());
+            $c = new Contact($agent->getId(), 0, $agent->getNickname());
 
-            $info = [];
-
-            $info[] = sprintf('Intel del agente: `%s`', $agent->getNickname());
-            $info[] = '';
-            $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
-
-            if ($agent->getLat()) {
-                $info[] = sprintf('**Ubicacion**: %s, %s', $agent->getLat(), $agent->getLon());
-                $info[] = sprintf('[google maps](https://www.google.com/maps/@%s,%s,17z)', $agent->getLat(), $agent->getLon());
-            }
-
-            $text = implode("\n", $info);
+//            $info = [];
+//
+//            $info[] = sprintf('Intel del agente: `%s`', $agent->getNickname());
+//            $info[] = '';
+//            $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
+//
+//            if ($agent->getLat()) {
+//                $info[] = sprintf('**Ubicacion**: %s, %s', $agent->getLat(), $agent->getLon());
+//                $info[] = sprintf('[google maps](https://www.google.com/maps/@%s,%s,17z)', $agent->getLat(), $agent->getLon());
+//            }
+//
+//            $text = implode("\n", $info);
 
             $text = $this->templater->replaceAgentTemplate('agent-info.md', $agent);
 
-            $c->setInputMessageContent(new InputMessageContent\Text($text, 'markdown'));
+            $c->setInputMessageContent(new InputMessageContent\Text($text, 'markdown', true));
 
             $results[] = $c;
         }
@@ -158,6 +179,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $inlineQuery->getId(),
             $results
         );
-    }
 
+        return $this;
+    }
 }

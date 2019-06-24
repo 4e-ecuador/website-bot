@@ -5,17 +5,11 @@ namespace App\BotCommand;
 
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Update;
 
 class Guides extends AbstractCommand implements PublicCommandInterface
 {
-    public function __construct(ContainerInterface $container)
-    {
-//        parent::__construct();
-        $this->container = $container;
-    }
     /**
      * @inheritDoc
      */

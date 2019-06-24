@@ -34,7 +34,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
      */
     public function execute(BotApi $api, Update $update)
     {
-        $text = "I'm alive =;)";
+        $text = "I'm alive =;) - ".$update->getMessage()->getChat()->getId();
         $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
 
         // @todo add chat id to database

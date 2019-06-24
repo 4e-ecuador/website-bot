@@ -26,15 +26,15 @@ class Templater
         $this->filesystem = $filesystem;
     }
 
-    public function getTemplate(string $name)
+    public function getTemplate(string $templateName)
     {
-        $path = $this->rootDir.'/text-files/'.$name;
+        $path = $this->rootDir.'/text-files/'.$templateName;
 
         if ($this->filesystem->exists($path)) {
             return file_get_contents($path);
         }
 
-        return ' file not found';
+        return 'File not found';
     }
 
     public function replaceAgentTemplate(string $templateName, Agent $agent)
@@ -43,10 +43,20 @@ class Templater
 
         $replacements = [
             '{agent_nick}' => $agent->getNickname(),
-            '{agent_name}' => $agent->getRealName(),
+            '{agent_name}' => $agent->getRealName() ?: 'Desconocido',
             '{faction}'    => $agent->getFaction()->getName(),
-            '{lat}'        => $agent->getLat(),
+            '{lat}'        => $agent->getLat() ?: 'Desconocida',
             '{lon}'        => $agent->getLon(),
+            '{gmap_link}'  => $agent->getLat() ? sprintf(
+                '[gmap](https://www.google.com/maps/@%s,%s,17z)',
+                $agent->getLat(),
+                $agent->getLon()
+            ) : '',
+            '{intel_link}'  => $agent->getLat() ? sprintf(
+                '[intel](https://intel.ingress.com/intel?ll=%s,%s&z=17)',
+                $agent->getLat(),
+                $agent->getLon()
+            ) : '',
         ];
 
         foreach ($replacements as $search => $replacement) {

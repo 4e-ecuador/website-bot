@@ -57,6 +57,13 @@ class Templater
                 $agent->getLat(),
                 $agent->getLon()
             ) : '',
+            '{osm_link}'  => $agent->getLat() ? sprintf(
+                '[intel](https://www.openstreetmap.org/?mlat=-%s&mlon=%s#map=10/%s/%s)',
+                $agent->getLat(),
+                $agent->getLon(),
+                $agent->getLat(),
+                $agent->getLon()
+            ) : '',
         ];
 
         foreach ($replacements as $search => $replacement) {

@@ -65,24 +65,24 @@ class Agent
         return $this;
     }
 
-    public function getLat()
+    public function getLat(): ?float
     {
         return $this->lat;
     }
 
-    public function setLat($lat): self
+    public function setLat(float $lat): self
     {
         $this->lat = $lat;
 
         return $this;
     }
 
-    public function getLon()
+    public function getLon(): ?float
     {
         return $this->lon;
     }
 
-    public function setLon($lon): self
+    public function setLon(float $lon): self
     {
         $this->lon = $lon;
 

@@ -133,6 +133,11 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $info[] = '';
             $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
 
+            if ($agent->getLat()) {
+                $info[] = sprintf('**Ubicacion**: %s, %s', $agent->getLat(), $agent->getLon());
+                $info[] = sprintf('[google maps](https://www.google.com/maps/@%s,%s,17z)', $agent->getLat(), $agent->getLon());
+            }
+
             $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info), 'markdown'));
 
             $results[] = $c;

@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Nickname</th>
                 <th>Real_name</th>
+                <th>Position</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ agent.id }}</td>
                 <td>{{ agent.nickname }}</td>
                 <td>{{ agent.realName }}</td>
+                <td>{{ agent.lat }}, {{ agent.lon }}</td>
                 <td>
                     <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
                     <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>

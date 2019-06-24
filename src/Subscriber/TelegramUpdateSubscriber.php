@@ -55,9 +55,21 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     public function check(UpdateEvent $event)
     {
-        $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
-            $event->getUpdate()->getMessage()->getChat()->getId()
-        );
+        $message = $event->getUpdate()->getMessage();
+
+        if ($message) {
+            $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
+                $message->getChat()->getId()
+            );
+        } else {
+            $inlineQuery = $event->getUpdate()->getInlineQuery();
+
+            if ($inlineQuery) {
+                $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
+                    $inlineQuery->getFrom()->getId()
+                );
+            }
+        }
     }
 
     public static function getSubscribedEvents(): array

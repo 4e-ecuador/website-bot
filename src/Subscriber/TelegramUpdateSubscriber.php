@@ -3,6 +3,7 @@
 namespace App\Subscriber;
 
 use App\Repository\AgentRepository;
+use App\Service\Templater;
 use BoShurik\TelegramBotBundle\Event\Telegram\UpdateEvent;
 use BoShurik\TelegramBotBundle\Event\TelegramEvents;
 use Psr\Log\LoggerAwareTrait;
@@ -26,11 +27,17 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      */
     private $agentRepository;
 
-    public function __construct(LoggerInterface $logger, BotApi $botApi, AgentRepository $agentRepository)
+    /**
+     * @var Templater
+     */
+    private $templater;
+
+    public function __construct(LoggerInterface $logger, BotApi $botApi, AgentRepository $agentRepository, Templater $templater)
     {
         $this->setLogger($logger);
         $this->botApi = $botApi;
         $this->agentRepository = $agentRepository;
+        $this->templater = $templater;
     }
 
     public static function getSubscribedEvents(): array
@@ -138,7 +145,11 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
                 $info[] = sprintf('[google maps](https://www.google.com/maps/@%s,%s,17z)', $agent->getLat(), $agent->getLon());
             }
 
-            $c->setInputMessageContent(new InputMessageContent\Text(implode("\n", $info), 'markdown'));
+            $text = implode("\n", $info);
+
+            $text = $this->replaceAgentTemplate($this->templater->getTemplate(''), $agent);
+
+            $c->setInputMessageContent(new InputMessageContent\Text($text, 'markdown'));
 
             $results[] = $c;
         }
@@ -148,4 +159,5 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $results
         );
     }
+
 }

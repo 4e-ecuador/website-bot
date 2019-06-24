@@ -36,6 +36,12 @@ class Agent
      */
     private $lon;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Faction")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $faction;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +91,18 @@ class Agent
     public function setLon(float $lon): self
     {
         $this->lon = $lon;
+
+        return $this;
+    }
+
+    public function getFaction(): ?Faction
+    {
+        return $this->faction;
+    }
+
+    public function setFaction(?Faction $faction): self
+    {
+        $this->faction = $faction;
 
         return $this;
     }

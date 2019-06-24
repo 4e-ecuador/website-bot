@@ -32,7 +32,7 @@ class AgentType extends AbstractType
                 'lat',
                 NumberType::class,
                 array(
-                    'required' => true,
+                    'required' => false,
                     'scale'    => 7,
                     'attr'     => array(
                         'min'  => -90,
@@ -45,7 +45,7 @@ class AgentType extends AbstractType
                 'lon',
                 NumberType::class,
                 array(
-                    'required' => true,
+                    'required' => false,
                     'scale'    => 7,
                     'attr'     => array(
                         'min'  => -90,

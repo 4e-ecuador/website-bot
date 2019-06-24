@@ -1,4 +1,17 @@
+## Setup
+
+Setup Heroku env vars according to the `.env` file.
+
+```
+# /config/routes.yaml
+
+BoShurikTelegramBotBundle:
+  resource: "@BoShurikTelegramBotBundle/Resources/config/routing.yml"
+  prefix: '_telegram/%telegram_web_hook_secret%'
+```
+
 <del>
+
 ### Webpack
 
 add nodejs

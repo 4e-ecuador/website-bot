@@ -147,7 +147,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
             $text = implode("\n", $info);
 
-            $text = $this->replaceAgentTemplate($this->templater->getTemplate(''), $agent);
+            $text = $this->templater->replaceAgentTemplate('agent-info.md', $agent);
 
             $c->setInputMessageContent(new InputMessageContent\Text($text, 'markdown'));
 

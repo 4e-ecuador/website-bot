@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nickname</th>
+                <th>Faction</th>
                 <th>Real_name</th>
                 <th>Position</th>
                 <th>actions</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td>{{ agent.id }}</td>
                 <td>{{ agent.nickname }}</td>
+                <td>{{ agent.faction.name }}</td>
                 <td>{{ agent.realName }}</td>
                 <td>{{ agent.lat }}, {{ agent.lon }}</td>
                 <td>

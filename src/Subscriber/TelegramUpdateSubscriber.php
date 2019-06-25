@@ -162,7 +162,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $text = 'You are not allowed to use this bot '.$inlineQuery->getFrom()->getId();
             $this->botApi->answerInlineQuery(
                 $inlineQuery->getId(),
-                [new Contact(1, 0, $text)]
+                [new Contact(1, 666, $text)]
             );
 
             return $this;

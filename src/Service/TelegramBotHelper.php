@@ -6,12 +6,7 @@ namespace App\Service;
 
 class TelegramBotHelper
 {
-    public function hello()
-    {
-        return 'hello';
-    }
-
-    public function checkChatId($chatId):bool
+    public function checkChatId($chatId): bool
     {
         $allowedIdString = getenv('ALLOWED_TELEGRAM_CHATS');
 
@@ -22,6 +17,19 @@ class TelegramBotHelper
         $allowedIds = explode(',', $allowedIdString);
 
         return in_array($chatId, $allowedIds, false);
+    }
+
+    public function checkUserId(int $userId): bool
+    {
+        $allowedIdString = getenv('ALLOWED_TELEGRAM_USERS');
+
+        if (!$allowedIdString) {
+            return false;
+        }
+
+        $allowedIds = explode(',', $allowedIdString);
+
+        return in_array($userId, $allowedIds, false);
     }
 
     public function checkTelegramIP(): bool

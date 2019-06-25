@@ -65,7 +65,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             $inlineQuery = $event->getUpdate()->getInlineQuery();
 
             if ($inlineQuery) {
-                $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
+                $this->isAllowedChat = $this->telegramBotHelper->checkUserId(
                     $inlineQuery->getFrom()->getId()
                 );
             }
@@ -119,6 +119,15 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             return $this;
         }
 
+        if (!$this->isAllowedChat) {
+            $this->botApi->sendMessage(
+                $event->getUpdate()->getMessage()->getChat()->getId(),
+                'No access for group '.$event->getUpdate()->getMessage()->getChat()->getId()
+            );
+
+            return $this;
+        }
+
         $me = $this->botApi->getMe();
 
         if ($me->getId() === $newChatMember->getId()) {
@@ -149,6 +158,16 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             return $this;
         }
 
+        if (!$this->isAllowedChat) {
+            $text = 'You are not allowed to use this bot '.$inlineQuery->getFrom()->getId();
+            $this->botApi->answerInlineQuery(
+                $inlineQuery->getId(),
+                [new Contact(1, 0, $text)]
+            );
+
+            return $this;
+        }
+
         $search = $inlineQuery->getQuery();
 
         if (!$search) {
@@ -166,19 +185,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         foreach ($agents as $agent) {
             $c = new Contact($agent->getId(), 0, $agent->getNickname());
-
-//            $info = [];
-//
-//            $info[] = sprintf('Intel del agente: `%s`', $agent->getNickname());
-//            $info[] = '';
-//            $info[] = 'Nombre real: '.($agent->getRealName()?:'Desconocido');
-//
-//            if ($agent->getLat()) {
-//                $info[] = sprintf('**Ubicacion**: %s, %s', $agent->getLat(), $agent->getLon());
-//                $info[] = sprintf('[google maps](https://www.google.com/maps/@%s,%s,17z)', $agent->getLat(), $agent->getLon());
-//            }
-//
-//            $text = implode("\n", $info);
 
             $text = $this->templater->replaceAgentTemplate('agent-info.md', $agent);
 

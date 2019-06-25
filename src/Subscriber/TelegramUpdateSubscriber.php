@@ -159,7 +159,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         }
 
         if (!$this->isAllowedChat) {
-            $text = "'You are not allowed to use this bot.\n\nYou may ask an admin toadd your ID: ".$inlineQuery->getFrom()->getId();
+            $text = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: ".$inlineQuery->getFrom()->getId();
             $contact = new Contact(1, 666, 'You are not allowed to use this bot.');
             $contact->setInputMessageContent(new InputMessageContent\Text($text, 'markdown', true));
 

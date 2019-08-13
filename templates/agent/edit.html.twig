@@ -3,11 +3,17 @@
 {% block title %}Edit Agent{% endblock %}
 
 {% block body %}
-    <h1>Edit Agent</h1>
+    <h1>Editar Agente</h1>
 
     {{ include('agent/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('agent_index') }}">back to list</a>
+    <div class="btn-group" role="group" aria-label="Basic example">
+
+    <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+
+    <a class="btn btn-secondary" href="{{ path('agent_index') }}">Regresar</a>
 
     {{ include('agent/_delete_form.html.twig') }}
+</div>
+
 {% endblock %}

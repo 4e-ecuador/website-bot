@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Agent index</h1>
 
+    <a class="btn btn-success" href="{{ path('agent_new') }}">Create new</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -37,5 +39,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('agent_new') }}">Create new</a>
 {% endblock %}

@@ -5,34 +5,36 @@
 {% block body %}
     <h1>Agent</h1>
 
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-secondary" href="{{ path('agent_index') }}">Regresar</a>
+
+        <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+
+        {{ include('agent/_delete_form.html.twig') }}
+    </div>
+
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ agent.id }}</td>
-            </tr>
-            <tr>
-                <th>Nickname</th>
-                <td>{{ agent.nickname }}</td>
-            </tr>
-            <tr>
-                <th>Faction</th>
-                <td>{{ agent.faction.name }}</td>
-            </tr>
-            <tr>
-                <th>Real_name</th>
-                <td>{{ agent.realName }}</td>
-            </tr>
-            <tr>
-                <th>Position</th>
-                <td>{{ agent.lat }}, {{ agent.lon }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ agent.id }}</td>
+        </tr>
+        <tr>
+            <th>Nickname</th>
+            <td>{{ agent.nickname }}</td>
+        </tr>
+        <tr>
+            <th>Faction</th>
+            <td>{{ agent.faction.name }}</td>
+        </tr>
+        <tr>
+            <th>Real_name</th>
+            <td>{{ agent.realName }}</td>
+        </tr>
+        <tr>
+            <th>Position</th>
+            <td>{{ agent.lat }}, {{ agent.lon }}</td>
+        </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('agent_index') }}">back to list</a>
-
-    <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
-
-    {{ include('agent/_delete_form.html.twig') }}
 {% endblock %}

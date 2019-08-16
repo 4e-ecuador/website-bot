@@ -111,4 +111,17 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function __toString()
+    {
+        return (string) $this->username;
+    }
+
+    public function getAvatarUrl(string $size = null): string
+    {
+        $url = 'https://robohash.org/'.$this->username.'@gmail.com';
+        if ($size)
+            $url .= sprintf('?size=%dx%d', $size, $size);
+        return $url;
+    }
 }

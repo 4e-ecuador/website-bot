@@ -1,0 +1,9 @@
+<div class="card">
+    <div class="card-header">
+        {{ comment.datetime|date('Y-m-d') }}
+        {{ comment.commenter }}
+    </div>
+    <div class="card-body">
+        {{ comment.text|nl2br }}
+    </div>
+</div>

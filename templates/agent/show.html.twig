@@ -2,6 +2,15 @@
 
 {% block title %}Agent{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/comment.js') }}"></script>
+    <script>
+        getComments({{ agent.id }})
+
+    </script>
+{% endblock %}
+
 {% block body %}
     <h1>Agent</h1>
 
@@ -35,6 +44,19 @@
             <th>Position</th>
             <td>{{ agent.lat }}, {{ agent.lon }}</td>
         </tr>
+        <tr>
+            <th>Comments</th>
+            <td>
+                <div id="commentArea"></div>
+                <div id="commentStatus"></div>
+            </td>
+        </tr>
+
         </tbody>
     </table>
+
+    <h3>Aniadir comentario</h3>
+
+    {{ include('agent/_add_comment_form.html.twig') }}
+
 {% endblock %}

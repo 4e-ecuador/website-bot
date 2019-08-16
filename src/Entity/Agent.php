@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Agent
      * @ORM\JoinColumn(nullable=false)
      */
     private $faction;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="agent")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,47 @@ class Agent
     public function setFaction(?Faction $faction): self
     {
         $this->faction = $faction;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nickname;
+    }
+
+    public function __sleep()
+    {
+        return ['id', 'nickname'];
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAgent() === $this) {
+                $comment->setAgent(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,10 @@
+<form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}">
+    <textarea name="comment" id="comment_text" cols="30" rows="5"></textarea>
+
+    <div id="commentMessage"></div>
+
+    <input type="hidden" name="commenter" value="{{ app.user.id }}">
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('addcomment' ~ agent.id) }}">
+    <button class="btn btn-success">Enviar</button>
+</form>

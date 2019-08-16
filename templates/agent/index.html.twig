@@ -12,9 +12,10 @@
             <tr>
                 <th>Id</th>
                 <th>Nickname</th>
-                <th>Faction</th>
-                <th>Real_name</th>
+                <th>Faccion</th>
+                <th>Nombre Real</th>
                 <th>Position</th>
+                <th>Comentarios</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,6 +27,7 @@
                 <td>{{ agent.faction.name }}</td>
                 <td>{{ agent.realName }}</td>
                 <td>{{ agent.lat }}, {{ agent.lon }}</td>
+                <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
                 <td>
                     <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
                     <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>

@@ -48,7 +48,7 @@ class ImportController extends AbstractController
                     return $this->render(
                         'import/index.html.twig',
                         [
-                            'form' => $form->createView(),
+                            'form'   => $form->createView(),
                             'cities' => $waypointRepo->findCities(),
                         ]
                     );
@@ -67,13 +67,9 @@ class ImportController extends AbstractController
         return $this->render(
             'import/index.html.twig',
             [
-                'form'   => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
-
-        return $this->render('import/index.html.twig', [
-            'controller_name' => 'ImportController',
-        ]);
     }
 
     private function importJSON(string $agentsJSON, FactionRepository $factionRepository)
@@ -84,26 +80,28 @@ class ImportController extends AbstractController
             throw new \UnexpectedValueException('Invalid JSON data received');
         }
 
-        var_dump($jsonData);
+//        var_dump($jsonData);
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $faction = $factionRepository->findOneBy(['id' => 1]);
+        // @todo faction select
+        $faction = $factionRepository->findOneBy(['name' => 'ENL']);
 
+//        $factions = $factionRepository->findAll();
         foreach ($jsonData as $entry) {
 
-                $agent = new Agent();
+            $agent = new Agent();
 
-                $agent->setNickname($entry->name);
-                $agent->setLat($entry->lat);
-                $agent->setLon($entry->lng);
+            $agent->setNickname($entry->name);
+            $agent->setLat($entry->lat);
+            $agent->setLon($entry->lng);
 
-                $agent->setFaction($faction);
+            $agent->setFaction($faction);
 
-                $entityManager->persist($agent);
+            $entityManager->persist($agent);
 
-                $entityManager->flush();
-            }
+            $entityManager->flush();
+        }
 
         return count($jsonData);
     }

@@ -1,0 +1,99 @@
+{% macro formFields(paginatorOptions) %}
+    {% for name, value in paginatorOptions|cast_to_array %}
+        {% if name not in ['criteria', 'limit'] %}
+            <input type="hidden" name="paginatorOptions[{{ name }}]" value="{{ value }}"/>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro pagination(paginatorOptions) %}
+    {% set page, maxPages = paginatorOptions.page, paginatorOptions.maxPages %}
+    {% if maxPages > 1 %}
+        {% if page <= 6 %}
+            {% set startPage, startString = 1, '' %}
+            {% if maxPages > 11 %}
+                {% set endPage, endString = 11, '...' %}
+            {% else %}
+                {% set endPage, endString = maxPages, '' %}
+            {% endif %}
+        {% elseif page + 5 >= maxPages %}
+            {% if maxPages < 10 %}
+                {% set startPage, startString = 1, '' %}
+            {% else %}
+                {% set startPage, startString = maxPages - 10, '...' %}
+            {% endif %}
+
+            {% set endPage, endString = maxPages, '' %}
+        {% else %}
+            {% set startPage, endPage, startString, endString = page - 5, page + 5, '...', '...' %}
+        {% endif %}
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item{{ page == 1 ? ' disabled' }}">
+                    <a class="page-link pagLink" href="javascript:"
+                       data-page="{{ page - 1 < 1 ? 1 : page - 1 }}">&lArr;</a>
+                </li>
+                {% if startString %}
+                    <li class="page-item disabled"><a class="page-link" href="#">{{ startString }}</a></li>
+                {% endif %}
+                {% for i in startPage..endPage %}
+                    <li class="page-item{{ page == i ? ' active' }}">
+                        <a href="javascript:" class="page-link pagLink" data-page="{{ i }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                {% if endString %}
+                    <li class="disabled"><a class="page-link" href="#">{{ endString }}</a></li>
+                {% endif %}
+                <li {{ page == maxPages ? 'class="disabled"' }}>
+                    <a href="javascript:" class="page-link pagLink"
+                       data-page="{{ page + 1 <= maxPages ? page + 1 : page }}">&rArr;</a>
+                </li>
+                <li> of {{ maxPages }} Pages</li>
+            </ul>
+        </nav>
+
+    {% endif %}
+{% endmacro %}
+
+{% macro listLimit(paginatorOptions) %}
+    <select name="paginatorOptions[limit]" class="form-control paginatorResetChange" style="margin: 20px 0">
+        {% for num in [5, 10, 20, 50, 100] %}
+            <option{{ num == paginatorOptions.limit ? ' selected="selected"' : '' }}>{{ num }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro ordering(order, paginatorOptions) %}
+    {% set selected = order == paginatorOptions.order %}
+    <a data-order="{{ order }}" data-order-dir="ASC"
+       class="btn btn-{{ selected and 'ASC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&dArr;</a>
+    <a data-order="{{ order }}" data-order-dir="DESC"
+       class="btn btn-{{ selected and 'DESC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&uArr;</a>
+{% endmacro %}
+
+{% macro criteria(name, paginatorOptions) %}
+    <input name="paginatorOptions[criteria][{{ name }}]" size="6"
+           value="{{ paginatorOptions.searchCriteria(name) }}">
+    <div class="btn-group" role="group" aria-label="Opciones de busqueda">
+        <button class="btn btn-light btn-sm paginatorCleanReset">
+            <span class="oi oi-trash" aria-hidden="true"></span>
+        </button>
+        <button class="btn btn-light btn-sm paginatorReset">
+            <span class="oi oi-magnifying-glass"></span>
+        </button>
+    </div>
+{% endmacro %}
+
+{% macro date(name, paginatorOptions) %}
+    <input name="paginatorOptions[criteria][{{ name }}]" type="date" size="9"
+           value="{{ paginatorOptions.searchCriteria(name) }}">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light btn-sm paginatorCleanReset">
+            <span class="oi oi-trash"></span>
+        </button>
+        <button type="button" class="btn btn-light btn-sm paginatorReset">
+            <span class="oi oi-magnifying-glass"></span>
+        </button>
+    </div>
+{% endmacro %}

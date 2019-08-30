@@ -7,6 +7,7 @@ use App\Form\CommentType;
 use App\Repository\AgentRepository;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -75,7 +76,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="comment_show", methods={"GET"})
+     * @Route("/{id}", name="comment_show", requirements={"id"="\d+"}, methods={"GET"})
      */
     public function show(Comment $comment): Response
     {
@@ -123,9 +124,26 @@ class CommentController extends AbstractController
 
         return $this->redirectToRoute('comment_index');
     }
+    /**
+     * @Route("/deleteinline/{id}", name="comment_delete_inline", methods={"DELETE"})
+     */
+    public function deleteInline(Request $request, Comment $comment): JsonResponse
+    {
+        $response = ['status' => 'ok'];
+
+        return $this->json($response);
+
+        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('comment_index');
+    }
 
     /**
-     * @Route("/get-agent-ids", name="comment_agent_ids", methods={"POST"})
+     * @Route("/getagentids", name="comment_agent_ids")
      */
     public function getAgentCommentIds(
         Request $request,

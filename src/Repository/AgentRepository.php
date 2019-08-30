@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Agent;
+use App\Helper\Paginator\PaginatorOptions;
+use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,12 +16,42 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AgentRepository extends ServiceEntityRepository
 {
+    use PaginatorRepoTrait;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Agent::class);
     }
 
     /**
+     * @param PaginatorOptions $options
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function getPaginatedList(PaginatorOptions $options): \Doctrine\ORM\Tools\Pagination\Paginator
+    {
+        $query = $this->createQueryBuilder('a');
+
+        $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
+
+        if ($options->searchCriteria('nickname'))
+        {
+            $query->andWhere('a.nickname LIKE :nickname')
+                ->setParameter('nickname', '%' . $options->searchCriteria('nickname') . '%');
+        }
+
+        if ($options->searchCriteria('realName'))
+        {
+            $query->andWhere('a.realName LIKE :realName')
+                ->setParameter('realName', '%' . $options->searchCriteria('realName') . '%');
+        }
+
+        $query = $query->getQuery();
+
+        return $this->paginate($query, $options->getPage(), $options->getLimit());
+    }
+
+        /**
      * @return Agent[]
      */
     public function searchByAgentName(string $agentName)

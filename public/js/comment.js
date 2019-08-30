@@ -10,8 +10,8 @@ function getComments(agentId) {
     commentArea.html('')
 
     jQuery.ajax({
-        method: 'POST',
-        url: '/comment/get-agent-ids',
+        type: 'POST',
+        url: '/comment/getagentids',
         data: {agent_id: agentId}
     })
         .done(function (r) {

@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Form\AgentType;
 use App\Form\CommentInlineType;
 use App\Form\CommentType;
+use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,15 +24,24 @@ use Symfony\Component\Security\Core\Security;
  */
 class AgentController extends AbstractController
 {
+    use PaginatorTrait;
+
     /**
-     * @Route("/", name="agent_index", methods={"GET"})
+     * @Route("/", name="agent_index", methods={"GET","POST"})
      */
-    public function index(AgentRepository $agentRepository): Response
+    public function index(AgentRepository $agentRepository, Request $request): Response
     {
+        $paginatorOptions = $this->getPaginatorOptions($request);
+
+        $agents = $agentRepository->getPaginatedList($paginatorOptions);
+
+        $paginatorOptions->setMaxPages(ceil(\count($agents) / $paginatorOptions->getLimit()));
+
         return $this->render(
             'agent/index.html.twig',
             [
-                'agents' => $agentRepository->findAll(),
+                'agents' => $agents,
+                'paginatorOptions' => $paginatorOptions,
             ]
         );
     }

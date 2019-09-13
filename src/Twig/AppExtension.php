@@ -8,6 +8,7 @@
 
 namespace App\Twig;
 
+use App\Service\MedalChecker;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -16,6 +17,16 @@ use Twig\TwigFilter;
  */
 class AppExtension extends AbstractExtension
 {
+    /**
+     * @var MedalChecker
+     */
+    private $medalChecker;
+
+    public function __construct(MedalChecker $medalChecker)
+    {
+        $this->medalChecker = $medalChecker;
+    }
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -23,6 +34,7 @@ class AppExtension extends AbstractExtension
 	{
 		return [
 			new TwigFilter('cast_to_array', [$this, 'objectFilter']),
+			new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
 		];
 	}
 
@@ -46,5 +58,11 @@ class AppExtension extends AbstractExtension
 		}
 
 		return $response;
+	}
+
+    public function medalLevelFilter($level)
+    {
+        return $this->medalChecker->getLevelName($level);
+
 	}
 }

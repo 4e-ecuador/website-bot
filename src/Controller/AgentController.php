@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Entity\Comment;
 use App\Form\AgentType;
-use App\Form\CommentInlineType;
-use App\Form\CommentType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\UserRepository;
+use App\Service\CsvParser;
+use App\Service\MedalChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +20,6 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/agent")
- * @IsGranted("ROLE_ADMIN")
  */
 class AgentController extends AbstractController
 {
@@ -28,6 +27,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/", name="agent_index", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(AgentRepository $agentRepository, Request $request): Response
     {
@@ -40,7 +40,7 @@ class AgentController extends AbstractController
         return $this->render(
             'agent/index.html.twig',
             [
-                'agents' => $agents,
+                'agents'           => $agents,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );
@@ -48,6 +48,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/new", name="agent_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -73,7 +74,8 @@ class AgentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="agent_show", methods={"GET"})
+     * @Route("/{id}", name="agent_show", methods={"GET"}, requirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Agent $agent, Security $security): Response
     {
@@ -95,6 +97,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="agent_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Agent $agent): Response
     {
@@ -123,6 +126,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}", name="agent_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Agent $agent): Response
     {
@@ -137,6 +141,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}/add_comment", name="agent_add_comment", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function addComment(Request $request, Agent $agent, UserRepository $userRepository): JsonResponse
     {
@@ -154,7 +159,6 @@ class AgentController extends AbstractController
                 return $this->json(['error' => 'no comment...']);
             }
 
-
             $comment = new Comment();
             $comment->setCommenter($commenter)
                 ->setAgent($agent)
@@ -171,7 +175,53 @@ class AgentController extends AbstractController
             return $this->json($response);
         }
 
-
         return $this->json(['error' => 'error']);
+    }
+
+    /**
+     * @Route("/test-stat-import", name="test_stat_import", methods={"POST", "GET"})
+     */
+    public function testStatImport(Request $request, CsvParser $csvParser, MedalChecker $medalChecker, AgentRepository $agentRepository): Response
+    {
+        $csv = $request->get('csv');
+        $importType = $request->get('type');
+        $ups = [];
+        $currents = [];
+
+        if ($csv) {
+            try {
+                $parsed = $csvParser->parse($csv, $importType);
+
+                $agent = $agentRepository->findOneBy(['id' => 66]);
+
+                foreach ($parsed as $date => $values) {
+                    $statEntries = $medalChecker->checkLevels($values);
+
+                    if (!$currents) {
+                        $currents = $statEntries;
+
+                        continue;
+                    }
+
+                    foreach ($currents as $name => $currentVal) {
+                        $newVal = $statEntries[$name];
+                        if ($newVal > $currentVal) {
+                            $ups[$date]['agentX'][$name] = $newVal;
+                            $currents[$name]             = $newVal;
+                        }
+                    }
+                }
+            } catch (\UnexpectedValueException $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            }
+        }
+
+        return $this->render(
+            'agent/testimport.html.twig',
+            [
+                'ups' => $ups,
+                'currents' => $currents,
+            ]
+        );
     }
 }

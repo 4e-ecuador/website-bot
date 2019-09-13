@@ -18,6 +18,9 @@
     </style>
     <div class="example-wrapper">
         <h1>Welcome! ✅</h1>
+        {% if app.user %}
+        {{ app.user.username }}
+        {% endif %}
         <p>
             Tenemos <code>{{ agents|length }}</code> agentes e nuestra base de datos.
         </p>

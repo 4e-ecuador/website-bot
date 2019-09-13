@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    <h2>Prime Export</h2>
+    <form method="post">
+        <label for="csv">CSV</label>
+        <textarea name="csv" id="csv" cols="80" rows="5"></textarea>
+        <input type="hidden" name="type" value="prime">
+        <button>Enviar</button>
+    </form>
+
+    <h2>AgentStats Export</h2>
+    <form method="post">
+        <label for="csv">CSV</label>
+        <textarea name="csv" id="csv" cols="80" rows="5"></textarea>
+        <input type="hidden" name="type" value="agentstats">
+        <button>Enviar</button>
+    </form>
+    {% if ups %}
+        {{ dump(ups) }}
+        <table>
+            <tr>
+                <th>Fecha</th>
+                <th>Medalla</th>
+                <th>Nivel</th>
+            </tr>
+            {% for date,upValues in ups %}
+                {% for agent,agentValues in upValues %}
+                    {% for name,level in agentValues %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>{{ name }}</td>
+                    <td>{{ level|medalLevel }}</td>
+                </tr>
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+        </table>
+    {% endif %}
+    {% if currents %}
+        <table>
+            {% for name,level in currents %}
+             <tr>
+                 <td>{{ name }}</td>
+                 <td>{{ level|medalLevel }}</td>
+             </tr>
+            {% endfor %}
+        </table>
+        {{ dump(currents) }}
+    {% endif %}
+{% endblock %}

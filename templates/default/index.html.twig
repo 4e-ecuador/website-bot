@@ -18,8 +18,15 @@
     </style>
     <div class="example-wrapper">
         <h1>Welcome! ✅</h1>
-        {% if app.user %}
-        {{ app.user.username }}
+        <div class="alert alert-danger">hahaha</div>
+        {% if is_granted('ROLE_ADMIN') %}
+            hello admin
+        {% elseif app.user %}
+            <div class="alert alert-danger">
+                Tu cuenta no ha sido activada aun!<br>
+                Por favor comunicate con un administrador proporcionando tu nombre de agente y to e-mail <code>{{ app.user.email }}</code><br>
+                In Jarvis we trust!
+            </div>
         {% endif %}
         <p>
             Tenemos <code>{{ agents|length }}</code> agentes e nuestra base de datos.

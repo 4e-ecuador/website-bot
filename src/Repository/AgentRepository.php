@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,9 +27,9 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @param PaginatorOptions $options
      *
-     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     * @return Paginator
      */
-    public function getPaginatedList(PaginatorOptions $options): \Doctrine\ORM\Tools\Pagination\Paginator
+    public function getPaginatedList(PaginatorOptions $options): Paginator
     {
         $query = $this->createQueryBuilder('a');
 
@@ -42,7 +43,7 @@ class AgentRepository extends ServiceEntityRepository
 
         if ($options->searchCriteria('realName'))
         {
-            $query->andWhere('a.realName LIKE :realName')
+            $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
                 ->setParameter('realName', '%' . $options->searchCriteria('realName') . '%');
         }
 
@@ -54,7 +55,7 @@ class AgentRepository extends ServiceEntityRepository
         /**
      * @return Agent[]
      */
-    public function searchByAgentName(string $agentName)
+    public function searchByAgentName(string $agentName): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('LOWER(a.nickname) LIKE LOWER(:val)')
@@ -64,7 +65,6 @@ class AgentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
-
     }
 
     // /**

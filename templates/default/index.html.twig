@@ -4,14 +4,52 @@
 
 {% block body %}
     <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
     </style>
     <div class="example-wrapper">
         <h1>Welcome! ✅</h1>
         <p>
-            We have <code>{{ agents|length }}</code> agents in our database.
+            Tenemos <code>{{ agents|length }}</code> agentes e nuestra base de datos.
         </p>
+
+        <h2>Ultimos comentarios</h2>
+
+        <table class="table table-condensed">
+            <tr>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th>Agente</th>
+                <th>Comenter</th>
+                <th>Comentario</th>
+            </tr>
+            {% for comment in latestComments %}
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="{{ path('agent_show', {'id':comment.agent.id, '_fragment': 'comment-' ~ comment.id}) }}">
+                            {{ comment.datetime|date("d/m/Y") }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>
+                    </td>
+                    <td>{{ comment.commenter.username }}</td>
+                    <td>{{ comment.text }}</td>
+                </tr>
+
+            {% endfor %}
+        </table>
     </div>
 
 {% endblock %}

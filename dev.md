@@ -29,3 +29,6 @@ add nodejs
 
     heroku pg:psql --app APP_NAME < dump.sql
 
+## Google OAuth
+
+https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4

@@ -47,4 +47,13 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findLatestTen()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.datetime', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

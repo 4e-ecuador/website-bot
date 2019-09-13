@@ -124,6 +124,7 @@ class CommentController extends AbstractController
 
         return $this->redirectToRoute('comment_index');
     }
+
     /**
      * @Route("/deleteinline/{id}", name="comment_delete_inline", methods={"DELETE"})
      */
@@ -145,14 +146,12 @@ class CommentController extends AbstractController
     /**
      * @Route("/getagentids", name="comment_agent_ids")
      */
-    public function getAgentCommentIds(
-        Request $request,
-        CommentRepository $commentRepository,
-        AgentRepository $agentRepository
-    ) {
-        $html = '';
+    public function getAgentCommentIds(Request $request, AgentRepository $agentRepository)
+    {
+        $html    = '';
         $agentId = $request->request->get('agent_id');
-        $agent = $agentRepository->findOneBy(['id' => $agentId]);
+        $agent   = $agentRepository->findOneBy(['id' => $agentId]);
+
         foreach ($agent->getComments() as $comment) {
             $html .= $this->renderView(
                 'comment/commentBox.html.twig',

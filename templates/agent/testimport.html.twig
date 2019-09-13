@@ -20,7 +20,6 @@
         <button>Enviar</button>
     </form>
     {% if ups %}
-        {{ dump(ups) }}
         <table>
             <tr>
                 <th>Fecha</th>
@@ -49,6 +48,5 @@
              </tr>
             {% endfor %}
         </table>
-        {{ dump(currents) }}
     {% endif %}
 {% endblock %}

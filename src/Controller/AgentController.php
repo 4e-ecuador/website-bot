@@ -180,6 +180,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/test-stat-import", name="test_stat_import", methods={"POST", "GET"})
+     * @IsGranted("ROLE_AGENT")
      */
     public function testStatImport(Request $request, CsvParser $csvParser, MedalChecker $medalChecker, AgentRepository $agentRepository): Response
     {

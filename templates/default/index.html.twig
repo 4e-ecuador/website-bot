@@ -33,6 +33,8 @@
             Tenemos <code>{{ agents|length }}</code> agentes en nuestra base de datos.
         </p>
 
+        {% if is_granted('ROLE_AGENT') %}
+
         <h2>Ultimos comentarios</h2>
 
         <table class="table table-condensed">
@@ -61,6 +63,9 @@
 
             {% endfor %}
         </table>
+
+        {% endif %}
+
     </div>
 
 {% endblock %}

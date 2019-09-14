@@ -9,12 +9,11 @@
         <div class="navbar-nav">
             <ul class="nav navbar-nav">
                 {% if is_granted('ROLE_AGENT') %}
-
-                <li class="nav-item"><a class="nav-link" href={{ path('test_stat_import') }}>TestImport</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ path('test_stat_import') }}>TestImport</a></li>
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item"><a class="nav-link" href={{ path('agent_index') }}>Agentes</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ path('agent_index') }}>Agentes</a></li>
 
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Admin</a>
@@ -38,7 +37,8 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item dropdown" style="margin-right: 75px;">
-                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(24) }}">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

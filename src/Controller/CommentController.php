@@ -61,7 +61,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/fetch", name="comment_fetch", methods={"GET","POST"})
-     * @IsGranted("ROLE_EDITOR")
+     * @IsGranted("ROLE_AGENT")
      */
     public function getSingle(Request $request, CommentRepository $commentRepository)
     {
@@ -81,7 +81,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}", name="comment_show", requirements={"id"="\d+"}, methods={"GET"})
-     * @IsGranted("ROLE_EDITOR")
+     * @IsGranted("ROLE_AGENT")
      */
     public function show(Comment $comment): Response
     {
@@ -153,7 +153,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/getagentids", name="comment_agent_ids")
-     * @IsGranted("ROLE_EDITOR")
+     * @IsGranted("ROLE_AGENT")
      */
     public function getAgentCommentIds(Request $request, AgentRepository $agentRepository)
     {

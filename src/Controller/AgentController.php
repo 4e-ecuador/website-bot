@@ -27,7 +27,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/", name="agent_index", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_AGENT")
      */
     public function index(AgentRepository $agentRepository, Request $request): Response
     {
@@ -48,7 +48,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/new", name="agent_new", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function new(Request $request): Response
     {
@@ -75,7 +75,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}", name="agent_show", methods={"GET"}, requirements={"id"="\d+"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_AGENT")
      */
     public function show(Agent $agent, Security $security): Response
     {
@@ -97,7 +97,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="agent_edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function edit(Request $request, Agent $agent): Response
     {
@@ -126,7 +126,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}", name="agent_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function delete(Request $request, Agent $agent): Response
     {
@@ -141,7 +141,7 @@ class AgentController extends AbstractController
 
     /**
      * @Route("/{id}/add_comment", name="agent_add_comment", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function addComment(Request $request, Agent $agent, UserRepository $userRepository): JsonResponse
     {

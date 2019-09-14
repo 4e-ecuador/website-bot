@@ -36,19 +36,21 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     /**
      * GoogleAuthenticator constructor.
-     * @param ClientRegistry $clientRegistry
+     *
+     * @param ClientRegistry         $clientRegistry
      * @param EntityManagerInterface $em
-     * @param UserManagerInterface $userManager
+     * @param UserManagerInterface   $userManager
      */
     public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, UserRepository $userManager)
     {
         $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->userManager = $userManager;
+        $this->em             = $em;
+        $this->userManager    = $userManager;
     }
 
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public function supports(Request $request)
@@ -59,6 +61,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     /**
      * @param Request $request
+     *
      * @return \League\OAuth2\Client\Token\AccessToken|mixed
      */
     public function getCredentials(Request $request)
@@ -68,11 +71,6 @@ class GoogleAuthenticator extends SocialAuthenticator
         return $this->fetchAccessToken($this->getGoogleClient());
     }
 
-    /**
-     * @param mixed $credentials
-     * @param UserProviderInterface $userProvider
-     * @return User|null|object|\Symfony\Component\Security\Core\User\UserInterface
-     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         /** @var GoogleUser $googleUser */
@@ -81,39 +79,23 @@ class GoogleAuthenticator extends SocialAuthenticator
 
         $email = $googleUser->getEmail();
 
-        // 1) have they logged in with Google before? Easy!
-        $existingUser = $this->em->getRepository(User::class)
+        $user = $this->em->getRepository(User::class)
             ->findOneBy(['email' => $googleUser->getEmail()]);
 
-        if ($existingUser) {
-            $user = $existingUser;
-        } else {
-            // 2) do we have a matching user by email?
-//            $user = $this->em->getRepository(User::class)
-//                ->findOneBy(['username' => $email]);
+        if (!$user) {
+            $user = new User();
+            $user->setUsername($email);
+            $user->setEmail($email);
 
-//            if (!$user) {
-//                /** @var User $user */
-                $user = new User();// $this->userManager->createUser();
-//                $user->setEnabled(true);
-                $user->setUsername($email);
-                $user->setEmail($email);
-//                $user->setUsername("your chosen username");
-//                $user->setPlainPassword("your chosen password");
-//            }
+//            $roles   = $user->getRoles();
+//            $roles[] = 'ROLE_UNVERIFIED';
+//            $user->setRoles($roles);
         }
-
-        // 3) Maybe you just want to "register" them by creating
-        // a User object
-//        $user->setGoogleId($googleUser->getId());
 
         $this->em->persist($user);
         $this->em->flush();
-//        $this->userManager->updateUser($user);
 
         return $user;
-
-//        return $userProvider->loadUserByUsername($user->getUsername());
     }
 
     /**
@@ -125,20 +107,21 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request $request
+     * @param Request        $request
      * @param TokenInterface $token
-     * @param string $providerKey
+     * @param string         $providerKey
+     *
      * @return null|Response
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // on success, let the request continue
         return null;
     }
 
     /**
-     * @param Request $request
+     * @param Request                 $request
      * @param AuthenticationException $exception
+     *
      * @return null|Response
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -152,7 +135,7 @@ class GoogleAuthenticator extends SocialAuthenticator
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      *
-     * @param Request $request
+     * @param Request                      $request
      * @param AuthenticationException|null $authException
      *
      * @return RedirectResponse

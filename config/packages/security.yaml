@@ -39,4 +39,5 @@ security:
 
     role_hierarchy:
         ROLE_AGENT: ROLE_USER
-        ROLE_ADMIN: ROLE_AGENT
+        ROLE_EDITOR: ROLE_AGENT
+        ROLE_ADMIN: ROLE_EDITOR

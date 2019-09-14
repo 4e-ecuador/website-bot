@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 class MedalChecker
 {
@@ -30,89 +28,92 @@ class MedalChecker
         ],
         'connector' => [
             'desc' => 'Links Created',
-            'levels' => [50, 1000,	5000,	25000,	100000]
+            'levels' => [50, 1000, 5000, 25000, 100000]
         ],
         'mind-controller' => [
             'desc' => 'Control Fields Created',
-            'levels' => [100,	500,	2000,	10000,	40000]
+            'levels' => [100, 500, 2000, 10000, 40000]
         ],
         'engineer' => [
             'desc' => 'Mods Deployed',
-            'levels' => [150,	1500,	5000,	20000,	50000]
+            'levels' => [150, 1500, 5000, 20000, 50000]
         ],
-
-
-
-
-
-        /*
-            '' => [
-                'desc' => '',
-                'levels' => []
-            ],
-
-    */
-
-
-        /*
-illuminator
-Mind Units Captured
-5,000	50,000	250,000	1,000,000	4,000,000
-recharger
-XM Recharged
-100,000	1,000,000	3,000,000	10,000,000	25,000,000
-liberator
-Portals Captured
-100	1,000	5,000	15,000	40,000
-pioneer
-Unique Portals Captured
-20	200	1,000	5,000	20,000
-purifier
-Resonators Destroyed
-2,000	10,000	30,000	100,000	300,000
-specops
-Unique Missions Completed
-5	25	100	200	500
-missionday
-Mission Day(s) Attended
-1	3	6	10	20
-nl-1331-meetups
-NL-1331 Meetup(s) Attended
-1	5	10	25	50
-hacker
-Hacks
-2,000	10,000	30,000	100,000	200,000
-translator
-Glyph Hack Points
-200	2,000	6,000	20,000	50,000
-sojourner
-Longest Hacking Streak
-15	30	60	180	360
-recruiter
-Agents successfully recruited
-2	10	25	50	100
-recursions
-Recursions
-1	N/A	N/A	N/A	N/A
-prime_challenge
-Prime Challenges
-1	2	3	4	N/A
-stealth_ops
-Stealth Ops Missions
-1	3	6	10	20
-opr_live
-OPR Live Events
-1	3	6	10	20
-ocf
-Clear Fields Events
-1	3	6	10	20
-intel_ops
-Intel Ops Missions
-1	3	6	10	20
-ifs
-First Saturday Events
-1	6	12	24	36
-         */
+        'illuminator' => [
+            'desc' => 'Mind Units Captured',
+            'levels' => [5000, 50000, 250000, 1000000, 4000000]
+        ],
+        'recharger' => [
+            'desc' => 'XM Recharged',
+            'levels' => [100000, 1000000, 3000000, 10000000, 25000000]
+        ],
+        'liberator' => [
+            'desc' => 'Portals Captured',
+            'levels' => [100, 1000, 5000, 15000, 40000]
+        ],
+        'pioneer' => [
+            'desc' => 'Unique Portals Captured',
+            'levels' => [20, 200, 1000, 5000, 20000]
+        ],
+        'purifier' => [
+            'desc' => 'Resonators Destroyed',
+            'levels' => [2000, 10000, 30000, 100000, 300000]
+        ],
+        'specops' => [
+            'desc' => 'Unique Missions Completed',
+            'levels' => [5, 25, 100, 200, 500]
+        ],
+        'missionday' => [
+            'desc' => 'Mission Day(s) Attended',
+            'levels' => [1, 3, 6, 10, 20]
+        ],
+        'nl-1331-meetups' => [
+            'desc' => 'NL-1331 Meetup(s) Attended',
+            'levels' => [1, 5, 10, 25, 50]
+        ],
+        'hacker' => [
+            'desc' => 'Hacks',
+            'levels' => [2000, 10000, 30000, 100000, 200000]
+        ],
+        'translator' => [
+            'desc' => 'Glyph Hack Points',
+            'levels' => [200, 2000, 6000, 20000, 50000]
+        ],
+        'sojourner' => [
+            'desc' => 'Longest Hacking Streak',
+            'levels' => [15, 30, 60, 180, 360]
+        ],
+        'recruiter' => [
+            'desc' => 'Agents successfully recruited',
+            'levels' => [2, 10, 25, 50, 100]
+        ],
+        'recursions' => [
+            'desc' => 'Recursions',
+            'levels' => [1, 0, 0, 0, 0]
+        ],
+        'prime_challenge' => [
+            'desc' => 'Prime Challenges',
+            'levels' => [1, 2, 3, 4, 0]
+        ],
+        'stealth_ops' => [
+            'desc' => 'Stealth Ops Missions',
+            'levels' => [1, 3, 6, 10, 20]
+        ],
+        'opr_live' => [
+            'desc' => 'OPR Live Events',
+            'levels' => [1, 3, 6, 10, 20]
+        ],
+        'ocf' => [
+            'desc' => 'Clear Fields Events',
+            'levels' => [1, 3, 6, 10, 20]
+        ],
+        'intel_ops' => [
+            'desc' => 'Intel Ops Missions',
+            'levels' => [1, 3, 6, 10, 20]
+        ],
+        'ifs' => [
+            'desc' => 'First Saturday Events',
+            'levels' => [1, 6, 12, 24, 36]
+        ],
     ];
 
     private $primeHeaders = [
@@ -132,14 +133,14 @@ First Saturday Events
         'Resonators Deployed' => 'builder',
         'Links Created' => 'connector',
         'Control Fields Created' => 'mind-controller',
-        'Mind Units Captured' => '',
+        'Mind Units Captured' => 'illuminator',
         'Longest Link Ever Created' => '',
         'Largest Control Field' => '',
-        'XM Recharged' => '',
-        'Portals Captured' => '',
-        'Unique Portals Captured' => '',
+        'XM Recharged' => 'recharger',
+        'Portals Captured' => 'liberator',
+        'Unique Portals Captured' => 'pioneer',
         'Mods Deployed' => 'engineer',
-        'Resonators Destroyed' => '',
+        'Resonators Destroyed' => 'purifier',
         'Portals Neutralized' => '',
         'Enemy Links Destroyed' => '',
         'Enemy Fields Destroyed' => '',
@@ -148,13 +149,13 @@ First Saturday Events
         'Max Link Length x Days' => '',
         'Max Time Field Held' => '',
         'Largest Field MUs x Days' => '',
-        'Unique Missions Completed' => '',
-        'Hacks' => '',
-        'Glyph Hack Points' => '',
-        'Longest Hacking Streak' => '',
-        'Agents Successfully Recruited' => '',
-        'Mission Day(s) Attended' => '',
-        'NL-1331 Meetup(s) Attended' => '',
+        'Unique Missions Completed' => 'specops',
+        'Hacks' => 'hacker',
+        'Glyph Hack Points' => 'translator',
+        'Longest Hacking Streak' => 'sojourner',
+        'Agents Successfully Recruited' => 'recruiter',
+        'Mission Day(s) Attended' => 'missionday',
+        'NL-1331 Meetup(s) Attended' => 'nl-1331-meetups',
         'First Saturday Events' => 'ifs',
     ];
 

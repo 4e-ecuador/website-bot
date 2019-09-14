@@ -18,18 +18,17 @@
     </style>
     <div class="example-wrapper">
         <h1>Welcome! ✅</h1>
-        <div class="alert alert-danger">hahaha</div>
         {% if is_granted('ROLE_ADMIN') %}
             hello admin
         {% elseif app.user %}
             <div class="alert alert-danger">
                 Tu cuenta no ha sido activada aun!<br>
-                Por favor comunicate con un administrador proporcionando tu nombre de agente y to e-mail <code>{{ app.user.email }}</code><br>
+                Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail <code>{{ app.user.email }}</code> para la activacion.<br>
                 In Jarvis we trust!
             </div>
         {% endif %}
         <p>
-            Tenemos <code>{{ agents|length }}</code> agentes e nuestra base de datos.
+            Tenemos <code>{{ agents|length }}</code> agentes en nuestra base de datos.
         </p>
 
         <h2>Ultimos comentarios</h2>

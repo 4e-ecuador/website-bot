@@ -19,6 +19,7 @@ class CommentController extends AbstractController
 {
     /**
      * @Route("/", name="comment_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(CommentRepository $commentRepository): Response
     {
@@ -32,6 +33,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function new(Request $request): Response
     {
@@ -58,6 +60,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/fetch", name="comment_fetch", methods={"GET","POST"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function getSingle(Request $request, CommentRepository $commentRepository)
     {
@@ -77,6 +80,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}", name="comment_show", requirements={"id"="\d+"}, methods={"GET"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function show(Comment $comment): Response
     {
@@ -90,6 +94,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function edit(Request $request, Comment $comment): Response
     {
@@ -113,6 +118,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}", name="comment_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function delete(Request $request, Comment $comment): Response
     {
@@ -127,6 +133,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/deleteinline/{id}", name="comment_delete_inline", methods={"DELETE"})
+     * @IsGranted("ROLE_EDITOR")
      */
     public function deleteInline(Request $request, Comment $comment): JsonResponse
     {
@@ -145,6 +152,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/getagentids", name="comment_agent_ids")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function getAgentCommentIds(Request $request, AgentRepository $agentRepository)
     {

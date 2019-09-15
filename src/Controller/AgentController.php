@@ -8,8 +8,6 @@ use App\Form\AgentType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\UserRepository;
-use App\Service\CsvParser;
-use App\Service\MedalChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -176,53 +174,5 @@ class AgentController extends AbstractController
         }
 
         return $this->json(['error' => 'error']);
-    }
-
-    /**
-     * @Route("/test-stat-import", name="test_stat_import", methods={"POST", "GET"})
-     * @IsGranted("ROLE_AGENT")
-     */
-    public function testStatImport(Request $request, CsvParser $csvParser, MedalChecker $medalChecker, AgentRepository $agentRepository): Response
-    {
-        $csv = $request->get('csv');
-        $importType = $request->get('type');
-        $ups = [];
-        $currents = [];
-
-        if ($csv) {
-            try {
-                $parsed = $csvParser->parse($csv, $importType);
-
-                $agent = $agentRepository->findOneBy(['id' => 66]);
-
-                foreach ($parsed as $date => $values) {
-                    $statEntries = $medalChecker->checkLevels($values);
-
-                    if (!$currents) {
-                        $currents = $statEntries;
-
-                        continue;
-                    }
-
-                    foreach ($currents as $name => $currentVal) {
-                        $newVal = $statEntries[$name];
-                        if ($newVal > $currentVal) {
-                            $ups[$date]['agentX'][$name] = $newVal;
-                            $currents[$name]             = $newVal;
-                        }
-                    }
-                }
-            } catch (\UnexpectedValueException $exception) {
-                $this->addFlash('danger', $exception->getMessage());
-            }
-        }
-
-        return $this->render(
-            'agent/testimport.html.twig',
-            [
-                'ups' => $ups,
-                'currents' => $currents,
-            ]
-        );
     }
 }

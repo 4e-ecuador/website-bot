@@ -25,9 +25,8 @@ class CsvParser
             case 'agentstats':
                 return $this->parseAgentStatsCsv($csvString);
             default:
-                throw new \Exception('unknown CSV type');
+                throw new \UnexpectedValueException('unknown CSV type');
         }
-
     }
 
     private function parsePrimeCsv(string $csvString): array

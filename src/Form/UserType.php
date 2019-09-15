@@ -16,7 +16,7 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-//            ->add('password', PasswordType::class)
+            ->add('password', PasswordType::class)
             ->add(
                 'roles',
                 ChoiceType::class,
@@ -30,7 +30,9 @@ class UserType extends AbstractType
 //                    'expanded' => true,
                     'multiple' => true,
                 ]
-            );
+            )
+            ->add('agent')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

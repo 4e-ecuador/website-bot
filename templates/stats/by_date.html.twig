@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1>Stats by date</h1>
+    <form>
+        <label for="startDate">Start</label>
+        <input id="startDate" type="date" name="start_date" value="{{ startDate|date('Y-m-d') }}">
+        <label for="endDate">End</label>
+        <input id="endDate" type="date" name="end_date" value="{{ endDate|date('Y-m-d') }}">
+
+        <button>Consultar</button>
+    </form>
+
+    {% if medalsGained %}
+        <h3>Medals Gained</h3>
+        <table class="table table-sm">
+            <th>Date</th>
+            <th>Agent</th>
+            <th>Medal</th>
+            <th>Level</th>
+            {% for date,dateMedals in medalsGained %}
+                {% for agent,medals in dateMedals %}
+                    {% for name,level in medals %}
+                        <tr>
+                            <td>{{ date }}</td>
+                            <td>{{ agent }}</td>
+                            <td>{{ name }}</td>
+                            <td>{{ level|medalLevel }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="alert alert-danger">No medals gained :(</div>
+    {% endif %}
+{% endblock %}

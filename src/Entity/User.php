@@ -39,6 +39,11 @@ class User implements UserInterface
      */
     private $email;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
+     */
+    private $agent;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,8 +130,10 @@ class User implements UserInterface
     public function getAvatarUrl(string $size = null): string
     {
         $url = 'https://robohash.org/'.$this->username.'@gmail.com';
-        if ($size)
+        if ($size) {
             $url .= sprintf('?size=%dx%d', $size, $size);
+        }
+
         return $url;
     }
 
@@ -138,6 +145,18 @@ class User implements UserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(?Agent $agent): self
+    {
+        $this->agent = $agent;
 
         return $this;
     }

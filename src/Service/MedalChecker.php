@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\AgentStat;
+
 class MedalChecker
 {
     private $medalLevels = [
@@ -168,13 +170,14 @@ class MedalChecker
         ];
 
 
-    public function checkLevels(array $array): array
+    public function checkLevels(AgentStat $agentStat): array
     {
         $levels = [];
         foreach ($this->medalLevels as $name => $level) {
-            if (isset($array[$name])) {
+            $methodName = $this->getGetterMethodName($name);
+            if (method_exists($agentStat, $methodName)) {
 
-                $lv = $array[$name];
+                $lv = $agentStat->$methodName();
 
                 $medalLevel = 0;
 
@@ -211,5 +214,32 @@ class MedalChecker
         return '';
 
         //throw new \UnexpectedValueException('Unknown Ingress Prime header: '.$name);
+    }
+
+    public function getMethodName(string $vName)
+    {
+        return 'set'.implode('', array_map('ucfirst', explode('-', $vName)));
+
+    }
+    public function getGetterMethodName(string $vName)
+    {
+        return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
+
+    }
+
+    public function getUpgrades(AgentStat $previousEntry, AgentStat $currentEntry)
+    {
+        $upgrades = [];
+
+        $previousLevels = $this->checkLevels($previousEntry);
+        $currentLevels = $this->checkLevels($currentEntry);
+
+        foreach ($currentLevels as $name => $currentVal) {
+            if (false === isset($previousLevels[$name]) || $currentVal > $previousLevels[$name]) {
+                $upgrades[$name] = $currentVal;
+            }
+        }
+
+        return $upgrades;
     }
 }

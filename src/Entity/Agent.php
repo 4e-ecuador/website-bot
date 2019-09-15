@@ -16,12 +16,12 @@ class Agent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nickname;
+    protected $nickname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

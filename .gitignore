@@ -16,3 +16,6 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 /public/favicon2.ico
+
+## LOCAL
+/test_local

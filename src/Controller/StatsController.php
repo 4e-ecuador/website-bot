@@ -14,6 +14,7 @@ class StatsController extends AbstractController
 {
     /**
      * @Route("/stats", name="stats")
+     * @IsGranted("ROLE_EDITOR")
      */
     public function index()
     {

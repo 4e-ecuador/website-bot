@@ -12,7 +12,11 @@
 {% block body %}
     <h1>Agent index</h1>
 
+    {% if is_granted('ROLE_EDITOR') %}
+
     <a class="btn btn-success" href="{{ path('agent_new') }}">Create new</a>
+
+    {% endif %}
 
     <form method="post">
 
@@ -70,7 +74,11 @@
                     <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
                     <td>
                         <a href="{{ path('agent_show', {'id': agent.id}) }}">show</a>
+                        {% if is_granted('ROLE_EDITOR') %}
+
                         <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
+                        {% endif %}
+
                     </td>
                 </tr>
             {% else %}

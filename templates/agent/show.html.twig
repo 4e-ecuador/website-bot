@@ -7,7 +7,6 @@
     <script src="{{ asset('js/comment.js') }}"></script>
     <script>
         getComments({{ agent.id }})
-
     </script>
 {% endblock %}
 
@@ -16,10 +15,10 @@
 
     <div class="btn-group" role="group" aria-label="Basic example">
         <a class="btn btn-secondary" href="{{ path('agent_index') }}">Regresar</a>
-
-        <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
-
-        {{ include('agent/_delete_form.html.twig') }}
+        {% if is_granted('ROLE_EDITOR') %}
+            <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+            {{ include('agent/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 
     <table class="table">
@@ -55,8 +54,9 @@
         </tbody>
     </table>
 
-    <h3>Aniadir comentario</h3>
-
-    {{ include('agent/_add_comment_form.html.twig') }}
+    {% if is_granted('ROLE_EDITOR') %}
+        <h3>Aniadir comentario</h3>
+        {{ include('agent/_add_comment_form.html.twig') }}
+    {% endif %}
 
 {% endblock %}

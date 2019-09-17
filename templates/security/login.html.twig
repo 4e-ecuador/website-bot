@@ -10,6 +10,12 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
+    <div>
+        <a class="btn btn-success" href="{{ path('connect_google_start') }}">
+            Google Login
+        </a>
+    </div>
+
     <label for="inputUsername" class="sr-only">Username</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>

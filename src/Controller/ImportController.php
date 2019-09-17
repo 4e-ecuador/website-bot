@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Exception\StatsNotAllException;
 use App\Form\ImportFormType;
-use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use App\Repository\FactionRepository;
 use App\Service\CsvParser;
@@ -122,7 +122,6 @@ class ImportController extends AbstractController
         Request $request,
         CsvParser $csvParser,
         MedalChecker $medalChecker,
-        AgentRepository $agentRepository,
         AgentStatRepository $agentStatRepository,
         Security $security
     ): Response {
@@ -171,6 +170,8 @@ class ImportController extends AbstractController
                         $this->addFlash('warning', 'Stat entry already added!');
                     }
                 }
+            } catch (StatsNotAllException $exception) {
+                $this->addFlash('danger', $exception->getMessage());
             } catch (\UnexpectedValueException $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }

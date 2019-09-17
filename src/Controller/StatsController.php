@@ -38,25 +38,26 @@ class StatsController extends AbstractController
             $previous = [];
 
             foreach ($entries as $entry) {
-                if (!$previous) {
+                $agentName = $entry->getAgent()->getNickname();
+
+                if (false === isset($previous[$agentName])) {
                     $previousEntry = $statRepository->getPrevious($entry);
 
-                    $previous = $previousEntry ? $medalChecker->checkLevels($previousEntry) : $medalChecker->checkLevels($entry);
+                    $previous[$agentName] = $previousEntry ? $medalChecker->checkLevels($previousEntry) : $medalChecker->checkLevels($entry);
                 }
                 $levels = $medalChecker->checkLevels($entry);
                 $dateString = $entry->getDatetime()->format('Y-m-d');
-                $agentName = $entry->getAgent()->getNickname();
 
                 foreach ($levels as $name => $level) {
                     if (!$level) {
                         continue;
                     }
-                    if (false === isset($previous[$name])) {
+                    if (false === isset($previous[$agentName][$name])) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
                         $previous[$name] = $level;
-                    } elseif ($previous[$name] < $level) {
+                    } elseif ($previous[$agentName][$name] < $level) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
-                        $previous[$name] = $level;
+                        $previous[$agentName][$name] = $level;
                     }
                 }
             }

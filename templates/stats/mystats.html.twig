@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Stats{% endblock %}
+
+{% block body %}
+    <h1>My Stats</h1>
+    Agent <code>{{ agent.nickname }}</code>
+    <div>Latest Update: {{ latest.datetime|date('Y-m-d') }}</div>
+    {% if entries %}
+        <h4>AP: {{ ap|number_format }}</h4>
+
+        <h3>Medals</h3>
+
+        <table>
+            {% for medalGroup in medalGroups %}
+            <tr>
+                {% for name, level in medalGroup %}
+                    <td>
+                        {{ name }}
+                        <br>
+                        {{ level|medalLevel }}
+                        <br>
+                        {{ latest[name] }}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Stats</h2>
+        Entries: {{ entries|length }}
+
+        <h4>Aqui vienen los graficos...</h4>
+
+        <table class="table table-sm">
+            <tr>
+                <th>Date</th>
+                <th>AP</th>
+                <th>hacker</th>
+                <th>...</th>
+            </tr>
+            {% for entry in entries %}
+                <tr>
+                    <td>{{ entry.datetime|date('Y-m-d') }}</td>
+                    <td>{{ entry.ap }}</td>
+                    <td>{{ entry.hacker }}</td>
+                    <td>...</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+        <div>No stats so far :( - Visit <a href="{{ path('stat_import') }}">Import</a></div>
+    {% endif %}
+{% endblock %}

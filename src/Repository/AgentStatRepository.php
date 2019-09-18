@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Agent;
 use App\Entity\AgentStat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -61,5 +62,35 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @return AgentStat[]
+     */
+    public function getAgentStats(Agent $agent): iterable
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.agent = :agent')
+            ->setParameter('agent', $agent)
+            ->orderBy('a.datetime', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return AgentStat
+     */
+    public function getAgentLatest(Agent $agent): ?AgentStat
+    {
+        $entries = $this->createQueryBuilder('a')
+            ->andWhere('a.agent = :agent')
+            ->setParameter('agent', $agent)
+            ->orderBy('a.datetime', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+
+        return $entries ? $entries[0] : null;
     }
 }

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block body %}
+    <h1>Leaderboard</h1>
+
+    <div class="row">
+    {% for type, entries in board %}
+        <div class="col-sm-3 card">
+            <div class="card-header">
+                <h4>{{ type }}</h4>
+            </div>
+        {% for agent, value in entries %}
+                <br>
+                {{ agent }} - {{ value|number_format }}
+        {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

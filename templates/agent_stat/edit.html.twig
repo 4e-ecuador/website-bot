@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AgentStat{% endblock %}
+
+{% block body %}
+    <h1>Edit AgentStat</h1>
+
+    {{ include('agent_stat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('agent_stat_index') }}">back to list</a>
+
+    {{ include('agent_stat/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AgentStat{% endblock %}
+
+{% block body %}
+    <h1>AgentStat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ agent_stat.id }}</td>
+            </tr>
+            <tr>
+                <th>Datetime</th>
+                <td>{{ agent_stat.datetime ? agent_stat.datetime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Ap</th>
+                <td>{{ agent_stat.ap }}</td>
+            </tr>
+            <tr>
+                <th>Explorer</th>
+                <td>{{ agent_stat.explorer }}</td>
+            </tr>
+            <tr>
+                <th>Recon</th>
+                <td>{{ agent_stat.recon }}</td>
+            </tr>
+            <tr>
+                <th>Seer</th>
+                <td>{{ agent_stat.seer }}</td>
+            </tr>
+            <tr>
+                <th>Trekker</th>
+                <td>{{ agent_stat.trekker }}</td>
+            </tr>
+            <tr>
+                <th>Builder</th>
+                <td>{{ agent_stat.builder }}</td>
+            </tr>
+            <tr>
+                <th>Connector</th>
+                <td>{{ agent_stat.connector }}</td>
+            </tr>
+            <tr>
+                <th>MindController</th>
+                <td>{{ agent_stat.mindController }}</td>
+            </tr>
+            <tr>
+                <th>Illuminator</th>
+                <td>{{ agent_stat.illuminator }}</td>
+            </tr>
+            <tr>
+                <th>Recharger</th>
+                <td>{{ agent_stat.recharger }}</td>
+            </tr>
+            <tr>
+                <th>Liberator</th>
+                <td>{{ agent_stat.liberator }}</td>
+            </tr>
+            <tr>
+                <th>Pioneer</th>
+                <td>{{ agent_stat.pioneer }}</td>
+            </tr>
+            <tr>
+                <th>Engineer</th>
+                <td>{{ agent_stat.engineer }}</td>
+            </tr>
+            <tr>
+                <th>Purifier</th>
+                <td>{{ agent_stat.purifier }}</td>
+            </tr>
+            <tr>
+                <th>Specops</th>
+                <td>{{ agent_stat.specops }}</td>
+            </tr>
+            <tr>
+                <th>Hacker</th>
+                <td>{{ agent_stat.hacker }}</td>
+            </tr>
+            <tr>
+                <th>Translator</th>
+                <td>{{ agent_stat.translator }}</td>
+            </tr>
+            <tr>
+                <th>Sojourner</th>
+                <td>{{ agent_stat.sojourner }}</td>
+            </tr>
+            <tr>
+                <th>Recruiter</th>
+                <td>{{ agent_stat.recruiter }}</td>
+            </tr>
+            <tr>
+                <th>Missionday</th>
+                <td>{{ agent_stat.missionday }}</td>
+            </tr>
+            <tr>
+                <th>Nl1331Meetups</th>
+                <td>{{ agent_stat.nl1331Meetups }}</td>
+            </tr>
+            <tr>
+                <th>Ifs</th>
+                <td>{{ agent_stat.ifs }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_stat_index') }}">back to list</a>
+
+    <a href="{{ path('agent_stat_edit', {'id': agent_stat.id}) }}">edit</a>
+
+    {{ include('agent_stat/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AgentStat index{% endblock %}
+
+{% block body %}
+    <h1>AgentStat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datetime</th>
+                <th>Agent</th>
+                <th>Ap</th>
+                <th>Explorer</th>
+                <th>Recon</th>
+                <th>Seer</th>
+                <th>Trekker</th>
+                <th>Builder</th>
+                <th>Connector</th>
+                <th>MindController</th>
+                <th>Illuminator</th>
+                <th>Recharger</th>
+                <th>Liberator</th>
+                <th>Pioneer</th>
+                <th>Engineer</th>
+                <th>Purifier</th>
+                <th>Specops</th>
+                <th>Hacker</th>
+                <th>Translator</th>
+                <th>Sojourner</th>
+                <th>Recruiter</th>
+                <th>Missionday</th>
+                <th>Nl1331Meetups</th>
+                <th>Ifs</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agent_stat in agent_stats %}
+            <tr>
+                <td>{{ agent_stat.id }}</td>
+                <td>{{ agent_stat.datetime ? agent_stat.datetime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ agent_stat.agent.nickname }}</td>
+                <td>{{ agent_stat.ap }}</td>
+                <td>{{ agent_stat.explorer }}</td>
+                <td>{{ agent_stat.recon }}</td>
+                <td>{{ agent_stat.seer }}</td>
+                <td>{{ agent_stat.trekker }}</td>
+                <td>{{ agent_stat.builder }}</td>
+                <td>{{ agent_stat.connector }}</td>
+                <td>{{ agent_stat.mindController }}</td>
+                <td>{{ agent_stat.illuminator }}</td>
+                <td>{{ agent_stat.recharger }}</td>
+                <td>{{ agent_stat.liberator }}</td>
+                <td>{{ agent_stat.pioneer }}</td>
+                <td>{{ agent_stat.engineer }}</td>
+                <td>{{ agent_stat.purifier }}</td>
+                <td>{{ agent_stat.specops }}</td>
+                <td>{{ agent_stat.hacker }}</td>
+                <td>{{ agent_stat.translator }}</td>
+                <td>{{ agent_stat.sojourner }}</td>
+                <td>{{ agent_stat.recruiter }}</td>
+                <td>{{ agent_stat.missionday }}</td>
+                <td>{{ agent_stat.nl1331Meetups }}</td>
+                <td>{{ agent_stat.ifs }}</td>
+                <td>
+                    <a href="{{ path('agent_stat_show', {'id': agent_stat.id}) }}">show</a>
+                    <a href="{{ path('agent_stat_edit', {'id': agent_stat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="25">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_stat_new') }}">Create new</a>
+{% endblock %}

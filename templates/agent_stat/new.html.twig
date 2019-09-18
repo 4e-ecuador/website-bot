@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AgentStat{% endblock %}
+
+{% block body %}
+    <h1>Create new AgentStat</h1>
+
+    {{ include('agent_stat/_form.html.twig') }}
+
+    <a href="{{ path('agent_stat_index') }}">back to list</a>
+{% endblock %}

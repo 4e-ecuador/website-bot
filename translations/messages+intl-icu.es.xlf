@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="es" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+            <trans-unit id=".EHfOzV" resname="agents.in.database">
+              <source>agents.in.database</source>
+              <target>
+              {count, plural,
+              =0 {No hay agentes en la db}
+              one {Solo hay un agente en la db}
+              other {Tenemos # agentes en la base de datos.}
+              }
+              </target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

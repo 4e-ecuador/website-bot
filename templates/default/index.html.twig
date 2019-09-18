@@ -17,11 +17,11 @@
         }
     </style>
     <div class="example-wrapper">
-        <h1>Welcome! ✅</h1>
+        <h1>{{'Welcome!'|trans}} ✅</h1>
         {% if is_granted('ROLE_ADMIN') %}
-            hello admin
+            Hello admin <code>{{ app.user.username }}</code>
         {% elseif is_granted('ROLE_AGENT') %}
-            Bienvenido agente {{ app.user.username }}
+            Bienvenido agente <code>{{ app.user.username }}</code>
         {% elseif app.user %}
             <div class="alert alert-danger">
                 Tu cuenta no ha sido activada aun!<br>
@@ -30,7 +30,7 @@
             </div>
         {% endif %}
         <p>
-            Tenemos <code>{{ agents|length }}</code> agentes en nuestra base de datos.
+            {{ 'agents.in.database'|trans({'count': agents|length}) }}
         </p>
 
         {% if is_granted('ROLE_AGENT') %}
@@ -46,7 +46,6 @@
                 <th>Comentario</th>
             </tr>
             {% for comment in latestComments %}
-
                 <tr>
                     <td></td>
                     <td>
@@ -60,12 +59,8 @@
                     <td>{{ comment.commenter.username }}</td>
                     <td>{{ comment.text }}</td>
                 </tr>
-
             {% endfor %}
         </table>
-
         {% endif %}
-
     </div>
-
 {% endblock %}

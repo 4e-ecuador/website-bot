@@ -40,16 +40,16 @@
     <h2>Prime Export</h2>
     <form method="post">
         <label for="csv">CSV</label>
-        <textarea name="csv" id="csv" cols="80" rows="5"></textarea>
+        <textarea class="form-control" name="csv" id="csv" cols="80" rows="5"></textarea>
         <input type="hidden" name="type" value="prime">
-        <button>Enviar</button>
+        <button class="btn btn-success">Enviar Prime Export</button>
     </form>
 
     <h2>AgentStats Export</h2>
     <form method="post">
-        <label for="csv">CSV</label>
-        <textarea name="csv" id="csv" cols="80" rows="5"></textarea>
+        <label for="csvAstats">CSV</label>
+        <textarea class="form-control" name="csv" id="csvAstats" cols="80" rows="5"></textarea>
         <input type="hidden" name="type" value="agentstats">
-        <button>Enviar</button>
+        <button class="btn btn-success">Enviar AgentStats Export</button>
     </form>
 {% endblock %}

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-intl": "*",
         "boshurik/telegram-bot-bundle": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^3.2",
         "knpuniversity/oauth2-client-bundle": "^1.28",

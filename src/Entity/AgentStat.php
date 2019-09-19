@@ -446,6 +446,7 @@ class AgentStat implements ArrayAccess
 
     /**
      * Whether a offset exists
+     *
      * @link  https://php.net/manual/en/arrayaccess.offsetexists.php
      *
      * @param mixed $offset <p>
@@ -461,7 +462,9 @@ class AgentStat implements ArrayAccess
     public function offsetExists($offset)
     {
         if (strpos($offset, '-')) {
-            $offset = lcfirst(implode('', array_map('ucfirst', explode('-', $offset))));
+            $offset = lcfirst(
+                implode('', array_map('ucfirst', explode('-', $offset)))
+            );
         }
 
         return property_exists($this, $offset);
@@ -469,29 +472,37 @@ class AgentStat implements ArrayAccess
 
     /**
      * Offset to retrieve
+     *
      * @link  https://php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param mixed $offset <p>
      *                      The offset to retrieve.
      *                      </p>
+     *
      * @return mixed Can return all value types.
      * @since 5.0.0
      */
     public function offsetGet($offset)
     {
-        $offset = lcfirst(implode('', array_map('ucfirst', explode('-', $offset))));
+        $offset = lcfirst(
+            implode('', array_map('ucfirst', explode('-', $offset)))
+        );
 
         return $this->$offset;
     }
 
     /**
      * Offset to set
+     *
      * @link  https://php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param mixed $offset <p>
      *                      The offset to assign the value to.
      *                      </p>
      * @param mixed $value  <p>
      *                      The value to set.
      *                      </p>
+     *
      * @return void
      * @since 5.0.0
      */
@@ -502,14 +513,33 @@ class AgentStat implements ArrayAccess
 
     /**
      * Offset to unset
+     *
      * @link  https://php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param mixed $offset <p>
      *                      The offset to unset.
      *                      </p>
+     *
      * @return void
      * @since 5.0.0
      */
     public function offsetUnset($offset)
     {
         // TODO: Implement offsetUnset() method.
-}}
+    }
+
+    public function getDiff(AgentStat $previous): array
+    {
+        $diff = [];
+
+        foreach ($this as $index => $value) {
+            if (false === in_array($index, ['id', 'datetime', 'agent'])) {
+                if ($this->$index > $previous->$index) {
+                    $diff[$index] = $this->$index - $previous->$index;
+                }
+            }
+        }
+
+        return $diff;
+    }
+}

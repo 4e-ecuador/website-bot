@@ -23,8 +23,10 @@ class ImportController extends AbstractController
      * @Route("/import", name="import")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(Request $request, FactionRepository $factionRepository)
-    {
+    public function index(
+        Request $request,
+        FactionRepository $factionRepository
+    ) {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,7 +35,10 @@ class ImportController extends AbstractController
 
             if ($data['agentsJSON']) {
                 try {
-                    $count += $this->importJSON($data['agentsJSON'], $factionRepository);
+                    $count += $this->importJSON(
+                        $data['agentsJSON'],
+                        $factionRepository
+                    );
                 } catch (\UnexpectedValueException $exception) {
                     $this->addFlash('danger', $exception->getMessage());
 
@@ -48,7 +53,12 @@ class ImportController extends AbstractController
 
             if ($data['agentsCSV']) {
                 try {
-                    $count += $this->importCsv($data['csvRaw'], $data['province'], $data['city'], $wayPointHelper);
+                    $count += $this->importCsv(
+                        $data['csvRaw'],
+                        $data['province'],
+                        $data['city'],
+                        $wayPointHelper
+                    );
                 } catch (\UnexpectedValueException $exception) {
                     $this->addFlash('danger', $exception->getMessage());
 
@@ -79,8 +89,10 @@ class ImportController extends AbstractController
         );
     }
 
-    private function importJSON(string $agentsJSON, FactionRepository $factionRepository)
-    {
+    private function importJSON(
+        string $agentsJSON,
+        FactionRepository $factionRepository
+    ) {
         $jsonData = json_decode($agentsJSON);
 
         if (!$jsonData) {
@@ -125,19 +137,21 @@ class ImportController extends AbstractController
         AgentStatRepository $agentStatRepository,
         Security $security
     ): Response {
-        $csv        = $request->get('csv');
-        $importType = $request->get('type');
-        $ups        = [];
-        $currents   = [];
+        $csv          = $request->get('csv');
+        $importType   = $request->get('type');
+        $medalUps     = [];
+        $currents     = [];
         $currentEntry = null;
-        $apGain = 0;
+        $diff         = [];
 
         $user = $security->getUser();
 
         $agent = $user->getAgent();
 
         if (!$agent) {
-            throw $this->createAccessDeniedException('No tiene un agente asignado a su usuario - contacte un admin!');
+            throw $this->createAccessDeniedException(
+                'No tiene un agente asignado a su usuario - contacte un admin!'
+            );
         }
 
         if ($csv) {
@@ -157,7 +171,10 @@ class ImportController extends AbstractController
                             if (method_exists($statEntry, $methodName)) {
                                 $statEntry->$methodName($value);
                             } else {
-                                $this->addFlash('warning', 'method not found: '.$methodName.' '.$vName);
+                                $this->addFlash(
+                                    'warning',
+                                    'method not found: '.$methodName.' '.$vName
+                                );
                             }
                         }
 
@@ -180,28 +197,23 @@ class ImportController extends AbstractController
         if ($currentEntry) {
             $previousEntry = $agentStatRepository->getPrevious($currentEntry);
 
-            $statEntries = $medalChecker->checkLevels($currentEntry);
-
             if ($previousEntry) {
-                $ups = $medalChecker->getUpgrades($previousEntry, $currentEntry);
-                $apGain = $currentEntry->getAp() - $previousEntry->getAp();
+                $medalUps = $medalChecker->getUpgrades(
+                    $previousEntry,
+                    $currentEntry
+                );
+                $diff     = $currentEntry->getDiff($previousEntry);
             } else {
-
-//                if (!$currents) {
-                $currents = $statEntries;
-//
-//                    continue;
-//                }
-
-
+                // First import
+                $currents = $medalChecker->checkLevels($currentEntry);
             }
         }
 
         return $this->render(
             'import/agent_stats.html.twig',
             [
-                'ups'      => $ups,
-                'apGain' => $apGain,
+                'ups'      => $medalUps,
+                'diff'     => $diff,
                 'currents' => $currents,
             ]
         );

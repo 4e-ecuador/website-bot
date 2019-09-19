@@ -4,29 +4,32 @@
 
 {% block body %}
 
-    {% if ups %}
-        <h1>Medal UPs</h1>
-        <table>
-            <tr>
-                <th>Fecha</th>
-                <th>Medalla</th>
-                <th>Nivel</th>
-            </tr>
-            {% for date,upValues in ups %}
-                {% for agent,agentValues in upValues %}
-                    {% for name,level in agentValues %}
-                        <tr>
-                            <td>{{ date }}</td>
-                            <td>{{ name }}</td>
-                            <td>{{ level|medalLevel }}</td>
-                        </tr>
-                    {% endfor %}
+    {% if diff %}
+        <div class="alert alert-success">
+            <h2>Progress:</h2>
+            <ul>
+                {% for name, value in diff %}
+                    <li>{{ name }}: {{ value }}</li>
                 {% endfor %}
-            {% endfor %}
-        </table>
+            </ul>
+        </div>
     {% endif %}
+
+    {% if ups %}
+        <div class="alert alert-success">
+            <h2>Medal UPs</h2>
+            <ul>
+                {% for name,level in ups %}
+                    <li>
+                        {{ name }}: {{ level|medalLevel }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     {% if currents %}
-        <h1>Current Medals</h1>
+        <h2>Current Medals</h2>
         <table>
             {% for name,level in currents %}
                 <tr>
@@ -47,8 +50,8 @@
 
     <h2>AgentStats Export</h2>
     <form method="post">
-        <label for="csvAstats">CSV</label>
-        <textarea class="form-control" name="csv" id="csvAstats" cols="80" rows="5"></textarea>
+        <label for="csvStats">CSV</label>
+        <textarea class="form-control" name="csv" id="csvStats" cols="80" rows="5"></textarea>
         <input type="hidden" name="type" value="agentstats">
         <button class="btn btn-success">Enviar AgentStats Export</button>
     </form>

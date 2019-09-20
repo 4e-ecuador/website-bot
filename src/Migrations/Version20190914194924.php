@@ -12,22 +12,30 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190914194924 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf(
+            $this->connection->getDatabasePlatform()->getName()
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
+        );
 
         $this->addSql('ALTER TABLE agent_stat ADD seer INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD trekker INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD builder INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD connector INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE agent_stat ADD mind_controller INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE agent_stat ADD illuminator INT DEFAULT NULL');
+        $this->addSql(
+            'ALTER TABLE agent_stat ADD mind_controller INT DEFAULT NULL'
+        );
+        $this->addSql(
+            'ALTER TABLE agent_stat ADD illuminator INT DEFAULT NULL'
+        );
         $this->addSql('ALTER TABLE agent_stat ADD recharger INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD liberator INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD pioneer INT DEFAULT NULL');
@@ -39,14 +47,20 @@ final class Version20190914194924 extends AbstractMigration
         $this->addSql('ALTER TABLE agent_stat ADD sojourner INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD recruiter INT DEFAULT NULL');
         $this->addSql('ALTER TABLE agent_stat ADD missionday INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE agent_stat ADD nl1331meetups INT DEFAULT NULL');
+        $this->addSql(
+            'ALTER TABLE agent_stat ADD nl1331meetups INT DEFAULT NULL'
+        );
         $this->addSql('ALTER TABLE agent_stat ADD ifs INT DEFAULT NULL');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf(
+            $this->connection->getDatabasePlatform()->getName()
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
+        );
 
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE agent_stat DROP seer');

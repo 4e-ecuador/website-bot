@@ -53,7 +53,6 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('c.datetime', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

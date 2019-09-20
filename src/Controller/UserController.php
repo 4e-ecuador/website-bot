@@ -23,24 +23,31 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
+        return $this->render(
+            'user/index.html.twig',
+            [
+                'users' => $userRepository->findAll(),
+            ]
+        );
     }
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
-    {
+    public function new(
+        Request $request,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($user->getPassword()) {
-                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+                $user->setPassword(
+                    $encoder->encodePassword($user, $user->getPassword())
+                );
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -50,10 +57,13 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'user/new.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -62,17 +72,23 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->render(
+            'user/show.html.twig',
+            [
+                'user' => $user,
+            ]
+        );
     }
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
-    {
+    public function edit(
+        Request $request,
+        User $user,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -86,17 +102,23 @@ class UserController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index', [
-                'id' => $user->getId(),
-            ]);
+            return $this->redirectToRoute(
+                'user_index',
+                [
+                    'id' => $user->getId(),
+                ]
+            );
         }
 
         $user->setPassword($plainPass);
 
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'user/edit.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -105,7 +127,11 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$user->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();

@@ -122,7 +122,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         if (!$this->isAllowedChat) {
             $this->botApi->sendMessage(
                 $event->getUpdate()->getMessage()->getChat()->getId(),
-                'No access for group '.$event->getUpdate()->getMessage()->getChat()->getId()
+                'No access for group '.$event->getUpdate()->getMessage()
+                    ->getChat()->getId()
             );
 
             return $this;
@@ -139,7 +140,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             );
         } else {
             // New chat member
-            $text = sprintf('Hello @%s welcome on board =;)', $newChatMember->getUsername());
+            $text = sprintf(
+                'Hello @%s welcome on board =;)',
+                $newChatMember->getUsername()
+            );
         }
 
         $this->botApi->sendMessage(
@@ -159,9 +163,17 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         }
 
         if (!$this->isAllowedChat) {
-            $text = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: ".$inlineQuery->getFrom()->getId();
-            $contact = new Contact(1, 666, 'You are not allowed to use this bot.');
-            $contact->setInputMessageContent(new InputMessageContent\Text($text, 'markdown', true));
+            $text
+                     = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: "
+                .$inlineQuery->getFrom()->getId();
+            $contact = new Contact(
+                1,
+                666,
+                'You are not allowed to use this bot.'
+            );
+            $contact->setInputMessageContent(
+                new InputMessageContent\Text($text, 'markdown', true)
+            );
 
             $this->botApi->answerInlineQuery(
                 $inlineQuery->getId(),
@@ -190,9 +202,14 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         foreach ($agents as $agent) {
             $c = new Contact($agent->getId(), 0, $agent->getNickname());
 
-            $text = $this->templater->replaceAgentTemplate('agent-info.md', $agent);
+            $text = $this->templater->replaceAgentTemplate(
+                'agent-info.md',
+                $agent
+            );
 
-            $c->setInputMessageContent(new InputMessageContent\Text($text, 'markdown', true));
+            $c->setInputMessageContent(
+                new InputMessageContent\Text($text, 'markdown', true)
+            );
 
             $results[] = $c;
         }

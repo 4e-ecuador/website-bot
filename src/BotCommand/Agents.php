@@ -41,10 +41,18 @@ class Agents extends AbstractCommand implements PublicCommandInterface
         $agents = $this->repository->findAll();
         $response = [];
 
-        if (preg_match(self::REGEXP, $update->getMessage()->getText(), $matches)) {
+        if (preg_match(
+            self::REGEXP,
+            $update->getMessage()->getText(),
+            $matches
+        )
+        ) {
             $parts = explode(' ', $matches[3]);
             if (2 !== count($parts)) {
-                $response[] = sprintf('We have %d agents in the database', count($agents));
+                $response[] = sprintf(
+                    'We have %d agents in the database',
+                    count($agents)
+                );
                 $response[] = '';
                 $response[] = 'Usage:';
                 $response[] = $this->getName().' like <agentname>';
@@ -52,19 +60,28 @@ class Agents extends AbstractCommand implements PublicCommandInterface
             } else {
                 switch ($parts[0]) {
                     case 'like':
-                        $response[] = sprintf('Agents with names like "%s"', $parts[1]);
+                        $response[] = sprintf(
+                            'Agents with names like "%s"',
+                            $parts[1]
+                        );
                         $response[] = '';
                         $agentsLike = [];
                         foreach ($agents as $agent) {
-                            if (strpos($agent->getNickname(), $parts[1]) !== false) {
-                                $agentsLike[] = ' `'.$agent->getNickname().'` - '.$agent->getRealName();
+                            if (strpos($agent->getNickname(), $parts[1])
+                                !== false
+                            ) {
+                                $agentsLike[] = ' `'.$agent->getNickname()
+                                    .'` - '.$agent->getRealName();
                             }
                         }
 
                         if ($agentsLike) {
                             $response = array_merge($response, $agentsLike);
                         } else {
-                            $response[] = sprintf('There are no agents with nick names like "%s"', $parts[1]);
+                            $response[] = sprintf(
+                                'There are no agents with nick names like "%s"',
+                                $parts[1]
+                            );
                         }
                         break;
 
@@ -76,16 +93,21 @@ class Agents extends AbstractCommand implements PublicCommandInterface
                         $response[] = 'Unknown command';
                 }
             }
-        }
-        else
-        {
-            $response[] = sprintf('We have %d agents in the database', count($agents));
+        } else {
+            $response[] = sprintf(
+                'We have %d agents in the database',
+                count($agents)
+            );
         }
 
 
         $text = implode("\n", $response);
 //        echo $text;
 
-        $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
+        $api->sendMessage(
+            $update->getMessage()->getChat()->getId(),
+            $text,
+            'markdown'
+        );
     }
 }

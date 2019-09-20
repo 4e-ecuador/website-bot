@@ -45,7 +45,9 @@ class StatsController extends AbstractController
         $agent = $user->getAgent();
 
         if (!$agent) {
-            throw $this->createAccessDeniedException('No tiene un agente asignado a su usuario - contacte un admin!');
+            throw $this->createAccessDeniedException(
+                'No tiene un agente asignado a su usuario - contacte un admin!'
+            );
         }
 
         $entries = $statRepository->getAgentStats($agent);
@@ -111,8 +113,9 @@ class StatsController extends AbstractController
 
             if ($agentEntry) {
                 foreach ($agentEntry->getProperties() as $property) {
-                    $methodName                                     = 'get'.$property;
-                    $boardEntries[$property][$agent->getNickname()] = $agentEntry->$methodName();
+                    $methodName = 'get'.$property;
+                    $boardEntries[$property][$agent->getNickname()]
+                                = $agentEntry->$methodName();
                 }
             }
         }
@@ -133,8 +136,11 @@ class StatsController extends AbstractController
      * @Route("/by-date", name="stats_by_date")
      * @IsGranted("ROLE_AGENT")
      */
-    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
-    {
+    public function byDate(
+        Request $request,
+        AgentStatRepository $statRepository,
+        MedalChecker $medalChecker
+    ): Response {
         $startDate    = $request->get('start_date');
         $endDate      = $request->get('end_date');
         $stats        = [];
@@ -150,9 +156,10 @@ class StatsController extends AbstractController
                 if (false === isset($previous[$agentName])) {
                     $previousEntry = $statRepository->getPrevious($entry);
 
-                    $previous[$agentName] = $previousEntry ? $medalChecker->checkLevels(
-                        $previousEntry
-                    ) : $medalChecker->checkLevels($entry);
+                    $previous[$agentName] = $previousEntry
+                        ? $medalChecker->checkLevels(
+                            $previousEntry
+                        ) : $medalChecker->checkLevels($entry);
                 }
 
                 $levels     = $medalChecker->checkLevels($entry);
@@ -176,9 +183,9 @@ class StatsController extends AbstractController
         return $this->render(
             'stats/by_date.html.twig',
             [
-                'startDate' => new \DateTime($startDate),
-                'endDate'   => new \DateTime($endDate),
-                'stats'     => $stats,
+                'startDate'    => new \DateTime($startDate),
+                'endDate'      => new \DateTime($endDate),
+                'stats'        => $stats,
                 'medalsGained' => $medalsGained,
             ]
         );

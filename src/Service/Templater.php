@@ -52,12 +52,12 @@ class Templater
                 $agent->getLat(),
                 $agent->getLon()
             ) : '',
-            '{intel_link}'  => $agent->getLat() ? sprintf(
+            '{intel_link}' => $agent->getLat() ? sprintf(
                 '[intel](https://intel.ingress.com/intel?ll=%s,%s&z=17)',
                 $agent->getLat(),
                 $agent->getLon()
             ) : '',
-            '{osm_link}'  => $agent->getLat() ? sprintf(
+            '{osm_link}'   => $agent->getLat() ? sprintf(
                 '[osm](https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=10/%s/%s)',
                 $agent->getLat(),
                 $agent->getLon(),

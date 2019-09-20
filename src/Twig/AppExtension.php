@@ -27,42 +27,41 @@ class AppExtension extends AbstractExtension
         $this->medalChecker = $medalChecker;
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFilters(): array
-	{
-		return [
-			new TwigFilter('cast_to_array', [$this, 'objectFilter']),
-			new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
-		];
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('cast_to_array', [$this, 'objectFilter']),
+            new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
+        ];
+    }
 
-	/**
-	 * Convert object to array for Twig usage..
-	 *
-	 * @param object $classObject
-	 *
-	 * @return array
-	 */
-	public function objectFilter($classObject): array
-	{
-		$array    = (array) $classObject;
-		$response = [];
+    /**
+     * Convert object to array for Twig usage..
+     *
+     * @param object $classObject
+     *
+     * @return array
+     */
+    public function objectFilter($classObject): array
+    {
+        $array    = (array)$classObject;
+        $response = [];
 
-		$className = \get_class($classObject);
+        $className = \get_class($classObject);
 
-		foreach ($array as $k => $v)
-		{
-			$response[trim(str_replace($className, '', $k))] = $v;
-		}
+        foreach ($array as $k => $v) {
+            $response[trim(str_replace($className, '', $k))] = $v;
+        }
 
-		return $response;
-	}
+        return $response;
+    }
 
     public function medalLevelFilter($level)
     {
         return $this->medalChecker->getLevelName($level);
 
-	}
+    }
 }

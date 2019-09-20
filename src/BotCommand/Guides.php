@@ -33,6 +33,10 @@ class Guides extends AbstractCommand implements PublicCommandInterface
     {
         $text = "Guias blabla\n\n1. lala [aaa](https://aa.bb)\n1. lulu\n\nyau";
 
-        $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
+        $api->sendMessage(
+            $update->getMessage()->getChat()->getId(),
+            $text,
+            'markdown'
+        );
     }
 }

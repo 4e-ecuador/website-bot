@@ -35,24 +35,32 @@ class AgentRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('nickname'))
-        {
+        if ($options->searchCriteria('nickname')) {
             $query->andWhere('a.nickname LIKE :nickname')
-                ->setParameter('nickname', '%' . $options->searchCriteria('nickname') . '%');
+                ->setParameter(
+                    'nickname',
+                    '%'.$options->searchCriteria('nickname').'%'
+                );
         }
 
-        if ($options->searchCriteria('realName'))
-        {
+        if ($options->searchCriteria('realName')) {
             $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
-                ->setParameter('realName', '%' . $options->searchCriteria('realName') . '%');
+                ->setParameter(
+                    'realName',
+                    '%'.$options->searchCriteria('realName').'%'
+                );
         }
 
         $query = $query->getQuery();
 
-        return $this->paginate($query, $options->getPage(), $options->getLimit());
+        return $this->paginate(
+            $query,
+            $options->getPage(),
+            $options->getLimit()
+        );
     }
 
-        /**
+    /**
      * @return Agent[]
      */
     public function searchByAgentName(string $agentName): array
@@ -63,8 +71,7 @@ class AgentRepository extends ServiceEntityRepository
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     // /**

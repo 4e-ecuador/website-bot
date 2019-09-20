@@ -63,8 +63,10 @@ class CommentController extends AbstractController
      * @Route("/fetch", name="comment_fetch", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function getSingle(Request $request, CommentRepository $commentRepository)
-    {
+    public function getSingle(
+        Request $request,
+        CommentRepository $commentRepository
+    ) {
         $commentId = $request->request->get('comment_id');
 
         $comment = $commentRepository->findOneBy(['id' => $commentId]);
@@ -123,7 +125,11 @@ class CommentController extends AbstractController
      */
     public function delete(Request $request, Comment $comment): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$comment->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
@@ -136,13 +142,19 @@ class CommentController extends AbstractController
      * @Route("/deleteinline/{id}", name="comment_delete_inline", methods={"DELETE"})
      * @IsGranted("ROLE_EDITOR")
      */
-    public function deleteInline(Request $request, Comment $comment): JsonResponse
-    {
+    public function deleteInline(
+        Request $request,
+        Comment $comment
+    ): JsonResponse {
         $response = ['status' => 'ok'];
 
         return $this->json($response);
 
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$comment->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
@@ -155,11 +167,13 @@ class CommentController extends AbstractController
      * @Route("/getagentids", name="comment_agent_ids")
      * @IsGranted("ROLE_AGENT")
      */
-    public function getAgentCommentIds(Request $request, AgentRepository $agentRepository)
-    {
-        $html    = '';
+    public function getAgentCommentIds(
+        Request $request,
+        AgentRepository $agentRepository
+    ) {
+        $html = '';
         $agentId = $request->request->get('agent_id');
-        $agent   = $agentRepository->findOneBy(['id' => $agentId]);
+        $agent = $agentRepository->findOneBy(['id' => $agentId]);
 
         foreach ($agent->getComments() as $comment) {
             $html .= $this->renderView(

@@ -22,9 +22,12 @@ class AgentStatController extends AbstractController
      */
     public function index(AgentStatRepository $agentStatRepository): Response
     {
-        return $this->render('agent_stat/index.html.twig', [
-            'agent_stats' => $agentStatRepository->findAll(),
-        ]);
+        return $this->render(
+            'agent_stat/index.html.twig',
+            [
+                'agent_stats' => $agentStatRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -34,7 +37,7 @@ class AgentStatController extends AbstractController
     public function new(Request $request): Response
     {
         $agentStat = new AgentStat();
-        $form = $this->createForm(AgentStatType::class, $agentStat);
+        $form      = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,10 +48,13 @@ class AgentStatController extends AbstractController
             return $this->redirectToRoute('agent_stat_index');
         }
 
-        return $this->render('agent_stat/new.html.twig', [
-            'agent_stat' => $agentStat,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'agent_stat/new.html.twig',
+            [
+                'agent_stat' => $agentStat,
+                'form'       => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -57,9 +63,12 @@ class AgentStatController extends AbstractController
      */
     public function show(AgentStat $agentStat): Response
     {
-        return $this->render('agent_stat/show.html.twig', [
-            'agent_stat' => $agentStat,
-        ]);
+        return $this->render(
+            'agent_stat/show.html.twig',
+            [
+                'agent_stat' => $agentStat,
+            ]
+        );
     }
 
     /**
@@ -77,10 +86,13 @@ class AgentStatController extends AbstractController
             return $this->redirectToRoute('agent_stat_index');
         }
 
-        return $this->render('agent_stat/edit.html.twig', [
-            'agent_stat' => $agentStat,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'agent_stat/edit.html.twig',
+            [
+                'agent_stat' => $agentStat,
+                'form'       => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -89,7 +101,11 @@ class AgentStatController extends AbstractController
      */
     public function delete(Request $request, AgentStat $agentStat): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$agentStat->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$agentStat->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($agentStat);
             $entityManager->flush();

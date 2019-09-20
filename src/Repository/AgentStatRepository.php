@@ -28,13 +28,12 @@ class AgentStatRepository extends ServiceEntityRepository
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $statEntry->getAgent())
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function getPrevious(?AgentStat $statEntry): ?AgentStat
     {
-        $entries =  $this->createQueryBuilder('a')
+        $entries = $this->createQueryBuilder('a')
             ->andWhere('a.datetime < :datetime')
             ->setParameter('datetime', $statEntry->getDatetime())
             ->andWhere('a.agent = :agent')
@@ -42,8 +41,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->orderBy('a.datetime', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
 
         return $entries ? $entries[0] : null;
     }
@@ -60,8 +58,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->setParameter('endDate', $endDate)
             ->orderBy('a.datetime', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -74,8 +71,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->setParameter('agent', $agent)
             ->orderBy('a.datetime', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -88,8 +84,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->setParameter('agent', $agent)
             ->orderBy('a.datetime', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
 
         return $entries ? $entries[0] : null;
     }

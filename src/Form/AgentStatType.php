@@ -35,14 +35,15 @@ class AgentStatType extends AbstractType
             ->add('missionday')
             ->add('nl1331Meetups')
             ->add('ifs')
-            ->add('agent')
-        ;
+            ->add('agent');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => AgentStat::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => AgentStat::class,
+            ]
+        );
     }
 }

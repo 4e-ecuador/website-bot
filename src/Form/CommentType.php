@@ -15,14 +15,15 @@ class CommentType extends AbstractType
             ->add('text')
             ->add('datetime')
             ->add('agent')
-            ->add('commenter')
-        ;
+            ->add('commenter');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Comment::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Comment::class,
+            ]
+        );
     }
 }

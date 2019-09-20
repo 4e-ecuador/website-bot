@@ -53,15 +53,15 @@ class AgentType extends AbstractType
                         'step' => 0.0000001,
                     ),
                 )
-            )
-
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Agent::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Agent::class,
+            ]
+        );
     }
 }

@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/agent")
@@ -27,13 +26,17 @@ class AgentController extends AbstractController
      * @Route("/", name="agent_index", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function index(AgentRepository $agentRepository, Request $request): Response
-    {
+    public function index(
+        AgentRepository $agentRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
 
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
 
-        $paginatorOptions->setMaxPages(ceil(\count($agents) / $paginatorOptions->getLimit()));
+        $paginatorOptions->setMaxPages(
+            ceil(\count($agents) / $paginatorOptions->getLimit())
+        );
 
         return $this->render(
             'agent/index.html.twig',
@@ -75,20 +78,12 @@ class AgentController extends AbstractController
      * @Route("/{id}", name="agent_show", methods={"GET"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(Agent $agent, Security $security): Response
+    public function show(Agent $agent): Response
     {
-//        $comment = new Comment();
-//        $comment->setAgent($agent);
-//        $comment->setCommenter($security->getUser());
-//        $comment->setDatetime(new \DateTime());
-//
-//        $form = $this->createForm(CommentInlineType::class, $comment);
-
         return $this->render(
             'agent/show.html.twig',
             [
                 'agent' => $agent,
-//                'form'  => $form->createView(),
             ]
         );
     }
@@ -128,7 +123,11 @@ class AgentController extends AbstractController
      */
     public function delete(Request $request, Agent $agent): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$agent->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$agent->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($agent);
             $entityManager->flush();
@@ -141,12 +140,21 @@ class AgentController extends AbstractController
      * @Route("/{id}/add_comment", name="agent_add_comment", methods={"POST"})
      * @IsGranted("ROLE_EDITOR")
      */
-    public function addComment(Request $request, Agent $agent, UserRepository $userRepository): JsonResponse
-    {
-        if ($this->isCsrfTokenValid('addcomment'.$agent->getId(), $request->request->get('_token'))) {
+    public function addComment(
+        Request $request,
+        Agent $agent,
+        UserRepository $userRepository
+    ): JsonResponse {
+        if ($this->isCsrfTokenValid(
+            'addcomment'.$agent->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $commenter = $userRepository->findOneBy(['id' => (int)$request->request->get('commenter')]);
+            $commenter = $userRepository->findOneBy(
+                ['id' => (int)$request->request->get('commenter')]
+            );
             if (!$commenter) {
                 return $this->json(['error' => 'invalid commenter']);
             }

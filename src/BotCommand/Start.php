@@ -1,9 +1,7 @@
 <?php
 
-
 namespace App\BotCommand;
 
-use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
 use TelegramBot\Api\BotApi;
@@ -11,12 +9,10 @@ use TelegramBot\Api\Types\Update;
 
 class Start extends AbstractCommand implements PublicCommandInterface
 {
-    private $repository;
-
     /**
      * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
         return '/start';
     }
@@ -24,7 +20,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
     /**
      * @inheritDoc
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Start command';
     }
@@ -35,7 +31,11 @@ class Start extends AbstractCommand implements PublicCommandInterface
     public function execute(BotApi $api, Update $update)
     {
         $text = "I'm alive =;) - ".$update->getMessage()->getChat()->getId();
-        $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
+        $api->sendMessage(
+            $update->getMessage()->getChat()->getId(),
+            $text,
+            'markdown'
+        );
 
         // @todo add chat id to database
     }

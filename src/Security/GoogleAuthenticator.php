@@ -41,8 +41,11 @@ class GoogleAuthenticator extends SocialAuthenticator
      * @param EntityManagerInterface $em
      * @param UserManagerInterface   $userManager
      */
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, UserRepository $userManager)
-    {
+    public function __construct(
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $em,
+        UserRepository $userManager
+    ) {
         $this->clientRegistry = $clientRegistry;
         $this->em             = $em;
         $this->userManager    = $userManager;
@@ -113,8 +116,11 @@ class GoogleAuthenticator extends SocialAuthenticator
      *
      * @return null|Response
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
+    public function onAuthenticationSuccess(
+        Request $request,
+        TokenInterface $token,
+        $providerKey
+    ) {
         return null;
     }
 
@@ -124,9 +130,14 @@ class GoogleAuthenticator extends SocialAuthenticator
      *
      * @return null|Response
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+    public function onAuthenticationFailure(
+        Request $request,
+        AuthenticationException $exception
+    ) {
+        $message = strtr(
+            $exception->getMessageKey(),
+            $exception->getMessageData()
+        );
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
@@ -140,10 +151,13 @@ class GoogleAuthenticator extends SocialAuthenticator
      *
      * @return RedirectResponse
      */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
+    public function start(
+        Request $request,
+        AuthenticationException $authException = null
+    ) {
         return new RedirectResponse(
-            '/connect/', // might be the site, where users choose their oauth provider
+            '/connect/',
+            // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }

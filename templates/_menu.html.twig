@@ -1,14 +1,15 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ path('default') }}">4E</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav">
-            <ul class="nav navbar-nav">
-                {% if is_granted('ROLE_AGENT') %}
+    {% if is_granted('ROLE_AGENT') %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav">
+                <ul class="nav navbar-nav">
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Stats</a>
                         <div class="dropdown-menu">
@@ -19,45 +20,46 @@
                         </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href={{ path('agent_index') }}>Agentes</a></li>
-                {% endif %}
 
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Admin</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href={{ path('agent_stat_index') }}>Stats</a>
-                            <a class="dropdown-item" href="{{ path('import') }}">Importar Agentes</a>
-                            <a class="dropdown-item" href="{{ path('user_index') }}">Usuarios</a>
-                            <a class="dropdown-item" href="{{ path('comment_index') }}">Comentarios</a>
-                        </div>
-                    </li>
-                {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Admin</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href={{ path('agent_stat_index') }}>Stats</a>
+                                <a class="dropdown-item" href="{{ path('import') }}">Importar Agentes</a>
+                                <a class="dropdown-item" href="{{ path('user_index') }}">Usuarios</a>
+                                <a class="dropdown-item" href="{{ path('comment_index') }}">Comentarios</a>
+                            </div>
+                        </li>
+                    {% endif %}
 
-            </ul>
+                </ul>
+            </div>
         </div>
 
-        <div class="ml-auto">
-            <ul class="navbar-nav ml-auto">
-                {% if is_granted('ROLE_USER') %}
-                    <li class="nav-item dropdown" style="margin-right: 75px;">
-                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(24) }}">
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ path('app_account') }}" title="Account">Account</a>
-                            <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-                        </div>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a style="color: #fff;" class="nav-link" href="{{ path('connect_google_start') }}">
-                            Login
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+    {% endif %}
 
+    <div class="ml-auto">
+        <ul class="navbar-nav ml-auto">
+            {% if is_granted('ROLE_USER') %}
+                <li class="nav-item dropdown" style="margin-right: 75px;">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(24) }}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('app_account') }}" title="Account">Account</a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a style="color: #fff;" class="nav-link" href="{{ path('connect_google_start') }}">
+                        Login
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
+
 </nav>

@@ -53,7 +53,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         $this->telegramBotHelper = $telegramBotHelper;
     }
 
-    public function check(UpdateEvent $event)
+    public function check(UpdateEvent $event): void
     {
         $message = $event->getUpdate()->getMessage();
 
@@ -105,7 +105,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         );
     }
 
-    private function respondWelcome(UpdateEvent $event)
+    private function respondWelcome(UpdateEvent $event): TelegramUpdateSubscriber
     {
         $message = $event->getUpdate()->getMessage();
 
@@ -154,7 +154,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         return $this;
     }
 
-    private function respondInlineQuery(UpdateEvent $event)
+    private function respondInlineQuery(UpdateEvent $event): TelegramUpdateSubscriber
     {
         $inlineQuery = $event->getUpdate()->getInlineQuery();
 

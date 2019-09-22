@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ 'Medals by date'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Medals by date</h1>
+    <h1>{{ 'Medals by date'|trans }}</h1>
     <form>
         <label for="startDate">Start</label>
         <input id="startDate" type="date" name="start_date" value="{{ startDate|date('Y-m-d') }}">

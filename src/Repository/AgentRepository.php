@@ -102,4 +102,13 @@ class AgentRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function has(Agent $agent): ?Agent
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.nickname = :val')
+            ->setParameter('val', $agent->getNickname())
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

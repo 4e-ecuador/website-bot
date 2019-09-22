@@ -1,0 +1,1 @@
+agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Solo hay un agente en la db}\n  other {Tenemos # agentes en la base de datos.}\n}"

@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Exception\StatsNotAllException;
 use App\Form\ImportFormType;
+use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use App\Repository\FactionRepository;
 use App\Service\CsvParser;
@@ -25,7 +26,8 @@ class ImportController extends AbstractController
      */
     public function index(
         Request $request,
-        FactionRepository $factionRepository
+        FactionRepository $factionRepository,
+        AgentRepository $agentRepository
     ) {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
@@ -37,7 +39,8 @@ class ImportController extends AbstractController
                 try {
                     $count += $this->importJSON(
                         $data['agentsJSON'],
-                        $factionRepository
+                        $factionRepository,
+                        $agentRepository
                     );
                 } catch (\UnexpectedValueException $exception) {
                     $this->addFlash('danger', $exception->getMessage());
@@ -91,15 +94,15 @@ class ImportController extends AbstractController
 
     private function importJSON(
         string $agentsJSON,
-        FactionRepository $factionRepository
+        FactionRepository $factionRepository,
+    AgentRepository $agentRepository
     ) {
         $jsonData = json_decode($agentsJSON);
+        $importCount = 0;
 
         if (!$jsonData) {
             throw new \UnexpectedValueException('Invalid JSON data received');
         }
-
-//        var_dump($jsonData);
 
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -117,14 +120,17 @@ class ImportController extends AbstractController
 
             $agent->setFaction($faction);
 
-            $entityManager->persist($agent);
+            if (!$agentRepository->has($agent)) {
+                $entityManager->persist($agent);
 
-            $entityManager->flush();
+                $entityManager->flush();
+
+                $importCount++;
+            }
         }
 
-        return count($jsonData);
+        return $importCount;
     }
-
 
     /**
      * @Route("/stat-import", name="stat_import", methods={"POST", "GET"})

@@ -62,6 +62,5 @@ class AppExtension extends AbstractExtension
     public function medalLevelFilter($level)
     {
         return $this->medalChecker->getLevelName($level);
-
     }
 }

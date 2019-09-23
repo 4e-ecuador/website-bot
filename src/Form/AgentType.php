@@ -25,9 +25,6 @@ class AgentType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
-
-//            ->add('lat')
-//            ->add('lon')
             ->add(
                 'lat',
                 NumberType::class,

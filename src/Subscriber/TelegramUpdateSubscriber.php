@@ -105,8 +105,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         );
     }
 
-    private function respondWelcome(UpdateEvent $event): TelegramUpdateSubscriber
-    {
+    private function respondWelcome(UpdateEvent $event
+    ): TelegramUpdateSubscriber {
         $message = $event->getUpdate()->getMessage();
 
         if (!$message) {
@@ -154,8 +154,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         return $this;
     }
 
-    private function respondInlineQuery(UpdateEvent $event): TelegramUpdateSubscriber
-    {
+    private function respondInlineQuery(UpdateEvent $event
+    ): TelegramUpdateSubscriber {
         $inlineQuery = $event->getUpdate()->getInlineQuery();
 
         if (!$inlineQuery) {

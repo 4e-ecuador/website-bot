@@ -36,7 +36,6 @@ class Start extends AbstractCommand implements PublicCommandInterface
             $text,
             'markdown'
         );
-
         // @todo add chat id to database
     }
 }

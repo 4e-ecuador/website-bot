@@ -8,7 +8,6 @@
 
 namespace App\Helper\Paginator;
 
-
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 

@@ -90,9 +90,9 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user->setUsername($email);
             $user->setEmail($email);
 
-//            $roles   = $user->getRoles();
-//            $roles[] = 'ROLE_UNVERIFIED';
-//            $user->setRoles($roles);
+            //            $roles   = $user->getRoles();
+            //            $roles[] = 'ROLE_UNVERIFIED';
+            //            $user->setRoles($roles);
         }
 
         $this->em->persist($user);

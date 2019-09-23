@@ -171,9 +171,9 @@ class CommentController extends AbstractController
         Request $request,
         AgentRepository $agentRepository
     ) {
-        $html = '';
+        $html    = '';
         $agentId = $request->request->get('agent_id');
-        $agent = $agentRepository->findOneBy(['id' => $agentId]);
+        $agent   = $agentRepository->findOneBy(['id' => $agentId]);
 
         foreach ($agent->getComments() as $comment) {
             $html .= $this->renderView(

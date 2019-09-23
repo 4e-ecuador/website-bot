@@ -172,14 +172,12 @@ class MedalChecker
             5 => 'onyx',
         ];
 
-
     public function checkLevels(AgentStat $agentStat): array
     {
         $levels = [];
         foreach ($this->medalLevels as $name => $level) {
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
-
                 $lv = $agentStat->$methodName();
 
                 $medalLevel = 0;
@@ -215,20 +213,17 @@ class MedalChecker
         }
 
         return '';
-
         //throw new \UnexpectedValueException('Unknown Ingress Prime header: '.$name);
     }
 
     public function getMethodName(string $vName)
     {
         return 'set'.implode('', array_map('ucfirst', explode('-', $vName)));
-
     }
 
     public function getGetterMethodName(string $vName)
     {
         return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
-
     }
 
     public function getUpgrades(

@@ -95,7 +95,6 @@ class UserController extends AbstractController
         $plainPass = $user->getPassword();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             if ($plainPass) {
                 $user->setPassword($encoder->encodePassword($user, $plainPass));
             }

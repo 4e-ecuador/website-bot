@@ -108,7 +108,6 @@ class AgentRepository extends ServiceEntityRepository
             ->andWhere('a.nickname = :val')
             ->setParameter('val', $agent->getNickname())
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 }

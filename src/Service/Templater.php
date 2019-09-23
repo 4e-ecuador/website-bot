@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Agent;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,7 +19,6 @@ class Templater
 
     public function __construct(string $rootDir, Filesystem $filesystem)
     {
-
         $this->rootDir    = $rootDir;
         $this->filesystem = $filesystem;
     }

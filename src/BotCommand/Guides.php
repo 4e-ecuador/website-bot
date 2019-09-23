@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\BotCommand;
 
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;

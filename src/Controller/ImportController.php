@@ -95,9 +95,9 @@ class ImportController extends AbstractController
     private function importJSON(
         string $agentsJSON,
         FactionRepository $factionRepository,
-    AgentRepository $agentRepository
+        AgentRepository $agentRepository
     ) {
-        $jsonData = json_decode($agentsJSON);
+        $jsonData    = json_decode($agentsJSON);
         $importCount = 0;
 
         if (!$jsonData) {
@@ -109,9 +109,8 @@ class ImportController extends AbstractController
         // @todo faction select
         $faction = $factionRepository->findOneBy(['name' => 'ENL']);
 
-//        $factions = $factionRepository->findAll();
+        //        $factions = $factionRepository->findAll();
         foreach ($jsonData as $entry) {
-
             $agent = new Agent();
 
             $agent->setNickname($entry->name);
@@ -171,7 +170,6 @@ class ImportController extends AbstractController
                         ->setAgent($agent);
 
                     if (!$agentStatRepository->has($statEntry)) {
-
                         foreach ($values as $vName => $value) {
                             $methodName = $medalChecker->getMethodName($vName);
                             if (method_exists($statEntry, $methodName)) {

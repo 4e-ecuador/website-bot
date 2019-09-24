@@ -34,13 +34,6 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     private $userManager;
 
-    /**
-     * GoogleAuthenticator constructor.
-     *
-     * @param ClientRegistry         $clientRegistry
-     * @param EntityManagerInterface $em
-     * @param UserManagerInterface   $userManager
-     */
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $em,
@@ -51,12 +44,7 @@ class GoogleAuthenticator extends SocialAuthenticator
         $this->userManager    = $userManager;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
@@ -89,10 +77,6 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user = new User();
             $user->setUsername($email);
             $user->setEmail($email);
-
-            //            $roles   = $user->getRoles();
-            //            $roles[] = 'ROLE_UNVERIFIED';
-            //            $user->setRoles($roles);
         }
 
         $this->em->persist($user);
@@ -110,8 +94,6 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request        $request
-     * @param TokenInterface $token
      * @param string         $providerKey
      *
      * @return null|Response
@@ -125,9 +107,6 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request                 $request
-     * @param AuthenticationException $exception
-     *
      * @return null|Response
      */
     public function onAuthenticationFailure(
@@ -145,9 +124,6 @@ class GoogleAuthenticator extends SocialAuthenticator
     /**
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
-     *
-     * @param Request                      $request
-     * @param AuthenticationException|null $authException
      *
      * @return RedirectResponse
      */

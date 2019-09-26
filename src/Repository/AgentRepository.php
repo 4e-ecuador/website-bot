@@ -36,7 +36,7 @@ class AgentRepository extends ServiceEntityRepository
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
         if ($options->searchCriteria('nickname')) {
-            $query->andWhere('a.nickname LIKE :nickname')
+            $query->andWhere('LOWER(a.nickname) LIKE LOWER(:nickname)')
                 ->setParameter(
                     'nickname',
                     '%'.$options->searchCriteria('nickname').'%'

@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Helper\Paginator\PaginatorOptions;
+use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -15,6 +18,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AgentStatRepository extends ServiceEntityRepository
 {
+    use PaginatorRepoTrait;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, AgentStat::class);
@@ -88,4 +93,44 @@ class AgentStatRepository extends ServiceEntityRepository
 
         return $entries ? $entries[0] : null;
     }
+
+    /**
+     * @param PaginatorOptions $options
+     *
+     * @return Paginator
+     */
+    public function getPaginatedList(PaginatorOptions $options): Paginator
+    {
+        $query = $this->createQueryBuilder('a');
+
+        $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
+
+        // if ($options->searchCriteria('agent')) {
+        //     // $query->select()
+        //     $query->andWhere('a.agent = :agent')
+        //         ->setParameter(
+        //             'agent',
+        //            $agent
+        //            // '%'.$options->searchCriteria('agent').'%'
+        //         );
+        // }
+        //
+        // if ($options->searchCriteria('realName')) {
+        //     $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
+        //         ->setParameter(
+        //             'realName',
+        //             '%'.$options->searchCriteria('realName').'%'
+        //         );
+        // }
+
+        $query = $query->getQuery();
+
+        return $this->paginate(
+            $query,
+            $options->getPage(),
+            $options->getLimit()
+        );
+    }
+
+
 }

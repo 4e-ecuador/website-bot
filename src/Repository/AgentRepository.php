@@ -91,17 +91,16 @@ class AgentRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Agent
+    public function findOneByNickName($value): ?Agent
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+            ->andWhere('a.nickname = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
     public function has(Agent $agent): ?Agent
     {
         return $this->createQueryBuilder('a')

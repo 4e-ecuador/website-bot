@@ -1,13 +1,88 @@
 {% extends 'base.html.twig' %}
 
+{% import '_paginator-elements.html.twig' as paginator %}
+
 {% block title %}AgentStat index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/paginator.js') }}"></script>
+{% endblock %}
 
 {% block body %}
     <h1>AgentStat index</h1>
 
+<form method="post">
+
+    <div class="row">
+        <div class="col-xs-2">{{ paginator.listLimit(paginatorOptions) }}</div>
+        <div class="col-xs-10">{{ paginator.pagination(paginatorOptions) }}</div>
+    </div>
+
     <table class="table">
         <thead>
-            <tr>
+        <tr>
+            <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
+            <th>{{ paginator.ordering('datetime', paginatorOptions) }}</th>
+            <th></th>
+            <th>{{ paginator.ordering('ap', paginatorOptions) }}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>a</th>
+            <th>s</th>
+        </tr>
+        <tr>
+            <th>{{ paginator.criteria('id', paginatorOptions) }}</th>
+            <th>
+                {{ paginator.criteria('xx', paginatorOptions) }}
+            </th>
+            <th>
+                {{ paginator.criteria('agent', paginatorOptions) }}
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        <tr>
                 <th>Id</th>
                 <th>Datetime</th>
                 <th>Agent</th>
@@ -76,6 +151,8 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ paginator.formFields(paginatorOptions) }}
 
+</form>
     <a href="{{ path('agent_stat_new') }}">Create new</a>
 {% endblock %}

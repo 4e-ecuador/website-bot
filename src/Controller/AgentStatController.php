@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\AgentStat;
 use App\Form\AgentStatType;
+use App\Helper\Paginator\PaginatorTrait;
+use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,16 +18,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AgentStatController extends AbstractController
 {
+    use PaginatorTrait;
+
     /**
-     * @Route("/", name="agent_stat_index", methods={"GET"})
+     * @Route("/", name="agent_stat_index", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function index(AgentStatRepository $agentStatRepository): Response
+    public function index(AgentStatRepository $agentStatRepository, Request $request, AgentRepository $agentRepository): Response
     {
+        $paginatorOptions = $this->getPaginatorOptions($request);
+
+        // $agent = $agentRepository->findOneByNickName('nikp3hx');
+
+        $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
+
+        $paginatorOptions->setMaxPages(
+            ceil(\count($stats) / $paginatorOptions->getLimit())
+        );
+
         return $this->render(
             'agent_stat/index.html.twig',
             [
-                'agent_stats' => $agentStatRepository->findAll(),
+                'agent_stats' => $stats,// $agentStatRepository->findAll(),
+                'paginatorOptions' => $paginatorOptions,
             ]
         );
     }

@@ -49,7 +49,9 @@
                     <a href="javascript:" class="page-link pagLink"
                        data-page="{{ page + 1 <= maxPages ? page + 1 : page }}">&rArr;</a>
                 </li>
-                <li> of {{ maxPages }} Pages</li>
+                <li>
+                    {% trans with {'%maxPages%': maxPages} %}of %maxPages% Pages{% endtrans %}
+                </li>
             </ul>
         </nav>
 

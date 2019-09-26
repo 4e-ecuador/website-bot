@@ -1,11 +1,13 @@
 {% block footer %}
     <footer class="footer text-muted d-flex flex-row bg-dark">
         <div class="p-1">
-            <a style="color: #fff;" href="{{ path('app_login') }}">L</a>
-            &copy; 2005 - {{ "now"|date("Y") }} by 4E - Ecuador
+            &copy; 2018 - {{ "now"|date("Y") }} by 4E - Ecuador
         </div>
         <div class="p-1 ml-auto">
-            {% if app.user and app.user.role == 'ROLE_ADMIN' %}
+            {% if not app.user %}
+                <a style="color: #fff;" href="{{ path('app_login') }}">.</a>
+            {% else %}
+                <a style="color: #fff;" href="{{ path('app_logout') }}">X</a>
             {% endif %}
         </div>
         <div class="p-1 ml-auto">

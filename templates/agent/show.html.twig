@@ -10,10 +10,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('map') }}
-    <script src="{{ asset('js/comment.js') }}"></script>
-    <script>
-        getComments({{ agent.id }})
-    </script>
+    {{ encore_entry_script_tags('comment') }}
 {% endblock %}
 
 {% block body %}
@@ -31,7 +28,7 @@
         <tbody>
         <tr>
             <th>Id</th>
-            <td>{{ agent.id }}</td>
+            <td id="js-agent-id">{{ agent.id }}</td>
         </tr>
         <tr>
             <th>Nickname</th>

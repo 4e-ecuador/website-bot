@@ -2,8 +2,14 @@
 
 {% block title %}Agent{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('map') }}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('map') }}
     <script src="{{ asset('js/comment.js') }}"></script>
     <script>
         getComments({{ agent.id }})
@@ -41,7 +47,10 @@
         </tr>
         <tr>
             <th>Position</th>
-            <td>{{ agent.lat }}, {{ agent.lon }}</td>
+            <td>{{ agent.lat }}, {{ agent.lon }}
+                <div id="map"></div>
+                <div class="js-agent-coords" data-lat="{{ agent.lat }}"  data-lon="{{ agent.lon }}">
+            </td>
         </tr>
         <tr>
             <th>Comments</th>

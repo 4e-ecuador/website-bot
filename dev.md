@@ -16,7 +16,7 @@ BoShurikTelegramBotBundle:
 
 add nodejs
 
-    heroku buildpacks:add --index 1 heroku/nodejs
+    heroku buildpacks:add heroku/nodejs
 </del>
 
 ## Heroku

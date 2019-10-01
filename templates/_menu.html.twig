@@ -1,6 +1,8 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ path('default') }}">4E</a>
 
+    <a style="color: rgba(255, 255, 255, 0.5);" class="nav-link" href="{{ path('agent-map') }}">{{ 'Map'|trans }}</a>
+
     {% if is_granted('ROLE_AGENT') %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,17 +47,6 @@
     <div class="ml-auto">
         <ul class="navbar-nav ml-auto">
             {% if is_granted('ROLE_USER') %}
-{#                <li class="nav-item dropdown" style="margin-right: 75px;">#}
-{#                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"#}
-{#                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                        <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(24) }}">#}
-{#                    </a>#}
-{#                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">#}
-{#                        <a class="dropdown-item" href="{{ path('app_account') }}"#}
-{#                           title="Account">{{ 'Account'|trans }}</a>#}
-{#                        <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>#}
-{#                    </div>#}
-{#                </li>#}
                 <li class="nav-item">
                     <a style="color: #fff;" class="nav-link"
                        href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>

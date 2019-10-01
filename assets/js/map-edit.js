@@ -1,3 +1,5 @@
+const $ = require('jquery')
+
 require('leaflet')
 require('leaflet/dist/leaflet.css')
 require('../css/map-edit.css')

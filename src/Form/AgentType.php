@@ -16,7 +16,11 @@ class AgentType extends AbstractType
     {
         $builder
             ->add('nickname')
-            ->add('real_name')
+            ->add('real_name',
+                null,
+                [
+                    'label' => 'Real Name'
+                ])
             ->add(
                 'faction',
                 EntityType::class,
@@ -28,29 +32,31 @@ class AgentType extends AbstractType
             ->add(
                 'lat',
                 NumberType::class,
-                array(
+                [
                     'required' => false,
                     'scale'    => 7,
-                    'attr'     => array(
+                    'attr'     => [
                         'min'  => -90,
                         'max'  => 90,
                         'step' => 0.0000001,
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
                 'lon',
                 NumberType::class,
-                array(
+                [
                     'required' => false,
                     'scale'    => 7,
-                    'attr'     => array(
+                    'attr'     => [
                         'min'  => -90,
                         'max'  => 90,
                         'step' => 0.0000001,
-                    ),
-                )
-            );
+                    ],
+                ]
+            )
+            ->add('hasMap', null, ['label' => 'Display on map'])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

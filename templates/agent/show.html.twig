@@ -31,26 +31,31 @@
             <td id="js-agent-id">{{ agent.id }}</td>
         </tr>
         <tr>
-            <th>Nickname</th>
+            <th>{{ 'Nickname'|trans }}</th>
             <td>{{ agent.nickname }}</td>
         </tr>
         <tr>
-            <th>Faction</th>
+            <th>{{ 'Faction'|trans }}</th>
             <td>{{ agent.faction.name }}</td>
         </tr>
         <tr>
-            <th>Real_name</th>
+            <th>{{ 'Real name'|trans }}</th>
             <td>{{ agent.realName }}</td>
         </tr>
         <tr>
-            <th>Position</th>
-            <td>{{ agent.lat }}, {{ agent.lon }}
-                <div id="map"></div>
+            <th>{{ 'Position'|trans }}</th>
+            <td>
                 <div class="js-agent-coords" data-lat="{{ agent.lat }}"  data-lon="{{ agent.lon }}">
+                {% if agent.lat and agent.lon %}
+                {{ agent.lat }}, {{ agent.lon }}
+                <div id="map"></div>
+                    {% else %}
+                    {{ 'Unknown'|trans }}
+                    {% endif %}
             </td>
         </tr>
         <tr>
-            <th>Comments</th>
+            <th>{{ 'Comments'|trans }}</th>
             <td>
                 <div id="commentArea"></div>
                 <div id="commentStatus"></div>
@@ -61,7 +66,7 @@
     </table>
 
     {% if is_granted('ROLE_EDITOR') %}
-        <h3>Aniadir comentario</h3>
+        <h3>{{ 'Add Comment'|trans }}</h3>
         {{ include('agent/_add_comment_form.html.twig') }}
     {% endif %}
 

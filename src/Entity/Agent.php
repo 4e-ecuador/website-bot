@@ -49,6 +49,11 @@ class Agent
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasMap;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -156,6 +161,18 @@ class Agent
                 $comment->setAgent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHasMap(): ?bool
+    {
+        return $this->hasMap;
+    }
+
+    public function setHasMap(?bool $hasMap): self
+    {
+        $this->hasMap = $hasMap;
 
         return $this;
     }

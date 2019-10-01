@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}4E{% endblock %}</title>
+
+    <link rel="icon" type="image/x-icon" href="
+    {% if 'dev' == app.environment %}
+        {{ asset('favicon-dev.ico') }}
+    {% else %}
+        {{ asset('favicon.ico') }}
+    {% endif %}
+    "/>
+
+    {{ encore_entry_link_tags('app') }}
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body id="app-layout">
+{% include('_menu.html.twig') %}
+
+    <noscript><h1 class="alert alert-danger">Please activate Javascript</h1></noscript>
+    {% include ('_flash-messages.html.twig') %}
+    {% block body %}{% endblock %}
+
+{% include ('_footer.html.twig') %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

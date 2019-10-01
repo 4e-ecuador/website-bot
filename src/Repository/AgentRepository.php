@@ -109,4 +109,19 @@ class AgentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @return Agent[]
+     */
+    public function findMapAgents()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.hasMap = :val')
+            ->setParameter('val', 1)
+            // ->orderBy('a.id', 'ASC')
+            // ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

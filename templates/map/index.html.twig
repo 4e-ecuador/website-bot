@@ -1,0 +1,17 @@
+{% extends 'base-map.html.twig' %}
+
+{% block title %}4E Agents{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('agents-map') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('agents-map') }}
+{% endblock %}
+
+{% block body %}
+<div id="map"></div>
+{% endblock %}

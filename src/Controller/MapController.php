@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MapController extends AbstractController
 {
@@ -54,14 +55,14 @@ class MapController extends AbstractController
     /**
      * @Route("/map/agent-info/{id}", name="agent-info")
      */
-    public function mapAgentInfo(Agent $agent): Response
+    public function mapAgentInfo(Agent $agent, TranslatorInterface $translator): Response
     {
         $response = [];
 
         if ($this->isGranted('ROLE_ADMIN')) {
             $response[] = $agent->getNickname();
         } else {
-            $response[] = 'Please log in';
+            $response[] = $translator->trans('Please log in');
         }
 
         return new Response(implode("\n", $response));

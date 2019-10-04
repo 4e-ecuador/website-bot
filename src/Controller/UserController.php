@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,16 +18,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserController extends AbstractController
 {
+    use PaginatorTrait;
+
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="user_index", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Request $request): Response
     {
+        $paginatorOptions = $this->getPaginatorOptions($request);
+
+        $users = $userRepository->getPaginatedList($paginatorOptions);
+
+        $paginatorOptions->setMaxPages(
+            ceil(\count($users) / $paginatorOptions->getLimit())
+        );
+
         return $this->render(
             'user/index.html.twig',
             [
-                'users' => $userRepository->findAll(),
+                'users' => $users,
+                'paginatorOptions' => $paginatorOptions,
             ]
         );
     }

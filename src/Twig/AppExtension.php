@@ -17,6 +17,13 @@ use Twig\TwigFilter;
  */
 class AppExtension extends AbstractExtension
 {
+    public $roleFilters
+        = [
+            'ROLE_AGENT'  => 'Agent',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN'  => 'Admin',
+        ];
+
     /**
      * @var MedalChecker
      */
@@ -35,6 +42,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('cast_to_array', [$this, 'objectFilter']),
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
+            new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
         ];
     }
 
@@ -59,8 +67,25 @@ class AppExtension extends AbstractExtension
         return $response;
     }
 
-    public function medalLevelFilter($level)
+    public function medalLevelFilter($level): string
     {
         return $this->medalChecker->getLevelName($level);
+    }
+
+    public function displayRolesFilter(array $roles): string
+    {
+        $roles = array_diff($roles, ['ROLE_USER']);
+
+        $displayRoles = [];
+
+        foreach ($roles as $role) {
+            if (array_key_exists($role, $this->roleFilters)) {
+                $displayRoles[] = $this->roleFilters[$role];
+            } else {
+                $displayRoles[] = $role;
+            }
+        }
+
+        return implode(', ', $displayRoles);
     }
 }

@@ -1,6 +1,8 @@
+{% trans_default_domain 'agent' %}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}New Agent{% endblock %}
+{% block title %}{{ 'New Agent'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,10 +15,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Agent</h1>
+    <h1>{{ 'Create new Agent'|trans }}</h1>
 
     {{ include('agent/_form.html.twig') }}
 
-    <a class="btn btn-secondary" href="{{ path('agent_index') }}">Regresar</a>
+    <a class="btn btn-secondary" href="{{ path('agent_index') }}">{{ 'Go Back'|trans }}</a>
 
 {% endblock %}

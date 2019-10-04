@@ -1,9 +1,9 @@
-var Encore = require('@symfony/webpack-encore');
+var Encore = require('@symfony/webpack-encore')
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
-    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev')
 }
 
 Encore
@@ -27,6 +27,7 @@ Encore
     .addEntry('map', './assets/js/map.js')
     .addEntry('agents-map', './assets/js/agents-map.js')
     .addEntry('map-edit', './assets/js/map-edit.js')
+    .addEntry('user-edit', './assets/js/user-edit.js')
     .addEntry('comment', './assets/js/comment.js')
     .addEntry('paginator', './assets/js/paginator.js')
 
@@ -54,7 +55,8 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     // enables @babel/preset-env polyfills
-    .configureBabel(() => {}, {
+    .configureBabel(() => {
+    }, {
         useBuiltIns: 'usage',
         corejs: 3
     })
@@ -75,6 +77,19 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
-;
 
-module.exports = Encore.getWebpackConfig();
+    .copyFiles({
+        from: './assets/images',
+
+        // optional target path, relative to the output dir
+        to: 'images/[path][name].[ext]',
+
+        // if versioning is enabled, add the file hash too
+        //to: 'images/[path][name].[hash:8].[ext]',
+
+        // only copy files matching this pattern
+        //pattern: /\.(png|jpg|jpeg)$/
+    })
+
+
+module.exports = Encore.getWebpackConfig()

@@ -1,0 +1,9 @@
+<h3>You did it! You registered!</h3>
+
+Hi {{ user.agent ? user.agent.nickname : user.username }}! You're successfully registered.
+
+To login, go to: <a href="{{ url('app_login') }}">Login</a>.
+
+Thanks!
+
+<img src="{{ absolute_url(asset('build/images/4e-logo-white.jpg')) }}" alt="4E Logo">

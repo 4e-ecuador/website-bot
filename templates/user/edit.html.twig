@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}{{ 'Edit User'|trans }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('user-edit') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+    <h1>{{ 'Edit User'|trans }}</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user/_form.html.twig', {'button_label': 'Update'|trans}) }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <div id="mailResult"></div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-secondary" href="{{ path('user_index') }}">{{ 'Back to list'|trans }}</a>
 
-    {{ include('user/_delete_form.html.twig') }}
+        <div class="btn btn-info sendMail" data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>
+
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

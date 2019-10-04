@@ -20,7 +20,7 @@ add nodejs
 
 ### Add DB
     heroku addons:create heroku-postgresql:hobby-dev
-    heroku run php bin/console doctrine:migrations:migrate --remote heroku-prod
+    heroku run php bin/console doctrine:migrations:migrate
 
 ### Reset DB
 
@@ -29,6 +29,11 @@ add nodejs
 ### Postgres import
 
     heroku pg:psql --app APP_NAME < dump.sql
+
+### Backup
+    Heroku pg:backups:capture
+    Heroku pg:backups:download
+    pg_restore latest.dump > latest.sql
 
 ## Google OAuth
 

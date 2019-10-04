@@ -10,17 +10,18 @@ BoShurikTelegramBotBundle:
   prefix: '_telegram/%telegram_web_hook_secret%'
 ```
 
-<del>
-
 ### Webpack
 
 add nodejs
 
     heroku buildpacks:add heroku/nodejs
-</del>
 
 ## Heroku
- 
+
+### Add DB
+    heroku addons:create heroku-postgresql:hobby-dev
+    heroku run php bin/console doctrine:migrations:migrate --remote heroku-prod
+
 ### Reset DB
 
     heroku pg:reset DATABASE_URL

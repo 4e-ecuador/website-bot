@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\MailerHelper;
 use Doctrine\ORM\EntityManagerInterface;
 //use FOS\UserBundle\Model\UserManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
@@ -33,15 +34,20 @@ class GoogleAuthenticator extends SocialAuthenticator
      * @var UserRepository
      */
     private $userManager;
+    /**
+     * @var MailerHelper
+     */
+    private $mailerHelper;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $em,
-        UserRepository $userManager
+        UserRepository $userManager, MailerHelper $mailerHelper
     ) {
         $this->clientRegistry = $clientRegistry;
-        $this->em             = $em;
-        $this->userManager    = $userManager;
+        $this->em = $em;
+        $this->userManager = $userManager;
+        $this->mailerHelper = $mailerHelper;
     }
 
     public function supports(Request $request): bool
@@ -77,10 +83,12 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user = new User();
             $user->setUsername($email);
             $user->setEmail($email);
-        }
 
-        $this->em->persist($user);
-        $this->em->flush();
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->mailerHelper->sendNewUserMail($user);
+        }
 
         return $user;
     }
@@ -94,7 +102,7 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param string         $providerKey
+     * @param string $providerKey
      *
      * @return null|Response
      */

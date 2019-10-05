@@ -45,7 +45,7 @@ class CsvParser
 
             $vars = explode("\t", $line);
 
-            if (false === in_array($vars[0], ['GESAMT', 'SIEMPRE'], true)) {
+            if (false === in_array($vars[0], ['GESAMT', 'SIEMPRE', 'ALL TIME'], true)) {
                 throw new StatsNotAllException('Prime stats not ALL');
             }
 

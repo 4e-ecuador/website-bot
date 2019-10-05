@@ -30,10 +30,10 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
                                role="button">{{ 'Admin'|trans }}</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href={{ path('agent_stat_index') }}>{{ 'Stats'|trans }}</a>
-                                <a class="dropdown-item" href="{{ path('import') }}">{{ 'Import Agents'|trans }}</a>
                                 <a class="dropdown-item" href="{{ path('user_index') }}">{{ 'Users'|trans }}</a>
+                                <a class="dropdown-item" href={{ path('agent_stat_index') }}>{{ 'Stats'|trans }}</a>
                                 <a class="dropdown-item" href="{{ path('comment_index') }}">{{ 'Coments'|trans }}</a>
+                                <a class="dropdown-item" href="{{ path('import') }}">{{ 'Import Agents'|trans }}</a>
                             </div>
                         </li>
                     {% endif %}

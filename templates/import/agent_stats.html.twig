@@ -40,19 +40,31 @@
         </table>
     {% endif %}
 
-    <h2>Prime Export</h2>
-    <form method="post">
-        <label for="csv">CSV</label>
-        <textarea class="form-control" name="csv" id="csv" cols="80" rows="5"></textarea>
-        <input type="hidden" name="type" value="prime">
-        <button class="btn btn-success">Enviar Prime Export</button>
-    </form>
+    <h2>{{ 'Import statistics'|trans }}</h2>
 
-    <h2>AgentStats Export</h2>
-    <form method="post">
-        <label for="csvStats">CSV</label>
-        <textarea class="form-control" name="csv" id="csvStats" cols="80" rows="5"></textarea>
-        <input type="hidden" name="type" value="agentstats">
-        <button class="btn btn-success">Enviar AgentStats Export</button>
-    </form>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ingress Prime</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">agent-stats.com</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <form method="post">
+                <label for="csv">CSV</label>
+                <textarea class="form-control" name="csv" id="csv" cols="80" rows="5"></textarea>
+                <input type="hidden" name="type" value="prime">
+                <button class="btn btn-success">{{ 'Submit'|trans }}</button>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <form method="post">
+                <label for="csvStats">CSV</label>
+                <textarea class="form-control" name="csv" id="csvStats" cols="80" rows="5"></textarea>
+                <input type="hidden" name="type" value="agentstats">
+                <button class="btn btn-success">{{ 'Submit'|trans }}</button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

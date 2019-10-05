@@ -8,18 +8,13 @@ $('.sendMail').click(function () {
     resultContainer.html('Sending email...')
 
     $.ajax({
-        url: '/user/send-confirmation-mail/' + userId,
-        // data: {
-        //     id: agent
-        // },
-
+        url: '/mailer/send-confirmation-mail/' + userId,
         success: function (result) {
             resultContainer.html(result)
         },
         error: function (result) {
             console.log(result)
             resultContainer.html('error: ' + result.statusText)
-
         }
     })
 })

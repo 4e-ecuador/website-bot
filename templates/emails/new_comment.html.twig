@@ -1,0 +1,24 @@
+A new comment has been posted
+
+<table>
+    <tr>
+        <td>Date</td>
+        <td>{{ comment.datetime|date("d/m/Y") }}</td>
+    </tr>
+    <tr>
+        <td>Commenter</td>
+        <td>{{ comment.commenter.username }}</td>
+    </tr>
+    <tr>
+        <td>Agent</td>
+        <td>{{ comment.agent.nickname }}</td>
+    </tr>
+    <tr>
+        <td>Comment</td>
+        <td>{{ comment.text }}</td>
+    </tr>
+</table>
+
+<a href="{{ path('agent_show', {'id':comment.agent.id, '_fragment': 'comment-' ~ comment.id}) }}">
+    Show
+</a>

@@ -8,6 +8,7 @@ use App\Form\AgentType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\UserRepository;
+use App\Service\MailerHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,7 +55,7 @@ class AgentController extends AbstractController
     public function new(Request $request): Response
     {
         $agent = new Agent();
-        $form  = $this->createForm(AgentType::class, $agent);
+        $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -143,7 +144,8 @@ class AgentController extends AbstractController
     public function addComment(
         Request $request,
         Agent $agent,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MailerHelper $mailerHelper
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
@@ -155,6 +157,7 @@ class AgentController extends AbstractController
             $commenter = $userRepository->findOneBy(
                 ['id' => (int)$request->request->get('commenter')]
             );
+
             if (!$commenter) {
                 return $this->json(['error' => 'invalid commenter']);
             }
@@ -162,7 +165,7 @@ class AgentController extends AbstractController
             $text = $request->request->get('comment');
 
             if (!$text) {
-                return $this->json(['error' => 'no comment...']);
+                return $this->json(['error' => 'no comment...x']);
             }
 
             $comment = new Comment();
@@ -177,6 +180,13 @@ class AgentController extends AbstractController
             $response = [
                 'id' => $comment->getId(),
             ];
+
+            $body = $this->renderView(
+                'emails/new_comment.html.twig',
+                ['comment' => $comment]
+            );
+
+            $mailerHelper->sendNewCommentMail($body);
 
             return $this->json($response);
         }

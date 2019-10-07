@@ -29,6 +29,8 @@ Encore
     .addEntry('map-edit', './assets/js/map-edit.js')
     .addEntry('user-edit', './assets/js/user-edit.js')
     .addEntry('comment', './assets/js/comment.js')
+    .addEntry('stats-leaderboard', './assets/js/stats-leaderboard.js')
+
     .addEntry('paginator', './assets/js/paginator.js')
 
     //.addEntry('page1', './assets/js/page1.js')

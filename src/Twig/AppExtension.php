@@ -43,6 +43,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('cast_to_array', [$this, 'objectFilter']),
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
+            new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
         ];
     }
 
@@ -87,5 +88,10 @@ class AppExtension extends AbstractExtension
         }
 
         return implode(', ', $displayRoles);
+    }
+
+    public function displayUcFirst(string $string): string
+    {
+        return ucfirst($string);
     }
 }

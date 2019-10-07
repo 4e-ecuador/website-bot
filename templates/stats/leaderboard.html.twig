@@ -24,10 +24,18 @@
                     <div class="btn btn-info btn-sm showAll">{{ 'Show all'|trans }}</div>
                     <div style="display: none">
                         {% endif %}
-                        <div>
-                            <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                             {{ agent }} - {{ value|number_format }}
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <span class="badge badge-pill badge-secondary">{{ count }}</span>
+                            </div>
+                            <div class="col-sm">
+                                {{ agent }}
+                            </div>
+                            <div class="col-sm text-right">
+                                {{ value|number_format }}
+                            </div>
                         </div>
+
                         {% set count = count + 1 %}
                         {% endfor %}
                         {% if count > maxCount %}

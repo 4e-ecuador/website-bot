@@ -114,8 +114,10 @@ class StatsController extends AbstractController
             if ($agentEntry) {
                 foreach ($agentEntry->getProperties() as $property) {
                     $methodName = 'get'.$property;
-                    $boardEntries[$property][$agent->getNickname()]
-                                = $agentEntry->$methodName();
+                    if ($agentEntry->$methodName()) {
+                        $boardEntries[$property][$agent->getNickname()] = $agentEntry->$methodName();
+
+                    }
                 }
             }
         }

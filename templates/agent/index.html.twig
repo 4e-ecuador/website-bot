@@ -28,11 +28,12 @@
         <table class="table table-sm table-hover">
             <thead>
             <tr>
-                <th></th>
                 <th>
                     {{ paginator.criteria('nickname', paginatorOptions) }}
                 </th>
-                <th></th>
+                <th>
+                    {{ paginator.select('faction', factions, paginatorOptions) }}
+                </th>
                 <th>
                     {{ paginator.criteria('realName', paginatorOptions) }}
                 </th>
@@ -43,7 +44,6 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
                 <th>
                     {{ paginator.ordering('nickname', paginatorOptions) }}
                 </th>
@@ -56,20 +56,18 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Id</th>
                 <th>Nickname</th>
                 <th>Faccion</th>
                 <th>Nombre Real</th>
                 <th>Comments</th>
                 {% if is_granted('ROLE_EDITOR') %}
-                    <th>Actions</th>
+                    <th></th>
                 {% endif %}
             </tr>
             </thead>
             <tbody>
             {% for agent in agents %}
                 <tr>
-                    <td>{{ agent.id }}</td>
                     <td>
                         <a href="{{ path('agent_show', {'id': agent.id}) }}">{{ agent.nickname }}</a>
                     </td>
@@ -78,7 +76,7 @@
                     <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
                     {% if is_granted('ROLE_EDITOR') %}
                         <td>
-                            <a href="{{ path('agent_edit', {'id': agent.id}) }}">edit</a>
+                            <a href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></span></a>
                         </td>
                     {% endif %}
                 </tr>

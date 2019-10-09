@@ -51,6 +51,14 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
+        if ($options->searchCriteria('faction')) {
+            $query->andWhere('a.faction = :faction')
+                ->setParameter(
+                    'faction',
+                    $options->searchCriteria('faction')
+                );
+        }
+
         $query = $query->getQuery();
 
         return $this->paginate(
@@ -97,8 +105,7 @@ class AgentRepository extends ServiceEntityRepository
             ->andWhere('a.nickname = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function has(Agent $agent): ?Agent
@@ -121,7 +128,6 @@ class AgentRepository extends ServiceEntityRepository
             // ->orderBy('a.id', 'ASC')
             // ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

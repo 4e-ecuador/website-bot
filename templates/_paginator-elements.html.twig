@@ -99,3 +99,13 @@
         </button>
     </div>
 {% endmacro %}
+
+{% macro select(name, options, paginatorOptions) %}
+    <select name="paginatorOptions[criteria][{{ name }}]" class="form-control paginatorSelect">
+        {% for id,option in options %}
+            <option value="{{ id }}" {% if id == paginatorOptions.searchCriteria(name) %}selected="selected"{% endif %}>
+                {{ option }}
+            </option>
+        {% endfor %}
+    </select>
+{% endmacro %}

@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Form\AgentType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
+use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,6 +30,7 @@ class AgentController extends AbstractController
      */
     public function index(
         AgentRepository $agentRepository,
+        FactionRepository $factionRepository,
         Request $request
     ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
@@ -39,11 +41,22 @@ class AgentController extends AbstractController
             ceil(\count($agents) / $paginatorOptions->getLimit())
         );
 
+        $factions = $factionRepository->findAll();
+
+        $factionList = [];
+
+        $factionList[0] = '';
+
+        foreach ($factions as $faction) {
+            $factionList[$faction->getId()] = $faction->getName();
+        }
+
         return $this->render(
             'agent/index.html.twig',
             [
                 'agents'           => $agents,
                 'paginatorOptions' => $paginatorOptions,
+                'factions'         => $factionList,
             ]
         );
     }

@@ -21,6 +21,10 @@ $('.paginatorOrder').on('click', function () {
     setOrdering($(this), $(this).attr('data-order'), $(this).attr('data-order-dir'))
 })
 
+$('.paginatorSelect').on('change', function () {
+    resetAndSubmit($(this))
+})
+
 function goToPage(e, page) {
     let form = e.closest('form')
 

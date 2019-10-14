@@ -60,9 +60,7 @@
                 <th>Faccion</th>
                 <th>Nombre Real</th>
                 <th>Comments</th>
-                {% if is_granted('ROLE_EDITOR') %}
                     <th></th>
-                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -74,11 +72,12 @@
                     <td>{{ agent.faction.name }}</td>
                     <td>{{ agent.realName }}</td>
                     <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
-                    {% if is_granted('ROLE_EDITOR') %}
                         <td>
+                            <a href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
+                            {% if is_granted('ROLE_EDITOR') %}
                             <a href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></span></a>
+                            {% endif %}
                         </td>
-                    {% endif %}
                 </tr>
             {% else %}
                 <tr>

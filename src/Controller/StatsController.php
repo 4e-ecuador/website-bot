@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agent;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
 use App\Service\MedalChecker;
@@ -51,37 +52,47 @@ class StatsController extends AbstractController
         }
 
         $entries = $statRepository->getAgentStats($agent);
-
-        $ap     = 0;
-        $medals = [];
+        $medalGroups = [];
+        $latest = null;
 
         if ($entries) {
             $latest = $entries[0];
-            $ap     = $latest->getAp();
-            $medals = $medalChecker->checkLevels($entries[0]);
-
-            $medalGroups = [];
-
-            $rowCount   = 1;
-            $groupCount = 0;
-
-            foreach ($medals as $medalName => $level) {
-                $medalGroups[$groupCount][$medalName] = $level;
-                $rowCount++;
-
-                if ($rowCount > 6) {
-                    $groupCount++;
-                    $rowCount = 1;
-                }
-            }
+            $medalGroups = $this->getMedalGroups($medalChecker->checkLevels($latest));
         }
 
         return $this->render(
             'stats/mystats.html.twig',
             [
                 'agent'       => $agent,
-                'ap'          => $ap,
-                'medals'      => $medals,
+                'medalGroups' => $medalGroups,
+                'stats'       => $entries,
+                'entries'     => $entries,
+                'latest'      => $latest,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/agent/{id}", name="agent_stats")
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker)
+    {
+        $entries = $statRepository->getAgentStats($agent);
+
+        $latest = null;
+        $medalGroups = [];
+
+        if ($entries) {
+            $latest = $entries[0];
+            $medalGroups = $this->getMedalGroups($medalChecker->checkLevels($entries[0]));
+
+        }
+
+        return $this->render(
+            'stats/mystats.html.twig',
+            [
+                'agent'       => $agent,
                 'medalGroups' => $medalGroups,
                 'stats'       => $entries,
                 'entries'     => $entries,
@@ -192,4 +203,24 @@ class StatsController extends AbstractController
             ]
         );
     }
+
+    private function getMedalGroups($medals, int $medalsPerRow = 6): array
+    {
+        $medalGroups = [];
+        $rowCount   = 1;
+        $groupCount = 0;
+
+        foreach ($medals as $medalName => $level) {
+            $medalGroups[$groupCount][$medalName] = $level;
+            $rowCount++;
+
+            if ($rowCount > $medalsPerRow) {
+                $groupCount++;
+                $rowCount = 1;
+            }
+        }
+
+        return $medalGroups;
+    }
 }
+

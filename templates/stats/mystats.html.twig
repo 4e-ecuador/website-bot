@@ -1,26 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Stats{% endblock %}
+{% block title %}{{ 'Statistics'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>My Stats</h1>
+    <h1>{{ 'Statistics'|trans }}</h1>
     Agent <code>{{ agent.nickname }}</code>
-    <div>Latest Update: {{ latest.datetime|date('Y-m-d') }}</div>
     {% if entries %}
-        <h4>AP: {{ ap|number_format }}</h4>
+        <div>Latest Update: {{ latest.datetime|date('Y-m-d') }}</div>
+        <h4>AP: {{ latest.ap|number_format }}</h4>
 
-        <h3>Medals</h3>
+        <h3>{{ 'Medals'|trans }}</h3>
 
-        <table>
+        <table class="table-bordered">
             {% for medalGroup in medalGroups %}
             <tr>
                 {% for name, level in medalGroup %}
-                    <td>
-                        {{ name }}
+                    <td style="width: 100px; text-align: center" title="{{ name ~ ': ' ~ level|medalLevel }}">
+                        {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}
+                        <code>{{ name }}-{{ level }}</code>
                         <br>
-                        {{ level|medalLevel }}
-                        <br>
-                        {{ latest[name] }}
+                        {{ latest[name]|number_format }}
                     </td>
                 {% endfor %}
             </tr>

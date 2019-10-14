@@ -13,18 +13,18 @@
 
         <table class="table-bordered">
             {% for medalGroup in medalGroups %}
-            <tr>
-                {% for name, level in medalGroup %}
-                    <td style="width: 100px; text-align: center" title="{{ name ~ ': ' ~ level|medalLevel }}">
-                        {% if level %}
-                        {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}
-                        {% endif %}
-                        <code>{{ name }}-{{ level }}</code>
-                        <br>
-                        {{ latest[name]|number_format }}
-                    </td>
-                {% endfor %}
-            </tr>
+                <tr>
+                    {% for name, level in medalGroup %}
+                        <td style="width: 100px; text-align: center" title="{{ name ~ ': ' ~ level|medalLevel }}">
+                            {% if level %}
+                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}
+                            {% endif %}
+                            <code>{{ name }}-{{ level }}</code>
+                            <br>
+                            {{ latest[name]|number_format }}
+                        </td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </table>
 

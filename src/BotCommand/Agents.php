@@ -38,7 +38,7 @@ class Agents extends AbstractCommand implements PublicCommandInterface
      */
     public function execute(BotApi $api, Update $update)
     {
-        $agents   = $this->repository->findAll();
+        $agents = $this->repository->findAll();
         $response = [];
 
         if (preg_match(

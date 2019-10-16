@@ -91,7 +91,7 @@ class PaginatorOptions
     public function setOrderDir(string $orderDir): PaginatorOptions
     {
         $dirs = ['ASC', 'DESC'];
-        $dir  = strtoupper($orderDir);
+        $dir = strtoupper($orderDir);
 
         if (false === \in_array($dir, $dirs, true)) {
             throw new \UnexpectedValueException(

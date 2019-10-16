@@ -37,7 +37,7 @@ class AgentStatController extends AbstractController
         return $this->render(
             'agent_stat/index.html.twig',
             [
-                'agent_stats' => $stats,
+                'agent_stats'      => $stats,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );
@@ -50,7 +50,7 @@ class AgentStatController extends AbstractController
     public function new(Request $request): Response
     {
         $agentStat = new AgentStat();
-        $form      = $this->createForm(AgentStatType::class, $agentStat);
+        $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

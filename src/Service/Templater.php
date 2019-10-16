@@ -19,7 +19,7 @@ class Templater
 
     public function __construct(string $rootDir, Filesystem $filesystem)
     {
-        $this->rootDir    = $rootDir;
+        $this->rootDir = $rootDir;
         $this->filesystem = $filesystem;
     }
 

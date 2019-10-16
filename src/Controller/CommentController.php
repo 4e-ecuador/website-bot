@@ -39,7 +39,7 @@ class CommentController extends AbstractController
     public function new(Request $request): Response
     {
         $comment = new Comment();
-        $form    = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -171,9 +171,9 @@ class CommentController extends AbstractController
         Request $request,
         AgentRepository $agentRepository
     ) {
-        $html    = '';
+        $html = '';
         $agentId = $request->request->get('agent_id');
-        $agent   = $agentRepository->findOneBy(['id' => $agentId]);
+        $agent = $agentRepository->findOneBy(['id' => $agentId]);
 
         foreach ($agent->getComments() as $comment) {
             $html .= $this->renderView(

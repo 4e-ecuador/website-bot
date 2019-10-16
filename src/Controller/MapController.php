@@ -42,9 +42,9 @@ class MapController extends AbstractController
             $a = [];
 
             $a['name'] = $agent->getNickname();
-            $a['lat']  = $agent->getLat();
-            $a['lng']  = $agent->getLon();
-            $a['id']   = $agent->getId();
+            $a['lat'] = $agent->getLat();
+            $a['lng'] = $agent->getLon();
+            $a['id'] = $agent->getId();
 
             $array[] = $a;
         }

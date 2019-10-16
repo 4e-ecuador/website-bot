@@ -42,7 +42,7 @@ class TelegramBotHelper
         ];
 
         $ip_dec = (float)sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
-        $ok     = false;
+        $ok = false;
 
         foreach ($telegram_ip_ranges as $telegram_ip_range) {
             if (!$ok) {

@@ -131,6 +131,4 @@ class AgentStatRepository extends ServiceEntityRepository
             $options->getLimit()
         );
     }
-
-
 }

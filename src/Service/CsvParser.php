@@ -31,7 +31,7 @@ class CsvParser
 
     private function parsePrimeCsv(string $csvString): array
     {
-        $csv      = [];
+        $csv = [];
         $headVars = [];
 
         $lines = explode("\n", trim($csvString));
@@ -45,11 +45,18 @@ class CsvParser
 
             $vars = explode("\t", $line);
 
-            if (false === in_array($vars[0], ['GESAMT', 'SIEMPRE', 'ALL TIME'], true)) {
+            if (false === in_array(
+                    $vars[0], [
+                    'GESAMT',
+                    'SIEMPRE',
+                    'ALL TIME',
+                ], true
+                )
+            ) {
                 throw new StatsNotAllException('Prime stats not ALL');
             }
 
-            $c        = [];
+            $c = [];
             $dateTime = $vars[3].' '.$vars[4];
 
             foreach ($headVars as $i1 => $headVar) {
@@ -85,7 +92,7 @@ class CsvParser
 
             $vars = explode("\t", $line);
 
-            $c        = [];
+            $c = [];
             $dateTime = $vars[0];
 
             foreach ($headVars as $i1 => $headVar) {

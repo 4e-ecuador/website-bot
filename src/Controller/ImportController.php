@@ -32,7 +32,7 @@ class ImportController extends AbstractController
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data  = $form->getData();
+            $data = $form->getData();
             $count = 0;
 
             if ($data['agentsJSON']) {
@@ -97,7 +97,7 @@ class ImportController extends AbstractController
         FactionRepository $factionRepository,
         AgentRepository $agentRepository
     ) {
-        $jsonData    = json_decode($agentsJSON);
+        $jsonData = json_decode($agentsJSON);
         $importCount = 0;
 
         if (!$jsonData) {
@@ -143,12 +143,12 @@ class ImportController extends AbstractController
         AgentStatRepository $agentStatRepository,
         Security $security
     ): Response {
-        $csv          = $request->get('csv');
-        $importType   = $request->get('type');
-        $medalUps     = [];
-        $currents     = [];
+        $csv = $request->get('csv');
+        $importType = $request->get('type');
+        $medalUps = [];
+        $currents = [];
         $currentEntry = null;
-        $diff         = [];
+        $diff = [];
 
         $user = $security->getUser();
 
@@ -207,7 +207,7 @@ class ImportController extends AbstractController
                     $previousEntry,
                     $currentEntry
                 );
-                $diff     = $currentEntry->getDiff($previousEntry);
+                $diff = $currentEntry->getDiff($previousEntry);
             } else {
                 // First import
                 $currents = $medalChecker->checkLevels($currentEntry);

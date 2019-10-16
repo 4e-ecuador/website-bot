@@ -233,7 +233,7 @@ class MedalChecker
         $upgrades = [];
 
         $previousLevels = $this->checkLevels($previousEntry);
-        $currentLevels  = $this->checkLevels($currentEntry);
+        $currentLevels = $this->checkLevels($currentEntry);
 
         foreach ($currentLevels as $name => $currentVal) {
             if (false === isset($previousLevels[$name])

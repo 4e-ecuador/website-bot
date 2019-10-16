@@ -47,9 +47,9 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         TelegramBotHelper $telegramBotHelper
     ) {
         $this->setLogger($logger);
-        $this->botApi            = $botApi;
-        $this->agentRepository   = $agentRepository;
-        $this->templater         = $templater;
+        $this->botApi = $botApi;
+        $this->agentRepository = $agentRepository;
+        $this->templater = $templater;
         $this->telegramBotHelper = $telegramBotHelper;
     }
 
@@ -163,8 +163,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         }
 
         if (!$this->isAllowedChat) {
-            $text
-                     = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: "
+            $text = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: "
                 .$inlineQuery->getFrom()->getId();
             $contact = new Contact(
                 1,

@@ -37,7 +37,7 @@ class UserController extends AbstractController
         return $this->render(
             'user/index.html.twig',
             [
-                'users' => $users,
+                'users'            => $users,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );

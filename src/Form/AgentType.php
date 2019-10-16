@@ -16,11 +16,13 @@ class AgentType extends AbstractType
     {
         $builder
             ->add('nickname')
-            ->add('real_name',
+            ->add(
+                'real_name',
                 null,
                 [
-                    'label' => 'Real Name'
-                ])
+                    'label' => 'Real Name',
+                ]
+            )
             ->add(
                 'faction',
                 EntityType::class,
@@ -55,8 +57,7 @@ class AgentType extends AbstractType
                     ],
                 ]
             )
-            ->add('hasMap', null, ['label' => 'Display on map'])
-        ;
+            ->add('hasMap', null, ['label' => 'Display on map']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

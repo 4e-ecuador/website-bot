@@ -56,7 +56,7 @@ class AppExtension extends AbstractExtension
      */
     public function objectFilter($classObject): array
     {
-        $array    = (array)$classObject;
+        $array = (array)$classObject;
         $response = [];
 
         $className = \get_class($classObject);

@@ -87,7 +87,6 @@ class StatsController extends AbstractController
         if ($entries) {
             $latest = $entries[0];
             $medalGroups = $this->getMedalGroups($medalChecker->checkLevels($entries[0]));
-
         }
 
         return $this->render(
@@ -158,7 +157,6 @@ class StatsController extends AbstractController
                     $methodName = 'get'.$property;
                     if ($agentEntry->$methodName()) {
                         $boardEntries[$property][$agent->getNickname()] = $agentEntry->$methodName();
-
                     }
                 }
             }
@@ -185,13 +183,13 @@ class StatsController extends AbstractController
         AgentStatRepository $statRepository,
         MedalChecker $medalChecker
     ): Response {
-        $startDate    = $request->get('start_date');
-        $endDate      = $request->get('end_date');
-        $stats        = [];
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        $stats = [];
         $medalsGained = [];
 
         if ($startDate && $endDate) {
-            $entries  = $statRepository->findByDate($startDate, $endDate);
+            $entries = $statRepository->findByDate($startDate, $endDate);
             $previous = [];
 
             foreach ($entries as $entry) {
@@ -206,7 +204,7 @@ class StatsController extends AbstractController
                         ) : $medalChecker->checkLevels($entry);
                 }
 
-                $levels     = $medalChecker->checkLevels($entry);
+                $levels = $medalChecker->checkLevels($entry);
                 $dateString = $entry->getDatetime()->format('Y-m-d');
 
                 foreach ($levels as $name => $level) {
@@ -215,10 +213,10 @@ class StatsController extends AbstractController
                     }
                     if (false === isset($previous[$agentName][$name])) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
-                        $previous[$name]                              = $level;
+                        $previous[$name] = $level;
                     } elseif ($previous[$agentName][$name] < $level) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
-                        $previous[$agentName][$name]                  = $level;
+                        $previous[$agentName][$name] = $level;
                     }
                 }
             }
@@ -238,7 +236,7 @@ class StatsController extends AbstractController
     private function getMedalGroups($medals, int $medalsPerRow = 6): array
     {
         $medalGroups = [];
-        $rowCount   = 1;
+        $rowCount = 1;
         $groupCount = 0;
 
         foreach ($medals as $medalName => $level) {

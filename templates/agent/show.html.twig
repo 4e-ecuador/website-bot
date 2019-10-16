@@ -16,6 +16,8 @@
 {% endblock %}
 
 {% block body %}
+    <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
+
     <h1>{{ 'Agent'|trans }}</h1>
 
     <div class="btn-group" role="group" aria-label="Basic example">
@@ -29,12 +31,10 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Id</th>
-            <td id="js-agent-id">{{ agent.id }}</td>
-        </tr>
-        <tr>
             <th>{{ 'Nickname'|trans }}</th>
-            <td>{{ agent.nickname }}</td>
+            <td class="alert-{% if 'RES' == agent.faction.name %}info{% else %}success{% endif %}">
+                <code>{{ agent.nickname }}</code>
+            </td>
         </tr>
         <tr>
             <th>{{ 'Faction'|trans }}</th>
@@ -47,9 +47,9 @@
         <tr>
             <th>{{ 'Position'|trans }}</th>
             <td>
-                <div class="js-agent-coords" data-lat="{{ agent.lat }}"  data-lon="{{ agent.lon }}">
+                <span class="js-agent-coords" data-lat="{{ agent.lat }}" data-lon="{{ agent.lon }}"></span>
                 {% if agent.lat and agent.lon %}
-                {{ agent.lat }}, {{ agent.lon }}
+{#                {{ agent.lat }}, {{ agent.lon }}#}
                 <div id="map"></div>
                     {% else %}
                     {{ 'Unknown'|trans }}

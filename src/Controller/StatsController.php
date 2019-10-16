@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Service\MedalChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,6 +100,36 @@ class StatsController extends AbstractController
                 'latest'      => $latest,
             ]
         );
+    }
+
+    /**
+     * @Route("/agent/data/{id}", name="agent_stats_data")
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function agentStatsJson(Agent $agent, AgentStatRepository $statRepository)
+    {
+        $data = new \stdClass();
+
+        $data->ap = [];
+        $data->hacker = [];
+
+        $entries = $statRepository->getAgentStats($agent, 'ASC');
+
+        $latest = null;
+
+        if ($entries) {
+            foreach ($entries as $entry) {
+                $date = $entry->getDatetime()->format('Y-m-d');
+                $data->ap[] = [$date, $entry->getAp()];
+                $data->hacker[] = [$date, $entry->getHacker()];
+            }
+        }
+
+        return new JsonResponse($data);//, $status, $headers);
+
+        $data = json_encode($data);
+
+        return $this->json($data);
     }
 
     /**

@@ -30,6 +30,7 @@ Encore
     .addEntry('user-edit', './assets/js/user-edit.js')
     .addEntry('comment', './assets/js/comment.js')
     .addEntry('stats-leaderboard', './assets/js/stats-leaderboard.js')
+    .addEntry('stats-agent-stats', './assets/js/stats-agent-stats.js')
 
     .addEntry('paginator', './assets/js/paginator.js')
 

@@ -2,11 +2,19 @@
 
 {% block title %}{{ 'Statistics'|trans }}{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('stats-agent-stats') }}
+{% endblock %}
+
 {% block body %}
+    <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
     <h1>{{ 'Statistics'|trans }}</h1>
-    Agent <code>{{ agent.nickname }}</code>
+    {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
     {% if entries %}
-        <div>Latest Update: {{ latest.datetime|date('Y-m-d') }}</div>
+        <div>
+            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
+        </div>
         <h4>AP: {{ latest.ap|number_format }}</h4>
 
         <h3>{{ 'Medals'|trans }}</h3>
@@ -28,30 +36,10 @@
             {% endfor %}
         </table>
 
-        <h2>Stats</h2>
-        Entries: {{ entries|length }}
-
-        <h4>Aqui vienen los graficos...</h4>
-
-        <table class="table table-sm">
-            <tr>
-                <th>Date</th>
-                <th>AP</th>
-                <th>hacker</th>
-                <th>...</th>
-            </tr>
-            {% for entry in entries %}
-                <tr>
-                    <td>{{ entry.datetime|date('Y-m-d') }}</td>
-                    <td>{{ entry.ap }}</td>
-                    <td>{{ entry.hacker }}</td>
-                    <td>...</td>
-                </tr>
-            {% endfor %}
-
-        </table>
+        <div id="container" style="width:100%; height:400px;"></div>
 
     {% else %}
-        <div>No stats so far :( - Visit <a href="{{ path('stat_import') }}">Import</a></div>
+        <div>There are no statistics for this agent.</div>
+        {#        <div>There are no statistics for this agent.Visit <a href="{{ path('stat_import') }}">Import</a></div>#}
     {% endif %}
 {% endblock %}

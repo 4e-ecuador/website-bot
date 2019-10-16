@@ -69,12 +69,12 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function getAgentStats(Agent $agent): iterable
+    public function getAgentStats(Agent $agent, string $order = 'DESC'): iterable
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
-            ->orderBy('a.datetime', 'DESC')
+            ->orderBy('a.datetime', $order)
             ->getQuery()
             ->getResult();
     }

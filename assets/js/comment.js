@@ -71,7 +71,7 @@ frm.submit(function (e) {
     })
 })
 
-let agentId = $('#js-agent-id').html()
+let agentId = $('#js-agent-id').data('js-agent-id')
 
 if (agentId) {
     getComments(agentId)

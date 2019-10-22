@@ -45,4 +45,4 @@ Stats: Estadisticas
 account.map.added.success: __account.map.added.success
 account.map.added.warning: __account.map.added.warning
 'Meeting point': 'Punto de encuentro'
-'Agent {agent_name}': 'Agente {agent_name}'
+'Your profile has been updated.': 'Su perfil ha sido actualizado.'

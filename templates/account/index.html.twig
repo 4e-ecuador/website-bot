@@ -14,9 +14,14 @@
 
 {% block body %}
     <h3>{{ 'My Profile'|trans }}</h3>
+    {% if message %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endif %}
     <div class="card">
         <div class="card-header">
-            {{ 'Agent {agent_name}'|trans({'{agent_name}': '<code>'~agent.nickname~'</code>' })|raw }}
+            {{ 'Agent: {agent_name}'|trans({'{agent_name}': '<code>'~agent.nickname~'</code>' })|raw }}
 
         </div>
 

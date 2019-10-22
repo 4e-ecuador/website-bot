@@ -1,7 +1,6 @@
 Welcome!: Bienvenidos!
 'Medals by date': 'Medallas por fecha'
 Agents: Agentes
-Stats: Estadisticas
 Import: Importar
 'My Stats': 'Mis Estadisticas'
 Leaderboard: Leaderboard
@@ -39,3 +38,11 @@ email.confirmation.subject: 'Bienvenid@ a 4E'
 'Show all': 'Mostrar todos'
 Statistics: Estadisticas
 Medals: Medallas
+'Update profile': 'Actualizar perfil'
+'My Profile': 'Mi Perfil'
+'Import Stats': 'Importar Estadisticas'
+Stats: Estadisticas
+account.map.added.success: __account.map.added.success
+account.map.added.warning: __account.map.added.warning
+'Meeting point': 'Punto de encuentro'
+'Agent {agent_name}': 'Agente {agent_name}'

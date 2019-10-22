@@ -16,15 +16,12 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
                            role="button">{{ 'Stats'|trans }}</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href={{ path('stat_import') }}>{{ 'Import'|trans }}</a>
-                            <a class="dropdown-item" href={{ path('my_stats') }}>{{ 'My Stats'|trans }}</a>
                             <a class="dropdown-item" href={{ path('stats_leaderboard') }}>{{ 'Leaderboard'|trans }}</a>
                             <a class="dropdown-item" href={{ path('stats_by_date') }}>{{ 'Medals by date'|trans }}</a>
                         </div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href={{ path('agent_index') }}>{{ 'Agents'|trans }}</a>
                     </li>
-
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -37,7 +34,6 @@
                             </div>
                         </li>
                     {% endif %}
-
                 </ul>
             </div>
         </div>
@@ -47,9 +43,17 @@
     <div class="ml-auto">
         <ul class="navbar-nav ml-auto">
             {% if is_granted('ROLE_USER') %}
-                <li class="nav-item">
-                    <a style="color: #fff;" class="nav-link"
-                       href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>
+                <li class="nav-item dropdown">
+                    <a style="color: #fff;" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                       role="button">
+                        {{ app.user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href={{ path('my_stats') }}>{{ 'My Stats'|trans }}</a>
+                        <a class="dropdown-item" href={{ path('stat_import') }}>{{ 'Import Stats'|trans }}</a>
+                        <a class="dropdown-item" href={{ path('app_account') }}>{{ 'My Profile'|trans }}</a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>
+                    </div>
                 </li>
             {% else %}
                 <li class="nav-item">

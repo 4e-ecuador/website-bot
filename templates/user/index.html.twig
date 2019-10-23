@@ -10,69 +10,69 @@
 {% endblock %}
 
 {% block body %}
-<h1>User index</h1>
+    <h1>User index</h1>
 
-<form method="post">
+    <form method="post">
 
-    <div class="row">
-        <div class="col-xs-2">{{ paginator.listLimit(paginatorOptions) }}</div>
-        <div class="col-xs-10">{{ paginator.pagination(paginatorOptions) }}</div>
-    </div>
+        <div class="row">
+            <div class="col-xs-2">{{ paginator.listLimit(paginatorOptions) }}</div>
+            <div class="col-xs-10">{{ paginator.pagination(paginatorOptions) }}</div>
+        </div>
 
-    <table class="table table-sm table-hover">
-        <thead>
-        <tr>
-            <th></th>
-            <th>{{ paginator.criteria('username', paginatorOptions) }}</th>
-            <th></th>
-            <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
-            <th>
-                {{ paginator.ordering('username', paginatorOptions) }}
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Agent</th>
-            <th>e-mail</th>
-            <th>Roles</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
+        <table class="table table-sm table-hover">
+            <thead>
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.agent?user.agent.nickname:'N/A' }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles|displayRoles }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
+                <th></th>
+                <th>{{ paginator.criteria('username', paginatorOptions) }}</th>
+                <th></th>
+                <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
+                <th></th>
+                <th></th>
             </tr>
-        {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
+                <th>
+                    {{ paginator.ordering('username', paginatorOptions) }}
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    {{ paginator.formFields(paginatorOptions) }}
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Agent</th>
+                <th>e-mail</th>
+                <th>Roles</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.agent?user.agent.nickname:'N/A' }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles|displayRoles }}</td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                        <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-</form>
+        {{ paginator.formFields(paginatorOptions) }}
 
-    <a href="{{ path('user_new') }}">Create new</a>
-    {% endblock %}
+    </form>
+
+    {#    <a href="{{ path('user_new') }}">Create new</a>#}
+{% endblock %}

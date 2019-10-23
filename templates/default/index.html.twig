@@ -3,64 +3,38 @@
 {% block title %}4E{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
+    <h1>{{ 'Welcome!'|trans }} ✅</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        Hello admin <code>{{ app.user.username }}</code>
+    {% elseif is_granted('ROLE_AGENT') %}
+        Bienvenido agente <code>{{ app.user.username }}</code>
+    {% elseif app.user %}
+        <div class="alert alert-danger">
+            Tu cuenta no ha sido activada aun!<br>
+            Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail
+            <code>{{ app.user.email }}</code> para la activacion.<br>
+            In Jarvis we trust!
+        </div>
+    {% endif %}
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-    <div class="example-wrapper">
-        <h1>{{'Welcome!'|trans}} ✅</h1>
-        {% if is_granted('ROLE_ADMIN') %}
-            Hello admin <code>{{ app.user.username }}</code>
-        {% elseif is_granted('ROLE_AGENT') %}
-            Bienvenido agente <code>{{ app.user.username }}</code>
-        {% elseif app.user %}
-            <div class="alert alert-danger">
-                Tu cuenta no ha sido activada aun!<br>
-                Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail <code>{{ app.user.email }}</code> para la activacion.<br>
-                In Jarvis we trust!
-            </div>
-        {% endif %}
-        <p>
-            {{ 'agents.in.database'|trans({'count': agents|length}) }}
-        </p>
+    <p>{{ 'agents.in.database'|trans({'count': agents|length}) }}</p>
 
-        {% if is_granted('ROLE_AGENT') %}
-
+    {% if is_granted('ROLE_AGENT') %}
         <h2>Ultimos comentarios</h2>
-
-        <table class="table table-condensed">
-            <tr>
-                <th>Tipo</th>
-                <th>Fecha</th>
-                <th>Agente</th>
-                <th>Comenter</th>
-                <th>Comentario</th>
-            </tr>
-            {% for comment in latestComments %}
-                <tr>
-                    <td></td>
-                    <td>
-                        <a href="{{ path('agent_show', {'id':comment.agent.id, '_fragment': 'comment-' ~ comment.id}) }}">
-                            {{ comment.datetime|date("d/m/Y") }}
-                        </a>
-                    </td>
-                    <td>
+        {% for comment in latestComments %}
+            <div class="card">
+                <div class="card-header">
+                    {{ comment.datetime|date("d-m-Y") }} {{ comment.commenter.username }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
                         <a href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>
-                    </td>
-                    <td>{{ comment.commenter.username }}</td>
-                    <td>{{ comment.text }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-    </div>
+                    </h5>
+                    <p class="card-text">
+                        {{ comment.text }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Agent{% endblock %}
+{% block title %}{{ 'Edit Agent'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,13 +13,13 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Editar Agente</h1>
+    <h1>{{ 'Edit Agent'|trans }}</h1>
 
     {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
     <div class="btn-group" role="group">
 
-    <a class="btn btn-secondary" href="{{ path('agent_index') }}">Regresar</a>
+    <a class="btn btn-secondary" href="{{ path('agent_index') }}">{{ 'Back to list'|trans }}</a>
 
     {{ include('agent/_delete_form.html.twig') }}
 </div>

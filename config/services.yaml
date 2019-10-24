@@ -8,6 +8,8 @@ parameters:
     telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
     app.email: '4e.infos@gmail.com'
     app.email.name: '4E Enlightened Elite Echelon of Ecuador'
+    app.default_lat: -1.262326
+    app.default_lon: -79.09357
 
 services:
     # default configuration for services in *this* file

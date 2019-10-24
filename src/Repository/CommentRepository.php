@@ -47,6 +47,10 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Comment[]
+     */
     public function findLatestTen()
     {
         return $this->createQueryBuilder('c')

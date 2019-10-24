@@ -9,6 +9,7 @@
     "ext-json": "*",
     "boshurik/telegram-bot-bundle": "^3.0",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
+    "knplabs/knp-markdown-bundle": "^1.7",
     "knpuniversity/oauth2-client-bundle": "^1.28",
     "league/oauth2-google": "^3.0",
     "sensio/framework-extra-bundle": "^5.1",

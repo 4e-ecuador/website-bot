@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\AgentRepository;
 use App\Repository\CommentRepository;
+use App\Service\MarkdownHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -64,12 +65,14 @@ class CommentController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     public function getSingle(
-        Request $request,
-        CommentRepository $commentRepository
+        Request $request, CommentRepository $commentRepository, MarkdownHelper $markdownHelper
     ) {
+        return;
         $commentId = $request->request->get('comment_id');
 
         $comment = $commentRepository->findOneBy(['id' => $commentId]);
+
+        $comment->setText('aaa');//$markdownHelper->parse($comment->getText()));
 
         $html = $this->renderView(
             'comment/commentBox.html.twig',
@@ -169,13 +172,15 @@ class CommentController extends AbstractController
      */
     public function getAgentCommentIds(
         Request $request,
-        AgentRepository $agentRepository
+        AgentRepository $agentRepository, MarkdownHelper $markdownHelper
     ) {
         $html = '';
         $agentId = $request->request->get('agent_id');
         $agent = $agentRepository->findOneBy(['id' => $agentId]);
 
         foreach ($agent->getComments() as $comment) {
+            $comment->setText($markdownHelper->parse($comment->getText()));
+
             $html .= $this->renderView(
                 'comment/commentBox.html.twig',
                 [

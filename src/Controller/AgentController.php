@@ -68,6 +68,10 @@ class AgentController extends AbstractController
     public function new(Request $request): Response
     {
         $agent = new Agent();
+
+        $agent->setLat($this->getParameter('app.default_lat'));
+        $agent->setLon($this->getParameter('app.default_lon'));
+
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
 

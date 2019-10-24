@@ -31,7 +31,7 @@
                         <a href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>
                     </h5>
                     <p class="card-text">
-                        {{ comment.text }}
+                        {{ comment.text|raw }}
                     </p>
                 </div>
             </div>

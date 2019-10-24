@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Help index'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Help index'|trans }}</h1>
+
+    {% if is_granted('ROLE_EDITOR') %}
+        <a class="btn btn-success" href="{{ path('help_new') }}">{{ 'Create new'|trans }}</a>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'Title'|trans }}</th>
+            {% if is_granted('ROLE_EDITOR') %}
+                <th>{{ 'Actions'|trans }}</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for help in helps %}
+            <tr>
+                <td>
+                    <a href="{{ path('help_show2', {'slug': help.slug}) }}">{{ help.title }}</a>
+                </td>
+                {% if is_granted('ROLE_EDITOR') %}
+                    <td>
+                        <a href="{{ path('help_edit', {'id': help.id}) }}">{{ 'Edit'|trans }}</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">{{ 'No records found'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

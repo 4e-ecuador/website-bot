@@ -15,6 +15,15 @@ class ControllerAccessTest extends WebTestCase
         'app_login'             => [
             'expected' => 200,
         ],
+        'agent-map'             => [
+            'expected' => 200,
+        ],
+        'map-json'             => [
+            'expected' => 200,
+        ],
+        'agent-info'             => [
+            'expected' => 200,
+        ],
         'agent_add_comment'     => [
             'method' => 'POST',
         ],
@@ -54,6 +63,26 @@ class ControllerAccessTest extends WebTestCase
                 'id' => 4,
             ],
         ],
+        'help_show'           => [
+            'params' => [
+                'id' => 2,
+            ],
+        ],
+        'help_edit'           => [
+            'params' => [
+                'id' => 2,
+            ],
+        ],
+        'help_delete'           => [
+            'params' => [
+                'id' => 2,
+            ],
+        ],
+        'user_send_confirmation_mail'           => [
+            'params' => [
+                'id' => 4,
+            ],
+        ],
     ];
 
     /**
@@ -74,7 +103,7 @@ class ControllerAccessTest extends WebTestCase
         return $this->routeLoader->load($routerClass);
     }
 
-    public function testShowPost()
+    public function testShowPage()
     {
         $controllers = [
             'AccountController',
@@ -83,7 +112,10 @@ class ControllerAccessTest extends WebTestCase
             'CommentController',
             'DefaultController',
 //            'GoogleController',
+            'HelpController',
             'ImportController',
+            'MailController',
+            'MapController',
             'SecurityController',
             'StatsController',
             'UserController',
@@ -95,6 +127,7 @@ class ControllerAccessTest extends WebTestCase
             $client = static::createClient();
 
             foreach ($routes as $routeName => $route) {
+                // echo $routeName.PHP_EOL;
 
                 $method          = 'GET';
                 $defaultId       = 8;

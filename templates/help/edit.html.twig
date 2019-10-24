@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Help{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('editor') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('editor') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Help</h1>
+
+    {{ include('help/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="btn-group">
+
+        <a class="btn btn-secondary" href="{{ path('help_index') }}">back to list</a>
+
+        {{ include('help/_delete_form.html.twig') }}
+    </div>
+
+{% endblock %}

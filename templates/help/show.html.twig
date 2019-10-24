@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Help'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Help'|trans }}</h1>
+
+    <div class="btn-group">
+        <a class="btn btn-secondary" href="{{ path('help_index') }}">{{ 'Back to list'|trans }}</a>
+        {% if is_granted('ROLE_EDITOR') %}
+
+            <a class="btn btn-info" href="{{ path('help_edit', {'id': help.id}) }}">{{ 'Edit'|trans }}</a>
+
+            {{ include('help/_delete_form.html.twig') }}
+        {% endif %}
+
+    </div>
+
+    <h2>{{ help.title }}</h2>
+
+    {{ help.text|md2html }}
+{% endblock %}

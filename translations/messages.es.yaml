@@ -46,3 +46,12 @@ account.map.added.success: __account.map.added.success
 account.map.added.warning: __account.map.added.warning
 'Meeting point': 'Punto de encuentro'
 'Your profile has been updated.': 'Su perfil ha sido actualizado.'
+Help: Ayuda
+'Help index': 'Lista de Ayuda'
+Title: Titulo
+Actions: Acciones
+Edit: Editar
+'No records found': 'No se encontraron entradas'
+label.content: Contenido
+label.write: Escribir
+label.preview: Preview

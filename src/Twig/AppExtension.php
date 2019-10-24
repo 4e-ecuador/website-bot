@@ -8,6 +8,7 @@
 
 namespace App\Twig;
 
+use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -19,9 +20,9 @@ class AppExtension extends AbstractExtension
 {
     public $roleFilters
         = [
-            'ROLE_AGENT'  => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN'  => 'Admin',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
     /**
@@ -29,9 +30,15 @@ class AppExtension extends AbstractExtension
      */
     private $medalChecker;
 
-    public function __construct(MedalChecker $medalChecker)
+    /**
+     * @var MarkdownHelper
+     */
+    private $markdownHelper;
+
+    public function __construct(MedalChecker $medalChecker, MarkdownHelper $markdownHelper)
     {
         $this->medalChecker = $medalChecker;
+        $this->markdownHelper = $markdownHelper;
     }
 
     /**
@@ -44,6 +51,12 @@ class AppExtension extends AbstractExtension
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
+            new TwigFilter(
+                'md2html', [
+                $this,
+                'markdownToHtml',
+            ], ['is_safe' => ['html']]
+            ),
         ];
     }
 
@@ -93,5 +106,13 @@ class AppExtension extends AbstractExtension
     public function displayUcFirst(string $string): string
     {
         return ucfirst($string);
+    }
+
+    /**
+     * Transforms the given Markdown content into HTML content.
+     */
+    public function markdownToHtml(string $content): string
+    {
+        return $this->markdownHelper->parse($content);
     }
 }

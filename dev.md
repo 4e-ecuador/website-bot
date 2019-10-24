@@ -31,9 +31,12 @@ add nodejs
     heroku pg:psql --app APP_NAME < dump.sql
 
 ### Backup
-    Heroku pg:backups:capture
-    Heroku pg:backups:download
+    heroku pg:backups:capture
+    heroku pg:backups:download
     pg_restore latest.dump > latest.sql
+    
+### Migrations
+     heroku run php bin/console doctrine:migrations:migrate --remote heroku-prod
 
 ## Google OAuth
 

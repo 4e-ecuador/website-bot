@@ -49,11 +49,10 @@
             <td>
                 <span class="js-agent-coords" data-lat="{{ agent.lat }}" data-lon="{{ agent.lon }}"></span>
                 {% if agent.lat and agent.lon %}
-{#                {{ agent.lat }}, {{ agent.lon }}#}
-                <div id="map"></div>
-                    {% else %}
+                    <div id="map"></div>
+                {% else %}
                     {{ 'Unknown'|trans }}
-                    {% endif %}
+                {% endif %}
             </td>
         </tr>
         <tr>

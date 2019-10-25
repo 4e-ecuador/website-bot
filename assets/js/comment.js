@@ -6,8 +6,24 @@ const commentStatus = $('#commentStatus')
 
 const frm = $('#commentForm')
 
-function getComments(agentId) {
+const lookupUrl = $('#js-data').data('lookup-url')
 
+import Tribute from 'tributejs'
+import 'tributejs/dist/tribute.css'
+
+require('../css/editor.css')
+
+const tribute = new Tribute({
+    values: function (text, cb) {
+        remoteSearch(text, users => cb(users))
+    },
+    lookup: 'name',
+    fillAttr: 'name'
+})
+
+tribute.attach(document.querySelectorAll('.mentionable'))
+
+function getComments(agentId) {
     commentStatus.html('Fetching comments... ')
     commentArea.html('')
 
@@ -40,7 +56,6 @@ function getComment(id) {
 
 function clearForm() {
     $('#comment_text').val('')
-
 }
 
 frm.submit(function (e) {
@@ -75,4 +90,20 @@ let agentId = $('#js-agent-id').data('js-agent-id')
 
 if (agentId) {
     getComments(agentId)
+}
+
+function remoteSearch(text, cb) {
+    let xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText)
+                cb(data)
+            } else if (xhr.status === 403) {
+                cb([])
+            }
+        }
+    }
+    xhr.open('POST', lookupUrl + '?query=' + text, true)
+    xhr.send()
 }

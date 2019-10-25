@@ -1,4 +1,10 @@
-<span id="js-preview-url" data-url="{{ path('help_preview') }}"></span>
+<span id="js-data"
+      data-preview-url="{{ path('markdown_preview') }}"
+      data-preview-field="#previewId"
+      data-editor-field="#help_text"
+>
+    </span>
+
 {{ form_start(form) }}
     {{ form_widget(form) }}
 <button class="btn btn-success">{{ button_label|default('Save'|trans) }}</button>

@@ -210,4 +210,27 @@ class AgentController extends AbstractController
 
         return $this->json(['error' => 'error']);
     }
+
+    /**
+     * @Route("/lookup", name="agent_lookup", methods={"POST"})
+     * @IsGranted("ROLE_EDITOR")
+     */
+    public function lookup(AgentRepository $agentRepository, Request $request): JsonResponse
+    {
+        $query = $request->query->get('query');
+
+        $list = [];
+
+        if (!$query) {
+            // return $this->json($list);
+        }
+
+        $results = $agentRepository->searchByAgentName($query);
+
+        foreach ($results as $result) {
+            $list[] = ['name' => $result->getNickname()];
+        }
+
+        return $this->json($list);
+    }
 }

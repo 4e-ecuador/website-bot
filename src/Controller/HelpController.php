@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Help;
 use App\Form\HelpType;
 use App\Repository\HelpRepository;
-use App\Service\MarkdownHelper;
 use App\Util\Slugger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -127,20 +126,5 @@ class HelpController extends AbstractController
         }
 
         return $this->redirectToRoute('help_index');
-    }
-
-    /**
-     * Converts a markdown string to HTML.
-     *
-     * @Route("/preview", name="help_preview")
-     * @IsGranted("ROLE_EDITOR")
-     */
-    public function preview(Request $request, MarkdownHelper $markdownHelper)
-    {
-        return $this->json(
-            [
-                'data' => $markdownHelper->parse($request->request->get('text')),
-            ]
-        );
     }
 }

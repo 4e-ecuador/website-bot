@@ -1,5 +1,18 @@
 <form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}">
-    <textarea name="comment" id="comment_text" cols="30" rows="5"></textarea>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#writeId" data-toggle="tab">{{ 'label.write'|trans }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#previewId" data-toggle="tab">{{ 'label.preview'|trans }}</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="writeId">
+            <textarea name="comment" id="comment_text" cols="30" rows="5" class="mentionable"></textarea>
+        </div>
+        <div class="tab-pane" id="previewId"></div>
+    </div>
 
     <div id="commentMessage"></div>
 

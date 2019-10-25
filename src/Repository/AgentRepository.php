@@ -61,11 +61,7 @@ class AgentRepository extends ServiceEntityRepository
 
         $query = $query->getQuery();
 
-        return $this->paginate(
-            $query,
-            $options->getPage(),
-            $options->getLimit()
-        );
+        return $this->paginate($query, $options->getPage(), $options->getLimit());
     }
 
     /**
@@ -76,28 +72,11 @@ class AgentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('LOWER(a.nickname) LIKE LOWER(:val)')
             ->setParameter('val', '%'.$agentName.'%')
-            ->orderBy('a.id', 'ASC')
+            ->orderBy('a.nickname', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
-
-    // /**
-    //  * @return Agent[] Returns an array of Agent objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
     public function findOneByNickName($value): ?Agent
     {
@@ -125,8 +104,6 @@ class AgentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('a.hasMap = :val')
             ->setParameter('val', 1)
-            // ->orderBy('a.id', 'ASC')
-            // ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

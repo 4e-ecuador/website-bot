@@ -7,16 +7,25 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('map') }}
+    {{ encore_entry_link_tags('comment') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('map') }}
     {{ encore_entry_script_tags('comment') }}
+    {{ encore_entry_script_tags('editor') }}
 {% endblock %}
 
 {% block body %}
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
+    <span id="js-data"
+          data-lookup-url="{{ path('agent_lookup') }}"
+          data-preview-url="{{ path('markdown_preview') }}"
+          data-preview-field="#previewId"
+          data-editor-field="#comment_text"
+    >
+    </span>
 
     <h1>{{ 'Agent'|trans }}</h1>
 

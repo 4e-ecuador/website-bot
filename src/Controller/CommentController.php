@@ -67,12 +67,15 @@ class CommentController extends AbstractController
     public function getSingle(
         Request $request, CommentRepository $commentRepository, MarkdownHelper $markdownHelper
     ) {
-        return;
         $commentId = $request->request->get('comment_id');
 
         $comment = $commentRepository->findOneBy(['id' => $commentId]);
 
-        $comment->setText('aaa');//$markdownHelper->parse($comment->getText()));
+        if (!$comment) {
+            throw $this->createNotFoundException();
+        }
+
+        $comment->setText($markdownHelper->parse($comment->getText()));
 
         $html = $this->renderView(
             'comment/commentBox.html.twig',

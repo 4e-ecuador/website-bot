@@ -3,18 +3,12 @@
 {% block title %}{{ 'Help'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Help'|trans }}</h1>
-
-    <div class="btn-group">
-        <a class="btn btn-secondary" href="{{ path('help_index') }}">{{ 'Back to list'|trans }}</a>
-        {% if is_granted('ROLE_EDITOR') %}
-
+    {% if is_granted('ROLE_EDITOR') %}
+        <div class="btn-group float-right">
             <a class="btn btn-info" href="{{ path('help_edit', {'id': help.id}) }}">{{ 'Edit'|trans }}</a>
-
             {{ include('help/_delete_form.html.twig') }}
-        {% endif %}
-
-    </div>
+        </div>
+    {% endif %}
 
     <h2>{{ help.title }}</h2>
 

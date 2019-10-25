@@ -18,7 +18,10 @@ const tribute = new Tribute({
         remoteSearch(text, users => cb(users))
     },
     lookup: 'name',
-    fillAttr: 'name'
+    fillAttr: 'name',
+    menuItemTemplate: function (item) {
+        return '<img src="/build/images/logos/'+item.original.faction+'.svg" style="width: 24px"> ' + item.string;
+    }
 })
 
 tribute.attach(document.querySelectorAll('.mentionable'))

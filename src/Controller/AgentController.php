@@ -220,15 +220,13 @@ class AgentController extends AbstractController
         $query = $request->query->get('query');
 
         $list = [];
-
-        if (!$query) {
-            // return $this->json($list);
-        }
-
         $results = $agentRepository->searchByAgentName($query);
 
         foreach ($results as $result) {
-            $list[] = ['name' => $result->getNickname()];
+            $list[] = [
+                'name' => $result->getNickname(),
+                'faction' => $result->getFaction()->getName()
+                ];
         }
 
         return $this->json($list);

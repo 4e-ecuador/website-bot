@@ -29,10 +29,10 @@
             <thead>
             <tr>
                 <th>
-                    {{ paginator.criteria('nickname', paginatorOptions) }}
+                    {{ paginator.select('faction', factions, paginatorOptions) }}
                 </th>
                 <th>
-                    {{ paginator.select('faction', factions, paginatorOptions) }}
+                    {{ paginator.criteria('nickname', paginatorOptions) }}
                 </th>
                 <th>
                     {{ paginator.criteria('realName', paginatorOptions) }}
@@ -44,10 +44,10 @@
                 {% endif %}
             </tr>
             <tr>
+                <th></th>
                 <th>
                     {{ paginator.ordering('nickname', paginatorOptions) }}
                 </th>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -56,28 +56,32 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Nickname</th>
-                <th>Faccion</th>
-                <th>Nombre Real</th>
-                <th>Comments</th>
-                    <th></th>
+                <th></th>
+                <th>Nick</th>
+                <th>Nombre</th>
+                <th>C</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for agent in agents %}
                 <tr>
                     <td>
-                        <a href="{{ path('agent_show', {'id': agent.id}) }}">{{ agent.nickname }}</a>
+                        <img src="/build/images/logos/{{ agent.faction.name }}.svg" style="width: 24px">
                     </td>
-                    <td>{{ agent.faction.name }}</td>
+                    <td>
+                        <a href="{{ path('agent_show', {'id': agent.id}) }}">
+                            {{ agent.nickname }}
+                        </a>
+                    </td>
                     <td>{{ agent.realName }}</td>
                     <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
-                        <td>
-                            <a href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
-                            {% if is_granted('ROLE_EDITOR') %}
+                    <td>
+                        <a href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
+                        {% if is_granted('ROLE_EDITOR') %}
                             <a href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></span></a>
-                            {% endif %}
-                        </td>
+                        {% endif %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>

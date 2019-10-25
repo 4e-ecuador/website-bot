@@ -39,7 +39,7 @@
         <div id="container" style="width:100%; height:400px;"></div>
 
     {% else %}
-        <div>There are no statistics for this agent.</div>
+        <div>{{ 'There are no statistics for this agent.'|trans }}</div>
         {#        <div>There are no statistics for this agent.Visit <a href="{{ path('stat_import') }}">Import</a></div>#}
     {% endif %}
 {% endblock %}

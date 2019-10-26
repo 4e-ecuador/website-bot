@@ -1,6 +1,8 @@
 const $ = require('jquery')
 const Highcharts = require('highcharts')
 
+require('../css/stats-agent-stats.css')
+
 function draw_chart(id) {
     let url = '/stats/agent/data/' + id
     $.getJSON(url,
@@ -50,9 +52,10 @@ $('.medal-item').on('click', function (e) {
     const modalBody = modal.find('div.modal-body')
 
 
-    modalBody.html($(this).html())
+    modalBody.html($(this).find('span.medal-image').html())
 
     modal.find('h4.modal-title').html($(this).data('medal-name'))
     modal.find('div.modal-footer').html($(this).data('medal-desc'))
+    modal.find('div.medal-value').html($(this).data('medal-value'))
     modal.modal()
 })

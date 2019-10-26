@@ -2,6 +2,11 @@
 
 {% block title %}{{ 'Statistics'|trans }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('stats-agent-stats') }}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('stats-agent-stats') }}
@@ -27,13 +32,14 @@
                             title="{{ name ~ ': ' ~ level|medalLevel }}"
                             data-medal-name="{{ name|ucfirst }}"
                             data-medal-desc="{{ name|medalDesc }}"
+                            data-medal-value="{{ latest[name]|number_format }}"
                         >
+                            <span class="medal-image">
                             {% if level %}
                                 {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}
                             {% endif %}
+                            </span>
                             <code>{{ name }}-{{ level }}</code>
-                            <br>
-                            {{ latest[name]|number_format }}
                         </td>
                     {% endfor %}
                 </tr>
@@ -47,7 +53,7 @@
     {% endif %}
 
     <!-- The Modal -->
-    <div class="modal" id="medalModal">
+    <div class="modal fade" id="medalModal">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -59,8 +65,8 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    Modal body..
                 </div>
+                <div class="medal-value text-center"></div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">

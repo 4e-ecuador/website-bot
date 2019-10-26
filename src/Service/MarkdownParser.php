@@ -39,13 +39,19 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
             function ($agentName) {
                 $agent = $this->agentRepository->findOneByNickName($agentName[1]);
 
-                if ($agent) {
-                    $url = $this->urlGenerator->generate('agent_show', array('id' => $agent->getId()));
-
-                    return sprintf('<a href="%s">%s</a>', $url, $agentName[0]);
+                if (!$agent) {
+                    return '<code>'.$agentName[0].'</code>';
                 }
 
-                return '<code>'.$agentName[0].'</code>';
+                $url = $this->urlGenerator->generate('agent_show', array('id' => $agent->getId()));
+
+                $linkText = sprintf(
+                    '<img src="/build/images/logos/%s.svg" style="height: 32px" alt="logo"> %s',
+                    $agent->getFaction()->getName(),
+                    $agentName[0]
+                );
+
+                return sprintf('<a href="%s">%s</a>', $url, $linkText);
             },
             $text
         );

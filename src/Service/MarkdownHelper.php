@@ -25,6 +25,7 @@ class MarkdownHelper
 
     public function parse(string $source): string
     {
+        // return $this->markdown->transform($source);
         $item = $this->cache->getItem('markdown_'.md5($source));
 
         if (!$item->isHit()) {

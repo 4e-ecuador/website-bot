@@ -3,7 +3,13 @@
 {% block title %}4E{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Welcome!'|trans }} ✅</h1>
+    <h1>{{ 'Welcome!'|trans }}
+        {% if is_granted('ROLE_AGENT') %}
+            <img src="{{ asset('build/images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
+        {% else %}
+        ✅
+        {% endif %}
+    </h1>
     {% if is_granted('ROLE_ADMIN') %}
         Hello admin <code>{{ app.user.username }}</code>
     {% elseif is_granted('ROLE_AGENT') %}

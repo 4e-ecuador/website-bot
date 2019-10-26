@@ -42,12 +42,9 @@
         <tr>
             <th>{{ 'Nickname'|trans }}</th>
             <td class="alert-{% if 'RES' == agent.faction.name %}info{% else %}success{% endif %}">
+                <img src="{{ asset('build/images/logos/'~agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
                 <code>{{ agent.nickname }}</code>
             </td>
-        </tr>
-        <tr>
-            <th>{{ 'Faction'|trans }}</th>
-            <td>{{ agent.faction.name }}</td>
         </tr>
         <tr>
             <th>{{ 'Real name'|trans }}</th>

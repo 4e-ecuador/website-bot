@@ -1,7 +1,6 @@
 <div class="card" id="comment-{{ comment.id }}">
     <div class="card-header">
         {{ comment.datetime|date('Y-m-d') }}
-        <img src="{{ asset('build/images/logos/'~comment.commenter.agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
         {{ comment.commenter }}
 
 {#        {% include 'comment/_delete_form.html.twig' with {'form_path': 'comment_delete_inline'} %}#}

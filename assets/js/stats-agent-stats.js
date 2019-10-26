@@ -41,3 +41,18 @@ function draw_chart(id) {
 let id = $('#js-agent-id').data('js-agent-id')
 
 draw_chart(id)
+
+$('.medal-item').on('click', function (e) {
+    console.log(e)
+    console.log(this)
+
+    const modal = $('#medalModal')
+    const modalBody = modal.find('div.modal-body')
+
+
+    modalBody.html($(this).html())
+
+    modal.find('h4.modal-title').html($(this).data('medal-name'))
+    modal.find('div.modal-footer').html($(this).data('medal-desc'))
+    modal.modal()
+})

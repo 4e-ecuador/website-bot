@@ -208,11 +208,7 @@ class MedalChecker
 
     public function translatePrimeHeader($name): string
     {
-        if (isset($this->primeHeaders[$name])) {
-            return $this->primeHeaders[$name];
-        }
-
-        return '';
+        return $this->primeHeaders[$name] ?? '';
         //throw new \UnexpectedValueException('Unknown Ingress Prime header: '.$name);
     }
 
@@ -244,5 +240,11 @@ class MedalChecker
         }
 
         return $upgrades;
+    }
+
+    public function getDescription(string $medal): string
+    {
+        return array_key_exists($medal, $this->medalLevels)
+            ? $this->medalLevels[$medal]['desc'] : '';
     }
 }

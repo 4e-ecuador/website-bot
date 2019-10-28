@@ -7,11 +7,13 @@
         {% if is_granted('ROLE_AGENT') %}
             <img src="{{ asset('build/images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
         {% else %}
-        ✅
+            ✅
         {% endif %}
     </h1>
     {% if is_granted('ROLE_ADMIN') %}
         Hello admin <code>{{ app.user.username }}</code>
+    {% elseif is_granted('ROLE_EDITOR') %}
+        Bienvenido agente editor <code>{{ app.user.username }}</code>
     {% elseif is_granted('ROLE_AGENT') %}
         Bienvenido agente <code>{{ app.user.username }}</code>
     {% elseif app.user %}
@@ -26,7 +28,27 @@
     <p>{{ 'agents.in.database'|trans({'count': agents|length}) }}</p>
 
     {% if is_granted('ROLE_AGENT') %}
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h5>{{ 'Search agent'|trans }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ path('agent_index') }}">
+                    <div class="form-group">
+                        <label for="searchAgent">{{ 'Agent nickname'|trans }}</label>
+                        <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
+                               class="form-control" placeholder="Nickname">
+                        <div class="card-footer text-right">
+                            <button class="btn btn-success">{{ 'Search'|trans }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <h2>Ultimos comentarios</h2>
+
         {% for comment in latestComments %}
             <div class="card">
                 <div class="card-header">
@@ -34,7 +56,8 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">
-                        <img src="{{ asset('build/images/logos/'~comment.agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
+                        <img src="{{ asset('build/images/logos/'~comment.agent.faction.name~'.svg') }}"
+                             style="height: 32px" alt="logo">
                         <a href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>
                     </h5>
                     <p class="card-text">

@@ -36,9 +36,8 @@
             <div class="card-body">
                 <form method="post" action="{{ path('agent_index') }}">
                     <div class="form-group">
-                        <label for="searchAgent">{{ 'Agent nickname'|trans }}</label>
                         <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
-                               class="form-control" placeholder="Nickname">
+                               class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
                         <div class="card-footer text-right">
                             <button class="btn btn-success">{{ 'Search'|trans }}</button>
                         </div>

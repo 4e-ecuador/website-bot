@@ -3,48 +3,57 @@
 {% block title %}4E{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Welcome!'|trans }}
-        {% if is_granted('ROLE_AGENT') %}
-            <img src="{{ asset('build/images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
-        {% else %}
-            ✅
-        {% endif %}
-    </h1>
-    {% if is_granted('ROLE_ADMIN') %}
-        Hello admin <code>{{ app.user.username }}</code>
-    {% elseif is_granted('ROLE_EDITOR') %}
-        Bienvenido agente editor <code>{{ app.user.username }}</code>
-    {% elseif is_granted('ROLE_AGENT') %}
-        Bienvenido agente <code>{{ app.user.username }}</code>
-    {% elseif app.user %}
-        <div class="alert alert-danger">
-            Tu cuenta no ha sido activada aun!<br>
-            Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail
-            <code>{{ app.user.email }}</code> para la activacion.<br>
-            In Jarvis we trust!
-        </div>
-    {% endif %}
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>{{ 'Welcome!'|trans }}
+                {% if is_granted('ROLE_AGENT') %}
+                    <img src="{{ asset('build/images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
+                {% else %}
+                    ✅
+                {% endif %}
+            </h1>
+            {% if is_granted('ROLE_ADMIN') %}
+                Hello admin <code>{{ app.user.username }}</code>
+            {% elseif is_granted('ROLE_EDITOR') %}
+                Bienvenido agente editor <code>{{ app.user.username }}</code>
+            {% elseif is_granted('ROLE_AGENT') %}
+                Bienvenido agente <code>{{ app.user.username }}</code>
+            {% elseif app.user %}
+                <div class="alert alert-danger">
+                    Tu cuenta no ha sido activada aun!<br>
+                    Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail
+                    <code>{{ app.user.email }}</code> para la activacion.<br>
+                    In Jarvis we trust!
+                </div>
+            {% endif %}
 
-    <p>{{ 'agents.in.database'|trans({'count': agents|length}) }}</p>
+            <p>{{ 'agents.in.database'|trans({'count': agents|length}) }}</p>
+
+        </div>
+
+        <div class="col-sm-5">
+            {% if is_granted('ROLE_AGENT') %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5>{{ 'Search agent'|trans }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{{ path('agent_index') }}">
+                            <div class="form-group">
+                                <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
+                                       class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
+                                <div class="card-footer text-right">
+                                    <button class="btn btn-success">{{ 'Search'|trans }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 
     {% if is_granted('ROLE_AGENT') %}
-
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">
-                <h5>{{ 'Search agent'|trans }}</h5>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{{ path('agent_index') }}">
-                    <div class="form-group">
-                        <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
-                               class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
-                        <div class="card-footer text-right">
-                            <button class="btn btn-success">{{ 'Search'|trans }}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <h2>Ultimos comentarios</h2>
 

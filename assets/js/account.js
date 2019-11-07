@@ -4,7 +4,7 @@ require('leaflet')
 require('leaflet/dist/leaflet.css')
 require('../css/account.css')
 
-// Leaflet icon hack start
+//>> Leaflet icon hack start >>
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -13,14 +13,14 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
-// Leaflet icon hack end
+//<< Leaflet icon hack end <<
 
 let map
 
 function initmap(lat, lon, zoom) {
-    var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    var osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-    var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
+    const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    const osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
     map = new L.Map('map')
 
@@ -33,11 +33,9 @@ function initmap(lat, lon, zoom) {
     }).addTo(map);
 
     marker.on('drag', function() {
-        console.log($('#agent_account_lat').val())
-        var latlng = marker.getLatLng();
+        const latlng = marker.getLatLng()
         $('#agent_account_lat').val(latlng.lat)
         $('#agent_account_lon').val(latlng.lng)
-        console.log($('#agent_account_lat').val())
     })
 }
 

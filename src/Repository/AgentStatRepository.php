@@ -60,7 +60,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
             ->andWhere('a.datetime <= :endDate')
-            ->setParameter('endDate', $endDate)
+            ->setParameter('endDate', $endDate.' 23:59:59')
             ->orderBy('a.datetime', 'ASC')
             ->getQuery()
             ->getResult();

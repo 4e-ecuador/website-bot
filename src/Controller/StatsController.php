@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\AgentStat;
+use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
+use App\Service\CsvParser;
 use App\Service\MedalChecker;
+use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use TelegramBot\Api\BotApi;
 
 /**
  * @Route("/stats")
@@ -23,7 +28,7 @@ class StatsController extends AbstractController
      * @Route("/", name="stats")
      * @IsGranted("ROLE_EDITOR")
      */
-    public function index()
+    public function index(): Response
     {
         return $this->render(
             'stats/index.html.twig',
@@ -37,11 +42,8 @@ class StatsController extends AbstractController
      * @Route("/my-stats", name="my_stats")
      * @IsGranted("ROLE_AGENT")
      */
-    public function myStats(
-        Security $security,
-        AgentStatRepository $statRepository,
-        MedalChecker $medalChecker
-    ): Response {
+    public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
+    {
         $user = $security->getUser();
 
         $agent = $user->getAgent();
@@ -77,7 +79,7 @@ class StatsController extends AbstractController
      * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
      */
-    public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker)
+    public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
         $entries = $statRepository->getAgentStats($agent);
 
@@ -105,7 +107,7 @@ class StatsController extends AbstractController
      * @Route("/agent/data/{id}", name="agent_stats_data")
      * @IsGranted("ROLE_AGENT")
      */
-    public function agentStatsJson(Agent $agent, AgentStatRepository $statRepository)
+    public function agentStatsJson(Agent $agent, AgentStatRepository $statRepository): JsonResponse
     {
         $data = new \stdClass();
 
@@ -124,21 +126,15 @@ class StatsController extends AbstractController
             }
         }
 
-        return new JsonResponse($data);//, $status, $headers);
-
-        $data = json_encode($data);
-
-        return $this->json($data);
+        return new JsonResponse($data);
     }
 
     /**
      * @Route("/leaderboard", name="stats_leaderboard")
      * @IsGranted("ROLE_AGENT")
      */
-    public function leaderBoard(
-        AgentStatRepository $statRepository,
-        UserRepository $userRepository
-    ): Response {
+    public function leaderBoard(AgentStatRepository $statRepository, UserRepository $userRepository): Response
+    {
         $users = $userRepository->findAll();
 
         $boardEntries = [];
@@ -250,6 +246,101 @@ class StatsController extends AbstractController
         }
 
         return $medalGroups;
+    }
+
+    /**
+     * @Route("/stat-import", name="stat_import", methods={"POST", "GET"})
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function StatImport(
+        Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
+        AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper
+    ): Response {
+        $csv = $request->get('csv');
+        $importType = $request->get('type');
+        $medalUps = [];
+        $currents = [];
+        $currentEntry = null;
+        $diff = [];
+
+        $user = $security->getUser();
+
+        $agent = $user->getAgent();
+
+        if (!$agent) {
+            throw $this->createAccessDeniedException(
+                'No tiene un agente asignado a su usuario - contacte un admin!'
+            );
+        }
+
+        if ($csv) {
+            try {
+                $parsed = $csvParser->parse($csv, $importType);
+
+                foreach ($parsed as $date => $values) {
+                    $statEntry = new AgentStat();
+
+                    $statEntry->setDatetime(new \DateTime($date))
+                        ->setAgent($agent);
+
+                    if ($agentStatRepository->has($statEntry)) {
+                        $this->addFlash('warning', 'Stat entry already added!');
+                    } else {
+                        foreach ($values as $vName => $value) {
+                            $methodName = $medalChecker->getMethodName($vName);
+                            if (method_exists($statEntry, $methodName)) {
+                                $statEntry->$methodName($value);
+                            } else {
+                                $this->addFlash(
+                                    'warning',
+                                    'method not found: '.$methodName.' '.$vName
+                                );
+                            }
+                        }
+
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($statEntry);
+                        $entityManager->flush();
+
+                        $currentEntry = $statEntry;
+                    }
+                }
+            } catch (StatsNotAllException $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            } catch (\UnexpectedValueException $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            }
+        }
+
+        if ($currentEntry) {
+            $previousEntry = $agentStatRepository->getPrevious($currentEntry);
+
+            if ($previousEntry) {
+                $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
+                $diff = $currentEntry->getDiff($previousEntry);
+
+                if ($medalUps) {
+                    // Medal(s) gained - send a bot message !
+                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+
+                    if ($groupId) {
+                        $telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+                    }
+                }
+            } else {
+                // First import
+                $currents = $medalChecker->checkLevels($currentEntry);
+            }
+        }
+
+        return $this->render(
+            'import/agent_stats.html.twig',
+            [
+                'ups'      => $medalUps,
+                'diff'     => $diff,
+                'currents' => $currents,
+            ]
+        );
     }
 }
 

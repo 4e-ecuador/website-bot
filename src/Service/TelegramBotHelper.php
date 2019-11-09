@@ -103,7 +103,7 @@ class TelegramBotHelper
         $response[] = '';
 
         foreach ($medalUps as $medal => $level) {
-            $response[] = sprintf('** %s de %s', $medal, $this->medalChecker->getLevelName($level));
+            $response[] = sprintf('%s de %s', $medal, $this->medalChecker->getLevelName($level));
         }
 
         $response[] = '';

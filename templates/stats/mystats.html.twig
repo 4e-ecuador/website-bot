@@ -29,7 +29,7 @@
                 <tr>
                     {% for name, level in medalGroup %}
                         <td class="medal-item" style="width: 100px; text-align: center"
-                            title="{{ name ~ ': ' ~ level|medalLevel }}"
+                            title="{{ name ~ ': ' ~ level|medalLevel ~ ' (' ~ latest[name] ~ ')'}}"
                             data-medal-name="{{ name|ucfirst }}"
                             data-medal-desc="{{ name|medalDesc }}"
                             data-medal-level="{{ level }}"
@@ -42,11 +42,11 @@
                         >
                             <span class="medal-image">
                             {% if level %}
-                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="height: 150px">
+                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="width: 50px;">
 {#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
                             {% endif %}
                             </span>
-                            <code>{{ name }}-{{ level }}</code>
+{#                            <code>{{ name }}-{{ level }}</code>#}
                         </td>
                     {% endfor %}
                 </tr>

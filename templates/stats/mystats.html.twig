@@ -16,7 +16,7 @@
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
     <h1>{{ 'Statistics'|trans }}</h1>
     {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
-    {% if entries %}
+    {% if latest %}
         <div>
             {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
         </div>
@@ -32,11 +32,18 @@
                             title="{{ name ~ ': ' ~ level|medalLevel }}"
                             data-medal-name="{{ name|ucfirst }}"
                             data-medal-desc="{{ name|medalDesc }}"
+                            data-medal-level="{{ level }}"
                             data-medal-value="{{ latest[name]|number_format }}"
+                            data-medal-value-1="{{ medalValue(name, 1)|number_format }}"
+                            data-medal-value-2="{{ medalValue(name, 2)|number_format }}"
+                            data-medal-value-3="{{ medalValue(name, 3)|number_format }}"
+                            data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
+                            data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
                         >
                             <span class="medal-image">
                             {% if level %}
-                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}
+                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="height: 150px">
+{#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
                             {% endif %}
                             </span>
                             <code>{{ name }}-{{ level }}</code>
@@ -53,7 +60,7 @@
     {% endif %}
 
     <!-- The Modal -->
-    <div class="modal fade" id="medalModal">
+    <div class="modal fade text-center" id="medalModal">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -62,14 +69,22 @@
                     <h4 class="modal-title"></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
+                <div class="modal-header-desc">aaa</div>
 
                 <!-- Modal body -->
                 <div class="modal-body"></div>
                 <div class="medal-value text-center"></div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer"></div>
+                <div class="row">
+                    <div class="col medal-value-1"></div>
+                    <div class="col medal-value-2"></div>
+                    <div class="col medal-value-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col medal-value-4"></div>
+                    <div class="col medal-value-5"></div>
 
+                </div>
             </div>
         </div>
     </div>

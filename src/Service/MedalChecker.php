@@ -247,4 +247,15 @@ class MedalChecker
         return array_key_exists($medal, $this->medalLevels)
             ? $this->medalLevels[$medal]['desc'] : '';
     }
+
+    public function getLevelValue(string $medal, int $level): int
+    {
+        return
+            array_key_exists($medal, $this->medalLevels)
+            && array_key_exists(
+                $level - 1, $this->medalLevels[$medal]['levels']
+            )
+                ? $this->medalLevels[$medal]['levels'][$level - 1]
+                : 0;
+    }
 }

@@ -12,6 +12,7 @@ use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Class AppExtension
@@ -20,9 +21,9 @@ class AppExtension extends AbstractExtension
 {
     public $roleFilters
         = [
-            'ROLE_AGENT' => 'Agent',
+            'ROLE_AGENT'  => 'Agent',
             'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN' => 'Admin',
+            'ROLE_ADMIN'  => 'Admin',
         ];
 
     /**
@@ -58,6 +59,13 @@ class AppExtension extends AbstractExtension
                 'markdownToHtml',
             ], ['is_safe' => ['html']]
             ),
+        ];
+    }
+
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('medalValue', [$this, 'getMedalValue']),
         ];
     }
 
@@ -120,5 +128,10 @@ class AppExtension extends AbstractExtension
     public function markdownToHtml(string $content): string
     {
         return $this->markdownHelper->parse($content);
+    }
+
+    public function getMedalValue(string $medal, int $level)
+    {
+        return $this->medalChecker->getLevelValue($medal, $level);
     }
 }

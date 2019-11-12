@@ -54,22 +54,16 @@ class StatsController extends AbstractController
             );
         }
 
-        $entries = $statRepository->getAgentStats($agent);
-        $medalGroups = [];
-        $latest = null;
-
-        if ($entries) {
-            $latest = $entries[0];
-            $medalGroups = $this->getMedalGroups($medalChecker->checkLevels($latest));
-        }
+        $latest = $statRepository->getAgentLatest($agent);
+        $medalGroups = $latest
+            ? $this->getMedalGroups($medalChecker->checkLevels($latest))
+            : [];
 
         return $this->render(
             'stats/mystats.html.twig',
             [
                 'agent'       => $agent,
                 'medalGroups' => $medalGroups,
-                'stats'       => $entries,
-                'entries'     => $entries,
                 'latest'      => $latest,
             ]
         );
@@ -81,23 +75,16 @@ class StatsController extends AbstractController
      */
     public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
-        $entries = $statRepository->getAgentStats($agent);
-
-        $latest = null;
-        $medalGroups = [];
-
-        if ($entries) {
-            $latest = $entries[0];
-            $medalGroups = $this->getMedalGroups($medalChecker->checkLevels($entries[0]));
-        }
+        $latest = $statRepository->getAgentLatest($agent);
+        $medalGroups = $latest
+            ? $this->getMedalGroups($medalChecker->checkLevels($latest))
+            : [];
 
         return $this->render(
             'stats/mystats.html.twig',
             [
                 'agent'       => $agent,
                 'medalGroups' => $medalGroups,
-                'stats'       => $entries,
-                'entries'     => $entries,
                 'latest'      => $latest,
             ]
         );

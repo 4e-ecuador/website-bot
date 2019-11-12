@@ -107,4 +107,12 @@ class AgentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllAlphabetical()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.nickname', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
 }

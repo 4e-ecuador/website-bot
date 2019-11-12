@@ -298,9 +298,9 @@ class StatsController extends AbstractController
                             }
                         }
 
-                        // $entityManager = $this->getDoctrine()->getManager();
-                        // $entityManager->persist($statEntry);
-                        // $entityManager->flush();
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($statEntry);
+                        $entityManager->flush();
 
                         $currentEntry = $statEntry;
                     }

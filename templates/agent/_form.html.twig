@@ -1,7 +1,22 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+{{ form_row(form.faction) }}
+{{ form_row(form.nickname) }}
+{{ form_row(form.real_name) }}
+{{ form_row(form.hasMap) }}
 
 <div id="map"></div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.lat) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.lon) }}
+    </div>
+</div>
+
+{{ form_widget(form) }}
 
 <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
 

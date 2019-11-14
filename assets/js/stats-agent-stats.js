@@ -10,13 +10,17 @@ function draw_chart(id) {
             let options = {
                 chart: {
                     renderTo: 'container',
-                    type: 'line'
+                    type: 'line',
+                    dateFormat: 'YYYY/mm/dd'
                 },
                 title: {
                     text: ''
                 },
                 xAxis: {
-                    type: 'datetime'
+                    type: 'datetime',
+                    labels: {
+                        format: '{value:%b %Y}'
+                    }
                 },
                 yAxis: {
                     title: {

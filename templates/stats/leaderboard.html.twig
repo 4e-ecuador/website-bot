@@ -10,7 +10,7 @@
 {% block body %}
     <h1>Leaderboard</h1>
 
-    {% set maxCount = 4 %}
+    {% set maxCount = 3 %}
 
     <div class="row">
         {% for type, entries in board %}
@@ -28,10 +28,13 @@
                             <div class="col-sm-1">
                                 <span class="badge badge-pill badge-secondary">{{ count }}</span>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-1">
+                                <img src="{{ asset('build/images/medals/default-'~medalLevel(type, value)~'.svg') }}" alt="" style="width: 24px;">
+                            </div>
+                            <div class="col-sm-4">
                                 {{ agent }}
                             </div>
-                            <div class="col-sm text-right">
+                            <div class="col-sm-5 text-right">
                                 {{ value|number_format }}
                             </div>
                         </div>

@@ -66,6 +66,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('medalValue', [$this, 'getMedalValue']),
+            new TwigFunction('medalLevel', [$this, 'getMedalLevel']),
         ];
     }
 
@@ -133,5 +134,10 @@ class AppExtension extends AbstractExtension
     public function getMedalValue(string $medal, int $level)
     {
         return $this->medalChecker->getLevelValue($medal, $level);
+    }
+
+    public function getMedalLevel(string $medal, int $value)
+    {
+        return $this->medalChecker->getMedalLevel($medal, $value);
     }
 }

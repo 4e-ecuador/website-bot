@@ -178,23 +178,7 @@ class MedalChecker
         foreach ($this->medalLevels as $name => $level) {
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
-                $lv = $agentStat->$methodName();
-
-                $medalLevel = 0;
-
-                if ($lv >= $level['levels'][4]) {
-                    $medalLevel = 5;
-                } elseif ($lv >= $level['levels'][3]) {
-                    $medalLevel = 4;
-                } elseif ($lv >= $level['levels'][2]) {
-                    $medalLevel = 3;
-                } elseif ($lv >= $level['levels'][1]) {
-                    $medalLevel = 2;
-                } elseif ($lv >= $level['levels'][0]) {
-                    $medalLevel = 1;
-                }
-
-                $levels[$name] = $medalLevel;
+                $levels[$name] = $this->getMedalLevel($name, $agentStat->$methodName());
             }
         }
 
@@ -212,20 +196,18 @@ class MedalChecker
         //throw new \UnexpectedValueException('Unknown Ingress Prime header: '.$name);
     }
 
-    public function getMethodName(string $vName)
+    public function getMethodName(string $vName): string
     {
         return 'set'.implode('', array_map('ucfirst', explode('-', $vName)));
     }
 
-    public function getGetterMethodName(string $vName)
+    public function getGetterMethodName(string $vName): string
     {
         return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
     }
 
-    public function getUpgrades(
-        AgentStat $previousEntry,
-        AgentStat $currentEntry
-    ) {
+    public function getUpgrades(AgentStat $previousEntry, AgentStat $currentEntry): array
+    {
         $upgrades = [];
 
         $previousLevels = $this->checkLevels($previousEntry);
@@ -257,5 +239,34 @@ class MedalChecker
             )
                 ? $this->medalLevels[$medal]['levels'][$level - 1]
                 : 0;
+    }
+
+    public function getMedalLevel(string $medal, int $value): int
+    {
+        if ('nl1331Meetups' === $medal) {
+            $medal = 'nl-1331-meetups';
+        }
+        if ('mindController' === $medal) {
+            $medal = 'mind-controller';
+        }
+        if (false === array_key_exists($medal, $this->medalLevels)) {
+            return 0;
+        }
+        $medalLevel = 0;
+        $level = $this->medalLevels[$medal];
+
+        if ($value >= $level['levels'][4]) {
+            $medalLevel = 5;
+        } elseif ($value >= $level['levels'][3]) {
+            $medalLevel = 4;
+        } elseif ($value >= $level['levels'][2]) {
+            $medalLevel = 3;
+        } elseif ($value >= $level['levels'][1]) {
+            $medalLevel = 2;
+        } elseif ($value >= $level['levels'][0]) {
+            $medalLevel = 1;
+        }
+
+        return $medalLevel;
     }
 }

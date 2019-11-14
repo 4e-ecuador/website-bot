@@ -178,7 +178,7 @@ class MedalChecker
         foreach ($this->medalLevels as $name => $level) {
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
-                $levels[$name] = $this->getMedalLevel($name, $agentStat->$methodName());
+                $levels[$name] = $this->getMedalLevel($name, $agentStat->$methodName()?:0);
             }
         }
 

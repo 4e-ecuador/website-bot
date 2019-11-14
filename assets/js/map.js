@@ -3,14 +3,15 @@ require('leaflet/dist/leaflet.css')
 require('../css/map.css')
 
 // Leaflet icon hack start
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
+import L from 'leaflet'
+
+delete L.Icon.Default.prototype._getIconUrl
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
+})
 // Leaflet icon hack end
 
 let map
@@ -26,7 +27,7 @@ function initmap(lat, lon) {
 
     map.setView(new L.LatLng(lat, lon), 12)
 
-    L.marker([lat, lon]).addTo(map);
+    L.marker([lat, lon]).addTo(map)
 }
 
 let coords = document.querySelector('.js-agent-coords')

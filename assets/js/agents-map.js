@@ -10,14 +10,15 @@ require('leaflet.markercluster/dist/MarkerCluster.Default.css')
 require('../css/agents-map.css')
 
 // Leaflet icon hack start
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
+import L from 'leaflet'
+
+delete L.Icon.Default.prototype._getIconUrl
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
+})
 // Leaflet icon hack end
 
 let map
@@ -51,12 +52,12 @@ function loadMarkers() {
 
             marker.bindPopup('Loading...')
 
-            marker.on('click', function(e) {
+            marker.on('click', function (e) {
                 let popup = e.target.getPopup()
                 $.get('/map/agent-info/' + e.target.options.wp_id).done(function (data) {
-                    popup.setContent(data);
-                    popup.update();
-                });
+                    popup.setContent(data)
+                    popup.update()
+                })
             })
 
             markers.addLayer(marker)

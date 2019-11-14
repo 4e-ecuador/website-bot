@@ -20,7 +20,7 @@ const tribute = new Tribute({
     lookup: 'name',
     fillAttr: 'name',
     menuItemTemplate: function (item) {
-        return '<img src="/build/images/logos/'+item.original.faction+'.svg" style="width: 24px"> ' + item.string;
+        return '<img src="/build/images/logos/' + item.original.faction + '.svg" style="width: 24px"> ' + item.string
     }
 })
 

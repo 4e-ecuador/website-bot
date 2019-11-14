@@ -5,14 +5,15 @@ require('leaflet/dist/leaflet.css')
 require('../css/account.css')
 
 //>> Leaflet icon hack start >>
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
+import L from 'leaflet'
+
+delete L.Icon.Default.prototype._getIconUrl
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
+})
 //<< Leaflet icon hack end <<
 
 let map
@@ -30,9 +31,9 @@ function initmap(lat, lon, zoom) {
 
     let marker = L.marker([lat, lon], {
         draggable: 'true'
-    }).addTo(map);
+    }).addTo(map)
 
-    marker.on('drag', function() {
+    marker.on('drag', function () {
         const latlng = marker.getLatLng()
         $('#agent_account_lat').val(latlng.lat)
         $('#agent_account_lon').val(latlng.lng)

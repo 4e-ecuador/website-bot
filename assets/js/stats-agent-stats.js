@@ -11,7 +11,9 @@ function draw_chart(id) {
                 chart: {
                     renderTo: 'container',
                     type: 'line',
-                    dateFormat: 'YYYY/mm/dd'
+                    dateFormat: 'YYYY/mm/dd',
+                    zoomType: 'x'
+
                 },
                 title: {
                     text: ''

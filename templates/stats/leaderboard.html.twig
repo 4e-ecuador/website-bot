@@ -25,13 +25,9 @@
                     <div style="display: none">
                         {% endif %}
                         <div class="row">
-                            <div class="col-sm-1">
+                            <div class="col-sm-7">
                                 <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                            </div>
-                            <div class="col-sm-1">
                                 <img src="{{ asset('build/images/medals/default-'~medalLevel(type, value)~'.svg') }}" alt="" style="width: 24px;">
-                            </div>
-                            <div class="col-sm-4">
                                 {{ agent }}
                             </div>
                             <div class="col-sm-5 text-right">

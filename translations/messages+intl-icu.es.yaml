@@ -1,3 +1,5 @@
 agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Solo hay un agente en la db}\n  other {Tenemos # agentes en la base de datos.}\n}"
 'Agent: {agent_name}': 'Agente: {agent_name}'
 'Latest Update: {last_update}': 'Ultima actualizacion: {last_update}'
+'Use the export function from {agentstats}': 'Utiliza la funcion para exportar en {agentstats}'
+'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el boton para copiar las estadisticas {img} desde tu perfil en ingress y pegalas aqui.'

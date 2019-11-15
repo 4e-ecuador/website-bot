@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Agent;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 
 class TelegramBotHelper
@@ -17,10 +18,16 @@ class TelegramBotHelper
      */
     private $medalChecker;
 
-    public function __construct(BotApi $api, MedalChecker $medalChecker)
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator)
     {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
+        $this->translator = $translator;
     }
 
     public function checkChatId($chatId): bool
@@ -90,20 +97,15 @@ class TelegramBotHelper
 
         $response = [];
 
-        $response[] = '--- *A N U N C I O* ---';
+        $response[] = $this->translator->trans('new.medal.header');
         $response[] = '[ ]('.$pageBase
             .'/build/images/medals/pioneer-1.png)';
 
-        if (count($medalUps) > 1) {
-            $response[] = sprintf('¡El agente @%s se ha ganado %d medallas nuevas!', $agent->getNickname(), count($medalUps));
-        } else {
-            $response[] = sprintf('¡El agente @%s se ha ganado una medalla nueva!', $agent->getNickname());
-        }
-
+        $response[] = $this->translator->trans('new.medal.text.1', ['medals' => count($medalUps), 'agent' => $agent->getNickname()]);
         $response[] = '';
 
         foreach ($medalUps as $medal => $level) {
-            $response[] = sprintf('%s de %s', $medal, $this->medalChecker->translateMedalLevel($level));
+            $response[] = $this->translator->trans('new.medal.text.2', ['medal' => $medal, 'level' => $this->medalChecker->translateMedalLevel($level)]);
         }
 
         $response[] = '';

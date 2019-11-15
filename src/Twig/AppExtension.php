@@ -50,6 +50,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('cast_to_array', [$this, 'objectFilter']),
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
+            new TwigFilter('translateMedalLevel', [$this, 'translateMedalLevelFilter']),
             new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
@@ -139,5 +140,10 @@ class AppExtension extends AbstractExtension
     public function getMedalLevel(string $medal, int $value)
     {
         return $this->medalChecker->getMedalLevel($medal, $value);
+    }
+
+    public function translateMedalLevelFilter(string $level): string
+    {
+        return $this->medalChecker->translateMedalLevel($level);
     }
 }

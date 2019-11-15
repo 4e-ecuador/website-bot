@@ -29,7 +29,7 @@
                 <tr>
                     {% for name, level in medalGroup %}
                         <td class="medal-item" style="width: 100px; text-align: center"
-                            title="{{ name ~ ': ' ~ level|medalLevel ~ ' (' ~ latest[name] ~ ')'}}"
+                            title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name] ~ ')'}}"
                             data-medal-name="{{ name|ucfirst }}"
                             data-medal-desc="{{ name|medalDesc }}"
                             data-medal-level="{{ level }}"

@@ -95,28 +95,28 @@ class TelegramBotHelper
             .'/build/images/medals/pioneer-1.png)';
 
         if (count($medalUps) > 1) {
-            $response[] = sprintf('El agente @%s se ha ganado %d nuevas medallas!', $agent->getNickname(), count($medalUps));
+            $response[] = sprintf('¡El agente @%s se ha ganado %d medallas nuevas!', $agent->getNickname(), count($medalUps));
         } else {
-            $response[] = sprintf('El agente @%s se ha ganado una nueva medalla!', $agent->getNickname());
+            $response[] = sprintf('¡El agente @%s se ha ganado una medalla nueva!', $agent->getNickname());
         }
 
         $response[] = '';
 
         foreach ($medalUps as $medal => $level) {
-            $response[] = sprintf('%s de %s', $medal, $this->medalChecker->getLevelName($level));
+            $response[] = sprintf('%s de %s', $medal, $this->medalChecker->translateMedalLevel($level));
         }
 
         $response[] = '';
 
         $response[] = sprintf(
-            '[Admiren este medallero](%s/stats/agent/%s)',
+            '[¡Admiren este medallero!](%s/stats/agent/%s)',
             $pageBase,
             $agent->getId()
         );
 
         $response[] = '';
 
-        $response[] = sprintf('Felicitaciones %s ', $tada.$tada.$tada);
+        $response[] = sprintf('¡Felicitaciones! %s ', $tada.$tada.$tada);
 
         return $this->api->sendMessage(
             $groupId,

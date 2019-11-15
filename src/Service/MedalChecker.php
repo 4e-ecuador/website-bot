@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\AgentStat;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MedalChecker
 {
@@ -172,13 +173,33 @@ class MedalChecker
             5 => 'onyx',
         ];
 
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    private $translatedLevels = [];
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+
+        $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
+        $this->translatedLevels[2] = $translator->trans('medal.level.silver');
+        $this->translatedLevels[3] = $translator->trans('medal.level.gold');
+        $this->translatedLevels[4] = $translator->trans('medal.level.platin');
+        $this->translatedLevels[5] = $translator->trans('medal.level.onyx');
+    }
+
     public function checkLevels(AgentStat $agentStat): array
     {
         $levels = [];
         foreach ($this->medalLevels as $name => $level) {
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
-                $levels[$name] = $this->getMedalLevel($name, $agentStat->$methodName()?:0);
+                $levels[$name] = $this->getMedalLevel(
+                    $name, $agentStat->$methodName() ?: 0
+                );
             }
         }
 
@@ -252,6 +273,7 @@ class MedalChecker
         if (false === array_key_exists($medal, $this->medalLevels)) {
             return 0;
         }
+
         $medalLevel = 0;
         $level = $this->medalLevels[$medal];
 
@@ -268,5 +290,10 @@ class MedalChecker
         }
 
         return $medalLevel;
+    }
+
+    public function translateMedalLevel(string $level): string
+    {
+        return $this->translatedLevels[$level] ?? $level;
     }
 }

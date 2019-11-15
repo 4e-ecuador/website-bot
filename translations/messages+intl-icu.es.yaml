@@ -3,3 +3,12 @@ agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Sol
 'Latest Update: {last_update}': 'Ultima actualizacion: {last_update}'
 'Use the export function from {agentstats}': 'Utiliza la funcion para exportar en {agentstats}'
 'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el boton para copiar las estadisticas {img} desde tu perfil en ingress y pegalas aqui.'
+
+new.medal.header: '--- *A N U N C I O* ---'
+new.medal.text.1: >-
+  {medals, plural,
+      =0    {No hay medallas...}
+      one   {¡El agente @{agent} se ha ganado una medalla nueva!}
+      other {¡El agente @{agent} se ha ganado # medallas nuevas!}
+  }
+new.medal.text.2: 'Medalla {medal} de {level}'

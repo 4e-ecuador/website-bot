@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>¡Oh No!</h1>
+
+    <p>
+        <img src="{{ asset('build/images/dead-frog-clipart-1.jpg') }}" alt="dead frog">
+    </p>
+
+    <p class="alert alert-danger">
+        {{ exception.message }}
+    </p>
+{% endblock %}

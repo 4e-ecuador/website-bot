@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Agent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Types\Message;
 
 class TelegramBotHelper
 {
@@ -81,7 +82,7 @@ class TelegramBotHelper
                     '%u',
                     ip2long($telegram_ip_range['upper'])
                 );
-                if ($ip_dec >= $lower_dec and $ip_dec <= $upper_dec) {
+                if ($ip_dec >= $lower_dec && $ip_dec <= $upper_dec) {
                     $ok = true;
                 }
             }
@@ -90,7 +91,7 @@ class TelegramBotHelper
         return $ok;
     }
 
-    public function sendNewMedalMessage(Agent $agent, array $medalUps, string $groupId)
+    public function sendNewMedalMessage(Agent $agent, array $medalUps, string $groupId): Message
     {
         $pageBase = $_ENV['PAGE_BASE_URL'];
         $tada = "\xF0\x9F\x8E\x89";
@@ -98,27 +99,37 @@ class TelegramBotHelper
         $response = [];
 
         $response[] = $this->translator->trans('new.medal.header');
-        $response[] = '[ ]('.$pageBase
-            .'/build/images/medals/pioneer-1.png)';
+        $response[] = '[ ]('.$pageBase.'/build/images/medals/pioneer-1.png)';
 
-        $response[] = $this->translator->trans('new.medal.text.1', ['medals' => count($medalUps), 'agent' => $agent->getNickname()]);
+        $response[] = $this->translator->trans(
+            'new.medal.text.1', [
+                'medals' => count($medalUps),
+                'agent'  => $agent->getNickname(),
+            ]
+        );
         $response[] = '';
 
         foreach ($medalUps as $medal => $level) {
-            $response[] = $this->translator->trans('new.medal.text.2', ['medal' => $medal, 'level' => $this->medalChecker->translateMedalLevel($level)]);
+            $response[] = $this->translator->trans(
+                'new.medal.text.2', [
+                    'medal' => $medal,
+                    'level' => $this->medalChecker->translateMedalLevel($level),
+                ]
+            );
         }
 
         $response[] = '';
-
-        $response[] = sprintf(
-            '[¡Admiren este medallero!](%s/stats/agent/%s)',
-            $pageBase,
-            $agent->getId()
+        $response[] = $this->translator->trans(
+            'new.medal.text.3', [
+                'link' => sprintf('%s/stats/agent/%s', $pageBase, $agent->getId()),
+            ]
         );
-
         $response[] = '';
-
-        $response[] = sprintf('¡Felicitaciones! %s ', $tada.$tada.$tada);
+        $response[] = $this->translator->trans(
+            'new.medal.text.4', [
+                'tadaa' => $tada.$tada.$tada,
+            ]
+        );
 
         return $this->api->sendMessage(
             $groupId,

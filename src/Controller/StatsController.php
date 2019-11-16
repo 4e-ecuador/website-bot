@@ -109,7 +109,7 @@ class StatsController extends AbstractController
             foreach ($entries as $entry) {
                 // Get the correct datetime format for highcharts
                 // See: https://stackoverflow.com/a/29234143/1906767
-                $date = $entry->getDatetime()->format('U')*1000;
+                $date = $entry->getDatetime()->format('U') * 1000;
                 $data->ap[] = [$date, $entry->getAp()];
                 $data->hacker[] = [$date, $entry->getHacker()];
             }
@@ -151,7 +151,16 @@ class StatsController extends AbstractController
         }
 
         foreach ($boardEntries as $type => $entries) {
-            arsort($boardEntries[$type]);
+            usort(
+                $boardEntries[$type],
+                static function ($a, $b) {
+                    if ($a->value === $b->value) {
+                        return 0;
+                    }
+
+                    return ($a->value > $b->value) ? -1 : 1;
+                }
+            );
         }
 
         return $this->render(

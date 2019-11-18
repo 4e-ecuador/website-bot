@@ -296,4 +296,18 @@ class MedalChecker
     {
         return $this->translatedLevels[$level] ?? $level;
     }
+
+    public function getDoubleValue(string $medal, int $value): int
+    {
+        $doubleValue = 0;
+
+        if (5 === $this->getMedalLevel($medal, $value)) {
+            $base = $this->medalLevels[$medal]['levels'][4];
+
+            $doubleValue = (int)($value / $base);
+
+        }
+
+        return $doubleValue;
+    }
 }

@@ -2,3 +2,8 @@ div.medal-value {
     font-family: monospace;
     font-size: 1.5em;
 }
+
+div.doubleCount {
+    color: #ff894f;
+    font-weight: bold;
+}

@@ -44,6 +44,12 @@
                             {% if level %}
                                 <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="width: 50px;">
 {#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
+                            {% set doubleCount = medalDoubleValue(name, latest[name]) %}
+
+                            {% if doubleCount > 1 %}
+                                <div class="doubleCount">X {{ doubleCount }}</div>
+                            {% endif %}
+
                             {% endif %}
                             </span>
 {#                            <code>{{ name }}-{{ level }}</code>#}

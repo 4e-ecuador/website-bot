@@ -6,8 +6,8 @@
 parameters:
     locale: 'en'
     telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
-    app.email: '4e.infos@gmail.com'
-    app.email.name: '4E Enlightened Elite Echelon of Ecuador'
+    app.email: '%env(APP_EMAIL)%'
+    app.email.name: '%env(APP_EMAIL_NAME)%'
     app.default_lat: -1.262326
     app.default_lon: -79.09357
 
@@ -18,7 +18,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $rootDir: '%kernel.project_dir%'
-
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -36,7 +35,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Service\MailerHelper:
-#        arguments: ['%app.email%', '%app.email.name%']
         arguments:
             $email: '%app.email%'
             $emailName: '%app.email.name%'

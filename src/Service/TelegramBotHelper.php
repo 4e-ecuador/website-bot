@@ -137,4 +137,11 @@ class TelegramBotHelper
             'markdown'
         );
     }
+
+    public function sendTestMessage($testtext, $groupId)
+    {
+        return $this->api->sendMessage(
+            $groupId, $testtext
+        );
+    }
 }

@@ -20,7 +20,8 @@ class AccountController extends AbstractController
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
      */
-    public function index(Request $request, Security $security, TranslatorInterface $translator): Response {
+    public function index(Request $request, Security $security, TranslatorInterface $translator): Response
+    {
         $agent = $security->getUser()->getAgent();
 
         // $agent = $user->getAgent();
@@ -37,14 +38,15 @@ class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', $translator->trans('Your profile has been updated.'));
+
             return $this->redirectToRoute('default');
         }
 
         return $this->render(
             'account/index.html.twig',
             [
-                'agent' => $agent,
-                'form'  => $form->createView(),
+                'agent'   => $agent,
+                'form'    => $form->createView(),
                 'message' => '',
             ]
         );

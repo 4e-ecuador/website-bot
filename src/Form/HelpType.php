@@ -13,18 +13,21 @@ class HelpType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('text', null, [
-                'attr' => ['rows' => 10],
-                'label' => 'label.content',
+            ->add(
+                'text', null, [
+                'attr'       => ['rows' => 10],
+                'label'      => 'label.content',
                 'block_name' => 'editor',
-            ])
-        ;
+            ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Help::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Help::class,
+            ]
+        );
     }
 }

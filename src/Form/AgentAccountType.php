@@ -47,8 +47,7 @@ class AgentAccountType extends AbstractType
                         'step' => 0.0000001,
                     ],
                 ]
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

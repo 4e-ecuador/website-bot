@@ -224,9 +224,9 @@ class AgentController extends AbstractController
 
         foreach ($results as $result) {
             $list[] = [
-                'name' => $result->getNickname(),
-                'faction' => $result->getFaction()->getName()
-                ];
+                'name'    => $result->getNickname(),
+                'faction' => $result->getFaction()->getName(),
+            ];
         }
 
         return $this->json($list);

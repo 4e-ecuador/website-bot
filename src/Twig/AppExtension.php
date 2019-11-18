@@ -21,9 +21,9 @@ class AppExtension extends AbstractExtension
 {
     public $roleFilters
         = [
-            'ROLE_AGENT'  => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN'  => 'Admin',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
     /**
@@ -50,7 +50,12 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('cast_to_array', [$this, 'objectFilter']),
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
-            new TwigFilter('translateMedalLevel', [$this, 'translateMedalLevelFilter']),
+            new TwigFilter(
+                'translateMedalLevel', [
+                $this,
+                'translateMedalLevelFilter',
+            ]
+            ),
             new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),

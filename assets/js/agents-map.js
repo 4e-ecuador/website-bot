@@ -46,7 +46,7 @@ function loadMarkers() {
                 new L.Marker(
                     new L.LatLng(this.lat, this.lng),
                     {
-                        wp_id: this.id, wp_selected: false, title: this.name
+                        wp_id: this.id, wp_selected: false//, title: this.name
                     }
                 )
 

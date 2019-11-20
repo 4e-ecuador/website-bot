@@ -7,6 +7,7 @@ use App\Tests\FixtureAwareTestCase;
 use App\Tests\Fixtures\AgentFixture;
 use App\Tests\Fixtures\AgentStatFixture;
 use App\Tests\Fixtures\CommentFixture;
+use App\Tests\Fixtures\EventFixture;
 use App\Tests\Fixtures\HelpFixture;
 
 class ControllerAccessTest extends FixtureAwareTestCase
@@ -50,6 +51,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new AgentStatFixture());
         $this->addFixture(new CommentFixture());
         $this->addFixture(new HelpFixture());
+        $this->addFixture(new EventFixture());
         $this->executeFixtures();
 
         $this->agentRepository = $kernel->getContainer()->get('doctrine')

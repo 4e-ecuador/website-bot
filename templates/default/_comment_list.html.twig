@@ -1,0 +1,19 @@
+<h2>Ultimos comentarios</h2>
+
+{% for comment in latestComments %}
+    <div class="card">
+        <div class="card-header">
+            {{ comment.datetime|date("d-m-Y") }} {{ comment.commenter.username }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                <img src="{{ asset('build/images/logos/'~comment.agent.faction.name~'.svg') }}"
+                     style="height: 32px" alt="logo">
+                <a href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>
+            </h5>
+            <p class="card-text">
+                {{ comment.text|raw }}
+            </p>
+        </div>
+    </div>
+{% endfor %}

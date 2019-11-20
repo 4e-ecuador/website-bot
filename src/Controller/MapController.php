@@ -16,15 +16,12 @@ class MapController extends AbstractController
     /**
      * @Route("/map", name="agent-map")
      */
-    public function map(
-        AgentRepository $agentRepository,
-        CommentRepository $commentRepository
-    ): Response {
+    public function map(AgentRepository $agentRepository): Response
+    {
         return $this->render(
             'map/index.html.twig',
             [
                 'agents'         => $agentRepository->findAll(),
-                'latestComments' => $commentRepository->findLatestTen(),
             ]
         );
     }

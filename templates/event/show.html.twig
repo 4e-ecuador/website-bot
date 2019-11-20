@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event{% endblock %}
-
+{% block title %}4E Events - {{ event.name }}{% endblock %}
+{% block og_description %}4E Events - {{ event.name }}{% endblock %}
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('events') }}

@@ -1,0 +1,29 @@
+<h2>{{ 'Current events'|trans }}</h2>
+
+{% for event in currentEvents %}
+    <div class="card">
+        <div class="card-header">
+            <a href="{{ path('event_show', {'id': event.id}) }}">
+                {{ event.name }}
+            </a>
+        </div>
+        <div class="card-body">
+            {#    @todo currently only one clock is supportes :(#}
+            <span id="js-data"
+                  data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
+            ></span>
+
+            <div id="clockdiv" class="text-center alert alert-warning"
+                 data-deadline="{{ event.dateEnd|date('Y-m-d H:i:s') }}">
+                <b>{{ 'The event ends in'|trans }}</b>
+                {{ 'Days:'|trans }} <b class="days"></b>
+                {{ 'Hours:'|trans }} <b class="hours"></b>
+                {{ 'Minutes:'|trans }} <b class="minutes"></b>
+                {{ 'Seconds:'|trans }} <b class="seconds"></b>
+            </div>
+
+        </div>
+    </div>
+{% else %}
+    <div>{{ 'No current events.'|trans }}</div>
+{% endfor %}

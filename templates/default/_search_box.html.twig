@@ -1,0 +1,18 @@
+{% if is_granted('ROLE_AGENT') %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            <h5>{{ 'Search agent'|trans }}</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{{ path('agent_index') }}">
+                <div class="form-group">
+                    <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
+                           class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
+                    <div class="card-footer text-right">
+                        <button class="btn btn-success">{{ 'Search'|trans }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endif %}

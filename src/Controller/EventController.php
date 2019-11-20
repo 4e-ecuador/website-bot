@@ -7,6 +7,7 @@ use App\Form\EventType;
 use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class EventController extends AbstractController
 {
     /**
      * @Route("/", name="event_index", methods={"GET"})
+     * @IsGranted("ROLE_AGENT")
      */
     public function index(EventRepository $eventRepository): Response
     {
@@ -31,6 +33,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/new", name="event_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -56,13 +59,10 @@ class EventController extends AbstractController
 
     /**
      * @Route("/{id}", name="event_show", methods={"GET"})
+     * @IsGranted("ROLE_AGENT")
      */
     public function show(Event $event, AgentRepository $agentRepository, AgentStatRepository $statRepository): Response
     {
-        // foreach ($agentRepository->findAll() as $agent) {
-        //
-        // }
-        // $entries = $statRepository->findByDateAndAgent($event->getDateStart(), $event->getDateEnd());
         $entries = $statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
 
         $previousEntries = [];
@@ -72,7 +72,7 @@ class EventController extends AbstractController
             $agentName = $entry->getAgent()->getNickname();
 
             if (false === isset($previousEntries[$agentName])) {
-                $previousEntries[$agentName] = $entry;//$statRepository->getPrevious($entry);
+                $previousEntries[$agentName] = $entry;
             } else
             {
                 $currentEntries[$agentName] = $entry;
@@ -98,6 +98,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -120,6 +121,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/{id}", name="event_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Event $event): Response
     {

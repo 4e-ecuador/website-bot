@@ -184,6 +184,7 @@ class StatsController extends AbstractController
         $endDate = $request->get('end_date');
         $stats = [];
         $medalsGained = [];
+        $medalsGained1 = [];
 
         if ($startDate && $endDate) {
             $entries = $statRepository->findByDate(new \DateTime($startDate), new \DateTime($endDate.' 23:59:59'));
@@ -210,9 +211,11 @@ class StatsController extends AbstractController
                     }
                     if (false === isset($previous[$agentName][$name])) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
+                        $medalsGained1[$name][] = ['agent' => $agentName, 'level' => $level];
                         $previous[$name] = $level;
                     } elseif ($previous[$agentName][$name] < $level) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
+                        $medalsGained1[$name][] = ['agent' => $agentName, 'level' => $level];
                         $previous[$agentName][$name] = $level;
                     }
                 }
@@ -226,6 +229,7 @@ class StatsController extends AbstractController
                 'endDate'      => new \DateTime($endDate),
                 'stats'        => $stats,
                 'medalsGained' => $medalsGained,
+                'medalsGained1' => $medalsGained1,
             ]
         );
     }

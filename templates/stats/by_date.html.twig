@@ -14,7 +14,7 @@
     </form>
 
     {% if medalsGained %}
-        <h3>Medals Gained</h3>
+        <h3>(Version 1)</h3>
         <table class="table table-sm">
             <th>Date</th>
             <th>Agent</th>
@@ -33,6 +33,45 @@
                 {% endfor %}
             {% endfor %}
         </table>
+    {% else %}
+        <div class="alert alert-warning">No medals gained :(</div>
+    {% endif %}
+
+    {% if medalsGained1 %}
+        <h3>(Version 2)</h3>
+
+        <div class="row">
+            {% for medal, agents in medalsGained1 %}
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ medal }}
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                {% for agent in agents %}
+                                    <li>{{ agent.agent ~ ': ' ~ agent.level|translateMedalLevel }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3>(Version 3)</h3>
+
+        <code>
+            {% for medal, agents in medalsGained1 %}
+                <br>{{ medal }}<br>
+                =============<br>
+                                {% for agent in agents %}
+                * {{ agent.agent ~ ': ' ~ agent.level|translateMedalLevel }}<br>
+                                {% endfor %}
+
+            {% endfor %}
+
+        </code>
     {% else %}
         <div class="alert alert-warning">No medals gained :(</div>
     {% endif %}

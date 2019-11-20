@@ -62,15 +62,26 @@
         <h3>(Version 3)</h3>
 
         <code>
+            Medallas de
+            {{ startDate|date('d-m') }}
+            a
+            {{ endDate|date('d-m') }}
+            <br>
+            =====================================
+            <br>
             {% for medal, agents in medalsGained1 %}
-                <br>{{ medal }}<br>
-                =============<br>
-                                {% for agent in agents %}
-                * {{ agent.agent ~ ': ' ~ agent.level|translateMedalLevel }}<br>
-                                {% endfor %}
-
+                <br>
+                **{{ medal|capitalize }}**
+                <br>
+                =============
+                <br>
+                {% for agent in agents %}
+                    * @{{ agent.agent ~ ': ' ~ agent.level|translateMedalLevel|capitalize }}
+                    <br>
+                {% endfor %}
             {% endfor %}
-
+            <br>
+            Felicitaciones!!!
         </code>
     {% else %}
         <div class="alert alert-warning">No medals gained :(</div>

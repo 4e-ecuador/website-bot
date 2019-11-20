@@ -26,6 +26,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('account', './assets/js/account.js')
     .addEntry('editor', './assets/js/editor.js')
+    .addEntry('events', './assets/js/events.js')
     .addEntry('map', './assets/js/map.js')
     .addEntry('agents-map', './assets/js/agents-map.js')
     .addEntry('map-edit', './assets/js/map-edit.js')

@@ -72,3 +72,9 @@ medal.level.gold: oro
 medal.level.platin: platino
 medal.level.onyx: ónix
 'no records found': 'No se encontraron entradas'
+Events: Eventos
+'The event ends in': 'El evento termina en'
+'Days:': 'Dias:'
+'Hours:': 'Horas:'
+'Minutes:': 'Minutos:'
+'Seconds:': 'Segundos:'

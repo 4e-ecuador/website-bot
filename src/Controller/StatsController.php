@@ -186,7 +186,7 @@ class StatsController extends AbstractController
         $medalsGained = [];
 
         if ($startDate && $endDate) {
-            $entries = $statRepository->findByDate($startDate, $endDate);
+            $entries = $statRepository->findByDate(new \DateTime($startDate), new \DateTime($endDate.' 23:59:59'));
             $previous = [];
 
             foreach ($entries as $entry) {

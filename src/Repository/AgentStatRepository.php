@@ -54,14 +54,31 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findByDate($startDate, $endDate): iterable
+    public function findByDate(\DateTimeInterface $startDate, \DateTimeInterface $endDate): iterable
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
             ->andWhere('a.datetime <= :endDate')
-            ->setParameter('endDate', $endDate.' 23:59:59')
+            ->setParameter('endDate', $endDate)
             ->orderBy('a.datetime', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return AgentStat[]
+     */
+    public function findByDateAndAgent(\DateTime $startDate, \DateTime $endDate, Agent $agent): iterable
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.datetime >= :startDate')
+            ->setParameter('startDate', $startDate)
+            ->andWhere('a.datetime <= :endDate')
+            ->setParameter('endDate', $endDate)
+            ->orderBy('a.datetime', 'ASC')
+            ->andWhere('a.agent = :agent')
+            ->setParameter('agent', $agent)
             ->getQuery()
             ->getResult();
     }

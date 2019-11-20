@@ -138,10 +138,10 @@ class TelegramBotHelper
         );
     }
 
-    public function sendTestMessage($testtext, $groupId)
+    public function sendTestMessage($chatId, $text)
     {
         return $this->api->sendMessage(
-            $groupId, $testtext
+            $chatId, $text
         );
     }
 }

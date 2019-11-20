@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('events') }}
+{% endblock %}
+
+{% block body %}
+    <span id="js-data"
+          data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
+    ></span>
+
+    <h1>{{ event.name }}</h1>
+
+    <h4>
+        {{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}
+        - {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}
+    </h4>
+
+    <div id="clockdiv" class="text-center alert alert-warning">
+        <b>{{ 'The event ends in'|trans }}</b>
+
+        {{ 'Days:'|trans }} <b class="days"></b>
+        {{ 'Hours:'|trans }} <b class="hours"></b>
+        {{ 'Minutes:'|trans }} <b class="minutes"></b>
+        {{ 'Seconds:'|trans }} <b class="seconds"></b>
+    </div>
+
+    {% if apGains %}
+        <table>
+            {% set cnt = 1 %}
+            {% for name, value in apGains %}
+                {% if cnt == 1 %}
+                {% set cssClass = 'alert-success' %}
+                {% elseif cnt == 2 %}
+                    {% set cssClass = 'alert-primary' %}
+                {% elseif cnt == 3 %}
+                    {% set cssClass = 'alert-info' %}
+                {% else %}
+                    {% set cssClass = '' %}
+                {% endif %}
+                <tr class="{{ cssClass }}">
+                    <th>{{ cnt ~ '. ' ~name }}</th>
+                    <td class="text-right">{{ value|number_format }}</td>
+                </tr>
+                {% set cnt = cnt + 1 %}
+            {% endfor %}
+        </table>
+    {% else %}
+        No hay stats :(
+    {% endif %}
+{% endblock %}

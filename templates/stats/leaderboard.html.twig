@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                            <img src="{{ asset('build/images/medals/default-'~medalLevel(type, entry.value)~'.svg') }}"
+                            <img src="{{ asset('build/images/badges/'~getBadgePath(type, medalLevel(type, entry.value))) }}"
                                  alt="" style="width: 24px;">
                             {% set doubleCount = medalDoubleValue(type, entry.value) %}
 

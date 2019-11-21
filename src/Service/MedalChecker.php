@@ -166,7 +166,7 @@ class MedalChecker
 
     private $levelNames
         = [
-            1 => 'bronce',
+            1 => 'bronze',
             2 => 'silver',
             3 => 'gold',
             4 => 'platin',
@@ -305,9 +305,42 @@ class MedalChecker
             $base = $this->medalLevels[$medal]['levels'][4];
 
             $doubleValue = (int)($value / $base);
-
         }
 
         return $doubleValue;
+    }
+
+    public function getBadgePath(string $medal, int $level): string
+    {
+        $medal = ucfirst($medal);
+        switch ($medal) {
+            case 'Mind-controller':
+                $medal = 'MindController';
+                break;
+            case 'Recon':
+                $medal = 'OPR';
+                break;
+            case 'Specops':
+                $medal = 'SpecOps';
+                break;
+            case 'Missionday':
+                $medal = 'MissionDayPrime';
+                break;
+            case 'Nl-1331-meetups':
+                $medal = 'NL1331';
+                break;
+            case 'Ifs':
+                $medal = 'FS';
+                break;
+        }
+        $levelName = ucfirst($this->getLevelName($level));
+        if ('Onyx' === $levelName) {
+            $levelName = 'Black';
+        }
+        if ('Platin' === $levelName) {
+            $levelName = 'Platinum';
+        }
+
+        return 'Badge_'.$medal.'_'.$levelName.'.png';
     }
 }

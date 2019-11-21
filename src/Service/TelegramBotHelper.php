@@ -96,10 +96,15 @@ class TelegramBotHelper
         $pageBase = $_ENV['PAGE_BASE_URL'];
         $tada = "\xF0\x9F\x8E\x89";
 
+        $firstValue = reset($medalUps);
+        $firstMedal = key($medalUps);
+
         $response = [];
 
         $response[] = $this->translator->trans('new.medal.header');
-        $response[] = '[ ]('.$pageBase.'/build/images/medals/pioneer-1.png)';
+
+        $response[] = '[ ]('.$pageBase.'/build/images/badges/'
+            .$this->medalChecker->getBadgePath($firstMedal, $firstValue).')';
 
         $response[] = $this->translator->trans(
             'new.medal.text.1', [
@@ -107,6 +112,7 @@ class TelegramBotHelper
                 'agent'  => $agent->getNickname(),
             ]
         );
+
         $response[] = '';
 
         foreach ($medalUps as $medal => $level) {

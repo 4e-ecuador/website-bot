@@ -63,9 +63,9 @@ $('.medal-item').on('click', function (e) {
     const level = $(this).data('medal-level')
     let i
     for (i = 1; i < 6; i++) {
-        let img = '<img src="/build/images/medals/default-' + i + '.svg" style="height: 24px">'
+        let img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px">'
         if (i > level) {
-            img = '<img src="/build/images/medals/default-' + i + '.svg" style="height: 24px; opacity: 0.1;">'
+            img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px; opacity: 0.3;">'
         }
 
         modal.find('div.medal-value-' + i).html(img + $(this).data('medal-value-' + i))

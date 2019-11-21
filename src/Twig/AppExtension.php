@@ -74,6 +74,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('medalValue', [$this, 'getMedalValue']),
             new TwigFunction('medalLevel', [$this, 'getMedalLevel']),
             new TwigFunction('medalDoubleValue', [$this, 'medalDoubleValue']),
+            new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
         ];
     }
 
@@ -156,5 +157,10 @@ class AppExtension extends AbstractExtension
     public function medalDoubleValue(string $medal, int $value): int
     {
         return $this->medalChecker->getDoubleValue($medal, $value);
+    }
+
+    public function getBadgePath(string $medal, int $level): string
+    {
+        return $this->medalChecker->getBadgePath($medal, $level);
     }
 }

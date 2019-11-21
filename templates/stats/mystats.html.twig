@@ -24,7 +24,7 @@
 
         <h3>{{ 'Medals'|trans }}</h3>
 
-        <table class="table-bordered">
+        <table>
             {% for medalGroup in medalGroups %}
                 <tr>
                     {% for name, level in medalGroup %}
@@ -39,10 +39,17 @@
                             data-medal-value-3="{{ medalValue(name, 3)|number_format }}"
                             data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
                             data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
+
+                            data-badge-name-1="{{ getBadgePath(name, 1) }}"
+                            data-badge-name-2="{{ getBadgePath(name, 2) }}"
+                            data-badge-name-3="{{ getBadgePath(name, 3) }}"
+                            data-badge-name-4="{{ getBadgePath(name, 4) }}"
+                            data-badge-name-5="{{ getBadgePath(name, 5) }}"
                         >
                             <span class="medal-image">
                             {% if level %}
-                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="width: 50px;">
+                                <img src="{{ asset('build/images/badges/'~getBadgePath(name, level)) }}" alt="" style="width: 50px;">
+{#                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="width: 50px;">#}
 {#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
                             {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
@@ -70,14 +77,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-header-desc">aaa</div>
 
-                <!-- Modal body -->
                 <div class="modal-body"></div>
                 <div class="medal-value text-center"></div>
 
@@ -89,7 +94,6 @@
                 <div class="row">
                     <div class="col medal-value-4"></div>
                     <div class="col medal-value-5"></div>
-
                 </div>
             </div>
         </div>

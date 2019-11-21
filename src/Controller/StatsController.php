@@ -25,20 +25,6 @@ use TelegramBot\Api\BotApi;
 class StatsController extends AbstractController
 {
     /**
-     * @Route("/", name="stats")
-     * @IsGranted("ROLE_EDITOR")
-     */
-    public function index(): Response
-    {
-        return $this->render(
-            'stats/index.html.twig',
-            [
-                'controller_name' => 'StatsController',
-            ]
-        );
-    }
-
-    /**
      * @Route("/my-stats", name="my_stats")
      * @IsGranted("ROLE_AGENT")
      */

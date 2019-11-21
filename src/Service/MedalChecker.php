@@ -327,6 +327,7 @@ class MedalChecker
                 $medal = 'MissionDayPrime';
                 break;
             case 'Nl-1331-meetups':
+            case 'Nl1331Meetups':
                 $medal = 'NL1331';
                 break;
             case 'Ifs':

@@ -42,16 +42,25 @@
 
         <div class="row">
             {% for medal, agents in medalsGained1 %}
-                <div class="col-2">
+                <div class="col-2-xs">
                     <div class="card">
                         <div class="card-header">
-                            {{ medal }}
+                            {{ medal|capitalize }}
                         </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                {% for agent in agents %}
-                                    <li>{{ agent.agent ~ ': ' ~ agent.level|translateMedalLevel }}</li>
-                                {% endfor %}
+                        <div class="card-body text-center">
+                            {% set actLevel = 0 %}
+                            {% for agent in agents %}
+                                {% if agent.level != actLevel %}
+                                    <img src="{{ asset('build/images/badges/'~getBadgePath(medal, agent.level)) }}"
+                                         alt="" style="width: 48px;">
+                                    <br>
+                                    <b>{{ agent.level|translateMedalLevel|capitalize }}</b>
+                                    <br>
+                                {% endif %}
+                                {% set actLevel = agent.level %}
+                                {{ agent.agent }}
+                                <br>
+                            {% endfor %}
                             </ul>
                         </div>
                     </div>

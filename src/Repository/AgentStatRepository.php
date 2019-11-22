@@ -148,4 +148,19 @@ class AgentStatRepository extends ServiceEntityRepository
             $options->getLimit()
         );
     }
+
+    public function findTodays()
+    {
+        $startDatetime = \DateTime::createFromFormat( 'Y-m-d H:i:s', date('Y-m-d 00:00:00') );
+        $endDatetime = \DateTime::createFromFormat( 'Y-m-d H:i:s', date('Y-m-d 23:59:59') );
+
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.datetime >= :startValue')
+            ->setParameter('startValue', $startDatetime)
+            ->andWhere('a.datetime <= :endValue')
+            ->setParameter('endValue', $endDatetime)
+            ->getQuery()
+            ->getResult();
+
+    }
 }

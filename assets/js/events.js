@@ -16,7 +16,10 @@ function getTimeRemaining(endtime){
 }
 
 function updateClock(){
-    var t = getTimeRemaining(deadline);
+    let t = getTimeRemaining(deadline);
+    if(t.total<=0){
+        clearInterval(timeinterval);
+    }
     daysSpan.innerHTML = t.days;
     hoursSpan.innerHTML = t.hours;
     minutesSpan.innerHTML = t.minutes;
@@ -25,9 +28,6 @@ function updateClock(){
     //     'hours: '+ t.hours + '<br>' +
     //     'minutes: ' + t.minutes + '<br>' +
     //     'seconds: ' + t.seconds;
-    if(t.total<=0){
-        clearInterval(timeinterval);
-    }
 }
 
 

@@ -73,8 +73,7 @@ class EventController extends AbstractController
 
             if (false === isset($previousEntries[$agentName])) {
                 $previousEntries[$agentName] = $entry;
-            } else
-            {
+            } else {
                 $currentEntries[$agentName] = $entry;
             }
         }
@@ -82,16 +81,18 @@ class EventController extends AbstractController
         $apGains = [];
 
         foreach (array_keys($currentEntries) as $agentName) {
-                $apGains[$agentName] = $currentEntries[$agentName]->getAp() - $previousEntries[$agentName]->getAp();
+            $apGains[$agentName] = $currentEntries[$agentName]->getAp()
+                - $previousEntries[$agentName]->getAp();
         }
 
         arsort($apGains);
 
         return $this->render(
             'event/show.html.twig', [
-                'entries' => $entries,// @todo temporal
-                'event' => $event,
-                'apGains' => $apGains,
+                'entries'  => $entries,// @todo temporal
+                'event'    => $event,
+                'apGains'  => $apGains,
+                'isActive' => $event->getDateEnd() > new \DateTime(),
             ]
         );
     }

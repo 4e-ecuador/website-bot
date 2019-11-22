@@ -42,3 +42,7 @@ add nodejs
 
 https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4
 
+## Telegram bots
+
+### Get updates
+    https://api.telegram.org/bot<YourBOTToken>/getUpdates

@@ -9,7 +9,6 @@ use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends AbstractController
 {
@@ -32,7 +31,8 @@ class DefaultController extends AbstractController
 
             $events = $eventRepository->findAll();
 
-            $now = new DateTime();
+            $now = new \DateTime();
+
             foreach ($events as $event) {
                 if ($event->getDateStart() > $now) {
                     $futureEvents[] = $event;

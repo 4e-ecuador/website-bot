@@ -56,9 +56,7 @@ class SendStatusCommand extends Command
         try {
             $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
 
-            $now = new \DateTime();
-
-            $statsCount = $this->agentStatRepository->findTodays($now);
+            $statsCount = $this->agentStatRepository->findTodays();
 
             $message = [];
 

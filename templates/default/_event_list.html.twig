@@ -27,3 +27,27 @@
 {% else %}
     <div>{{ 'No current events.'|trans }}</div>
 {% endfor %}
+
+<div class="row">
+    <div class="col">
+        <h4>{{ 'Future Events'|trans }}</h4>
+        {% for event in futureEvents %}
+            <div>
+                <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+            </div>
+        {% else %}
+            <div>{{ 'There are no future events.'|trans }}</div>
+        {% endfor %}
+
+    </div>
+    <div class="col">
+        <h4>{{ 'Past Events'|trans }}</h4>
+        {% for event in pastEvents %}
+            <div>
+                <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+            </div>
+        {% else %}
+            <div>{{ 'There are no future events.'|trans }}</div>
+        {% endfor %}
+    </div>
+</div>

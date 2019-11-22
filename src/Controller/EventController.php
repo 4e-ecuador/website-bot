@@ -61,7 +61,7 @@ class EventController extends AbstractController
      * @Route("/{id}", name="event_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(Event $event, AgentRepository $agentRepository, AgentStatRepository $statRepository): Response
+    public function show(Event $event, AgentStatRepository $statRepository): Response
     {
         $entries = $statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
 
@@ -87,12 +87,22 @@ class EventController extends AbstractController
 
         arsort($apGains);
 
+        $now = new \DateTime();
+
+        if ($event->getDateStart() > $now) {
+            $status = 'future';
+        } elseif ($event->getDateEnd() < $now) {
+            $status = 'past';
+        } else {
+            $status = 'current';
+        }
+
         return $this->render(
             'event/show.html.twig', [
-                'entries'  => $entries,// @todo temporal
-                'event'    => $event,
-                'apGains'  => $apGains,
-                'isActive' => $event->getDateEnd() > new \DateTime(),
+                'entries' => $entries,// @todo temporal
+                'event'   => $event,
+                'apGains' => $apGains,
+                'status'  => $status,
             ]
         );
     }

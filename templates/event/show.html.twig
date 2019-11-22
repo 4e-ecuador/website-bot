@@ -8,9 +8,6 @@
 {% endblock %}
 
 {% block body %}
-    <span id="js-data"
-          data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
-    ></span>
 
     <h1>{{ event.name }}</h1>
 
@@ -19,9 +16,22 @@
         - {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}
     </h4>
 
-    {% if isActive %}
+    {% if 'past' == status %}
+        <h4>{{ 'Final results'|trans }}</h4>
+    {% else %}
+
         <div id="clockdiv" class="text-center alert alert-warning">
-            <b>{{ 'The event ends in'|trans }}</b>
+            {% if 'current' == status %}
+                <b>{{ 'The event ends in'|trans }}</b>
+                <span id="js-data"
+                      data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
+                ></span>
+            {% elseif 'future' == status %}
+                <b>{{ 'The event starts in'|trans }}</b>
+                <span id="js-data"
+                      data-deadline="{{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}"
+                ></span>
+            {% endif %}
 
             {{ 'Days:'|trans }} <b class="days"></b>
             {{ 'Hours:'|trans }} <b class="hours"></b>
@@ -35,22 +45,22 @@
             {% set cnt = 1 %}
             {% for name, value in apGains %}
                 {% if cnt == 1 %}
-                    {% set cssClass = 'alert-success' %}
+                    {% set img = '<img src="'~asset('build/images/medals/1st-place-medal.png')~'" style="height: 36px">' %}
                 {% elseif cnt == 2 %}
-                    {% set cssClass = 'alert-primary' %}
+                    {% set img = '<img src="'~asset('build/images/medals/2nd-place-medal.png')~'" style="height: 36px">' %}
                 {% elseif cnt == 3 %}
-                    {% set cssClass = 'alert-info' %}
+                    {% set img = '<img src="'~asset('build/images/medals/3rd-place-medal.png')~'" style="height: 36px">' %}
                 {% else %}
-                    {% set cssClass = '' %}
+                    {% set img = '' %}
                 {% endif %}
-                <tr class="{{ cssClass }}">
-                    <th>{{ cnt ~ '. ' ~name }}</th>
+                <tr>
+                    <th>{{ img|raw }}{{ cnt ~ '. ' ~name|raw }}</th>
                     <td class="text-right">{{ value|number_format }}</td>
                 </tr>
                 {% set cnt = cnt + 1 %}
             {% endfor %}
         </table>
     {% else %}
-        No hay stats :(
+        No hay estadisticas para este evento :(
     {% endif %}
 {% endblock %}

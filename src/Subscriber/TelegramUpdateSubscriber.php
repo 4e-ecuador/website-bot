@@ -5,8 +5,7 @@ namespace App\Subscriber;
 use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
 use App\Service\Templater;
-use BoShurik\TelegramBotBundle\Event\Telegram\UpdateEvent;
-use BoShurik\TelegramBotBundle\Event\TelegramEvents;
+use BoShurik\TelegramBotBundle\Event\UpdateEvent;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -75,7 +74,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            TelegramEvents::UPDATE => [
+            'boshurik_telegram_bot.update' => [
                 ['check', 99],
                 ['processUpdate', 0],
                 ['writeLog', -10],

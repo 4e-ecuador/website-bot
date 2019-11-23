@@ -10,3 +10,6 @@ services:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - composer install
+
+script:
+  - ./bin/phpunit

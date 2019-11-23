@@ -12,8 +12,8 @@
     <h1>{{ event.name }}</h1>
 
     <h4>
-        {{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}
-        - {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}
+        <span class="oi oi-media-play"></span> {{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}<br>
+        <span class="oi oi-media-stop"></span> {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}
     </h4>
 
     {% if 'past' == status %}

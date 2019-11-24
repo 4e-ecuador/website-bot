@@ -8,3 +8,4 @@ new.medal.text.1: "{medals, plural,\n    =0    {No hay medallas...}\n    one   {
 new.medal.text.2: 'Medalla {medal} de {level}'
 new.medal.text.3: '[¡Admiren este medallero!]({link})'
 new.medal.text.4: '¡Felicitaciones! {tadaa}'
+'Event type: {type}': 'Tipo de evento: {type}'

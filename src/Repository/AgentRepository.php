@@ -6,8 +6,8 @@ use App\Entity\Agent;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Agent|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +19,7 @@ class AgentRepository extends ServiceEntityRepository
 {
     use PaginatorRepoTrait;
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Agent::class);
     }

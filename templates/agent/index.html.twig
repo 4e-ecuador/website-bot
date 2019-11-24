@@ -13,9 +13,7 @@
     <h1>{{ 'Agent index'|trans }}</h1>
 
     {% if is_granted('ROLE_EDITOR') %}
-
         <a class="btn btn-success" href="{{ path('agent_new') }}">{{ 'Create new'|trans }}</a>
-
     {% endif %}
 
     <form method="post">
@@ -28,6 +26,9 @@
         <table class="table table-sm table-hover">
             <thead>
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th></th>
+                {% endif %}
                 <th>
                     {{ paginator.select('faction', factions, paginatorOptions) }}
                 </th>
@@ -44,6 +45,9 @@
                 {% endif %}
             </tr>
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
+                {% endif %}
                 <th></th>
                 <th>
                     {{ paginator.ordering('nickname', paginatorOptions) }}
@@ -56,6 +60,9 @@
                 {% endif %}
             </tr>
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>ID</th>
+                {% endif %}
                 <th></th>
                 <th>Nick</th>
                 <th>Nombre</th>
@@ -66,6 +73,9 @@
             <tbody>
             {% for agent in agents %}
                 <tr>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ agent.id }}</td>
+                    {% endif %}
                     <td>
                         <img src="/build/images/logos/{{ agent.faction.name }}.svg" style="width: 24px">
                     </td>

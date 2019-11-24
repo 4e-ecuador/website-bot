@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
-use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -78,14 +77,16 @@ class EventController extends AbstractController
             }
         }
 
-        $apGains = [];
+        $values = [];
+
+        $methodName = 'get'.$event->getEventType();
 
         foreach (array_keys($currentEntries) as $agentName) {
-            $apGains[$agentName] = $currentEntries[$agentName]->getAp()
-                - $previousEntries[$agentName]->getAp();
+            $values[$agentName] = $currentEntries[$agentName]->$methodName()
+                - $previousEntries[$agentName]->$methodName();
         }
 
-        arsort($apGains);
+        arsort($values);
 
         $now = new \DateTime();
 
@@ -99,9 +100,8 @@ class EventController extends AbstractController
 
         return $this->render(
             'event/show.html.twig', [
-                'entries' => $entries,// @todo temporal
                 'event'   => $event,
-                'apGains' => $apGains,
+                'values' => $values,
                 'status'  => $status,
             ]
         );

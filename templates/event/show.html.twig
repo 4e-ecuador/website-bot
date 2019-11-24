@@ -11,6 +11,8 @@
 
     <h1>{{ event.name }}</h1>
 
+    {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
+
     <h4>
         <span class="oi oi-media-play"></span> {{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}<br>
         <span class="oi oi-media-stop"></span> {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}
@@ -40,10 +42,10 @@
         </div>
     {% endif %}
 
-    {% if apGains %}
+    {% if values %}
         <table>
             {% set cnt = 1 %}
-            {% for name, value in apGains %}
+            {% for name, value in values %}
                 {% if cnt == 1 %}
                     {% set img = '<img src="'~asset('build/images/medals/1st-place-medal.png')~'" style="height: 36px">' %}
                 {% elseif cnt == 2 %}
@@ -61,6 +63,9 @@
             {% endfor %}
         </table>
     {% else %}
-        No hay estadisticas para este evento :(
+        {% if 'future' == status %}
+        {% else %}
+            No hay estadisticas para este evento :(
+        {% endif %}
     {% endif %}
 {% endblock %}

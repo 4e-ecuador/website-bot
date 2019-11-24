@@ -7,23 +7,24 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date_start</th>
-                <th>Date_end</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Date_start</th>
+            <th>Date_end</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
                 <td>{{ event.id }}</td>
-                <td>{{ event.name }}</td>
+                <td><a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a></td>
+                <td>{{ event.eventType }}</td>
                 <td>{{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
                     <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
                 </td>
             </tr>

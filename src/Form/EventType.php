@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +14,15 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('eventType', ChoiceType::class, [
+                'choices'  => [
+                    'AP' => 'ap',
+                    'Hacker' => 'hacker',
+                    'Builder' => 'builder',
+                    'Trekker' => 'trekker',
+                    'Purifier' => 'purifier',
+                ],
+            ])
             ->add('date_start')
             ->add('date_end')
         ;

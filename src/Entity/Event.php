@@ -31,6 +31,11 @@ class Event
      */
     private $date_end;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $event_type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Event
     public function setDateEnd(\DateTimeInterface $date_end): self
     {
         $this->date_end = $date_end;
+
+        return $this;
+    }
+
+    public function getEventType(): ?string
+    {
+        return $this->event_type;
+    }
+
+    public function setEventType(?string $Event_type): self
+    {
+        $this->event_type = $Event_type;
 
         return $this;
     }

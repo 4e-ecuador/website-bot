@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\AgentStat;
 use App\Form\AgentStatType;
 use App\Helper\Paginator\PaginatorTrait;
-use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

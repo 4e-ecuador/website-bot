@@ -161,6 +161,19 @@ class AgentStatRepository extends ServiceEntityRepository
             ->setParameter('endValue', $endDatetime)
             ->getQuery()
             ->getResult();
+    }
 
+    public function findDayly(\DateTime $dateTime)
+    {
+        $startDatetime = $dateTime->format('Y-m-d').' 00:00:00';
+        $endDatetime = $dateTime->format('Y-m-d').' 23:59:59';
+
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.datetime >= :startValue')
+            ->setParameter('startValue', $startDatetime)
+            ->andWhere('a.datetime <= :endValue')
+            ->setParameter('endValue', $endDatetime)
+            ->getQuery()
+            ->getResult();
     }
 }

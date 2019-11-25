@@ -32,12 +32,24 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                            <img src="{{ asset('build/images/badges/'~getBadgePath(type, medalLevel(type, entry.value))) }}"
-                                 alt="" style="width: 24px;">
-                            {% set doubleCount = medalDoubleValue(type, entry.value) %}
+                            {% if 'ap' == type %}
 
-                            {% if doubleCount > 1 %}
-                                <span class="doubleCount">X {{ doubleCount }}</span>
+                                {% if entry.agent.recursions %}
+                                    <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum.png') }}"
+                                         title="Simulacrum" alt="Simulacrum" style="width: 24px;">
+                                    {% if entry.agent.recursions > 1 %}
+                                        <span class="doubleCount">X {{ entry.agent.recursions }}</span>
+                                    {% endif %}
+                                {% endif %}
+
+                            {% else %}
+                                <img src="{{ asset('build/images/badges/'~getBadgePath(type, medalLevel(type, entry.value))) }}"
+                                     alt="" style="width: 24px;">
+                                {% set doubleCount = medalDoubleValue(type, entry.value) %}
+
+                                {% if doubleCount > 1 %}
+                                    <span class="doubleCount">X {{ doubleCount }}</span>
+                                {% endif %}
                             {% endif %}
                             <a href="{{ path('agent_stats', {'id': entry.agent.id}) }}">
                                 {{ entry.agent.nickname }}

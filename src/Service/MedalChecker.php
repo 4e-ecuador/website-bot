@@ -164,13 +164,49 @@ class MedalChecker
             'First Saturday Events'         => 'ifs',
         ];
 
+    private $customMedals
+        = [
+            'annual'  =>
+                [
+                    'innovator'  => [],
+                    'vanguard'   => [],
+                    'luminary'   => [],
+                    'sage'       => [],
+                    'ouroboros'  => [],
+                    'resurgence' => [],
+                ],
+            'Anomaly' =>
+                [
+                    'Umbra',
+                    'NemesisMyriad',
+                    'AbaddonPrime',
+                    'DarsanaPrime',
+                    'RecursionPrime',
+                    'CassandraPrime',
+                    'EXO5',
+                    '13MAGNUSReawakens',
+                    'ViaNoir',
+                    'ViaLux',
+                    'AegisNova',
+                    'Obsidian',
+                    'Abaddon',
+                    'Persepolis',
+                    'Shonin',
+                    'Darsana',
+                    'Helios',
+                    'Initio',
+                    'Interitus',
+                    'Recursion',
+                ],
+        ];
+
     private $levelNames
         = [
-            1 => 'bronze',
-            2 => 'silver',
-            3 => 'gold',
-            4 => 'platin',
-            5 => 'onyx',
+            1 => 'Bronze',
+            2 => 'Silver',
+            3 => 'Gold',
+            4 => 'Platinum',
+            5 => 'Black',
         ];
 
     /**
@@ -187,7 +223,7 @@ class MedalChecker
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');
-        $this->translatedLevels[4] = $translator->trans('medal.level.platin');
+        $this->translatedLevels[4] = $translator->trans('medal.level.platinum');
         $this->translatedLevels[5] = $translator->trans('medal.level.onyx');
     }
 
@@ -334,14 +370,17 @@ class MedalChecker
                 $medal = 'FS';
                 break;
         }
-        $levelName = ucfirst($this->getLevelName($level));
-        if ('Onyx' === $levelName) {
-            $levelName = 'Black';
-        }
-        if ('Platin' === $levelName) {
-            $levelName = 'Platinum';
-        }
 
-        return 'Badge_'.$medal.'_'.$levelName.'.png';
+        return 'Badge_'.$medal.'_'.$this->getLevelName($level).'.png';
+    }
+
+    public function getCustomMedalGroups(): array
+    {
+        return $this->customMedals;
+    }
+
+    public function getMedalLevelNames(): array
+    {
+        return $this->levelNames;
     }
 }

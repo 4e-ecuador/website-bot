@@ -53,49 +53,38 @@ class MakeBadgeGroupsCommand extends Command
                 continue;
             }
 
-            $badgeName = $item->getBasename();
-
+            $badgeName = substr($item->getBasename(), 0, strrpos($item->getBasename(), '.'));
             if (0 === strpos($badgeName, 'Anomaly_')) {
-                $groups['anomaly'][] = $badgeName;
+                $groups['anomaly']['xm'][] = $badgeName;
+            } elseif (0 === strpos($badgeName, 'Badge_Innovator_')) {
+                $groups['annual']['innovator'][] = $badgeName;
+            } elseif (0 === strpos($badgeName, 'Badge_Vanguard_')) {
+                $groups['annual']['vanguard'][] = $badgeName;
+            } elseif (0 === strpos($badgeName, 'Badge_Sage_')) {
+                $groups['annual']['sage'][] = $badgeName;
             }
 
             $io->writeln($item->getBasename());
         }
 
-        var_dump($groups);
+        $io->writeln('$groups =');
+        $io->writeln('[');
 
-        foreach ($groups as $type => $items) {
-            $io->writeln('[');
+        foreach ($groups as $type => $subgroups) {
             $io->writeln("'$type' =>");
-            $io->writeln("'".implode("', '", $items)."'");
-            $io->writeln(']');
+            $io->writeln('[');
+            foreach ($subgroups as $groupName => $items) {
+                $io->writeln("'$groupName' =>");
+                $io->writeln('[');
+                $io->writeln("'".implode("', '", $items)."'");
+                $io->writeln('],');
+            }
+            $io->writeln('],');
         }
 
-        $io->success('Finished!');
+        $io->writeln('];');
 
-        $d = [
-            'anomaly' =>
-                'Anomaly_NemesisMyriad.png',
-            'Anomaly_Shonin.png',
-            'Anomaly_RecursionPrime.png',
-            'Anomaly_Interitus.png',
-            'Anomaly_Umbra.png',
-            'Anomaly_ViaNoir.png',
-            'Anomaly_AbaddonPrime.png',
-            'Anomaly_Persepolis.png',
-            'Anomaly_Darsana.png',
-            'Anomaly_Initio.png',
-            'Anomaly_DarsanaPrime.png',
-            'Anomaly_ViaLux.png',
-            'Anomaly_Obsidian.png',
-            'Anomaly_AegisNova.png',
-            'Anomaly_Helios.png',
-            'Anomaly_CassandraPrime.png',
-            'Anomaly_Abaddon.png',
-            'Anomaly_EXO5.png',
-            'Anomaly_13MAGNUSReawakens.png',
-            'Anomaly_Recursion.png',
-        ];
+        $io->success('Finished!');
 
         return 0;
     }

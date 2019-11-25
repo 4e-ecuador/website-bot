@@ -69,7 +69,7 @@ Search: Buscar
 medal.level.bronce: bronce
 medal.level.silver: plata
 medal.level.gold: oro
-medal.level.platin: platino
+medal.level.platinum: platino
 medal.level.onyx: ónix
 'no records found': 'No se encontraron entradas'
 Events: Eventos
@@ -83,7 +83,9 @@ Events: Eventos
 'No current events.': 'Actualmente no hay eventos.'
 'Future Events': 'Eventos futuros'
 'There are no future events.': 'No hay eventos futuros.'
+'There are no past events.': 'No hay eventos pasados.'
 'Past Events': 'Eventos pasados'
 'Final results': 'Resultados finales'
 'Personal information': 'Information personal'
 'Agent data': 'Agent data'
+user.not.verified.2: 'No tiene un agente asignado a su usuario - contacte un admin!'

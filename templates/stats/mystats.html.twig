@@ -16,6 +16,13 @@
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
     <h1>{{ 'Statistics'|trans }}</h1>
     {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
+    {% if agent.recursions %}
+        <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum.png') }}"
+             title="Simulacrum" alt="Simulacrum" style="width: 50px;">
+        {% if agent.recursions > 1 %}
+            <span class="doubleCount">X {{ agent.recursions }}</span>
+        {% endif %}
+    {% endif %}
     {% if latest %}
         <div>
             {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
@@ -23,6 +30,32 @@
         <h4>AP: {{ latest.ap|number_format }}</h4>
 
         <h3>{{ 'Medals'|trans }}</h3>
+
+        {% if agentCustomMedals %}
+            {#            {{ dump(agentCustomMedals) }}#}
+
+            {% for group, medals in agentCustomMedals %}
+                {#                <h4>{{ group }}</h4>#}
+                <table>
+                    <tr>
+                        {% for medal, value in medals %}
+                            <td>
+                                {% if 'Anomaly' == group %}
+                                    <img src="{{ asset('build/images/badges/Anomaly_'~medal~'.png') }}"
+                                         title="{{ medal }}" alt="{{ medal }}" style="width: 50px;">
+                                {% else %}
+                                    <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value)) }}"
+                                         title="{{ medal }}" alt="{{ medal }}" style="width: 50px;">
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            {% endfor %}
+
+        {% endif %}
+
+
 
         <table>
             {% for medalGroup in medalGroups %}

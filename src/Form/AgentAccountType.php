@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Agent;
-use App\Entity\Faction;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +20,8 @@ class AgentAccountType extends AbstractType
                     'label' => 'Real Name',
                 ]
             )
+            ->add('recursions', null, ['attr' => ['min' => 0]])
+            ->add('customMedals')
             ->add(
                 'lat',
                 NumberType::class,

@@ -54,6 +54,16 @@ class Agent
      */
     private $hasMap;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $recursions;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $custom_medals;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -173,6 +183,30 @@ class Agent
     public function setHasMap(?bool $hasMap): self
     {
         $this->hasMap = $hasMap;
+
+        return $this;
+    }
+
+    public function getRecursions(): ?int
+    {
+        return $this->recursions;
+    }
+
+    public function setRecursions(?int $recursions): self
+    {
+        $this->recursions = $recursions;
+
+        return $this;
+    }
+
+    public function getCustomMedals(): ?string
+    {
+        return $this->custom_medals;
+    }
+
+    public function setCustomMedals(?string $custom_medals): self
+    {
+        $this->custom_medals = $custom_medals;
 
         return $this;
     }

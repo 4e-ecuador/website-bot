@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AgentAccountType;
+use App\Service\MedalChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,16 +21,24 @@ class AccountController extends AbstractController
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
      */
-    public function index(Request $request, Security $security, TranslatorInterface $translator): Response
+    public function index(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker): Response
     {
         $agent = $security->getUser()->getAgent();
 
-        // $agent = $user->getAgent();
-
         if (!$agent) {
-            throw $this->createAccessDeniedException(
-                'No tiene un agente asignado a su usuario - contacte un admin!'
-            );
+            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
+        }
+
+        $agentAccount = $request->request->get('agent_account');
+
+        $customMedals = json_decode($agent->getCustomMedals(), true);
+
+        if ($agentAccount) {
+            $customMedals = $request->request->get('customMedals');
+
+            $agentAccount['customMedals'] = json_encode($customMedals);
+
+            $request->request->set('agent_account', $agentAccount);
         }
 
         $form = $this->createForm(AgentAccountType::class, $agent);
@@ -45,9 +54,11 @@ class AccountController extends AbstractController
         return $this->render(
             'account/index.html.twig',
             [
-                'agent'   => $agent,
-                'form'    => $form->createView(),
-                'message' => '',
+                'agent'             => $agent,
+                'agentCustomMedals' => $customMedals,
+                'form'              => $form->createView(),
+                'message'           => '',
+                'customMedals'      => $medalChecker->getCustomMedalGroups(),
             ]
         );
     }

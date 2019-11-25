@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/stats")
@@ -27,29 +28,29 @@ class StatsController extends AbstractController
      * @Route("/my-stats", name="my_stats")
      * @IsGranted("ROLE_AGENT")
      */
-    public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
+    public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker, TranslatorInterface $translator): Response
     {
         $user = $security->getUser();
 
         $agent = $user->getAgent();
 
         if (!$agent) {
-            throw $this->createAccessDeniedException(
-                'No tiene un agente asignado a su usuario - contacte un admin!'
-            );
+            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
 
         $latest = $statRepository->getAgentLatest($agent);
         $medalGroups = $latest
             ? $this->getMedalGroups($medalChecker->checkLevels($latest))
             : [];
+        $customMedals = json_decode($agent->getCustomMedals(), true);
 
         return $this->render(
             'stats/mystats.html.twig',
             [
-                'agent'       => $agent,
-                'medalGroups' => $medalGroups,
-                'latest'      => $latest,
+                'agent'             => $agent,
+                'medalGroups'       => $medalGroups,
+                'agentCustomMedals' => $customMedals,
+                'latest'            => $latest,
             ]
         );
     }
@@ -65,12 +66,16 @@ class StatsController extends AbstractController
             ? $this->getMedalGroups($medalChecker->checkLevels($latest))
             : [];
 
+        $customMedals = json_decode($agent->getCustomMedals(), true);
+
         return $this->render(
             'stats/mystats.html.twig',
             [
-                'agent'       => $agent,
-                'medalGroups' => $medalGroups,
-                'latest'      => $latest,
+                'agent'             => $agent,
+                'medalGroups'       => $medalGroups,
+                'customMedals'      => $medalChecker->getCustomMedalGroups(),
+                'agentCustomMedals' => $customMedals,
+                'latest'            => $latest,
             ]
         );
     }
@@ -172,7 +177,11 @@ class StatsController extends AbstractController
         $medalsGained1 = [];
 
         if ($startDate && $endDate) {
-            $entries = $statRepository->findByDate(new \DateTime($startDate), new \DateTime($endDate.' 23:59:59'));
+            $entries = $statRepository->findByDate(
+                new \DateTime($startDate), new \DateTime(
+                $endDate.' 23:59:59'
+            )
+            );
             $previous = [];
 
             foreach ($entries as $entry) {
@@ -196,11 +205,17 @@ class StatsController extends AbstractController
                     }
                     if (false === isset($previous[$agentName][$name])) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
-                        $medalsGained1[$name][] = ['agent' => $agentName, 'level' => $level];
+                        $medalsGained1[$name][] = [
+                            'agent' => $agentName,
+                            'level' => $level,
+                        ];
                         $previous[$name] = $level;
                     } elseif ($previous[$agentName][$name] < $level) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
-                        $medalsGained1[$name][] = ['agent' => $agentName, 'level' => $level];
+                        $medalsGained1[$name][] = [
+                            'agent' => $agentName,
+                            'level' => $level,
+                        ];
                         $previous[$agentName][$name] = $level;
                     }
                 }
@@ -210,10 +225,10 @@ class StatsController extends AbstractController
         return $this->render(
             'stats/by_date.html.twig',
             [
-                'startDate'    => new \DateTime($startDate),
-                'endDate'      => new \DateTime($endDate),
-                'stats'        => $stats,
-                'medalsGained' => $medalsGained,
+                'startDate'     => new \DateTime($startDate),
+                'endDate'       => new \DateTime($endDate),
+                'stats'         => $stats,
+                'medalsGained'  => $medalsGained,
                 'medalsGained1' => $medalsGained1,
             ]
         );
@@ -244,7 +259,7 @@ class StatsController extends AbstractController
      */
     public function StatImport(
         Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
-        AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper
+        AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator
     ): Response {
         $csv = $request->get('csv');
         $importType = $request->get('type');
@@ -258,9 +273,7 @@ class StatsController extends AbstractController
         $agent = $user->getAgent();
 
         if (!$agent) {
-            throw $this->createAccessDeniedException(
-                'No tiene un agente asignado a su usuario - contacte un admin!'
-            );
+            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
 
         if ($csv) {

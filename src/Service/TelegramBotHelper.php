@@ -144,10 +144,8 @@ class TelegramBotHelper
         );
     }
 
-    public function sendTestMessage($chatId, $text)
+    public function sendMessage($chatId, $text): Message
     {
-        return $this->api->sendMessage(
-            $chatId, $text
-        );
+        return $this->api->sendMessage($chatId, $text, 'markdown');
     }
 }

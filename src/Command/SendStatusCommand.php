@@ -62,7 +62,7 @@ class SendStatusCommand extends Command
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));
 
-            $this->telegramBotHelper->sendTestMessage($groupId, implode("\n", $message));
+            $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
 
             $io->success('Finished!');
         } catch (\Exception $exception) {

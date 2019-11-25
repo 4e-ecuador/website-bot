@@ -51,7 +51,7 @@ class TestMessageCommand extends Command
             $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
 
             $text = 'test '.date('Y-m-d H:i:s');
-            $this->telegramBotHelper->sendTestMessage($groupId, $text);
+            $this->telegramBotHelper->sendMessage($groupId, $text);
             $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
         } catch (\Exception $exception) {
             $io->error($exception->getMessage());

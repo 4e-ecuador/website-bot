@@ -43,31 +43,21 @@ class SendStatusCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
+        $io->writeln('Sending status update...');
 
         try {
             // $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
             $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
 
-            $dateTime = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+            $dateTime = new \DateTime('now -1 day', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
-            $yesterday = $dateTime->modify('+1 day');
-
-            $statsCount = $this->agentStatRepository->findDayly($yesterday);
+            $statsCount = $this->agentStatRepository->findDayly($dateTime);
 
             $message = [];
 
             $message[] = 'Status update: '.date('Y-m-d H:i:s');
-            $message[] = 'Local time   : '.$dateTime->format('Y-m-d H:i:s');
-            $message[] = 'Local time   : '.$yesterday->format('Y-m-d H:i:s');
+            $message[] = 'Stats for    : '.$dateTime->format('Y-m-d H:i:s');
             $message[] = 'Timezone: '.$_ENV['DEFAULT_TIMEZONE'];
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));

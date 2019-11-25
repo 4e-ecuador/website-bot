@@ -36,7 +36,7 @@ class TestController extends AbstractController
         if ($testtext) {
             $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
 
-            $telegramBotHelper->sendTestMessage($groupId, $testtext);
+            $telegramBotHelper->sendMessage($groupId, $testtext);
         }
 
         return $this->render('test/bottest.html.twig', [

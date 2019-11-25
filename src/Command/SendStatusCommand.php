@@ -47,8 +47,8 @@ class SendStatusCommand extends Command
         $io->writeln('Sending status update...');
 
         try {
-            // $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+            $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            // $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
 
             $dateTime = new \DateTime('now -1 day', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
@@ -57,7 +57,7 @@ class SendStatusCommand extends Command
             $message = [];
 
             $message[] = 'Status update: '.date('Y-m-d H:i:s');
-            $message[] = 'Stats for    : '.$dateTime->format('Y-m-d H:i:s');
+            $message[] = 'Stats for    : '.$dateTime->format('Y-m-d');
             $message[] = 'Timezone: '.$_ENV['DEFAULT_TIMEZONE'];
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));

@@ -22,17 +22,12 @@
         <h4>{{ 'Final results'|trans }}</h4>
     {% else %}
 
-        <div id="clockdiv" class="text-center alert alert-warning">
             {% if 'current' == status %}
+                <div class="clock-counter text-center alert alert-warning" data-deadline="{{ event.dateEnd|date('Y-m-d H:i:s') }}">
                 <b>{{ 'The event ends in'|trans }}</b>
-                <span id="js-data"
-                      data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
-                ></span>
             {% elseif 'future' == status %}
+                <div class="clock-counter text-center alert alert-success" data-deadline="{{ event.dateStart|date('Y-m-d H:i:s') }}">
                 <b>{{ 'The event starts in'|trans }}</b>
-                <span id="js-data"
-                      data-deadline="{{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}"
-                ></span>
             {% endif %}
 
             {{ 'Days:'|trans }} <b class="days"></b>

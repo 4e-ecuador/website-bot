@@ -1,19 +1,13 @@
-<h2>{{ 'Current events'|trans }}</h2>
+<h3>{{ 'Current events'|trans }}</h3>
 
 {% for event in currentEvents %}
     <div class="card">
-        <div class="card-header">
-            <a href="{{ path('event_show', {'id': event.id}) }}">
-                {{ event.name }}
-            </a>
-        </div>
         <div class="card-body">
-            {#    @todo currently only one clock is supportes :(#}
-            <span id="js-data"
-                  data-deadline="{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}"
-            ></span>
+            <h4>
+                <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+            </h4>
 
-            <div id="clockdiv" class="text-center alert alert-warning"
+            <div class="clock-counter text-center alert alert-warning"
                  data-deadline="{{ event.dateEnd|date('Y-m-d H:i:s') }}">
                 <b>{{ 'The event ends in'|trans }}</b>
                 {{ 'Days:'|trans }} <b class="days"></b>
@@ -28,26 +22,34 @@
     <div>{{ 'No current events.'|trans }}</div>
 {% endfor %}
 
-<div class="row">
-    <div class="col">
-        <h4>{{ 'Future Events'|trans }}</h4>
-        {% for event in futureEvents %}
-            <div>
+<h3>{{ 'Future Events'|trans }}</h3>
+{% for event in futureEvents %}
+    <div class="card">
+        <div class="card-body">
+            <h4>
                 <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
-            </div>
-        {% else %}
-            <div>{{ 'There are no future events.'|trans }}</div>
-        {% endfor %}
+            </h4>
 
-    </div>
-    <div class="col">
-        <h4>{{ 'Past Events'|trans }}</h4>
-        {% for event in pastEvents %}
-            <div>
-                <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+            <div class="clock-counter"
+                 data-deadline="{{ event.dateStart|date('Y-m-d H:i:s') }}">
+                <b>{{ 'The event starts in'|trans }}</b>
+                {{ 'Days:'|trans }} <b class="days"></b>
+                {{ 'Hours:'|trans }} <b class="hours"></b>
+                {{ 'Minutes:'|trans }} <b class="minutes"></b>
+                {{ 'Seconds:'|trans }} <b class="seconds"></b>
             </div>
-        {% else %}
-            <div>{{ 'There are no future events.'|trans }}</div>
-        {% endfor %}
+
+        </div>
     </div>
-</div>
+{% else %}
+    <div>{{ 'There are no future events.'|trans }}</div>
+{% endfor %}
+
+<h3>{{ 'Past Events'|trans }}</h3>
+{% for event in pastEvents %}
+    <div>
+        <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+    </div>
+{% else %}
+    <div>{{ 'There are no past events.'|trans }}</div>
+{% endfor %}

@@ -38,10 +38,15 @@ class StatsController extends AbstractController
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
 
+        $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
-        $medalGroups = $latest
-            ? $this->getMedalGroups($medalChecker->checkLevels($latest))
-            : [];
+
+        if ($latest) {
+            $medals = $medalChecker->checkLevels($latest);
+            arsort($medals);
+            $medalGroups = $this->getMedalGroups($medals);
+        }
+
         $customMedals = json_decode($agent->getCustomMedals(), true);
 
         return $this->render(

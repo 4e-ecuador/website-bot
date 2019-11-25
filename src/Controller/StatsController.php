@@ -66,10 +66,14 @@ class StatsController extends AbstractController
      */
     public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
+        $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
-        $medalGroups = $latest
-            ? $this->getMedalGroups($medalChecker->checkLevels($latest))
-            : [];
+
+        if ($latest) {
+            $medals = $medalChecker->checkLevels($latest);
+            arsort($medals);
+            $medalGroups = $this->getMedalGroups($medals);
+        }
 
         $customMedals = json_decode($agent->getCustomMedals(), true);
 

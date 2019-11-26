@@ -1,23 +1,30 @@
 {{ form_start(form) }}
 
-{{ form_row(form.faction) }}
 {{ form_row(form.nickname) }}
-{{ form_row(form.real_name) }}
-{{ form_row(form.hasMap) }}
-
-<div id="map"></div>
 
 <div class="row">
-    <div class="col">
-        {{ form_row(form.lat) }}
+    <div class="col-sm">
+        {{ form_row(form.faction) }}
     </div>
-    <div class="col">
-        {{ form_row(form.lon) }}
+    <div class="col-sm">
+        {{ form_row(form.recursions) }}
     </div>
 </div>
 
-{{ form_widget(form) }}
+{{ form_row(form.real_name) }}
+{{ form_row(form.mapGroup) }}
+
+<div id="map"></div>
+
+{#{{ form_widget(form) }}#}
 
 <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+
+{{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
+    {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}
+    {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
+
+    {{ form_rest(form) }}
+
 
 {{ form_end(form) }}

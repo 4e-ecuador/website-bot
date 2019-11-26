@@ -15,13 +15,13 @@
 {% block body %}
     <h1>{{ 'Edit Agent'|trans }}</h1>
 
-    {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}
-
     <div class="btn-group" role="group">
 
-    <a class="btn btn-secondary" href="{{ path('agent_index') }}">{{ 'Back to list'|trans }}</a>
+        <a class="btn btn-secondary" href="{{ path('agent_index') }}">{{ 'Back to list'|trans }}</a>
 
-    {{ include('agent/_delete_form.html.twig') }}
-</div>
+        {{ include('agent/_delete_form.html.twig') }}
+    </div>
+    {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}
+
 
 {% endblock %}

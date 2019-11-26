@@ -79,7 +79,7 @@
                                 {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
                                 {% if doubleCount > 1 %}
-                                <div class="doubleCount">X {{ doubleCount }}</div>
+                                <span class="doubleCount">X {{ doubleCount }}</span>
                             {% endif %}
                             {% else %}
                                 <img src="{{ asset('build/images/medals/default-1.svg') }}" alt="" style="width: 50px;">

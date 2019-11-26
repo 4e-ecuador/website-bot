@@ -15,28 +15,27 @@
 {% block body %}
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
     <h1>{{ 'Statistics'|trans }}</h1>
-    {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
-    {% if agent.recursions %}
-        <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum_50.png') }}"
-             title="Simulacrum" alt="Simulacrum">
-        {% if agent.recursions > 1 %}
-            <span class="doubleCount">X {{ agent.recursions }}</span>
+    <p>
+        {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
+        {% if agent.recursions %}
+            <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum_50.png') }}"
+                 title="Simulacrum" alt="Simulacrum">
+            {% if agent.recursions > 1 %}
+                <span class="doubleCount">X {{ agent.recursions }}</span>
+            {% endif %}
         {% endif %}
-    {% endif %}
+    </p>
     {% if latest %}
-        <div>
+        <p>
             {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
-        </div>
+        </p>
         <h4>AP: {{ latest.ap|number_format }}</h4>
-
-        <h3>{{ 'Medals'|trans }}</h3>
 
         {% if agentCustomMedals %}
             {% for group, medals in agentCustomMedals %}
-                <table>
-                    <tr>
-                        {% for medal, value in medals %}
-                            <td>
+                <div>
+                    {% for medal, value in medals %}
+                        <span>
                                 {% if 'Anomaly' == group %}
                                     <img src="{{ asset('build/images/badges/Anomaly_'~medal~'_50.png') }}"
                                          title="{{ medal }}" alt="{{ medal }}">
@@ -47,40 +46,35 @@
                                     <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value, 50)) }}"
                                          title="{{ medal }}" alt="{{ medal }}">
                                 {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                </table>
+                            </span>
+                    {% endfor %}
+                </div>
             {% endfor %}
         {% endif %}
 
-        <table>
-            {% for medalGroup in medalGroups %}
-                <tr>
-                    {% for name, level in medalGroup %}
-                        <td class="medal-item" style="text-align: center"
-                            title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name] ~ ')' }}"
-                            data-medal-name="{{ name|ucfirst }}"
-                            data-medal-desc="{{ name|medalDesc }}"
-                            data-medal-level="{{ level }}"
-                            data-medal-value="{{ latest[name]|number_format }}"
-                            data-medal-value-1="{{ medalValue(name, 1)|number_format }}"
-                            data-medal-value-2="{{ medalValue(name, 2)|number_format }}"
-                            data-medal-value-3="{{ medalValue(name, 3)|number_format }}"
-                            data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
-                            data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
+        {% for name, level in medalGroups %}
+            <span class="medal-item" style="text-align: center"
+                  title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name] ~ ')' }}"
+                  data-medal-name="{{ name|ucfirst }}"
+                  data-medal-desc="{{ name|medalDesc }}"
+                  data-medal-level="{{ level }}"
+                  data-medal-value="{{ latest[name]|number_format }}"
+                  data-medal-value-1="{{ medalValue(name, 1)|number_format }}"
+                  data-medal-value-2="{{ medalValue(name, 2)|number_format }}"
+                  data-medal-value-3="{{ medalValue(name, 3)|number_format }}"
+                  data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
+                  data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
 
-                            data-badge-name-1="{{ getBadgePath(name, 1, 50) }}"
-                            data-badge-name-2="{{ getBadgePath(name, 2, 50) }}"
-                            data-badge-name-3="{{ getBadgePath(name, 3, 50) }}"
-                            data-badge-name-4="{{ getBadgePath(name, 4, 50) }}"
-                            data-badge-name-5="{{ getBadgePath(name, 5, 50) }}"
-                        >
+                  data-badge-name-1="{{ getBadgePath(name, 1, 50) }}"
+                  data-badge-name-2="{{ getBadgePath(name, 2, 50) }}"
+                  data-badge-name-3="{{ getBadgePath(name, 3, 50) }}"
+                  data-badge-name-4="{{ getBadgePath(name, 4, 50) }}"
+                  data-badge-name-5="{{ getBadgePath(name, 5, 50) }}"
+            >
                             <span class="medal-image">
                             {% if level %}
                                 <img src="{{ asset('build/images/badges/'~getBadgePath(name, level, 50)) }}"
                                      alt="{{ name }}">
-{#                                <img src="{{ asset('build/images/medals/default-'~level~'.svg') }}" alt="" style="width: 50px;">#}
 {#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
                                 {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
@@ -91,12 +85,8 @@
                                 <img src="{{ asset('build/images/medals/default-1.svg') }}" alt="" style="width: 50px;">
                             {% endif %}
                             </span>
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-
+                        </span>
+        {% endfor %}
         <div id="container" style="width:100%; height:400px;"></div>
 
     {% else %}

@@ -165,8 +165,8 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getDoubleValue($medal, $value);
     }
 
-    public function getBadgePath(string $medal, int $level): string
+    public function getBadgePath(string $medal, int $level, int $size = 0): string
     {
-        return $this->medalChecker->getBadgePath($medal, $level);
+        return $this->medalChecker->getBadgePath($medal, $level, $size);
     }
 }

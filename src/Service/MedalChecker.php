@@ -397,7 +397,7 @@ class MedalChecker
         return $doubleValue;
     }
 
-    public function getBadgePath(string $medal, int $level): string
+    public function getBadgePath(string $medal, int $level, int $size = 0): string
     {
         $medal = ucfirst($medal);
         switch ($medal) {
@@ -422,7 +422,9 @@ class MedalChecker
                 break;
         }
 
-        return 'Badge_'.$medal.'_'.$this->getLevelName($level).'.png';
+        $sizeString = $size ? '_'.$size : '';
+
+        return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString.'.png';
     }
 
     public function getCustomMedalGroups(): array

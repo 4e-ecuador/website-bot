@@ -35,7 +35,7 @@
                             {% if 'ap' == type %}
 
                                 {% if entry.agent.recursions %}
-                                    <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum.png') }}"
+                                    <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum_50.png') }}"
                                          title="Simulacrum" alt="Simulacrum" style="width: 24px;">
                                     {% if entry.agent.recursions > 1 %}
                                         <span class="doubleCount">X {{ entry.agent.recursions }}</span>
@@ -43,7 +43,7 @@
                                 {% endif %}
 
                             {% else %}
-                                <img src="{{ asset('build/images/badges/'~getBadgePath(type, medalLevel(type, entry.value))) }}"
+                                <img src="{{ asset('build/images/badges/'~getBadgePath(type, medalLevel(type, entry.value), 50)) }}"
                                      alt="" style="width: 24px;">
                                 {% set doubleCount = medalDoubleValue(type, entry.value) %}
 

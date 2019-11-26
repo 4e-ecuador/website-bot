@@ -7,3 +7,7 @@ div.medal-value {
     color: #ff894f;
     font-weight: bold;
 }
+
+.medal-image {
+    cursor: pointer;
+}

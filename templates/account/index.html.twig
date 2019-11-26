@@ -35,17 +35,18 @@
             {{ form_row(form.real_name) }}
 
             <label for="map">{{ 'Meeting point'|trans }}</label>
+
             <div id="map"></div>
 
-            {#            {% if agent.hasMap %}#}
-            {#                <div class="alert alert-success">#}
-            {#                    {{ 'account.map.added.success'|trans }}#}
-            {#                </div>#}
-            {#            {% else %}#}
-            {#                <div class="alert alert-warning">#}
-            {#                    {{ 'account.map.added.warning'|trans }}#}
-            {#                </div>#}
-            {#            {% endif %}#}
+            {% if agent.mapGroup %}
+                <div class="alert alert-success">
+                    {{ 'account.map.added.group'|trans({'group': agent.mapGroup.name}) }}
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    {{ 'account.map.added.warning'|trans }}
+                </div>
+            {% endif %}
 
             <h4>{{ 'Agent data'|trans }}</h4>
 

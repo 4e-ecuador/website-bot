@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Agent;
 use App\Entity\Faction;
+use App\Entity\MapGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -59,7 +60,14 @@ class AgentType extends AbstractType
                     ],
                 ]
             )
-            ->add('hasMap', null, ['label' => 'Display on map']);
+            ->add('hasMap', null, ['label' => 'Display on map'])
+            ->add('mapGroup',
+                EntityType::class,
+                [
+                    'class'        => MapGroup::class,
+                    'choice_label' => 'name',
+                    'required' => false,
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

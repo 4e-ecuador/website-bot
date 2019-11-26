@@ -64,6 +64,11 @@ class Agent
      */
     private $custom_medals;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\MapGroup", inversedBy="agents")
+     */
+    private $map_group;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -207,6 +212,18 @@ class Agent
     public function setCustomMedals(?string $custom_medals): self
     {
         $this->custom_medals = $custom_medals;
+
+        return $this;
+    }
+
+    public function getMapGroup(): ?MapGroup
+    {
+        return $this->map_group;
+    }
+
+    public function setMapGroup(?MapGroup $map_group): self
+    {
+        $this->map_group = $map_group;
 
         return $this;
     }

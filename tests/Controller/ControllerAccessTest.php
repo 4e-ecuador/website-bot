@@ -9,6 +9,7 @@ use App\Tests\Fixtures\AgentStatFixture;
 use App\Tests\Fixtures\CommentFixture;
 use App\Tests\Fixtures\EventFixture;
 use App\Tests\Fixtures\HelpFixture;
+use App\Tests\Fixtures\MapGroupFixture;
 
 class ControllerAccessTest extends FixtureAwareTestCase
 {
@@ -42,8 +43,11 @@ class ControllerAccessTest extends FixtureAwareTestCase
             ],
         ];
 
+    protected $client;
+
     protected function setUp()
     {
+        $this->client = static::createClient();
         parent::setUp();
         $kernel = static::bootKernel();
 
@@ -52,6 +56,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new CommentFixture());
         $this->addFixture(new HelpFixture());
         $this->addFixture(new EventFixture());
+        $this->addFixture(new MapGroupFixture());
         $this->executeFixtures();
 
         $this->agentRepository = $kernel->getContainer()->get('doctrine')
@@ -61,12 +66,6 @@ class ControllerAccessTest extends FixtureAwareTestCase
             ->getManager();
 
         $this->routeLoader = $kernel->getContainer()->get('routing.loader');
-    }
-
-    public function XXXtestGetAgents()
-    {
-        $agents = $this->entityManager->getRepository(Agent::class)->findAll();
-        $this->assertEquals(5, count($agents));
     }
 
     private function loadRoutes($controllerName)
@@ -93,7 +92,10 @@ class ControllerAccessTest extends FixtureAwareTestCase
             $controllerName = basename($item->getBasename(), '.php');
 
             $routes = $this->loadRoutes($controllerName)->all();
-            $client = static::createClient();
+            // static::bootKernel();
+            // $client = static::createClient();
+            // $client = static::createClient();
+
 
             foreach ($routes as $routeName => $route) {
                 $method = 'GET';
@@ -117,10 +119,10 @@ class ControllerAccessTest extends FixtureAwareTestCase
 
                 $path = $route->getPath();
                 $path = str_replace('{id}', $defaultId, $path);
-                $client->request($method, $path);
+                $this->client->request($method, $path);
                 $this->assertEquals(
                     $defaultExpected,
-                    $client->getResponse()->getStatusCode(),
+                    $this->client->getResponse()->getStatusCode(),
                     sprintf('failed: %s (%s)', $routeName, $path)
                 );
             }

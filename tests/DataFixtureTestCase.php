@@ -87,7 +87,7 @@ class DataFixtureTestCase extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // self::runCommand('doctrine:database:drop', ['--force' =>'--force']);
 

@@ -42,8 +42,6 @@ Medals: Medallas
 'My Profile': 'Mi Perfil'
 'Import Stats': 'Importar Estadisticas'
 Stats: Estadisticas
-account.map.added.success: __account.map.added.success
-account.map.added.warning: __account.map.added.warning
 'Meeting point': 'Punto de encuentro'
 'Your profile has been updated.': 'Su perfil ha sido actualizado.'
 Help: Ayuda
@@ -90,3 +88,5 @@ Events: Eventos
 'Agent data': 'Agent data'
 user.not.verified.2: 'No tiene un agente asignado a su usuario - contacte un admin!'
 'Reset custom Medals': 'Resetear Medallas'
+'Map groups': 'Grupos del mapa'
+Recursions: Recursiones

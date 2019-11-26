@@ -10,3 +10,5 @@ new.medal.text.3: '[¡Admiren este medallero!]({link})'
 new.medal.text.4: '¡Felicitaciones! {tadaa}'
 'Event type: {type}': 'Tipo de evento: {type}'
 countdown.seconds: "{count, plural,\n  =0 {# segundos}\n  one {# segundo}\n  other {# segundos}\n}"
+account.map.added.warning: 'No ha sido aniadido aun al mapa - contacte un admin!'
+account.map.added.group: 'Miembro del grupo de mapa: {group}'

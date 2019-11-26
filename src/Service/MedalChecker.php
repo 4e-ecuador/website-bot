@@ -166,15 +166,6 @@ class MedalChecker
 
     private $customMedals
         = [
-            'annual'  =>
-                [
-                    'innovator'  => [],
-                    'vanguard'   => [],
-                    'luminary'   => [],
-                    'sage'       => [],
-                    'ouroboros'  => [],
-                    'resurgence' => [],
-                ],
             'Anomaly' =>
                 [
                     'Umbra',
@@ -198,6 +189,66 @@ class MedalChecker
                     'Interitus',
                     'Recursion',
                 ],
+            'Annual'  =>
+                [
+                    'Innovator'  => [],
+                    'Vanguard'   => [],
+                    'Luminary'   => [],
+                    'Sage'       => [],
+                    'Ouroboros'  => [],
+                    'Resurgence' => [],
+                ],
+            'Event'   =>
+                [
+                    'AuroraGlyph'          =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
+                    'MyriadHack'           =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
+                    'DarkXM'               =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
+                    'CassandraNeutralizer' =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
+                    'EXO5'                 =>
+                        [
+                            '100',
+                            '500',
+                            '2000',
+                        ],
+                    'MagnusBuilder'        =>
+                        [
+                            'Builder',
+                            'Architect',
+                        ],
+                    'LuxAdventure'         =>
+                        [
+                            'Explorer',
+                            'Odyssey',
+                        ],
+
+
+                    // 'FieldTest'            =>
+                    //     [
+                    //         'XX',
+                    //         'Elite',
+                    //     ],
+                ],
+
         ];
 
     private $levelNames

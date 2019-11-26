@@ -51,7 +51,9 @@
 
             {{ form_row(form.recursions) }}
 
-{#            {{ dump(agentCustomMedals) }}#}
+            {#            {{ dump(agentCustomMedals) }}#}
+
+            <div id="resetCustomMedals" class="btn btn-warning">{{ 'Reset custom Medals'|trans }}</div>
 
             {% for group, medals in customMedals %}
                 <h4>{{ group }}</h4>
@@ -61,7 +63,7 @@
                 <div class="row">
                     {% for medal, tiers in medals %}
                         <div class="col">
-{#                            {{ medal }}<br>#}
+                            {#                            {{ medal }}<br>#}
                             {% set selectedValue = 0 %}
                             {% if agentCustomMedals[group][medal] is defined %}
                                 {#                            {{ dump(agentCustomMedals[group][medal]) }}#}
@@ -71,8 +73,8 @@
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label for="{{ 'medal-'~group~medal~i }}">
-                                    <img src="{{ asset('build/images/badges/'~getBadgePath(medal, i)) }}"
-                                         alt="" style="width: 36px;">
+                                        <img src="{{ asset('build/images/badges/'~getBadgePath(medal, i)) }}"
+                                             alt="" style="width: 36px;">
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
                                            id="{{ 'medal-'~group~medal~i }}"
@@ -88,14 +90,29 @@
                                     <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
                                            id="{{ 'medal-'~group~medal }}"
                                            value="1"{{ checked }}>
-                                    {% endif %}
+                                {% elseif 'Event' == group %}
+                                    {% for tier in tiers %}
+                                        {% set name = 'XX' == tier ? '' : '_'~tier %}
+                                        {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
+                                        <label for="{{ 'medal-'~group~medal~tier }}">
+                                            <img src="{{ asset('build/images/badges/EventBadge_'~medal~name~'.png') }}"
+                                                 title="{{ tier }}" alt="aaa" style="width: 36px;">
+                                        </label>
+                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                               id="{{ 'medal-'~group~medal~tier }}"
+                                               value="{{ tier }}"{{ checked }}>
+
+                                    {% endfor %}
+                                {% else %}
+                                    @TODO {{ group }}
+                                {% endif %}
                             {% endif %}
                         </div>
                     {% endfor %}
                 </div>
             {% endfor %}
 
-            {#            {{ dump(customMedals) }}#}
+{#            {{ dump(customMedals) }}#}
 
         </div>
 

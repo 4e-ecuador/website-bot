@@ -54,3 +54,7 @@ if (isNaN(lon)) {
 }
 
 initmap(lat, lon, zoom)
+
+$('#resetCustomMedals').on('click', function () {
+    $('input[name^=\'customMedals\']').prop('checked', false)
+})

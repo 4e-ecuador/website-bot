@@ -43,6 +43,9 @@
                                 {% if 'Anomaly' == group %}
                                     <img src="{{ asset('build/images/badges/Anomaly_'~medal~'.png') }}"
                                          title="{{ medal }}" alt="{{ medal }}" style="width: 50px;">
+                                {% elseif 'Event' == group %}
+                                    <img src="{{ asset('build/images/badges/EventBadge_'~medal~'_'~value~'.png') }}"
+                                         title="{{ medal }}" alt="{{ medal }}" style="width: 50px;">
                                 {% else %}
                                     <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value)) }}"
                                          title="{{ medal }}" alt="{{ medal }}" style="width: 50px;">
@@ -54,8 +57,6 @@
             {% endfor %}
 
         {% endif %}
-
-
 
         <table>
             {% for medalGroup in medalGroups %}
@@ -91,12 +92,9 @@
                                 <div class="doubleCount">X {{ doubleCount }}</div>
                             {% endif %}
                             {% else %}
-                                <img src="{{ asset('build/images/medals/default-1.svg') }}" alt=""
-                                     style="width: 50px;">
-
+                                <img src="{{ asset('build/images/medals/default-1.svg') }}" alt="" style="width: 50px;">
                             {% endif %}
                             </span>
-                            {#                            <code>{{ name }}-{{ level }}</code>#}
                         </td>
                     {% endfor %}
                 </tr>

@@ -62,6 +62,9 @@ class MakeBadgeGroupsCommand extends Command
                 $groups['annual']['vanguard'][] = $badgeName;
             } elseif (0 === strpos($badgeName, 'Badge_Sage_')) {
                 $groups['annual']['sage'][] = $badgeName;
+            } elseif (0 === strpos($badgeName, 'EventBadge_')) {
+                $parts = explode('_', $badgeName);
+                $groups['event'][$parts[1]][] = $parts[2]??'XX';
             }
 
             $io->writeln($item->getBasename());

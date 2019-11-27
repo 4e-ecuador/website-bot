@@ -24,5 +24,6 @@ before_script:
   - npm run dev
 
 script:
-#  - ./bin/phpunit
-  - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+  - ./bin/phpunit $PHPUNIT_FLAGS
+#  - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+  - cat ./var/log/test.log

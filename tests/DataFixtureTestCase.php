@@ -19,9 +19,6 @@ class DataFixtureTestCase extends WebTestCase
     /** @var  Client $client */
     protected $client;
 
-    // /** @var  ContainerInterface $container */
-    // protected $container;
-
     /** @var  EntityManager $entityManager */
     protected $entityManager;
 

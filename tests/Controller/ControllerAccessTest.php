@@ -59,12 +59,6 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new MapGroupFixture());
         $this->executeFixtures();
 
-        $this->agentRepository = $kernel->getContainer()->get('doctrine')
-            ->getRepository(Agent::class);
-
-        $this->entityManager = $kernel->getContainer()->get('doctrine')
-            ->getManager();
-
         $this->routeLoader = $kernel->getContainer()->get('routing.loader');
     }
 
@@ -92,10 +86,6 @@ class ControllerAccessTest extends FixtureAwareTestCase
             $controllerName = basename($item->getBasename(), '.php');
 
             $routes = $this->loadRoutes($controllerName)->all();
-            // static::bootKernel();
-            // $client = static::createClient();
-            // $client = static::createClient();
-
 
             foreach ($routes as $routeName => $route) {
                 $method = 'GET';

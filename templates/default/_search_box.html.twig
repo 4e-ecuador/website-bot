@@ -9,7 +9,7 @@
                         <textarea class="form-control" name="csv" id="csv" required="required"
                                   placeholder="{{ 'Prime export'|trans }}"></textarea>
                         <div class="input-group-append">
-                            <button class="btn btn-success">{{ 'Upload'|trans }}</button>
+                            <button class="btn btn-outline-primary" title="{{ 'Upload'|trans }}"><span class="oi oi-cloud-upload"></button>
                         </div>
                     </div>
                     <input type="hidden" name="type" value="prime">
@@ -22,7 +22,9 @@
                     <input type="text" id="searchAgent" required="required" name="paginatorOptions[criteria][nickname]"
                            class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
                     <div class="input-group-append">
-                        <button class="btn btn-success">{{ 'Search'|trans }}</button>
+                        <button class="btn btn-outline-primary" title="{{ 'Search'|trans }}">
+                            <span class="oi oi-magnifying-glass"></span>
+                            </button>
                     </div>
                 </div>
             </form>

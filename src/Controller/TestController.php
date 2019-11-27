@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,23 @@ class TestController extends AbstractController
         }
 
         return $this->render('test/bottest.html.twig', [
+            'testtext' => $testtext,
+        ]);
+    }
+
+    /**
+     * @Route("/mail", name="test_mail")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function mailTest(Request $request, MailerHelper $mailerHelper)
+    {
+        $testtext = $request->get('testtext');
+
+        if ($testtext) {
+            $mailerHelper->sendTestMail('elkuku.n7@gmail.com');
+        }
+
+        return $this->render('test/mailtest.html.twig', [
             'testtext' => $testtext,
         ]);
     }

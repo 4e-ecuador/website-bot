@@ -22,6 +22,17 @@ class DefaultController extends AbstractController
         $pastEvents = [];
         $futureEvents = [];
 
+        // $fmt = new IntlDateFormatter(
+        //     'es',
+        //     IntlDateFormatter::FULL,
+        //     IntlDateFormatter::FULL,
+        //     'America/Guayaquil',
+        //     IntlDateFormatter::GREGORIAN
+        // );
+        //
+        // echo 'Second Formatted output is ' . $fmt->format(new \DateTime());
+
+
         if ($this->isGranted('ROLE_AGENT')) {
             $comments = $commentRepository->findLatest(5);
 

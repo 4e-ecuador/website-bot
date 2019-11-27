@@ -21,14 +21,9 @@ class MailController extends AbstractController
      */
     public function sendConfirnationMail(User $user, MailerHelper $mailerHelper, TranslatorInterface $translator)
     {
-        $email = $user->getEmail();
         $subject = $translator->trans('email.confirmation.subject');
-        $body = $this->renderView(
-            'emails/confirmation.html.twig',
-            ['user' => $user]
-        );
 
-        $response = $mailerHelper->sendConfirmationMail($email, $subject, $body);
+        $response = $mailerHelper->sendConfirmationMail($user, $subject);
 
         return new Response($response);
     }

@@ -7,3 +7,4 @@ twig:
         - 'form/fields.html.twig'
     paths:
         "%kernel.project_dir%/public": public_path
+        '%kernel.project_dir%/assets/images': images

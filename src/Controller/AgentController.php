@@ -198,12 +198,7 @@ class AgentController extends AbstractController
                 'id' => $comment->getId(),
             ];
 
-            $body = $this->renderView(
-                'emails/new_comment.html.twig',
-                ['comment' => $comment]
-            );
-
-            $mailerHelper->sendNewCommentMail($body);
+            $mailerHelper->sendNewCommentMail($comment);
 
             return $this->json($response);
         }

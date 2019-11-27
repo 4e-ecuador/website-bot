@@ -51,14 +51,16 @@ class SendStatusCommand extends Command
             // $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
 
             $dateTime = new \DateTime('now -1 day', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+            $localDateTime = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
             $statsCount = $this->agentStatRepository->findDayly($dateTime);
 
             $message = [];
 
             $message[] = 'Status update: '.date('Y-m-d H:i:s');
-            $message[] = 'Stats for    : '.$dateTime->format('Y-m-d');
+            $message[] = 'Local time: '.$localDateTime->format('Y-m-d H:i:s');
             $message[] = 'Timezone: '.$_ENV['DEFAULT_TIMEZONE'];
+            $message[] = 'Stats for: *'.$dateTime->format('Y-m-d').'*';
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));
 

@@ -119,7 +119,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
 
                 $path = $route->getPath();
                 $path = str_replace('{id}', $defaultId, $path);
-                echo 'Testing: '.$path.PHP_EOL;
+                // echo 'Testing: '.$path.PHP_EOL;
                 $this->client->request($method, $path);
                 $this->assertEquals(
                     $defaultExpected,

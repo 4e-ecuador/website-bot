@@ -296,7 +296,7 @@ class StatsController extends AbstractController
                         ->setAgent($agent);
 
                     if ($agentStatRepository->has($statEntry)) {
-                        $this->addFlash('warning', 'Stat entry already added!');
+                        $this->addFlash('warning', $translator->trans('Stat entry already added!'));
                     } else {
                         foreach ($values as $vName => $value) {
                             $methodName = $medalChecker->getMethodName($vName);

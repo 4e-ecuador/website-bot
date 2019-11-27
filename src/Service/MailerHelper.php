@@ -2,8 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Comment;
 use App\Entity\User;
-use Twig\Environment;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class MailerHelper
 {
@@ -16,101 +21,96 @@ class MailerHelper
      * @var string
      */
     private $emailName;
+
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
-    /**
-     * @var Environment
-     */
-    private $templating;
 
-    public function __construct(string $email, string $emailName, \Swift_Mailer $mailer, Environment $templating)
+    public function __construct(string $email, string $emailName, MailerInterface $mailer)
     {
         $this->email = $email;
         $this->emailName = $emailName;
         $this->mailer = $mailer;
-        $this->templating = $templating;
     }
 
-    public function sendConfirmationMail(string $recipient, string $subject, string $body): string
+    public function sendConfirmationMail(User $user, string $subject): string
     {
         try {
-            $message = (new \Swift_Message($subject))
-                ->setFrom($this->email, $this->emailName)
-                ->setTo($recipient)
-                ->setBody($body, 'text/html');
+            $message = $this->createNewTwigMessage()
+                ->to($user->getEmail())
+                ->subject($subject)
+                ->htmlTemplate('emails/confirmation.html.twig')
+                ->context(['user' => $user,]);
 
-            $logger = new \Swift_Plugins_Loggers_ArrayLogger();
-            $this->mailer->registerPlugin(
-                new \Swift_Plugins_LoggerPlugin($logger)
-            );
+            $this->mailer->send($message);
 
-            $count = $this->mailer->send($message);
-
-            if ($count) {
-                $response = 'Confirmation mail has been sent to '.$recipient;
-            } else {
-                $response = 'There was an error sending your message :( '
-                    .$logger->dump();
-            }
-        } catch (\InvalidArgumentException $exception) {
+            $response = 'Confirmation mail has been sent to '.$user->getEmail();
+        } catch (TransportExceptionInterface $exception) {
             $response = $exception->getMessage();
         }
 
         return $response;
     }
 
-    public function sendNewCommentMail(string $body): string
+    public function sendNewCommentMail(Comment $comment): string
     {
-        $subject = 'New Comment';
-        $recipient = $this->email;
         try {
-            $message = (new \Swift_Message($subject))
-                ->setFrom($this->email, $this->emailName)
-                ->setTo($recipient)
-                ->setBody($body, 'text/html');
+            $message = $this->createNewTwigMessage()
+                ->to($this->email)
+                ->subject('New Comment')
+                ->htmlTemplate('emails/new_comment.html.twig')
+                ->context(['comment' => $comment,]);
 
-            $logger = new \Swift_Plugins_Loggers_ArrayLogger();
-            $this->mailer->registerPlugin(
-                new \Swift_Plugins_LoggerPlugin($logger)
-            );
+            $this->mailer->send($message);
 
-            $count = $this->mailer->send($message);
-
-            if ($count) {
-                $response = 'Confirmation mail has been sent to '.$recipient;
-            } else {
-                $response = 'There was an error sending your message :( '
-                    .$logger->dump();
-            }
-        } catch (\InvalidArgumentException $exception) {
+            $response = 'Confirmation mail has been sent to '.$this->email;
+        } catch (TransportExceptionInterface $exception) {
             $response = $exception->getMessage();
         }
 
         return $response;
     }
 
-    public function sendNewUserMail(User $user)
+    public function sendNewUserMail(User $user): string
     {
-        $subject = 'New User';
-        $recipient = $this->email;
+        try {
+            $message = $this->createNewTwigMessage()
+                ->to($this->email)
+                ->subject('New User')
+                ->htmlTemplate('emails/new_user.html.twig')
+                ->context(['user' => $user,]);
 
-        $body = $this->templating->render('emails/new_user.html.twig', ['user' => $user]);
+            $this->mailer->send($message);
 
-        $message = (new \Swift_Message($subject))
-            ->setFrom($this->email, $this->emailName)
-            ->setTo($recipient)
-            ->setBody($body, 'text/html');
-
-        $count = $this->mailer->send($message);
-
-        if ($count) {
-            $response = 'Confirmation mail has been sent to '.$recipient;
-        } else {
-            $response = 'There was an error sending your message :( ';
+            $response = 'Mail has been sent to '.$this->email;
+        } catch (TransportExceptionInterface $exception) {
+            $response = $exception->getMessage();
         }
 
         return $response;
+    }
+
+    public function sendTestMail(string $email)
+    {
+        $message = $this->createNewMessage()
+            ->to($email)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $this->mailer->send($message);
+    }
+
+    private function createNewMessage(): Email
+    {
+        return (new Email())
+            ->from(new Address($this->email, $this->emailName));
+    }
+
+    private function createNewTwigMessage(): TemplatedEmail
+    {
+        return (new TemplatedEmail())
+            ->from(new Address($this->email, $this->emailName));
     }
 }

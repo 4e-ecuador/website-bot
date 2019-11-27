@@ -200,6 +200,10 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'AvenirShard'          =>
+                        [
+                            '',
+                        ],
                     'AuroraGlyph'          =>
                         [
                             'Bronze',
@@ -240,7 +244,6 @@ class MedalChecker
                             'Explorer',
                             'Odyssey',
                         ],
-
 
                     // 'FieldTest'            =>
                     //     [
@@ -424,7 +427,8 @@ class MedalChecker
 
         $sizeString = $size ? '_'.$size : '';
 
-        return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString.'.png';
+        return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
+            .'.png';
     }
 
     public function getCustomMedalGroups(): array

@@ -36,17 +36,22 @@
                 <div>
                     {% for medal, value in medals %}
                         <span>
-                                {% if 'Anomaly' == group %}
-                                    <img src="{{ asset('build/images/badges/Anomaly_'~medal~'_50.png') }}"
+                            {% if 'Anomaly' == group %}
+                                <img src="{{ asset('build/images/badges/Anomaly_'~medal~'_50.png') }}"
+                                     title="{{ medal }}" alt="{{ medal }}">
+                            {% elseif 'Event' == group %}
+                                {% if 'AvenirShard' == medal %}
+                                    <img src="{{ asset('build/images/badges/UniqueBadge_AvenirShardChallenge_50.png') }}"
                                          title="{{ medal }}" alt="{{ medal }}">
-                                {% elseif 'Event' == group %}
+                                        {% else %}
                                     <img src="{{ asset('build/images/badges/EventBadge_'~medal~'_'~value~'_50.png') }}"
                                          title="{{ medal }}" alt="{{ medal }}">
-                                {% else %}
-                                    <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value, 50)) }}"
-                                         title="{{ medal }}" alt="{{ medal }}">
                                 {% endif %}
-                            </span>
+                            {% else %}
+                                <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value, 50)) }}"
+                                     title="{{ medal }}" alt="{{ medal }}">
+                            {% endif %}
+                        </span>
                     {% endfor %}
                 </div>
             {% endfor %}

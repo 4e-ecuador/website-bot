@@ -56,7 +56,7 @@
                 <h4>{{ group }}</h4>
                 <div class="row">
                     {% for medal, tiers in medals %}
-                        <div class="col">
+                        <div class="col border">
                             {% set selectedValue = 0 %}
                             {% if agentCustomMedals[group][medal] is defined %}
                                 {% set selectedValue = agentCustomMedals[group][medal] %}
@@ -84,11 +84,16 @@
                                            value="1"{{ checked }}>
                                 {% elseif 'Event' == group %}
                                     {% for tier in tiers %}
-                                        {% set name = 'XX' == tier ? '' : '_'~tier %}
+                                        {% set name = '' == tier ? '' : '_'~tier %}
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
                                         <label for="{{ 'medal-'~group~medal~tier }}">
+                                            {% if 'AvenirShard' == medal %}
+                                                <img src="{{ asset('build/images/badges/UniqueBadge_AvenirShardChallenge_50.png') }}"
+                                                     title="{{ tier }}" alt="aaa" style="width: 36px;">
+                                            {% else %}
                                             <img src="{{ asset('build/images/badges/EventBadge_'~medal~name~'_50.png') }}"
                                                  title="{{ tier }}" alt="aaa" style="width: 36px;">
+                                                {% endif %}
                                         </label>
                                         <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
                                                id="{{ 'medal-'~group~medal~tier }}"

@@ -50,6 +50,7 @@ class UserType extends AbstractType
                 //     return sprintf('(%d) %s', $user->getId(), $user->getNickname());
                 // },
                 'placeholder' => '',
+                'required' => false,
                 'choices'     => $this->agentRepository->findAllAlphabetical(),
             ]
             );

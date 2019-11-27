@@ -1,18 +1,40 @@
 {% if is_granted('ROLE_AGENT') %}
-    <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            <h5>{{ 'Search agent'|trans }}</h5>
-        </div>
+    <div class="card">
         <div class="card-body">
-            <form method="post" action="{{ path('agent_index') }}">
-                <div class="form-group">
-                    <input type="text" id="searchAgent" name="paginatorOptions[criteria][nickname]"
+
+            {% if app.user.agent %}
+                <b>{{ 'Import Stats'|trans }}</b>
+                <form method="post" action="{{ path('stat_import') }}" class="form-inline">
+                    <div class="input-group">
+                        <textarea class="form-control" name="csv" id="csv" required="required"
+                                  placeholder="{{ 'Prime export'|trans }}"></textarea>
+                        <div class="input-group-append">
+                            <button class="btn btn-success">{{ 'Upload'|trans }}</button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+
+            <b>{{ 'Search agent'|trans }}</b>
+            <form method="post" action="{{ path('agent_index') }}" class="form-inline">
+                <div class="input-group">
+                    <input type="text" id="searchAgent" required="required" name="paginatorOptions[criteria][nickname]"
                            class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
-                    <div class="card-footer text-right">
+                    <div class="input-group-append">
                         <button class="btn btn-success">{{ 'Search'|trans }}</button>
                     </div>
                 </div>
             </form>
+
+
+            {#            <form method="post">#}
+            {#                <label for="csv">{{ 'Use the copy stats button {img} from your ingress profile and paste it here.'|trans({'img':'<img src="'~ asset('build/images/ico/profile-copy.jpg') ~'" alt="Copy profile">'})|raw }}</label>#}
+            {#                <textarea class="form-control" name="csv" id="csv" cols="80" rows="5"></textarea>#}
+            {#                <input type="hidden" name="type" value="prime">#}
+            {#                <button class="btn btn-success">{{ 'Submit'|trans }}</button>#}
+            {#            </form>#}
+
+
         </div>
     </div>
 {% endif %}

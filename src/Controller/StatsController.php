@@ -327,7 +327,10 @@ class StatsController extends AbstractController
         if ($currentEntry) {
             $previousEntry = $agentStatRepository->getPrevious($currentEntry);
 
-            if ($previousEntry) {
+            if (!$previousEntry) {
+                // First import
+                $currents = $medalChecker->checkLevels($currentEntry);
+            } else {
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
                 $diff = $currentEntry->getDiff($previousEntry);
 
@@ -339,9 +342,6 @@ class StatsController extends AbstractController
                         $telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
                     }
                 }
-            } else {
-                // First import
-                $currents = $medalChecker->checkLevels($currentEntry);
             }
         }
 

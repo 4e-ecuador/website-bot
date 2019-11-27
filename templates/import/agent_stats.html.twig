@@ -52,7 +52,7 @@
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <form method="post">
                 <label for="csv">{{ 'Use the copy stats button {img} from your ingress profile and paste it here.'|trans({'img':'<img src="'~ asset('build/images/ico/profile-copy.jpg') ~'" alt="Copy profile">'})|raw }}</label>
-                <textarea class="form-control" name="csv" id="csv" cols="80" rows="5"></textarea>
+                <textarea class="form-control" name="csv" id="csv" required="required" cols="80" rows="5"></textarea>
                 <input type="hidden" name="type" value="prime">
                 <button class="btn btn-success">{{ 'Submit'|trans }}</button>
             </form>
@@ -60,7 +60,7 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <form method="post">
                 <label for="csvStats">{{ 'Use the export function from {agentstats}'|trans({'agentstats': '<a href="https://www.agent-stats.com/">agent-stats.com</a>'})|raw }}</label>
-                <textarea class="form-control" name="csv" id="csvStats" cols="80" rows="5"></textarea>
+                <textarea class="form-control" name="csv" id="csvStats" required="required" cols="80" rows="5"></textarea>
                 <input type="hidden" name="type" value="agentstats">
                 <button class="btn btn-success">{{ 'Submit'|trans }}</button>
             </form>

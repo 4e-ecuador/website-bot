@@ -65,7 +65,9 @@ class SendNewsletterCommand extends Command
 
         $message = [];
 
-        $dateNow = new DateTime('now', $_ENV['DEFAULT_TIMEZONE']);
+        $timeZone = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+
+        $dateNow = new DateTime('now', $timeZone);
 
         $context = $this->router->getContext();
         $context->setHost(str_replace('http://', '', $_ENV['PAGE_BASE_URL']));
@@ -88,7 +90,7 @@ class SendNewsletterCommand extends Command
             IntlDateFormatter::GREGORIAN
         );
 
-        $fsDate = $this->getNextFS();
+        $fsDate = $this->getNextFS($timeZone);
         $events = $this->eventRepository->findAll();
         $currentEvents = [];
         $futureEvents = [];
@@ -177,11 +179,11 @@ class SendNewsletterCommand extends Command
         return 0;
     }
 
-    private function getNextFS(): DateTime
+    private function getNextFS(\DateTimeZone $timeZone): DateTime
     {
         $dateNow = new DateTime('now');
-        $fsThisMonth = new DateTime('first saturday of this month');
-        $fsNextMonth = new DateTime('first saturday of next month');
+        $fsThisMonth = new DateTime('first saturday of this month', $timeZone);
+        $fsNextMonth = new DateTime('first saturday of next month', $timeZone);
 
         return ($dateNow > $fsThisMonth) ? $fsNextMonth : $fsThisMonth;
     }

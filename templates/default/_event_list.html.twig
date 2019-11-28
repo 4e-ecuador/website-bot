@@ -1,3 +1,22 @@
+{% if ingressMD %}
+    <h3>{{ 'Ingress Mission Day'|trans }}</h3>
+    <a href="{{ fs.link }}">{{ fs.name }}</a>
+
+{% endif %}
+{% if ingressFS %}
+    <div class="card">
+        <div class="card-header">
+            <h3>{{ 'Ingress First Saturday'|trans }}</h3>
+            {{ nextFs|formatIntlDate }}
+        </div>
+        <div class="card-body">
+            {% for fs in ingressFS %}
+                <a href="{{ fs.link }}">{{ fs.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
 <h3>{{ 'Current events'|trans }}</h3>
 
 {% for event in currentEvents %}

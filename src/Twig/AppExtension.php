@@ -8,6 +8,7 @@
 
 namespace App\Twig;
 
+use App\Service\IntlDateHelper;
 use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
 use Twig\Extension\AbstractExtension;
@@ -35,11 +36,16 @@ class AppExtension extends AbstractExtension
      * @var MarkdownHelper
      */
     private $markdownHelper;
+    /**
+     * @var IntlDateHelper
+     */
+    private $intlDateHelper;
 
-    public function __construct(MedalChecker $medalChecker, MarkdownHelper $markdownHelper)
+    public function __construct(MedalChecker $medalChecker, MarkdownHelper $markdownHelper, IntlDateHelper $intlDateHelper)
     {
         $this->medalChecker = $medalChecker;
         $this->markdownHelper = $markdownHelper;
+        $this->intlDateHelper = $intlDateHelper;
     }
 
     /**
@@ -59,6 +65,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
+            new TwigFilter('formatIntlDate', [$this, 'formatIntlDate']),
             new TwigFilter(
                 'md2html', [
                 $this,
@@ -168,5 +175,10 @@ class AppExtension extends AbstractExtension
     public function getBadgePath(string $medal, int $level, int $size = 0): string
     {
         return $this->medalChecker->getBadgePath($medal, $level, $size);
+    }
+
+    public function formatIntlDate(\DateTime $date)
+    {
+        return $this->intlDateHelper->format($date);
     }
 }

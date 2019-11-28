@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IngressEvent index{% endblock %}
+
+{% block body %}
+    <h1>IngressEvent index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Date_start</th>
+                <th>Date_end</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ingress_event in ingress_events %}
+            <tr>
+                <td>{{ ingress_event.id }}</td>
+                <td>{{ ingress_event.name }}</td>
+                <td>{{ ingress_event.type }}</td>
+                <td>{{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ingress_event.description }}</td>
+                <td>
+                    <a href="{{ path('ingress_event_show', {'id': ingress_event.id}) }}">show</a>
+                    <a href="{{ path('ingress_event_edit', {'id': ingress_event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ingress_event_new') }}">Create new</a>
+{% endblock %}

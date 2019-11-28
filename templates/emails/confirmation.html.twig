@@ -1,13 +1,75 @@
-<h3>You did it! You registered!</h3>
-
-Hi {{ user.agent ? user.agent.nickname : user.username }}! You're successfully registered.
-
-<p>
-    To login, go to: <a href="{{ url('app_login') }}">Login</a>.
-</p>
-
-Thanks!
-
-{#<img src="{{ absolute_url(asset('build/images/4e-logo-white.jpg')) }}" alt="4E Logo">#}
-
-<img src="{{ email.image('@images/4e-logo-white.jpg') }}" alt="Logo">
+{% apply inky_to_html|inline_css(source('@styles/foundation/css/foundation-emails.css'), source('@styles/email.css'))  %}
+    <container>
+        <row class="header">
+            <columns>Bien
+            </columns>
+        </row>
+        <row class="welcome">
+            <columns>
+                <spacer size="35"></spacer>
+                <h1>
+                    <center>
+                        Nice to meet you {{ email.toName }}!
+                    </center>
+                </h1>
+                <spacer size="10"></spacer>
+            </columns>
+        </row>
+        <spacer size="30"></spacer>
+        <row>
+            <columns>
+                <p>
+                    Welcome to <strong>the Space Bar</strong>, we can't wait to read what you have to write.
+                    Get started on your first article and connect with the space bar community.
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <center>
+                    <button href="{{ url('app_login') }}">Login!</button>
+                </center>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>
+                    Check out our existing articles and share your thoughts in the comments!
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <center>
+                    <button href="{{ url('default') }}">Get reading!</button>
+                </center>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>
+                    We're so excited that you've decided to join us in our corner of the universe,
+                    it's a friendly one with other creative and insightful writers just like you!
+                    Need help from a friend? We're always just a message away.
+                </p>
+            </columns>
+        </row>
+        <row class="footer">
+            <columns>
+                <p>Cheers,</p>
+                <img src="{{ email.image('@images/4e-logo-white.jpg') }}" alt="Logo">
+                <p>Your friendly <em>Space Bar Team</em></p>
+            </columns>
+        </row>
+        <row class="bottom">
+            <columns>
+                <center>
+                    <spacer size="20"></spacer>
+                    <div>
+                        Sent with ❤️ from the friendly folks at The Space Bar
+                    </div>
+                </center>
+            </columns>
+        </row>
+    </container>
+{% endapply %}

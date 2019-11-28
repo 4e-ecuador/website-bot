@@ -32,7 +32,7 @@
     "symfony/security-bundle": "5.0.*",
     "symfony/serializer-pack": "*",
     "symfony/translation": "5.0.*",
-    "symfony/twig-pack": "*",
+    "symfony/twig-pack": "^1.0",
     "symfony/validator": "5.0.*",
     "symfony/web-link": "5.0.*",
     "symfony/webpack-encore-bundle": "^1.6",

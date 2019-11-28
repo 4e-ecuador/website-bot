@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Repository\EventRepository;
+use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
 use DateTime;
 use IntlDateFormatter;
@@ -31,12 +32,17 @@ class SendNewsletterCommand extends Command
      * @var UrlGeneratorInterface
      */
     private $router;
+    /**
+     * @var IngressEventRepository
+     */
+    private $ingressEventRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, EventRepository $eventRepository, UrlGeneratorInterface $router)
+    public function __construct(TelegramBotHelper $telegramBotHelper, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, UrlGeneratorInterface $router)
     {
         $this->eventRepository = $eventRepository;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->router = $router;
+        $this->ingressEventRepository = $ingressEventRepository;
 
         parent::__construct();
     }
@@ -95,6 +101,16 @@ class SendNewsletterCommand extends Command
         $currentEvents = [];
         $futureEvents = [];
 
+        $ingressFS = $this->ingressEventRepository->findFutureFS();
+        $ingressMD = $this->ingressEventRepository->findFutureMD();
+
+        $fsStrings = [];
+
+        /* @type \App\Entity\IngressEvent $fs */
+        foreach ($ingressFS as $fs) {
+            $fsStrings[] = sprintf('[%s](%s)', $fs->getName(), $fs->getLink());
+        }
+
         foreach ($events as $event) {
             if ($event->getDateStart() > $dateNow) {
                 $futureEvents[] = $event;
@@ -125,7 +141,8 @@ class SendNewsletterCommand extends Command
         );
 
         $message[] = '';
-        $message[] = '(Links a las paginas de los eventos - TBD)';
+        // '(Links a las paginas de los eventos - TBD)';
+        $message[] = 'Lugares: '.implode(', ', $fsStrings);
 
         $message[] = '';
         $message[] = '*Eventos 4E*';

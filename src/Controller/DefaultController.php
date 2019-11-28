@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Repository\AgentRepository;
 use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
+use App\Repository\IngressEventRepository;
+use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,23 +17,14 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository, EventRepository $eventRepository, MarkdownHelper $markdownHelper): Response
+    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, EventHelper $eventHelper, MarkdownHelper $markdownHelper): Response
     {
         $comments = [];
         $currentEvents = [];
         $pastEvents = [];
         $futureEvents = [];
-
-        // $fmt = new IntlDateFormatter(
-        //     'es',
-        //     IntlDateFormatter::FULL,
-        //     IntlDateFormatter::FULL,
-        //     'America/Guayaquil',
-        //     IntlDateFormatter::GREGORIAN
-        // );
-        //
-        // echo 'Second Formatted output is ' . $fmt->format(new \DateTime());
-
+        $ingressFS = [];
+        $ingressMD = [];
 
         if ($this->isGranted('ROLE_AGENT')) {
             $comments = $commentRepository->findLatest(5);
@@ -53,6 +46,9 @@ class DefaultController extends AbstractController
                     $currentEvents[] = $event;
                 }
             }
+
+            $ingressFS = $ingressEventRepository->findFutureFS();
+            $ingressMD = $ingressEventRepository->findFutureMD();
         }
 
         return $this->render(
@@ -63,6 +59,9 @@ class DefaultController extends AbstractController
                 'pastEvents'     => $pastEvents,
                 'currentEvents'  => $currentEvents,
                 'futureEvents'   => $futureEvents,
+                'ingressFS'      => $ingressFS,
+                'ingressMD'      => $ingressMD,
+                'nextFs'         => $eventHelper->getNextFS(),
             ]
         );
     }

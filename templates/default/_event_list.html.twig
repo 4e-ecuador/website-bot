@@ -10,9 +10,11 @@
             {{ nextFs|formatIntlDate }}
         </div>
         <div class="card-body">
+            &bull;
             {% for fs in ingressFS %}
-                <a href="{{ fs.link }}">{{ fs.name }}</a>
+                <a href="{{ fs.link }}">{{ fs.name }}</a> &bull;
             {% endfor %}
+
         </div>
     </div>
 

@@ -11,7 +11,7 @@ TBD
 
 ## Credits
 
-Ingress Logos: http://cr0ybot.github.io/ingress-logos/
-Ingress badges: https://dedo1911.xyz/Badges
+* Ingress Logos: http://cr0ybot.github.io/ingress-logos/
+* Ingress badges: https://dedo1911.xyz/Badges
 
 Devs: [dev.md](dev.md)

@@ -152,12 +152,16 @@ class SendNewsletterCommand extends Command
             $message[] = 'Eventos futuros:';
             foreach ($futureEvents as $event) {
                 $link = $this->router->generate('event_show', ['id' => $event->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $lll = new DateTime(
+                    $event->getDateStart()->format('Y-m-d H:i:s'), $timeZone
+                );
                 $message[] = sprintf(
                     '- [%s](%s) (tipo: *%s*) empieza el dia %s',
                     $event->getName(),
                     $link,
                     $event->getEventType(),
-                    $formatterDateFull->format($event->getDateStart()->setTimezone($timeZone))
+                    $formatterDateFull->format($lll)
+                    // $formatterDateFull->format($event->getDateStart()->setTimezone($timeZone))
                 );
             }
         }

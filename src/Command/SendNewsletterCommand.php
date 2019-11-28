@@ -65,7 +65,7 @@ class SendNewsletterCommand extends Command
 
         $message = [];
 
-        $dateNow = new DateTime('now');
+        $dateNow = new DateTime('now', $_ENV['DEFAULT_TIMEZONE']);
 
         $context = $this->router->getContext();
         $context->setHost(str_replace('http://', '', $_ENV['PAGE_BASE_URL']));

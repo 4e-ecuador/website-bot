@@ -9,6 +9,7 @@ use App\Tests\Fixtures\AgentStatFixture;
 use App\Tests\Fixtures\CommentFixture;
 use App\Tests\Fixtures\EventFixture;
 use App\Tests\Fixtures\HelpFixture;
+use App\Tests\Fixtures\IngressEventFixture;
 use App\Tests\Fixtures\MapGroupFixture;
 
 class ControllerAccessTest extends FixtureAwareTestCase
@@ -56,6 +57,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new CommentFixture());
         $this->addFixture(new HelpFixture());
         $this->addFixture(new EventFixture());
+        $this->addFixture(new IngressEventFixture());
         $this->addFixture(new MapGroupFixture());
         $this->executeFixtures();
 

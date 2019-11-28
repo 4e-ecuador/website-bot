@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\IngressEvent;
 use App\Form\IngressEventType;
 use App\Repository\IngressEventRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class IngressEventController extends AbstractController
 {
     /**
      * @Route("/", name="ingress_event_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(IngressEventRepository $ingressEventRepository): Response
     {
@@ -27,6 +29,7 @@ class IngressEventController extends AbstractController
 
     /**
      * @Route("/new", name="ingress_event_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -53,6 +56,7 @@ class IngressEventController extends AbstractController
 
     /**
      * @Route("/{id}", name="ingress_event_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(IngressEvent $ingressEvent): Response
     {
@@ -63,6 +67,7 @@ class IngressEventController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="ingress_event_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, IngressEvent $ingressEvent): Response
     {
@@ -83,6 +88,7 @@ class IngressEventController extends AbstractController
 
     /**
      * @Route("/{id}", name="ingress_event_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, IngressEvent $ingressEvent): Response
     {

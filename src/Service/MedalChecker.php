@@ -400,7 +400,7 @@ class MedalChecker
         return $doubleValue;
     }
 
-    public function getBadgePath(string $medal, int $level, int $size = 0): string
+    public function getBadgePath(string $medal, int $level, int $size = 0, string $postFix = '.png'): string
     {
         $medal = ucfirst($medal);
         switch ($medal) {
@@ -428,7 +428,7 @@ class MedalChecker
         $sizeString = $size ? '_'.$size : '';
 
         return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
-            .'.png';
+            .$postFix;
     }
 
     public function getCustomMedalGroups(): array
@@ -439,5 +439,11 @@ class MedalChecker
     public function getMedalLevelNames(): array
     {
         return $this->levelNames;
+    }
+
+    public function getMedalLevelName(int $level)
+    {
+        return array_key_exists($level, $this->levelNames)
+            ? $this->levelNames[$level] : '??';
     }
 }

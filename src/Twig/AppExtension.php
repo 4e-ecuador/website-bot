@@ -56,6 +56,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('cast_to_array', [$this, 'objectFilter']),
             new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
+            new TwigFilter('medalLevelName', [$this, 'getMedalLevelName']),
             new TwigFilter(
                 'translateMedalLevel', [
                 $this,
@@ -157,6 +158,11 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getMedalLevel($medal, $value);
     }
 
+    public function getMedalLevelName(int $level): string
+    {
+        return $this->medalChecker->getMedalLevelName($level);
+    }
+
     public function getMedalLevelNames(): array
     {
         return $this->medalChecker->getMedalLevelNames();
@@ -172,9 +178,9 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getDoubleValue($medal, $value);
     }
 
-    public function getBadgePath(string $medal, int $level, int $size = 0): string
+    public function getBadgePath(string $medal, int $level, int $size = 0, string $postFix = '.png'): string
     {
-        return $this->medalChecker->getBadgePath($medal, $level, $size);
+        return $this->medalChecker->getBadgePath($medal, $level, $size, $postFix);
     }
 
     public function formatIntlDate(\DateTime $date)

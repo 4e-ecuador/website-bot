@@ -18,8 +18,7 @@
     <p>
         {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
         {% if agent.recursions %}
-            <img src="{{ asset('build/images/badges/UniqueBadge_Simulacrum_50.png') }}"
-                 title="Simulacrum" alt="Simulacrum">
+            <span class="medal50 medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
             {% if agent.recursions > 1 %}
                 <span class="doubleCount">X {{ agent.recursions }}</span>
             {% endif %}
@@ -37,19 +36,15 @@
                     {% for medal, value in medals %}
                         <span>
                             {% if 'Anomaly' == group %}
-                                <img src="{{ asset('build/images/badges/Anomaly_'~medal~'_50.png') }}"
-                                     title="{{ medal }}" alt="{{ medal }}">
+                                <span class="medal50 medal-Anomaly_{{ medal }}" title="{{ medal }}"></span>
                             {% elseif 'Event' == group %}
                                 {% if 'AvenirShard' == medal %}
-                                    <img src="{{ asset('build/images/badges/UniqueBadge_AvenirShardChallenge_50.png') }}"
-                                         title="{{ medal }}" alt="{{ medal }}">
+                                    <span class="medal50 medal-UniqueBadge_AvenirShardChallenge" title="{{medal}}"></span>
                                         {% else %}
-                                    <img src="{{ asset('build/images/badges/EventBadge_'~medal~'_'~value~'_50.png') }}"
-                                         title="{{ medal }}" alt="{{ medal }}">
+                                    <span class="medal50 medal-EventBadge_{{ medal }}_{{ value }}" title="{{ medal }}"></span>
                                 {% endif %}
                             {% else %}
-                                <img src="{{ asset('build/images/badges/'~getBadgePath(medal, value, 50)) }}"
-                                     title="{{ medal }}" alt="{{ medal }}">
+                                <span class="medal50 medal-Badge_{{ medal }}_{{ value|medalLevelName}}" title="{{ medal }}"></span>
                             {% endif %}
                         </span>
                     {% endfor %}
@@ -70,16 +65,18 @@
                   data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
                   data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
 
-                  data-badge-name-1="{{ getBadgePath(name, 1, 50) }}"
-                  data-badge-name-2="{{ getBadgePath(name, 2, 50) }}"
-                  data-badge-name-3="{{ getBadgePath(name, 3, 50) }}"
-                  data-badge-name-4="{{ getBadgePath(name, 4, 50) }}"
-                  data-badge-name-5="{{ getBadgePath(name, 5, 50) }}"
+                  data-badge-name-1="{{ getBadgePath(name, 1, 0, '') }}"
+                  data-badge-name-2="{{ getBadgePath(name, 2, 0, '') }}"
+                  data-badge-name-3="{{ getBadgePath(name, 3, 0, '') }}"
+                  data-badge-name-4="{{ getBadgePath(name, 4, 0, '') }}"
+                  data-badge-name-5="{{ getBadgePath(name, 5, 0, '') }}"
             >
                             <span class="medal-image">
                             {% if level %}
-                                <img src="{{ asset('build/images/badges/'~getBadgePath(name, level, 50)) }}"
-                                     alt="{{ name }}">
+                                <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}" title="{{ name }}"></span>
+
+{#                                <img src="{{ asset('build/images/badges/'~getBadgePath(name, level, 50)) }}"#}
+{#                                     alt="{{ name }}">#}
 {#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
                                 {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 

@@ -51,8 +51,7 @@
                             {% set actLevel = 0 %}
                             {% for agent in agents %}
                                 {% if agent.level != actLevel %}
-                                    <img src="{{ asset('build/images/badges/'~getBadgePath(medal, agent.level)) }}"
-                                         alt="" style="width: 48px;">
+                                    <span class="medal50 medal-{{ getBadgePath(medal, agent.level, 0, '') }}"></span>
                                     <br>
                                     <b>{{ agent.level|translateMedalLevel|capitalize }}</b>
                                     <br>

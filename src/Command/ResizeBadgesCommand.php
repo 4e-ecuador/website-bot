@@ -14,10 +14,9 @@ class ResizeBadgesCommand extends Command
     protected static $defaultName = 'ResizeBadges';
 
     /**
-     * ScrapeBadgesCommand constructor.
-     *
-     * @param string $rootDir
+     * @var string
      */
+    private $rootDir;
 
     public function __construct(string $rootDir)
     {
@@ -38,9 +37,13 @@ class ResizeBadgesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $sizes = [50];
+        $sizes = [50, 24];
 
         foreach ($sizes as $size) {
+            $destDir = $this->rootDir.'/'.$size;
+            if (!is_dir($destDir) && !mkdir($destDir) && !is_dir($destDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $destDir));
+            }
             foreach (new \DirectoryIterator($this->rootDir) as $item) {
                 if ($item->isDot()) {
                     continue;
@@ -50,7 +53,8 @@ class ResizeBadgesCommand extends Command
                 if (strpos($srcPath, '_'.$size.'.png')) {
                     continue;
                 }
-                $destPath = str_replace('.png', '_'.$size.'.png', $srcPath);
+                // $destPath = str_replace('.png', '_'.$size.'.png', $srcPath);
+                $destPath = $destDir.'/'.$item->getFilename();
                 $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
                     .$destPath;
                 ob_start();

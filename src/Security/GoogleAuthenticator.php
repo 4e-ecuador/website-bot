@@ -5,12 +5,13 @@ namespace App\Security;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
+use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
-//use FOS\UserBundle\Model\UserManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use League\OAuth2\Client\Provider\GoogleUser;
+use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,16 +39,19 @@ class GoogleAuthenticator extends SocialAuthenticator
      * @var MailerHelper
      */
     private $mailerHelper;
+    /**
+     * @var TelegramBotHelper
+     */
+    private $telegramBotHelper;
 
     public function __construct(
         ClientRegistry $clientRegistry,
-        EntityManagerInterface $em,
-        UserRepository $userManager, MailerHelper $mailerHelper
+        EntityManagerInterface $em, MailerHelper $mailerHelper, TelegramBotHelper $telegramBotHelper
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
-        $this->userManager = $userManager;
         $this->mailerHelper = $mailerHelper;
+        $this->telegramBotHelper = $telegramBotHelper;
     }
 
     public function supports(Request $request): bool
@@ -59,7 +63,7 @@ class GoogleAuthenticator extends SocialAuthenticator
     /**
      * @param Request $request
      *
-     * @return \League\OAuth2\Client\Token\AccessToken|mixed
+     * @return AccessToken|mixed
      */
     public function getCredentials(Request $request)
     {
@@ -88,6 +92,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             $this->em->flush();
 
             $this->mailerHelper->sendNewUserMail($user);
+            $this->telegramBotHelper->sendNewUserMessage($_ENV['ANNOUNCE_GROUP_ID_ADMIN'], $user);
         }
 
         return $user;

@@ -42,7 +42,6 @@ class MakeCssSpriteCommand extends Command
         $sizes = [50, 24];
 
         foreach ($sizes as $size) {
-            // $size = 50;
             $imageWidth = $size;
             $imageHeight = $size;
             $imagesPerRow = 15;
@@ -52,6 +51,7 @@ class MakeCssSpriteCommand extends Command
             $resultImageFile = $this->rootDir.'/images/sprites/'
                 .$resultImageName;
             $resultCssFile = $this->rootDir.'/css/medals_'.$size.'.css';
+            $blackList = ['Character', 'UniqueBadge_NL'];
 
             $cssLines = [
                 '.medal'.$size.' {',
@@ -73,6 +73,12 @@ class MakeCssSpriteCommand extends Command
             ) {
                 if ($item->isDot()) {
                     continue;
+                }
+
+                foreach ($blackList as $black) {
+                    if (0 === strpos($item->getFilename(), $black)) {
+                        continue 2;
+                    }
                 }
 
                 $fileNames[] = $item->getRealPath();

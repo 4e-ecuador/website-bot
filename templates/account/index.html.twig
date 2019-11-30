@@ -62,11 +62,11 @@
                                 {% set selectedValue = agentCustomMedals[group][medal] %}
                             {% endif %}
                             {% if tiers is empty %}
+                                {# Annual #}
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label for="{{ 'medal-'~group~medal~i }}">
-                                        <img src="{{ asset('build/images/badges/'~getBadgePath(medal, i, 50)) }}"
-                                             alt="" style="width: 36px;">
+                                        <span class="medal50 medal-{{ getBadgePath(medal, i, 0, '') }}"></span>
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
                                            id="{{ 'medal-'~group~medal~i }}"
@@ -76,8 +76,7 @@
                                 {% if 'Anomaly' == group %}
                                     {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
                                     <label for="{{ 'medal-'~group~medal }}">
-                                        <img src="{{ asset('build/images/badges/Anomaly_'~tiers~'_50.png') }}"
-                                             alt="" style="width: 36px;">
+                                        <span class="medal50 medal-Anomaly_{{ tiers }}"></span>
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
                                            id="{{ 'medal-'~group~medal }}"
@@ -88,11 +87,9 @@
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
                                         <label for="{{ 'medal-'~group~medal~tier }}">
                                             {% if 'AvenirShard' == medal %}
-                                                <img src="{{ asset('build/images/badges/UniqueBadge_AvenirShardChallenge_50.png') }}"
-                                                     title="{{ tier }}" alt="aaa" style="width: 36px;">
+                                                <span class="medal50 medal-UniqueBadge_AvenirShardChallenge"></span>
                                             {% else %}
-                                            <img src="{{ asset('build/images/badges/EventBadge_'~medal~name~'_50.png') }}"
-                                                 title="{{ tier }}" alt="aaa" style="width: 36px;">
+                                                <span class="medal50 medal-EventBadge_{{ medal~name }}" title="{{ tier }}"></span>
                                                 {% endif %}
                                         </label>
                                         <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
@@ -108,13 +105,9 @@
                     {% endfor %}
                 </div>
             {% endfor %}
-
             <div class="text-right">
                 <div id="resetCustomMedals" class="btn btn-warning">{{ 'Reset custom Medals'|trans }}</div>
-
             </div>
-
-
         </div>
 
         <div class="card-footer">

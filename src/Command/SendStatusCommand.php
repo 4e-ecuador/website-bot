@@ -47,7 +47,7 @@ class SendStatusCommand extends Command
         $io->writeln('Sending status update...');
 
         try {
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
             // $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
 
             $dateTime = new \DateTime('now -1 day', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));

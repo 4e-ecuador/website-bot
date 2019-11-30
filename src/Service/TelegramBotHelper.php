@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Agent;
+use App\Entity\User;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Message;
@@ -147,5 +148,18 @@ class TelegramBotHelper
     public function sendMessage($chatId, $text): Message
     {
         return $this->api->sendMessage($chatId, $text, 'markdown');
+    }
+
+    public function sendNewUserMessage(int $chatId, User $user): Message
+    {
+        $message = [];
+
+        $message[] = '** New User **';
+        $message[] = '';
+        $message[] = 'A new user has just registered: '.$user->getEmail();
+        $message[] = '';
+        $message[] = 'Please verify!';
+
+        return $this->api->sendMessage($chatId, implode("\n", $message), 'markdown');
     }
 }

@@ -28,9 +28,7 @@ class DefaultController extends AbstractController
         $tz = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
 
         $now = new \DateTime('now', $tz);
-        // $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
         $now2 = new \DateTime();
-
 
         if ($this->isGranted('ROLE_AGENT')) {
             $comments = $commentRepository->findLatest(5);
@@ -41,16 +39,17 @@ class DefaultController extends AbstractController
 
             $events = $eventRepository->findAll();
 
-            // $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
-
             foreach ($events as $event) {
-                $dt = new \DateTime($event->getDateStart()->format('Y-m-d H:i:s'), new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
-                // $dt->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
-                $event->setDateStart($dt);
-                // $event->getDateStart()
-                //     ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
-                $event->getDateEnd()
-                    ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+                $event->setDateStart(
+                    new \DateTime(
+                        $event->getDateStart()->format('Y-m-d H:i:s'), $tz
+                    )
+                );
+                $event->setDateEnd(
+                    new \DateTime(
+                        $event->getDateEnd()->format('Y-m-d H:i:s'), $tz
+                    )
+                );
                 if ($event->getDateStart() > $now) {
                     $futureEvents[] = $event;
                 } elseif ($event->getDateEnd() < $now) {

@@ -35,7 +35,7 @@ class DefaultController extends AbstractController
 
             $events = $eventRepository->findAll();
 
-            $now = new \DateTime();
+            $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
             foreach ($events as $event) {
                 if ($event->getDateStart() > $now) {

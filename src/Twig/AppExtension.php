@@ -67,6 +67,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
             new TwigFilter('formatIntlDate', [$this, 'formatIntlDate']),
+            new TwigFilter('intDateShort', [$this, 'intDateShort']),
             new TwigFilter(
                 'md2html', [
                 $this,
@@ -186,5 +187,10 @@ class AppExtension extends AbstractExtension
     public function formatIntlDate(\DateTime $date)
     {
         return $this->intlDateHelper->format($date);
+    }
+
+    public function intDateShort(\DateTime $dateTime): string
+    {
+        return $this->intlDateHelper->formatShort($dateTime);
     }
 }

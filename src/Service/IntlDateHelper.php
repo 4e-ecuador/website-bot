@@ -19,4 +19,18 @@ class IntlDateHelper
 
         return $formatter->format($date);
     }
+
+    public function formatShort(\DateTime $date)
+    {
+        $formatter = new IntlDateFormatter(
+            'es',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            $_ENV['DEFAULT_TIMEZONE'],
+            IntlDateFormatter::GREGORIAN,
+            'd \'de\' MMMM'
+        );
+
+        return $formatter->format($date);
+    }
 }

@@ -12,3 +12,4 @@ new.medal.text.4: '¡Felicitaciones! {tadaa}'
 countdown.seconds: "{count, plural,\n  =0 {# segundos}\n  one {# segundo}\n  other {# segundos}\n}"
 account.map.added.warning: 'No ha sido aniadido aun al mapa - contacte un admin!'
 account.map.added.group: 'Miembro del grupo de mapa: {group}'
+'Medals from {startDate} to {endDate}': 'Medallas del {startDate} a {endDate}'

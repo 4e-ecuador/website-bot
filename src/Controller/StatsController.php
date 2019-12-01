@@ -8,6 +8,7 @@ use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
 use App\Service\CsvParser;
+use App\Service\IntlDateHelper;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -174,11 +175,8 @@ class StatsController extends AbstractController
      * @Route("/by-date", name="stats_by_date")
      * @IsGranted("ROLE_AGENT")
      */
-    public function byDate(
-        Request $request,
-        AgentStatRepository $statRepository,
-        MedalChecker $medalChecker
-    ): Response {
+    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker, IntlDateHelper $dateHelper): Response
+    {
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
         $stats = [];

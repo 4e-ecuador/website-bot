@@ -2,13 +2,30 @@
 
 namespace App\Service;
 
+use DateTimeZone;
 use IntlDateFormatter;
 
 class IntlDateHelper
 {
-    public function format(\DateTime $date)
+    /**
+     * @var DateTimeZone
+     */
+    private $defaultTimezone;
+
+    /**
+     * @var IntlDateFormatter
+     */
+    private $formatterLong;
+
+    /**
+     * @var IntlDateFormatter
+     */
+    private $formatterShort;
+
+    public function __construct()
     {
-        $formatter = new IntlDateFormatter(
+        $this->defaultTimezone = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+        $this->formatterLong = new IntlDateFormatter(
             'es',
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
@@ -17,12 +34,7 @@ class IntlDateHelper
             'd \'de\' MMMM \'de\' y'
         );
 
-        return $formatter->format($date);
-    }
-
-    public function formatShort(\DateTime $date)
-    {
-        $formatter = new IntlDateFormatter(
+        $this->formatterShort = new IntlDateFormatter(
             'es',
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
@@ -30,7 +42,41 @@ class IntlDateHelper
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM'
         );
+    }
 
-        return $formatter->format($date);
+    public function format(\DateTime $date)
+    {
+        // $formatter = new IntlDateFormatter(
+        //     'es',
+        //     IntlDateFormatter::FULL,
+        //     IntlDateFormatter::FULL,
+        //     $_ENV['DEFAULT_TIMEZONE'],
+        //     IntlDateFormatter::GREGORIAN,
+        //     'd \'de\' MMMM \'de\' y'
+        // );
+
+        return $this->formatterLong->format($date);
+    }
+
+    public function formatShort(\DateTime $date)
+    {
+        // $formatter = new IntlDateFormatter(
+        //     'es',
+        //     IntlDateFormatter::FULL,
+        //     IntlDateFormatter::FULL,
+        //     $_ENV['DEFAULT_TIMEZONE'],
+        //     IntlDateFormatter::GREGORIAN,
+        //     'd \'de\' MMMM'
+        // );
+
+        return $this->formatterShort->format($date);
+    }
+
+    /**
+     * @return DateTimeZone
+     */
+    public function getDefaultTimezone(): DateTimeZone
+    {
+        return $this->defaultTimezone;
     }
 }

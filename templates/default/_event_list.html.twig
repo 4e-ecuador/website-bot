@@ -51,6 +51,8 @@
                 <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
             </h4>
 
+            {{ event.dateStart|date('Y-m-d H:i:s e') }}
+
             {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
             <div class="clock-counter"

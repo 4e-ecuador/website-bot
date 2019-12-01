@@ -25,8 +25,10 @@ class DefaultController extends AbstractController
         $futureEvents = [];
         $ingressFS = [];
         $ingressMD = [];
+
         $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
         $now2 = new \DateTime();
+
 
         if ($this->isGranted('ROLE_AGENT')) {
             $comments = $commentRepository->findLatest(5);
@@ -40,6 +42,10 @@ class DefaultController extends AbstractController
             $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
             foreach ($events as $event) {
+                $event->getDateStart()
+                    ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+                $event->getDateEnd()
+                    ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
                 if ($event->getDateStart() > $now) {
                     $futureEvents[] = $event;
                 } elseif ($event->getDateEnd() < $now) {
@@ -56,8 +62,8 @@ class DefaultController extends AbstractController
         return $this->render(
             'default/index.html.twig',
             [
-                'now' => $now,
-                'now2' => $now2,
+                'now'            => $now,
+                'now2'           => $now2,
                 'agents'         => $agentRepository->findAll(),
                 'latestComments' => $comments,
                 'pastEvents'     => $pastEvents,

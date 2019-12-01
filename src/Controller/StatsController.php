@@ -231,6 +231,17 @@ class StatsController extends AbstractController
             }
         }
 
+        foreach ($medalsGained1 as $name => $items) {
+            $a = $items;
+            usort($a, static function ($a, $b) {
+                if ($a['level'] === $b['level']) {
+                    return 0;
+                }
+                return ($a['level'] > $b['level']) ? -1 : 1;
+            });
+            $medalsGained1[$name] = $a;
+        }
+
         return $this->render(
             'stats/by_date.html.twig',
             [

@@ -25,8 +25,10 @@ class DefaultController extends AbstractController
         $futureEvents = [];
         $ingressFS = [];
         $ingressMD = [];
+        $tz = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
 
-        $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+        $now = new \DateTime('now', $tz);
+        // $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
         $now2 = new \DateTime();
 
 
@@ -39,11 +41,14 @@ class DefaultController extends AbstractController
 
             $events = $eventRepository->findAll();
 
-            $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+            // $now = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
 
             foreach ($events as $event) {
-                $event->getDateStart()
-                    ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+                $dt = new \DateTime($event->getDateStart()->format('Y-m-d H:i:s'), new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+                // $dt->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+                $event->setDateStart($dt);
+                // $event->getDateStart()
+                //     ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
                 $event->getDateEnd()
                     ->setTimezone(new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
                 if ($event->getDateStart() > $now) {

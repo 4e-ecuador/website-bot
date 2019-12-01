@@ -14,8 +14,10 @@
 {% elseif app.user %}
     <div class="alert alert-danger">
         Tu cuenta no ha sido activada aun!<br>
-        Por favor comunicate con un administrador proporcionando tu nombre de agente y tu e-mail
-        <code>{{ app.user.email }}</code> para la activacion.<br>
+        Por favor comunicate con un administrador (<a href="https://t.me/RazorEc">@RazorEc</a>, <a
+                href="https://t.me/GIOBOTNOVICE">@GIOBOTNOVICE</a> o <a href="https://t.me/nikp3h">@nikp3h</a>) proporcionando tu
+        nombre de agente y tu e-mail
+        <code>{{ app.user.email }}</code> para la activacion.<br><br>
         In Jarvis we trust!
     </div>
 {% endif %}

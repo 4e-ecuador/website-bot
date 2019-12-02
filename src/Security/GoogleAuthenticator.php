@@ -15,6 +15,7 @@ use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -46,15 +47,20 @@ class GoogleAuthenticator extends SocialAuthenticator
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
 
     public function __construct(
         ClientRegistry $clientRegistry,
-        EntityManagerInterface $em, MailerHelper $mailerHelper, TelegramBotHelper $telegramBotHelper
+        EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, MailerHelper $mailerHelper, TelegramBotHelper $telegramBotHelper
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->mailerHelper = $mailerHelper;
         $this->telegramBotHelper = $telegramBotHelper;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function supports(Request $request): bool
@@ -127,7 +133,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return null;
+        return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
     /**

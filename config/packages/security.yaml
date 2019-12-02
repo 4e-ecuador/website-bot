@@ -27,6 +27,9 @@ security:
             form_login:
                 # ...
                 use_referer: true
+            remember_me:
+                secret: '%kernel.secret%'
+                always_remember_me: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

@@ -15,9 +15,9 @@ class GoogleController extends AbstractController
      *
      * @Route("/connect/google", name="connect_google_start")
      */
-    public function connectAction(ClientRegistry $clientRegistry, Request $request): RedirectResponse
+    public function connectAction(ClientRegistry $clientRegistry): RedirectResponse
     {
-        $this->get('session')->set('referer', $request->headers->get('referer'));
+        // $this->get('session')->set('referer', $request->headers->get('referer'));
 
         return $clientRegistry
             ->getClient('google')
@@ -40,7 +40,7 @@ class GoogleController extends AbstractController
         Request $request,
         ClientRegistry $clientRegistry
     ): RedirectResponse {
-        return $this->redirectToRoute('default');
+        // return $this->redirectToRoute('default');
         $referer = $this->get('session')->get('referer');
         if (null === $referer)
         {

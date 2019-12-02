@@ -18,9 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class GoogleAuthenticator extends SocialAuthenticator
 {
+    use TargetPathTrait;
+
     /**
      * @var ClientRegistry
      */
@@ -116,6 +119,14 @@ class GoogleAuthenticator extends SocialAuthenticator
         TokenInterface $token,
         $providerKey
     ) {
+        if ($targetPath = $this->getTargetPath(
+            $request->getSession(),
+            $providerKey
+        )
+        ) {
+            return new RedirectResponse($targetPath);
+        }
+
         return null;
     }
 

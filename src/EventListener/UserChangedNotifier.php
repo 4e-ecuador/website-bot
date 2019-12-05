@@ -49,7 +49,7 @@ class UserChangedNotifier
         $text[] = 'Username: '.$user->getUsername();
         $text[] = 'Agent: '.($user->getAgent() ? $user->getAgent()
                 ->getNickname() : '');
-        $text[] = 'Roles: '.implode(', ', $user->getRoles());
+        $text[] = 'Roles: `'.implode('`, `', $user->getRoles()).'`';
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $text));
     }

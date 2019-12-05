@@ -12,7 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class TestMessageCommand extends Command
 {
-    protected static $defaultName = 'testMessage';
+    protected static $defaultName = 'app:bot:testMessage';
+
     /**
      * @var TelegramBotHelper
      */
@@ -28,29 +29,32 @@ class TestMessageCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Send a bot message')
+            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         try {
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            if ($input->getOption('group')) {
+                if ('test' === $input->getOption('group')) {
+                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                } else {
+                    throw new \UnexpectedValueException('Unknown group');
+                }
 
-            $text = 'test '.date('Y-m-d H:i:s');
+                $io->writeln('group set to: '.$input->getOption('group'));
+            } else {
+                $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            }
+
+            $text = [];
+
+            $text = '`test '.date('Y-m-d H:i:s').' '.date_default_timezone_get().'`';
+            $io->writeln($text);
             $this->telegramBotHelper->sendMessage($groupId, $text);
             $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
         } catch (\Exception $exception) {

@@ -254,6 +254,8 @@ class MedalChecker
 
         ];
 
+    private $discontinuedMedals = ['recruiter', 'seer'];
+
     private $levelNames
         = [
             1 => 'Bronze',
@@ -290,6 +292,12 @@ class MedalChecker
                 $levels[$name] = $this->getMedalLevel(
                     $name, $agentStat->$methodName() ?: 0
                 );
+
+                if (0 === $levels[$name]
+                    && in_array($name, $this->discontinuedMedals, true)
+                ) {
+                    unset($levels[$name]);
+                }
             }
         }
 

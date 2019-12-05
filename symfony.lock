@@ -156,6 +156,9 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "php": {
+        "version": "7.2"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -185,6 +188,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "roave/security-advisories": {
+        "version": "dev-master"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",

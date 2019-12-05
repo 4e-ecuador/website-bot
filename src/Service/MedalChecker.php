@@ -265,6 +265,41 @@ class MedalChecker
             5 => 'Black',
         ];
 
+    private $ingressLevels = [
+        '2' => [
+            'ap' => 2500,
+            'medals' => []
+        ],
+        '3' => [
+            'ap' => 20000,
+            'medals' => []
+        ],
+        '4' => [
+            'ap' => 70000,
+            'medals' => []
+        ],
+        '5' => [
+            'ap' => 150000,
+            'medals' => []
+        ],
+        '6' => [
+            'ap' => 300000,
+            'medals' => []
+        ],
+        '7' => [
+            'ap' => 600000,
+            'medals' => []
+        ],
+        '8' => [
+            'ap' => 1200000,
+            'medals' => []
+        ],
+        '9' => [
+            'ap' => 2400000,
+            'medals' => []
+        ],
+    ];
+
     /**
      * @var TranslatorInterface
      */

@@ -6,6 +6,7 @@ use App\Repository\AgentRepository;
 use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
+use App\Service\DateTimeHelper;
 use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,9 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, EventHelper $eventHelper, MarkdownHelper $markdownHelper): Response
+    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository,
+        EventRepository $eventRepository, IngressEventRepository $ingressEventRepository,
+        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper): Response
     {
         $comments = [];
         $currentEvents = [];
@@ -75,7 +78,7 @@ class DefaultController extends AbstractController
                 'futureEvents'   => $futureEvents,
                 'ingressFS'      => $ingressFS,
                 'ingressMD'      => $ingressMD,
-                'nextFs'         => $eventHelper->getNextFS(),
+                'nextFs'         => $dateTimeHelper->getNextFS(),
             ]
         );
     }

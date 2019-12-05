@@ -162,4 +162,9 @@ class TelegramBotHelper
 
         return $this->api->sendMessage($chatId, implode("\n", $message), 'markdown');
     }
+
+    public function sendPhoto($chatId, $photo, $caption): Message
+    {
+        return $this->api->sendPhoto($chatId, $photo, $caption, null, null, false, 'html');
+    }
 }

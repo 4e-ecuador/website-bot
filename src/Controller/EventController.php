@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
+use App\Service\EventHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,33 +61,12 @@ class EventController extends AbstractController
      * @Route("/{id}", name="event_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(Event $event, AgentStatRepository $statRepository): Response
+    public function show(Event $event, AgentStatRepository $statRepository, EventHelper $eventHelper): Response
     {
+
         $entries = $statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
 
-        $previousEntries = [];
-        $currentEntries = [];
-
-        foreach ($entries as $entry) {
-            $agentName = $entry->getAgent()->getNickname();
-
-            if (false === isset($previousEntries[$agentName])) {
-                $previousEntries[$agentName] = $entry;
-            } else {
-                $currentEntries[$agentName] = $entry;
-            }
-        }
-
-        $values = [];
-
-        $methodName = 'get'.$event->getEventType();
-
-        foreach (array_keys($currentEntries) as $agentName) {
-            $values[$agentName] = $currentEntries[$agentName]->$methodName()
-                - $previousEntries[$agentName]->$methodName();
-        }
-
-        arsort($values);
+        $values = $eventHelper->calculateResults($event, $entries);
 
         $now = new \DateTime();
 

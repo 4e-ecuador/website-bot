@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ class MapController extends AbstractController
 {
     /**
      * @Route("/map", name="agent-map")
+     * @IsGranted("ROLE_AGENT")
      */
     public function map(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository): Response
     {
@@ -36,6 +38,7 @@ class MapController extends AbstractController
 
     /**
      * @Route("/map_json", name="map-json")
+     * @IsGranted("ROLE_AGENT")
      */
     public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository, Request $request): JsonResponse
     {
@@ -65,12 +68,13 @@ class MapController extends AbstractController
 
     /**
      * @Route("/map/agent-info/{id}", name="agent-info")
+     * @IsGranted("ROLE_AGENT")
      */
     public function mapAgentInfo(Agent $agent, TranslatorInterface $translator): Response
     {
         $response = [];
 
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_AGENT')) {
             $response[] = $agent->getNickname();
         } else {
             $response[] = $translator->trans('Please log in');

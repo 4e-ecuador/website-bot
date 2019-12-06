@@ -18,7 +18,7 @@ class MapGroupFixture extends Fixture
     {
         $object = new MapGroup();
 
-        $object->setName('test');
+        $object->setName('4E');
 
         $manager->persist($object);
 

@@ -24,15 +24,6 @@ class ControllerAccessTest extends FixtureAwareTestCase
             'app_login'             => [
                 'expected' => 200,
             ],
-            'agent-map'             => [
-                'expected' => 200,
-            ],
-            'map-json'              => [
-                'expected' => 200,
-            ],
-            'agent-info'            => [
-                'expected' => 200,
-            ],
             'agent_add_comment'     => [
                 'method' => 'POST',
             ],

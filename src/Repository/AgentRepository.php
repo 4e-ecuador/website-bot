@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Agent;
+use App\Entity\MapGroup;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -99,11 +100,11 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function findMapAgents()
+    public function findMapAgents(MapGroup $group)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.hasMap = :val')
-            ->setParameter('val', 1)
+            ->andWhere('a.map_group = :val')
+            ->setParameter('val', $group)
             ->getQuery()
             ->getResult();
     }

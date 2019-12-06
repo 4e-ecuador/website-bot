@@ -50,11 +50,6 @@ class Agent
     private $comments;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $hasMap;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $recursions;
@@ -176,18 +171,6 @@ class Agent
                 $comment->setAgent(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getHasMap(): ?bool
-    {
-        return $this->hasMap;
-    }
-
-    public function setHasMap(?bool $hasMap): self
-    {
-        $this->hasMap = $hasMap;
 
         return $this;
     }

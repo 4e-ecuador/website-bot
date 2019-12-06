@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Repository\AgentRepository;
+use App\Repository\MapGroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +29,15 @@ class MapController extends AbstractController
     /**
      * @Route("/map_json", name="map-json")
      */
-    public function mapJson(AgentRepository $agentRepository): JsonResponse
+    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository): JsonResponse
     {
-        $agents = $agentRepository->findMapAgents();
+        $mapGroup = $mapGroupRepository->findOneBy(['name' => '4E']);
+
+        if (!$mapGroup) {
+            throw new \UnexpectedValueException('Please setup default map group!');
+        }
+
+        $agents = $agentRepository->findMapAgents($mapGroup);
 
         $array = [];
 

@@ -15,8 +15,8 @@
 {{ form_row(form.mapGroup) }}
 
 <div id="map"></div>
-
-<button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+<br>
+<button class="btn btn-outline-success">{{ button_label|default('Guardar') }}</button>
 
 {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}

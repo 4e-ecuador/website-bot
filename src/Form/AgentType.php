@@ -60,7 +60,6 @@ class AgentType extends AbstractType
                     ],
                 ]
             )
-            ->add('hasMap', null, ['label' => 'Display on map'])
             ->add('mapGroup',
                 EntityType::class,
                 [

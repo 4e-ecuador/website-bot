@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'Agent index'|trans }}</h1>
-
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="btn btn-success" href="{{ path('agent_new') }}">{{ 'Create new'|trans }}</a>
+        <a class="float-right btn btn-outline-success" href="{{ path('agent_new') }}">{{ 'Create new'|trans }}</a>
     {% endif %}
+
+    <h1>{{ 'Agent index'|trans }}</h1>
 
     <form method="post">
 

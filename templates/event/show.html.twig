@@ -42,11 +42,11 @@
             {% set cnt = 1 %}
             {% for name, value in values %}
                 {% if cnt == 1 %}
-                    {% set img = '<img src="'~asset('build/images/medals/1st-place-medal.png')~'" style="height: 36px">' %}
+                    {% set img = '<img src="'~asset('build/images/medals/1st-place-medal_36.png')~'" style="height: 36px">' %}
                 {% elseif cnt == 2 %}
-                    {% set img = '<img src="'~asset('build/images/medals/2nd-place-medal.png')~'" style="height: 36px">' %}
+                    {% set img = '<img src="'~asset('build/images/medals/2nd-place-medal_36.png')~'" style="height: 36px">' %}
                 {% elseif cnt == 3 %}
-                    {% set img = '<img src="'~asset('build/images/medals/3rd-place-medal.png')~'" style="height: 36px">' %}
+                    {% set img = '<img src="'~asset('build/images/medals/3rd-place-medal_36.png')~'" style="height: 36px">' %}
                 {% else %}
                     {% set img = '' %}
                 {% endif %}

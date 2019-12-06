@@ -66,7 +66,8 @@
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label for="{{ 'medal-'~group~medal~i }}">
-                                        <span class="medal50 medal-{{ getBadgePath(medal, i, 0, '') }}"></span>
+                                        <span class="medal50 medal-{{ getBadgePath(medal, i, 0, '') }}"
+                                              title="{{ medal~' - '~i|translateMedalLevel }}"></span>
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
                                            id="{{ 'medal-'~group~medal~i }}"
@@ -76,7 +77,7 @@
                                 {% if 'Anomaly' == group %}
                                     {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
                                     <label for="{{ 'medal-'~group~medal }}">
-                                        <span class="medal50 medal-Anomaly_{{ tiers }}"></span>
+                                        <span class="medal50 medal-Anomaly_{{ tiers }}" title="{{ tiers }}"></span>
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
                                            id="{{ 'medal-'~group~medal }}"
@@ -87,10 +88,11 @@
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
                                         <label for="{{ 'medal-'~group~medal~tier }}">
                                             {% if 'AvenirShard' == medal %}
-                                                <span class="medal50 medal-UniqueBadge_AvenirShardChallenge"></span>
+                                                <span class="medal50 medal-UniqueBadge_AvenirShardChallenge"
+                                                      title="Avenir Shard Challenge"></span>
                                             {% else %}
                                                 <span class="medal50 medal-EventBadge_{{ medal~name }}"
-                                                      title="{{ tier }}"></span>
+                                                      title="{{ medal~' '~tier }}"></span>
                                             {% endif %}
                                         </label>
                                         <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"

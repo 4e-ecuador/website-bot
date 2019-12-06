@@ -1,0 +1,57 @@
+.signin-providers {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2rem -1rem;
+    padding: 0 .5rem
+}
+
+.signin-providers a {
+    background: white;
+    font-size: .875rem;
+    font-weight: 500;
+    border: 0;
+    border-radius: .25rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: .5rem;
+    padding: 0 .75rem 0 0;
+    outline: 0
+}
+.signin-providers a:not([disabled]) {
+    cursor: pointer
+}
+
+.signin-providers a:before {
+    content: '';
+    background: url(../images/ico/icons.svg) no-repeat left top;
+    width: 2.5rem;
+    height: 2.5rem;
+    /*margin-right: .5rem*/
+}
+
+.signin-providers .signin-provider-google {
+    border: 1px solid #ccc;
+    color: rgba(0, 0, 0, 0.64)
+}
+
+.signin-providers .signin-provider-google:focus:not([disabled]) {
+    border-color: #4285f4;
+    color: inherit
+}
+
+@media (hover) {
+    .signin-providers .signin-provider-google:hover:not([disabled]) {
+        border-color: #4285f4;
+        color: inherit
+    }
+}
+
+.signin-providers .signin-provider-google:before {
+    background-position: 0 0;
+    width: 40px;
+    height: 34px;
+    margin-bottom: 8px;
+}

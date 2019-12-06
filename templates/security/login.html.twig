@@ -6,17 +6,12 @@
 
     <h1 class="h3 mb-3 font-weight-normal">{{ 'Please sign in'|trans }}</h1>
 
-    <a class="btn btn-success" href="{{ path('connect_google_start') }}">
-        {{ 'Google Login'|trans }}
-    </a>
-
     {% if 'dev' == app.environment %}
 
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-
 
             <label for="inputUsername" class="sr-only">Username</label>
             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
@@ -44,5 +39,9 @@
                 Sign in
             </button>
         </form>
+    {% else %}
+        <div class="signin-providers">
+            <a href="{{ path('connect_google_start') }}" class="signin-provider-google">{{ 'Google Login'|trans }}</a>
+        </div>
     {% endif %}
 {% endblock %}

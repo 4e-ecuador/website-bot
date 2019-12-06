@@ -29,7 +29,7 @@ function initmap(lat, lon) {
     const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
     map = new L.Map('map', {
-        // zoomControl: false
+        zoomControl: false
     })
 
     map.addLayer(osm)
@@ -41,7 +41,7 @@ function initmap(lat, lon) {
         let groups = $('#jsData').data('mapgroups')
         let div = L.DomUtil.create('div', 'info legend')
         div.innerHTML =
-            '<select id="groupSelect" class="form-control sm btn-dark">'
+            '<select id="groupSelect" class="form-control btn-dark">'
             + '<option>' + groups.join('</option><option>') + '</option>'
             + '</select>'
         div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation

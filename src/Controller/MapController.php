@@ -7,6 +7,7 @@ use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,16 +71,44 @@ class MapController extends AbstractController
      * @Route("/map/agent-info/{id}", name="agent-info")
      * @IsGranted("ROLE_AGENT")
      */
-    public function mapAgentInfo(Agent $agent, TranslatorInterface $translator): Response
+    public function mapAgentInfo(Agent $agent, TranslatorInterface $translator, Packages $assetsManager): Response
     {
         $response = [];
 
         if ($this->isGranted('ROLE_AGENT')) {
-            $response[] = $agent->getNickname();
+            $statsLink = $imgPath = '';
+            switch ($agent->getFaction()->getName()) {
+                case 'ENL':
+                    $statsLink = $this->generateUrl('agent_stats', ['id' => $agent->getId()]);
+                    $imgPath = $assetsManager->getUrl('build/images/logos/ENL.svg');
+                    break;
+                case 'RES':
+                    $imgPath = $assetsManager->getUrl('build/images/logos/RES.svg');
+                    break;
+                default:
+                    throw new \UnexpectedValueException('Unknown faction');
+            }
+            $link = $this->generateUrl('agent_show', ['id' => $agent->getId()]);
+            $response[] = sprintf(
+                '<img src="%s" alt="logo" style="height: 32px;"><a href="%s">%s</a>',
+                $imgPath,
+                $link,
+                $agent->getNickname()
+            );
+            if ($agent->getRealName()) {
+                $response[] = $agent->getRealName();
+            }
+            if ($statsLink) {
+                $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
+            }
         } else {
             $response[] = $translator->trans('Please log in');
         }
+        if ($this->isGranted('ROLE_AGENT')) {
+            $response[] = '';
+            $response[] = 'More ADMIN info... TBD';
+        }
 
-        return new Response(implode("\n", $response));
+        return new Response(implode('<br>', $response));
     }
 }

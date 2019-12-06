@@ -28,19 +28,59 @@ function initmap(lat, lon) {
     const osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
-    map = new L.Map('map')
+    map = new L.Map('map', {
+        // zoomControl: false
+    })
 
     map.addLayer(osm)
 
     map.setView(new L.LatLng(lat, lon), 7)
+
+    let legend = L.control({position: 'topleft'})
+    legend.onAdd = function (map) {
+        let groups = $('#jsData').data('mapgroups')
+        let div = L.DomUtil.create('div', 'info legend')
+        div.innerHTML =
+            '<select id="groupSelect" class="form-control sm btn-dark">'
+            + '<option>' + groups.join('</option><option>') + '</option>'
+            + '</select>'
+        div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation
+        return div
+    }
+    legend.addTo(map)
+
+    $('#groupSelect').on('change', function (e) {
+        loadMarkers($(this).val())
+    })
+
+    L.Control.Watermark = L.Control.extend({
+        onAdd: function (map) {
+            let img = L.DomUtil.create('img')
+
+            img.src = '../../build/images/4e-logo-white.jpg'
+            img.style.width = '100px'
+
+            return img
+        },
+
+        onRemove: function (map) {
+            // Nothing to do here
+        }
+    })
+
+    L.control.watermark = function (opts) {
+        return new L.Control.Watermark(opts)
+    }
+
+    L.control.watermark({position: 'bottomleft'}).addTo(map)
 }
 
 const markers = L.markerClusterGroup({disableClusteringAtZoom: 16})
 
-function loadMarkers() {
+function loadMarkers(group) {
     markers.clearLayers()
 
-    $.get('/map_json', {}, function (data) {
+    $.get('/map_json', {'group': group}, function (data) {
         $(data).each(function () {
             let marker =
                 new L.Marker(
@@ -70,4 +110,6 @@ let lat = -1.262326
 let lon = -79.09357
 
 initmap(lat, lon)
-loadMarkers()
+
+loadMarkers($('#groupSelect').val())
+

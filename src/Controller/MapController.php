@@ -7,6 +7,7 @@ use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -16,12 +17,19 @@ class MapController extends AbstractController
     /**
      * @Route("/map", name="agent-map")
      */
-    public function map(AgentRepository $agentRepository): Response
+    public function map(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository): Response
     {
+        $mapGroups = [];
+
+        foreach ($mapGroupRepository->findAll() as $group) {
+            $mapGroups[] = $group->getName();
+        }
+
         return $this->render(
             'map/index.html.twig',
             [
-                'agents'         => $agentRepository->findAll(),
+                'agents'    => $agentRepository->findAll(),
+                'mapGroups' => $mapGroups,
             ]
         );
     }
@@ -29,12 +37,12 @@ class MapController extends AbstractController
     /**
      * @Route("/map_json", name="map-json")
      */
-    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository): JsonResponse
+    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository, Request $request): JsonResponse
     {
-        $mapGroup = $mapGroupRepository->findOneBy(['name' => '4E']);
+        $mapGroup = $mapGroupRepository->findOneBy(['name' => $request->get('group', '4E')]);
 
         if (!$mapGroup) {
-            throw new \UnexpectedValueException('Please setup default map group!');
+            throw new \UnexpectedValueException('Map group not found!');
         }
 
         $agents = $agentRepository->findMapAgents($mapGroup);

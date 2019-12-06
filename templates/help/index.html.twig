@@ -6,7 +6,7 @@
     <h1>{{ 'Help index'|trans }}</h1>
 
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="btn btn-success" href="{{ path('help_new') }}">{{ 'Create new'|trans }}</a>
+        <a class="btn btn-outline-success" href="{{ path('help_new') }}">{{ 'Create new'|trans }}</a>
     {% endif %}
 
     <table class="table">

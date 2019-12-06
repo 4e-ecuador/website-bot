@@ -14,9 +14,9 @@
 
     <div id="mailResult"></div>
     <div class="btn-group" role="group" aria-label="Basic example">
-        <a class="btn btn-secondary" href="{{ path('user_index') }}">{{ 'Back to list'|trans }}</a>
+        <a class="btn btn-outline-secondary" href="{{ path('user_index') }}">{{ 'Back to list'|trans }}</a>
 
-        <div class="btn btn-info sendMail" data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>
+        <div class="btn btn-outline-info sendMail" data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>
 
         {{ include('user/_delete_form.html.twig') }}
     </div>

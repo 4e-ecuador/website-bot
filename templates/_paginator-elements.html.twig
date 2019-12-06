@@ -69,9 +69,9 @@
 {% macro ordering(order, paginatorOptions) %}
     {% set selected = order == paginatorOptions.order %}
     <a data-order="{{ order }}" data-order-dir="ASC"
-       class="btn btn-{{ selected and 'ASC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&dArr;</a>
+       class="btn btn-outline-{{ selected and 'ASC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&dArr;</a>
     <a data-order="{{ order }}" data-order-dir="DESC"
-       class="btn btn-{{ selected and 'DESC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&uArr;</a>
+       class="btn btn-outline-{{ selected and 'DESC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&uArr;</a>
 {% endmacro %}
 
 {% macro criteria(name, paginatorOptions) %}

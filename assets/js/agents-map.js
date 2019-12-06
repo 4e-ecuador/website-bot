@@ -57,8 +57,7 @@ function initmap(lat, lon) {
     L.Control.Watermark = L.Control.extend({
         onAdd: function (map) {
             let img = L.DomUtil.create('img')
-
-            img.src = '../../build/images/4e-logo-white.jpg'
+            img.src = '../../build/images/logos/4E Global black RGB.png'
             img.style.width = '100px'
 
             return img

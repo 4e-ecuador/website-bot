@@ -45,6 +45,7 @@ function initmap(lat, lon) {
             + '<option>' + groups.join('</option><option>') + '</option>'
             + '</select>'
         div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation
+        L.DomEvent.disableClickPropagation(div)
         return div
     }
     legend.addTo(map)

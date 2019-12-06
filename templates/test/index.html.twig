@@ -3,6 +3,7 @@
 {% block title %}Hello TestController!{% endblock %}
 
 {% block body %}
+    <p>{{ ''|date('Y-m_d H:i:s e T') }}</p>
     <ul>
         <li>
             <a href="{{ path('test_bot') }}">bot</a>

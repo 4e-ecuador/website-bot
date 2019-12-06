@@ -58,15 +58,15 @@
                        role="button">
                         {{ app.user.username }}
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href={{ path('app_account') }}><span
+                    <div class="dropdown-menu dropdown-menu-right bg-dark">
+                        <a class="dropdown-item nav-link" href={{ path('app_account') }}><span
                                     class="oi oi-person"></span> {{ 'My Profile'|trans }}</a>
-                        <a class="dropdown-item" href={{ path('my_stats') }}><span
+                        <a class="dropdown-item nav-link" href={{ path('my_stats') }}><span
                                     class="oi oi-graph"></span> {{ 'My Stats'|trans }}</a>
-                        <a class="dropdown-item" href={{ path('stat_import') }}><span
+                        <a class="dropdown-item nav-link" href={{ path('stat_import') }}><span
                                     class="oi oi-cloud-upload"></span> {{ 'Import Stats'|trans }}</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('app_logout') }}"><span
+                        <a class="dropdown-item nav-link" href="{{ path('app_logout') }}"><span
                                     class="oi oi-account-logout"></span> {{ 'Logout'|trans }}</a>
                     </div>
                 </li>

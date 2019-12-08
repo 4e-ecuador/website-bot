@@ -122,23 +122,13 @@ class AgentStatRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        // if ($options->searchCriteria('agent')) {
-        //     // $query->select()
-        //     $query->andWhere('a.agent = :agent')
-        //         ->setParameter(
-        //             'agent',
-        //            $agent
-        //            // '%'.$options->searchCriteria('agent').'%'
-        //         );
-        // }
-        //
-        // if ($options->searchCriteria('realName')) {
-        //     $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
-        //         ->setParameter(
-        //             'realName',
-        //             '%'.$options->searchCriteria('realName').'%'
-        //         );
-        // }
+        if ($options->searchCriteria('agent')) {
+            $query->andWhere('a.agent = :agent')
+                ->setParameter(
+                    'agent',
+                    $options->searchCriteria('agent')
+                );
+        }
 
         $query = $query->getQuery();
 
@@ -151,8 +141,8 @@ class AgentStatRepository extends ServiceEntityRepository
 
     public function findTodays()
     {
-        $startDatetime = \DateTime::createFromFormat( 'Y-m-d H:i:s', date('Y-m-d 00:00:00') );
-        $endDatetime = \DateTime::createFromFormat( 'Y-m-d H:i:s', date('Y-m-d 23:59:59') );
+        $startDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 00:00:00'));
+        $endDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 23:59:59'));
 
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startValue')

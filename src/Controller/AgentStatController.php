@@ -36,6 +36,8 @@ class AgentStatController extends AbstractController
 
         $agents = [];
 
+        $agents[0] = '';
+
         foreach ($agentRepository->findAll() as $item) {
             $agents[$item->getId()] = $item->getNickname();
         }

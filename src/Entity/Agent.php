@@ -64,6 +64,11 @@ class Agent
      */
     private $map_group;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $telegram_name;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -207,6 +212,18 @@ class Agent
     public function setMapGroup(?MapGroup $map_group): self
     {
         $this->map_group = $map_group;
+
+        return $this;
+    }
+
+    public function getTelegramName(): ?string
+    {
+        return $this->telegram_name;
+    }
+
+    public function setTelegramName(?string $telegram_name): self
+    {
+        $this->telegram_name = $telegram_name;
 
         return $this;
     }

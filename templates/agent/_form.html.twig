@@ -15,7 +15,11 @@
 {{ form_row(form.mapGroup) }}
 
 <div id="map"></div>
-<br>
+
+<h4>Telegram</h4>
+
+{{ form_row(form.telegramName) }}
+
 <button class="btn btn-outline-success">{{ button_label|default('Guardar') }}</button>
 
 {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}

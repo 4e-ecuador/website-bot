@@ -20,6 +20,7 @@ class AgentAccountType extends AbstractType
                     'label' => 'Real Name',
                 ]
             )
+            ->add('telegramName')
             ->add('recursions', null, ['attr' => ['min' => 0]])
             ->add('customMedals')
             ->add(

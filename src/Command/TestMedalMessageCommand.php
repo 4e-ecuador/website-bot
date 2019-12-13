@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,28 +11,32 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class TestMessageCommand extends Command
+class TestMedalMessageCommand extends Command
 {
-    protected static $defaultName = 'app:bot:testMessage';
+    protected static $defaultName = 'app:bot:testMedalMessage';
 
     /**
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+    /**
+     * @var AgentRepository
+     */
+    private $agentRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper)
+    public function __construct(TelegramBotHelper $telegramBotHelper, AgentRepository $agentRepository)
     {
         $this->telegramBotHelper = $telegramBotHelper;
 
         parent::__construct();
+        $this->agentRepository = $agentRepository;
     }
 
     protected function configure()
     {
         $this
             ->setDescription('Send a bot message')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name')
-        ;
+            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -51,10 +56,13 @@ class TestMessageCommand extends Command
                 $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
             }
 
-            $text = '`test '.date('Y-m-d H:i:s').' '.date_default_timezone_get().'`';
-            $io->writeln($text);
-            $this->telegramBotHelper->sendMessage($groupId, $text);
-            $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+            $agent = $this->agentRepository->findOneByNickName('nikp3h');
+
+            $medalUps = ['purifier' => 5];
+
+            $this->telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+
+            $io->success('Finished!');
         } catch (\Exception $exception) {
             $io->error($exception->getMessage());
         }

@@ -7,7 +7,6 @@ use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\DateTimeHelper;
-use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

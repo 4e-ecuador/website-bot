@@ -55,6 +55,45 @@ if (isNaN(lon)) {
 
 initmap(lat, lon, zoom)
 
-$('#resetCustomMedals').on('click', function () {
-    $('input[name^=\'customMedals\']').prop('checked', false)
-})
+$('.medalLabel')
+    .each(function () {
+        let input = $('#' + $(this).data('for'))
+
+        if (input.prop('checked')) {
+            $(this).addClass('medalSelected')
+        }
+    })
+    .on('click', function () {
+        let input = $('#' + $(this).data('for'))
+
+        if (input.prop('checked')) {
+            input.prop('checked', false)
+            $(this).removeClass('medalSelected')
+        } else {
+            input.prop('checked', true)
+            $(this).addClass('medalSelected')
+        }
+    })
+
+$('.medalsLabel')
+    .each(function () {
+        let input = $('#' + $(this).data('for'))
+
+        if (input.prop('checked')) {
+            $(this).addClass('medalSelected')
+        }
+    })
+    .on('click', function () {
+        let input = $('#' + $(this).data('for'))
+
+        if (input.prop('checked')) {
+            input.prop('checked', false)
+            $(this).removeClass('medalSelected')
+        } else {
+            input.prop('checked', true)
+            $('input[name^=\'' + input.prop('name') + '\']').each(function () {
+                $('label[data-for=' + $(this).prop('id') + ']').removeClass('medalSelected')
+            })
+            $(this).addClass('medalSelected')
+        }
+    })

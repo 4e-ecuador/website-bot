@@ -1,3 +1,21 @@
 #map {
     height: 250px;
 }
+
+.medalLabel {
+    border: 2px solid #fff;
+}
+
+.medalsLabel {
+    border: 2px solid #fff;
+}
+
+.medalSelected {
+    border: 2px solid #27d966;
+}
+
+.hiddenCheckBox {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}

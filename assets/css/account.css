@@ -2,16 +2,23 @@
     height: 250px;
 }
 
-.medalLabel {
-    border: 2px solid #fff;
+.medalLabel, .medalsLabel {
+    border: 3px solid #fff;
 }
 
-.medalsLabel {
-    border: 2px solid #fff;
+.medalLabel:hover, .medalsLabel:hover {
+    border: 3px solid #969696;
+    border-radius: 5px;
 }
 
 .medalSelected {
-    border: 2px solid #27d966;
+    border: 3px solid #27d966;
+    border-radius: 5px;
+}
+
+.medalSelected:hover {
+    border: 3px solid #27d966;
+    border-radius: 5px;
 }
 
 .hiddenCheckBox {

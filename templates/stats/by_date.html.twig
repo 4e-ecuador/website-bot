@@ -83,14 +83,17 @@
                         </div>
                         <div class="card-body text-center" style="position: relative">
                             {% set actLevel = 0 %}
-                            {% set counter = 5 %}
+                            {% set left = 5 %}
+                            {% set zindex = 5 %}
                             {% for agent in agents %}
                                 {% if agent.level != actLevel %}
-                                    <span class="medal50-badges medal-{{ getBadgePath(medal, agent.level, 0, '') }}" style="position: absolute; top: 3px; left: {{ counter }}px;"></span>
+                                    <span class="medal50-badges medal-{{ getBadgePath(medal, agent.level, 0, '') }}"
+                                          style="position: absolute; top: 3px; left: {{ left }}px; z-index: {{ zindex }}"></span>
                                     <br>
                                     <b>{{ agent.level|translateMedalLevel|capitalize }}</b>
                                     <br>
-                                    {% set counter = counter + 25 %}
+                                    {% set left = left + 20 %}
+                                    {% set zindex = zindex - 1 %}
                                 {% endif %}
                                 {% set actLevel = agent.level %}
                                 {{ agent.agent }}

@@ -64,7 +64,7 @@ $('.medal-item').on('click', function (e) {
     let i
     for (i = 1; i < 6; i++) {
         // let img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px">'
-        let img = '<span class="medal24 medal-' + $(this).data('badge-name-' + i) + '"></span>'
+        let img = '<span class="medal24-badges medal-' + $(this).data('badge-name-' + i) + '"></span>'
         // if (i > level) {
         //     let img = '<span class="medal24 medal-'+$(this).data('badge-name-' + i)+'" style="background: #5C97FF;">a</span>'
         //     // img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px; opacity: 0.3;">'

@@ -34,7 +34,7 @@
                             <span class="badge badge-pill badge-secondary">{{ count }}</span>
                             {% if 'ap' == type %}
                                 {% if entry.agent.recursions %}
-                                    <span class="medal24 medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                                    <span class="medal24-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
                                     {% if entry.agent.recursions > 1 %}
                                         <span class="doubleCount">X {{ entry.agent.recursions }}</span>
                                     {% endif %}
@@ -42,8 +42,8 @@
                             {% else %}
                                 {% set level = medalLevel(type, entry.value) %}
                                 {% if level %}
-                                    <span class="medal24 medal-{{ getBadgePath(type, level, 0, '') }}"
-                                          title="{{ type }}"></span>
+                                    <span class="medal24-badges medal-{{ getBadgePath(type, level, 0, '') }}"
+                                          title="{{ type }} - {{ level|translateMedalLevel }}"></span>
                                     {% set doubleCount = medalDoubleValue(type, entry.value) %}
                                     {% if doubleCount > 1 %}
                                         <span class="doubleCount">X {{ doubleCount }}</span>
@@ -67,5 +67,4 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

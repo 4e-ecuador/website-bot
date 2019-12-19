@@ -18,7 +18,7 @@
     <p>
         {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
         {% if agent.recursions %}
-            <span class="medal50 medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+            <span class="medal50-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
             {% if agent.recursions > 1 %}
                 <span class="doubleCount">X {{ agent.recursions }}</span>
             {% endif %}
@@ -36,15 +36,18 @@
                     {% for medal, value in medals %}
                         <span>
                             {% if 'Anomaly' == group %}
-                                <span class="medal50 medal-Anomaly_{{ medal }}" title="{{ medal }}"></span>
+                                <span class="medal50-events medal-Anomaly_{{ medal }}" title="{{ medal }}"></span>
                             {% elseif 'Event' == group %}
                                 {% if 'AvenirShard' == medal %}
-                                    <span class="medal50 medal-UniqueBadge_AvenirShardChallenge" title="{{medal}}"></span>
+                                    <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
+                                          title="{{ medal }}"></span>
                                         {% else %}
-                                    <span class="medal50 medal-EventBadge_{{ medal }}_{{ value }}" title="{{ medal }}"></span>
+                                    <span class="medal50-events medal-EventBadge_{{ medal }}_{{ value }}"
+                                          title="{{ medal }}"></span>
                                 {% endif %}
                             {% else %}
-                                <span class="medal50 medal-Badge_{{ medal }}_{{ value|medalLevelName}}" title="{{ medal }}"></span>
+                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ value|medalLevelName }}"
+                                      title="{{ medal }}"></span>
                             {% endif %}
                         </span>
                     {% endfor %}
@@ -71,24 +74,23 @@
                   data-badge-name-4="{{ getBadgePath(name, 4, 0, '') }}"
                   data-badge-name-5="{{ getBadgePath(name, 5, 0, '') }}"
             >
-                            <span class="medal-image">
-                            {% if level %}
-                                <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}" title="{{ name }}"></span>
+            <span class="medal-image">
+            {% if level %}
+                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
+                      title="{{ name }}"></span>
+                {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
-{#                                <img src="{{ asset('build/images/badges/'~getBadgePath(name, level, 50)) }}"#}
-{#                                     alt="{{ name }}">#}
-{#                                {{ source('@public_path'~asset('build/images/medals/default-'~level~'.svg')) }}#}
-                                {% set doubleCount = medalDoubleValue(name, latest[name]) %}
-
-                                {% if doubleCount > 1 %}
-                                <span class="doubleCount">X {{ doubleCount }}</span>
-                            {% endif %}
-                            {% else %}
-                                <img src="{{ asset('build/images/medals/default-1.svg') }}" alt="" style="width: 50px;">
-                            {% endif %}
-                            </span>
-                        </span>
+                {% if doubleCount > 1 %}
+                <span class="doubleCount">X {{ doubleCount }}</span>
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('build/images/ico/padlock.png') }}" alt="locked"
+                     style="width: 50px;">
+            {% endif %}
+            </span>
+        </span>
         {% endfor %}
+
         <div id="container" style="width:100%; height:400px;"></div>
 
     {% else %}

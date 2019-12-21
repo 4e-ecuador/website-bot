@@ -46,3 +46,14 @@ https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4
 
 ### Get updates
     https://api.telegram.org/bot<YourBOTToken>/getUpdates
+
+## Update medal images and CSS
+
+```text
+bin/console app:scrape:badges
+bin/console app:resize:badges
+bin/console app:make:cssSprite
+```
+
+* Add the badge "code" in `src/Service/MedalChecker.php`
+    See [This commit](https://github.com/4e-ecuador/website-bot/commit/ec7da179a0a4b469a0307938e96e271f9bb3eaec#diff-b27ba46e8094e3228d04607361f593fe)

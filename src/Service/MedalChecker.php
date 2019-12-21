@@ -200,6 +200,12 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'UmbraDeploy'          =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
                     'AvenirShard'          =>
                         [
                             '',

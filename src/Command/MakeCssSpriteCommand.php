@@ -42,7 +42,12 @@ class MakeCssSpriteCommand extends Command
         $sizes = [50, 24];
         $groups = [
             'badges' => ['Badge'],
-            'events' => ['Anomaly', 'EventBadge', 'UniqueBadge_AvenirShardChallenge', 'UniqueBadge_Simulacrum'],
+            'events' => [
+                'Anomaly',
+                'EventBadge',
+                'UniqueBadge_AvenirShardChallenge',
+                'UniqueBadge_Simulacrum',
+            ],
         ];
         $blackList = [
             'Character',

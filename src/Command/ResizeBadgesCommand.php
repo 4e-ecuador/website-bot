@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ResizeBadgesCommand extends Command
 {
-    protected static $defaultName = 'ResizeBadges';
+    protected static $defaultName = 'app:resize:badges';
 
     /**
      * @var string

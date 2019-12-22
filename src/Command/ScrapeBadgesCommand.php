@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ScrapeBadgesCommand extends Command
 {
-    protected static $defaultName = 'scrapeBadges';
+    protected static $defaultName = 'app:scrape:badges';
 
     /**
      * @var string

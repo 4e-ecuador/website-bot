@@ -63,7 +63,6 @@ class EventController extends AbstractController
      */
     public function show(Event $event, AgentStatRepository $statRepository, EventHelper $eventHelper): Response
     {
-
         $entries = $statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
 
         $values = $eventHelper->calculateResults($event, $entries);

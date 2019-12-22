@@ -138,6 +138,11 @@ class AgentStat implements ArrayAccess
      */
     private $ifs;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $current_challenge;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -541,5 +546,17 @@ class AgentStat implements ArrayAccess
         }
 
         return $diff;
+    }
+
+    public function getCurrentChallenge(): ?int
+    {
+        return $this->current_challenge;
+    }
+
+    public function setCurrentChallenge(?int $current_challenge): self
+    {
+        $this->current_challenge = $current_challenge;
+
+        return $this;
     }
 }

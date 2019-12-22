@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Challenge{% endblock %}
+
+{% block body %}
+    <h1>Edit Challenge</h1>
+
+    {{ include('challenge/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('challenge_index') }}">back to list</a>
+
+    {{ include('challenge/_delete_form.html.twig') }}
+{% endblock %}

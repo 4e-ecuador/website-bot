@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Challenge - {{ challenge.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ challenge.name }}</h1>
+
+    <h4>
+        <span class="oi oi-media-play"></span> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : '' }}<br>
+        <span class="oi oi-media-stop"></span> {{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i:s') : '' }}
+    </h4>
+
+    <ol>
+        {% for agent, value in entries %}
+            <li>{{ agent }} {{ value }}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}

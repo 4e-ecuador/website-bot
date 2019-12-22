@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Challenge{% endblock %}
+
+{% block body %}
+    <h1>Create new Challenge</h1>
+
+    {{ include('challenge/_form.html.twig') }}
+
+    <a href="{{ path('challenge_index') }}">back to list</a>
+{% endblock %}

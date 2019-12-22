@@ -139,6 +139,10 @@ class StatsController extends AbstractController
 
             if ($agentEntry) {
                 foreach ($agentEntry->getProperties() as $property) {
+                    if ('current_challenge' === $property) {
+                        continue;
+                    }
+
                     $methodName = 'get'.$property;
                     if ($agentEntry->$methodName()) {
                         $entry = new \stdClass();
@@ -186,8 +190,8 @@ class StatsController extends AbstractController
         if ($startDate && $endDate) {
             $entries = $statRepository->findByDate(
                 new \DateTime($startDate), new \DateTime(
-                $endDate.' 23:59:59'
-            )
+                    $endDate.' 23:59:59'
+                )
             );
             $previous = [];
 
@@ -231,12 +235,15 @@ class StatsController extends AbstractController
 
         foreach ($medalsGained1 as $name => $items) {
             $a = $items;
-            usort($a, static function ($a, $b) {
+            usort(
+                $a, static function ($a, $b) {
                 if ($a['level'] === $b['level']) {
                     return 0;
                 }
+
                 return ($a['level'] > $b['level']) ? -1 : 1;
-            });
+            }
+            );
             $medalsGained1[$name] = $a;
         }
 

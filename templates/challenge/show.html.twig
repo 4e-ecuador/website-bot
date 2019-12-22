@@ -11,6 +11,8 @@
         <span class="oi oi-media-stop"></span> {{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i:s') : '' }}
     </h4>
 
+    {{ 'Scores at:'|trans }} {{ 'now'|date('Y-m-d H:i:s') }}
+
     <ol>
         {% for agent, value in entries %}
             <li>

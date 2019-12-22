@@ -12,7 +12,9 @@ class ChallengeHelper
 
         /* @type AgentStat $entry */
         foreach ($entries as $entry) {
-            $results[$entry->getAgent()->getNickname()] = $entry->getCurrentChallenge();
+            if ($entry->getCurrentChallenge()) {
+                $results[$entry->getAgent()->getNickname()] = $entry->getCurrentChallenge();
+            }
         }
 
         arsort($results);

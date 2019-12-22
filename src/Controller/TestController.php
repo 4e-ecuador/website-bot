@@ -32,16 +32,19 @@ class TestController extends AbstractController
      */
     public function botTest(Request $request, TelegramBotHelper $telegramBotHelper)
     {
-        $testtext = $request->get('testtext');
+        $testText = $request->get('testtext');
 
-        if ($testtext) {
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+        if ($testText) {
 
-            $telegramBotHelper->sendMessage($groupId, $testtext);
+            $groupId = $telegramBotHelper->getGroupId($request->get('group'));
+
+            $telegramBotHelper->sendMessage($groupId, $testText);
+
+            $this->addFlash('success', 'Message has been sent.');
         }
 
         return $this->render('test/bottest.html.twig', [
-            'testtext' => $testtext,
+            'testtext' => $testText,
         ]);
     }
 

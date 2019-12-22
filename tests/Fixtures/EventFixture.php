@@ -19,5 +19,4 @@ class EventFixture extends Fixture
 
         $manager->flush();
     }
-
 }

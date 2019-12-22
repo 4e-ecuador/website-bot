@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Tests\FixtureAwareTestCase;
 use App\Tests\Fixtures\AgentFixture;
 use App\Tests\Fixtures\AgentStatFixture;
+use App\Tests\Fixtures\ChallengeFixture;
 use App\Tests\Fixtures\CommentFixture;
 use App\Tests\Fixtures\EventFixture;
 use App\Tests\Fixtures\HelpFixture;
@@ -50,6 +51,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new EventFixture());
         $this->addFixture(new IngressEventFixture());
         $this->addFixture(new MapGroupFixture());
+        $this->addFixture(new ChallengeFixture());
         $this->executeFixtures();
 
         $this->routeLoader = $kernel->getContainer()->get('routing.loader');

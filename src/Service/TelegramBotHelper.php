@@ -167,4 +167,21 @@ class TelegramBotHelper
     {
         return $this->api->sendPhoto($chatId, $photo, $caption, null, null, false, 'html');
     }
+
+    public function getGroupId(string $name = 'default'): int
+    {
+        switch ($name) {
+            case 'default':
+                return $_ENV['ANNOUNCE_GROUP_ID_1'];
+                break;
+            case 'test':
+                return $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                break;
+            case 'admin':
+                return $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
+                break;
+            default:
+                throw new \UnexpectedValueException('Unknown group name');
+        }
+    }
 }

@@ -7,6 +7,7 @@ use App\Form\ChallengeType;
 use App\Repository\AgentStatRepository;
 use App\Repository\ChallengeRepository;
 use App\Service\ChallengeHelper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class ChallengeController extends AbstractController
 {
     /**
      * @Route("/", name="challenge_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(ChallengeRepository $challengeRepository): Response
     {
@@ -29,6 +31,7 @@ class ChallengeController extends AbstractController
 
     /**
      * @Route("/new", name="challenge_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -52,6 +55,7 @@ class ChallengeController extends AbstractController
 
     /**
      * @Route("/{id}", name="challenge_show", methods={"GET"})
+     * @IsGranted("ROLE_AGENT")
      */
     public function show(Challenge $challenge, AgentStatRepository $statRepository, ChallengeHelper $challengeHelper): Response
     {
@@ -65,6 +69,7 @@ class ChallengeController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="challenge_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Challenge $challenge): Response
     {
@@ -85,6 +90,7 @@ class ChallengeController extends AbstractController
 
     /**
      * @Route("/{id}", name="challenge_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Challenge $challenge): Response
     {

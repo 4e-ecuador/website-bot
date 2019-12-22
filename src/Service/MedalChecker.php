@@ -118,6 +118,10 @@ class MedalChecker
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
+            'Umbra Deploy Challenge'             => [
+                'desc'   => 'Umbra Deploy Challenge',
+                'levels' => [120, 600, 1440, null, null],
+            ],
         ];
 
     private $primeHeaders
@@ -416,17 +420,17 @@ class MedalChecker
         }
 
         $medalLevel = 0;
-        $level = $this->medalLevels[$medal];
+        $level = $this->medalLevels[$medal]['levels'];
 
-        if ($value >= $level['levels'][4]) {
+        if (null !== $level[4] && $value >= $level[4]) {
             $medalLevel = 5;
-        } elseif ($value >= $level['levels'][3]) {
+        } elseif (null !== $level[3] && $value >= $level[3]) {
             $medalLevel = 4;
-        } elseif ($value >= $level['levels'][2]) {
+        } elseif ($value >= $level[2]) {
             $medalLevel = 3;
-        } elseif ($value >= $level['levels'][1]) {
+        } elseif ($value >= $level[1]) {
             $medalLevel = 2;
-        } elseif ($value >= $level['levels'][0]) {
+        } elseif ($value >= $level[0]) {
             $medalLevel = 1;
         }
 
@@ -480,6 +484,11 @@ class MedalChecker
 
         return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
             .$postFix;
+    }
+
+    public function getChallengePath(string $medal, int $level): string
+    {
+        return 'EventBadge_'.$medal.'_'.$this->getLevelName($level);
     }
 
     public function getCustomMedalGroups(): array

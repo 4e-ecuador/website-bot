@@ -85,6 +85,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('medalLevelNames', [$this, 'getMedalLevelNames']),
             new TwigFunction('medalDoubleValue', [$this, 'medalDoubleValue']),
             new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
+            new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
         ];
     }
 
@@ -182,6 +183,11 @@ class AppExtension extends AbstractExtension
     public function getBadgePath(string $medal, int $level, int $size = 0, string $postFix = '.png'): string
     {
         return $this->medalChecker->getBadgePath($medal, $level, $size, $postFix);
+    }
+
+    public function getChallengePath(string $medal, int $level): string
+    {
+        return $this->medalChecker->getChallengePath($medal, $level);
     }
 
     public function formatIntlDate(\DateTime $date)

@@ -6,13 +6,22 @@
     <h1>{{ challenge.name }}</h1>
 
     <h4>
-        <span class="oi oi-media-play"></span> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : '' }}<br>
+        <span class="oi oi-media-play"></span> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : '' }}
+        <br>
         <span class="oi oi-media-stop"></span> {{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i:s') : '' }}
     </h4>
 
     <ol>
         {% for agent, value in entries %}
-            <li>{{ agent }} {{ value }}</li>
+            <li>
+                {% set level = medalLevel(challenge.name, value) %}
+                {% if level %}
+                    <span class="medal50-events medal-{{ getChallengePath(challenge.codeName, level) }}"
+                          title="{{ level|translateMedalLevel }}"></span>
+                {% endif %}
+
+                {{ agent }} {{ value }}
+            </li>
         {% endfor %}
     </ol>
 {% endblock %}

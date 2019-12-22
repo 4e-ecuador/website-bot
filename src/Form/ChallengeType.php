@@ -13,6 +13,7 @@ class ChallengeType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('codeName')
             ->add('date_start')
             ->add('date_end')
         ;

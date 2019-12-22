@@ -31,6 +31,11 @@ class Challenge
      */
     private $date_end;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code_name;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Challenge
     public function setDateEnd(\DateTimeInterface $date_end): self
     {
         $this->date_end = $date_end;
+
+        return $this;
+    }
+
+    public function getCodeName(): ?string
+    {
+        return $this->code_name;
+    }
+
+    public function setCodeName(?string $code_name): self
+    {
+        $this->code_name = $code_name;
 
         return $this;
     }

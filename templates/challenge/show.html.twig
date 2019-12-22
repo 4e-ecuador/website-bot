@@ -13,17 +13,28 @@
 
     {{ 'Scores at:'|trans }} {{ 'now'|date('Y-m-d H:i:s') }}
 
-    <ol>
+    <table>
+        {% set cnt = 1 %}
         {% for agent, value in entries %}
-            <li>
+            <tr>
+                <td>{{ cnt }}.</td>
+                <td>
                 {% set level = medalLevel(challenge.name, value) %}
                 {% if level %}
                     <span class="medal50-events medal-{{ getChallengePath(challenge.codeName, level) }}"
                           title="{{ level|translateMedalLevel }}"></span>
                 {% endif %}
-
-                {{ agent }} {{ value }}
-            </li>
+                </td>
+                <td>
+                    {{ agent }}
+                </td>
+                <td class="text-right">
+                    <code>
+                        {{ value|number_format }}
+                    </code>
+                </td>
+            </tr>
+            {% set cnt = cnt + 1 %}
         {% endfor %}
-    </ol>
+    </table>
 {% endblock %}

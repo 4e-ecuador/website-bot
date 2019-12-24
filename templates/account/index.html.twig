@@ -60,13 +60,14 @@
                 <h4>{{ group }}</h4>
                 <div class="row">
                     {% for medal, tiers in medals %}
-                        <div class="col border">
+                        <div class="col">
                             {% set selectedValue = 0 %}
                             {% if agentCustomMedals[group][medal] is defined %}
                                 {% set selectedValue = agentCustomMedals[group][medal] %}
                             {% endif %}
                             {% if tiers is empty %}
                                 {# Annual #}
+                                {{ medal }}<br>
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal~i }}" class="medalsLabel">
@@ -83,12 +84,14 @@
                                     {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
                                         <span class="medal50-events medal-Anomaly_{{ tiers }}" title="{{ tiers }}"></span>
+                                        <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
                                            id="{{ 'medal-'~group~medal }}"
                                            value="1" class="hiddenCheckBox"
                                             {{ checked }}>
                                 {% elseif 'Event' == group %}
+                                    {{ medal|u.snake|replace({'_': ' '})|title }}<br>
                                     {% for tier in tiers %}
                                         {% set name = '' == tier ? '' : '_'~tier %}
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}

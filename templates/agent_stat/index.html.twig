@@ -115,7 +115,7 @@
             {% for agent_stat in agent_stats %}
                 <tr>
                     <td>{{ agent_stat.id }}</td>
-                    <td>{{ agent_stat.datetime ? agent_stat.datetime|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ agent_stat.datetime ? agent_stat.datetime|date('Y-m-d H:i') : '' }}</td>
                     <td>
                         <a href="{{ path('agent_show', {'id': agent_stat.agent.id}) }}">
                             {{ agent_stat.agent.nickname }}

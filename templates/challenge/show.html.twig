@@ -6,12 +6,12 @@
     <h1>{{ challenge.name }}</h1>
 
     <h4>
-        <span class="oi oi-media-play"></span> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i:s') : '' }}
+        <span class="oi oi-media-play"></span> {{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i') : '' }}
         <br>
-        <span class="oi oi-media-stop"></span> {{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i:s') : '' }}
+        <span class="oi oi-media-stop"></span> {{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i') : '' }}
     </h4>
 
-    {{ 'Scores at:'|trans }} {{ 'now'|date('Y-m-d H:i:s') }}
+    {{ 'Scores at:'|trans }} {{ 'now'|date('Y-m-d H:i') }}
 
     <table>
         {% set cnt = 1 %}

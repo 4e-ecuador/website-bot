@@ -23,8 +23,8 @@
                 <td>{{ ingress_event.id }}</td>
                 <td>{{ ingress_event.name }}</td>
                 <td>{{ ingress_event.type }}</td>
-                <td>{{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ ingress_event.description }}</td>
                 <td>
                     <a href="{{ path('ingress_event_show', {'id': ingress_event.id}) }}">show</a>

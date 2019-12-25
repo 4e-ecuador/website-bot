@@ -19,7 +19,7 @@
         {% for comment in comments %}
             <tr>
                 <td>{{ comment.id }}</td>
-                <td>{{ comment.datetime ? comment.datetime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ comment.datetime ? comment.datetime|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ comment.commenter.username }}</td>
                 <td>{{ comment.agent.nickname }}</td>
                 <td>

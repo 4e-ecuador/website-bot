@@ -31,7 +31,7 @@
             </h4>
 
             <div class="clock-counter text-center alert alert-warning"
-                 data-deadline="{{ event.dateEnd|date('Y-m-d H:i:s', false) }}">
+                 data-deadline="{{ event.dateEnd|date('Y-m-d H:i', false) }}">
                 <b>{{ 'The event ends in'|trans }}</b>
                 {{ 'Days:'|trans }} <b class="days"></b>
                 {{ 'Hours:'|trans }} <b class="hours"></b>
@@ -58,7 +58,7 @@
             {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
             <div class="clock-counter"
-                 data-deadline="{{ event.dateStart|date('Y-m-d H:i:s', false) }}">
+                 data-deadline="{{ event.dateStart|date('Y-m-d H:i', false) }}">
                 <b>{{ 'The event starts in'|trans }}</b>
                 {{ 'Days:'|trans }} <b class="days"></b>
                 {{ 'Hours:'|trans }} <b class="hours"></b>

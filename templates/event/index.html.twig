@@ -22,8 +22,8 @@
                 <td>{{ event.id }}</td>
                 <td><a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a></td>
                 <td>{{ event.eventType }}</td>
-                <td>{{ event.dateStart ? event.dateStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.dateStart ? event.dateStart|date('Y-m-d H:i') : '' }}</td>
+                <td>{{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i') : '' }}</td>
                 <td>
                     <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
                 </td>

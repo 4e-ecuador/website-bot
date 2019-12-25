@@ -75,8 +75,10 @@
 {% endmacro %}
 
 {% macro criteria(name, paginatorOptions) %}
+    {% set css = paginatorOptions.searchCriteria(name) ? 'btn-outline-primary' : '' %}
     <input name="paginatorOptions[criteria][{{ name }}]" size="6"
-           value="{{ paginatorOptions.searchCriteria(name) }}">
+           value="{{ paginatorOptions.searchCriteria(name) }}"
+    class="{{ css }}">
     <div class="btn-group" role="group" aria-label="Opciones de busqueda">
         <button class="btn btn-light btn-sm paginatorCleanReset">
             <span class="oi oi-trash" aria-hidden="true"></span>
@@ -101,7 +103,8 @@
 {% endmacro %}
 
 {% macro select(name, options, paginatorOptions) %}
-    <select name="paginatorOptions[criteria][{{ name }}]" class="form-control paginatorSelect">
+    {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-primary' : '' %}
+    <select name="paginatorOptions[criteria][{{ name }}]" class="form-control paginatorSelect{{ css }}">
         {% for id,option in options %}
             <option value="{{ id }}" {% if id == paginatorOptions.searchCriteria(name) %}selected="selected"{% endif %}>
                 {{ option }}

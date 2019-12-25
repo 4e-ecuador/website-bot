@@ -50,7 +50,7 @@
                        data-page="{{ page + 1 <= maxPages ? page + 1 : page }}">&rArr;</a>
                 </li>
                 <li>
-                    {% trans with {'%maxPages%': maxPages} %}of %maxPages% Pages{% endtrans %}
+                    {% trans with {'{maxPages}%': maxPages} %}of {maxPages} Pages{% endtrans %}
                 </li>
             </ul>
         </nav>

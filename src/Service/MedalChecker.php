@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\AgentStat;
+use App\Util\BadgeData;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MedalChecker
@@ -319,7 +320,12 @@ class MedalChecker
 
     private $translatedLevels = [];
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * @var string
+     */
+    private $rootDir;
+
+    public function __construct(TranslatorInterface $translator, string $rootDir)
     {
         $this->translator = $translator;
 
@@ -328,6 +334,7 @@ class MedalChecker
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');
         $this->translatedLevels[4] = $translator->trans('medal.level.platinum');
         $this->translatedLevels[5] = $translator->trans('medal.level.onyx');
+        $this->rootDir = $rootDir;
     }
 
     public function checkLevels(AgentStat $agentStat): array
@@ -505,5 +512,26 @@ class MedalChecker
     {
         return array_key_exists($level, $this->levelNames)
             ? $this->levelNames[$level] : '??';
+    }
+
+    public function getBadgeData(string $code) :BadgeData
+    {
+        static $badgeData;
+
+        if (!$badgeData) {
+            $badgeData = json_decode(
+                file_get_contents(
+                    $this->rootDir.'/text-files/badgeinfos.json'
+                ), true
+            );
+        }
+
+        foreach ($badgeData as $item) {
+            if ($item['code'] === $code) {
+                return new BadgeData($item);
+            }
+        }
+
+        throw new \UnexpectedValueException('No data for code:'.$code);
     }
 }

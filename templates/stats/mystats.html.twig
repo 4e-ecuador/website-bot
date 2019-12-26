@@ -34,21 +34,27 @@
             {% for group, medals in agentCustomMedals %}
                 <div>
                     {% for medal, value in medals %}
-                        <span>
+                        {% set badgeData = getBadgeData(group, medal, value) %}
+                        <span class="medal-item2"
+                              data-medal-name="{{ badgeData.title }}"
+                              data-medal-desc="{{ badgeData.description }}"
+                        >
+                            <span class="medal-image">
                             {% if 'Anomaly' == group %}
-                                <span class="medal50-events medal-Anomaly_{{ medal }}" title="{{ medal }}"></span>
+                                <span class="medal50-events medal-Anomaly_{{ medal }}" title="{{ badgeData.title }}"></span>
                             {% elseif 'Event' == group %}
                                 {% if 'AvenirShard' == medal %}
                                     <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
-                                          title="{{ medal }}"></span>
+                                          title="{{ badgeData.title }}"></span>
                                         {% else %}
                                     <span class="medal50-events medal-EventBadge_{{ medal }}_{{ value }}"
-                                          title="{{ medal }}"></span>
+                                          title="{{ badgeData.title }}"></span>
                                 {% endif %}
                             {% else %}
                                 <span class="medal50-badges medal-Badge_{{ medal }}_{{ value|medalLevelName }}"
-                                      title="{{ medal }}"></span>
+                                      title="{{ badgeData.title }}"></span>
                             {% endif %}
+                        </span>
                         </span>
                     {% endfor %}
                 </div>
@@ -97,7 +103,7 @@
         <div>{{ 'There are no statistics for this agent.'|trans }}</div>
     {% endif %}
 
-    <!-- The Modal -->
+    <!-- Modal -->
     <div class="modal fade text-center" id="medalModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -106,7 +112,34 @@
                     <h4 class="modal-title"></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-header-desc">aaa</div>
+                <div class="modal-header-desc"></div>
+
+                <div class="modal-body"></div>
+                <div class="medal-value text-center"></div>
+
+                <div class="row">
+                    <div class="col medal-value-1"></div>
+                    <div class="col medal-value-2"></div>
+                    <div class="col medal-value-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col medal-value-4"></div>
+                    <div class="col medal-value-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal2 -->
+    <div class="modal fade text-center" id="medalModal2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-header-desc"></div>
 
                 <div class="modal-body"></div>
                 <div class="medal-value text-center"></div>

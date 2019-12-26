@@ -74,3 +74,16 @@ $('.medal-item').on('click', function (e) {
     }
     modal.modal()
 })
+
+$('.medal-item2').on('click', function (e) {
+    const modal = $('#medalModal2')
+    const modalBody = modal.find('div.modal-body')
+
+    modalBody.html($(this).find('span.medal-image').html())
+
+    modal.find('h4.modal-title').html($(this).data('medal-name'))
+    modal.find('div.modal-header-desc').html($(this).data('medal-desc'))
+    modal.find('div.medal-value').html($(this).data('medal-value'))
+
+    modal.modal()
+})

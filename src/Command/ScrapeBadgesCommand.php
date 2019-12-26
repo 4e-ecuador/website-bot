@@ -3,11 +3,10 @@
 namespace App\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use function Symfony\Component\String\u;
 
 class ScrapeBadgesCommand extends Command
 {
@@ -30,7 +29,7 @@ class ScrapeBadgesCommand extends Command
      */
     public function __construct(string $rootDir)
     {
-        $this->rootDir = $rootDir.'/assets/images/badges';
+        $this->rootDir = $rootDir;
         $this->scrapeSite = 'https://dedo1911.xyz/Badges';
 
         parent::__construct();
@@ -39,27 +38,15 @@ class ScrapeBadgesCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->setDescription('Scrape medal images');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $the_tag = 'div';
-        $the_class = 'badge';
+        // $the_tag = 'div';
+        // $the_class = 'badge';
 
         $html = file_get_contents($this->scrapeSite);
         libxml_use_internal_errors(true);
@@ -67,15 +54,12 @@ class ScrapeBadgesCommand extends Command
         $dom->loadHTML($html);
         $xpath = new \DOMXPath($dom);
 
-        foreach (
-            $xpath->query(
-                '//'.$the_tag.'[contains(@class,"'.$the_class.'")]/img'
-            ) as $item
-        ) {
+        foreach ($xpath->query('//div[contains(@class,"badge")]/img') as $item)
+        {
             $original = $item->getAttribute('data-original');
             print $original.'... ';
 
-            $imgPath = $this->rootDir.'/'.$original;
+            $imgPath = $this->rootDir.'/assets/images/badges/'.$original;
             if (file_exists($imgPath)) {
                 print "exists\n";
             } else {
@@ -87,6 +71,38 @@ class ScrapeBadgesCommand extends Command
                 print "ok\n";
             }
         }
+
+        $badgeInfos = [];
+
+        // $badgeContainers = $xpath->query('//div[@class="badgecontainer"]');
+
+        foreach ($xpath->query('//div[@class="badgecontainer"]') as $badgeContainer) {
+            $badgeInfo = new \stdClass();
+
+            foreach ($badgeContainer->getElementsByTagName('img') as $element) {
+                $badgeInfo->code = u($element->getAttribute('data-original'))->slice(
+                    0, strlen($element->getAttribute('data-original')) - 4
+                );
+            }
+
+            $elements = $badgeContainer->getElementsByTagName('h1');
+            foreach ($elements as $element) {
+                $badgeInfo->title = $element->nodeValue;
+            }
+
+            $elements = $badgeContainer->getElementsByTagName('span');
+            foreach ($elements as $element) {
+                // @TODO HTML is malformed :(
+                // $badgeInfo->x = $element->nodeValue;
+                // $temp = str_replace($badgeInfo->title, '', $element->nodeValue);
+                $temp = u($element->nodeValue)->slice(strlen($badgeInfo->title));
+                $badgeInfo->description = $temp;//$element->nodeValue;
+            }
+
+            $badgeInfos[] = $badgeInfo;
+        }
+
+        file_put_contents($this->rootDir.'/text-files/badgeinfos.json', json_encode($badgeInfos));
 
         $io->success('Finished!');
 

@@ -11,6 +11,7 @@ namespace App\Twig;
 use App\Service\IntlDateHelper;
 use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
+use App\Util\BadgeData;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -22,9 +23,9 @@ class AppExtension extends AbstractExtension
 {
     public $roleFilters
         = [
-            'ROLE_AGENT' => 'Agent',
+            'ROLE_AGENT'  => 'Agent',
             'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN' => 'Admin',
+            'ROLE_ADMIN'  => 'Admin',
         ];
 
     /**
@@ -59,9 +60,9 @@ class AppExtension extends AbstractExtension
             new TwigFilter('medalLevelName', [$this, 'getMedalLevelName']),
             new TwigFilter(
                 'translateMedalLevel', [
-                $this,
-                'translateMedalLevelFilter',
-            ]
+                    $this,
+                    'translateMedalLevelFilter',
+                ]
             ),
             new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
@@ -86,6 +87,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('medalDoubleValue', [$this, 'medalDoubleValue']),
             new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
             new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
+            new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
         ];
     }
 
@@ -198,5 +200,29 @@ class AppExtension extends AbstractExtension
     public function intDateShort(\DateTime $dateTime): string
     {
         return $this->intlDateHelper->formatShort($dateTime);
+    }
+
+    public function getBadgeData(string $group, string $badge, $value): BadgeData
+    {
+        switch ($group) {
+            case 'Anomaly':
+                $code = 'Anomaly_'.$badge;
+                break;
+            case 'Event':
+                if ('AvenirShard' === $badge) {
+                    $code = 'UniqueBadge_AvenirShardChallenge';
+                } else {
+                    $code = 'EventBadge_'.$badge.'_'.$value;
+                }
+                break;
+            case 'Annual':
+                $tier = $this->getMedalLevelName($value);
+                $code = 'Badge_'.$badge.'_'.$tier;
+                break;
+            default:
+                throw new \UnexpectedValueException('Unknown group: '.$group);
+        }
+
+        return $this->medalChecker->getBadgeData($code);
     }
 }

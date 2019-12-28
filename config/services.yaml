@@ -4,7 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-  locale: 'en'
   telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
   app.email: '%env(APP_EMAIL)%'
   app.email.name: '%env(APP_EMAIL_NAME)%'

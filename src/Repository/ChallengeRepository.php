@@ -47,4 +47,15 @@ class ChallengeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findCurrent()
+    {
+        $now = new \DateTime();
+
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.date_start <= :now')
+            ->andWhere('c.date_end >= :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
 }

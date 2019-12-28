@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\AgentRepository;
+use App\Repository\ChallengeRepository;
 use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
@@ -17,16 +18,19 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository,
+    public function index(
+        AgentRepository $agentRepository, CommentRepository $commentRepository,
         EventRepository $eventRepository, IngressEventRepository $ingressEventRepository,
-        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper): Response
-    {
+        ChallengeRepository $challengeRepository,
+        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper
+    ): Response {
         $comments = [];
         $currentEvents = [];
         $pastEvents = [];
         $futureEvents = [];
         $ingressFS = [];
         $ingressMD = [];
+        $challenges = [];
         $tz = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
 
         $now = new \DateTime('now', $tz);
@@ -63,6 +67,7 @@ class DefaultController extends AbstractController
 
             $ingressFS = $ingressEventRepository->findFutureFS();
             $ingressMD = $ingressEventRepository->findFutureMD();
+            $challenges = $challengeRepository->findCurrent();
         }
 
         return $this->render(
@@ -78,6 +83,7 @@ class DefaultController extends AbstractController
                 'ingressFS'      => $ingressFS,
                 'ingressMD'      => $ingressMD,
                 'nextFs'         => $dateTimeHelper->getNextFS(),
+                'challenges'     => $challenges,
             ]
         );
     }

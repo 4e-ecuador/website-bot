@@ -16,11 +16,11 @@
             {% for fs in ingressFS %}
                 <a href="{{ fs.link }}">{{ fs.name }}</a> &bull;
             {% endfor %}
-
         </div>
     </div>
 
 {% endif %}
+
 <h3>{{ 'Current events'|trans }}</h3>
 
 {% for event in currentEvents %}
@@ -32,17 +32,34 @@
 
             <div class="clock-counter text-center alert alert-warning"
                  data-deadline="{{ event.dateEnd|date('Y-m-d H:i', false) }}">
-                <b>{{ 'The event ends in'|trans }}</b>
+                <b>{{ 'Ends in'|trans }}</b> -
                 {{ 'Days:'|trans }} <b class="days"></b>
-                {{ 'Hours:'|trans }} <b class="hours"></b>
-                {{ 'Minutes:'|trans }} <b class="minutes"></b>
-                {{ 'Seconds:'|trans }} <b class="seconds"></b>
+                {{ 'Hours:'|trans }} <b class="hours"></b>:<b class="minutes"></b>:<b class="seconds"></b>
             </div>
 
         </div>
     </div>
 {% else %}
     <div>{{ 'No current events.'|trans }}</div>
+{% endfor %}
+
+{% for challenge in challenges %}
+    <div class="card">
+        <div class="card-body">
+            <h4>
+                <a href="{{ path('challenge_show', {'id': challenge.id}) }}">{{ challenge.name }}</a>
+            </h4>
+
+            <div class="clock-counter text-center alert alert-warning"
+                 data-deadline="{{ challenge.dateEnd|date('Y-m-d H:i', false) }}">
+                <b>{{ 'Ends in'|trans }}</b> -
+                {{ 'Days:'|trans }} <b class="days"></b>
+                {{ 'Hours:'|trans }} <b class="hours"></b>:<b class="minutes"></b>:<b class="seconds"></b>
+            </div>
+
+        </div>
+    </div>
+
 {% endfor %}
 
 <h3>{{ 'Future Events'|trans }}</h3>

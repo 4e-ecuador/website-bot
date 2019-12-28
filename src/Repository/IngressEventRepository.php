@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\IngressEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method IngressEvent|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,34 +19,6 @@ class IngressEventRepository extends ServiceEntityRepository
         parent::__construct($registry, IngressEvent::class);
     }
 
-    // /**
-    //  * @return IngressEvent[] Returns an array of IngressEvent objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?IngressEvent
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     public function findFutureEvents()
     {
         return $this->createQueryBuilder('i')

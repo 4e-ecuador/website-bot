@@ -545,7 +545,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.3",
-            "ref": "48a8e5ef925e82aa7d665c887cd1fa60f8b7921d"
+            "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
         },
         "files": [
             "config/packages/test/validator.yaml",

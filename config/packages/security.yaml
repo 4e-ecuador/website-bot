@@ -5,17 +5,17 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: username
+#        in_memory: { memory: null }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: lazy
             guard:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
@@ -30,7 +30,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 always_remember_me: true
-            # activate different ways to authenticate
+          # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html

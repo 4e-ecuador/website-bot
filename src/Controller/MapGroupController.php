@@ -22,9 +22,11 @@ class MapGroupController extends AbstractController
      */
     public function index(MapGroupRepository $mapGroupRepository): Response
     {
-        return $this->render('map_group/index.html.twig', [
-            'map_groups' => $mapGroupRepository->findAll(),
-        ]);
+        return $this->render(
+            'map_group/index.html.twig', [
+                'map_groups' => $mapGroupRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -45,10 +47,12 @@ class MapGroupController extends AbstractController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->render('map_group/new.html.twig', [
-            'map_group' => $mapGroup,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'map_group/new.html.twig', [
+                'map_group' => $mapGroup,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -57,9 +61,11 @@ class MapGroupController extends AbstractController
      */
     public function show(MapGroup $mapGroup): Response
     {
-        return $this->render('map_group/show.html.twig', [
-            'map_group' => $mapGroup,
-        ]);
+        return $this->render(
+            'map_group/show.html.twig', [
+                'map_group' => $mapGroup,
+            ]
+        );
     }
 
     /**
@@ -77,10 +83,12 @@ class MapGroupController extends AbstractController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->render('map_group/edit.html.twig', [
-            'map_group' => $mapGroup,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'map_group/edit.html.twig', [
+                'map_group' => $mapGroup,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -89,7 +97,10 @@ class MapGroupController extends AbstractController
      */
     public function delete(Request $request, MapGroup $mapGroup): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$mapGroup->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$mapGroup->getId(), $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($mapGroup);
             $entityManager->flush();

@@ -13,7 +13,8 @@ class ChallengeHelper
         /* @type AgentStat $entry */
         foreach ($entries as $entry) {
             if ($entry->getCurrentChallenge()) {
-                $results[$entry->getAgent()->getNickname()] = $entry->getCurrentChallenge();
+                $results[$entry->getAgent()->getNickname()]
+                    = $entry->getCurrentChallenge();
             }
         }
 

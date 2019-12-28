@@ -21,9 +21,11 @@ class TestController extends AbstractController
      */
     public function index()
     {
-        return $this->render('test/index.html.twig', [
-            'controller_name' => 'TestController',
-        ]);
+        return $this->render(
+            'test/index.html.twig', [
+                'controller_name' => 'TestController',
+            ]
+        );
     }
 
     /**
@@ -35,7 +37,6 @@ class TestController extends AbstractController
         $testText = $request->get('testtext');
 
         if ($testText) {
-
             $groupId = $telegramBotHelper->getGroupId($request->get('group'));
 
             $telegramBotHelper->sendMessage($groupId, $testText);
@@ -43,9 +44,11 @@ class TestController extends AbstractController
             $this->addFlash('success', 'Message has been sent.');
         }
 
-        return $this->render('test/bottest.html.twig', [
-            'testtext' => $testText,
-        ]);
+        return $this->render(
+            'test/bottest.html.twig', [
+                'testtext' => $testText,
+            ]
+        );
     }
 
     /**
@@ -60,8 +63,10 @@ class TestController extends AbstractController
             $mailerHelper->sendTestMail('elkuku.n7@gmail.com');
         }
 
-        return $this->render('test/mailtest.html.twig', [
-            'testtext' => $testtext,
-        ]);
+        return $this->render(
+            'test/mailtest.html.twig', [
+                'testtext' => $testtext,
+            ]
+        );
     }
 }

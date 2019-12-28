@@ -22,9 +22,11 @@ class IngressEventController extends AbstractController
      */
     public function index(IngressEventRepository $ingressEventRepository): Response
     {
-        return $this->render('ingress_event/index.html.twig', [
-            'ingress_events' => $ingressEventRepository->findAll(),
-        ]);
+        return $this->render(
+            'ingress_event/index.html.twig', [
+                'ingress_events' => $ingressEventRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -48,10 +50,12 @@ class IngressEventController extends AbstractController
             return $this->redirectToRoute('ingress_event_index');
         }
 
-        return $this->render('ingress_event/new.html.twig', [
-            'ingress_event' => $ingressEvent,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'ingress_event/new.html.twig', [
+                'ingress_event' => $ingressEvent,
+                'form'          => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -60,9 +64,11 @@ class IngressEventController extends AbstractController
      */
     public function show(IngressEvent $ingressEvent): Response
     {
-        return $this->render('ingress_event/show.html.twig', [
-            'ingress_event' => $ingressEvent,
-        ]);
+        return $this->render(
+            'ingress_event/show.html.twig', [
+                'ingress_event' => $ingressEvent,
+            ]
+        );
     }
 
     /**
@@ -80,10 +86,12 @@ class IngressEventController extends AbstractController
             return $this->redirectToRoute('ingress_event_index');
         }
 
-        return $this->render('ingress_event/edit.html.twig', [
-            'ingress_event' => $ingressEvent,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'ingress_event/edit.html.twig', [
+                'ingress_event' => $ingressEvent,
+                'form'          => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -92,7 +100,10 @@ class IngressEventController extends AbstractController
      */
     public function delete(Request $request, IngressEvent $ingressEvent): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ingressEvent->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$ingressEvent->getId(), $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ingressEvent);
             $entityManager->flush();

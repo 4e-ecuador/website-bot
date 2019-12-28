@@ -39,10 +39,10 @@ class GoogleController extends AbstractController
         ClientRegistry $clientRegistry
     ): RedirectResponse {
         $referer = $this->get('session')->get('referer');
-        if (null === $referer)
-        {
+        if (null === $referer) {
             return $this->redirectToRoute('default');
         }
+
         return new RedirectResponse($referer);
     }
 }

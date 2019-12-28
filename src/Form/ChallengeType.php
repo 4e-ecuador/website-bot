@@ -15,14 +15,15 @@ class ChallengeType extends AbstractType
             ->add('name')
             ->add('codeName')
             ->add('date_start')
-            ->add('date_end')
-        ;
+            ->add('date_end');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Challenge::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Challenge::class,
+            ]
+        );
     }
 }

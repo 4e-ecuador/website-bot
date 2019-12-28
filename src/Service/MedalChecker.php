@@ -19,107 +19,107 @@ class MedalChecker
                 'levels' => [10, 50, 200, 500, 5000],
             ],
 
-            'recon'           => [
+            'recon'                  => [
                 'desc'   => 'OPR Agreements',
                 'levels' => [100, 750, 2500, 5000, 10000],
             ],
-            'trekker'         => [
+            'trekker'                => [
                 'desc'   => 'Distance Walked',
                 'levels' => [10, 100, 300, 1000, 2500],
             ],
-            'builder'         => [
+            'builder'                => [
                 'desc'   => 'Resonators Deployed',
                 'levels' => [2000, 10000, 30000, 100000, 200000],
             ],
-            'connector'       => [
+            'connector'              => [
                 'desc'   => 'Links Created',
                 'levels' => [50, 1000, 5000, 25000, 100000],
             ],
-            'mind-controller' => [
+            'mind-controller'        => [
                 'desc'   => 'Control Fields Created',
                 'levels' => [100, 500, 2000, 10000, 40000],
             ],
-            'engineer'        => [
+            'engineer'               => [
                 'desc'   => 'Mods Deployed',
                 'levels' => [150, 1500, 5000, 20000, 50000],
             ],
-            'illuminator'     => [
+            'illuminator'            => [
                 'desc'   => 'Mind Units Captured',
                 'levels' => [5000, 50000, 250000, 1000000, 4000000],
             ],
-            'recharger'       => [
+            'recharger'              => [
                 'desc'   => 'XM Recharged',
                 'levels' => [100000, 1000000, 3000000, 10000000, 25000000],
             ],
-            'liberator'       => [
+            'liberator'              => [
                 'desc'   => 'Portals Captured',
                 'levels' => [100, 1000, 5000, 15000, 40000],
             ],
-            'pioneer'         => [
+            'pioneer'                => [
                 'desc'   => 'Unique Portals Captured',
                 'levels' => [20, 200, 1000, 5000, 20000],
             ],
-            'purifier'        => [
+            'purifier'               => [
                 'desc'   => 'Resonators Destroyed',
                 'levels' => [2000, 10000, 30000, 100000, 300000],
             ],
-            'specops'         => [
+            'specops'                => [
                 'desc'   => 'Unique Missions Completed',
                 'levels' => [5, 25, 100, 200, 500],
             ],
-            'missionday'      => [
+            'missionday'             => [
                 'desc'   => 'Mission Day(s) Attended',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'nl-1331-meetups' => [
+            'nl-1331-meetups'        => [
                 'desc'   => 'NL-1331 Meetup(s) Attended',
                 'levels' => [1, 5, 10, 25, 50],
             ],
-            'hacker'          => [
+            'hacker'                 => [
                 'desc'   => 'Hacks',
                 'levels' => [2000, 10000, 30000, 100000, 200000],
             ],
-            'translator'      => [
+            'translator'             => [
                 'desc'   => 'Glyph Hack Points',
                 'levels' => [200, 2000, 6000, 20000, 50000],
             ],
-            'sojourner'       => [
+            'sojourner'              => [
                 'desc'   => 'Longest Hacking Streak',
                 'levels' => [15, 30, 60, 180, 360],
             ],
-            'recruiter'       => [
+            'recruiter'              => [
                 'desc'   => 'Agents successfully recruited',
                 'levels' => [2, 10, 25, 50, 100],
             ],
-            'recursions'      => [
+            'recursions'             => [
                 'desc'   => 'Recursions',
                 'levels' => [1, 0, 0, 0, 0],
             ],
-            'prime_challenge' => [
+            'prime_challenge'        => [
                 'desc'   => 'Prime Challenges',
                 'levels' => [1, 2, 3, 4, 0],
             ],
-            'stealth_ops'     => [
+            'stealth_ops'            => [
                 'desc'   => 'Stealth Ops Missions',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'opr_live'        => [
+            'opr_live'               => [
                 'desc'   => 'OPR Live Events',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'ocf'             => [
+            'ocf'                    => [
                 'desc'   => 'Clear Fields Events',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'intel_ops'       => [
+            'intel_ops'              => [
                 'desc'   => 'Intel Ops Missions',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'ifs'             => [
+            'ifs'                    => [
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
-            'Umbra Deploy Challenge'             => [
+            'Umbra Deploy Challenge' => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
             ],
@@ -278,40 +278,41 @@ class MedalChecker
             5 => 'Black',
         ];
 
-    private $ingressLevels = [
-        '2' => [
-            'ap' => 2500,
-            'medals' => []
-        ],
-        '3' => [
-            'ap' => 20000,
-            'medals' => []
-        ],
-        '4' => [
-            'ap' => 70000,
-            'medals' => []
-        ],
-        '5' => [
-            'ap' => 150000,
-            'medals' => []
-        ],
-        '6' => [
-            'ap' => 300000,
-            'medals' => []
-        ],
-        '7' => [
-            'ap' => 600000,
-            'medals' => []
-        ],
-        '8' => [
-            'ap' => 1200000,
-            'medals' => []
-        ],
-        '9' => [
-            'ap' => 2400000,
-            'medals' => []
-        ],
-    ];
+    private $ingressLevels
+        = [
+            '2' => [
+                'ap'     => 2500,
+                'medals' => [],
+            ],
+            '3' => [
+                'ap'     => 20000,
+                'medals' => [],
+            ],
+            '4' => [
+                'ap'     => 70000,
+                'medals' => [],
+            ],
+            '5' => [
+                'ap'     => 150000,
+                'medals' => [],
+            ],
+            '6' => [
+                'ap'     => 300000,
+                'medals' => [],
+            ],
+            '7' => [
+                'ap'     => 600000,
+                'medals' => [],
+            ],
+            '8' => [
+                'ap'     => 1200000,
+                'medals' => [],
+            ],
+            '9' => [
+                'ap'     => 2400000,
+                'medals' => [],
+            ],
+        ];
 
     /**
      * @var TranslatorInterface
@@ -514,7 +515,7 @@ class MedalChecker
             ? $this->levelNames[$level] : '??';
     }
 
-    public function getBadgeData(string $code) :BadgeData
+    public function getBadgeData(string $code): BadgeData
     {
         static $badgeData;
 

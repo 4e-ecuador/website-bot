@@ -84,7 +84,9 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if ('dev' === $_ENV['APP_ENV']){//} && true === in_array($user->getUsername(), ['admin', 'nikp3h'])) {
+        if ('dev'
+            === $_ENV['APP_ENV']
+        ) {//} && true === in_array($user->getUsername(), ['admin', 'nikp3h'])) {
             return true;
         }
 

@@ -37,7 +37,7 @@ class SendEventUpdateCommand extends Command
      */
     private $rootDir;
 
-    public function __construct(string $rootDir, TelegramBotHelper $telegramBotHelper, EventHelper $eventHelper,  EventRepository $eventRepository, AgentStatRepository $statRepository)
+    public function __construct(string $rootDir, TelegramBotHelper $telegramBotHelper, EventHelper $eventHelper, EventRepository $eventRepository, AgentStatRepository $statRepository)
     {
         parent::__construct();
 
@@ -119,14 +119,13 @@ class SendEventUpdateCommand extends Command
 
     private function createImage()
     {
-        $my_img = imagecreate( 230, 140 );
+        $my_img = imagecreate(230, 140);
 
         $medal1 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/1st-place-medal_36.png');
         $medal2 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/2nd-place-medal_36.png');
         $medal3 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/3rd-place-medal_36.png');
 
-
-        $background = imagecolorallocate( $my_img, 255, 255, 255 );
+        $background = imagecolorallocate($my_img, 255, 255, 255);
         // $text_colour = imagecolorallocate( $my_img, 0, 0, 0 );
         // $line_colour = imagecolorallocate( $my_img, 128, 255, 0 );
 
@@ -153,7 +152,6 @@ class SendEventUpdateCommand extends Command
         imagettftext($my_img, 16, 0, 40, 76, $black, $font3, $name2);
         imagettftext($my_img, 16, 0, 40, 117, $black, $font3, $name3);
 
-
         imagecopy($my_img, $medal1, 3, 5, 0, 0, 36, 36);
         imagecopy($my_img, $medal2, 3, 46, 0, 0, 36, 36);
         imagecopy($my_img, $medal3, 3, 87, 0, 0, 36, 36);
@@ -162,7 +160,6 @@ class SendEventUpdateCommand extends Command
 
         //$text_colour = imagecolorallocate( $my_img, 255, 255, 0 );
         //imagestring( $my_img, 4, 30, 25, "thesitewizard.com", $text_colour );
-
 
         // header( "Content-type: image/png" );
         // imagepng( $my_img );
@@ -194,7 +191,7 @@ class SendEventUpdateCommand extends Command
         // $ffile = $this->rootDir.'/var/cache/test.jpg';
         // copy($meta['uri'], $ffile);
         // // return new \CURLFile('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/error_frox/dead-frog-clipart-1.jpg', 'image/jpeg', 'image');
-        return new \CURLFile($fileName , 'image/jpeg', 'image');
+        return new \CURLFile($fileName, 'image/jpeg', 'image');
         // return new \CURLFile($ffile , 'image/jpeg', 'image');
         // return $meta['uri'];
         // $cFile = curl_file_create($meta['uri'], 'application/pdf', $name);

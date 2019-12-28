@@ -157,7 +157,9 @@ class SendNewsletterCommand extends Command
                     $event->getName(),
                     $link,
                     $event->getEventType(),
-                    $formatterDateFull->format($event->getDateEnd()->setTimezone($timeZone))
+                    $formatterDateFull->format(
+                        $event->getDateEnd()->setTimezone($timeZone)
+                    )
                 );
             }
         } else {
@@ -178,7 +180,7 @@ class SendNewsletterCommand extends Command
                     $link,
                     $event->getEventType(),
                     $formatterDateFull->format($lll)
-                    // $formatterDateFull->format($event->getDateStart()->setTimezone($timeZone))
+                // $formatterDateFull->format($event->getDateStart()->setTimezone($timeZone))
                 );
             }
         }

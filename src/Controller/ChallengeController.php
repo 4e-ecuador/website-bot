@@ -24,9 +24,11 @@ class ChallengeController extends AbstractController
      */
     public function index(ChallengeRepository $challengeRepository): Response
     {
-        return $this->render('challenge/index.html.twig', [
-            'challenges' => $challengeRepository->findAll(),
-        ]);
+        return $this->render(
+            'challenge/index.html.twig', [
+                'challenges' => $challengeRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -47,10 +49,12 @@ class ChallengeController extends AbstractController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->render('challenge/new.html.twig', [
-            'challenge' => $challenge,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'challenge/new.html.twig', [
+                'challenge' => $challenge,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -61,10 +65,12 @@ class ChallengeController extends AbstractController
     {
         $entries = $statRepository->findByDate($challenge->getDateStart(), $challenge->getDateEnd());
 
-        return $this->render('challenge/show.html.twig', [
-            'challenge' => $challenge,
-            'entries' => $challengeHelper->getResults($entries),
-        ]);
+        return $this->render(
+            'challenge/show.html.twig', [
+                'challenge' => $challenge,
+                'entries'   => $challengeHelper->getResults($entries),
+            ]
+        );
     }
 
     /**
@@ -82,10 +88,12 @@ class ChallengeController extends AbstractController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->render('challenge/edit.html.twig', [
-            'challenge' => $challenge,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'challenge/edit.html.twig', [
+                'challenge' => $challenge,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -94,7 +102,10 @@ class ChallengeController extends AbstractController
      */
     public function delete(Request $request, Challenge $challenge): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$challenge->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$challenge->getId(), $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($challenge);
             $entityManager->flush();

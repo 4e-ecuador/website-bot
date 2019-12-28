@@ -15,10 +15,10 @@ class HelpType extends AbstractType
             ->add('title')
             ->add(
                 'text', null, [
-                'attr'       => ['rows' => 10],
-                'label'      => 'label.content',
-                'block_name' => 'editor',
-            ]
+                    'attr'       => ['rows' => 10],
+                    'label'      => 'label.content',
+                    'block_name' => 'editor',
+                ]
             );
     }
 

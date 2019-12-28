@@ -61,13 +61,15 @@ class AgentType extends AbstractType
                     ],
                 ]
             )
-            ->add('mapGroup',
+            ->add(
+                'mapGroup',
                 EntityType::class,
                 [
                     'class'        => MapGroup::class,
                     'choice_label' => 'name',
-                    'required' => false,
-                ]);
+                    'required'     => false,
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

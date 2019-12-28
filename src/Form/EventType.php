@@ -14,24 +14,27 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('eventType', ChoiceType::class, [
-                'choices'  => [
-                    'AP' => 'ap',
-                    'Hacker' => 'hacker',
-                    'Builder' => 'builder',
-                    'Trekker' => 'trekker',
-                    'Purifier' => 'purifier',
-                ],
-            ])
+            ->add(
+                'eventType', ChoiceType::class, [
+                    'choices' => [
+                        'AP'       => 'ap',
+                        'Hacker'   => 'hacker',
+                        'Builder'  => 'builder',
+                        'Trekker'  => 'trekker',
+                        'Purifier' => 'purifier',
+                    ],
+                ]
+            )
             ->add('date_start')
-            ->add('date_end')
-        ;
+            ->add('date_end');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Event::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Event::class,
+            ]
+        );
     }
 }

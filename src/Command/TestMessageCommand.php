@@ -29,8 +29,7 @@ class TestMessageCommand extends Command
     {
         $this
             ->setDescription('Send a bot message')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name')
-        ;
+            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -50,7 +49,8 @@ class TestMessageCommand extends Command
                 $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
             }
 
-            $text = '`test '.date('Y-m-d H:i:s').' '.date_default_timezone_get().'`';
+            $text = '`test '.date('Y-m-d H:i:s').' '.date_default_timezone_get()
+                .'`';
             $io->writeln($text);
             $this->telegramBotHelper->sendMessage($groupId, $text);
             $io->success('You have a new command! Now make it your own! Pass --help to see your options.');

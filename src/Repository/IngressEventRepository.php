@@ -27,9 +27,7 @@ class IngressEventRepository extends ServiceEntityRepository
             ->orderBy('i.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
-
+            ->getResult();
     }
 
     public function findFutureFS()
@@ -42,8 +40,7 @@ class IngressEventRepository extends ServiceEntityRepository
             ->orderBy('i.name', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findFutureMD()
@@ -56,7 +53,6 @@ class IngressEventRepository extends ServiceEntityRepository
             ->orderBy('i.name', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

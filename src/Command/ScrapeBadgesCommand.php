@@ -76,7 +76,9 @@ class ScrapeBadgesCommand extends Command
 
         // $badgeContainers = $xpath->query('//div[@class="badgecontainer"]');
 
-        foreach ($xpath->query('//div[@class="badgecontainer"]') as $badgeContainer) {
+        foreach (
+            $xpath->query('//div[@class="badgecontainer"]') as $badgeContainer
+        ) {
             $badgeInfo = new \stdClass();
 
             foreach ($badgeContainer->getElementsByTagName('img') as $element) {
@@ -102,7 +104,10 @@ class ScrapeBadgesCommand extends Command
             $badgeInfos[] = $badgeInfo;
         }
 
-        file_put_contents($this->rootDir.'/text-files/badgeinfos.json', json_encode($badgeInfos));
+        file_put_contents(
+            $this->rootDir
+            .'/text-files/badgeinfos.json', json_encode($badgeInfos)
+        );
 
         $io->success('Finished!');
 

@@ -4,7 +4,7 @@ namespace App\Tests\Fixtures;
 
 use App\Entity\Event;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class EventFixture extends Fixture
 {

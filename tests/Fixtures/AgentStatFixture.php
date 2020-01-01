@@ -4,9 +4,8 @@ namespace App\Tests\Fixtures;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
-use App\Entity\Faction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class AgentStatFixture extends Fixture
 {
@@ -19,10 +18,9 @@ class AgentStatFixture extends Fixture
 
         $stat->setAgent($agent);
         $stat->setDatetime(new \DateTime('now'))
-        ->setAp(666)
-        ->setExplorer(666)
-        ->setRecon(666);
-
+            ->setAp(666)
+            ->setExplorer(666)
+            ->setRecon(666);
 
         $manager->persist($stat);
 

@@ -3,12 +3,10 @@
 namespace App\Tests\Fixtures;
 
 use App\Entity\Agent;
-use App\Entity\AgentStat;
 use App\Entity\Comment;
-use App\Entity\Faction;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class CommentFixture extends Fixture
 {
@@ -26,13 +24,8 @@ class CommentFixture extends Fixture
 
         $comment->setAgent($agent);
         $comment->setCommenter($user)
-        ->setText('comment')
-        ->setDatetime(new \DateTime('now'))
-        // ->setAp(666)
-        // ->setExplorer(666)
-        // ->setRecon(666)
-        ;
-
+            ->setText('comment')
+            ->setDatetime(new \DateTime('now'));
 
         $manager->persist($comment);
 

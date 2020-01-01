@@ -5,7 +5,7 @@ namespace App\Tests\Fixtures;
 use App\Entity\Agent;
 use App\Entity\Faction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class AgentFixture extends Fixture
 {
@@ -21,8 +21,6 @@ class AgentFixture extends Fixture
             $agent = new Agent();
 
             $agent->setNickname('Agent'.$i);
-            // $faction = new Faction();
-            // $faction->setId(1);
             $agent->setFaction($faction);
 
             $manager->persist($agent);

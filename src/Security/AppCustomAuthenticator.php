@@ -26,18 +26,22 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
-    private $passwordEncoder;
+
+    /**
+     * @var string
+     */
+    private $appEnv;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder
+        string $appEnv
     ) {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->appEnv = $appEnv;
     }
 
     public function supports(Request $request)
@@ -50,7 +54,6 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     {
         $credentials = [
             'username'   => $request->request->get('username'),
-            'password'   => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -84,16 +87,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if ('dev'
-            === $_ENV['APP_ENV']
-        ) {//} && true === in_array($user->getUsername(), ['admin', 'nikp3h'])) {
-            return true;
+        if (false === in_array($this->appEnv, ['dev', 'test']))
+        {
+            throw new \UnexpectedValueException('GTFO!');
         }
 
-        return $this->passwordEncoder->isPasswordValid(
-            $user,
-            $credentials['password']
-        );
+        return true;
     }
 
     public function onAuthenticationSuccess(

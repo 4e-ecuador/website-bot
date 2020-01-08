@@ -22,6 +22,8 @@
 
     {% if is_granted('ROLE_AGENT') %}
         {% include '/default/_event_list.html.twig' %}
+    {% endif %}
+    {% if is_granted('ROLE_EDITOR') %}
         {% include '/default/_comment_list.html.twig' %}
     {% endif %}
 {% endblock %}

@@ -63,6 +63,7 @@
                 {% endif %}
             </td>
         </tr>
+        {% if is_granted('ROLE_EDITOR') %}
         <tr>
             <th>{{ 'Comments'|trans }}</th>
             <td>
@@ -70,6 +71,7 @@
                 <div id="commentStatus"></div>
             </td>
         </tr>
+        {% endif %}
 
         </tbody>
     </table>

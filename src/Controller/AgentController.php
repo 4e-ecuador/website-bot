@@ -45,7 +45,7 @@ class AgentController extends AbstractController
 
         $factionList = [];
 
-        $factionList[0] = '';
+        // $factionList[0] = '';
 
         foreach ($factions as $faction) {
             $factionList[$faction->getId()] = $faction->getName();

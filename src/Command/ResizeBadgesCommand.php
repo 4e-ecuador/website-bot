@@ -53,7 +53,6 @@ class ResizeBadgesCommand extends Command
                 if (strpos($srcPath, '_'.$size.'.png')) {
                     continue;
                 }
-                // $destPath = str_replace('.png', '_'.$size.'.png', $srcPath);
                 $destPath = $destDir.'/'.$item->getFilename();
                 $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
                     .$destPath;

@@ -25,7 +25,7 @@ before_script:
 
 script:
   - ./bin/phpunit $PHPUNIT_FLAGS
-  - cat ./var/log/test.log
+#  - cat ./var/log/test.log
 
 after_script:
   - bash ./bin/telegram_notification.sh

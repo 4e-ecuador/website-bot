@@ -49,11 +49,26 @@ class EventHelper
 
         $values = [];
 
-        $methodName = 'get'.$event->getEventType();
+       foreach (array_keys($currentEntries) as $agentName) {
+            if ('fieldslinks' === $event->getEventType()) {
+                $fields = $currentEntries[$agentName]->getMindController()
+                    - $previousEntries[$agentName]->getMindController();
+                $links = $currentEntries[$agentName]->getConnector()
+                    - $previousEntries[$agentName]->getConnector();
+                $values[$agentName] = $links ? $fields / $links : 0;
+            } else {
+                $methodName = 'get'.$event->getEventType();
 
-        foreach (array_keys($currentEntries) as $agentName) {
-            $values[$agentName] = $currentEntries[$agentName]->$methodName()
-                - $previousEntries[$agentName]->$methodName();
+                if (false
+                    === method_exists($currentEntries[$agentName], $methodName)
+                ) {
+                    throw new \UnexpectedValueException(
+                        'Unknown event type: '.$event->getEventType()
+                    );
+                }
+                $values[$agentName] = $currentEntries[$agentName]->$methodName()
+                    - $previousEntries[$agentName]->$methodName();
+            }
         }
 
         arsort($values);

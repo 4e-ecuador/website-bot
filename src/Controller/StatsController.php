@@ -151,7 +151,13 @@ class StatsController extends AbstractController
                         $boardEntries[$property][] = $entry;
                     }
                 }
-            }
+
+                $entry = new \stdClass();
+                $entry->agent = $agent;
+                $entry->value = $agentEntry->getMindController()/$agentEntry->getConnector();
+
+                $boardEntries['Fields/Links'][] = $entry;
+           }
         }
 
         foreach ($boardEntries as $type => $entries) {

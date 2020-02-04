@@ -22,7 +22,7 @@
             {% set count = 1 %}
             <div class="col-sm-3 card">
                 <div class="card-header">
-                    <h5>{{ type|ucfirst }}</h5>{{ type }}
+                    <h5>{{ type|ucfirst }}</h5>
                 </div>
                 {% for entry in entries %}
                 {% if count == maxCount %}
@@ -56,7 +56,6 @@
                         </div>
                         <div class="col-sm-5 text-right">
                             {% if 'Fields/Links' == type  or 'Links/Fields' == type %}
-
                                 {{ entry.value|number_format(2, '.', ',') }}
                             {% else %}
                                 {{ entry.value|number_format }}

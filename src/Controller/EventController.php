@@ -7,6 +7,7 @@ use App\Form\EventType;
 use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
 use App\Service\EventHelper;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +68,7 @@ class EventController extends AbstractController
 
         $values = $eventHelper->calculateResults($event, $entries);
 
-        $now = new \DateTime();
+        $now = new DateTime();
 
         if ($event->getDateStart() > $now) {
             $status = 'future';

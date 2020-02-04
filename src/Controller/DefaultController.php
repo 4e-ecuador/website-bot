@@ -9,6 +9,7 @@ use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\DateTimeHelper;
 use App\Service\MarkdownHelper;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class DefaultController extends AbstractController
         $ingressFS = [];
         $ingressMD = [];
         $challenges = [];
-        $tz = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+        $tz = new DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
 
         $now = new \DateTime('now', $tz);
         $now2 = new \DateTime();

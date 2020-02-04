@@ -66,7 +66,7 @@ class CommentController extends AbstractController
      */
     public function getSingle(
         Request $request, CommentRepository $commentRepository, MarkdownHelper $markdownHelper
-    ) {
+    ): JsonResponse {
         $commentId = $request->request->get('comment_id');
 
         $comment = $commentRepository->findOneBy(['id' => $commentId]);

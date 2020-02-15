@@ -18,7 +18,6 @@ class MedalChecker
                 'desc'   => 'Seer Points',
                 'levels' => [10, 50, 200, 500, 5000],
             ],
-
             'recon'                  => [
                 'desc'   => 'OPR Agreements',
                 'levels' => [100, 750, 2500, 5000, 10000],
@@ -123,6 +122,10 @@ class MedalChecker
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
             ],
+            'Didact Field Challenge' => [
+                'desc'   => 'Didact Field Challenge',
+                'levels' => [100, 300, 800, null, null],
+            ],
         ];
 
     private $primeHeaders
@@ -169,12 +172,14 @@ class MedalChecker
             'First Saturday Events'         => 'ifs',
 
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
+            'Didact: Total Fields Created' => 'currentChallenge',
         ];
 
     private $customMedals
         = [
             'Anomaly' =>
                 [
+                    'Requiem',
                     'Umbra',
                     'NemesisMyriad',
                     'AbaddonPrime',
@@ -207,6 +212,12 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'DidactField'          =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
                     'UmbraDeploy'          =>
                         [
                             'Bronze',

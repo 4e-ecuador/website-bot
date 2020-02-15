@@ -50,9 +50,7 @@ https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4
 ## Update medal images and CSS
 
 ```text
-bin/console app:scrape:badges
-bin/console app:resize:badges
-bin/console app:make:cssSprite
+bin/console app:update:badgedata
 ```
 
 * Add the badge "code" in `src/Service/MedalChecker.php`

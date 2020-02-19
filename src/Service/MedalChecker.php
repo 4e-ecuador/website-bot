@@ -172,7 +172,7 @@ class MedalChecker
             'First Saturday Events'         => 'ifs',
 
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
-            'Didact: Total Fields Created' => 'currentChallenge',
+            'Didact Fields Created' => 'currentChallenge',
         ];
 
     private $customMedals

@@ -76,7 +76,7 @@
         <div class="card">
             <div class="card-body">
                 <h4>
-                    <a href="{{ path('event_show', {'id': item.id}) }}">{{ item.name }}</a>
+                    <a href="{{ path('challenge_show', {'id': item.id}) }}">{{ item.name }}</a>
                 </h4>
 
                 <div class="clock-counter text-center alert alert-warning"
@@ -92,16 +92,16 @@
         <div>{{ 'No current challenges.'|trans }}</div>
     {% endfor %}
     <h3>{{ 'Future Challenges'|trans }}</h3>
-    {% for event in futureChallenges %}
+    {% for item in futureChallenges %}
         <div class="card">
             <div class="card-body">
                 <h4>
-                    <a href="{{ path('challenge_show', {'id': event.id}) }}">{{ event.name }}</a>
+                    <a href="{{ path('challenge_show', {'id': item.id}) }}">{{ item.name }}</a>
                 </h4>
 
 {#                            {{ event.dateStart|date('Y-m-d H:i:s e', false) }}#}
                 <div class="clock-counter"
-                     data-deadline="{{ event.dateStart|date('Y-m-d H:i', false) }}">
+                     data-deadline="{{ item.dateStart|date('Y-m-d H:i', false) }}">
                     <b>{{ 'The event starts in'|trans }}</b>
                     {{ 'Days:'|trans }} <b class="days"></b>
                     {{ 'Hours:'|trans }} <b class="hours"></b>
@@ -116,9 +116,9 @@
     {% endfor %}
 
     <h3>{{ 'Past Challenges'|trans }}</h3>
-    {% for event in pastChallenges %}
+    {% for item in pastChallenges %}
         <div>
-            <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
+            <a href="{{ path('challenge_show', {'id': item.id}) }}">{{ item.name }}</a>
         </div>
     {% else %}
         <div>{{ 'There are no past challenges.'|trans }}</div>

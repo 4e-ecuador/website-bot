@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Event;
+use App\Repository\ChallengeRepository;
+use App\Repository\EventRepository;
 use DateTime;
 
 class EventHelper
@@ -17,10 +19,26 @@ class EventHelper
      */
     private $timezone;
 
-    public function __construct()
+    /**
+     * @var EventRepository
+     */
+    private $eventRepository;
+    /**
+     * @var ChallengeRepository
+     */
+    private $challengeRepository;
+    /**
+     * @var DateTimeHelper
+     */
+    private $dateTimeHelper;
+
+    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository, DateTimeHelper $dateTimeHelper)
     {
         $this->defaultTimezone = $_ENV['DEFAULT_TIMEZONE'];
         $this->timezone = new \DateTimeZone($this->defaultTimezone);
+        $this->eventRepository = $eventRepository;
+        $this->challengeRepository = $challengeRepository;
+        $this->dateTimeHelper = $dateTimeHelper;
     }
 
     public function getNextFS(): DateTime
@@ -49,7 +67,7 @@ class EventHelper
 
         $values = [];
 
-       foreach (array_keys($currentEntries) as $agentName) {
+        foreach (array_keys($currentEntries) as $agentName) {
             if ('fieldslinks' === $event->getEventType()) {
                 $fields = $currentEntries[$agentName]->getMindController()
                     - $previousEntries[$agentName]->getMindController();
@@ -74,5 +92,97 @@ class EventHelper
         arsort($values);
 
         return $values;
+    }
+
+    public function getEventsInSpan(string $span): ?array
+    {
+        static $events = [], $pastEvents = [], $currentEvents = [], $futureEvents = [];
+
+        if (!$events) {
+            $events = $this->eventRepository->findAll();
+
+            $now = new \DateTime('now', $this->timezone);
+
+            foreach ($events as $event) {
+                $event->setDateStart(
+                    new \DateTime(
+                        $event->getDateStart()
+                            ->format('Y-m-d H:i:s'), $this->timezone
+                    )
+                );
+                $event->setDateEnd(
+                    new \DateTime(
+                        $event->getDateEnd()
+                            ->format('Y-m-d H:i:s'), $this->timezone
+                    )
+                );
+                if ($event->getDateStart() > $now) {
+                    $futureEvents[] = $event;
+                } elseif ($event->getDateEnd() < $now) {
+                    $pastEvents[] = $event;
+                } else {
+                    $currentEvents[] = $event;
+                }
+            }
+        }
+
+        switch ($span) {
+            case 'past':
+                return $pastEvents;
+                break;
+            case 'present':
+                return $currentEvents;
+                break;
+            case 'future':
+                return $futureEvents;
+                break;
+            default:
+                throw new \UnexpectedValueException('Unknown span (must be: past, present or future)');
+                break;
+        }
+    }
+
+    public function getChallengesInSpan(string $span): ?array
+    {
+        static $items = [], $challenges = [];
+
+
+        if (!$items) {
+            $challenges['past'] = [];
+            $challenges['present'] = [];
+            $challenges['future'] = [];
+
+            $items = $this->challengeRepository->findAll();
+
+            $now = new \DateTime('now', $this->timezone);
+
+            foreach ($items as $item) {
+                $item->setDateStart(
+                    new \DateTime(
+                        $item->getDateStart()
+                            ->format('Y-m-d H:i:s'), $this->timezone
+                    )
+                );
+                $item->setDateEnd(
+                    new \DateTime(
+                        $item->getDateEnd()
+                            ->format('Y-m-d H:i:s'), $this->timezone
+                    )
+                );
+                if ($item->getDateStart() > $now) {
+                    $challenges['future'][] = $item;
+                } elseif ($item->getDateEnd() < $now) {
+                    $challenges['past'][] = $item;
+                } else {
+                    $challenges['present'][] = $item;
+                }
+            }
+        }
+
+        if (array_key_exists($span, $challenges)) {
+            return $challenges[$span];
+        }
+
+        throw new \UnexpectedValueException('Unknown span (must be: past, present or future): '.$span);
     }
 }

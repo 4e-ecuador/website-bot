@@ -3,8 +3,8 @@
 {% if ingressMD %}
     <h3>{{ 'Ingress Mission Day'|trans }}</h3>
     <a href="{{ fs.link }}">{{ fs.name }}</a>
-
 {% endif %}
+
 {% if ingressFS %}
     <div class="card">
         <div class="card-header">
@@ -18,10 +18,7 @@
             {% endfor %}
         </div>
     </div>
-
 {% endif %}
-
-<h3>{{ 'Current events'|trans }}</h3>
 
 {% for event in currentEvents %}
     <div class="card">
@@ -39,8 +36,6 @@
 
         </div>
     </div>
-{% else %}
-    <div>{{ 'No current events.'|trans }}</div>
 {% endfor %}
 
 {% for challenge in challenges %}
@@ -59,18 +54,14 @@
 
         </div>
     </div>
-
 {% endfor %}
 
-<h3>{{ 'Future Events'|trans }}</h3>
 {% for event in futureEvents %}
     <div class="card">
         <div class="card-body">
             <h4>
                 <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
             </h4>
-
-{#            {{ event.dateStart|date('Y-m-d H:i:s e', false) }}#}
 
             {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
@@ -85,15 +76,5 @@
 
         </div>
     </div>
-{% else %}
-    <div>{{ 'There are no future events.'|trans }}</div>
 {% endfor %}
 
-<h3>{{ 'Past Events'|trans }}</h3>
-{% for event in pastEvents %}
-    <div>
-        <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
-    </div>
-{% else %}
-    <div>{{ 'There are no past events.'|trans }}</div>
-{% endfor %}

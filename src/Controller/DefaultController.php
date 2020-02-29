@@ -8,6 +8,7 @@ use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\DateTimeHelper;
+use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,4 +89,25 @@ class DefaultController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/events", name="default_events")
+     */
+    public function events(EventHelper $eventHelper): Response
+    {
+        return $this->render(
+            'default/events.html.twig',
+            [
+                'pastEvents'     => $eventHelper->getEventsInSpan('past'),
+                'currentEvents'  => $eventHelper->getEventsInSpan('present'),
+                'futureEvents'   => $eventHelper->getEventsInSpan('future'),
+                'pastChallenges'     => $eventHelper->getChallengesInSpan('past'),
+                'currentChallenges'  => $eventHelper->getChallengesInSpan('present'),
+                'futureChallenges'   => $eventHelper->getChallengesInSpan('future'),
+
+            ]
+        );
+    }
+
+
 }

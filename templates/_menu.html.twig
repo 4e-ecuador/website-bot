@@ -24,6 +24,9 @@
                         <a class="nav-link" href={{ path('agent_index') }}>{{ 'Agents'|trans }}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href={{ path('default_events') }}>{{ 'Events'|trans }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href={{ path('help_index') }}>{{ 'Help'|trans }}</a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}

@@ -11,6 +11,7 @@ use App\Service\DateTimeHelper;
 use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use DateTimeZone;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -92,6 +93,7 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/events", name="default_events")
+     * @IsGranted("ROLE_AGENT")
      */
     public function events(EventHelper $eventHelper): Response
     {

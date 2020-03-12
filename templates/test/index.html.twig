@@ -14,4 +14,9 @@
             <a href="{{ path('test_mail') }}">mail</a>
         </li>
     </ul>
+
+    <h3>User agent</h3>
+
+    <code>{{ app.request.headers.get('User-Agent')}}</code>
+
 {% endblock %}

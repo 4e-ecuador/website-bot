@@ -22,6 +22,8 @@ class EventType extends AbstractType
                         'Builder'  => 'builder',
                         'Trekker'  => 'trekker',
                         'Purifier' => 'purifier',
+                        'Recharger' => 'recharger',
+                        'OPR' => 'recon',
                         'Fields/Links' => 'fieldslinks',
                     ],
                 ]

@@ -88,6 +88,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
             new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
             new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
+            new TwigFunction('php_version', [$this, 'getPhpVersion']),
         ];
     }
 
@@ -224,5 +225,10 @@ class AppExtension extends AbstractExtension
         }
 
         return $this->medalChecker->getBadgeData($code);
+    }
+
+    public function getPhpVersion()
+    {
+        return PHP_VERSION;
     }
 }

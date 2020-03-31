@@ -145,6 +145,9 @@
             "config/packages/knpu_oauth2_client.yaml"
         ]
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.2"
+    },
     "league/oauth2-client": {
         "version": "2.4.1"
     },
@@ -167,7 +170,7 @@
         "version": "2.1.1"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -629,6 +632,9 @@
     },
     "twig/twig": {
         "version": "v2.11.2"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.1"
     },
     "webmozart/assert": {
         "version": "1.4.0"

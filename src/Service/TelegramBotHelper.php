@@ -110,7 +110,7 @@ class TelegramBotHelper
         $response[] = $this->translator->trans(
             'new.medal.text.1', [
                 'medals' => count($medalUps),
-                'agent'  => $agent->getTelegramName() ?: $agent->getNickname(),
+                'agent'  => str_replace('_', '\\_', $agent->getTelegramName() ?: $agent->getNickname()),
             ]
         );
 

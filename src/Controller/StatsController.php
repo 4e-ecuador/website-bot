@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Entity\TestStat;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
@@ -336,6 +337,14 @@ class StatsController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($statEntry);
                         $entityManager->flush();
+
+                        $test = new TestStat();
+                        $test->setCsv($csv);
+
+                        // @todo TEST
+                        $entityManager->persist($test);
+                        $entityManager->flush();
+
 
                         $currentEntry = $statEntry;
                     }

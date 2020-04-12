@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TestStat{% endblock %}
+
+{% block body %}
+    <h1>Create new TestStat</h1>
+
+    {{ include('test_stat/_form.html.twig') }}
+
+    <a href="{{ path('test_stat_index') }}">back to list</a>
+{% endblock %}

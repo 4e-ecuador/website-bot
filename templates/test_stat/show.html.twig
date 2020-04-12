@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TestStat{% endblock %}
+
+{% block body %}
+    <h1>TestStat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ test_stat.id }}</td>
+            </tr>
+            <tr>
+                <th>Csv</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre>{{ test_stat.csv }}</pre>
+
+    <a href="{{ path('test_stat_index') }}">back to list</a>
+
+    <a href="{{ path('test_stat_edit', {'id': test_stat.id}) }}">edit</a>
+
+    {{ include('test_stat/_delete_form.html.twig') }}
+{% endblock %}

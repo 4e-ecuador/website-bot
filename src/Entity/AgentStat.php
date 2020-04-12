@@ -163,6 +163,11 @@ class AgentStat implements ArrayAccess
      */
     private $largest_field;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $recursions;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -624,6 +629,18 @@ class AgentStat implements ArrayAccess
     public function setLargestField(?int $largest_field): self
     {
         $this->largest_field = $largest_field;
+
+        return $this;
+    }
+
+    public function getRecursions(): ?int
+    {
+        return $this->recursions;
+    }
+
+    public function setRecursions(?int $recursions): self
+    {
+        $this->recursions = $recursions;
 
         return $this;
     }

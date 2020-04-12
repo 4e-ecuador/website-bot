@@ -19,13 +19,14 @@
         {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
         {% if latest %}
             <span class="agent-level">{{ latest.level }}</span>
-        {% endif %}
-        {% if agent.recursions %}
-            <span class="medal50-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
-            {% if agent.recursions > 1 %}
-                <span class="doubleCount">X {{ agent.recursions }}</span>
+            {% if latest.recursions %}
+                <span class="medal50-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                {% if latest.recursions > 1 %}
+                    <span class="doubleCount">X {{ latest.recursions }}</span>
+                {% endif %}
             {% endif %}
         {% endif %}
+
     </p>
     {% if latest %}
         <h4>AP: {{ latest.ap|number_format }}</h4>

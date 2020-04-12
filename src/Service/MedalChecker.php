@@ -174,8 +174,10 @@ class MedalChecker
             'Mission Day(s) Attended'       => 'missionday',
             'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
             'First Saturday Events'         => 'ifs',
+            'Portal Scans Uploaded'         => 'scout',
 
             'Level' => 'level',
+            'Recursions' => 'recursions',
 
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
             'Didact Fields Created' => 'currentChallenge',

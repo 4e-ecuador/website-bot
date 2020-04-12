@@ -10,15 +10,16 @@ require('leaflet.markercluster/dist/MarkerCluster.Default.css')
 require('../css/agents-map.css')
 
 // Leaflet icon hack start
-import L from 'leaflet'
-
-delete L.Icon.Default.prototype._getIconUrl
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-})
+// import L from 'leaflet'
+//
+// delete L.Icon.Default.prototype._getIconUrl
+//
+// L.Icon.Default.mergeOptions({
+//     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+//     iconUrl: require('assets/images/ico/my-icon.png'),
+//     // iconUrl: require('leaflet/dist/images/marker-icon.png'),
+//     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+// })
 // Leaflet icon hack end
 
 let map
@@ -79,6 +80,12 @@ const markers = L.markerClusterGroup({disableClusteringAtZoom: 16})
 
 function loadMarkers(group) {
     markers.clearLayers()
+    const myIcon = L.icon({
+        iconUrl: 'build/images/ico/my-icon.png',
+        iconSize: [22, 36],
+        iconAnchor: [11, 36],
+        popupAnchor: [0, -18],
+    })
 
     $.get('/map_json', {'group': group}, function (data) {
         $(data).each(function () {
@@ -86,7 +93,7 @@ function loadMarkers(group) {
                 new L.Marker(
                     new L.LatLng(this.lat, this.lng),
                     {
-                        wp_id: this.id, wp_selected: false//, title: this.name
+                        wp_id: this.id, wp_selected: false, icon: myIcon//, title: this.name
                     }
                 )
 

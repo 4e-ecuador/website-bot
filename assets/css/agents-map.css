@@ -7,3 +7,7 @@ html, body, #map {
 body {
     padding-top: 70px;
 }
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: lightgreen;
+}

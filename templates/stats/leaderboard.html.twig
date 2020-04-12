@@ -32,12 +32,10 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                            {% if 'ap' == type %}
-                                {% if entry.agent.recursions %}
-                                    <span class="medal24-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
-                                    {% if entry.agent.recursions > 1 %}
-                                        <span class="doubleCount">X {{ entry.agent.recursions }}</span>
-                                    {% endif %}
+                            {% if 'recursions' == type %}
+                                <span class="medal24-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                                {% if entry.value > 1 %}
+                                    <span class="doubleCount">X {{ entry.value }}</span>
                                 {% endif %}
                             {% else %}
                                 {% set level = medalLevel(type, entry.value) %}

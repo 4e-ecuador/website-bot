@@ -90,10 +90,10 @@ class MedalChecker
                 'desc'   => 'Agents successfully recruited',
                 'levels' => [2, 10, 25, 50, 100],
             ],
-            'recursions'             => [
-                'desc'   => 'Recursions',
-                'levels' => [1, 0, 0, 0, 0],
-            ],
+            // 'recursions'             => [
+            //     'desc'   => 'Recursions',
+            //     'levels' => [1, 0, 0, 0, 0],
+            // ],
             'prime_challenge'        => [
                 'desc'   => 'Prime Challenges',
                 'levels' => [1, 2, 3, 4, 0],

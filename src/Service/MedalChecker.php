@@ -175,6 +175,8 @@ class MedalChecker
             'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
             'First Saturday Events'         => 'ifs',
 
+            'Level' => 'level',
+
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
             'Didact Fields Created' => 'currentChallenge',
         ];

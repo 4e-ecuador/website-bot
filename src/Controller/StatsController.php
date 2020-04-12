@@ -139,7 +139,7 @@ class StatsController extends AbstractController
 
             if ($agentEntry) {
                 foreach ($agentEntry->getProperties() as $property) {
-                    if ('current_challenge' === $property) {
+                    if (in_array($property, ['current_challenge', 'level'])) {
                         continue;
                     }
 
@@ -297,6 +297,7 @@ class StatsController extends AbstractController
         $medalUps = [];
         $currents = [];
         $currentEntry = null;
+        $newLevel = null;
         $diff = [];
 
         $user = $security->getUser();
@@ -355,13 +356,19 @@ class StatsController extends AbstractController
             } else {
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
                 $diff = $currentEntry->getDiff($previousEntry);
+                $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
 
-                if ($medalUps) {
-                    // Medal(s) gained - send a bot message !
-                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                // Medal(s) gained - send a bot message !
+                if ($medalUps && $groupId) {
+                    $telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+                }
 
+                // Level changed
+                $previousLevel = $previousEntry->getLevel();
+                if ($previousLevel && $currentEntry->getLevel() !== $previousLevel) {
+                    $newLevel = $currentEntry->getLevel();
                     if ($groupId) {
-                        $telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+                        $telegramBotHelper->sendLevelUpMessage($agent, $newLevel, $groupId);
                     }
                 }
             }
@@ -373,6 +380,7 @@ class StatsController extends AbstractController
                 'ups'      => $medalUps,
                 'diff'     => $diff,
                 'currents' => $currents,
+                'newLevel' => $newLevel,
             ]
         );
     }

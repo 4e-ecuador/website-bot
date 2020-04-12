@@ -11,3 +11,8 @@ div.medal-value {
 .medal-image {
     cursor: pointer;
 }
+
+.agent-level {
+    font-weight: bold;
+    font-size: 1.5em;
+}

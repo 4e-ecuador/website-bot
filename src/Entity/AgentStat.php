@@ -143,6 +143,16 @@ class AgentStat implements ArrayAccess
      */
     private $current_challenge;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $level;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $scout;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -556,6 +566,30 @@ class AgentStat implements ArrayAccess
     public function setCurrentChallenge(?int $current_challenge): self
     {
         $this->current_challenge = $current_challenge;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getScout(): ?int
+    {
+        return $this->scout;
+    }
+
+    public function setScout(?int $scout): self
+    {
+        $this->scout = $scout;
 
         return $this;
     }

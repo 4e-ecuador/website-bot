@@ -17,6 +17,9 @@
     <h1>{{ 'Statistics'|trans }}</h1>
     <p>
         {{ 'Agent: {agent_name}'|trans({'agent_name': '<code>' ~ agent.nickname ~'</code>'})|raw }}
+        {% if latest %}
+            <span class="agent-level">{{ latest.level }}</span>
+        {% endif %}
         {% if agent.recursions %}
             <span class="medal50-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
             {% if agent.recursions > 1 %}
@@ -25,9 +28,6 @@
         {% endif %}
     </p>
     {% if latest %}
-        <p>
-            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
-        </p>
         <h4>AP: {{ latest.ap|number_format }}</h4>
 
         {% if agentCustomMedals %}
@@ -97,7 +97,12 @@
         </span>
         {% endfor %}
 
+        <!-- Stats container -->
         <div id="container" style="width:100%; height:400px;"></div>
+
+        <p>
+            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
+        </p>
 
     {% else %}
         <div>{{ 'There are no statistics for this agent.'|trans }}</div>

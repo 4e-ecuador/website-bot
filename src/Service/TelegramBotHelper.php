@@ -110,7 +110,10 @@ class TelegramBotHelper
         $response[] = $this->translator->trans(
             'new.medal.text.1', [
                 'medals' => count($medalUps),
-                'agent'  => str_replace('_', '\\_', $agent->getTelegramName() ?: $agent->getNickname()),
+                'agent'  => str_replace(
+                    '_', '\\_',
+                    $agent->getTelegramName() ?: $agent->getNickname()
+                ),
             ]
         );
 
@@ -126,6 +129,55 @@ class TelegramBotHelper
         }
 
         $response[] = '';
+        $response[] = $this->translator->trans(
+            'new.medal.text.3', [
+                'link' => sprintf('%s/stats/agent/%s', $pageBase, $agent->getId()),
+            ]
+        );
+        $response[] = '';
+        $response[] = $this->translator->trans(
+            'new.medal.text.4', [
+                'tadaa' => $tada.$tada.$tada,
+            ]
+        );
+
+        return $this->api->sendMessage(
+            $groupId,
+            implode("\n", $response),
+            'markdown'
+        );
+    }
+
+    public function sendLevelUpMessage(Agent $agent, int $level, string $groupId)
+    {
+        $pageBase = $_ENV['PAGE_BASE_URL'];
+        $tada = "\xF0\x9F\x8E\x89";
+
+        $response = [];
+
+        $response[] = $this->translator->trans('new.medal.header');
+
+        $response[] = '[ ]('.$pageBase.'/build/images/badges/'
+            .$this->medalChecker->getBadgePath('LevelUp_'.$level, 0).')';
+
+        $response[] = $this->translator->trans(
+            'new.level.text.1', [
+                'agent' => str_replace(
+                    '_', '\\_', $agent->getTelegramName()
+                    ?: $agent->getNickname()
+                ),
+            ]
+        );
+
+        $response[] = '';
+
+        $response[] = $this->translator->trans(
+            'new.level.text.2',
+            ['level' => $level]
+        );
+
+        $response[] = '';
+
         $response[] = $this->translator->trans(
             'new.medal.text.3', [
                 'link' => sprintf('%s/stats/agent/%s', $pageBase, $agent->getId()),

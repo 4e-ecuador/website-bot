@@ -153,6 +153,16 @@ class AgentStat implements ArrayAccess
      */
     private $scout;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $longest_link;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $largest_field;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -590,6 +600,30 @@ class AgentStat implements ArrayAccess
     public function setScout(?int $scout): self
     {
         $this->scout = $scout;
+
+        return $this;
+    }
+
+    public function getLongestLink(): ?int
+    {
+        return $this->longest_link;
+    }
+
+    public function setLongestLink(?int $longest_link): self
+    {
+        $this->longest_link = $longest_link;
+
+        return $this;
+    }
+
+    public function getLargestField(): ?int
+    {
+        return $this->largest_field;
+    }
+
+    public function setLargestField(?int $largest_field): self
+    {
+        $this->largest_field = $largest_field;
 
         return $this;
     }

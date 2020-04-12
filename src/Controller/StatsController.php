@@ -144,7 +144,7 @@ class StatsController extends AbstractController
                         continue;
                     }
 
-                    $methodName = 'get'.$property;
+                    $methodName = 'get'.str_replace('_', '', $property);
                     if ($agentEntry->$methodName()) {
                         $entry = new \stdClass();
                         $entry->agent = $agent;

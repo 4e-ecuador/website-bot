@@ -118,6 +118,10 @@ class MedalChecker
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
+            'scout'                    => [
+                'desc'   => 'Scan portals',
+                'levels' => [50, 250, 1000, 3000, 6000],
+            ],
             'Umbra Deploy Challenge' => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
@@ -378,7 +382,6 @@ class MedalChecker
     public function translatePrimeHeader($name): string
     {
         return $this->primeHeaders[$name] ?? '';
-        //throw new \UnexpectedValueException('Unknown Ingress Prime header: '.$name);
     }
 
     public function getMethodName(string $vName): string

@@ -35,6 +35,7 @@ class AgentStatType extends AbstractType
             ->add('missionday')
             ->add('nl1331Meetups')
             ->add('ifs')
+            ->add('scout')
             ->add('agent');
     }
 

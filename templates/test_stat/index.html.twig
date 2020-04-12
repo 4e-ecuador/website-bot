@@ -9,18 +9,20 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Csv</th>
                 <th>actions</th>
+                <th>Csv</th>
             </tr>
         </thead>
         <tbody>
         {% for test_stat in test_stats %}
             <tr>
                 <td>{{ test_stat.id }}</td>
-                <td>{{ test_stat.csv[:20] }}</td>
                 <td>
                     <a href="{{ path('test_stat_show', {'id': test_stat.id}) }}">show</a>
                     <a href="{{ path('test_stat_edit', {'id': test_stat.id}) }}">edit</a>
+                </td>
+                <td>
+                    <pre>{{ test_stat.csv }}</pre>
                 </td>
             </tr>
         {% else %}

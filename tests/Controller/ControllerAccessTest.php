@@ -12,6 +12,7 @@ use App\Tests\Fixtures\EventFixture;
 use App\Tests\Fixtures\HelpFixture;
 use App\Tests\Fixtures\IngressEventFixture;
 use App\Tests\Fixtures\MapGroupFixture;
+use App\Tests\Fixtures\TestStatFixture;
 
 class ControllerAccessTest extends FixtureAwareTestCase
 {
@@ -52,6 +53,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->addFixture(new IngressEventFixture());
         $this->addFixture(new MapGroupFixture());
         $this->addFixture(new ChallengeFixture());
+        $this->addFixture(new TestStatFixture());
         $this->executeFixtures();
 
         $this->routeLoader = $kernel->getContainer()->get('routing.loader');

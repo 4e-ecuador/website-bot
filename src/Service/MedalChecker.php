@@ -211,12 +211,12 @@ class MedalChecker
                 ],
             'Annual'  =>
                 [
-                    'Innovator'  => [],
-                    'Vanguard'   => [],
-                    'Luminary'   => [],
-                    'Sage'       => [],
-                    'Ouroboros'  => [],
                     'Resurgence' => [],
+                    'Ouroboros'  => [],
+                    'Sage'       => [],
+                    'Luminary'   => [],
+                    'Vanguard'   => [],
+                    'Innovator'  => [],
                 ],
             'Event'   =>
                 [

@@ -38,6 +38,11 @@
 
             <label for="map">{{ 'Meeting point'|trans }}</label>
 
+            <div class="alert alert-warning">
+                {{ 'Please move the marker to your meeting point location'|trans }}
+            </div>
+
+
             <div id="map"></div>
 
             {% if agent.mapGroup %}

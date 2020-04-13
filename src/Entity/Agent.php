@@ -50,11 +50,6 @@ class Agent
     private $comments;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $recursions;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $custom_medals;
@@ -176,18 +171,6 @@ class Agent
                 $comment->setAgent(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getRecursions(): ?int
-    {
-        return $this->recursions;
-    }
-
-    public function setRecursions(?int $recursions): self
-    {
-        $this->recursions = $recursions;
 
         return $this;
     }

@@ -122,5 +122,6 @@ Challenges: Challenges
 'There are no future challenges.': 'No hay Challenges futuros.'
 'Past Challenges': 'Challenges pasados'
 'There are no past challenges.': 'No hay Challenges pasados.'
-new.level.text.1: "¡El agente @{agent} alcanzo un nuevo nivel!"
+new.level.text.1: '¡El agente @{agent} alcanzo un nuevo nivel!'
 new.level.text.2: '-- *{level}* --'
+'Please move the marker to your meeting point location': 'Por favor ajuste el marcador a su punto de encuentro'

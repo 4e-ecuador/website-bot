@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'Statistics'|trans }}{% endblock %}
+{% block title %}{{ agent.nickname }} {{ 'Statistics'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -64,7 +64,7 @@
 
         {% for name, level in medalGroups %}
             <span class="medal-item" style="text-align: center"
-                  title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name] ~ ')' }}"
+                  title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name]|number_format ~ ')' }}"
                   data-medal-name="{{ name|ucfirst }}"
                   data-medal-desc="{{ name|medalDesc }}"
                   data-medal-level="{{ level }}"
@@ -83,8 +83,7 @@
             >
             <span class="medal-image">
             {% if level %}
-                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
-                      title="{{ name }}"></span>
+                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"></span>
                 {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
                 {% if doubleCount > 1 %}

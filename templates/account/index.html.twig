@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'My Profile'|trans }}{% endblock %}
+{% block title %}{{ 'My Profile'|trans }} {{ agent.nickname }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -34,6 +34,8 @@
 
             {{ form_row(form.real_name) }}
 
+            {{ form_row(form.telegramName) }}
+
             <label for="map">{{ 'Meeting point'|trans }}</label>
 
             <div id="map"></div>
@@ -48,16 +50,8 @@
                 </div>
             {% endif %}
 
-            <h4>Telegram</h4>
-
-            {{ form_row(form.telegramName) }}
-
-            <h4>{{ 'Agent data'|trans }}</h4>
-
-            {{ form_row(form.recursions) }}
-
             {% for group, medals in customMedals %}
-                <h4>{{ group }}</h4>
+                <h5>{{ group }}</h5>
                 <div class="row">
                     {% for medal, tiers in medals %}
                         <div class="col">

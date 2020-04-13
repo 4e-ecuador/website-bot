@@ -1,8 +1,8 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.28.2",
-        "core-js": "^3.0.0",
-        "regenerator-runtime": "^0.13.2",
+        "@symfony/webpack-encore": "^0.28.3",
+        "core-js": "^3.6.5",
+        "regenerator-runtime": "^0.13.5",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -15,14 +15,14 @@
     },
     "dependencies": {
         "bootstrap": "^4.4.1",
-        "highcharts": "^7.2.1",
-        "jquery": "^3.4.1",
+        "highcharts": "^8.0.4",
+        "jquery": "^3.5.0",
         "leaflet": "^1.6.0",
         "leaflet.markercluster": "^1.4.1",
-        "node-sass": "^4.13.0",
+        "node-sass": "^4.13.1",
         "open-iconic": "^1.1.1",
-        "popper.js": "^1.16.0",
+        "popper.js": "^1.16.1",
         "sass-loader": "^7.3.1",
-        "tributejs": "^4.1.1"
+        "tributejs": "^5.1.3"
     }
 }

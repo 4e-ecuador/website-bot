@@ -337,14 +337,13 @@ class StatsController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($statEntry);
                         $entityManager->flush();
-
-                        $test = new TestStat();
-                        $test->setCsv($csv);
-
-                        // @todo TEST
-                        $entityManager->persist($test);
-                        $entityManager->flush();
-
+                        //
+                        // $test = new TestStat();
+                        // $test->setCsv($csv);
+                        //
+                        // // @todo TEST
+                        // $entityManager->persist($test);
+                        // $entityManager->flush();
 
                         $currentEntry = $statEntry;
                     }

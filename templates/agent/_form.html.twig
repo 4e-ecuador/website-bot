@@ -1,24 +1,20 @@
 {{ form_start(form) }}
 
-{{ form_row(form.nickname) }}
 
 <div class="row">
     <div class="col-sm">
-        {{ form_row(form.faction) }}
+        {{ form_row(form.nickname) }}
     </div>
     <div class="col-sm">
-        {{ form_row(form.recursions) }}
+        {{ form_row(form.faction) }}
     </div>
 </div>
 
 {{ form_row(form.real_name) }}
+{{ form_row(form.telegramName) }}
 {{ form_row(form.mapGroup) }}
 
 <div id="map"></div>
-
-<h4>Telegram</h4>
-
-{{ form_row(form.telegramName) }}
 
 <button class="btn btn-outline-success">{{ button_label|default('Guardar') }}</button>
 

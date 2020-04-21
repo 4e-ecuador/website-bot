@@ -33,7 +33,6 @@ class AgentType extends AbstractType
                 ]
             )
             ->add('telegramName')
-            ->add('recursions')
             ->add('customMedals')
             ->add(
                 'lat',

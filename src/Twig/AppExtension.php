@@ -75,6 +75,7 @@ class AppExtension extends AbstractExtension
                 'markdownToHtml',
             ], ['is_safe' => ['html']]
             ),
+            new TwigFilter('stripTitle', [$this, 'medalDescFilter']),
         ];
     }
 

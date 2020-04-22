@@ -14,8 +14,9 @@
 1. `npm run dev`
 1. `docker-compose up -d`
 1. `docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`<br>
-`<path_to_volume>` should be `/var/lib/postgresql/data/dump.sql`<br>
-`<container_name>` should be `websitebot_database_1`
+e.g.: `docker cp backups/dump.sql websitebot_database_1:/dump.sql`
+1. `docker exec <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`<br>
+e.g.: `docker exec websitebot_database_1 psql -U main -d main -f /dump.sql`
 1. `symfony server:start -d`
 1. `symfony open:local`
 

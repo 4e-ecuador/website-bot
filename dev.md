@@ -45,7 +45,7 @@ add nodejs
 1. **Find `name` and `ID`**<br>`docker ps`
 2. **Find the volumes**<br>`docker inspect -f '{{ json .Mounts }}' <container_id> | python -m json.tool`
 3. **Copy the dump**<br>`docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`
-4. **Execute `psql`**<br> `docker exec <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`
+4. **Execute `psql`**<br> `docker exec <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`<br>NOTE: Use `docker exec -it ...` to use the psql binary from the docker container.
 
 ## Google OAuth
 

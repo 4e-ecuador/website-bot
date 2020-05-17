@@ -9,5 +9,9 @@
 require('../css/app.scss')
 require('bootstrap')
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+const $ = require('jquery');
+
+$('#darkmode-toggle').click(function() {
+    $('body').toggleClass('bootstrap')
+    $('body').toggleClass('bootstrap-dark')
+});

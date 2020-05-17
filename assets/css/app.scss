@@ -14,10 +14,22 @@ body {
   width: 100%;
 }
 
-@import "~bootstrap/scss/bootstrap";
+//@import "~bootstrap/scss/bootstrap";
+@import "~@forevolve/bootstrap-dark/scss/bootstrap-dark";
+@import "~@forevolve/bootstrap-dark/dist/css/toggle-bootstrap";
+@import "~@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark";
+
 @import "~open-iconic/font/css/open-iconic-bootstrap.css";
 @import "medals_badges_24.css";
 @import "medals_events_24.css";
 @import "medals_badges_50.css";
 @import "medals_events_50.css";
 @import "signin.css";
+
+.bootstrap-dark a {
+  color: #4f9fff;
+}
+
+.marker-cluster span {
+  color: #0a0a0a;
+}

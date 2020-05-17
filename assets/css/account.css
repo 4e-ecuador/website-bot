@@ -3,6 +3,10 @@
 }
 
 .medalLabel, .medalsLabel {
+    border: 3px solid #212529;
+}
+
+.bootstrap .medalLabel, .bootstrap .medalsLabel {
     border: 3px solid #fff;
 }
 
@@ -11,7 +15,7 @@
     border-radius: 5px;
 }
 
-.medalSelected {
+.medalSelected, .bootstrap .medalSelected {
     border: 3px solid #27d966;
     border-radius: 5px;
 }

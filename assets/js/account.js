@@ -4,18 +4,6 @@ require('leaflet')
 require('leaflet/dist/leaflet.css')
 require('../css/account.css')
 
-//>> Leaflet icon hack start >>
-import L from 'leaflet'
-
-delete L.Icon.Default.prototype._getIconUrl
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-})
-//<< Leaflet icon hack end <<
-
 let map
 
 function initmap(lat, lon, zoom) {
@@ -29,8 +17,15 @@ function initmap(lat, lon, zoom) {
 
     map.setView(new L.LatLng(lat, lon), zoom)
 
+    const myIcon = L.icon({
+        iconUrl: '/build/images/ico/my-icon.png',
+        iconSize: [22, 36],
+        iconAnchor: [11, 36],
+        popupAnchor: [0, -18],
+    })
+
     let marker = L.marker([lat, lon], {
-        draggable: 'true'
+        draggable: 'true', icon: myIcon
     }).addTo(map)
 
     marker.on('drag', function () {

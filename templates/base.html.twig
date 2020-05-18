@@ -14,11 +14,11 @@
     <title>{% block title %}4E{% endblock %}</title>
 
     <link rel="icon" type="image/x-icon" href="
-    {% if 'dev' == app.environment %}
+    {%- if 'dev' == app.environment -%}
         {{ asset('favicon-dev.ico') }}
-    {% else %}
+    {%- else -%}
         {{ asset('favicon.ico') }}
-    {% endif %}
+    {%- endif -%}
     "/>
 
     {{ encore_entry_link_tags('app') }}

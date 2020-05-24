@@ -19,17 +19,23 @@ class UserChangedNotifier
      */
     private $telegramBotHelper;
 
-    public function __construct(Security $security, TelegramBotHelper $telegramBotHelper)
+    private $appEnv;
+
+    public function __construct(Security $security, TelegramBotHelper $telegramBotHelper, string $appEnv)
     {
         $this->security = $security;
         $this->telegramBotHelper = $telegramBotHelper;
+        $this->appEnv = $appEnv;
     }
 
     // the entity listener methods receive two arguments:
     // the entity instance and the lifecycle event
     public function postUpdate(User $user, LifecycleEventArgs $event): void
     {
-        // $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+        if ('dev' === $this->appEnv) {
+            return;
+        }
+
         $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
 
         $adminUser = $this->security->getUser();

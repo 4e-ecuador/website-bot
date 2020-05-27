@@ -12,7 +12,7 @@ heroku pg:backups:download --app agents-4e
 #heroku pg:backups:capture --remote heroku-prod
 #heroku pg:backups:download --remote heroku-prod
 
-pg_restore latest.dump > "$current_time""_dump.sql"
+pg_restore latest.dump > "$current_time""_dump.sql" --no-owner
 
 echo Backup saved to $file_name
 

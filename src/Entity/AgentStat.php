@@ -168,6 +168,16 @@ class AgentStat implements ArrayAccess
      */
     private $recursions;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $faction;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $nickname;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -563,7 +573,7 @@ class AgentStat implements ArrayAccess
         $diff = [];
 
         foreach ($this as $index => $value) {
-            if (false === in_array($index, ['id', 'datetime', 'agent'])) {
+            if (false === in_array($index, ['id', 'datetime', 'agent', 'faction', 'nickname'])) {
                 if ($this->$index > $previous->$index) {
                     $diff[$index] = $this->$index - $previous->$index;
                 }
@@ -641,6 +651,30 @@ class AgentStat implements ArrayAccess
     public function setRecursions(?int $recursions): self
     {
         $this->recursions = $recursions;
+
+        return $this;
+    }
+
+    public function getFaction(): ?string
+    {
+        return $this->faction;
+    }
+
+    public function setFaction(?string $faction): self
+    {
+        $this->faction = $faction;
+
+        return $this;
+    }
+
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(?string $nickname): self
+    {
+        $this->nickname = $nickname;
 
         return $this;
     }

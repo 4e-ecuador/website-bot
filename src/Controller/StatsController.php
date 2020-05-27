@@ -349,6 +349,17 @@ class StatsController extends AbstractController
         }
 
         if ($currentEntry) {
+            // Faction check
+            if ($currentEntry->getFaction() !== 'Enlightened') {
+                // Smurf detected!!!
+                $telegramBotHelper->sendSmurfAlertMessage($user, $agent, $currentEntry);
+            }
+
+            if ($agent->getNickname() !== $currentEntry->getNickname()) {
+                // Nickname mismatch
+                $telegramBotHelper->sendNicknameMismatchMessage($user, $agent, $currentEntry);
+            }
+
             $previousEntry = $agentStatRepository->getPrevious($currentEntry);
 
             if (!$previousEntry) {

@@ -135,8 +135,8 @@ class MedalChecker
     private $primeHeaders
         = [
             'Time Span'                     => '',
-            'Agent Name'                    => '',
-            'Agent Faction'                 => '',
+            'Agent Name'                    => 'nickname',
+            'Agent Faction'                 => 'faction',
             'Date (yyyy-mm-dd)'             => '',
             'Time (hh:mm:ss)'               => '',
             'Lifetime AP'                   => 'ap',

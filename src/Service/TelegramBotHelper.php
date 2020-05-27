@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Agent;
+use App\Entity\AgentStat;
 use App\Entity\User;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
@@ -24,6 +25,11 @@ class TelegramBotHelper
      * @var TranslatorInterface
      */
     private $translator;
+
+    private $emojies = [
+        'tadaa' => "",
+        'redlight' => "\xF0\x9F\x9A\xA8",
+        ];
 
     public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator)
     {
@@ -95,7 +101,7 @@ class TelegramBotHelper
     public function sendNewMedalMessage(Agent $agent, array $medalUps, string $groupId): Message
     {
         $pageBase = $_ENV['PAGE_BASE_URL'];
-        $tada = "\xF0\x9F\x8E\x89";
+        $tada = $this->emojies['tadaa'];
 
         $firstValue = reset($medalUps);
         $firstMedal = key($medalUps);
@@ -222,8 +228,6 @@ class TelegramBotHelper
 
     public function getGroupId(string $name = 'default'): int
     {
-        $id = 0;
-
         switch ($name) {
             case 'default':
                 $id = $_ENV['ANNOUNCE_GROUP_ID_1'];
@@ -246,5 +250,60 @@ class TelegramBotHelper
         }
 
         return (int)$id;
+    }
+
+    public function sendSmurfAlertMessage(User $user, Agent $agent, AgentStat $statEntry)
+    {
+        $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
+        $message = [];
+
+        $message[] = str_repeat($this->emojies['redlight'], 3).'** SMURF ALERT !!! **'.str_repeat($this->emojies['redlight'], 3);
+        $message[] = '';
+        $message[] = 'We have detected an agent with the faction: '
+            .$statEntry->getFaction();
+        $message[] = '';
+        $message[] = 'Agent: '.$agent->getNickname();
+        $message[] = 'ID: '.$agent->getId();
+        $message[] = '';
+        $message[] = 'User: '.$user->getUsername();
+        $message[] = 'ID: '.$user->getId();
+        $message[] = '';
+        $message[] = 'Please verify!';
+        $message[] = '';
+        $message[] = 'CC: '.$adminCC;
+
+        return $this->api->sendMessage(
+            $this->getGroupId('admin'),
+            str_replace('_', '\\_', implode("\n", $message)),
+            'markdown'
+        );
+    }
+
+    public function sendNicknameMismatchMessage(User $user, Agent $agent, AgentStat $statEntry)
+    {
+        $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
+        $message = [];
+
+        $message[] = str_repeat($this->emojies['redlight'], 2).'** Nickname mismatch **'.str_repeat($this->emojies['redlight'], 2);
+        $message[] = '';
+        $message[] = 'We have detected a different nickname in uploaded stats!';
+        $message[] = '';
+        $message[] = 'Nick: '.$statEntry->getNickname();
+        $message[] = '';
+        $message[] = 'Agent: '.$agent->getNickname();
+        $message[] = 'ID: '.$agent->getId();
+        $message[] = '';
+        $message[] = 'User: '.$user->getUsername();
+        $message[] = 'ID: '.$user->getId();
+        $message[] = '';
+        $message[] = 'Please verify!';
+        $message[] = '';
+        $message[] = 'CC: '.$adminCC;
+
+        return $this->api->sendMessage(
+            $this->getGroupId('admin'),
+            str_replace('_', '\\_', implode("\n", $message)),
+            'markdown'
+        );
     }
 }

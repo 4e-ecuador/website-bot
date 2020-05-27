@@ -69,13 +69,13 @@
 {% macro ordering(order, paginatorOptions) %}
     {% set selected = order == paginatorOptions.order %}
     <a data-order="{{ order }}" data-order-dir="ASC"
-       class="btn btn-outline-{{ selected and 'ASC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&dArr;</a>
+       class="btn btn-outline-{{ selected and 'ASC' == paginatorOptions.orderDir ? 'success' : 'secondary' }} btn-sm paginatorOrder">&dArr;</a>
     <a data-order="{{ order }}" data-order-dir="DESC"
-       class="btn btn-outline-{{ selected and 'DESC' == paginatorOptions.orderDir ? 'primary' : 'light' }} btn-sm paginatorOrder">&uArr;</a>
+       class="btn btn-outline-{{ selected and 'DESC' == paginatorOptions.orderDir ? 'success' : 'secondary' }} btn-sm paginatorOrder">&uArr;</a>
 {% endmacro %}
 
 {% macro criteria(name, paginatorOptions) %}
-    {% set css = paginatorOptions.searchCriteria(name) ? 'btn-outline-primary' : '' %}
+    {% set css = paginatorOptions.searchCriteria(name) ? 'btn-outline-success' : '' %}
     <input name="paginatorOptions[criteria][{{ name }}]" size="6"
            value="{{ paginatorOptions.searchCriteria(name) }}"
     class="{{ css }}">
@@ -103,7 +103,7 @@
 {% endmacro %}
 
 {% macro select(name, options, paginatorOptions) %}
-    {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-primary' : '' %}
+    {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-success' : '' %}
     <select name="paginatorOptions[criteria][{{ name }}]" class="form-control paginatorSelect{{ css }}">
         {% for id,option in options %}
             <option value="{{ id }}" {% if id == paginatorOptions.searchCriteria(name) %}selected="selected"{% endif %}>

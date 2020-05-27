@@ -26,10 +26,28 @@ body {
 @import "medals_events_50.css";
 @import "signin.css";
 
-.bootstrap-dark a {
-  color: #4f9fff;
+.bootstrap-dark a, .bootstrap a{
+  color: #00bb00;
+}
+
+.bootstrap-dark a:hover, .bootstrap a:hover {
+  color: #3adb76;
 }
 
 .marker-cluster span {
   color: #0a0a0a;
+}
+
+.bootstrap-dark .card-body {
+  color: #808d93;
+}
+
+.bootstrap .card-body {
+  color: #517d9a;
+}
+
+.bootstrap-dark .page-item.active .page-link {
+  background-color: #00bb00;
+  border-color: #00bb00;
+
 }

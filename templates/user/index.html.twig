@@ -26,14 +26,12 @@
                 <th>{{ paginator.criteria('username', paginatorOptions) }}</th>
                 <th></th>
                 <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
-                <th></th>
+                <th>{{ paginator.select('roles', rolesList, paginatorOptions) }}</th>
                 <th></th>
             </tr>
             <tr>
                 <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
-                <th>
-                    {{ paginator.ordering('username', paginatorOptions) }}
-                </th>
+                <th>{{ paginator.ordering('username', paginatorOptions) }}</th>
                 <th></th>
                 <th></th>
                 <th></th>

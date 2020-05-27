@@ -49,6 +49,15 @@ class UserRepository extends ServiceEntityRepository
                 );
         }
 
+        if ($paginatorOptions->searchCriteria('roles')) {
+            // var_dump($paginatorOptions->searchCriteria('roles'));
+            $query->andWhere('a.roles LIKE :roles')
+                ->setParameter(
+                    'roles',
+                    '%'.$paginatorOptions->searchCriteria('roles').'%'
+                );
+        }
+
         $query = $query->getQuery();
 
         return $this->paginate(

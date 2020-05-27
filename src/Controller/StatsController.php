@@ -140,7 +140,7 @@ class StatsController extends AbstractController
 
             if ($agentEntry) {
                 foreach ($agentEntry->getProperties() as $property) {
-                    if (in_array($property, ['current_challenge', 'level'])) {
+                    if (in_array($property, ['current_challenge', 'level', 'faction', 'nickname'])) {
                         continue;
                     }
 

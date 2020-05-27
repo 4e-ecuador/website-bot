@@ -222,18 +222,29 @@ class TelegramBotHelper
 
     public function getGroupId(string $name = 'default'): int
     {
+        $id = 0;
+
         switch ($name) {
             case 'default':
-                return $_ENV['ANNOUNCE_GROUP_ID_1'];
+                $id = $_ENV['ANNOUNCE_GROUP_ID_1'];
                 break;
             case 'test':
-                return $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                $id = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
                 break;
             case 'admin':
-                return $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
+                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
+                break;
+            case 'intro':
+                $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
                 break;
             default:
                 throw new \UnexpectedValueException('Unknown group name');
         }
+
+        if (!$id) {
+            throw new \UnexpectedValueException('Required env var has not been set up.');
+        }
+
+        return (int)$id;
     }
 }

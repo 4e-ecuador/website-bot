@@ -34,10 +34,17 @@ class UserController extends AbstractController
             ceil(\count($users) / $paginatorOptions->getLimit())
         );
 
+        $rolesList = [
+            0 => '',
+            'ROLE_USER' => 'User',
+            'ROLE_AGENT' => 'Agent',
+        ];
+
         return $this->render(
             'user/index.html.twig',
             [
                 'users'            => $users,
+                'rolesList'            => $rolesList,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );

@@ -104,7 +104,7 @@ class MapController extends AbstractController
         } else {
             $response[] = $translator->trans('Please log in');
         }
-        if ($this->isGranted('ROLE_AGENT')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $response[] = '';
             $response[] = 'More ADMIN info... TBD';
         }

@@ -28,7 +28,7 @@ class StatsController extends AbstractController
 {
     /**
      * @Route("/my-stats", name="my_stats")
-     * @IsGranted("ROLE_AGENT")
+     * @IsGranted("ROLE_INTRO_AGENT")
      */
     public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker, TranslatorInterface $translator): Response
     {
@@ -93,7 +93,7 @@ class StatsController extends AbstractController
 
     /**
      * @Route("/agent/data/{id}", name="agent_stats_data")
-     * @IsGranted("ROLE_AGENT")
+     * @IsGranted("ROLE_INTRO_AGENT")
      */
     public function agentStatsJson(Agent $agent, AgentStatRepository $statRepository): JsonResponse
     {
@@ -287,7 +287,7 @@ class StatsController extends AbstractController
 
     /**
      * @Route("/stat-import", name="stat_import", methods={"POST", "GET"})
-     * @IsGranted("ROLE_AGENT")
+     * @IsGranted("ROLE_INTRO_AGENT")
      */
     public function StatImport(
         Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
@@ -337,13 +337,6 @@ class StatsController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($statEntry);
                         $entityManager->flush();
-                        //
-                        // $test = new TestStat();
-                        // $test->setCsv($csv);
-                        //
-                        // // @todo TEST
-                        // $entityManager->persist($test);
-                        // $entityManager->flush();
 
                         $currentEntry = $statEntry;
                     }
@@ -364,7 +357,13 @@ class StatsController extends AbstractController
             } else {
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
                 $diff = $currentEntry->getDiff($previousEntry);
-                $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                if (in_array('ROLE_INTRO_AGENT', $user->getRoles()))
+                {
+                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
+                } else
+                {
+                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                }
 
                 // Medal(s) gained - send a bot message !
                 if ($medalUps && $groupId) {

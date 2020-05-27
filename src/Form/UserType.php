@@ -36,10 +36,11 @@ class UserType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices'  => [
-                        'Admin'  => 'ROLE_ADMIN',
-                        'Editor' => 'ROLE_EDITOR',
-                        'Agent'  => 'ROLE_AGENT',
-                        'User'   => 'ROLE_USER',
+                        'Admin'       => 'ROLE_ADMIN',
+                        'Editor'      => 'ROLE_EDITOR',
+                        'Agent'       => 'ROLE_AGENT',
+                        'Intro Agent' => 'ROLE_INTRO_AGENT',
+                        'User'        => 'ROLE_USER',
                     ],
                     'multiple' => true,
                 ]

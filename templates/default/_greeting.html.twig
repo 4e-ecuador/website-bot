@@ -9,7 +9,7 @@
     Hello admin <code>{{ app.user.username }}</code>
 {% elseif is_granted('ROLE_EDITOR') %}
     Bienvenido agente editor <code>{{ app.user.username }}</code>
-{% elseif is_granted('ROLE_AGENT') %}
+{% elseif is_granted('ROLE_INTRO_AGENT') %}
     Bienvenido agente <code>{{ app.user.username }}</code>
 {% elseif app.user %}
     <div class="alert alert-warning">

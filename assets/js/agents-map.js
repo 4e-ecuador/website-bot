@@ -9,19 +9,6 @@ require('leaflet.markercluster/dist/MarkerCluster.Default.css')
 
 require('../css/agents-map.css')
 
-// Leaflet icon hack start
-// import L from 'leaflet'
-//
-// delete L.Icon.Default.prototype._getIconUrl
-//
-// L.Icon.Default.mergeOptions({
-//     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-//     iconUrl: require('assets/images/ico/my-icon.png'),
-//     // iconUrl: require('leaflet/dist/images/marker-icon.png'),
-//     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-// })
-// Leaflet icon hack end
-
 let map
 
 function initmap(lat, lon) {
@@ -93,7 +80,7 @@ function loadMarkers(group) {
                 new L.Marker(
                     new L.LatLng(this.lat, this.lng),
                     {
-                        wp_id: this.id, wp_selected: false, icon: myIcon//, title: this.name
+                        wp_id: this.id, icon: myIcon
                     }
                 )
 

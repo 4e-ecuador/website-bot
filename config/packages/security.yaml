@@ -9,7 +9,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
-#        in_memory: { memory: null }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -30,7 +29,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 always_remember_me: true
-          # activate different ways to authenticate
+            # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -40,9 +39,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/db, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_AGENT: ROLE_USER
+        ROLE_INTRO_AGENT: ROLE_USER
+        ROLE_AGENT: ROLE_INTRO_AGENT
         ROLE_EDITOR: ROLE_AGENT
         ROLE_ADMIN: ROLE_EDITOR

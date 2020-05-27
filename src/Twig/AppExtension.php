@@ -24,6 +24,7 @@ class AppExtension extends AbstractExtension
     public $roleFilters
         = [
             'ROLE_AGENT'  => 'Agent',
+            'ROLE_INTRO_AGENT'  => 'Intro Agent',
             'ROLE_EDITOR' => 'Editor',
             'ROLE_ADMIN'  => 'Admin',
         ];

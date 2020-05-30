@@ -1,0 +1,46 @@
+{% set count = 1 %}
+<div class="{{ cssClass }} card">
+    <div class="card-header">
+        <h5>{{ type|ucfirst }}</h5>
+    </div>
+    {% for entry in entries %}
+        {% if count < maxCount %}
+            <div class="row">
+                <div class="col-sm-7">
+                    <span class="badge badge-pill badge-secondary">{{ count }}</span>
+                    {% if 'recursions' == type %}
+                        <span class="medal24-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                        {% if entry.value > 1 %}
+                            <span class="doubleCount">X {{ entry.value }}</span>
+                        {% endif %}
+                    {% else %}
+                        {% set level = medalLevel(type, entry.value) %}
+                        {% if level %}
+                            <span class="medal24-badges medal-{{ getBadgePath(type, level, 0, '') }}"
+                                  title="{{ type }} - {{ level|translateMedalLevel }}"></span>
+                            {% set doubleCount = medalDoubleValue(type, entry.value) %}
+                            {% if doubleCount > 1 %}
+                                <span class="doubleCount">X {{ doubleCount }}</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    <a href="{{ path('agent_stats', {'id': entry.agent.id}) }}">
+                        {{ entry.agent.nickname }}
+                    </a>
+                </div>
+                <div class="col-sm-5 text-right">
+                    {% if 'Fields/Links' == type  or 'Links/Fields' == type %}
+                        {{ entry.value|number_format(2, '.', ',') }}
+                    {% else %}
+                        {{ entry.value|number_format }}
+                    {% endif %}
+                </div>
+            </div>
+        {% elseif count == maxCount %}
+            <div class="btn btn-outline-info btn-sm showAll" data-item="{{ type }}">{{ 'Show all'|trans }}</div>
+        {% else %}
+            {# Do noting... #}
+        {% endif %}
+        {% set count = count + 1 %}
+    {% endfor %}
+</div>

@@ -1,3 +1,7 @@
 span.doubleCount {
     color: #ff894f;
 }
+
+#detailsModal {
+    overflow-y:auto;
+}

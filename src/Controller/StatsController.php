@@ -12,6 +12,7 @@ use App\Service\CsvParser;
 use App\Service\IntlDateHelper;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
+use App\Type\BoardEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,7 +75,7 @@ class StatsController extends AbstractController
         if ($latest) {
             $medals = $medalChecker->checkLevels($latest);
             arsort($medals);
-            $medalGroups = $medals;//$this->getMedalGroups($medals);
+            $medalGroups = $medals;
         }
 
         $customMedals = json_decode($agent->getCustomMedals(), true);
@@ -125,8 +126,18 @@ class StatsController extends AbstractController
      */
     public function leaderBoard(AgentStatRepository $statRepository, UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
+        return $this->render(
+            'stats/leaderboard.html.twig',
+            [
+                'board'    => $this->getBoardEntries($userRepository, $statRepository),
+                'cssClass' => 'col-sm-3 ',
+            ]
+        );
+    }
 
+    private function getBoardEntries(UserRepository $userRepository, AgentStatRepository $statRepository, string $typeOnly = 'all')
+    {
+        $users = $userRepository->findAll();
         $boardEntries = [];
 
         foreach ($users as $user) {
@@ -138,46 +149,77 @@ class StatsController extends AbstractController
 
             $agentEntry = $statRepository->getAgentLatest($agent);
 
-            if ($agentEntry) {
-                foreach ($agentEntry->getProperties() as $property) {
-                    if (in_array($property, ['current_challenge', 'level', 'faction', 'nickname'])) {
-                        continue;
-                    }
+            if (!$agentEntry) {
+                continue;
+            }
 
-                    $methodName = 'get'.str_replace('_', '', $property);
-                    if ($agentEntry->$methodName()) {
-                        $entry = new \stdClass();
-                        $entry->agent = $agent;
-                        $entry->value = $agentEntry->$methodName();
-                        $boardEntries[$property][] = $entry;
-                    }
+            foreach ($agentEntry->getProperties() as $property) {
+                if (in_array(
+                    $property, [
+                        'current_challenge',
+                        'level',
+                        'faction',
+                        'nickname',
+                    ]
+                )
+                ) {
+                    continue;
                 }
 
-                $entry = new \stdClass();
-                $entry->agent = $agent;
-                $entry->value = $agentEntry->getMindController()/$agentEntry->getConnector();
+                $methodName = 'get'.str_replace('_', '', $property);
+                if ($agentEntry->$methodName()) {
+                    $boardEntries[$property][] = new BoardEntry($agent, $agentEntry->$methodName());
+                }
+            }
 
-                $boardEntries['Fields/Links'][] = $entry;
-           }
+            $boardEntries['Fields/Links'][] = new BoardEntry(
+                $agent,
+                $agentEntry->getMindController() / $agentEntry->getConnector()
+            );
         }
 
         foreach ($boardEntries as $type => $entries) {
             usort(
                 $boardEntries[$type],
                 static function ($a, $b) {
-                    if ($a->value === $b->value) {
+                    if ($a->getValue() === $b->getValue()) {
                         return 0;
                     }
 
-                    return ($a->value > $b->value) ? -1 : 1;
+                    return ($a->getValue() > $b->getValue()) ? -1 : 1;
                 }
             );
         }
 
+        if ($typeOnly && $typeOnly !== 'all') {
+            if (array_key_exists($typeOnly, $boardEntries)) {
+                return $boardEntries[$typeOnly];
+            }
+
+            throw new \UnexpectedValueException('Unknown type'.$typeOnly);
+        }
+
+        return $boardEntries;
+    }
+
+    /**
+     * @Route("/leaderboard-detail", name="stats_leaderboard_detail")
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function leaderBoardDetail(AgentStatRepository $statRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $item = $request->request->get('item', 'ap');
+
+        $entries = $this->getBoardEntries($userRepository, $statRepository, $item);
+
         return $this->render(
-            'stats/leaderboard.html.twig',
+            'stats/_stat_entry.html.twig',
             [
-                'board' => $boardEntries,
+                'type'     => $item,
+                'entries'  => $entries,
+                'maxCount' => 999999,
+                'cssClass' => '',
+
             ]
         );
     }
@@ -368,11 +410,9 @@ class StatsController extends AbstractController
             } else {
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
                 $diff = $currentEntry->getDiff($previousEntry);
-                if (in_array('ROLE_INTRO_AGENT', $user->getRoles()))
-                {
+                if (in_array('ROLE_INTRO_AGENT', $user->getRoles())) {
                     $groupId = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
-                } else
-                {
+                } else {
                     $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
                 }
 
@@ -383,7 +423,9 @@ class StatsController extends AbstractController
 
                 // Level changed
                 $previousLevel = $previousEntry->getLevel();
-                if ($previousLevel && $currentEntry->getLevel() !== $previousLevel) {
+                if ($previousLevel
+                    && $currentEntry->getLevel() !== $previousLevel
+                ) {
                     $newLevel = $currentEntry->getLevel();
                     if ($groupId) {
                         $telegramBotHelper->sendLevelUpMessage($agent, $newLevel, $groupId);

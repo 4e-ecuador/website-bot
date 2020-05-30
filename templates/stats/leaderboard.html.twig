@@ -19,55 +19,21 @@
 
     <div class="row">
         {% for type, entries in board %}
-            {% set count = 1 %}
-            <div class="col-sm-3 card">
-                <div class="card-header">
-                    <h5>{{ type|ucfirst }}</h5>
-                </div>
-                {% for entry in entries %}
-                {% if count == maxCount %}
-                <div class="btn btn-outline-info btn-sm showAll">{{ 'Show all'|trans }}</div>
-                <div style="display: none">
-                    {% endif %}
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <span class="badge badge-pill badge-secondary">{{ count }}</span>
-                            {% if 'recursions' == type %}
-                                <span class="medal24-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
-                                {% if entry.value > 1 %}
-                                    <span class="doubleCount">X {{ entry.value }}</span>
-                                {% endif %}
-                            {% else %}
-                                {% set level = medalLevel(type, entry.value) %}
-                                {% if level %}
-                                    <span class="medal24-badges medal-{{ getBadgePath(type, level, 0, '') }}"
-                                          title="{{ type }} - {{ level|translateMedalLevel }}"></span>
-                                    {% set doubleCount = medalDoubleValue(type, entry.value) %}
-                                    {% if doubleCount > 1 %}
-                                        <span class="doubleCount">X {{ doubleCount }}</span>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
-                            <a href="{{ path('agent_stats', {'id': entry.agent.id}) }}">
-                                {{ entry.agent.nickname }}
-                            </a>
-                        </div>
-                        <div class="col-sm-5 text-right">
-                            {% if 'Fields/Links' == type  or 'Links/Fields' == type %}
-                                {{ entry.value|number_format(2, '.', ',') }}
-                            {% else %}
-                                {{ entry.value|number_format }}
-                            {% endif %}
-{#                            {{ entry.value }}#}
-                        </div>
-                    </div>
-
-                    {% set count = count + 1 %}
-                    {% endfor %}
-                    {% if count > maxCount %}
-                </div>
-                {% endif %}
-            </div>
+            {% include 'stats/_stat_entry.html.twig' %}
         {% endfor %}
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -78,12 +78,12 @@
     {% set css = paginatorOptions.searchCriteria(name) ? 'btn-outline-success' : '' %}
     <input name="paginatorOptions[criteria][{{ name }}]" size="6"
            value="{{ paginatorOptions.searchCriteria(name) }}"
-    class="{{ css }}">
+    class="form-control {{ css }}">
     <div class="btn-group" role="group" aria-label="Opciones de busqueda">
-        <button class="btn btn-light btn-sm paginatorCleanReset">
+        <button class="btn btn-sm paginatorCleanReset">
             <span class="oi oi-trash" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-light btn-sm paginatorReset">
+        <button class="btn btn-sm paginatorReset">
             <span class="oi oi-magnifying-glass"></span>
         </button>
     </div>
@@ -93,10 +93,10 @@
     <input name="paginatorOptions[criteria][{{ name }}]" type="date" size="9"
            value="{{ paginatorOptions.searchCriteria(name) }}">
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-light btn-sm paginatorCleanReset">
+        <button type="button" class="btn btn-sm paginatorCleanReset">
             <span class="oi oi-trash"></span>
         </button>
-        <button type="button" class="btn btn-light btn-sm paginatorReset">
+        <button type="button" class="btn btn-sm paginatorReset">
             <span class="oi oi-magnifying-glass"></span>
         </button>
     </div>
@@ -111,7 +111,7 @@
             </option>
         {% endfor %}
     </select>
-    <button type="button" class="btn btn-light btn-sm paginatorCleanReset">
+    <button type="button" class="btn btn-sm paginatorCleanReset">
         <span class="oi oi-trash"></span>
     </button>
 

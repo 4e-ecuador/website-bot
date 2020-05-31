@@ -127,3 +127,5 @@ new.level.text.2: '-- *{level}* --'
 'Please move the marker to your meeting point location': 'Por favor ajuste el marcador a su punto de encuentro'
 dbadmin.label.stats: Stats
 Close: Cerrar
+'Start Date': 'Fecha inicio'
+'End Date': 'Fecha final'

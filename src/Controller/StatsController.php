@@ -33,33 +33,15 @@ class StatsController extends AbstractController
      */
     public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker, TranslatorInterface $translator): Response
     {
-        $user = $security->getUser();
-
-        $agent = $user->getAgent();
+        $agent = $security->getUser()->getAgent();
 
         if (!$agent) {
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
 
-        $medalGroups = [];
-        $latest = $statRepository->getAgentLatest($agent);
-
-        if ($latest) {
-            $medals = $medalChecker->checkLevels($latest);
-            arsort($medals);
-            $medalGroups = $medals;// $this->getMedalGroups($medals);
-        }
-
-        $customMedals = json_decode($agent->getCustomMedals(), true);
-
         return $this->render(
             'stats/mystats.html.twig',
-            [
-                'agent'             => $agent,
-                'medalGroups'       => $medalGroups,
-                'agentCustomMedals' => $customMedals,
-                'latest'            => $latest,
-            ]
+                $this->getStats($agent, $statRepository, $medalChecker)
         );
     }
 
@@ -67,43 +49,26 @@ class StatsController extends AbstractController
      * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
      */
-    public function AgentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
+    public function agentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
-        $medalGroups = [];
-        $latest = $statRepository->getAgentLatest($agent);
-
-        if ($latest) {
-            $medals = $medalChecker->checkLevels($latest);
-            arsort($medals);
-            $medalGroups = $medals;
-        }
-
-        $customMedals = json_decode($agent->getCustomMedals(), true);
-
         return $this->render(
             'stats/mystats.html.twig',
-            [
-                'agent'             => $agent,
-                'medalGroups'       => $medalGroups,
-                'customMedals'      => $medalChecker->getCustomMedalGroups(),
-                'agentCustomMedals' => $customMedals,
-                'latest'            => $latest,
-            ]
+            $this->getStats($agent, $statRepository, $medalChecker)
         );
     }
 
     /**
-     * @Route("/agent/data/{id}", name="agent_stats_data")
+     * @Route("/agent/data/{id}/{startDate}/{endDate}", name="agent_stats_data")
      * @IsGranted("ROLE_INTRO_AGENT")
      */
-    public function agentStatsJson(Agent $agent, AgentStatRepository $statRepository): JsonResponse
+    public function agentStatsJson(Agent $agent, string $startDate, string $endDate, AgentStatRepository $statRepository): JsonResponse
     {
         $data = new \stdClass();
 
         $data->ap = [];
         $data->hacker = [];
 
-        $entries = $statRepository->getAgentStats($agent, 'ASC');
+        $entries = $statRepository->findByDateAndAgent(new \DateTime($startDate), new \DateTime($endDate), $agent);
 
         $latest = null;
 
@@ -444,5 +409,30 @@ class StatsController extends AbstractController
             ]
         );
     }
+
+    private function getStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): array
+    {
+        $medalGroups = [];
+        $latest = $statRepository->getAgentLatest($agent);
+
+        if ($latest) {
+            $medals = $medalChecker->checkLevels($latest);
+            arsort($medals);
+            $medalGroups = $medals;
+        }
+
+        $dateEnd = new \DateTime();
+        $dateStart = (new \DateTime())->sub(new \DateInterval('P30D'));
+
+        return [
+            'agent'             => $agent,
+            'agentCustomMedals' => json_decode($agent->getCustomMedals(), true),
+            'medalGroups' => $medalGroups,
+            'latest' => $latest,
+            'dateStart' => $dateStart,
+            'dateEnd' => $dateEnd,
+        ];
+    }
+
 }
 

@@ -99,7 +99,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat
      */
-    public function getAgentLatest(Agent $agent): ?AgentStat
+    public function getAgentLatest(Agent $agent, bool $first = false): ?AgentStat
     {
         $entries = $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
@@ -108,7 +108,11 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return $entries ? $entries[0] : null;
+        if ($entries) {
+            return $first ? $entries[count($entries)-1] : $entries[0];
+        }
+
+        return null;
     }
 
     /**

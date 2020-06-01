@@ -428,6 +428,7 @@ class StatsController extends AbstractController
             'agent'             => $agent,
             'agentCustomMedals' => json_decode($agent->getCustomMedals(), true),
             'medalGroups' => $medalGroups,
+            'first' => $statRepository->getAgentLatest($agent, true),
             'latest' => $latest,
             'dateStart' => $dateStart,
             'dateEnd' => $dateEnd,

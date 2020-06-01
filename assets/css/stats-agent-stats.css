@@ -16,3 +16,13 @@ div.medal-value {
     font-weight: bold;
     font-size: 1.5em;
 }
+
+.agent-chart {
+    width: 100%;
+    height: 400px;
+}
+
+.statsSelect {
+    color: #ffff3a;
+    background-color: #6c757d;
+}

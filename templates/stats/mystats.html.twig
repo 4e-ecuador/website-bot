@@ -26,7 +26,6 @@
                 {% endif %}
             {% endif %}
         {% endif %}
-
     </p>
     {% if latest %}
         <h4>AP: {{ latest.ap|number_format }}</h4>
@@ -99,15 +98,23 @@
 
         <!-- Stats container -->
         <hr>
+            {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
+            &nbsp;-&nbsp;
+            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
+        <hr>
+
         <label for="dateStart">{{ 'Start Date'|trans }}</label>
         <input type="date" id="dateStart" class="statsSelect" value="{{ dateStart|date('Y-m-d') }}">
         <label for="dateEnd">{{ 'End Date'|trans }}</label>
         <input type="date" id="dateEnd" class="statsSelect" value="{{ dateEnd|date('Y-m-d') }}">
-        <div id="container" style="width:100%; height:400px;"></div>
 
-        <p>
-            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
-        </p>
+        <div id="agentChart" class="agent-chart"></div>
+
+        <h4>{{ 'All time stats'|trans }}</h4>
+        <div id="agentChartAll" class="agent-chart"></div>
+
+        <input id="dateStartAll" type="hidden" value="{{ first.datetime|date('Y-m-d') }}">
+        <input id="dateEndAll" type="hidden" value="{{ latest.datetime|date('Y-m-d') }}">
 
     {% else %}
         <div>{{ 'There are no statistics for this agent.'|trans }}</div>

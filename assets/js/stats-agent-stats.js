@@ -1,12 +1,13 @@
 const $ = require('jquery')
 const Highcharts = require('highcharts')
 
+require('highcharts/css/themes/dark-unica.css')
 require('../css/stats-agent-stats.css')
 
-function draw_chart() {
+function draw_chart(start, end, container) {
     let id = $('#js-agent-id').data('js-agent-id')
-    let dateStart = $('#dateStart').val()
-    let dateEnd = $('#dateEnd').val()
+    let dateStart = $('#'+start).val()
+    let dateEnd = $('#'+end).val()
 
     let url = '/stats/agent/data/' + id + '/' + dateStart + '/' + dateEnd
 
@@ -14,7 +15,7 @@ function draw_chart() {
         function (data) {
             let options = {
                 chart: {
-                    renderTo: 'container',
+                    renderTo: container,
                     type: 'line',
                     dateFormat: 'YYYY/mm/dd',
                     zoomType: 'x'
@@ -47,14 +48,21 @@ function draw_chart() {
             }
 
             let chart = new Highcharts.Chart(options)
+
+            let series = chart.series;
+            for(let i=1; i < chart.series.length; i++) {
+                series[i].setVisible(false, false);
+            }
+            chart.redraw();
         }
     )
 }
 
-draw_chart()
+draw_chart('dateStart', 'dateEnd', 'agentChart')
+draw_chart('dateStartAll', 'dateEndAll', 'agentChartAll')
 
 $('.statsSelect').change(function (e) {
-    draw_chart()
+    draw_chart('dateStart', 'dateEnd', 'agentChart')
 })
 
 function updateModal(modal, e) {

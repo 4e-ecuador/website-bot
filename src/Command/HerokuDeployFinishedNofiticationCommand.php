@@ -62,12 +62,14 @@ class HerokuDeployFinishedNofiticationCommand extends Command
         $message[] = '';
 
         foreach ($_ENV as $k => $v) {
-            $message[] = $k.' => '.$v;
+            $message[] = str_replace('_', '\\_', $k.' => '.$v);
 
         }
         $message[] = '';
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
+
+        $io->success('Message has been sent!');
 
 
         return 0;

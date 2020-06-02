@@ -20,6 +20,8 @@ e.g.: `docker exec -it website-bot_database_1 psql -U main -d main -f /dump.sql`
 1. `symfony server:start -d`
 1. `symfony open:local`
 
+NOTE: If you deploy a NEW setp, omit the steps `7` and `8` and just run `doctrine:database:create` and `doctrine:fixtures:load`
+
 ## Credits
 
 * Ingress Logos: http://cr0ybot.github.io/ingress-logos/

@@ -18,6 +18,7 @@ class SendStatusCommand extends Command
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+
     /**
      * @var AgentStatRepository
      */

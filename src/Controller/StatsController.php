@@ -28,31 +28,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class StatsController extends AbstractController
 {
     /**
-     * @Route("/my-stats", name="my_stats")
-     * @IsGranted("ROLE_INTRO_AGENT")
-     */
-    public function myStats(Security $security, AgentStatRepository $statRepository, MedalChecker $medalChecker, TranslatorInterface $translator): Response
-    {
-        $agent = $security->getUser()->getAgent();
-
-        if (!$agent) {
-            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
-        }
-
-        return $this->render(
-            'stats/mystats.html.twig',
-                $this->getStats($agent, $statRepository, $medalChecker)
-        );
-    }
-
-    /**
      * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
      */
     public function agentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
         return $this->render(
-            'stats/mystats.html.twig',
+            'stats/agent-stats.html.twig',
             $this->getStats($agent, $statRepository, $medalChecker)
         );
     }

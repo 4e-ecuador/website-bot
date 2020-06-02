@@ -52,68 +52,80 @@
             {{ 'account.map.added.warning'|trans }}
         </div>
     {% endif %}
-
-    {% for group, medals in customMedals %}
-        <h5>{{ group }}</h5>
-        <div class="row">
-            {% for medal, tiers in medals %}
-                <div class="col">
-                    {% set selectedValue = 0 %}
-                    {% if agentCustomMedals[group][medal] is defined %}
-                        {% set selectedValue = agentCustomMedals[group][medal] %}
-                    {% endif %}
-                    {% if tiers is empty %}
-                        {# Annual #}
-                        {{ medal }}<br>
-                        {% for i in 1..5 %}
-                            {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
-                            <label data-for="{{ 'medal-'~group~medal~i }}" class="medalsLabel">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for group, medals in customMedals %}
+            <li class="nav-item">
+                <a class="nav-link {{ group == 'Anomaly' ? 'active' : '' }}" id="{{ group }}-tab" data-toggle="tab"
+                   href="#{{ group }}" role="tab" aria-controls="home" aria-selected="true">{{ group }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for group, medals in customMedals %}
+            <div class="tab-pane fade {{ group == 'Anomaly' ? 'show active' : '' }}" id="{{ group }}" role="tabpanel"
+                 aria-labelledby="{{ group }}-tab">
+                <div class="row">
+                    {% for medal, tiers in medals %}
+                        <div class="col">
+                            {% set selectedValue = 0 %}
+                            {% if agentCustomMedals[group][medal] is defined %}
+                                {% set selectedValue = agentCustomMedals[group][medal] %}
+                            {% endif %}
+                            {% if tiers is empty %}
+                                {# Annual #}
+                                {{ medal }}<br>
+                                {% for i in 1..5 %}
+                                    {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
+                                    <label data-for="{{ 'medal-'~group~medal~i }}" class="medalsLabel">
                                         <span class="medal50-badges medal-{{ getBadgePath(medal, i, 0, '') }}"
                                               title="{{ medal~' - '~i|translateMedalLevel }}"></span>
-                            </label>
-                            <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
-                                   id="{{ 'medal-'~group~medal~i }}"
-                                   value="{{ i }}" class="hiddenCheckBox"
-                                    {{ checked }}>
-                        {% endfor %}
-                    {% else %}
-                        {% if 'Anomaly' == group %}
-                            {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
-                            <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
-                                <span class="medal50-events medal-Anomaly_{{ tiers }}" title="{{ tiers }}"></span>
-                                <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
-                            </label>
-                            <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
-                                   id="{{ 'medal-'~group~medal }}"
-                                   value="1" class="hiddenCheckBox"
-                                    {{ checked }}>
-                        {% elseif 'Event' == group %}
-                            {{ medal|u.snake|replace({'_': ' '})|title }}<br>
-                            {% for tier in tiers %}
-                                {% set name = '' == tier ? '' : '_'~tier %}
-                                {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
-                                <label data-for="{{ 'medal-'~group~medal~tier }}" class="medalsLabel">
-                                    {% if 'AvenirShard' == medal %}
-                                        <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
-                                              title="Avenir Shard Challenge"></span>
-                                    {% else %}
-                                        <span class="medal50-events medal-EventBadge_{{ medal~name }}"
-                                              title="{{ medal~' '~tier }}"></span>
-                                    {% endif %}
-                                </label>
-                                <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
-                                       id="{{ 'medal-'~group~medal~tier }}"
-                                       value="{{ tier }}" class="hiddenCheckBox"
-                                        {{ checked }}>
-                            {% endfor %}
-                        {% else %}
-                            @TODO {{ group }}
-                        {% endif %}
-                    {% endif %}
+                                    </label>
+                                    <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                           id="{{ 'medal-'~group~medal~i }}"
+                                           value="{{ i }}" class="hiddenCheckBox"
+                                            {{ checked }}>
+                                {% endfor %}
+                            {% else %}
+                                {% if 'Anomaly' == group %}
+                                    {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
+                                    <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
+                                        <span class="medal50-events medal-Anomaly_{{ tiers }}"
+                                              title="{{ tiers }}"></span>
+                                        <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
+                                    </label>
+                                    <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
+                                           id="{{ 'medal-'~group~medal }}"
+                                           value="1" class="hiddenCheckBox"
+                                            {{ checked }}>
+                                {% elseif 'Event' == group %}
+                                    {{ medal|u.snake|replace({'_': ' '})|title }}<br>
+                                    {% for tier in tiers %}
+                                        {% set name = '' == tier ? '' : '_'~tier %}
+                                        {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
+                                        <label data-for="{{ 'medal-'~group~medal~tier }}" class="medalsLabel">
+                                            {% if 'AvenirShard' == medal %}
+                                                <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
+                                                      title="Avenir Shard Challenge"></span>
+                                            {% else %}
+                                                <span class="medal50-events medal-EventBadge_{{ medal~name }}"
+                                                      title="{{ medal~' '~tier }}"></span>
+                                            {% endif %}
+                                        </label>
+                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                               id="{{ 'medal-'~group~medal~tier }}"
+                                               value="{{ tier }}" class="hiddenCheckBox"
+                                                {{ checked }}>
+                                    {% endfor %}
+                                {% else %}
+                                    @TODO {{ group }}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 
     <button class="btn btn-outline-success">{{ 'Update profile'|trans }}</button>
     {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}

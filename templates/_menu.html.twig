@@ -76,31 +76,32 @@
         </div>
     {% endif %}
 
-    <span id="darkmode-toggle" class="btn"><span class="oi oi-contrast"></span></span>
+    <span id="darkmode-toggle" class="btn oi oi-contrast"></span>
 
     <div class="ml-auto">
         <ul class="navbar-nav ml-auto">
             {% if is_granted('ROLE_USER') %}
-                <li class="nav-item dropdown">
-                    <a style="color: #fff;" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                       role="button">
+                {% if app.user.agent %}
+                    <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
                         {{ app.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
-                        <a class="dropdown-item nav-link" href={{ path('app_account') }}>
-                            <span class="oi oi-person"></span> {{ 'My Profile'|trans }}
-                        </a>
-                        <a class="dropdown-item nav-link" href={{ path('my_stats') }}>
-                            <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}
-                        </a>
-                        <a class="dropdown-item nav-link" href={{ path('stat_import') }}>
-                            <span class="oi oi-cloud-upload"></span> {{ 'Import Stats'|trans }}
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item nav-link" href="{{ path('app_logout') }}">
-                            <span class="oi oi-account-logout"></span> {{ 'Logout'|trans }}
-                        </a>
-                    </div>
+                    <a class="dropdown-item nav-link" href={{ path('app_account') }}>
+                        <span class="oi oi-person"></span> {{ 'My Profile'|trans }}
+                    </a>
+                    <a class="dropdown-item nav-link" href={{ path('agent_stats', {'id': app.user.agent.id}) }}>
+                        <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}
+                    </a>
+                    <a class="dropdown-item nav-link" href={{ path('stat_import') }}>
+                        <span class="oi oi-cloud-upload"></span> {{ 'Import Stats'|trans }}
+                    </a>
+                    <div class="dropdown-divider"></div>
+                {% endif %}
+                <a class="dropdown-item nav-link" href="{{ path('app_logout') }}">
+                    <span class="oi oi-account-logout"></span> {{ 'Logout'|trans }}
+                </a>
+                </div>
                 </li>
             {% else %}
                 <li class="nav-item">

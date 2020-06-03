@@ -54,6 +54,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     public function check(UpdateEvent $event): void
     {
+        $this->isAllowedChat = true;
+        return;
         $message = $event->getUpdate()->getMessage();
 
         if ($message) {

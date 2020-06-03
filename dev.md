@@ -64,3 +64,8 @@ bin/console app:update:badgedata
 
 * Add the badge "code" in `src/Service/MedalChecker.php`
     See [This commit](https://github.com/4e-ecuador/website-bot/commit/ec7da179a0a4b469a0307938e96e271f9bb3eaec#diff-b27ba46e8094e3228d04607361f593fe)
+
+
+### Emoji unicodes
+
+https://apps.timwhitlock.info/emoji/tables/unicode

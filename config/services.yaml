@@ -9,7 +9,7 @@ parameters:
   app.email.name: '%env(APP_EMAIL_NAME)%'
   app.default_lat: -1.262326
   app.default_lon: -79.09357
-  telegram_route_secret: '%env(TELEGRAM_BOT_TOKEN)%'
+  telegram_route_secret: '%env(TELEGRAM_WEBHOOK_SECRET)%'
 
 services:
   # default configuration for services in *this* file

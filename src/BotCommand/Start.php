@@ -33,7 +33,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
         $id = '000';
         $message = $update->getMessage();
         if ($message) {
-            $user = $message->getUser();
+            $user = $message->getFrom();
             if ($user) {
                 $id = $user->getId();
             }

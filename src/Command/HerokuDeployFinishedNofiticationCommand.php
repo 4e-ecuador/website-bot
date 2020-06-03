@@ -45,7 +45,7 @@ class HerokuDeployFinishedNofiticationCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $groupId = $this->telegramBotHelper->getGroupId('test');
+        $groupId = $this->telegramBotHelper->getGroupId('admin');
         $message = [];
 
         $message[] = 'Status update: '.date('Y-m-d H:i:s');

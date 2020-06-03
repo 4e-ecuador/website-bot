@@ -213,9 +213,9 @@ class TelegramBotHelper
         );
     }
 
-    public function sendMessage($chatId, $text, bool $preview = true): Message
+    public function sendMessage($chatId, $text, bool $disablePreview = false): Message
     {
-        return $this->api->sendMessage($chatId, $text, 'markdown', $preview);
+        return $this->api->sendMessage($chatId, $text, 'markdown', $disablePreview);
     }
 
     public function sendNewUserMessage(int $chatId, User $user): Message

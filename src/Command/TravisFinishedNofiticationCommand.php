@@ -40,7 +40,11 @@ class TravisFinishedNofiticationCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
+
+
         echo 'Group: '.$groupId;
+        var_dump($groupId);
+
         $message = [];
 
         $result = getenv('TRAVIS_TEST_RESULT');

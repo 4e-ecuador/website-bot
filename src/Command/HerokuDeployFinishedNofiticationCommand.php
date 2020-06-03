@@ -20,16 +20,18 @@ class HerokuDeployFinishedNofiticationCommand extends Command
     private $telegramBotHelper;
 
     /**
-     * @var AgentStatRepository
+     * @var string
      */
-    private $agentStatRepository;
+    private $pageBase;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, AgentStatRepository $agentStatRepository)
+    public function __construct(TelegramBotHelper $telegramBotHelper, string $pageBase)
     {
         parent::__construct();
+
         $this->telegramBotHelper = $telegramBotHelper;
-        $this->agentStatRepository = $agentStatRepository;
+        $this->pageBase = $pageBase;
     }
+
     protected function configure()
     {
         $this
@@ -42,35 +44,17 @@ class HerokuDeployFinishedNofiticationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        // $arg1 = $input->getArgument('arg1');
-        //
-        // if ($arg1) {
-        //     $io->note(sprintf('You passed an argument: %s', $arg1));
-        // }
-        //
-        // if ($input->getOption('option1')) {
-        //     // ...
-        // }
-        //
-        // $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         $groupId = $this->telegramBotHelper->getGroupId('test');
         $message = [];
 
         $message[] = 'Status update: '.date('Y-m-d H:i:s');
-
         $message[] = '';
-
-        foreach ($_ENV as $k => $v) {
-            $message[] = str_replace('_', '\\_', $k.' => '.$v);
-
-        }
-        $message[] = '';
+        $message[] = sprintf('New release on %s', $this->pageBase);
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
 
         $io->success('Message has been sent!');
-
 
         return 0;
     }

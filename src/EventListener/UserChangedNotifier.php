@@ -28,8 +28,6 @@ class UserChangedNotifier
         $this->appEnv = $appEnv;
     }
 
-    // the entity listener methods receive two arguments:
-    // the entity instance and the lifecycle event
     public function postUpdate(User $user, LifecycleEventArgs $event): void
     {
         if ('dev' === $this->appEnv) {
@@ -46,7 +44,6 @@ class UserChangedNotifier
         $text[] = '';
         $text[] = sprintf(
             'A user account has been changed by %s'
-            // , $user->getUsername(), $user->getId()
             , $adminUser->getUsername()
         );
         $text[] = '';
@@ -55,7 +52,9 @@ class UserChangedNotifier
         $text[] = 'Username: '.$user->getUsername();
         $text[] = 'Agent: '.($user->getAgent() ? $user->getAgent()
                 ->getNickname() : '');
-        $text[] = 'Roles: `'.implode('`, `', $user->getRoles()).'`';
+        $text[] = str_replace(
+            '_', '\\_', 'Roles: '.implode(', ', $user->getRoles())
+        );
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $text));
     }

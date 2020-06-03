@@ -193,8 +193,6 @@ class SendNewsletterCommand extends Command
         $message[] = 'In Jarvis we trust!';
         $message[] = '';
 
-        // $io->writeln($message);
-
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
 
         $io->success('Finished!');

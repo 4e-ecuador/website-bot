@@ -52,7 +52,7 @@ class HerokuDeployFinishedNofiticationCommand extends Command
         $message[] = '';
         $message[] = sprintf('New release on %s', $this->pageBase);
 
-        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
+        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), false);
 
         $io->success('Message has been sent!');
 

@@ -246,7 +246,8 @@ class TelegramBotHelper
                 $id = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
                 break;
             case 'admin':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
+                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'] ??
+                    getenv('ANNOUNCE_GROUP_ID_ADMIN');
                 break;
             case 'intro':
                 $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
@@ -256,7 +257,9 @@ class TelegramBotHelper
         }
 
         if (!$id) {
-            throw new \UnexpectedValueException('Required env var has not been set up. '.$name);
+            throw new \UnexpectedValueException(
+                'Required env var has not been set up. '.$name
+            );
         }
 
         return (int)$id;

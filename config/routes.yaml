@@ -5,3 +5,4 @@ app_logout:
 BoShurikTelegramBotBundle:
   resource: "@BoShurikTelegramBotBundle/Resources/config/routing.yml"
   prefix: _telegram_webhook
+  methods: POST

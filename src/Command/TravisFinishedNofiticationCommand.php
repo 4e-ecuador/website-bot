@@ -42,8 +42,12 @@ class TravisFinishedNofiticationCommand extends Command
         $groupId = $this->telegramBotHelper->getGroupId('admin');
 
 
-        echo 'Group: '.$groupId;
+        echo "Group: '$groupId'";
         var_dump($groupId);
+
+        $dd = $groupId + 1;
+
+var_dump($dd);
 
         $message = [];
 

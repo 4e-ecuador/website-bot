@@ -256,7 +256,7 @@ class TelegramBotHelper
         }
 
         if (!$id) {
-            throw new \UnexpectedValueException('Required env var has not been set up.');
+            throw new \UnexpectedValueException('Required env var has not been set up. '.$name);
         }
 
         return (int)$id;

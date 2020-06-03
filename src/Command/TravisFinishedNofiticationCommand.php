@@ -40,6 +40,7 @@ class TravisFinishedNofiticationCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
+        echo 'Group: '.$groupId;
         $message = [];
 
         $result = getenv('TRAVIS_TEST_RESULT');
@@ -56,6 +57,8 @@ class TravisFinishedNofiticationCommand extends Command
         $message[] = '*Commit Msg:*';
         $message[] = getenv('TRAVIS_COMMIT_MESSAGE');
         $message[] = '[Job Log here]('.getenv('TRAVIS_JOB_WEB_URL').')';
+
+        echo implode("\n", $message);
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), false);
 

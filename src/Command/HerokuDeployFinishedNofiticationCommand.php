@@ -48,8 +48,6 @@ class HerokuDeployFinishedNofiticationCommand extends Command
         $groupId = $this->telegramBotHelper->getGroupId('admin');
         $message = [];
 
-        $message[] = 'Status update: '.date('Y-m-d H:i:s');
-        $message[] = '';
         $message[] = sprintf('New release on %s', $this->pageBase);
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), true);

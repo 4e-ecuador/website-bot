@@ -31,14 +31,16 @@ class Start extends AbstractCommand implements PublicCommandInterface
     public function execute(BotApi $api, Update $update)
     {
         $id = '000';
+        $userName = '';
         $message = $update->getMessage();
         if ($message) {
             $user = $message->getFrom();
             if ($user) {
                 $id = $user->getId();
+                $userName = $user->getUsername();
             }
         }
-        $text = "I'm alive =;) - ".$id;//$update->getMessage()->getChat()->getId();
+        $text = "I'm alive =;) - ".$id.$userName;//$update->getMessage()->getChat()->getId();
         $api->sendMessage(
             $update->getMessage()->getChat()->getId(),
             $text,

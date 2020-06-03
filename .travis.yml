@@ -28,3 +28,4 @@ script:
 
 after_script:
   - bash ./bin/telegram_notification.sh
+  - bash ./bin/console

@@ -26,9 +26,12 @@ class TelegramBotHelper
      */
     private $translator;
 
-    private $emojies = [
-        'tadaa' => "",
-        'redlight' => "\xF0\x9F\x9A\xA8",
+    private $emojies
+        = [
+            'tadaa'      => "\xF0\x9F\x8E\x89",
+            'redlight'   => "\xF0\x9F\x9A\xA8",
+            'cross-mark' => "\xE2\x9D\x8C",
+            'check-mark' => "\xE2\x9C\x85",
         ];
 
     public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator)
@@ -36,6 +39,13 @@ class TelegramBotHelper
         $this->api = $api;
         $this->medalChecker = $medalChecker;
         $this->translator = $translator;
+    }
+
+    public function getEmoji(string $name)
+    {
+        return array_key_exists($name, $this->emojies)
+            ? $this->emojies[$name]
+            : '?';
     }
 
     public function checkChatId($chatId): bool
@@ -257,7 +267,8 @@ class TelegramBotHelper
         $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
         $message = [];
 
-        $message[] = str_repeat($this->emojies['redlight'], 3).'** SMURF ALERT !!! **'.str_repeat($this->emojies['redlight'], 3);
+        $message[] = str_repeat($this->emojies['redlight'], 3)
+            .'** SMURF ALERT !!! **'.str_repeat($this->emojies['redlight'], 3);
         $message[] = '';
         $message[] = 'We have detected an agent with the faction: '
             .$statEntry->getFaction();
@@ -284,7 +295,9 @@ class TelegramBotHelper
         $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
         $message = [];
 
-        $message[] = str_repeat($this->emojies['redlight'], 2).'** Nickname mismatch **'.str_repeat($this->emojies['redlight'], 2);
+        $message[] = str_repeat($this->emojies['redlight'], 2)
+            .'** Nickname mismatch **'
+            .str_repeat($this->emojies['redlight'], 2);
         $message[] = '';
         $message[] = 'We have detected a different nickname in uploaded stats!';
         $message[] = '';

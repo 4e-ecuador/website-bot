@@ -27,5 +27,4 @@ script:
 #  - cat ./var/log/test.log
 
 after_script:
-  - bash ./bin/telegram_notification.sh
   - ./bin/console TravisFinishedNofitication

@@ -40,6 +40,8 @@ class TravisFinishedNofiticationCommand extends Command
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
         $message = [];
+        var_dump($_ENV);
+
         $result = $_ENV['TRAVIS_TEST_RESULT'];
 
         if ($result) {

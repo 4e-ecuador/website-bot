@@ -32,6 +32,8 @@ class Start extends AbstractCommand implements PublicCommandInterface
     {
         $id = '000';
         $userName = '';
+        $code = '';
+
         $message = $update->getMessage();
         if ($message) {
             $user = $message->getFrom();
@@ -40,7 +42,18 @@ class Start extends AbstractCommand implements PublicCommandInterface
                 $userName = $user->getUsername();
             }
         }
-        $text = "I'm alive =;) - ".$id.$userName;//$update->getMessage()->getChat()->getId();
+
+        if (preg_match(
+            self::REGEXP,
+            $update->getMessage()->getText(),
+            $matches
+        )
+        ) {
+            $code = $matches[3];
+            } else {
+            }
+
+        $text = "I'm alive =;) - ".$id.$userName.$code;
         $api->sendMessage(
             $update->getMessage()->getChat()->getId(),
             $text,

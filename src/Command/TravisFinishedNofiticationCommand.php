@@ -13,6 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class TravisFinishedNofiticationCommand extends Command
 {
     protected static $defaultName = 'TravisFinishedNofitication';
+
     /**
      * @var TelegramBotHelper
      */
@@ -40,9 +41,8 @@ class TravisFinishedNofiticationCommand extends Command
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
         $message = [];
-        var_dump($_ENV);
 
-        $result = $_ENV['TRAVIS_TEST_RESULT'];
+        $result = getenv('TRAVIS_TEST_RESULT');
 
         if ($result) {
             $status = 'failed '.$this->telegramBotHelper->getEmoji('cross-mark');
@@ -51,11 +51,11 @@ class TravisFinishedNofiticationCommand extends Command
         }
 
         $message[] = "Travis build *$status!*";
-        $message[] = '`Repository:  '.$_ENV['TRAVIS_REPO_SLUG'].'`';
-        $message[] = '`Branch:      '.$_ENV['TRAVIS_BRANCH'].'`';
+        $message[] = '`Repository:  '.getenv('TRAVIS_REPO_SLUG').'`';
+        $message[] = '`Branch:      '.getenv('TRAVIS_BRANCH').'`';
         $message[] = '*Commit Msg:*';
-        $message[] = $_ENV['TRAVIS_COMMIT_MESSAGE'];
-        $message[] = '[Job Log here]('.$_ENV['TRAVIS_JOB_WEB_URL'].')';
+        $message[] = getenv('TRAVIS_COMMIT_MESSAGE');
+        $message[] = '[Job Log here]('.getenv('TRAVIS_JOB_WEB_URL').')';
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), false);
 

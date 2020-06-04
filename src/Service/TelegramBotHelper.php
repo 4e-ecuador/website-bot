@@ -335,4 +335,9 @@ class TelegramBotHelper
         $unusedVar = $agent->getNickname();
         return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
+
+    public function getConnectLink2($agent)
+    {
+        return sprintf('http://www.telegram.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
+    }
 }

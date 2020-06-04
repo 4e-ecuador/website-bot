@@ -60,6 +60,7 @@ class AccountController extends AbstractController
                 'form'                => $form->createView(),
                 'message'             => '',
                 'telegramConnectLink' => $telegramBotHelper->getConnectLink($agent),
+                'telegramConnectLink2' => $telegramBotHelper->getConnectLink2($agent),
                 'customMedals'        => $medalChecker->getCustomMedalGroups(),
             ]
         );

@@ -52,11 +52,13 @@
 
     <h4>Telegram</h4>
     {% if agent.telegramId %}
-        Connected to Telegram as {{ agent.telegramName }}
-        <a class="btn btn-warning" href="">{{ 'Disconnect from Telegram'|trans }}</a>
+        <a class="btn btn-warning" href="">
+            {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
+        </a>
     {% else %}
-        <a class="btn btn-success" href="{{ telegramConnectLink }}">{{ 'Connect to Telegram'|trans }}</a>
-
+        <a class="btn btn-success" href="{{ telegramConnectLink }}" target="_blank">
+            {{ 'Connect to Telegram'|trans }}
+        </a>
     {% endif %}
 
     <h4>{{ 'Custom medals'|trans }}</h4>

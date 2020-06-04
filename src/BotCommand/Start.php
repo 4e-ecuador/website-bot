@@ -71,11 +71,12 @@ class Start extends AbstractCommand implements PublicCommandInterface
             ) {
                 $response[] = 'Missing code';
             } else {
-                $agent = $this->agentRepository->findOneBy(['telegram_connection_secret' => $matches[3]]);
+                $code = preg_replace('[^0-9a-z]', '', $matches[3]);
+                $agent = $this->agentRepository->findOneBy(['telegram_connection_secret' => $code]);
 
                 if (!$agent) {
                     $response[] = 'Missing agent :(';
-                    $response[] = 'code: '.$matches[3];
+                    $response[] = 'code: '.$code;
                     $response[] = $this->translator->trans('bot.message.missing.agent');
                 } else {
                     $agent->setTelegramName($tgUser->getUsername());

@@ -32,14 +32,11 @@
 
     {{ form_row(form.real_name) }}
 
-    {{ form_row(form.telegramName) }}
-
-    <label for="map">{{ 'Meeting point'|trans }}</label>
+    <h4>{{ 'Meeting point'|trans }}</h4>
 
     <div class="alert alert-warning">
         {{ 'Please move the marker to your meeting point location'|trans }}
     </div>
-
 
     <div id="map"></div>
 
@@ -52,6 +49,17 @@
             {{ 'account.map.added.warning'|trans }}
         </div>
     {% endif %}
+
+    <h4>Telegram</h4>
+    {% if agent.telegramId %}
+        Connected to Telegram as {{ agent.telegramName }}
+        <a class="btn btn-warning" href="">{{ 'Disconnect from Telegram'|trans }}</a>
+    {% else %}
+        <a class="btn btn-success" href="{{ telegramConnectLink }}">{{ 'Connect to Telegram'|trans }}</a>
+
+    {% endif %}
+
+    <h4>{{ 'Custom medals'|trans }}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% for group, medals in customMedals %}
             <li class="nav-item">

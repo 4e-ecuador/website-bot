@@ -34,11 +34,17 @@ class TelegramBotHelper
             'check-mark' => "\xE2\x9C\x85",
         ];
 
-    public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator)
+    /**
+     * @var string
+     */
+    private $botName;
+
+    public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator, string $botName)
     {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
         $this->translator = $translator;
+        $this->botName = $botName;
     }
 
     public function getEmoji(string $name)
@@ -321,5 +327,12 @@ class TelegramBotHelper
             str_replace('_', '\\_', implode("\n", $message)),
             'markdown'
         );
+    }
+
+    public function getConnectLink(Agent $agent): string
+    {
+        // This seems necessary to lazy load the $agent object (???)
+        $unusedVar = $agent->getNickname();
+        return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
 }

@@ -76,6 +76,9 @@ class AgentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $secret = bin2hex(random_bytes(24));
+            $agent->setTelegramConnectionSecret($secret);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($agent);
             $entityManager->flush();

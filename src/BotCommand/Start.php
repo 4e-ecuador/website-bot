@@ -2,13 +2,31 @@
 
 namespace App\BotCommand;
 
+use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Update;
 
 class Start extends AbstractCommand implements PublicCommandInterface
 {
+    /**
+     * @var AgentRepository
+     */
+    private $agentRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(AgentRepository $agentRepository, EntityManagerInterface $entityManager)
+    {
+        $this->agentRepository = $agentRepository;
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * @inheritDoc
      */
@@ -30,35 +48,42 @@ class Start extends AbstractCommand implements PublicCommandInterface
      */
     public function execute(BotApi $api, Update $update)
     {
-        $id = '000';
-        $userName = '';
-        $code = '';
+        $response = [];
 
         $message = $update->getMessage();
-        if ($message) {
-            $user = $message->getFrom();
-            if ($user) {
-                $id = $user->getId();
-                $userName = $user->getUsername();
+
+        if (!$message) {
+            $response[] = 'Missing message';
+        } else {
+            $tgUser = $message->getFrom();
+            if (!$tgUser) {
+                $response[] = 'Missing user';
+            } elseif (!preg_match(
+                self::REGEXP, $update->getMessage()->getText(), $matches
+            )
+            ) {
+                $response[] = 'Missing code';
+            } else {
+                $agent = $this->agentRepository->findOneBy(['telegram_connection_secret' => $matches[3]]);
+
+                if (!$agent) {
+                    $response[] = 'Missing agent :(';
+                } else {
+                    $agent->setTelegramName($tgUser->getUsername());
+                    $agent->setTelegramId($tgUser->getId());
+
+                    $this->entityManager->persist($agent);
+                    $this->entityManager->flush();
+
+                    $response[] = 'You have been verified.';
+                }
             }
         }
 
-        if (preg_match(
-            self::REGEXP,
-            $update->getMessage()->getText(),
-            $matches
-        )
-        ) {
-            $code = $matches[3];
-            } else {
-            }
-
-        $text = "I'm alive =;) - ".$id.$userName.$code;
         $api->sendMessage(
             $update->getMessage()->getChat()->getId(),
-            $text,
+            implode("\n", $response),
             'markdown'
         );
-        // @todo add chat id to database
     }
 }

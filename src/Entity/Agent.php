@@ -64,6 +64,16 @@ class Agent
      */
     private $telegram_name;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $telegram_id;
+
+    /**
+     * @ORM\Column(type="string", length=48, nullable=true)
+     */
+    private $telegram_connection_secret;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -207,6 +217,30 @@ class Agent
     public function setTelegramName(?string $telegram_name): self
     {
         $this->telegram_name = $telegram_name;
+
+        return $this;
+    }
+
+    public function getTelegramId(): ?int
+    {
+        return $this->telegram_id;
+    }
+
+    public function setTelegramId(?int $telegram_id): self
+    {
+        $this->telegram_id = $telegram_id;
+
+        return $this;
+    }
+
+    public function getTelegramConnectionSecret(): ?string
+    {
+        return $this->telegram_connection_secret;
+    }
+
+    public function setTelegramConnectionSecret(?string $telegram_connection_secret): self
+    {
+        $this->telegram_connection_secret = $telegram_connection_secret;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\AgentAccountType;
 use App\Service\MedalChecker;
+use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +22,15 @@ class AccountController extends AbstractController
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
      */
-    public function index(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker): Response
+    public function index(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
     {
         $agent = $security->getUser()->getAgent();
 
         if (!$agent) {
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
+
+        $telegramConnectLink = $telegramBotHelper->getConnectLink($agent);
 
         $agentAccount = $request->request->get('agent_account');
 
@@ -54,11 +57,12 @@ class AccountController extends AbstractController
         return $this->render(
             'account/index.html.twig',
             [
-                'agent'             => $agent,
-                'agentCustomMedals' => $customMedals,
-                'form'              => $form->createView(),
-                'message'           => '',
-                'customMedals'      => $medalChecker->getCustomMedalGroups(),
+                'agent'               => $agent,
+                'agentCustomMedals'   => $customMedals,
+                'form'                => $form->createView(),
+                'message'             => '',
+                'telegramConnectLink' => $telegramConnectLink,
+                'customMedals'        => $medalChecker->getCustomMedalGroups(),
             ]
         );
     }

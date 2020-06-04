@@ -32,6 +32,14 @@
                     </div>
                 </form>
             {% endif %}
+            {% if not app.user.agent.telegramId %}
+                <b>{{ 'Connect to Telegram'|trans }}</b>
+                <div>
+                    <a class="btn btn-success" href="{{ path('tg_connect') }}" target="_blank">
+                        {{ 'Connect to Telegram'|trans }}
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endif %}

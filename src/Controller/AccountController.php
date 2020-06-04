@@ -14,9 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @IsGranted("ROLE_USER")
- */
 class AccountController extends AbstractController
 {
     /**
@@ -70,9 +67,9 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/tg-disconnect", name="tg_disconnect")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_INTRO_AGENT")
      */
-    public function tgDisconnect(Security $security): RedirectResponse
+    public function telegramDisconnect(Security $security): RedirectResponse
     {
         $agent = $security->getUser()->getAgent();
 
@@ -88,5 +85,21 @@ class AccountController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_account');
+    }
+
+    /**
+     * @Route("/account/tg-connect", name="tg_connect")
+     * @IsGranted("ROLE_INTRO_AGENT")
+     */
+    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper)
+    {
+        $agent = $security->getUser()->getAgent();
+
+        if (!$agent) {
+            throw $this->createAccessDeniedException('not allowed');
+        }
+
+        return $this->redirect($telegramBotHelper->getConnectLink($agent));
+
     }
 }

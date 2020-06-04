@@ -52,12 +52,15 @@
 
     <h4>Telegram</h4>
     {% if agent.telegramId %}
-        <a class="btn btn-warning" href="{{ path('tg_disconnect') }}">
+        <a class="btn btn-outline-warning btn-sm" href="{{ path('tg_disconnect') }}">
             {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
         </a>
     {% else %}
+        <a class="btn btn-success" href="{{ path('tg_connect') }}" target="_blank">
+            {{ 'Connect to Telegram'|trans }} 1
+        </a>
         <a class="btn btn-success" href="{{ telegramConnectLink }}" target="_blank">
-            {{ 'Connect to Telegram'|trans }}
+            {{ 'Connect to Telegram'|trans }} 2
         </a>
     {% endif %}
     <h5>{{ 'Notifications'|trans }}</h5>

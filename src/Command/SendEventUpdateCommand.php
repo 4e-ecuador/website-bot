@@ -20,18 +20,22 @@ class SendEventUpdateCommand extends Command
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+
     /**
      * @var EventRepository
      */
     private $eventRepository;
+
     /**
      * @var AgentStatRepository
      */
     private $statRepository;
+
     /**
      * @var EventHelper
      */
     private $eventHelper;
+
     /**
      * @var string
      */
@@ -70,7 +74,8 @@ class SendEventUpdateCommand extends Command
 
             $io->writeln('group set to: '.$input->getOption('group'));
         } else {
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            // $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+            $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
         }
 
         $events = $this->eventRepository->findAll();

@@ -131,3 +131,6 @@ Close: Cerrar
 'End Date': 'Fecha final'
 'First import: {date}': 'Primer importe: {date}'
 'All time stats': 'Estadisticas de todos los tiempos'
+'Connect to Telegram': 'Connectar a Telegram'
+'Disconnect from Telegram - {agent}': 'Desconectar de Telegram - {agent}'
+'Custom medals': 'Medallas adicionales'

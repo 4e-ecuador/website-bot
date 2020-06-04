@@ -6,6 +6,7 @@ use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Update;
 
@@ -21,10 +22,16 @@ class Start extends AbstractCommand implements PublicCommandInterface
      */
     private $entityManager;
 
-    public function __construct(AgentRepository $agentRepository, EntityManagerInterface $entityManager)
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(AgentRepository $agentRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->agentRepository = $agentRepository;
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -68,6 +75,8 @@ class Start extends AbstractCommand implements PublicCommandInterface
 
                 if (!$agent) {
                     $response[] = 'Missing agent :(';
+                    $response[] = 'code: '.$matches[3];
+                    $response[] = $this->translator->trans('bot.message.missing.agent');
                 } else {
                     $agent->setTelegramName($tgUser->getUsername());
                     $agent->setTelegramId($tgUser->getId());

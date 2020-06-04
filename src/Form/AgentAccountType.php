@@ -20,7 +20,6 @@ class AgentAccountType extends AbstractType
                     'label' => 'Real Name',
                 ]
             )
-            ->add('telegramName')
             ->add('customMedals')
             ->add(
                 'lat',
@@ -47,7 +46,23 @@ class AgentAccountType extends AbstractType
                         'step' => 0.0000001,
                     ],
                 ]
-            );
+            )
+            ->add('hasNotifyEvents',
+                null,
+                [
+                    'label' => 'notify.events',
+                ])
+            ->add('hasNotifyUploadStats',
+                null,
+                [
+                    'label' => 'notify.stats.upload',
+                ])
+            ->add('hasNotifyStatsResult',
+                null,
+                [
+                    'label' => 'notify.stats.result',
+                ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

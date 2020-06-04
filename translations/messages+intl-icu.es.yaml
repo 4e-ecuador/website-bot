@@ -134,3 +134,7 @@ Close: Cerrar
 'Connect to Telegram': 'Connectar a Telegram'
 'Disconnect from Telegram - {agent}': 'Desconectar de Telegram - {agent}'
 'Custom medals': 'Medallas adicionales'
+Notifications: Notificaciones
+notify.stats.upload: 'Subir las estadisticas - 8 PM todos los dias'
+notify.stats.result: 'Estadisticas mensuales - Una vez al mes'
+notify.events: 'Eventos'

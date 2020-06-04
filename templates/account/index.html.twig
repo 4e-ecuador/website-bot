@@ -60,6 +60,10 @@
             {{ 'Connect to Telegram'|trans }}
         </a>
     {% endif %}
+    <h5>{{ 'Notifications'|trans }}</h5>
+    {{ form_row(form.hasNotifyUploadStats) }}
+    {{ form_row(form.hasNotifyStatsResult) }}
+    {{ form_row(form.hasNotifyEvents) }}
 
     <h4>{{ 'Custom medals'|trans }}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">

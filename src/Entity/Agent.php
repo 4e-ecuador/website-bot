@@ -74,6 +74,21 @@ class Agent
      */
     private $telegram_connection_secret;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasNotifyUploadStats;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasNotifyEvents;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasNotifyStatsResult;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -241,6 +256,42 @@ class Agent
     public function setTelegramConnectionSecret(?string $telegram_connection_secret): self
     {
         $this->telegram_connection_secret = $telegram_connection_secret;
+
+        return $this;
+    }
+
+    public function getHasNotifyUploadStats(): ?bool
+    {
+        return $this->hasNotifyUploadStats;
+    }
+
+    public function setHasNotifyUploadStats(?bool $hasNotifyUploadStats): self
+    {
+        $this->hasNotifyUploadStats = $hasNotifyUploadStats;
+
+        return $this;
+    }
+
+    public function getHasNotifyEvents(): ?bool
+    {
+        return $this->hasNotifyEvents;
+    }
+
+    public function setHasNotifyEvents(?bool $hasNotifyEvents): self
+    {
+        $this->hasNotifyEvents = $hasNotifyEvents;
+
+        return $this;
+    }
+
+    public function getHasNotifyStatsResult(): ?bool
+    {
+        return $this->hasNotifyStatsResult;
+    }
+
+    public function setHasNotifyStatsResult(?bool $hasNotifyStatsResult): self
+    {
+        $this->hasNotifyStatsResult = $hasNotifyStatsResult;
 
         return $this;
     }

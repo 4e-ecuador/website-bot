@@ -71,13 +71,12 @@ class Start extends AbstractCommand implements PublicCommandInterface
             ) {
                 $response[] = 'Missing code';
             } else {
-                $code = preg_replace('[^0-9a-z]', '', $matches[3]);
+                $code = preg_replace('/[^0-9a-z]+/', '', $matches[3]);
                 $agent = $this->agentRepository->findOneBy(['telegram_connection_secret' => $code]);
 
                 if (!$agent) {
-                    $response[] = 'Missing agent :(';
-                    $response[] = 'code: '.$code;
                     $response[] = $this->translator->trans('bot.message.missing.agent');
+                    $response[] = 'code: '.$code;
                 } else {
                     $agent->setTelegramName($tgUser->getUsername());
                     $agent->setTelegramId($tgUser->getId());
@@ -85,7 +84,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
                     $this->entityManager->persist($agent);
                     $this->entityManager->flush();
 
-                    $response[] = 'You have been verified.';
+                    $response[] = $this->translator->trans('bot.message.agent.verified');
                 }
             }
         }

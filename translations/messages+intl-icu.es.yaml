@@ -139,3 +139,4 @@ notify.stats.upload: 'Subir las estadisticas - 8 PM todos los dias'
 notify.stats.result: 'Estadisticas mensuales - Una vez al mes'
 notify.events: Eventos
 bot.message.missing.agent: 'Cuenta desconocida o sin activar. Favor verificar en http://agents.enl.ec/account'
+bot.message.agent.verified: __bot.message.agent.verified

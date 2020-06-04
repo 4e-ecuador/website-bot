@@ -53,6 +53,12 @@
             <td>{{ agent.realName }}</td>
         </tr>
         {% endif %}
+        {% if agent.telegramId %}
+            <tr>
+                <th>{{ 'Telegram contact'|trans }}</th>
+                <td><a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a></td>
+            </tr>
+        {% endif %}
         <tr>
             <th>{{ 'Position'|trans }}</th>
             <td>

@@ -109,11 +109,25 @@ class AgentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Agent[]
+     */
     public function findAllAlphabetical()
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.nickname', 'ASC')
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @return Agent[]
+     */
+    public function findNotifyAgents()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.telegram_id IS NOT NULL')
+            ->getQuery()
+            ->getResult();
     }
 }

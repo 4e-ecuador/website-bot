@@ -30,6 +30,9 @@ class IngressEventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return IngressEvent[]
+     */
     public function findFutureFS()
     {
         return $this->createQueryBuilder('i')
@@ -43,6 +46,9 @@ class IngressEventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return IngressEvent[]
+     */
     public function findFutureMD()
     {
         return $this->createQueryBuilder('i')

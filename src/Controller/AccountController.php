@@ -7,6 +7,7 @@ use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,15 +23,15 @@ class AccountController extends AbstractController
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
      */
-    public function index(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
-    {
+    public function account(
+        Request $request, Security $security, TranslatorInterface $translator,
+        MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper
+    ): Response {
         $agent = $security->getUser()->getAgent();
 
         if (!$agent) {
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
-
-        $telegramConnectLink = $telegramBotHelper->getConnectLink($agent);
 
         $agentAccount = $request->request->get('agent_account');
 
@@ -61,9 +62,31 @@ class AccountController extends AbstractController
                 'agentCustomMedals'   => $customMedals,
                 'form'                => $form->createView(),
                 'message'             => '',
-                'telegramConnectLink' => $telegramConnectLink,
+                'telegramConnectLink' => $telegramBotHelper->getConnectLink($agent),
                 'customMedals'        => $medalChecker->getCustomMedalGroups(),
             ]
         );
+    }
+
+    /**
+     * @Route("/account/tg-disconnect", name="tg_disconnect")
+     * @IsGranted("ROLE_USER")
+     */
+    public function tgDisconnect(Security $security): RedirectResponse
+    {
+        $agent = $security->getUser()->getAgent();
+
+        if (!$agent) {
+            throw $this->createAccessDeniedException('not allowed');
+        }
+
+        $agent->setTelegramId(null);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($agent);
+        $em->flush();
+
+        return $this->redirectToRoute('app_account');
     }
 }

@@ -52,7 +52,7 @@
 
     <h4>Telegram</h4>
     {% if agent.telegramId %}
-        <a class="btn btn-warning" href="">
+        <a class="btn btn-warning" href="{{ path('tg_disconnect') }}">
             {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
         </a>
     {% else %}

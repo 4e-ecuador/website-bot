@@ -42,6 +42,8 @@ services:
   App\Service\TelegramBotHelper:
     arguments:
       $botName: '%env(TELEGRAM_BOT_NAME)%'
+      $pageBaseUrl: '%env(PAGE_BASE_URL)%'
+      $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
 
   App\Service\MailerHelper:
     arguments:

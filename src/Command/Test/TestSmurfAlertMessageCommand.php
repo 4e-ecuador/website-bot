@@ -1,34 +1,30 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Test;
 
+use App\Entity\Agent;
+use App\Entity\AgentStat;
+use App\Entity\User;
 use App\Service\TelegramBotHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
-class HerokuDeployFinishedNofiticationCommand extends Command
+class TestSmurfAlertMessageCommand extends Command
 {
-    protected static $defaultName = 'HerokuDeployFinishedNofitication';
+    protected static $defaultName = 'TestSmurfAlertMessage';
     /**
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
 
-    /**
-     * @var string
-     */
-    private $pageBase;
-
-    public function __construct(TelegramBotHelper $telegramBotHelper, string $pageBase)
+    public function __construct(TelegramBotHelper $telegramBotHelper)
     {
-        parent::__construct();
-
         $this->telegramBotHelper = $telegramBotHelper;
-        $this->pageBase = $pageBase;
+
+        parent::__construct();
     }
 
     protected function configure()
@@ -42,16 +38,15 @@ class HerokuDeployFinishedNofiticationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $user = new User();
 
-        $groupId = $this->telegramBotHelper->getGroupId('admin');
-        $message = [];
+        $agent = new Agent();
 
-        $message[] = sprintf('New release on %s', $this->pageBase);
+        $statEntry = new AgentStat();
 
-        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), true);
+        $statEntry->setFaction('TEST');
 
-        $io->success('Message has been sent!');
+        $this->telegramBotHelper->sendSmurfAlertMessage('test', $user, $agent, $statEntry);
 
         return 0;
     }

@@ -126,9 +126,9 @@ class SendEventUpdateCommand extends Command
     {
         $my_img = imagecreate(230, 140);
 
-        $medal1 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/1st-place-medal_36.png');
-        $medal2 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/2nd-place-medal_36.png');
-        $medal3 = imagecreatefrompng('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/medals/3rd-place-medal_36.png');
+        $medal1 = imagecreatefrompng($this->rootDir.'/assets/images/medals/1st-place-medal_36.png');
+        $medal2 = imagecreatefrompng($this->rootDir.'/assets/images/medals/2nd-place-medal_36.png');
+        $medal3 = imagecreatefrompng($this->rootDir.'/assets/images/medals/3rd-place-medal_36.png');
 
         $background = imagecolorallocate($my_img, 255, 255, 255);
         // $text_colour = imagecolorallocate( $my_img, 0, 0, 0 );
@@ -148,7 +148,7 @@ class SendEventUpdateCommand extends Command
 
         // $font = '/home/elkuku/repos/symf-postgre-heroku-test/assets/fonts/RemachineScript_Personal_Use.ttf';
         // $font2 = '/home/elkuku/repos/symf-postgre-heroku-test/assets/fonts/SouthDjakartaDemo.ttf';
-        $font3 = '/home/elkuku/repos/symf-postgre-heroku-test/assets/fonts/Clone Machine.otf';
+        $font3 = $this->rootDir.'/assets/fonts/Clone Machine.otf';
         // Add some shadow to the text
         //imagettftext($my_img, 20, 0, 11, 21, $grey, $font, $text);
 

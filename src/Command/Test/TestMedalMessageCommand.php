@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Test;
 
 use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
@@ -18,6 +18,7 @@ class TestMedalMessageCommand extends Command
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+
     /**
      * @var AgentRepository
      */
@@ -26,9 +27,9 @@ class TestMedalMessageCommand extends Command
     public function __construct(TelegramBotHelper $telegramBotHelper, AgentRepository $agentRepository)
     {
         $this->telegramBotHelper = $telegramBotHelper;
+        $this->agentRepository = $agentRepository;
 
         parent::__construct();
-        $this->agentRepository = $agentRepository;
     }
 
     protected function configure()
@@ -44,22 +45,18 @@ class TestMedalMessageCommand extends Command
 
         try {
             if ($input->getOption('group')) {
-                if ('test' === $input->getOption('group')) {
-                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
-                } else {
-                    throw new \UnexpectedValueException('Unknown group');
-                }
+                $groupName = $input->getOption('group');
 
                 $io->writeln('group set to: '.$input->getOption('group'));
             } else {
-                $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                $groupName = 'test';
             }
 
             $agent = $this->agentRepository->findOneByNickName('nikp3h');
 
             $medalUps = ['purifier' => 5];
 
-            $this->telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+            $this->telegramBotHelper->sendNewMedalMessage($groupName, $agent, $medalUps);
 
             $io->success('Finished!');
         } catch (\Exception $exception) {

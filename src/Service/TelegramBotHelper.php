@@ -5,6 +5,11 @@ namespace App\Service;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Type\CustomMessage\LevelUpMessage;
+use App\Type\CustomMessage\NewMedalMessage;
+use App\Type\CustomMessage\NewUserMessage;
+use App\Type\CustomMessage\NicknameMismatchMessage;
+use App\Type\CustomMessage\SmurfAlertMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Message;
@@ -39,15 +44,58 @@ class TelegramBotHelper
      */
     private $botName;
 
-    public function __construct(BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator, string $botName)
-    {
+    /**
+     * @var string
+     */
+    private $pageBaseUrl;
+
+    /**
+     * @var string
+     */
+    private $announceAdminCc;
+
+    public function __construct(
+        BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator,
+        string $botName, string $pageBaseUrl, string $announceAdminCc
+    ) {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
         $this->translator = $translator;
         $this->botName = $botName;
+        $this->pageBaseUrl = $pageBaseUrl;
+        $this->announceAdminCc = $announceAdminCc;
     }
 
-    public function getEmoji(string $name)
+    public function getGroupId(string $name = 'default'): int
+    {
+        switch ($name) {
+            case 'default':
+                $id = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                break;
+            case 'test':
+                $id = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                break;
+            case 'admin':
+                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'] ??
+                    getenv('ANNOUNCE_GROUP_ID_ADMIN');
+                break;
+            case 'intro':
+                $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
+                break;
+            default:
+                throw new \UnexpectedValueException('Unknown group name'.$name);
+        }
+
+        if (!$id) {
+            throw new \UnexpectedValueException(
+                'Required env var has not been set up: '.$name
+            );
+        }
+
+        return (int)$id;
+    }
+
+    public function getEmoji(string $name): string
     {
         return array_key_exists($name, $this->emojies)
             ? $this->emojies[$name]
@@ -114,127 +162,22 @@ class TelegramBotHelper
         return $ok;
     }
 
-    public function sendNewMedalMessage(Agent $agent, array $medalUps, string $groupId): Message
+    public function getConnectLink(Agent $agent): string
     {
-        $pageBase = $_ENV['PAGE_BASE_URL'];
-        $tada = $this->emojies['tadaa'];
+        // This seems necessary to lazy load the $agent object (???)
+        $unusedVar = $agent->getNickname();
 
-        $firstValue = reset($medalUps);
-        $firstMedal = key($medalUps);
-
-        $response = [];
-
-        $response[] = $this->translator->trans('new.medal.header');
-
-        $response[] = '[ ]('.$pageBase.'/build/images/badges/'
-            .$this->medalChecker->getBadgePath($firstMedal, $firstValue).')';
-
-        $response[] = $this->translator->trans(
-            'new.medal.text.1', [
-                'medals' => count($medalUps),
-                'agent'  => str_replace(
-                    '_', '\\_',
-                    $agent->getTelegramName() ?: $agent->getNickname()
-                ),
-            ]
-        );
-
-        $response[] = '';
-
-        foreach ($medalUps as $medal => $level) {
-            $response[] = $this->translator->trans(
-                'new.medal.text.2', [
-                    'medal' => $medal,
-                    'level' => $this->medalChecker->translateMedalLevel($level),
-                ]
-            );
-        }
-
-        $response[] = '';
-        $response[] = $this->translator->trans(
-            'new.medal.text.3', [
-                'link' => sprintf('%s/stats/agent/%s', $pageBase, $agent->getId()),
-            ]
-        );
-        $response[] = '';
-        $response[] = $this->translator->trans(
-            'new.medal.text.4', [
-                'tadaa' => $tada.$tada.$tada,
-            ]
-        );
-
-        return $this->api->sendMessage(
-            $groupId,
-            implode("\n", $response),
-            'markdown'
-        );
+        return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
 
-    public function sendLevelUpMessage(Agent $agent, int $level, string $groupId)
+    public function getConnectLink2($agent): string
     {
-        $pageBase = $_ENV['PAGE_BASE_URL'];
-        $tada = "\xF0\x9F\x8E\x89";
-
-        $response = [];
-
-        $response[] = $this->translator->trans('new.medal.header');
-
-        $response[] = '[ ]('.$pageBase.'/build/images/badges/'
-            .$this->medalChecker->getBadgePath('LevelUp_'.$level, 0).')';
-
-        $response[] = $this->translator->trans(
-            'new.level.text.1', [
-                'agent' => str_replace(
-                    '_', '\\_', $agent->getTelegramName()
-                    ?: $agent->getNickname()
-                ),
-            ]
-        );
-
-        $response[] = '';
-
-        $response[] = $this->translator->trans(
-            'new.level.text.2',
-            ['level' => $level]
-        );
-
-        $response[] = '';
-
-        $response[] = $this->translator->trans(
-            'new.medal.text.3', [
-                'link' => sprintf('%s/stats/agent/%s', $pageBase, $agent->getId()),
-            ]
-        );
-        $response[] = '';
-        $response[] = $this->translator->trans(
-            'new.medal.text.4', [
-                'tadaa' => $tada.$tada.$tada,
-            ]
-        );
-
-        return $this->api->sendMessage(
-            $groupId,
-            implode("\n", $response),
-            'markdown'
-        );
+        return sprintf('http://www.telegram.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
 
-    public function sendMessage($chatId, $text, bool $disablePreview = false): Message
+    public function sendMessage(int $chatId, string $text, bool $disablePreview = false): Message
     {
         return $this->api->sendMessage($chatId, $text, 'markdown', $disablePreview);
-    }
-
-    public function sendNewUserMessage(int $chatId, User $user): Message
-    {
-        $message = [];
-
-        $message[] = '** New User **';
-        $message[] = '';
-        $message[] = 'A new user has just registered: '.$user->getEmail();
-        $message[] = '';
-        $message[] = 'Please verify!';
-
-        return $this->api->sendMessage($chatId, implode("\n", $message), 'markdown');
     }
 
     public function sendPhoto($chatId, $photo, $caption): Message
@@ -242,102 +185,51 @@ class TelegramBotHelper
         return $this->api->sendPhoto($chatId, $photo, $caption, null, null, false, 'html');
     }
 
-    public function getGroupId(string $name = 'default'): int
+    public function sendNewMedalMessage(string $groupName, Agent $agent, array $medalUps): Message
     {
-        switch ($name) {
-            case 'default':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_1'];
-                break;
-            case 'test':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
-                break;
-            case 'admin':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'] ??
-                    getenv('ANNOUNCE_GROUP_ID_ADMIN');
-                break;
-            case 'intro':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
-                break;
-            default:
-                throw new \UnexpectedValueException('Unknown group name');
-        }
+        $message = (new NewMedalMessage($this, $this->translator, $agent, $this->medalChecker, $medalUps, $this->pageBaseUrl))
+            ->getMessage();
 
-        if (!$id) {
-            throw new \UnexpectedValueException(
-                'Required env var has not been set up. '.$name
-            );
-        }
-
-        return (int)$id;
+        return $this->sendMessage($this->getGroupId($groupName), implode("\n", $message));
     }
 
-    public function sendSmurfAlertMessage(User $user, Agent $agent, AgentStat $statEntry)
+    public function sendLevelUpMessage(string $groupName, Agent $agent, int $level, int $recursions): Message
     {
-        $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
-        $message = [];
+        $message = (new LevelUpMessage($this, $this->translator, $agent, $this->medalChecker, $level, $recursions, $this->pageBaseUrl))
+            ->getMessage();
 
-        $message[] = str_repeat($this->emojies['redlight'], 3)
-            .'** SMURF ALERT !!! **'.str_repeat($this->emojies['redlight'], 3);
-        $message[] = '';
-        $message[] = 'We have detected an agent with the faction: '
-            .$statEntry->getFaction();
-        $message[] = '';
-        $message[] = 'Agent: '.$agent->getNickname();
-        $message[] = 'ID: '.$agent->getId();
-        $message[] = '';
-        $message[] = 'User: '.$user->getUsername();
-        $message[] = 'ID: '.$user->getId();
-        $message[] = '';
-        $message[] = 'Please verify!';
-        $message[] = '';
-        $message[] = 'CC: '.$adminCC;
+        return $this->sendMessage($this->getGroupId($groupName), implode("\n", $message));
+    }
+
+    public function sendNewUserMessage(int $chatId, User $user): Message
+    {
+        $message = (new NewUserMessage($this, $user))
+            ->getMessage();
+
+        return $this->sendMessage($chatId, implode("\n", $message));
+    }
+
+    public function sendSmurfAlertMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
+    {
+        $message = (new SmurfAlertMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
+            ->getMessage();
 
         return $this->api->sendMessage(
-            $this->getGroupId('admin'),
+            $this->getGroupId($groupName),
             str_replace('_', '\\_', implode("\n", $message)),
             'markdown'
         );
     }
 
-    public function sendNicknameMismatchMessage(User $user, Agent $agent, AgentStat $statEntry)
+    public function sendNicknameMismatchMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
     {
-        $adminCC = $_ENV['ANNOUNCE_ADMIN_CC'];
-        $message = [];
-
-        $message[] = str_repeat($this->emojies['redlight'], 2)
-            .'** Nickname mismatch **'
-            .str_repeat($this->emojies['redlight'], 2);
-        $message[] = '';
-        $message[] = 'We have detected a different nickname in uploaded stats!';
-        $message[] = '';
-        $message[] = 'Nick: '.$statEntry->getNickname();
-        $message[] = '';
-        $message[] = 'Agent: '.$agent->getNickname();
-        $message[] = 'ID: '.$agent->getId();
-        $message[] = '';
-        $message[] = 'User: '.$user->getUsername();
-        $message[] = 'ID: '.$user->getId();
-        $message[] = '';
-        $message[] = 'Please verify!';
-        $message[] = '';
-        $message[] = 'CC: '.$adminCC;
+        $message = (new NicknameMismatchMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
+            ->getMessage();
 
         return $this->api->sendMessage(
-            $this->getGroupId('admin'),
+            $this->getGroupId($groupName),
             str_replace('_', '\\_', implode("\n", $message)),
             'markdown'
         );
-    }
-
-    public function getConnectLink(Agent $agent): string
-    {
-        // This seems necessary to lazy load the $agent object (???)
-        $unusedVar = $agent->getNickname();
-        return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
-    }
-
-    public function getConnectLink2($agent)
-    {
-        return sprintf('http://www.telegram.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
 }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
-use App\Entity\TestStat;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
@@ -341,12 +340,12 @@ class StatsController extends AbstractController
             // Faction check
             if ($currentEntry->getFaction() !== 'Enlightened') {
                 // Smurf detected!!!
-                $telegramBotHelper->sendSmurfAlertMessage($user, $agent, $currentEntry);
+                $telegramBotHelper->sendSmurfAlertMessage('admin', $user, $agent, $currentEntry);
             }
 
             if ($agent->getNickname() !== $currentEntry->getNickname()) {
                 // Nickname mismatch
-                $telegramBotHelper->sendNicknameMismatchMessage($user, $agent, $currentEntry);
+                $telegramBotHelper->sendNicknameMismatchMessage('admin', $user, $agent, $currentEntry);
             }
 
             $previousEntry = $agentStatRepository->getPrevious($currentEntry);
@@ -358,14 +357,14 @@ class StatsController extends AbstractController
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
                 $diff = $currentEntry->getDiff($previousEntry);
                 if (in_array('ROLE_INTRO_AGENT', $user->getRoles())) {
-                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
+                    $groupName = 'intro';
                 } else {
-                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                    $groupName = 'default';
                 }
 
                 // Medal(s) gained - send a bot message !
-                if ($medalUps && $groupId) {
-                    $telegramBotHelper->sendNewMedalMessage($agent, $medalUps, $groupId);
+                if ($medalUps) {
+                    $telegramBotHelper->sendNewMedalMessage($groupName, $agent, $medalUps);
                 }
 
                 // Level changed
@@ -374,9 +373,7 @@ class StatsController extends AbstractController
                     && $currentEntry->getLevel() !== $previousLevel
                 ) {
                     $newLevel = $currentEntry->getLevel();
-                    if ($groupId) {
-                        $telegramBotHelper->sendLevelUpMessage($agent, $newLevel, $groupId);
-                    }
+                    $telegramBotHelper->sendLevelUpMessage($groupName, $agent, $newLevel, $currentEntry->getRecursions());
                 }
             }
         }

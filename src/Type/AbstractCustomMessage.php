@@ -17,4 +17,9 @@ abstract class AbstractCustomMessage
     }
 
     abstract public function getMessage(): array;
+
+    public function getText(): string
+    {
+        return implode("\n", $this->getMessage());
+    }
 }

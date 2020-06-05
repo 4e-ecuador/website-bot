@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Test;
 
 use App\Service\TelegramBotHelper;
 use Symfony\Component\Console\Command\Command;

@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Agent;
 use App\Tests\FixtureAwareTestCase;
 use App\Tests\Fixtures\AgentFixture;
 use App\Tests\Fixtures\AgentStatFixture;

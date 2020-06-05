@@ -53,10 +53,13 @@ class UploadStatsReminder extends Command
 
         $agents = $this->agentRepository->findNotifyAgents();
 
+        $count = 0;
+
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyUploadStats()) {
                 try {
                     $this->telegramBotHelper->sendMessage($agent->getTelegramId(), $message);
+                    $count++;
                 } catch (\Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - '.$agent->getNickname()
@@ -65,7 +68,7 @@ class UploadStatsReminder extends Command
             }
         }
 
-        $io->success('Messages have been sent.');
+        $io->success(sprintf('Messages have been sent to %d agents.', $count));
 
         return 0;
     }

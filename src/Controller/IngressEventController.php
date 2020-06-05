@@ -4,12 +4,17 @@ namespace App\Controller;
 
 use App\Entity\IngressEvent;
 use App\Form\IngressEventType;
+use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
+use App\Service\TelegramBotHelper;
+use App\Type\CustomMessage\NotifyEventsMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/ingress/event")
@@ -24,7 +29,7 @@ class IngressEventController extends AbstractController
     {
         return $this->render(
             'ingress_event/index.html.twig', [
-                'ingress_events' => $ingressEventRepository->findAll(),
+                'ingress_events' => $ingressEventRepository->findAllByDate(),
             ]
         );
     }
@@ -59,7 +64,7 @@ class IngressEventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ingress_event_show", methods={"GET"})
+     * @Route("/{id}", name="ingress_event_show", methods={"GET"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function show(IngressEvent $ingressEvent): Response
@@ -107,6 +112,42 @@ class IngressEventController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ingressEvent);
             $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('ingress_event_index');
+    }
+
+    /**
+     * @Route("/announce", name="ingress_event_announce", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function announce(
+        TelegramBotHelper $telegramBotHelper, IngressEventRepository $ingressEventRepository,
+        AgentRepository $agentRepository, TranslatorInterface $translator
+    ): RedirectResponse {
+        $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+            ->getMessage();
+
+        $agents = $agentRepository->findNotifyAgents();
+
+        $count = 0;
+
+        foreach ($agents as $agent) {
+            if ($agent->getHasNotifyEvents()) {
+                try {
+                    $telegramBotHelper->sendMessage($agent->getTelegramId(), implode("\n", $message));
+                    $count++;
+                } catch (\Exception $exception) {
+                    $this->addFlash(
+                        'warning', $exception->getMessage().' - Agent: '
+                        .$agent->getNickname()
+                    );
+                }
+            }
+        }
+
+        if ($count) {
+            $this->addFlash('success', sprintf('Announcements sent to %d agents!', $count));
         }
 
         return $this->redirectToRoute('ingress_event_index');

@@ -5,6 +5,10 @@
 {% block body %}
     <h1>IngressEvent index</h1>
 
+    <a class="btn btn-outline-success" href="{{ path('ingress_event_new') }}">Create new</a>
+    <a class="btn btn-outline-success" href="{{ path('ingress_event_announce') }}">Announce</a>
+
+
     <table class="table">
         <thead>
             <tr>
@@ -13,7 +17,6 @@
                 <th>Type</th>
                 <th>Date_start</th>
                 <th>Date_end</th>
-                <th>Description</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,7 +28,6 @@
                 <td>{{ ingress_event.type }}</td>
                 <td>{{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}</td>
-                <td>{{ ingress_event.description }}</td>
                 <td>
                     <a href="{{ path('ingress_event_show', {'id': ingress_event.id}) }}">show</a>
                     <a href="{{ path('ingress_event_edit', {'id': ingress_event.id}) }}">edit</a>
@@ -38,6 +40,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('ingress_event_new') }}">Create new</a>
 {% endblock %}

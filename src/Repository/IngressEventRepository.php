@@ -61,4 +61,12 @@ class IngressEventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllByDate()
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.date_start', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

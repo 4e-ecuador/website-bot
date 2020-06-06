@@ -44,7 +44,8 @@
                         >
                             <span class="medal-image">
                             {% if 'Anomaly' == group %}
-                                <span class="medal50-events medal-Anomaly_{{ medal }}" title="{{ badgeData.title }}"></span>
+                                <span class="medal50-events medal-Anomaly_{{ medal }}"
+                                      title="{{ badgeData.title }}"></span>
                             {% elseif 'Event' == group %}
                                 {% if 'AvenirShard' == medal %}
                                     <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
@@ -90,7 +91,7 @@
 
                 {% if doubleCount > 1 %}
                 <span class="doubleCount">X {{ doubleCount }}</span>
-                {% endif %}
+            {% endif %}
             {% else %}
                 <img src="{{ asset('build/images/ico/padlock.png') }}" alt="locked"
                      style="width: 50px;">
@@ -101,15 +102,15 @@
 
         <h4>Dronenet</h4>
         Portals: <code>{{ latest.drone_portals_visited }}</code>
-            Hacks: <code>{{ latest.drone_hacks }}</code>
-            Flight: <code>{{ latest.drone_flight_distance }}</code>km
+        Hacks: <code>{{ latest.drone_hacks }}</code>
+        Flight: <code>{{ latest.drone_flight_distance }}</code>km
 
 
         <!-- Stats container -->
         <hr>
-            {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
-            &nbsp;-&nbsp;
-            {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
+        {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
+        &nbsp;-&nbsp;
+        {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
         <hr>
 
         <label for="dateStart">{{ 'Start Date'|trans }}</label>

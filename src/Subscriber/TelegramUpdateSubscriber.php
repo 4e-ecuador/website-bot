@@ -135,10 +135,11 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         if ($me->getId() === $newChatMember->getId()) {
             // Bot has been added to chat
             $text = sprintf(
-                "Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nPlease /start me now.",
+                "Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nDevs: %s",
                 $me->getFirstName(),
-                $me->getUsername()
-            ).$event->getUpdate()->getMessage()->getChat()->getId();
+                $me->getUsername(),
+                $event->getUpdate()->getMessage()->getChat()->getId()
+            );
         } else {
             // New chat member
             $text = sprintf(
@@ -157,6 +158,9 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     private function respondInlineQuery(UpdateEvent $event): TelegramUpdateSubscriber
     {
+        // Disabled
+        return $this;
+
         $inlineQuery = $event->getUpdate()->getInlineQuery();
 
         if (!$inlineQuery) {

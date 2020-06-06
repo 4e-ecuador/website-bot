@@ -56,7 +56,16 @@
         {% if agent.telegramId %}
             <tr>
                 <th>{{ 'Telegram contact'|trans }}</th>
-                <td><a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a></td>
+                <td>
+                    <a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a>
+                    {% if is_granted('ROLE_EDITOR') %}
+                            Notifications:
+                            <code title="Events" class="helpIndicator">{{ agent.hasNotifyEvents ? 1 : 0 }}</code>
+                            <code title="StatsResults" class="helpIndicator">{{ agent.hasNotifyStatsResult ? 1 : 0 }}</code>
+                            <code title="Upload Reminder" class="helpIndicator">{{ agent.hasNotifyUploadStats ? 1 : 0 }}</code>
+                    {% endif %}
+
+                </td>
             </tr>
         {% endif %}
         <tr>

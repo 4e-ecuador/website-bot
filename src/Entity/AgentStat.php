@@ -178,6 +178,21 @@ class AgentStat implements ArrayAccess
      */
     private $nickname;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $drone_flight_distance;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $drone_hacks;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $drone_portals_visited;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -675,6 +690,42 @@ class AgentStat implements ArrayAccess
     public function setNickname(?string $nickname): self
     {
         $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getDroneFlightDistance(): ?int
+    {
+        return $this->drone_flight_distance;
+    }
+
+    public function setDroneFlightDistance(?int $drone_flight_distance): self
+    {
+        $this->drone_flight_distance = $drone_flight_distance;
+
+        return $this;
+    }
+
+    public function getDroneHacks(): ?int
+    {
+        return $this->drone_hacks;
+    }
+
+    public function setDroneHacks(?int $drone_hacks): self
+    {
+        $this->drone_hacks = $drone_hacks;
+
+        return $this;
+    }
+
+    public function getDronePortalsVisited(): ?int
+    {
+        return $this->drone_portals_visited;
+    }
+
+    public function setDronePortalsVisited(?int $drone_portals_visited): self
+    {
+        $this->drone_portals_visited = $drone_portals_visited;
 
         return $this;
     }

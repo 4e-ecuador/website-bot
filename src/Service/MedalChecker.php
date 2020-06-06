@@ -10,11 +10,11 @@ class MedalChecker
 {
     private $medalLevels
         = [
-            'explorer' => [
+            'explorer'               => [
                 'desc'   => 'Unique Portals Visited',
                 'levels' => [100, 1000, 2000, 10000, 30000],
             ],
-            'seer'     => [
+            'seer'                   => [
                 'desc'   => 'Seer Points',
                 'levels' => [10, 50, 200, 500, 5000],
             ],
@@ -118,7 +118,7 @@ class MedalChecker
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
-            'scout'                    => [
+            'scout'                  => [
                 'desc'   => 'Scan portals',
                 'levels' => [50, 250, 1000, 3000, 6000],
             ],
@@ -176,11 +176,15 @@ class MedalChecker
             'First Saturday Events'         => 'ifs',
             'Portal Scans Uploaded'         => 'scout',
 
-            'Level' => 'level',
+            'Furthest Drone Flight Distance' => 'drone-flight-distance',
+            'Drone Hacks'                    => 'drone-hacks',
+            'Unique Portals Drone Visited'   => 'drone-portals-visited',
+
+            'Level'      => 'level',
             'Recursions' => 'recursions',
 
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
-            'Didact Fields Created' => 'currentChallenge',
+            'Didact Fields Created'                  => 'currentChallenge',
         ];
 
     private $customMedals

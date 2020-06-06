@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Notification;
 
 use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsCommand extends Command
 {
-    protected static $defaultName = 'NotifyEvents';
+    protected static $defaultName = 'bot:notify:events';
 
     /**
      * @var IngressEventRepository

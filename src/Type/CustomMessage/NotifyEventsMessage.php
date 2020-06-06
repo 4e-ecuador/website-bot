@@ -42,17 +42,29 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
         if ($ingressFS) {
             if ($this->firstAnnounce) {
-                $message[] = $this->translator->trans('notify.events.head.first');
+                $message[] = $this->translator->trans('notify.events.head.fs.first');
             } else {
-                $message[] = $this->translator->trans('notify.events.head');
+                $message[] = $this->translator->trans('notify.events.head.fs');
             }
 
             $links = [];
             foreach ($ingressFS as $event) {
                 $links[] = sprintf('[%s](%s)', $event->getName(), $event->getLink());
+                $eventDate = $event->getDateStart();
             }
 
             $message[] = $this->translator->trans('notify.events.events.fs', ['links' => implode(', ', $links)]);
+            $message[] = '';
+
+            $currentDate = new \DateTime();
+
+            $daysRemaining = $eventDate->diff($currentDate)->days;
+
+            if ($daysRemaining === 0) {
+                $message[] = '*'.$this->translator->trans('notify.events.today').'*';
+            } else {
+                $message[] = '*'.$this->translator->trans('notify.events.days.remaining', ['days' => $daysRemaining]).'*';
+            }
         }
 
         if ($ingressMD) {

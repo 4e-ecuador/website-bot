@@ -140,9 +140,11 @@ notify.stats.result: 'Estadisticas mensuales - Una vez al mes'
 notify.events: Eventos
 bot.message.missing.agent: 'Cuenta desconocida o sin activar. Favor verificar en http://agents.enl.ec/account'
 bot.message.agent.verified: 'Su cuenta ha sido verificada.'
-notify.events.head.first: 'Se han anunciado los eventos FS para este mes!!!'
-notify.events.head: 'Recuerden los eventos FS para este mes:'
+notify.events.head.fs.first: 'Se han anunciado los eventos FS para este mes!!!'
+notify.events.head.fs: 'Recuerden los eventos FS para este mes:'
 notify.events.events.fs: 'Links: {links}'
 notify.upload.reminder: 'No se olviden de mantener actualizados sus estadisticas en http://agents.enl.ec/stats/stat-import'
 'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificacion. Puedes hacerlo {link}.'
 account.link.text: aqui
+notify.events.today: 'El evento empieza HOY!!!'
+notify.events.days.remaining: 'Solo faltan {days} dias!'

@@ -131,7 +131,7 @@ Close: Cerrar
 'End Date': 'Fecha final'
 'First import: {date}': 'Primer importe: {date}'
 'All time stats': 'Estadisticas de todos los tiempos'
-'Connect to Telegram': 'Connectar a Telegram'
+'Connect to Telegram': 'Connectar con Telegram'
 'Disconnect from Telegram - {agent}': 'Desconectar de Telegram - {agent}'
 'Custom medals': 'Medallas adicionales'
 Notifications: Notificaciones
@@ -144,3 +144,5 @@ notify.events.head.first: 'Se han anunciado los eventos FS para este mes!!!'
 notify.events.head: 'Recuerden los eventos FS para este mes:'
 notify.events.events.fs: 'Links: {links}'
 notify.upload.reminder: 'No se olviden de mantener actualizados sus estadisticas en http://agents.enl.ec/stats/stat-import'
+'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificacion. Puedes hacerlo {link}.'
+account.link.text: aqui

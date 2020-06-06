@@ -9,7 +9,7 @@
                                   placeholder="{{ 'Prime export'|trans }}"></textarea>
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" title="{{ 'Upload'|trans }}">
-                                <span class="oi oi-cloud-upload">
+                                <span class="oi oi-cloud-upload"></span>
                             </button>
                         </div>
                     </div>
@@ -39,6 +39,14 @@
                         {{ 'Connect to Telegram'|trans }}
                     </a>
                 </div>
+            {% else %}
+                {% if not app.user.agent.hasNotifyUploadStats and not app.user.agent.hasNotifyStatsResult and not app.user.agent.hasNotifyEvents %}
+                    <b>{{ 'Connect to Telegram'|trans }}</b>
+                    <div class="alert-warning">
+                        {{ 'You are connected to Telegram but have not enabled notifications. You may do this {link}.'
+                        |trans({'link': '<a href="'~path('app_account')~'#telegram">'~'account.link.text'|trans~'</a>'})|raw }}
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
     </div>

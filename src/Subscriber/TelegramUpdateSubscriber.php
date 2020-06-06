@@ -76,7 +76,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'boshurik_telegram_bot.update' => [
+            UpdateEvent::class => [
                 ['check', 99],
                 ['processUpdate', 0],
                 ['writeLog', -10],
@@ -138,7 +138,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
                 "Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nPlease /start me now.",
                 $me->getFirstName(),
                 $me->getUsername()
-            );
+            ).$event->getUpdate()->getMessage()->getChat()->getId();
         } else {
             // New chat member
             $text = sprintf(

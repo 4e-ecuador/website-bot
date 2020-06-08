@@ -51,7 +51,7 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
                     $agentName[0]
                 );
 
-                return sprintf('<a href="%s">%s</a>', $url, $linkText);
+                return sprintf('<a href="%s" class="%s">%s</a>', $url, $agent->getFaction()->getName(), $linkText);
             },
             $text
         );

@@ -105,11 +105,7 @@
                 </li>
             {% else %}
                 <li class="nav-item">
-                    {% if 'dev' == app.environment %}
-                        <a href="{{ path('app_login') }}" class="nav-link">dev login</a>
-                    {% else %}
-                        <a href="{{ path('connect_google_start') }}" class="nav-link">{{ 'Login'|trans }}</a>
-                    {% endif %}
+                    <a href="{{ path('app_login') }}" class="nav-link">{{ 'Login'|trans }}</a>
                 </li>
             {% endif %}
         </ul>

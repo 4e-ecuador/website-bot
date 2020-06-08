@@ -24,8 +24,9 @@
             </button>
         </form>
     {% else %}
-        <div class="signin-providers">
-            <a href="{{ path('connect_google_start') }}" class="signin-provider-google">{{ 'Google Login'|trans }}</a>
-        </div>
+        <a href="{{ path('connect_google_start') }}" title="{{ 'Google Login'|trans }}">
+            <img src="{{ asset('build/images/login-buttons/btn_google_signin_dark_normal_web.png') }}"
+                 alt="{{ 'Google Login'|trans }}">
+        </a>
     {% endif %}
 {% endblock %}

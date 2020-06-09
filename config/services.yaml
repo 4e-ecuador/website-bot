@@ -39,6 +39,10 @@ services:
     arguments:
       $pageBase: '%env(PAGE_BASE_URL)%'
 
+  App\Command\AndroidNotificationCommand:
+    arguments:
+      $fcmKey: '%env(FCM_KEY)%'
+
   App\Service\TelegramBotHelper:
     arguments:
       $botName: '%env(TELEGRAM_BOT_NAME)%'

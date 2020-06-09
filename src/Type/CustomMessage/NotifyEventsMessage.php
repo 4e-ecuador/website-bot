@@ -55,16 +55,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
             $message[] = $this->translator->trans('notify.events.events.fs', ['links' => implode(', ', $links)]);
             $message[] = '';
-
-            $currentDate = new \DateTime();
-
-            $daysRemaining = $eventDate->diff($currentDate)->days;
-
-            if ($daysRemaining === 0) {
-                $message[] = '*'.$this->translator->trans('notify.events.today').'*';
-            } else {
-                $message[] = '*'.$this->translator->trans('notify.events.days.remaining', ['days' => $daysRemaining]).'*';
-            }
+            $message[] = '*'.$this->translator->trans('notify.events.days.remaining', ['count' => $eventDate->diff(new \DateTime())->days]).'*';
         }
 
         if ($ingressMD) {

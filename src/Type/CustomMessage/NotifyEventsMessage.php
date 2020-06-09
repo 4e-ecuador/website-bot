@@ -24,9 +24,10 @@ class NotifyEventsMessage extends AbstractCustomMessage
      */
     private $translator;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository, TranslatorInterface $translator, bool $firstAnnounce)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        IngressEventRepository $ingressEventRepository, TranslatorInterface $translator, bool $firstAnnounce
+    ) {
         $this->ingressEventRepository = $ingressEventRepository;
         $this->firstAnnounce = $firstAnnounce;
         $this->translator = $translator;
@@ -53,9 +54,13 @@ class NotifyEventsMessage extends AbstractCustomMessage
                 $eventDate = $event->getDateStart();
             }
 
+            $daysRemaining = $eventDate->diff(new \DateTime())->days;
+
             $message[] = $this->translator->trans('notify.events.events.fs', ['links' => implode(', ', $links)]);
             $message[] = '';
-            $message[] = '*'.$this->translator->trans('notify.events.days.remaining', ['count' => $eventDate->diff(new \DateTime())->days]).'*';
+            $message[] = '*'
+                .$this->translator->trans('notify.events.days.remaining', ['count' => $daysRemaining])
+                .'*';
         }
 
         if ($ingressMD) {

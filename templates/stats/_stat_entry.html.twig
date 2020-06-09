@@ -1,7 +1,7 @@
 {% set count = 1 %}
 <div class="{{ cssClass }} card">
     <div class="card-header">
-        <h5>{{ type|ucfirst }}</h5>
+        <h5>{{ type|u.snake|replace({'_': ' '})|title }}</h5>
     </div>
     {% for entry in entries %}
         {% if count < maxCount %}

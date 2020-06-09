@@ -52,24 +52,18 @@
 
     <h4><a id="telegram"></a>Telegram</h4>
     {% if agent.telegramId %}
+        <h5>{{ 'Notifications'|trans }}</h5>
+        {{ form_row(form.hasNotifyUploadStats, {label_attr: {class: 'switch-custom'}}) }}
+        {{ form_row(form.hasNotifyStatsResult, {label_attr: {class: 'switch-custom'}}) }}
+        {{ form_row(form.hasNotifyEvents, {label_attr: {class: 'switch-custom'}}) }}
         <a class="btn btn-outline-warning btn-sm" href="{{ path('tg_disconnect') }}">
             {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
         </a>
     {% else %}
-{#        <a class="btn btn-success" href="{{ path('tg_connect') }}" target="_blank">#}
-{#            {{ 'Connect to Telegram'|trans }} 1#}
-{#        </a>#}
         <a class="btn btn-success" href="{{ telegramConnectLink }}" target="_blank">
             {{ 'Connect to Telegram'|trans }}
         </a>
-{#        <a class="btn btn-success" href="{{ telegramConnectLink2 }}" target="_blank">#}
-{#            {{ 'Connect to Telegram'|trans }} 3#}
-{#        </a>#}
     {% endif %}
-    <h5>{{ 'Notifications'|trans }}</h5>
-    {{ form_row(form.hasNotifyUploadStats) }}
-    {{ form_row(form.hasNotifyStatsResult) }}
-    {{ form_row(form.hasNotifyEvents) }}
 
     <h4>{{ 'Custom medals'|trans }}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -151,8 +145,13 @@
     {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
-
+    {% if not agent.telegramId %}
+        <div style="visibility: hidden">
+            {{ form_row(form.hasNotifyUploadStats) }}
+            {{ form_row(form.hasNotifyStatsResult) }}
+            {{ form_row(form.hasNotifyEvents) }}
+        </div>
+    {% endif %}
     {{ form_rest(form) }}
-
     {{ form_end(form) }}
 {% endblock %}

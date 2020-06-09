@@ -50,7 +50,7 @@ class NotifyEventsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
+            ->setDescription('Send notifications of upcoming events.')
             ->addOption('first-announce', null, InputOption::VALUE_NONE, 'The first announcement');;
     }
 
@@ -62,6 +62,11 @@ class NotifyEventsCommand extends Command
         $message = (new NotifyEventsMessage($this->telegramBotHelper, $this->ingressEventRepository, $this->translator, $firstAnnounce))
             ->getMessage();
 
+        if (!$message) {
+            // No message - no events :(
+            return 0;
+        }
+
         $io->text($message);
 
         $agents = $this->agentRepository->findNotifyAgents();
@@ -70,7 +75,6 @@ class NotifyEventsCommand extends Command
             if ($agent->getHasNotifyEvents()) {
                 try {
                     $this->telegramBotHelper->sendMessage($agent->getTelegramId(), implode("\n", $message));
-                    $io->success($agent->getNickname());
                 } catch (\Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - Agent: '

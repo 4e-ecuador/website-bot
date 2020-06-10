@@ -33,17 +33,19 @@ class CsvParser
     {
         $csv = [];
         $headVars = [];
+        $sepChar = "\t";
 
         $lines = explode("\n", trim($csvString));
 
         foreach ($lines as $i => $line) {
+            $sepChar = strpos($line, ',') ? ',' : $sepChar;
             if (0 === $i) {
-                $headVars = explode("\t", trim($line));
+                $headVars = explode($sepChar, trim($line));
 
                 continue;
             }
 
-            $vars = explode("\t", $line);
+            $vars = explode($sepChar, $line);
 
             if (false === in_array(
                     $vars[0], [

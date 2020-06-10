@@ -15,12 +15,6 @@
                     </div>
                     <input type="hidden" name="type" value="prime">
                 </form>
-                <script>
-                    function androidUploadStats(stats) {
-                        document.getElementById("csv").value = stats
-                        document.getElementById('stats-upload').submit()
-                    }
-                </script>
             {% endif %}
 
             {% if is_granted('ROLE_AGENT') %}

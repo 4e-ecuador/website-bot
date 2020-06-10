@@ -3,7 +3,7 @@
         <div class="card-body">
             {% if app.user.agent %}
                 <b>{{ 'Import Stats'|trans }}</b>
-                <form method="post" action="{{ path('stat_import') }}" class="form-inline">
+                <form method="post" action="{{ path('stat_import') }}" class="form-inline" id="stats-upload">
                     <div class="input-group">
                         <textarea class="form-control" name="csv" id="csv" required="required"
                                   placeholder="{{ 'Prime export'|trans }}"></textarea>
@@ -15,6 +15,12 @@
                     </div>
                     <input type="hidden" name="type" value="prime">
                 </form>
+                <script>
+                    function androidUploadStats(stats) {
+                        document.getElementById("csv").value = stats
+                        document.getElementById('stats-upload').submit()
+                    }
+                </script>
             {% endif %}
 
             {% if is_granted('ROLE_AGENT') %}

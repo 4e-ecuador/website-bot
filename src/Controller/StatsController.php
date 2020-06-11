@@ -281,14 +281,6 @@ class StatsController extends AbstractController
         Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
         AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator
     ): Response {
-        $csv = $request->get('csv');
-        $importType = $request->get('type');
-        $medalUps = [];
-        $currents = [];
-        $currentEntry = null;
-        $newLevel = null;
-        $diff = [];
-
         $user = $security->getUser();
 
         $agent = $user->getAgent();
@@ -296,6 +288,14 @@ class StatsController extends AbstractController
         if (!$agent) {
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
+
+        $csv = $request->get('csv');
+        $importType = $request->get('type');
+        $medalUps = [];
+        $currents = [];
+        $currentEntry = null;
+        $newLevel = null;
+        $diff = [];
 
         if ($csv) {
             try {
@@ -325,6 +325,8 @@ class StatsController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($statEntry);
                         $entityManager->flush();
+
+                        $this->addFlash('success', $translator->trans('Stats upload successful!'));
 
                         $currentEntry = $statEntry;
                     }
@@ -376,17 +378,21 @@ class StatsController extends AbstractController
                     $telegramBotHelper->sendLevelUpMessage($groupName, $agent, $newLevel, $currentEntry->getRecursions());
                 }
             }
+
+            // Redirect
+            return $this->render(
+                'import/result.html.twig',
+                [
+                    'ups'      => $medalUps,
+                    'diff'     => $diff,
+                    'currents' => $currents,
+                    'newLevel' => $newLevel,
+
+                ]
+            );
         }
 
-        return $this->render(
-            'import/agent_stats.html.twig',
-            [
-                'ups'      => $medalUps,
-                'diff'     => $diff,
-                'currents' => $currents,
-                'newLevel' => $newLevel,
-            ]
-        );
+        return $this->render('import/agent_stats.html.twig');
     }
 
     private function getStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): array
@@ -406,13 +412,12 @@ class StatsController extends AbstractController
         return [
             'agent'             => $agent,
             'agentCustomMedals' => json_decode($agent->getCustomMedals(), true),
-            'medalGroups' => $medalGroups,
-            'first' => $statRepository->getAgentLatest($agent, true),
-            'latest' => $latest,
-            'dateStart' => $dateStart,
-            'dateEnd' => $dateEnd,
+            'medalGroups'       => $medalGroups,
+            'first'             => $statRepository->getAgentLatest($agent, true),
+            'latest'            => $latest,
+            'dateStart'         => $dateStart,
+            'dateEnd'           => $dateEnd,
         ];
     }
-
 }
 

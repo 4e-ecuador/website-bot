@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ 'Import Result'|trans }}{% endblock %}
+
+{% block body %}
+<h1>{{ 'Import result'|trans }}</h1>
+
+    {% if diff %}
+        <div class="alert alert-success">
+            <h2>{{ 'Progress'|trans }}:</h2>
+            <ul>
+                {% for name, value in diff %}
+                    <li>{{ name }}: {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if ups %}
+        <div class="alert alert-success">
+            <h2>{{ 'Medal UPs'|trans }}</h2>
+            <ul>
+                {% for name,level in ups %}
+                    <li>
+                        {{ name }}: {{ level|medalLevel }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if newLevel %}
+        <div class="alert alert-success">
+            <h2>New Level: {{ newLevel }}</h2>
+        </div>
+    {% endif %}
+
+    {% if currents %}
+        <h2>{{ 'Current Medals'|trans }}</h2>
+        <table>
+            {% for name,level in currents %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>{{ level|medalLevel }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <a class="btn btn-outline-success" href="{{ path('agent_stats', {'id': app.user.agent.id}) }}">
+        <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}
+    </a>
+
+{% endblock %}

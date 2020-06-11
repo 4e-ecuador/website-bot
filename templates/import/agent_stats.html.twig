@@ -3,49 +3,6 @@
 {% block title %}Import Stats{% endblock %}
 
 {% block body %}
-
-    {% if diff %}
-        <div class="alert alert-success">
-            <h2>Progress:</h2>
-            <ul>
-                {% for name, value in diff %}
-                    <li>{{ name }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if ups %}
-        <div class="alert alert-success">
-            <h2>Medal UPs</h2>
-            <ul>
-                {% for name,level in ups %}
-                    <li>
-                        {{ name }}: {{ level|medalLevel }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if newLevel %}
-        <div class="alert alert-success">
-            <h2>New Level: {{ newLevel }}</h2>
-        </div>
-    {% endif %}
-
-    {% if currents %}
-        <h2>Current Medals</h2>
-        <table>
-            {% for name,level in currents %}
-                <tr>
-                    <td>{{ name }}</td>
-                    <td>{{ level|medalLevel }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
-
     <h2>{{ 'Import statistics'|trans }}</h2>
 
     <nav>
@@ -75,5 +32,4 @@
             </form>
         </div>
     </div>
-
 {% endblock %}

@@ -153,4 +153,4 @@ notify.events.days.remaining: "{count, plural,\n  =0 {El evento empieza HOY!!!}\
 Progress: Progreso
 'Medal UPs': 'Subidas de medallas'
 'Current Medals': 'Medallas actuales'
-'Import Result': '__Import Result'
+'New Level: {level}': 'Nuevo nivel: {level}'

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ 'Import Result'|trans }}{% endblock %}
+{% block title %}{{ parent() }} - {{ 'Import result'|trans }}{% endblock %}
 
 {% block body %}
-<h1>{{ 'Import result'|trans }}</h1>
+    <h2>{{ 'Import result'|trans }}</h2>
 
     {% if diff %}
         <div class="alert alert-success">
-            <h2>{{ 'Progress'|trans }}:</h2>
+            <h3>{{ 'Progress'|trans }}:</h3>
             <ul>
                 {% for name, value in diff %}
                     <li>{{ name }}: {{ value }}</li>
@@ -18,7 +18,7 @@
 
     {% if ups %}
         <div class="alert alert-success">
-            <h2>{{ 'Medal UPs'|trans }}</h2>
+            <h3>{{ 'Medal UPs'|trans }}</h3>
             <ul>
                 {% for name,level in ups %}
                     <li>
@@ -31,12 +31,12 @@
 
     {% if newLevel %}
         <div class="alert alert-success">
-            <h2>New Level: {{ newLevel }}</h2>
+            <h3>{{ 'New Level: {level}'|trans({'level': newLevel}) }}</h3>
         </div>
     {% endif %}
 
     {% if currents %}
-        <h2>{{ 'Current Medals'|trans }}</h2>
+        <h3>{{ 'Current Medals'|trans }}</h3>
         <table>
             {% for name,level in currents %}
                 <tr>

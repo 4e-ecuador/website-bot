@@ -55,6 +55,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     public function check(UpdateEvent $event): void
     {
         $this->isAllowedChat = true;
+
         return;
         $message = $event->getUpdate()->getMessage();
 
@@ -142,6 +143,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             );
         } else {
             // New chat member
+
+            // DISABLED!
+            return $this;
+
             $text = sprintf(
                 'Hello @%s welcome on board =;)',
                 $newChatMember->getUsername()

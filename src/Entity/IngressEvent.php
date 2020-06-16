@@ -2,9 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
+ *
+ * @ApiFilter(DateFilter::class, properties={"date_start"})
+ *
  * @ORM\Entity(repositoryClass="App\Repository\IngressEventRepository")
  */
 class IngressEvent

@@ -23,7 +23,7 @@ before_script:
   - npm run dev
 
 script:
-  - ./bin/phpunit $PHPUNIT_FLAGS
+  - SYMFONY_DEPRECATIONS_HELPER=disabled ./bin/phpunit $PHPUNIT_FLAGS
 #  - cat ./var/log/test.log
 
 after_script:

@@ -33,32 +33,29 @@ class GoogleAuthenticator extends SocialAuthenticator
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private $entityManager;
 
     /**
      * @var UserRepository
      */
     private $userManager;
-    /**
-     * @var MailerHelper
-     */
-    private $mailerHelper;
+
     /**
      * @var TelegramBotHelper
      */
     private $telegramBotHelper;
+
     /**
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
 
     public function __construct(
-        ClientRegistry $clientRegistry,
-        EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, MailerHelper $mailerHelper, TelegramBotHelper $telegramBotHelper
+        ClientRegistry $clientRegistry, EntityManagerInterface $entityManager,
+        UrlGeneratorInterface $urlGenerator, TelegramBotHelper $telegramBotHelper
     ) {
         $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->mailerHelper = $mailerHelper;
+        $this->entityManager = $entityManager;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->urlGenerator = $urlGenerator;
     }
@@ -87,21 +84,33 @@ class GoogleAuthenticator extends SocialAuthenticator
         $googleUser = $this->getGoogleClient()
             ->fetchUserFromToken($credentials);
 
-        $email = $googleUser->getEmail();
+        $userRepository = $this->entityManager->getRepository(User::class);
 
-        $user = $this->em->getRepository(User::class)
-            ->findOneBy(['email' => $googleUser->getEmail()]);
+        // Fetch user by google id
+        $user = $userRepository->findOneBy(['googleId' => $googleUser->getId()]);
 
         if (!$user) {
-            $user = new User();
-            $user->setUsername($email);
-            $user->setEmail($email);
+            // Fetch user by email - @todo remove
+            $user = $userRepository->findOneBy(['email' => $googleUser->getEmail()]);
+            if (!$user) {
+                // Register new user
+                $newUser = true;
+                $user = (new User())
+                    ->setUsername($googleUser->getEmail())
+                    ->setEmail($googleUser->getEmail())
+                    ->setGoogleId($googleUser->getId());
+            } else {
+                $newUser = false;
+                // Update existing users google id - @todo remove
+                $user->setGoogleId($googleUser->getId());
+            }
 
-            $this->em->persist($user);
-            $this->em->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-            $this->mailerHelper->sendNewUserMail($user);
-            $this->telegramBotHelper->sendNewUserMessage($_ENV['ANNOUNCE_GROUP_ID_ADMIN'], $user);
+            if ($newUser) {
+                $this->telegramBotHelper->sendNewUserMessage($_ENV['ANNOUNCE_GROUP_ID_ADMIN'], $user);
+            }
         }
 
         return $user;
@@ -115,34 +124,19 @@ class GoogleAuthenticator extends SocialAuthenticator
         return $this->clientRegistry->getClient('google');
     }
 
-    /**
-     * @param string $providerKey
-     *
-     * @return null|Response
-     */
-    public function onAuthenticationSuccess(
-        Request $request,
-        TokenInterface $token,
-        $providerKey
-    ) {
-        if ($targetPath = $this->getTargetPath(
-            $request->getSession(),
-            $providerKey
-        )
-        ) {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
+    {
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+
+        if ($targetPath) {
             return new RedirectResponse($targetPath);
         }
 
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
-    /**
-     * @return null|Response
-     */
-    public function onAuthenticationFailure(
-        Request $request,
-        AuthenticationException $exception
-    ) {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    {
         $message = strtr(
             $exception->getMessageKey(),
             $exception->getMessageData()
@@ -154,17 +148,9 @@ class GoogleAuthenticator extends SocialAuthenticator
     /**
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
-     *
-     * @return RedirectResponse
      */
-    public function start(
-        Request $request,
-        AuthenticationException $authException = null
-    ) {
-        return new RedirectResponse(
-            '/connect/',
-            // might be the site, where users choose their oauth provider
-            Response::HTTP_TEMPORARY_REDIRECT
-        );
+    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
+    {
+        return new RedirectResponse('/connect/', Response::HTTP_TEMPORARY_REDIRECT);
     }
 }

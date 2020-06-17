@@ -26,6 +26,7 @@
                 <th>{{ paginator.criteria('username', paginatorOptions) }}</th>
                 <th></th>
                 <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
+                <th></th>
                 <th>{{ paginator.select('roles', rolesList, paginatorOptions) }}</th>
                 <th></th>
             </tr>
@@ -34,6 +35,7 @@
                 <th>{{ paginator.ordering('username', paginatorOptions) }}</th>
                 <th></th>
                 <th></th>
+                <th>{{ paginator.ordering('googleId', paginatorOptions) }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -43,6 +45,7 @@
                 <th>Username</th>
                 <th>Agent</th>
                 <th>e-mail</th>
+                <th>G-ID</th>
                 <th>Roles</th>
                 <th>actions</th>
             </tr>
@@ -54,6 +57,7 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.agent?user.agent.nickname:'N/A' }}</td>
                     <td>{{ user.email }}</td>
+                    <td>{{ user.googleId ? 'X' : '' }}</td>
                     <td>{{ user.roles|displayRoles }}</td>
                     <td>
                         <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

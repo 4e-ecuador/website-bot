@@ -44,6 +44,11 @@ class User implements UserInterface
      */
     private $agent;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $googleId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +162,18 @@ class User implements UserInterface
     public function setAgent(?Agent $agent): self
     {
         $this->agent = $agent;
+
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId(?string $googleId): self
+    {
+        $this->googleId = $googleId;
 
         return $this;
     }

@@ -37,7 +37,7 @@ class UserChangedNotifier
         $adminUser = $this->security->getUser();
 
         if (!$adminUser) {
-            //Changed has not been performed by an admin - but during a login...
+            // Change has not been performed by an admin - but during a login...
             return;
         }
 

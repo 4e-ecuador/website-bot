@@ -34,9 +34,14 @@ class UserChangedNotifier
             return;
         }
 
-        $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
-
         $adminUser = $this->security->getUser();
+
+        if (!$adminUser) {
+            //Changed has not been performed by an admin - but during a login...
+            return;
+        }
+
+        $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
 
         $text = [];
 

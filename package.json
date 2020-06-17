@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.29.1",
+        "@symfony/webpack-encore": "^0.30.2",
         "core-js": "^3.6.5",
         "regenerator-runtime": "^0.13.5",
         "webpack-notifier": "^1.6.0"
@@ -14,16 +14,16 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@forevolve/bootstrap-dark": "^1.0.0-alpha.981",
-        "bootstrap": "^4.4.1",
-        "highcharts": "^8.1.0",
+        "@forevolve/bootstrap-dark": "^1.0.0-alpha.1075",
+        "bootstrap": "^4.5.0",
+        "highcharts": "^8.1.2",
         "jquery": "^3.5.1",
         "leaflet": "^1.6.0",
         "leaflet.markercluster": "^1.4.1",
         "node-sass": "^4.14.1",
         "open-iconic": "^1.1.1",
         "popper.js": "^1.16.1",
-        "sass-loader": "^7.3.1",
+        "sass-loader": "^8.0.2",
         "tributejs": "^5.1.3"
     }
 }

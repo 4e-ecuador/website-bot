@@ -80,7 +80,7 @@
                         <img src="/build/images/logos/{{ agent.faction.name }}.svg" style="width: 24px">
                     </td>
                     <td>
-                        <a href="{{ path('agent_show', {'id': agent.id}) }}">
+                        <a class="{{ agent.faction.name }}" href="{{ path('agent_show', {'id': agent.id}) }}">
                             {{ agent.nickname }}
                         </a>
                     </td>

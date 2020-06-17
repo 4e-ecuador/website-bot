@@ -110,12 +110,13 @@
         <hr>
         {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
         &nbsp;-&nbsp;
+        <span class="oi oi-media-stop"></span>
         {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
         <hr>
 
-        <label for="dateStart">{{ 'Start Date'|trans }}</label>
+        <label for="dateStart" title="{{ 'Start Date'|trans }}"><span class="oi oi-media-play"></span></label>
         <input type="date" id="dateStart" class="statsSelect" value="{{ dateStart|date('Y-m-d') }}">
-        <label for="dateEnd">{{ 'End Date'|trans }}</label>
+        <label for="dateEnd" title="{{ 'End Date'|trans }}"><span class="oi oi-media-stop"></span></label>
         <input type="date" id="dateEnd" class="statsSelect" value="{{ dateEnd|date('Y-m-d') }}">
 
         <div id="agentChart" class="agent-chart"></div>

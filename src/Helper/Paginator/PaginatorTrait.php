@@ -17,10 +17,6 @@ trait PaginatorTrait
 {
     /**
      * Get pagination options from request
-     *
-     * @param Request $request
-     *
-     * @return PaginatorOptions
      */
     protected function getPaginatorOptions(Request $request): PaginatorOptions
     {

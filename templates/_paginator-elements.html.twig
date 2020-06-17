@@ -9,10 +9,10 @@
 {% macro pagination(paginatorOptions) %}
     {% set page, maxPages = paginatorOptions.page, paginatorOptions.maxPages %}
     {% if maxPages > 1 %}
-        {% if page <= 6 %}
+        {% if page <= 5 %}
             {% set startPage, startString = 1, '' %}
-            {% if maxPages > 11 %}
-                {% set endPage, endString = 11, '...' %}
+            {% if maxPages > 5 %}
+                {% set endPage, endString = 5, '...' %}
             {% else %}
                 {% set endPage, endString = maxPages, '' %}
             {% endif %}
@@ -20,12 +20,12 @@
             {% if maxPages < 10 %}
                 {% set startPage, startString = 1, '' %}
             {% else %}
-                {% set startPage, startString = maxPages - 10, '...' %}
+                {% set startPage, startString = maxPages - 5, '...' %}
             {% endif %}
 
             {% set endPage, endString = maxPages, '' %}
         {% else %}
-            {% set startPage, endPage, startString, endString = page - 5, page + 5, '...', '...' %}
+            {% set startPage, endPage, startString, endString = page - 2, page + 2, '...', '...' %}
         {% endif %}
 
         <nav>
@@ -46,13 +46,11 @@
                     <li class="disabled"><a class="page-link" href="#">{{ endString }}</a></li>
                 {% endif %}
                 <li {{ page == maxPages ? 'class="disabled"' }}>
-                    <a href="javascript:" class="page-link pagLink"
+                    <a href="javascript:" class="page-link pagLink disabled"
                        data-page="{{ page + 1 <= maxPages ? page + 1 : page }}">&rArr;</a>
                 </li>
-                <li>
-                    {% trans with {'{maxPages}%': maxPages} %}of {maxPages} Pages{% endtrans %}
-                </li>
             </ul>
+            {% trans with {'{maxPages}%': maxPages} %}of {maxPages} Pages{% endtrans %}
         </nav>
 
     {% endif %}

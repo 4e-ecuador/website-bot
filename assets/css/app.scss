@@ -55,7 +55,10 @@ a.RES:hover {
 .bootstrap-dark .page-item.active .page-link {
   background-color: #00bb00;
   border-color: #00bb00;
+}
 
+.bootstrap .col, .bootstrap-dark .col {
+  min-width: 90px;
 }
 
 .helpIndicator {

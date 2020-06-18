@@ -50,21 +50,6 @@
         </div>
     {% endif %}
 
-    <h4><a id="telegram"></a>Telegram</h4>
-    {% if agent.telegramId %}
-        <h5>{{ 'Notifications'|trans }}</h5>
-        {{ form_row(form.hasNotifyUploadStats, {label_attr: {class: 'switch-custom'}}) }}
-        {{ form_row(form.hasNotifyStatsResult, {label_attr: {class: 'switch-custom'}}) }}
-        {{ form_row(form.hasNotifyEvents, {label_attr: {class: 'switch-custom'}}) }}
-        <a class="btn btn-outline-warning btn-sm" href="{{ path('tg_disconnect') }}">
-            {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
-        </a>
-    {% else %}
-        <a class="btn btn-success" href="{{ telegramConnectLink }}" target="_blank">
-            {{ 'Connect to Telegram'|trans }}
-        </a>
-    {% endif %}
-
     <h4>{{ 'Custom medals'|trans }}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% for group, medals in customMedals %}
@@ -112,7 +97,6 @@
                                            value="1" class="hiddenCheckBox"
                                             {{ checked }}>
                                 {% elseif 'Event' == group %}
-                                    {{ medal|u.snake|replace({'_': ' '})|title }}<br>
                                     {% for tier in tiers %}
                                         {% set name = '' == tier ? '' : '_'~tier %}
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
@@ -130,6 +114,8 @@
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
+                                    <br>
+                                    {{ medal|u.snake|replace({'_': ' '})|title }}
                                 {% else %}
                                     @TODO {{ group }}
                                 {% endif %}
@@ -140,6 +126,23 @@
             </div>
         {% endfor %}
     </div>
+
+    <h4><a id="telegram"></a>Telegram</h4>
+    {% if agent.telegramId %}
+        <h5>{{ 'Notifications'|trans }}</h5>
+        {{ form_row(form.hasNotifyUploadStats, {label_attr: {class: 'switch-custom'}}) }}
+        {{ form_row(form.hasNotifyStatsResult, {label_attr: {class: 'switch-custom'}}) }}
+        {{ form_row(form.hasNotifyEvents, {label_attr: {class: 'switch-custom'}}) }}
+        <a class="btn btn-outline-warning btn-sm" href="{{ path('tg_disconnect') }}">
+            {{ 'Disconnect from Telegram - {agent}'|trans({'agent': agent.telegramName}) }}
+        </a>
+    {% else %}
+        <a class="btn btn-success" href="{{ telegramConnectLink }}" target="_blank">
+            {{ 'Connect to Telegram'|trans }}
+        </a>
+    {% endif %}
+
+    <hr>
 
     <button class="btn btn-outline-success">{{ 'Update profile'|trans }}</button>
     {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}

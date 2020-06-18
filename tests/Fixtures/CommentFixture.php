@@ -17,7 +17,7 @@ class CommentFixture extends Fixture
         $agent = $agentRepo->find(1);
 
         $user = new User();
-        $user->setUsername('test');
+        $user->setEmail('test@example.com');
         $manager->persist($user);
 
         $comment = new Comment();

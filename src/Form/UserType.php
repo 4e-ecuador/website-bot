@@ -28,9 +28,19 @@ class UserType extends AbstractType
         array $options
     ): void {
         $builder
-            ->add('username')
-            ->add('email')
-            // ->add('password', PasswordType::class)
+            ->add('email', null, array('disabled' => true))
+            ->add('googleId', null, array('disabled' => true))
+            ->add(
+                'agent', EntityType::class, [
+                    'class'       => Agent::class,
+                    // 'choice_label' => function(Agent $user) {
+                    //     return sprintf('(%d) %s', $user->getId(), $user->getNickname());
+                    // },
+                    'placeholder' => '',
+                    'required'    => false,
+                    'choices'     => $this->agentRepository->findAllAlphabetical(),
+                ]
+            )
             ->add(
                 'roles',
                 ChoiceType::class,
@@ -43,17 +53,6 @@ class UserType extends AbstractType
                         'User'        => 'ROLE_USER',
                     ],
                     'multiple' => true,
-                ]
-            )
-            ->add(
-                'agent', EntityType::class, [
-                    'class'       => Agent::class,
-                    // 'choice_label' => function(Agent $user) {
-                    //     return sprintf('(%d) %s', $user->getId(), $user->getNickname());
-                    // },
-                    'placeholder' => '',
-                    'required'    => false,
-                    'choices'     => $this->agentRepository->findAllAlphabetical(),
                 ]
             );
     }

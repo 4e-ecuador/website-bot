@@ -33,14 +33,6 @@ class UserRepository extends ServiceEntityRepository
             $paginatorOptions->getOrderDir()
         );
 
-        if ($paginatorOptions->searchCriteria('username')) {
-            $query->andWhere('LOWER(a.username) LIKE LOWER(:username)')
-                ->setParameter(
-                    'username',
-                    '%'.$paginatorOptions->searchCriteria('username').'%'
-                );
-        }
-
         if ($paginatorOptions->searchCriteria('email')) {
             $query->andWhere('LOWER(a.email) LIKE LOWER(:email)')
                 ->setParameter(

@@ -13,7 +13,7 @@
     {{ include('user/_form.html.twig', {'button_label': 'Update'|trans}) }}
 
     <div id="mailResult"></div>
-    <div class="btn-group" role="group" aria-label="Basic example">
+    <div class="btn-group" role="group">
         <a class="btn btn-outline-secondary" href="{{ path('user_index') }}">{{ 'Back to list'|trans }}</a>
 
         <div class="btn btn-outline-info sendMail" data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>

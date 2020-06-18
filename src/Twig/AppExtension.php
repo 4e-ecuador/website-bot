@@ -66,6 +66,7 @@ class AppExtension extends AbstractExtension
                 ]
             ),
             new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
+            new TwigFilter('stripGmail', [$this, 'stripGmail']),
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
             new TwigFilter('formatIntlDate', [$this, 'formatIntlDate']),
@@ -232,5 +233,10 @@ class AppExtension extends AbstractExtension
     public function getPhpVersion()
     {
         return PHP_VERSION;
+    }
+
+    public function stripGmail(string $string)
+    {
+        return str_replace('@gmail.com', '', $string);
     }
 }

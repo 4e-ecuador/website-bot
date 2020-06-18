@@ -6,13 +6,17 @@
         {{ form_row(form.nickname) }}
     </div>
     <div class="col-sm">
-        {{ form_row(form.faction) }}
+        {{ form_row(form.real_name) }}
     </div>
 </div>
-
-{{ form_row(form.real_name) }}
-{{ form_row(form.telegramName) }}
-{{ form_row(form.mapGroup) }}
+<div class="row">
+    <div class="col-sm">
+        {{ form_row(form.faction) }}
+    </div>
+    <div class="col-sm">
+        {{ form_row(form.mapGroup) }}
+    </div>
+</div>
 
 <div id="map"></div>
 

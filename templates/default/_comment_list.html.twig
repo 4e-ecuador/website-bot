@@ -3,7 +3,7 @@
 {% for comment in latestComments %}
     <div class="card">
         <div class="card-header">
-            {{ comment.datetime|date("d-m-Y") }} {{ comment.commenter.username }}
+            {{ comment.datetime|date("d-m-Y") }} {{ comment.commenter.agent.nickname }}
         </div>
         <div class="card-body">
             <h5 class="card-title">

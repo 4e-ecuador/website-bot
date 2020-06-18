@@ -32,7 +32,6 @@ class AgentType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
-            ->add('telegramName')
             ->add('customMedals')
             ->add(
                 'lat',

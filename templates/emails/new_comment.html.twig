@@ -7,7 +7,7 @@ A new comment has been posted
     </tr>
     <tr>
         <td>Commenter</td>
-        <td>{{ comment.commenter.username }}</td>
+        <td>{{ comment.commenter.agent ? comment.commenter.agent.nickname : comment.commenter.username }}</td>
     </tr>
     <tr>
         <td>Agent</td>

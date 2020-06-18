@@ -1,4 +1,24 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+
+<div class="row">
+    <div class="col-sm">
+        {{ form_row(form.email) }}
+    </div>
+    <div class="col-sm">
+        {{ form_row(form.googleId) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm">
+        {{ form_row(form.agent) }}
+    </div>
+    <div class="col-sm">
+        {{ form_row(form.roles) }}
+    </div>
+</div>
+
+{{ form_rest(form) }}
+
+<button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+
 {{ form_end(form) }}

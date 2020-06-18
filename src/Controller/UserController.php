@@ -54,21 +54,13 @@ class UserController extends AbstractController
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function new(
-        Request $request,
-        UserPasswordEncoderInterface $encoder
-    ): Response {
+    public function new(Request $request): Response
+    {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($user->getPassword()) {
-                $user->setPassword(
-                    $encoder->encodePassword($user, $user->getPassword())
-                );
-            }
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -111,15 +103,8 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        $plainPass = $user->getPassword();
-
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($plainPass) {
-                $user->setPassword($encoder->encodePassword($user, $plainPass));
-            }
-
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute(
                 'user_index',
                 [
@@ -127,8 +112,6 @@ class UserController extends AbstractController
                 ]
             );
         }
-
-        $user->setPassword($plainPass);
 
         return $this->render(
             'user/edit.html.twig',

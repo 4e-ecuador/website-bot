@@ -84,7 +84,7 @@
                 {% if app.user.agent %}
                     <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
-                        {{ app.user.username }}
+                        {{ app.user.agent.nickname }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
                     <a class="dropdown-item nav-link" href={{ path('app_account') }}>

@@ -19,23 +19,12 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $username;
-
-    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $password;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -52,23 +41,6 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string)$this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     /**
@@ -98,21 +70,6 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
-    {
-        return (string)$this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
@@ -129,17 +86,7 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return (string)$this->username;
-    }
-
-    public function getAvatarUrl(string $size = null): string
-    {
-        $url = 'https://robohash.org/'.$this->username.'@gmail.com';
-        if ($size) {
-            $url .= sprintf('?size=%dx%d', $size, $size);
-        }
-
-        return $url;
+        return (string)$this->email;
     }
 
     public function getEmail(): ?string
@@ -176,5 +123,15 @@ class User implements UserInterface
         $this->googleId = $googleId;
 
         return $this;
+    }
+
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
     }
 }

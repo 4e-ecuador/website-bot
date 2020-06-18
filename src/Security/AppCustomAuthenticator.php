@@ -52,12 +52,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'username'   => $request->request->get('username'),
+            'email'      => $request->request->get('email'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['username']
+            $credentials['email']
         );
 
         return $credentials;
@@ -71,13 +71,12 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(
-            ['username' => $credentials['username']]
+            ['email' => $credentials['email']]
         );
 
         if (!$user) {
-            // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException(
-                'Username could not be found.'
+                'User could not be found.'
             );
         }
 
@@ -86,24 +85,18 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if (false === in_array($this->appEnv, ['dev', 'test']))
-        {
+        if (false === in_array($this->appEnv, ['dev', 'test'])) {
             throw new \UnexpectedValueException('GTFO!');
         }
 
         return true;
     }
 
-    public function onAuthenticationSuccess(
-        Request $request,
-        TokenInterface $token,
-        $providerKey
-    ) {
-        if ($targetPath = $this->getTargetPath(
-            $request->getSession(),
-            $providerKey
-        )
-        ) {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+
+        if ($targetPath) {
             return new RedirectResponse($targetPath);
         }
 

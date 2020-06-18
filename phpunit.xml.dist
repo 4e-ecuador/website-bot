@@ -17,7 +17,9 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+<!--            <directory>tests</directory>-->
+            <file>tests/Controller/ControllerAccessTest.php</file>
+            <file>tests/Api/IngressEventResourceTest.php</file>
         </testsuite>
     </testsuites>
 

@@ -32,20 +32,22 @@
                     </div>
                 </form>
             {% endif %}
-            {% if not app.user.agent.telegramId %}
-                <b>{{ 'Connect to Telegram'|trans }}</b>
-                <div>
-                    <a class="btn btn-success" href="{{ path('tg_connect') }}" target="_blank">
-                        {{ 'Connect to Telegram'|trans }}
-                    </a>
-                </div>
-            {% else %}
-                {% if not app.user.agent.hasNotifyUploadStats and not app.user.agent.hasNotifyStatsResult and not app.user.agent.hasNotifyEvents %}
+            {% if app.user.agent %}
+                {% if not app.user.agent.telegramId %}
                     <b>{{ 'Connect to Telegram'|trans }}</b>
-                    <div class="alert-warning">
-                        {{ 'You are connected to Telegram but have not enabled notifications. You may do this {link}.'
-                        |trans({'link': '<a href="'~path('app_account')~'#telegram">'~'account.link.text'|trans~'</a>'})|raw }}
+                    <div>
+                        <a class="btn btn-success" href="{{ path('tg_connect') }}" target="_blank">
+                            {{ 'Connect to Telegram'|trans }}
+                        </a>
                     </div>
+                {% else %}
+                    {% if not app.user.agent.hasNotifyUploadStats and not app.user.agent.hasNotifyStatsResult and not app.user.agent.hasNotifyEvents %}
+                        <b>{{ 'Connect to Telegram'|trans }}</b>
+                        <div class="alert-warning">
+                            {{ 'You are connected to Telegram but have not enabled notifications. You may do this {link}.'
+                            |trans({'link': '<a href="'~path('app_account')~'#telegram">'~'account.link.text'|trans~'</a>'})|raw }}
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>

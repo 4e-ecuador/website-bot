@@ -38,6 +38,11 @@ class User implements UserInterface
      */
     private $googleId;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fireBaseToken;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,5 +138,17 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->email;
+    }
+
+    public function getFireBaseToken(): ?string
+    {
+        return $this->fireBaseToken;
+    }
+
+    public function setFireBaseToken(?string $fireBaseToken): self
+    {
+        $this->fireBaseToken = $fireBaseToken;
+
+        return $this;
     }
 }

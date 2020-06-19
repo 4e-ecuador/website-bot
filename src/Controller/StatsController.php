@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Entity\User;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
@@ -281,6 +282,7 @@ class StatsController extends AbstractController
         Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
         AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator
     ): Response {
+        /* @type User $user */
         $user = $security->getUser();
 
         $agent = $user->getAgent();
@@ -291,11 +293,14 @@ class StatsController extends AbstractController
 
         $csv = $request->get('csv');
         $importType = $request->get('type');
+        $fireBaseToken = $request->get('fire_base_token');
         $medalUps = [];
         $currents = [];
         $currentEntry = null;
         $newLevel = null;
         $diff = [];
+
+        $entityManager = $this->getDoctrine()->getManager();
 
         if ($csv) {
             try {
@@ -322,7 +327,6 @@ class StatsController extends AbstractController
                             }
                         }
 
-                        $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($statEntry);
                         $entityManager->flush();
 
@@ -377,6 +381,14 @@ class StatsController extends AbstractController
                     $newLevel = $currentEntry->getLevel();
                     $telegramBotHelper->sendLevelUpMessage($groupName, $agent, $newLevel, $currentEntry->getRecursions());
                 }
+            }
+
+            // @todo temporal FireBase token store
+
+            if ($fireBaseToken) {
+                $user->setFireBaseToken($fireBaseToken);
+                $entityManager->persist($user);
+                $entityManager->flush();
             }
 
             // Redirect

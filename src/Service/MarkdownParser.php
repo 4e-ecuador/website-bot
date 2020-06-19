@@ -62,16 +62,17 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
 
     private function makeImagesResponsive(string $text): string
     {
-        $text = "<div>$text</div>";
+        $testString = "<div>$text</div>";
+        $testString = str_replace('<br>', '<br/>', $testString);
 
         $doc = new \DOMDocument('1.0', 'UTF-8');
         // $doc->strictErrorChecking = true;
         // $doc->standalone = true;
         $doc->xmlStandalone = true;
         // $doc->formatOutput = true;
-        $doc->loadXML($text);//, LIBXML_NOWARNING | LIBXML_NOERROR);
+        $doc->loadXML($testString, LIBXML_NOWARNING | LIBXML_NOERROR);
 
-        $sNode = $doc->getElementsByTagName("img");
+        $sNode = $doc->getElementsByTagName('img');
 
         foreach($sNode as $searchNode)
         {
@@ -79,6 +80,8 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
             $doc->importNode($searchNode);
         }
 
-        return $doc->saveHTML();
+        $result = $doc->saveHTML();
+
+        return $result ?: $text;
     }
 }

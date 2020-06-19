@@ -28,6 +28,7 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         $text = parent::transform($text);
 
         $text = $this->replaceAgentName($text);
+        $text = $this->makeImagesResponsive($text);
 
         return $text;
     }
@@ -57,5 +58,27 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         );
 
         return $text;
+    }
+
+    private function makeImagesResponsive(string $text): string
+    {
+        $text = "<div>$text</div>";
+
+        $doc = new \DOMDocument('1.0', 'UTF-8');
+        // $doc->strictErrorChecking = true;
+        // $doc->standalone = true;
+        $doc->xmlStandalone = true;
+        // $doc->formatOutput = true;
+        $doc->loadXML($text);//, LIBXML_NOWARNING | LIBXML_NOERROR);
+
+        $sNode = $doc->getElementsByTagName("img");
+
+        foreach($sNode as $searchNode)
+        {
+            $searchNode->setAttribute('class', 'img-fluid');
+            $doc->importNode($searchNode);
+        }
+
+        return $doc->saveHTML();
     }
 }

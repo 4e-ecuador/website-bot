@@ -25,6 +25,7 @@
                 <th>{{ paginator.ordering('agent', paginatorOptions) }}</th>
                 <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
                 <th>{{ paginator.ordering('googleId', paginatorOptions) }}</th>
+                <th>{{ paginator.ordering('fireBaseToken', paginatorOptions) }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -33,6 +34,7 @@
                 <th>Agent</th>
                 <th>e-mail</th>
                 <th>G-ID</th>
+                <th>FB</th>
                 <th>Roles</th>
                 <th>actions</th>
             </tr>
@@ -44,6 +46,7 @@
                     <td>{{ user.agent?user.agent.nickname:'N/A' }}</td>
                     <td>{{ user.email|stripGmail }}</td>
                     <td>{{ user.googleId ? 'X' : '' }}</td>
+                    <td>{{ user.fireBaseToken ? 'X' : '' }}</td>
                     <td>{{ user.roles|displayRoles }}</td>
                     <td>
                         <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

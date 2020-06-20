@@ -41,6 +41,11 @@ class UserChangedNotifier
             return;
         }
 
+        if ($user === $adminUser) {
+            // Change has been performed by the user - no message required (?)
+            return;
+        }
+
         $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
 
         $text = [];

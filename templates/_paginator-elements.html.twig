@@ -57,7 +57,8 @@
 {% endmacro %}
 
 {% macro listLimit(paginatorOptions) %}
-    <select name="paginatorOptions[limit]" class="form-control paginatorResetChange" style="margin: 20px 0">
+    <select name="paginatorOptions[limit]" class="paginatorResetChange selectpicker" data-style="btn-success"
+            data-width="fit" data-header="{{ 'Items per page'|trans }}">
         {% for num in [5, 10, 20, 50, 100] %}
             <option{{ num == paginatorOptions.limit ? ' selected="selected"' : '' }}>{{ num }}</option>
         {% endfor %}
@@ -76,7 +77,7 @@
     {% set css = paginatorOptions.searchCriteria(name) ? 'btn-outline-success' : '' %}
     <input name="paginatorOptions[criteria][{{ name }}]" size="6"
            value="{{ paginatorOptions.searchCriteria(name) }}"
-    class="form-control {{ css }}">
+           class="form-control {{ css }}">
     <div class="btn-group" role="group" aria-label="Opciones de busqueda">
         <button class="btn btn-sm paginatorCleanReset">
             <span class="oi oi-trash" aria-hidden="true"></span>
@@ -102,7 +103,8 @@
 
 {% macro select(name, options, paginatorOptions) %}
     {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-success' : '' %}
-    <select name="paginatorOptions[criteria][{{ name }}]" class="form-control paginatorSelect{{ css }}">
+    <select name="paginatorOptions[criteria][{{ name }}]" class="selectpicker paginatorSelect{{ css }}" data-style="btn-success"
+            data-width="fit" data-header="{{ 'Faction'|trans }}">
         {% for id,option in options %}
             <option value="{{ id }}" {% if id == paginatorOptions.searchCriteria(name) %}selected="selected"{% endif %}>
                 {{ option }}

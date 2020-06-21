@@ -1,10 +1,7 @@
 <div class="card" id="comment-{{ comment.id }}">
     <div class="card-header">
         {{ comment.datetime|date('Y-m-d') }}
-        {{ comment.commenter }}
-
-{#        {% include 'comment/_delete_form.html.twig' with {'form_path': 'comment_delete_inline'} %}#}
-
+        {{ comment.commenter.agent ? comment.commenter.agent.nickname : comment.commenter }}
     </div>
     <div class="card-body">
         {{ comment.text|raw }}

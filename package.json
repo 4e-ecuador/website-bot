@@ -16,6 +16,7 @@
     "dependencies": {
         "@forevolve/bootstrap-dark": "^1.0.0-alpha.1075",
         "bootstrap": "^4.5.0",
+        "bootstrap-select": "^1.13.17",
         "highcharts": "^8.1.2",
         "jquery": "^3.5.1",
         "leaflet": "^1.6.0",

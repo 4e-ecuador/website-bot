@@ -27,32 +27,18 @@
             <thead>
             <tr>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <th></th>
+                    <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
                 {% endif %}
                 <th>
                     {{ paginator.select('faction', factions, paginatorOptions) }}
                 </th>
                 <th>
+                    {{ paginator.ordering('nickname', paginatorOptions) }}
                     {{ paginator.criteria('nickname', paginatorOptions) }}
                 </th>
                 <th>
                     {{ paginator.criteria('realName', paginatorOptions) }}
                 </th>
-                <th></th>
-                <th></th>
-                {% if is_granted('ROLE_EDITOR') %}
-                    <th></th>
-                {% endif %}
-            </tr>
-            <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
-                {% endif %}
-                <th></th>
-                <th>
-                    {{ paginator.ordering('nickname', paginatorOptions) }}
-                </th>
-                <th></th>
                 <th></th>
                 <th></th>
                 {% if is_granted('ROLE_EDITOR') %}

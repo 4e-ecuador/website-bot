@@ -22,8 +22,8 @@
             <thead>
             <tr>
                 <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
-                <th>{{ paginator.ordering('agent', paginatorOptions) }}</th>
-                <th>{{ paginator.criteria('email', paginatorOptions) }}</th>
+                <th>{{ paginator.ordering('agent', paginatorOptions) }}
+                    {{ paginator.criteria('email', paginatorOptions) }}</th>
                 <th>{{ paginator.ordering('googleId', paginatorOptions) }}</th>
                 <th>{{ paginator.ordering('fireBaseToken', paginatorOptions) }}</th>
                 <th></th>
@@ -31,8 +31,7 @@
             </tr>
             <tr>
                 <th>Id</th>
-                <th>Agent</th>
-                <th>e-mail</th>
+                <th>Agent / e-mail</th>
                 <th>G-ID</th>
                 <th>FB</th>
                 <th>Roles</th>
@@ -43,8 +42,7 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td>{{ user.agent?user.agent.nickname:'N/A' }}</td>
-                    <td>{{ user.email|stripGmail }}</td>
+                    <td><b>{{ user.agent?user.agent.nickname:'-' }}</b><br> {{ user.email|stripGmail }}</td>
                     <td>{{ user.googleId ? 'X' : '' }}</td>
                     <td>{{ user.fireBaseToken ? 'X' : '' }}</td>
                     <td>{{ user.roles|displayRoles }}</td>

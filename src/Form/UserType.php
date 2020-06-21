@@ -31,7 +31,9 @@ class UserType extends AbstractType
             ->add('email', null, array('disabled' => true))
             ->add('googleId', null, array('disabled' => true))
             ->add(
-                'agent', EntityType::class, [
+                'agent',
+                EntityType::class,
+                [
                     'class'       => Agent::class,
                     // 'choice_label' => function(Agent $user) {
                     //     return sprintf('(%d) %s', $user->getId(), $user->getNickname());
@@ -39,6 +41,10 @@ class UserType extends AbstractType
                     'placeholder' => '',
                     'required'    => false,
                     'choices'     => $this->agentRepository->findAllAlphabetical(),
+                    'attr'   =>  [
+                        'class'   => 'selectpicker',
+                        'data-style'=>'btn-success'
+                    ],
                 ]
             )
             ->add(
@@ -53,6 +59,10 @@ class UserType extends AbstractType
                         'User'        => 'ROLE_USER',
                     ],
                     'multiple' => true,
+                    'attr'   =>  [
+                        'class'   => 'selectpicker',
+                        'data-style'=>'btn-success'
+                    ]
                 ]
             );
     }

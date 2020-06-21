@@ -1,8 +1,9 @@
 @import "~@forevolve/bootstrap-dark/scss/bootstrap-dark";
 @import "~@forevolve/bootstrap-dark/dist/css/toggle-bootstrap";
 @import "~@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark";
-
+@import "~bootstrap-select/dist/css/bootstrap-select.css";
 @import "~open-iconic/font/css/open-iconic-bootstrap.css";
+
 @import "medals_badges_24.css";
 @import "medals_events_24.css";
 @import "medals_badges_50.css";
@@ -24,7 +25,7 @@ body {
   width: 100%;
 }
 
-.bootstrap-dark a, .bootstrap a{
+.bootstrap-dark a, .bootstrap a {
   color: #00bb00;
 }
 
@@ -52,13 +53,41 @@ a.RES:hover {
   color: #517d9a;
 }
 
-.bootstrap-dark .page-item.active .page-link {
+.bootstrap-dark .page-item.active .page-link,
+.bootstrap .page-item.active .page-link {
   background-color: #00bb00;
   border-color: #00bb00;
 }
 
+.bootstrap .page-link {
+  color: #1ab60d;
+}
+
+.bootstrap-dark .page-link:focus, .bootstrap .page-link:focus {
+  box-shadow: 0 0 0 0.2rem rgba(135, 246, 164, 0.25);
+}
+
 .bootstrap .col, .bootstrap-dark .col {
   min-width: 90px;
+}
+
+.bootstrap-dark .form-control:focus, .bootstrap .form-control:focus {
+  border-color: #1ab60d;
+  box-shadow: 0 0 0 0.2rem rgba(135, 246, 164, 0.25);
+}
+
+.bootstrap-dark .dropdown-item.active, .bootstrap-dark .dropdown-item:active,
+.bootstrap .dropdown-item.active, .bootstrap .dropdown-item:active {
+  background-color: #00bb00;
+}
+
+.bootstrap-dark .popover-header {
+  background-color: #0b2e13;
+}
+
+.bootstrap-dark textarea {
+  background-color: #41444e;
+  color: #daffc9;
 }
 
 .helpIndicator {

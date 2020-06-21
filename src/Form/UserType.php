@@ -43,7 +43,8 @@ class UserType extends AbstractType
                     'choices'     => $this->agentRepository->findAllAlphabetical(),
                     'attr'   =>  [
                         'class'   => 'selectpicker',
-                        'data-style'=>'btn-success'
+                        'data-style'=>'btn-success',
+                        'data-live-search' => 'true',
                     ],
                 ]
             )

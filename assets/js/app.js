@@ -1,17 +1,24 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.scss')
 require('bootstrap')
+require('bootstrap-select')
 
 const $ = require('jquery');
 
+let darkmode = localStorage.getItem('4e-darkmode')
+checkDarkMode(darkmode)
+
 $('#darkmode-toggle').click(function() {
-    $('body').toggleClass('bootstrap')
-    $('body').toggleClass('bootstrap-dark')
+    let darkmode = ('active' === localStorage.getItem('4e-darkmode')) ? 0 : 'active'
+    localStorage.setItem("4e-darkmode", darkmode);
+    checkDarkMode(darkmode)
 });
+
+function checkDarkMode(darkmode) {
+    let body = $('body')
+    body.removeClass('bootstrap-dark bootstrap')
+    if ('active' === darkmode) {
+        body.addClass('bootstrap-dark')
+    } else {
+        body.addClass('bootstrap')
+    }
+}

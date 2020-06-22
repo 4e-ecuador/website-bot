@@ -12,7 +12,7 @@
 
     <h1>{{ 'Help index'|trans }}</h1>
 
-    <table class="table">
+    <table class="table table-sm table-hover">
         <thead>
         <tr>
             <th>{{ 'Title'|trans }}</th>
@@ -29,7 +29,8 @@
                 </td>
                 {% if is_granted('ROLE_EDITOR') %}
                     <td>
-                        <a href="{{ path('help_edit', {'id': help.id}) }}">{{ 'Edit'|trans }}</a>
+                        <a href="{{ path('help_edit', {'id': help.id}) }}" title="{{ 'Edit'|trans }}"><span
+                                    class="oi oi-pencil"></a>
                     </td>
                 {% endif %}
             </tr>

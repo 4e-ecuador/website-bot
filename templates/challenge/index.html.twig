@@ -7,13 +7,13 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date start</th>
-                <th>Date end</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Date start</th>
+            <th>Date end</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for challenge in challenges %}
@@ -22,7 +22,7 @@
                 <td>
                     <a href="{{ path('challenge_show', {'id': challenge.id}) }}">
                     {{ challenge.name }}</td>
-                    </a>
+                </a>
                 <td>{{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i') : '' }}</td>
                 <td>

@@ -13,11 +13,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="float-right">
-
-        <a class="btn btn-outline-secondary" href="{{ path('agent_index') }}">{{ 'Back to list'|trans }}</a>
-        {#        {{ include('agent/_delete_form.html.twig') }}#}
-    </div>
+    <a class="btn btn-outline-secondary float-right" href="{{ path('agent_index') }}"
+       title="{{ 'Back to list'|trans }}">
+            <span class="oi oi-arrow-left">
+    </a>
     <h1>{{ 'Edit Agent'|trans }}</h1>
 
     {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}

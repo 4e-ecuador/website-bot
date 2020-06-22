@@ -1,10 +1,14 @@
 {% block _help_editor_widget %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#writeId" data-toggle="tab">{{ 'label.write'|trans }}</a>
+            <a class="nav-link active" href="#writeId" data-toggle="tab" title="{{ 'label.write'|trans }}">
+                <span class="oi oi-pencil">
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#previewId" data-toggle="tab">{{ 'label.preview'|trans }}</a>
+            <a class="nav-link" href="#previewId" data-toggle="tab" title="{{ 'label.preview'|trans }}">
+                <span class="oi oi-eye">
+            </a>
         </li>
     </ul>
     <div class="tab-content">

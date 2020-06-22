@@ -1,6 +1,4 @@
 {{ form_start(form) }}
-
-
 <div class="row">
     <div class="col-sm">
         {{ form_row(form.nickname) }}
@@ -17,15 +15,15 @@
         {{ form_row(form.mapGroup) }}
     </div>
 </div>
-
 <div id="map"></div>
-
-<button class="btn btn-outline-success">{{ button_label|default('Guardar') }}</button>
+<hr>
+<button class="btn btn-outline-success" title="{{ button_label|default('Save'|trans) }}">
+    <span class="oi oi-check"></span>
+</button>
 
 {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
 
     {{ form_rest(form) }}
-
 {{ form_end(form) }}

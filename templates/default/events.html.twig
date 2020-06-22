@@ -9,7 +9,7 @@
 
 {% block body %}
 
-<h2>{{ 'Events'|trans }}</h2>
+    <h2>{{ 'Events'|trans }}</h2>
 
     <h3>{{ 'Current events'|trans }}</h3>
 
@@ -40,7 +40,7 @@
                     <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
                 </h4>
 
-                {#            {{ event.dateStart|date('Y-m-d H:i:s e', false) }}#}
+                {# {{ event.dateStart|date('Y-m-d H:i:s e', false) }} #}
 
                 {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
@@ -68,7 +68,7 @@
         <div>{{ 'There are no past events.'|trans }}</div>
     {% endfor %}
 
-<h2>{{ 'Challenges'|trans }}</h2>
+    <h2>{{ 'Challenges'|trans }}</h2>
 
     <h3>{{ 'Current challenges'|trans }}</h3>
 
@@ -99,7 +99,7 @@
                     <a href="{{ path('challenge_show', {'id': item.id}) }}">{{ item.name }}</a>
                 </h4>
 
-{#                            {{ event.dateStart|date('Y-m-d H:i:s e', false) }}#}
+                {# {{ event.dateStart|date('Y-m-d H:i:s e', false) }} #}
                 <div class="clock-counter"
                      data-deadline="{{ item.dateStart|date('Y-m-d H:i', false) }}">
                     <b>{{ 'The event starts in'|trans }}</b>

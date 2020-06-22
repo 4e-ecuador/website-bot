@@ -29,15 +29,11 @@ class UserType extends AbstractType
     ): void {
         $builder
             ->add('email', null, array('disabled' => true))
-            ->add('googleId', null, array('disabled' => true))
             ->add(
                 'agent',
                 EntityType::class,
                 [
                     'class'       => Agent::class,
-                    // 'choice_label' => function(Agent $user) {
-                    //     return sprintf('(%d) %s', $user->getId(), $user->getNickname());
-                    // },
                     'placeholder' => '',
                     'required'    => false,
                     'choices'     => $this->agentRepository->findAllAlphabetical(),

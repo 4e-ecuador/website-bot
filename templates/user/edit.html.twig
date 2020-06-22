@@ -8,16 +8,21 @@
 {% endblock %}
 
 {% block body %}
+    <div class="btn-group float-right" role="group">
+        <a class="btn btn-outline-secondary" href="{{ path('user_index') }}" title="{{ 'Back to list'|trans }}">
+            <span class="oi oi-arrow-left">
+        </a>
+
+        <div class="btn btn-outline-info sendMail"
+             data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>
+
+        {{ include('user/_delete_form.html.twig') }}
+        <br>
+
+    </div>
     <h1>{{ 'Edit User'|trans }}</h1>
+    <div class="float-right" id="mailResult"></div>
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'|trans}) }}
 
-    <div id="mailResult"></div>
-    <div class="btn-group" role="group">
-        <a class="btn btn-outline-secondary" href="{{ path('user_index') }}">{{ 'Back to list'|trans }}</a>
-
-        <div class="btn btn-outline-info sendMail" data-userid="{{ user.id }}">{{ 'Send confirmation mail'|trans }}</div>
-
-        {{ include('user/_delete_form.html.twig') }}
-    </div>
 {% endblock %}

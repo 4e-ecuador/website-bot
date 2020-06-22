@@ -19,11 +19,11 @@
             <tr>
                 <td>{{ cnt }}.</td>
                 <td>
-                {% set level = medalLevel(challenge.name, value) %}
-                {% if level %}
-                    <span class="medal50-events medal-{{ getChallengePath(challenge.codeName, level) }}"
-                          title="{{ level|translateMedalLevel }}"></span>
-                {% endif %}
+                    {% set level = medalLevel(challenge.name, value) %}
+                    {% if level %}
+                        <span class="medal50-events medal-{{ getChallengePath(challenge.codeName, level) }}"
+                              title="{{ level|translateMedalLevel }}"></span>
+                    {% endif %}
                 </td>
                 <td>
                     {{ agent }}

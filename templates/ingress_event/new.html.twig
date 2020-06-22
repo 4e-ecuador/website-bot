@@ -3,7 +3,8 @@
 {% block title %}New IngressEvent{% endblock %}
 
 {% block body %}
-    <a class="float-right btn btn-outline-secondary" href="{{ path('ingress_event_index') }}">{{ 'Back to list'|trans }}</a>
+    <a class="float-right btn btn-outline-secondary"
+       href="{{ path('ingress_event_index') }}">{{ 'Back to list'|trans }}</a>
     <h1>{{ 'Create new IngressEvent'|trans }}</h1>
 
     {{ include('ingress_event/_form.html.twig') }}

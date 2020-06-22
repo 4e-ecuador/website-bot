@@ -28,12 +28,15 @@
     </span>
 
     <div class="btn-group float-right" role="group">
-        <a title="{{ 'Go Back'|trans }}" class="btn btn-outline-secondary" href="{{ path('agent_index') }}"><span class="oi oi-arrow-left"></a>
+        <a title="{{ 'Go Back'|trans }}" class="btn btn-outline-secondary" href="{{ path('agent_index') }}"><span
+                    class="oi oi-arrow-left"></a>
         {% if is_granted('ROLE_EDITOR') %}
-            <a title="{{ 'Edit'|trans }}" class="btn btn-outline-info" href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></a>
+            <a title="{{ 'Edit'|trans }}" class="btn btn-outline-info"
+               href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></a>
             {{ include('agent/_delete_form.html.twig') }}
         {% endif %}
-        <a title="{{ 'Statistics'|trans }}" class="btn btn-outline-success" href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
+        <a title="{{ 'Statistics'|trans }}" class="btn btn-outline-success"
+           href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
     </div>
 
     <h1>{{ 'Agent'|trans }}</h1>
@@ -48,10 +51,10 @@
             </td>
         </tr>
         {% if agent.realName %}
-        <tr>
-            <th>{{ 'Real name'|trans }}</th>
-            <td>{{ agent.realName }}</td>
-        </tr>
+            <tr>
+                <th>{{ 'Real name'|trans }}</th>
+                <td>{{ agent.realName }}</td>
+            </tr>
         {% endif %}
         {% if agent.telegramId %}
             <tr>
@@ -59,10 +62,11 @@
                 <td>
                     <a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a>
                     {% if is_granted('ROLE_EDITOR') %}
-                            Notifications:
-                            <code title="Events" class="helpIndicator">{{ agent.hasNotifyEvents ? 1 : 0 }}</code>
-                            <code title="StatsResults" class="helpIndicator">{{ agent.hasNotifyStatsResult ? 1 : 0 }}</code>
-                            <code title="Upload Reminder" class="helpIndicator">{{ agent.hasNotifyUploadStats ? 1 : 0 }}</code>
+                        Notifications:
+                        <code title="Events" class="helpIndicator">{{ agent.hasNotifyEvents ? 1 : 0 }}</code>
+                        <code title="StatsResults" class="helpIndicator">{{ agent.hasNotifyStatsResult ? 1 : 0 }}</code>
+                        <code title="Upload Reminder"
+                              class="helpIndicator">{{ agent.hasNotifyUploadStats ? 1 : 0 }}</code>
                     {% endif %}
 
                 </td>
@@ -80,13 +84,13 @@
             </td>
         </tr>
         {% if is_granted('ROLE_EDITOR') %}
-        <tr>
-            <th>{{ 'Comments'|trans }}</th>
-            <td>
-                <div id="commentArea"></div>
-                <div id="commentStatus"></div>
-            </td>
-        </tr>
+            <tr>
+                <th>{{ 'Comments'|trans }}</th>
+                <td>
+                    <div id="commentArea"></div>
+                    <div id="commentStatus"></div>
+                </td>
+            </tr>
         {% endif %}
 
         </tbody>

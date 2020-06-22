@@ -42,13 +42,18 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td><b>{{ user.agent?user.agent.nickname:'-' }}</b><br> {{ user.email|stripGmail }}</td>
+                    <td>
+                        <a href="{{ path('user_edit', {'id': user.id}) }}">
+                            <b>{{ user.agent?user.agent.nickname:'-' }}</b><br> {{ user.email|stripGmail }}
+                        </a>
+                    </td>
                     <td>{{ user.googleId ? 'X' : '' }}</td>
                     <td>{{ user.fireBaseToken ? 'X' : '' }}</td>
                     <td>{{ user.roles|displayRoles }}</td>
                     <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                        <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">
+                            <span class="oi oi-eye">
+                        </a>
                     </td>
                 </tr>
             {% else %}

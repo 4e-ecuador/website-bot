@@ -103,8 +103,8 @@
 
 {% macro select(name, options, paginatorOptions) %}
     {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-success' : '' %}
-    <select name="paginatorOptions[criteria][{{ name }}]" class="selectpicker paginatorSelect{{ css }}" data-style="btn-success"
-            data-width="fit" data-header="{{ 'Faction'|trans }}">
+    <select name="paginatorOptions[criteria][{{ name }}]" class="selectpicker paginatorSelect{{ css }}"
+            data-style="btn-success" data-width="fit" data-header="{{ 'Faction'|trans }}">
         {% for id,option in options %}
             <option value="{{ id }}" {% if id == paginatorOptions.searchCriteria(name) %}selected="selected"{% endif %}>
                 {{ option }}

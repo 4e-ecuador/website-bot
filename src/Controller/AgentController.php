@@ -29,8 +29,7 @@ class AgentController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     public function index(
-        AgentRepository $agentRepository,
-        FactionRepository $factionRepository,
+        AgentRepository $agentRepository, FactionRepository $factionRepository,
         Request $request
     ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);

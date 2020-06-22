@@ -3,11 +3,14 @@
 {% block title %}{{ 'Help index'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Help index'|trans }}</h1>
-
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="btn btn-outline-success" href="{{ path('help_new') }}">{{ 'Create new'|trans }}</a>
+        <a href="{{ path('help_new') }}" class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}">
+            <span class="oi oi-plus"></span>
+        </a>
     {% endif %}
+
+
+    <h1>{{ 'Help index'|trans }}</h1>
 
     <table class="table">
         <thead>

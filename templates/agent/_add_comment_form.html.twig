@@ -1,10 +1,14 @@
 <form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#writeId" data-toggle="tab">{{ 'label.write'|trans }}</a>
+            <a class="nav-link active" href="#writeId" data-toggle="tab" title="{{ 'label.write'|trans }}">
+                <span class="oi oi-pencil">
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#previewId" data-toggle="tab">{{ 'label.preview'|trans }}</a>
+            <a class="nav-link" href="#previewId" data-toggle="tab" title="{{ 'label.preview'|trans }}">
+                <span class="oi oi-eye">
+            </a>
         </li>
     </ul>
     <div class="tab-content">
@@ -19,5 +23,5 @@
     <input type="hidden" name="commenter" value="{{ app.user.id }}">
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="_token" value="{{ csrf_token('addcomment' ~ agent.id) }}">
-    <button class="btn btn-outline-success">Enviar</button>
+    <button class="btn btn-outline-success"><span class="oi oi-check"></span></button>
 </form>

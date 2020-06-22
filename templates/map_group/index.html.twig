@@ -3,7 +3,11 @@
 {% block title %}MapGroup index{% endblock %}
 
 {% block body %}
-    <h1>MapGroup index</h1>
+    <a href="{{ path('map_group_new') }}" class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}">
+        <span class="oi oi-plus"></span>
+    </a>
+
+    <h1>MapGroups</h1>
 
     <table class="table">
         <thead>
@@ -30,6 +34,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('map_group_new') }}">Create new</a>
 {% endblock %}

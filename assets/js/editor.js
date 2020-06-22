@@ -9,9 +9,13 @@ const editorField = jsData.data('editor-field')
 const previewField = jsData.data('preview-field')
 
 $('a[data-toggle="tab"]').on('click', function (e) {
-    if (previewField === $(e.target).attr('href')) {
+    let selected = $(e.target).attr('href')
+    if (!selected) {
+        selected = $(e.target).parent().attr('href')
+    }
+    if (previewField === selected) {
         let out = $(previewField)
-        out.empty().addClass('loading')
+        out.empty().html('Loading...').addClass('loading')
         $.post(
             previewUrl,
             {text: $(editorField).val()},

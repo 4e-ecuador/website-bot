@@ -49,6 +49,11 @@ services:
       $pageBaseUrl: '%env(PAGE_BASE_URL)%'
       $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
 
+  App\Service\FcmHelper:
+    arguments:
+      $fcmKey: '%env(FCM_KEY)%'
+      $channelId: '%env(FCM_CHANNEL_ID)%'
+
   App\Service\MailerHelper:
     arguments:
       $email: '%app.email%'

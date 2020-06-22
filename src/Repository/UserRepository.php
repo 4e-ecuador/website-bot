@@ -58,4 +58,15 @@ class UserRepository extends ServiceEntityRepository
             $paginatorOptions->getLimit()
         );
     }
+
+    /**
+     * @return User[]
+     */
+    public function getFireBaseUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.fireBaseToken IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

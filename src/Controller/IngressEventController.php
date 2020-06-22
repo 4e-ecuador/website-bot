@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\IngressEvent;
 use App\Form\IngressEventType;
+use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
+use App\Repository\UserRepository;
+use App\Service\FcmHelper;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,15 +24,26 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class IngressEventController extends AbstractController
 {
+    use PaginatorTrait;
+
     /**
-     * @Route("/", name="ingress_event_index", methods={"GET"})
+     * @Route("/", name="ingress_event_index", methods={"GET", "POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(IngressEventRepository $ingressEventRepository): Response
+    public function index(IngressEventRepository $ingressEventRepository, Request $request): Response
     {
+        $paginatorOptions = $this->getPaginatorOptions($request);
+
+        $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
+
+        $paginatorOptions->setMaxPages(
+            ceil(\count($events) / $paginatorOptions->getLimit())
+        );
+
         return $this->render(
             'ingress_event/index.html.twig', [
-                'ingress_events' => $ingressEventRepository->findAllByDate(),
+                'ingress_events' => $events,
+                'paginatorOptions' => $paginatorOptions,
             ]
         );
     }
@@ -121,7 +135,7 @@ class IngressEventController extends AbstractController
      * @Route("/announce", name="ingress_event_announce", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function announce(
+    public function announceTg(
         TelegramBotHelper $telegramBotHelper, IngressEventRepository $ingressEventRepository,
         AgentRepository $agentRepository, TranslatorInterface $translator
     ): RedirectResponse {
@@ -148,6 +162,80 @@ class IngressEventController extends AbstractController
 
         if ($count) {
             $this->addFlash('success', sprintf('Announcements sent to %d agents!', $count));
+        }
+
+        return $this->redirectToRoute('ingress_event_index');
+    }
+
+    /**
+     * @Route("/announce-fbm", name="ingress_event_announce_fbm", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function announceFbm(
+        FcmHelper $fbmHelper, TelegramBotHelper $telegramBotHelper,
+        IngressEventRepository $ingressEventRepository, TranslatorInterface $translator
+    ): RedirectResponse {
+        try {
+            $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+                ->getMessage(false);
+
+            if (!$message) {
+                throw new \RuntimeException('No events to announce ;(');
+            }
+
+            $title = 'Nuevos Eventos Ingress!';
+
+            $fbmHelper->sendMessage($title, implode("\n", $message));
+            $this->addFlash('success', 'Announcement has been sent.');
+        } catch (\Exception $exception) {
+            $this->addFlash('error', 'Error: '.$exception->getMessage());
+        }
+
+        return $this->redirectToRoute('ingress_event_index');
+    }
+
+    /**
+     * @Route("/announce-fbm-token", name="ingress_event_announce_fbm_token", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function announceFbmToken(
+        FcmHelper $fbmHelper, TelegramBotHelper $telegramBotHelper,
+        IngressEventRepository $ingressEventRepository,
+        UserRepository $userRepository, TranslatorInterface $translator
+    ): RedirectResponse {
+        try {
+            $users = $userRepository->getFireBaseUsers();
+
+            $count = 0;
+
+            $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+                ->getMessage(false);
+
+            if (!$message) {
+                throw new \RuntimeException('No events to announce ;(');
+            }
+
+            $title = 'Nuevos Eventos Ingress!';
+
+            $tokens = [];
+
+            foreach ($users as $user) {
+                $tokens[] = $user->getFireBaseToken();
+                $count++;
+            }
+            if (!$fbmHelper->sendMessageWithTokens('URG '.$title, implode("\n", $message), $tokens)) {
+                $this->addFlash(
+                    'warning', 'Message not sent :'.$user->getUsername()
+                );
+            }
+
+            if ($count) {
+                $this->addFlash('success', sprintf('Announcements sent to %d agents!', $count));
+            } else {
+                $this->addFlash('warning', 'No messages sent :(');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', 'Error: '.$exception->getMessage());
         }
 
         return $this->redirectToRoute('ingress_event_index');

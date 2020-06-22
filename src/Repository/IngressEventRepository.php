@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\IngressEvent;
+use App\Helper\Paginator\PaginatorOptions;
+use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class IngressEventRepository extends ServiceEntityRepository
 {
+    use PaginatorRepoTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, IngressEvent::class);
@@ -68,5 +73,16 @@ class IngressEventRepository extends ServiceEntityRepository
             ->orderBy('i.date_start', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getPaginatedList(PaginatorOptions $options): Paginator
+    {
+        $query = $this->createQueryBuilder('e');
+
+        $query->orderBy('e.'.$options->getOrder(), $options->getOrderDir());
+
+        $query = $query->getQuery();
+
+        return $this->paginate($query, $options->getPage(), $options->getLimit());
     }
 }

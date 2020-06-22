@@ -25,11 +25,6 @@ class AgentRepository extends ServiceEntityRepository
         parent::__construct($registry, Agent::class);
     }
 
-    /**
-     * @param PaginatorOptions $options
-     *
-     * @return Paginator
-     */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {
         $query = $this->createQueryBuilder('a');

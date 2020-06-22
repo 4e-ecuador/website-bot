@@ -35,7 +35,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
         parent::__construct($telegramBotHelper);
     }
 
-    public function getMessage(): array
+    public function getMessage($useLinks = true): array
     {
         $message = [];
         $ingressFS = $this->ingressEventRepository->findFutureFS();
@@ -50,7 +50,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
             $links = [];
             foreach ($ingressFS as $event) {
-                $links[] = sprintf('[%s](%s)', $event->getName(), $event->getLink());
+                $links[] = $useLinks ? sprintf('[%s](%s)', $event->getName(), $event->getLink()) : $event->getName();
                 $eventDate = $event->getDateStart();
             }
 

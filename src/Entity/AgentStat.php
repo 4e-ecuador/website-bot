@@ -486,7 +486,7 @@ class AgentStat implements ArrayAccess
         return $this;
     }
 
-    public function getProperties()
+    public function findProperties()
     {
         $props = [];
 
@@ -583,15 +583,23 @@ class AgentStat implements ArrayAccess
         // TODO: Implement offsetUnset() method.
     }
 
-    public function getDiff(AgentStat $previous): array
+    public function computeDiff(AgentStat $previous): array
     {
         $diff = [];
 
         foreach ($this as $index => $value) {
-            if (false === in_array($index, ['id', 'datetime', 'agent', 'faction', 'nickname'])) {
-                if ($this->$index > $previous->$index) {
-                    $diff[$index] = $this->$index - $previous->$index;
-                }
+            if ($this->$index > $previous->$index
+                && (false === in_array(
+                        $index, [
+                            'id',
+                            'datetime',
+                            'agent',
+                            'faction',
+                            'nickname',
+                        ]
+                    ))
+            ) {
+                $diff[$index] = $this->$index - $previous->$index;
             }
         }
 

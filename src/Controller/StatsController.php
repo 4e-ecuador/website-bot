@@ -100,7 +100,7 @@ class StatsController extends AbstractController
                 continue;
             }
 
-            foreach ($agentEntry->getProperties() as $property) {
+            foreach ($agentEntry->findProperties() as $property) {
                 if (in_array(
                     $property, [
                         'current_challenge',
@@ -361,7 +361,7 @@ class StatsController extends AbstractController
                 $currents = $medalChecker->checkLevels($currentEntry);
             } else {
                 $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
-                $diff = $currentEntry->getDiff($previousEntry);
+                $diff = $currentEntry->computeDiff($previousEntry);
                 if (in_array('ROLE_INTRO_AGENT', $user->getRoles())) {
                     $groupName = 'intro';
                 } else {

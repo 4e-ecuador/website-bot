@@ -1,4 +1,22 @@
 {{ form_start(form) }}
+<div class="row">
+    <div class="col">
+        {{ form_row(form.date_start)}}
+    </div>
+    <div class="col">
+        {{ form_row(form.date_end)}}
+
+    </div>
+</div>
+    <div class="row">
+    <div class="col">
+        {{ form_row(form.type)}}
+    </div>
+    <div class="col">
+        {{ form_row(form.name)}}
+
+    </div>
+</div>
     {{ form_widget(form) }}
-    <button class="btn btn-outline-success">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-outline-success" title="{{ 'Save'|trans }}"><span class="oi oi-check"></span></button>
 {{ form_end(form) }}

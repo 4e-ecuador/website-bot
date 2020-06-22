@@ -11,7 +11,9 @@
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="float-right btn btn-outline-success" href="{{ path('agent_new') }}">{{ 'Create new'|trans }}</a>
+        <a class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}" href="{{ path('agent_new') }}">
+            <span class="oi oi-plus"></span>
+        </a>
     {% endif %}
 
     <h1>{{ 'Agent index'|trans }}</h1>

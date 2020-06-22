@@ -41,22 +41,22 @@ class AndroidNotificationCommand extends Command
         $message = 'Recuerda mantener actualizados tus datos!!';
 
         $data = json_encode(
-            array(
+            [
                 'to'   => '/topics/allDevices',
-                'data' => array(
+                'data' => [
                     'title'      => $title,
                     'message'    => $message,
                     'channel_id' => 'WEB APP CHANNEL ID',
                     'sound'      => 'default',
-                ),
-            )
+                ],
+            ]
         );
 
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
-        $header = array(
+        $header = [
             'Content-Type:application/json',
             'Authorization: key='.$this->fcmKey,
-        );
+        ];
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -5,6 +5,6 @@
 
 docker-compose up -d
 
-symfony server:start -d --no-tls
+symfony server:start -d
 
 symfony open:local

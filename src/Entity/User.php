@@ -89,6 +89,15 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function getPassword()
+    {
+    }
+
+    public function getUsername()
+    {
+        return (string)$this->email;
+    }
+
     public function __toString()
     {
         return (string)$this->email;
@@ -128,16 +137,6 @@ class User implements UserInterface
         $this->googleId = $googleId;
 
         return $this;
-    }
-
-    public function getPassword()
-    {
-        return '';
-    }
-
-    public function getUsername()
-    {
-        return $this->email;
     }
 
     public function getFireBaseToken(): ?string

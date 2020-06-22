@@ -12,7 +12,7 @@
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
                 <label for="inputEmail" class="sr-only">Email</label>
-                <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                        placeholder="e-mail" required autofocus>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <button class="btn btn-lg btn-outline-success" type="submit">

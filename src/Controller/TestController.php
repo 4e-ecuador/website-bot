@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,11 +23,23 @@ class TestController extends AbstractController
      * @Route("/", name="test")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index()
+    public function index(KernelInterface $kernel)
     {
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'about',
+        ]);
+
+        $output = new BufferedOutput();
+
+        $application->run($input, $output);
+
         return $this->render(
             'test/index.html.twig', [
                 'controller_name' => 'TestController',
+                'sysInfo' => $output->fetch(),
             ]
         );
     }

@@ -23,6 +23,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 always_remember_me: true
+                name: 4EREMEMBERME
 
     # activate different ways to authenticate
     # https://symfony.com/doc/current/security.html#firewalls-authentication

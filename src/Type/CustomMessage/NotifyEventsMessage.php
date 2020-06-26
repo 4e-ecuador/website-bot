@@ -58,8 +58,21 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
             $message[] = $this->translator->trans('notify.events.events.fs', ['links' => implode(', ', $links)]);
             $message[] = '';
+
+            $msgExtra = $this->translator->trans(
+                'notify.events.events.fs.extra'
+            );
+
+            if ($msgExtra) {
+                $message[] = $msgExtra;
+                $message[] = '';
+            }
+
             $message[] = '*'
-                .$this->translator->trans('notify.events.days.remaining', ['count' => $daysRemaining])
+                .$this->translator->trans(
+                    'notify.events.days.remaining',
+                    ['count' => $daysRemaining]
+                )
                 .'*';
         }
 

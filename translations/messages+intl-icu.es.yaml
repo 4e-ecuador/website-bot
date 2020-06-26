@@ -143,6 +143,7 @@ bot.message.agent.verified: 'Su cuenta ha sido verificada.'
 notify.events.head.fs.first: 'Se han anunciado los eventos FS para este mes!!!'
 notify.events.head.fs: 'Recuerden los eventos FS para este mes:'
 notify.events.events.fs: 'Links: {links}'
+notify.events.events.fs.extra: 'Recuerden que el registro se cierra una semana antes del evento y los eventos con menos de 10 participantes seran eliminados!!!'
 notify.upload.reminder: 'No se olviden de mantener actualizados sus estadisticas en http://agents.enl.ec/stats/stat-import'
 'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificacion. Puedes hacerlo {link}.'
 account.link.text: aqui
@@ -155,3 +156,4 @@ Progress: Progreso
 'Current Medals': 'Medallas actuales'
 'New Level: {level}': 'Nuevo nivel: {level}'
 'Items per page': 'Items por página'
+'Create new IngressEvent': 'Crear nuevo evento Ingress'

@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\FcmHelper;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
+use Goutte\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -239,5 +240,52 @@ class IngressEventController extends AbstractController
         }
 
         return $this->redirectToRoute('ingress_event_index');
+    }
+
+    /**
+     * @Route("/overview", name="ingress_event_overview", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function overview(IngressEventRepository $ingressEventRepository)
+    {
+        $events = $ingressEventRepository->findFutureFS();
+        $client = new Client();
+
+        foreach ($events as $event) {
+
+            $info = new \stdClass();
+            $info->poc = [];
+            $info->atendees = [];
+
+            if (!$event->getLink()) {
+                continue;
+            }
+
+            $crawler = $client->request('GET', $event->getLink());
+
+            $crawler->filterXPath('//table/tbody/tr/td/a')->each(function ($node) use ($info) {
+                $info->poc[$node->attr('class')] = $node->html();
+            });
+
+            $crawler->filterXPath('//table/tbody/tr/td/div')->each(function ($node) use ($info) {
+                static $i = 0;
+                $string = $node->html();
+                $string = preg_replace('#\<h4\>[\s\(\)\w]+\</h4\>#m', '', $string);
+
+                $atendees = explode('<br>', trim($string));
+                $factions = array_keys($info->poc);
+
+                $info->atendees[$factions[$i]] = $atendees;
+                $i++;
+            });
+
+            $event->info = $info;
+        }
+
+        return $this->render('ingress_event/overview.html.twig',
+        [
+            'events' => $events,
+        ]);
+
     }
 }

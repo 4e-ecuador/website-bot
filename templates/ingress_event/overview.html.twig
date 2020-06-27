@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IngressEvent index{% endblock %}
+
+{% block body %}
+    <h1>Ingress FS overview</h1>
+    <div class="row">
+        {% for event in events %}
+            <div class="col card">
+                <div class="card-header">
+                    {{ event.name }}
+                </div>
+                <div class="card-body">
+                    <h5>POC:</h5>
+                    <ul>
+                        <li class="faction-enl">{{ event.info.poc['enl'] }}</li>
+                        <li class="faction-res">{{ event.info.poc['res'] }}</li>
+                    </ul>
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                {% for agent in event.info.atendees['enl'] %}
+                                    <li class="faction-enl">{{ agent }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                {% for agent in event.info.atendees['res'] %}
+                                    <li class="faction-res">{{ agent }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -139,6 +139,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "fabpot/goutte": {
+        "version": "v4.0.0"
+    },
     "fig/link-util": {
         "version": "1.1.1"
     },

@@ -26,40 +26,39 @@
 
     <script id="myTemplate" type="text/x-jsrender">
 <div class="row">
-    <div class="col faction-enl">
-<%:#data.atendees.enl.length+1%>
-    </div>
-    <div class="col faction-res">
-<%:#data.atendees.res.length+1%>
+  <div class="col faction-enl">
+      <%:#data.atendees.enl.length+1%>
+  </div>
+  <div class="col faction-res">
+      <%:#data.atendees.res.length+1%>
+  </div>
+</div>
 
-    </div>
-    </div>
-
-    <hr/>
+<hr/>
 <div class="row">
   <%props poc%>
     <div class="col faction-<%:key%>">
     <%:prop%>
     </div>
   <%/props%>
-    </div>
-    <hr/>
+</div>
+<hr/>
 <div class="row">
     <div class="col">
         <ul class="list-unstyled">
         <%for atendees.enl%>
-            <li class="faction-enl"><%:%></li>
+          <li class="faction-enl"><%:%></li>
         <%/for%>
         </ul>
     </div>
     <div class="col">
         <ul class="list-unstyled">
         <%for atendees.res%>
-                <li class="faction-res"><%:%></li>
-                <%/for%>
-        </ul>
+          <li class="faction-res"><%:%></li>
+        <%/for%>
         </ul>
     </div>
 </div>
-</script>
+
+    </script>
 {% endblock %}

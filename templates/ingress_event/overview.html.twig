@@ -9,11 +9,10 @@
 
 {% block body %}
     <span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
-    <div id="result"></div>
     <h1>Ingress FS overview</h1>
     <div class="row">
         {% for event in events %}
-            <div class="col card">
+            <div class="col-sm-4 card">
                 <div class="card-header">
                     {{ event.name }}
                 </div>

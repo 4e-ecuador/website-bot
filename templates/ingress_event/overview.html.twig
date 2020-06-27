@@ -2,7 +2,14 @@
 
 {% block title %}IngressEvent index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ingress-events-overview') }}
+{% endblock %}
+
 {% block body %}
+    <span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
+    <div id="result"></div>
     <h1>Ingress FS overview</h1>
     <div class="row">
         {% for event in events %}
@@ -10,30 +17,35 @@
                 <div class="card-header">
                     {{ event.name }}
                 </div>
-                <div class="card-body">
-                    <h5>POC:</h5>
-                    <ul>
-                        <li class="faction-enl">{{ event.info.poc['enl'] }}</li>
-                        <li class="faction-res">{{ event.info.poc['res'] }}</li>
-                    </ul>
-                    <div class="row">
-                        <div class="col">
-                            <ul class="list-unstyled">
-                                {% for agent in event.info.atendees['enl'] %}
-                                    <li class="faction-enl">{{ agent }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul class="list-unstyled">
-                                {% for agent in event.info.atendees['res'] %}
-                                    <li class="faction-res">{{ agent }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                <div class="card-body" id="event-{{ event.id }}">
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    <script id="myTemplate" type="text/x-jsrender">
+<h5>POC:</h5>
+<ul>
+  <%props poc%>
+    <li class="faction-<%:key%> list-unstyled"><%:prop%></li>
+  <%/props%>
+</ul>
+<div class="row">
+    <div class="col">
+        <ul class="list-unstyled">
+        <%for atendees.enl%>
+            <li class="faction-enl"><%:%></li>
+        <%/for%>
+        </ul>
+    </div>
+    <div class="col">
+        <ul class="list-unstyled">
+        <%for atendees.res%>
+                <li class="faction-res"><%:%></li>
+                <%/for%>
+        </ul>
+        </ul>
+    </div>
+</div>
+</script>
 {% endblock %}

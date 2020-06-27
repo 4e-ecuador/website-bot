@@ -34,6 +34,7 @@ Encore
     .addEntry('comment', './assets/js/comment.js')
     .addEntry('stats-leaderboard', './assets/js/stats-leaderboard.js')
     .addEntry('stats-agent-stats', './assets/js/stats-agent-stats.js')
+    .addEntry('ingress-events-overview', './assets/js/ingress-events/overview.js')
 
     .addEntry('paginator', './assets/js/paginator.js')
 

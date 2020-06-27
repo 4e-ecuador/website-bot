@@ -14,6 +14,7 @@ use App\Type\CustomMessage\NotifyEventsMessage;
 use Goutte\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -249,43 +250,55 @@ class IngressEventController extends AbstractController
     public function overview(IngressEventRepository $ingressEventRepository)
     {
         $events = $ingressEventRepository->findFutureFS();
-        $client = new Client();
+
+        $eventIds = [];
 
         foreach ($events as $event) {
-
-            $info = new \stdClass();
-            $info->poc = [];
-            $info->atendees = [];
-
-            if (!$event->getLink()) {
-                continue;
-            }
-
-            $crawler = $client->request('GET', $event->getLink());
-
-            $crawler->filterXPath('//table/tbody/tr/td/a')->each(function ($node) use ($info) {
-                $info->poc[$node->attr('class')] = $node->html();
-            });
-
-            $crawler->filterXPath('//table/tbody/tr/td/div')->each(function ($node) use ($info) {
-                static $i = 0;
-                $string = $node->html();
-                $string = preg_replace('#\<h4\>[\s\(\)\w]+\</h4\>#m', '', $string);
-
-                $atendees = explode('<br>', trim($string));
-                $factions = array_keys($info->poc);
-
-                $info->atendees[$factions[$i]] = $atendees;
-                $i++;
-            });
-
-            $event->info = $info;
+            $eventIds[] = $event->getId();
         }
 
-        return $this->render('ingress_event/overview.html.twig',
-        [
-            'events' => $events,
-        ]);
+        return $this->render(
+            'ingress_event/overview.html.twig',
+            [
+                'events' => $events,
+                'eventIds' => $eventIds,
+            ]
+        );
+    }
 
+    /**
+     * @Route("/fetch-overview/{id}", name="ingress_event_overview_fetch", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function fetchOverview(IngressEvent $event): JsonResponse
+    {
+        if (!$event->getLink()) {
+            return $this->json(['error'=>'no link provided']);
+        }
+
+        $client = new Client();
+        $info = new \stdClass();
+        $info->poc = [];
+        $info->atendees = [];
+
+        $crawler = $client->request('GET', $event->getLink());
+
+        $crawler->filterXPath('//table/tbody/tr/td/a')->each(function ($node) use ($info) {
+            $info->poc[$node->attr('class')] = $node->html();
+        });
+
+        $crawler->filterXPath('//table/tbody/tr/td/div')->each(function ($node) use ($info) {
+            static $i = 0;
+            $string = $node->html();
+            $string = preg_replace('#\<h4\>[\s\(\)\w]+\</h4\>#m', '', $string);
+
+            $atendees = explode('<br>', trim($string));
+            $factions = array_keys($info->poc);
+
+            $info->atendees[$factions[$i]] = $atendees;
+            $i++;
+        });
+
+        return $this->json($info);
     }
 }

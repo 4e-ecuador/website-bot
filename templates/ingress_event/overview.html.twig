@@ -14,7 +14,9 @@
         {% for event in events %}
             <div class="col-sm-4 card">
                 <div class="card-header">
-                    {{ event.name }}
+                    <b>{{ event.name }}</b> - {{ event.dateStart|date('d M Y H:i') }}
+                    <br>
+                    <a href="{{ event.link }}">Event Page</a>
                 </div>
                 <div class="card-body" id="event-{{ event.id }}">
                 </div>
@@ -23,12 +25,25 @@
     </div>
 
     <script id="myTemplate" type="text/x-jsrender">
-<h5>POC:</h5>
-<ul>
+<div class="row">
+    <div class="col faction-enl">
+<%:#data.atendees.enl.length+1%>
+    </div>
+    <div class="col faction-res">
+<%:#data.atendees.res.length+1%>
+
+    </div>
+    </div>
+
+    <hr/>
+<div class="row">
   <%props poc%>
-    <li class="faction-<%:key%> list-unstyled"><%:prop%></li>
+    <div class="col faction-<%:key%>">
+    <%:prop%>
+    </div>
   <%/props%>
-</ul>
+    </div>
+    <hr/>
 <div class="row">
     <div class="col">
         <ul class="list-unstyled">

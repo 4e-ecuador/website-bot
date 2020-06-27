@@ -10,18 +10,17 @@
 {% endblock %}
 
 {% block body %}
-    <div class="float-right">
+    <div class="float-right btn-group">
         <a class="btn btn-outline-success" href="{{ path('ingress_event_new') }}" title="{{ 'Create new'|trans }}"><span
                     class="oi oi-plus"></span></a>
         <a class="btn btn-outline-info" href="{{ path('ingress_event_announce') }}"><span class="oi oi-bullhorn"> TG</a>
-        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm') }}"><span class="oi oi-bullhorn"> FBM</a>
+        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm') }}"><span class="oi oi-bullhorn"> FCM</a>
         <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm_token') }}"><span
-                    class="oi oi-bullhorn"> FBM Token</a>
-        <a class="btn btn-outline-info" href="{{ path('ingress_event_overview') }}"><span class="oi oi-eye"></a>
-
+                    class="oi oi-bullhorn"> FCM Token</a>
+        <a class="btn btn-outline-info" href="{{ path('ingress_event_overview') }}" title="Overview"><span class="oi oi-eye"></a>
     </div>
-    <h1>IngressEvent index</h1>
 
+    <h1>Ingress Events</h1>
 
     <form method="post">
 
@@ -78,8 +77,8 @@
             {% endfor %}
             </tbody>
         </table>
+
         {{ paginator.formFields(paginatorOptions) }}
 
     </form>
-
 {% endblock %}

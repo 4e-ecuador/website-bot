@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\IngressEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,13 +28,13 @@ class IngressEventType extends AbstractType
             ->add('link')
             ->add(
                 'date_start',
-                DateType::class, [
+                DateTimeType::class, [
                     'widget' => 'single_text',
                 ]
             )
             ->add(
                 'date_end',
-                DateType::class, [
+                DateTimeType::class, [
                     'widget' => 'single_text',
                 ]
             )

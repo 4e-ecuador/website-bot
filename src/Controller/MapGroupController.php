@@ -56,19 +56,6 @@ class MapGroupController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="map_group_show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function show(MapGroup $mapGroup): Response
-    {
-        return $this->render(
-            'map_group/show.html.twig', [
-                'map_group' => $mapGroup,
-            ]
-        );
-    }
-
-    /**
      * @Route("/{id}/edit", name="map_group_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */

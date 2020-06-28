@@ -14,7 +14,7 @@
 
 {% block body %}
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
-    <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-right">
+    <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-right btn btn-outline-success">
         <span class="oi oi-person"></span>
     </a>
     <h1>{{ 'Statistics'|trans }}</h1>

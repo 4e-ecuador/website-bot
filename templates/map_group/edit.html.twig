@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
+{% import '_/buttons.html.twig' as buttons %}
 
 {% block title %}Edit MapGroup{% endblock %}
 
 {% block body %}
+    <div class="btn-group float-right">
+        {{ buttons.back(path('map_group_index')) }}
+        {{ include('map_group/_delete_form.html.twig') }}
+    </div>
+
     <h1>Edit MapGroup</h1>
 
     {{ include('map_group/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('map_group_index') }}">back to list</a>
-
-    {{ include('map_group/_delete_form.html.twig') }}
 {% endblock %}

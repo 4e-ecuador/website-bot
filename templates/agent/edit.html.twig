@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import '_/buttons.html.twig' as buttons %}
 
 {% block title %}{{ 'Edit Agent'|trans }}{% endblock %}
 
@@ -13,10 +14,10 @@
 {% endblock %}
 
 {% block body %}
-    <a class="btn btn-outline-secondary float-right" href="{{ path('agent_index') }}"
-       title="{{ 'Back to list'|trans }}">
-            <span class="oi oi-arrow-left">
-    </a>
+    <div class="float-right">
+        {{ buttons.back(path('agent_index')) }}
+    </div>
+
     <h1>{{ 'Edit Agent'|trans }}</h1>
 
     {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}

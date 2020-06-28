@@ -1,0 +1,29 @@
+{% macro new(link) %}
+    <a class="btn btn-outline-success" title="{{ 'Create new'|trans }}" href="{{ link }}">
+        <span class="oi oi-plus"></span>
+    </a>
+{% endmacro %}
+
+{% macro edit(link) %}
+    <a class="btn btn-outline-info" title="{{ 'Edit'|trans }}" href="{{ link }}">
+        <span class="oi oi-pencil"></span>
+    </a>
+{% endmacro %}
+
+{% macro delete(title) %}
+    <button class="btn btn-outline-danger" title="{{ title }}">
+        <span class="oi oi-trash"></span>
+    </button>
+{% endmacro %}
+
+{% macro back(link) %}
+    <a class="btn btn-outline-secondary" href="{{ link }}" title="{{ 'Back to list'|trans }}">
+        <span class="oi oi-arrow-left"></span>
+    </a>
+{% endmacro %}
+
+{% macro ok(title) %}
+    <button class="btn btn-outline-success" title="{{ title }}">
+        <span class="oi oi-check"></span>
+    </button>
+{% endmacro %}

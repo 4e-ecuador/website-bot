@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import '_/buttons.html.twig' as buttons %}
 
 {% import '_paginator-elements.html.twig' as paginator %}
 
@@ -11,9 +12,9 @@
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}" href="{{ path('agent_new') }}">
-            <span class="oi oi-plus"></span>
-        </a>
+        <div class="float-right">
+            {{ buttons.new(path('agent_new')) }}
+        </div>
     {% endif %}
 
     <h1>{{ 'Agent index'|trans }}</h1>

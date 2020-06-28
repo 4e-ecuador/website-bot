@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
+{% import '_/buttons.html.twig' as buttons %}
 
 {% block title %}New MapGroup{% endblock %}
 
 {% block body %}
+    <div class="float-right">
+        {{ buttons.back(path('map_group_index')) }}
+    </div>
+
     <h1>Create new MapGroup</h1>
 
     {{ include('map_group/_form.html.twig') }}
 
-    <a href="{{ path('map_group_index') }}">back to list</a>
 {% endblock %}

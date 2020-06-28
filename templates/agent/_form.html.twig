@@ -1,3 +1,4 @@
+{% import '_/buttons.html.twig' as buttons %}
 {{ form_start(form) }}
 <div class="row">
     <div class="col-sm">
@@ -17,11 +18,9 @@
 </div>
 <div id="map"></div>
 <hr>
-<button class="btn btn-outline-success" title="{{ button_label|default('Save'|trans) }}">
-    <span class="oi oi-check"></span>
-</button>
+{{ buttons.ok(button_label|default('Save'|trans)) }}
 
-{{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
+    {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
 

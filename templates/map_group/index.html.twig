@@ -1,30 +1,26 @@
 {% extends 'base.html.twig' %}
+{% import '_/buttons.html.twig' as buttons %}
 
 {% block title %}MapGroup index{% endblock %}
 
 {% block body %}
-    <a href="{{ path('map_group_new') }}" class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}">
-        <span class="oi oi-plus"></span>
-    </a>
+    <div class="float-right">
+        {{ buttons.new(path('map_group_new')) }}
+    </div>
 
     <h1>MapGroups</h1>
 
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
-            <th>actions</th>
         </tr>
         </thead>
         <tbody>
         {% for map_group in map_groups %}
             <tr>
-                <td>{{ map_group.id }}</td>
-                <td>{{ map_group.name }}</td>
                 <td>
-                    <a href="{{ path('map_group_show', {'id': map_group.id}) }}">show</a>
-                    <a href="{{ path('map_group_edit', {'id': map_group.id}) }}">edit</a>
+                    <a href="{{ path('map_group_edit', {'id': map_group.id}) }}">{{ map_group.name }}</a>
                 </td>
             </tr>
         {% else %}

@@ -115,6 +115,10 @@ a.RES:hover {
   color: lime;
 }
 
+.bootstrap-dark .dropdown-item, .bootstrap-dark .dropdown-menu, .bootstrap-dark .dropdown-divider {
+  background-color: #1d1d1d;
+}
+
 ::-webkit-calendar-picker-indicator {
   background-color: #686868;
   cursor: pointer;

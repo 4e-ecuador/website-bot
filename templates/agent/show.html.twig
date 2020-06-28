@@ -2,6 +2,8 @@
 
 {% extends 'base.html.twig' %}
 
+{% import '_/buttons.html.twig' as buttons %}
+
 {% block title %}{{ 'Agent'|trans }}{% endblock %}
 
 {% block stylesheets %}
@@ -28,11 +30,9 @@
     </span>
 
     <div class="btn-group float-right" role="group">
-        <a title="{{ 'Go Back'|trans }}" class="btn btn-outline-secondary" href="{{ path('agent_index') }}"><span
-                    class="oi oi-arrow-left"></a>
+        {{ buttons.back(path('agent_index')) }}
         {% if is_granted('ROLE_EDITOR') %}
-            <a title="{{ 'Edit'|trans }}" class="btn btn-outline-info"
-               href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></a>
+            {{ buttons.edit(path('agent_edit', {'id': agent.id})) }}
             {{ include('agent/_delete_form.html.twig') }}
         {% endif %}
         <a title="{{ 'Statistics'|trans }}" class="btn btn-outline-success"

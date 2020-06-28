@@ -1,6 +1,8 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ path('default') }}">4E</a>
+{% set page = app.request.get('_route') %}
 
+<nav class="navbar fixed-top navbar-expand navbar-dark bg-dark">
+
+    <a class="navbar-brand" href="{{ path('default') }}">4E</a>
 
     {% if is_granted('ROLE_AGENT') %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -11,61 +13,85 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ path('agent-map') }}">{{ 'Map'|trans }}</a></li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                           role="button">{{ 'Stats'|trans }}</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href={{ path('stats_leaderboard') }}>{{ 'Leaderboard'|trans }}</a>
-                            <a class="dropdown-item" href={{ path('stats_by_date') }}>{{ 'Medals by date'|trans }}</a>
-                        </div>
+                    <li class="nav-item{% if page == 'agent_index' %} active{% endif %}"
+                        title="{{ 'Agents'|trans }}">
+                        <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href={{ path('agent_index') }}>{{ 'Agents'|trans }}</a>
+                    <li class="nav-item{% if page == 'stats_leaderboard' %} active{% endif %}"
+                        title="{{ 'Leaderboard'|trans }}">
+                        <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href={{ path('default_events') }}>{{ 'Events'|trans }}</a>
+                    <li class="nav-item{% if page == 'agent-map' %} active{% endif %}"
+                        title="{{ 'Map'|trans }}">
+                        <a class="nav-link" href="{{ path('agent-map') }}"><span class="oi oi-map-marker"></span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href={{ path('help_index') }}>{{ 'Help'|trans }}</a>
+                    <li class="nav-item" title="{{ 'Events'|trans }}">
+                        <a class="nav-link{% if page == 'default_events' %} text-success{% endif %}" href={{ path('default_events') }}><span class="oi oi-aperture"></a>
+                    </li>
+                    <li class="nav-item{% if page == 'help_index' %} active{% endif %}" title="{{ 'Help'|trans }}">
+                        <a class="nav-link" href={{ path('help_index') }}><span class="oi oi-info"></a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" title="{{ 'Admin'|trans }}">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
-                                {{ 'Admin'|trans }}
+                                <span class="oi oi-shield text-warning">
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('easyadmin') }}">
-                                    DB
-                                </a>
                                 <a class="dropdown-item" href="{{ path('user_index') }}">
+                                    <span class="oi oi-people"></span>&nbsp;
                                     {{ 'Users'|trans }}
                                 </a>
                                 <a class="dropdown-item" href={{ path('agent_stat_index') }}>
+                                    <span class="oi oi-graph"></span>&nbsp;
                                     {{ 'Stats'|trans }}
                                 </a>
                                 <a class="dropdown-item" href="{{ path('comment_index') }}">
+                                    <span class="oi oi-comment-square"></span>&nbsp;
                                     {{ 'Coments'|trans }}
                                 </a>
+                                <a class="dropdown-item" href="{{ path('map_group_index') }}">
+                                    <span class="oi oi-map-marker"></span>&nbsp;
+                                    {{ 'Map groups'|trans }}
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
                                 <a class="dropdown-item" href="{{ path('event_index') }}">
+                                    <span class="oi oi-aperture"></span>&nbsp;
                                     {{ 'Events'|trans }}
                                 </a>
                                 <a class="dropdown-item" href="{{ path('challenge_index') }}">
+                                    <span class="oi oi-aperture"></span>&nbsp;
                                     {{ 'Challenges'|trans }}
                                 </a>
                                 <a class="dropdown-item" href="{{ path('ingress_event_index') }}">
+                                    <span class="oi oi-aperture"></span>&nbsp;
                                     {{ 'Ingress Events'|trans }}
                                 </a>
-                                <a class="dropdown-item" href="{{ path('map_group_index') }}">
-                                    {{ 'Map groups'|trans }}
-                                </a>
+
+                                <div class="dropdown-divider"></div>
+
                                 <a class="dropdown-item" href="{{ path('import') }}">
+                                    <span class="oi oi-action-redo"></span>&nbsp;
                                     {{ 'Import Agents'|trans }}
                                 </a>
+                                <a class="dropdown-item" href={{ path('stats_by_date') }}>
+                                    <span class="oi oi-badge"></span>&nbsp;
+                                    {{ 'Medals by date'|trans }}
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{{ path('easyadmin') }}">
+                                    <span class="oi oi-spreadsheet"></span>&nbsp;
+                                    DB
+                                </a>
                                 <a class="dropdown-item" href="{{ path('test_stat_index') }}">
+                                    <span class="oi oi-beaker"></span>&nbsp;
                                     TEST stats
                                 </a>
                                 <a class="dropdown-item" href="{{ path('test') }}">
+                                    <span class="oi oi-beaker"></span>&nbsp;
                                     TEST
                                 </a>
                             </div>

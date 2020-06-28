@@ -19,20 +19,11 @@ class ControllerAccessTest extends FixtureAwareTestCase
 
     private $exceptions
         = [
-            'default'               => [
+            'default' => [
                 'expected' => 200,
             ],
-            'app_login'             => [
+            'app_login' => [
                 'expected' => 200,
-            ],
-            'agent_add_comment'     => [
-                'method' => 'POST',
-            ],
-            'agent_lookup'          => [
-                'method' => 'POST',
-            ],
-            'comment_delete_inline' => [
-                'method' => 'DELETE',
             ],
         ];
 
@@ -58,13 +49,6 @@ class ControllerAccessTest extends FixtureAwareTestCase
         $this->routeLoader = $kernel->getContainer()->get('routing.loader');
     }
 
-    private function loadRoutes($controllerName)
-    {
-        $routerClass = 'App\Controller\\'.$controllerName;
-
-        return $this->routeLoader->load($routerClass);
-    }
-
     public function testShowPage()
     {
         $path = __DIR__.'/../../src/Controller';
@@ -73,39 +57,48 @@ class ControllerAccessTest extends FixtureAwareTestCase
             if (
                 $item->isDot()
                 || in_array(
-                    $item->getBasename(), ['.gitignore', 'GoogleController.php']
+                    $item->getBasename(),
+                    ['.gitignore', 'GoogleController.php']
                 )
             ) {
                 continue;
             }
 
             $controllerName = basename($item->getBasename(), '.php');
+            $routerClass = 'App\Controller\\'.$controllerName;
+            $routes = $this->routeLoader->load($routerClass)->all();
 
-            $routes = $this->loadRoutes($controllerName)->all();
+            $this->processRoutes($routes);
+        }
+    }
 
-            foreach ($routes as $routeName => $route) {
-                $method = 'GET';
-                $defaultId = 1;
-                $defaultExpected = 302;
+    private function processRoutes(array $routes)
+    {
+        foreach ($routes as $routeName => $route) {
+            $defaultId = 1;
+            $defaultExpected = 302;
 
-                if (array_key_exists($routeName, $this->exceptions)) {
-                    if (array_key_exists('method', $this->exceptions[$routeName])) {
-                        $method = $this->exceptions[$routeName]['method'];
-                    }
-                    if (array_key_exists('expected', $this->exceptions[$routeName])) {
-                        $defaultExpected = $this->exceptions[$routeName]['expected'];
-                    }
-                    if (array_key_exists('params', $this->exceptions[$routeName])) {
-                        $params = $this->exceptions[$routeName]['params'];
-                        if (array_key_exists('id', $params)) {
-                            $defaultId = $params['id'];
-                        }
+            if (array_key_exists($routeName, $this->exceptions)) {
+                if (array_key_exists(
+                    'expected',
+                    $this->exceptions[$routeName]
+                )
+                ) {
+                    $defaultExpected = $this->exceptions[$routeName]['expected'];
+                }
+                if (array_key_exists('params', $this->exceptions[$routeName])) {
+                    $params = $this->exceptions[$routeName]['params'];
+                    if (array_key_exists('id', $params)) {
+                        $defaultId = $params['id'];
                     }
                 }
+            }
 
-                $path = $route->getPath();
-                $path = str_replace('{id}', $defaultId, $path);
-                // echo 'Testing: '.$path.PHP_EOL;
+            $path = $route->getPath();
+            $methods = $route->getMethods() ?: ['GET'];
+            $path = str_replace('{id}', $defaultId, $path);
+            foreach ($methods as $method) {
+                // echo "Testing: $method - $path".PHP_EOL;
                 $this->client->request($method, $path);
                 $this->assertEquals(
                     $defaultExpected,

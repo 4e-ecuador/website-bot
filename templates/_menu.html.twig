@@ -15,26 +15,26 @@
                 <ul class="nav navbar-nav">
                     <li class="nav-item{% if page == 'agent_index' %} active{% endif %}"
                         title="{{ 'Agents'|trans }}">
-                        <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></a>
+                        <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></span></a>
                     </li>
                     <li class="nav-item{% if page == 'stats_leaderboard' %} active{% endif %}"
                         title="{{ 'Leaderboard'|trans }}">
-                        <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></a>
+                        <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></span></a>
                     </li>
                     <li class="nav-item{% if page == 'agent-map' %} active{% endif %}"
                         title="{{ 'Map'|trans }}">
                         <a class="nav-link" href="{{ path('agent-map') }}"><span class="oi oi-map-marker"></span></a>
                     </li>
                     <li class="nav-item" title="{{ 'Events'|trans }}">
-                        <a class="nav-link{% if page == 'default_events' %} text-success{% endif %}" href={{ path('default_events') }}><span class="oi oi-aperture"></a>
+                        <a class="nav-link{% if page == 'default_events' %} text-success{% endif %}" href={{ path('default_events') }}><span class="oi oi-aperture"></span></a>
                     </li>
                     <li class="nav-item{% if page == 'help_index' %} active{% endif %}" title="{{ 'Help'|trans }}">
-                        <a class="nav-link" href={{ path('help_index') }}><span class="oi oi-info"></a>
+                        <a class="nav-link" href={{ path('help_index') }}><span class="oi oi-info"></span></a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item dropdown" title="{{ 'Admin'|trans }}">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
-                                <span class="oi oi-shield text-warning">
+                                <span class="oi oi-shield text-warning"></span>
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ path('user_index') }}">

@@ -8,13 +8,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyUploadReminder extends AbstractCustomMessage
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper,TranslatorInterface $translator)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator
+    ) {
         $this->translator = $translator;
 
         parent::__construct($telegramBotHelper);

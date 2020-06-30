@@ -6,15 +6,9 @@ use App\Entity\Agent;
 
 class BoardEntry
 {
-    /**
-     * @var Agent
-     */
-    private $agent;
+    private Agent $agent;
 
-    /**
-     * @var float
-     */
-    private $value;
+    private float $value;
 
     public function __construct(Agent $agent, float $value)
     {
@@ -22,17 +16,11 @@ class BoardEntry
         $this->value = $value;
     }
 
-    /**
-     * @return Agent
-     */
     public function getAgent(): Agent
     {
         return $this->agent;
     }
 
-    /**
-     * @return float
-     */
     public function getValue(): float
     {
         return $this->value;

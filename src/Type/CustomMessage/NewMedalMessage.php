@@ -10,34 +10,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NewMedalMessage extends AbstractCustomMessage
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /**
-     * @var Agent
-     */
-    private $agent;
+    private Agent $agent;
 
-    /**
-     * @var array
-     */
-    private $medalUps;
+    private array $medalUps;
 
-    /**
-     * @var MedalChecker
-     */
-    private $medalChecker;
+    private MedalChecker $medalChecker;
 
-    /**
-     * @var string
-     */
-    private $pageBaseUrl;
+    private string $pageBaseUrl;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator,
-        Agent $agent, MedalChecker $medalChecker, array $medalUps, string $pageBaseUrl
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator,
+        Agent $agent,
+        MedalChecker $medalChecker,
+        array $medalUps,
+        string $pageBaseUrl
     ) {
         $this->translator = $translator;
         $this->agent = $agent;
@@ -64,7 +53,8 @@ class NewMedalMessage extends AbstractCustomMessage
             .$this->medalChecker->getBadgePath($firstMedal, $firstValue).')';
 
         $message[] = $this->translator->trans(
-            'new.medal.text.1', [
+            'new.medal.text.1',
+            [
                 'medals' => count($this->medalUps),
                 'agent'  => $this->getAgentTelegramName($this->agent),
             ]
@@ -74,7 +64,8 @@ class NewMedalMessage extends AbstractCustomMessage
 
         foreach ($this->medalUps as $medal => $level) {
             $message[] = $this->translator->trans(
-                'new.medal.text.2', [
+                'new.medal.text.2',
+                [
                     'medal' => $medal,
                     'level' => $this->medalChecker->translateMedalLevel($level),
                 ]
@@ -83,13 +74,19 @@ class NewMedalMessage extends AbstractCustomMessage
 
         $message[] = '';
         $message[] = $this->translator->trans(
-            'new.medal.text.3', [
-                'link' => sprintf('%s/stats/agent/%s', $this->pageBaseUrl, $this->agent->getId()),
+            'new.medal.text.3',
+            [
+                'link' => sprintf(
+                    '%s/stats/agent/%s',
+                    $this->pageBaseUrl,
+                    $this->agent->getId()
+                ),
             ]
         );
         $message[] = '';
         $message[] = $this->translator->trans(
-            'new.medal.text.4', [
+            'new.medal.text.4',
+            [
                 'tadaa' => $tadaa.$tadaa.$tadaa,
             ]
         );

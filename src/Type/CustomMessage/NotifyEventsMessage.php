@@ -9,24 +9,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsMessage extends AbstractCustomMessage
 {
-    /**
-     * @var IngressEventRepository
-     */
-    private $ingressEventRepository;
+    private IngressEventRepository $ingressEventRepository;
 
-    /**
-     * @var bool
-     */
-    private $firstAnnounce;
+    private bool $firstAnnounce;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository, TranslatorInterface $translator, bool $firstAnnounce
+        IngressEventRepository $ingressEventRepository,
+        TranslatorInterface $translator,
+        bool $firstAnnounce
     ) {
         $this->ingressEventRepository = $ingressEventRepository;
         $this->firstAnnounce = $firstAnnounce;
@@ -43,20 +36,31 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
         if ($ingressFS) {
             if ($this->firstAnnounce) {
-                $message[] = $this->translator->trans('notify.events.head.fs.first');
+                $message[] = $this->translator->trans(
+                    'notify.events.head.fs.first'
+                );
             } else {
                 $message[] = $this->translator->trans('notify.events.head.fs');
             }
 
             $links = [];
             foreach ($ingressFS as $event) {
-                $links[] = $useLinks ? sprintf('[%s](%s)', $event->getName(), $event->getLink()) : $event->getName();
+                $links[] = $useLinks
+                    ? sprintf(
+                        '[%s](%s)',
+                        $event->getName(),
+                        $event->getLink()
+                    )
+                    : $event->getName();
                 $eventDate = $event->getDateStart();
             }
 
             $daysRemaining = $eventDate->diff(new \DateTime())->days;
 
-            $message[] = $this->translator->trans('notify.events.events.fs', ['links' => implode(', ', $links)]);
+            $message[] = $this->translator->trans(
+                'notify.events.events.fs',
+                ['links' => implode(', ', $links)]
+            );
             $message[] = '';
 
             $msgExtra = $this->translator->trans(

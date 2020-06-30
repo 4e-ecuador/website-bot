@@ -7,10 +7,7 @@ use App\Service\TelegramBotHelper;
 
 abstract class AbstractCustomMessage
 {
-    /**
-     * @var TelegramBotHelper
-     */
-    protected $telegramBotHelper;
+    protected TelegramBotHelper $telegramBotHelper;
 
     public function __construct(TelegramBotHelper $telegramBotHelper, ...$args)
     {

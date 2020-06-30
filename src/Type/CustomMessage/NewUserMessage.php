@@ -9,13 +9,12 @@ use App\Type\AbstractCustomMessage;
 class NewUserMessage extends AbstractCustomMessage
 {
 
-    /**
-     * @var User
-     */
-    private $user;
+    private User $user;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, User $user)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        User $user
+    ) {
         $this->user = $user;
 
         parent::__construct($telegramBotHelper);

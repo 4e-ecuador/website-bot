@@ -10,39 +10,26 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LevelUpMessage extends AbstractCustomMessage
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    /**
-     * @var int
-     */
-    private $level;
+    private int $level;
 
-    /**
-     * @var Agent
-     */
-    private $agent;
+    private Agent $agent;
 
-    /**
-     * @var MedalChecker
-     */
-    private $medalChecker;
+    private MedalChecker $medalChecker;
 
-    /**
-     * @var string
-     */
-    private $pageBaseUrl;
+    private string $pageBaseUrl;
 
-    /**
-     * @var int
-     */
-    private $recursions;
+    private int $recursions;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator,
-        Agent $agent, MedalChecker $medalChecker, int $level, int $recursions, string $pageBaseUrl
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator,
+        Agent $agent,
+        MedalChecker $medalChecker,
+        int $level,
+        int $recursions,
+        string $pageBaseUrl
     ) {
         $this->agent = $agent;
         $this->level = $level;
@@ -66,7 +53,8 @@ class LevelUpMessage extends AbstractCustomMessage
             .$this->medalChecker->getBadgePath('LevelUp_'.$this->level, 0).')';
 
         $response[] = $this->translator->trans(
-            'new.level.text.1', [
+            'new.level.text.1',
+            [
                 'agent' => $this->getAgentTelegramName($this->agent),
             ]
         );
@@ -85,13 +73,19 @@ class LevelUpMessage extends AbstractCustomMessage
         $response[] = '';
 
         $response[] = $this->translator->trans(
-            'new.medal.text.3', [
-                'link' => sprintf('%s/stats/agent/%s', $this->pageBaseUrl, $this->agent->getId()),
+            'new.medal.text.3',
+            [
+                'link' => sprintf(
+                    '%s/stats/agent/%s',
+                    $this->pageBaseUrl,
+                    $this->agent->getId()
+                ),
             ]
         );
         $response[] = '';
         $response[] = $this->translator->trans(
-            'new.medal.text.4', [
+            'new.medal.text.4',
+            [
                 'tadaa' => $tada.$tada.$tada,
             ]
         );

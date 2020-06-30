@@ -10,29 +10,20 @@ use App\Type\AbstractCustomMessage;
 
 class SmurfAlertMessage extends AbstractCustomMessage
 {
-    /**
-     * @var User
-     */
-    private $user;
+    private User $user;
 
-    /**
-     * @var Agent
-     */
-    private $agent;
+    private Agent $agent;
 
-    /**
-     * @var AgentStat
-     */
-    private $statEntry;
+    private AgentStat $statEntry;
 
-    /**
-     * @var string
-     */
-    private $announceAdminCc;
+    private string $announceAdminCc;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
-        User $user, Agent $agent, AgentStat $statEntry, string $announceAdminCc
+        User $user,
+        Agent $agent,
+        AgentStat $statEntry,
+        string $announceAdminCc
     ) {
         $this->user = $user;
         $this->agent = $agent;

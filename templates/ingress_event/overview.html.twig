@@ -8,8 +8,17 @@
 {% endblock %}
 
 {% block body %}
-    <span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
-    <h1>Ingress FS overview</h1>
+<span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
+    <h1>
+        Ingress FS overview
+        <img src="{{ asset('/build/images/logos/ENL.svg') }}" style="height: 32px" alt="logo">
+        <span class="faction-enl" id="total-enl"></span>
+        +
+        <img src="{{ asset('/build/images/logos/RES.svg') }}" style="height: 32px" alt="logo">
+        <span class="faction-res" id="total-res"></span>
+        =
+        <span class="text-danger" id="total"></span>
+    </h1>
     <div class="row">
         {% for event in events %}
             <div class="col-sm-4 card">
@@ -26,13 +35,13 @@
 
     <script id="myTemplate" type="text/x-jsrender">
 <div class="row">
-  <div class="col faction-enl">
-      <img src="/build/images/logos/ENL.svg" style="height: 32px" alt="logo">
-      <%:#data.atendees.enl.length+1%>
+  <div class="col">
+      <img src="{{ asset('/build/images/logos/ENL.svg') }}" style="height: 32px" alt="logo"/>
+      <span class="counter faction-enl"><%:#data.atendees.enl.length+1%></span>
   </div>
-  <div class="col faction-res">
-      <img src="/build/images/logos/RES.svg" style="height: 32px" alt="logo">
-      <%:#data.atendees.res.length+1%>
+  <div class="col">
+      <img src="{{ asset('/build/images/logos/RES.svg') }}" style="height: 32px" alt="logo"/>
+      <span class="counter faction-res"><%:#data.atendees.res.length+1%></span>
   </div>
 </div>
 
@@ -61,6 +70,5 @@
         </ul>
     </div>
 </div>
-
     </script>
 {% endblock %}

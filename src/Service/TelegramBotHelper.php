@@ -17,22 +17,13 @@ use TelegramBot\Api\Types\Message;
 
 class TelegramBotHelper
 {
-    /**
-     * @var BotApi
-     */
-    private $api;
+    private BotApi $api;
 
-    /**
-     * @var MedalChecker
-     */
-    private $medalChecker;
+    private MedalChecker $medalChecker;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
-    private $emojies
+    private array $emojies
         = [
             'tadaa'      => "\xF0\x9F\x8E\x89",
             'redlight'   => "\xF0\x9F\x9A\xA8",
@@ -40,20 +31,11 @@ class TelegramBotHelper
             'check-mark' => "\xE2\x9C\x85",
         ];
 
-    /**
-     * @var string
-     */
-    private $botName;
+    private string $botName;
 
-    /**
-     * @var string
-     */
-    private $pageBaseUrl;
+    private string $pageBaseUrl;
 
-    /**
-     * @var string
-     */
-    private $announceAdminCc;
+    private string $announceAdminCc;
 
     public function __construct(
         BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator,

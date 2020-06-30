@@ -25,6 +25,9 @@ class ControllerAccessTest extends FixtureAwareTestCase
             'app_login' => [
                 'expected' => 200,
             ],
+            'connect_google_api_token' => [
+                'expected' => 200,
+            ],
         ];
 
     protected $client;

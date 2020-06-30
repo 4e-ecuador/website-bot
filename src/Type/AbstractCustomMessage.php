@@ -2,6 +2,7 @@
 
 namespace App\Type;
 
+use App\Entity\Agent;
 use App\Service\TelegramBotHelper;
 
 abstract class AbstractCustomMessage
@@ -21,5 +22,15 @@ abstract class AbstractCustomMessage
     public function getText(): string
     {
         return implode("\n", $this->getMessage());
+    }
+
+    protected function getAgentTelegramName(Agent $agent): string
+    {
+        return str_replace(
+            '_',
+            '\\_',
+            $agent->getTelegramName()
+                ?: $agent->getNickname()
+        );
     }
 }

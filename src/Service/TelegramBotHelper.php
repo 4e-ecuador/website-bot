@@ -9,6 +9,7 @@ use App\Type\CustomMessage\LevelUpMessage;
 use App\Type\CustomMessage\NewMedalMessage;
 use App\Type\CustomMessage\NewUserMessage;
 use App\Type\CustomMessage\NicknameMismatchMessage;
+use App\Type\CustomMessage\RecursionMessage;
 use App\Type\CustomMessage\SmurfAlertMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
@@ -231,5 +232,13 @@ class TelegramBotHelper
             str_replace('_', '\\_', implode("\n", $message)),
             'markdown'
         );
+    }
+
+    public function sendRecursionMessage(string $groupName, Agent $agent, int $recursions): Message
+    {
+        $message = (new RecursionMessage($this, $this->translator, $agent, $recursions, $this->pageBaseUrl))
+            ->getText();
+
+        return $this->api->sendMessage($this->getGroupId($groupName), $message,'markdown');
     }
 }

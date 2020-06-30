@@ -375,17 +375,29 @@ class StatsController extends AbstractController
 
                 // Level changed
                 $previousLevel = $previousEntry->getLevel();
-                if ($previousLevel
-                    && $currentEntry->getLevel() !== $previousLevel
-                ) {
+                if ($previousLevel && $currentEntry->getLevel() !== $previousLevel) {
                     $newLevel = $currentEntry->getLevel();
                     $telegramBotHelper->sendLevelUpMessage($groupName, $agent, $newLevel, $currentEntry->getRecursions());
                 }
+
+                // Recursions
+                $recursions = $currentEntry->getRecursions();
+                if ($recursions) {
+                    $previousRecursions = $previousEntry->getRecursions();
+                    if ($previousRecursions) {
+                        if ($recursions > $previousRecursions) {
+                            // Re-recursion
+                            $telegramBotHelper->sendRecursionMessage($groupName, $agent, $recursions);
+                        }
+                    } else {
+                        // First recursion
+                        $telegramBotHelper->sendRecursionMessage($groupName, $agent, $recursions);
+                    }
+                }
             }
 
-            // @todo temporal FireBase token store
-
-            if ($fireBaseToken) {
+            // @TODO temporal FireBase token store
+            if ($fireBaseToken && !$user->getFireBaseToken()) {
                 $user->setFireBaseToken($fireBaseToken);
                 $entityManager->persist($user);
                 $entityManager->flush();
@@ -399,7 +411,6 @@ class StatsController extends AbstractController
                     'diff'     => $diff,
                     'currents' => $currents,
                     'newLevel' => $newLevel,
-
                 ]
             );
         }

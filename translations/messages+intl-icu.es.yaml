@@ -159,3 +159,4 @@ Progress: Progreso
 'Create new IngressEvent': 'Crear nuevo evento Ingress'
 recursion.header: '--- *A N U N C I O* ---'
 recursion.text.1: 'El agente @{agent} acaba de recursionar!'
+'4E Events': 'Eventos 4E'

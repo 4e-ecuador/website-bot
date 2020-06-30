@@ -95,21 +95,20 @@ class DefaultController extends AbstractController
      * @Route("/events", name="default_events")
      * @IsGranted("ROLE_AGENT")
      */
-    public function events(EventHelper $eventHelper): Response
+    public function events(EventHelper $eventHelper, IngressEventRepository $ingressEventRepository): Response
     {
         return $this->render(
             'default/events.html.twig',
             [
+                'ingressFS'      => $ingressEventRepository->findFutureFS(),
+                'ingressMD'      => $ingressEventRepository->findFutureMD(),
                 'pastEvents'     => $eventHelper->getEventsInSpan('past'),
                 'currentEvents'  => $eventHelper->getEventsInSpan('present'),
                 'futureEvents'   => $eventHelper->getEventsInSpan('future'),
                 'pastChallenges'     => $eventHelper->getChallengesInSpan('past'),
                 'currentChallenges'  => $eventHelper->getChallengesInSpan('present'),
                 'futureChallenges'   => $eventHelper->getChallengesInSpan('future'),
-
             ]
         );
     }
-
-
 }

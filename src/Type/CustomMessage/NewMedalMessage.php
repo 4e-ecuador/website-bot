@@ -66,11 +66,7 @@ class NewMedalMessage extends AbstractCustomMessage
         $message[] = $this->translator->trans(
             'new.medal.text.1', [
                 'medals' => count($this->medalUps),
-                'agent'  => str_replace(
-                    '_', '\\_',
-                    $this->agent->getTelegramName()
-                        ?: $this->agent->getNickname()
-                ),
+                'agent'  => $this->getAgentTelegramName($this->agent),
             ]
         );
 

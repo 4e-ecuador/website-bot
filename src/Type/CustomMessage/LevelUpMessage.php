@@ -67,10 +67,7 @@ class LevelUpMessage extends AbstractCustomMessage
 
         $response[] = $this->translator->trans(
             'new.level.text.1', [
-                'agent' => str_replace(
-                    '_', '\\_', $this->agent->getTelegramName()
-                    ?: $this->agent->getNickname()
-                ),
+                'agent' => $this->getAgentTelegramName($this->agent),
             ]
         );
 

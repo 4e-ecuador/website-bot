@@ -15,6 +15,7 @@ security:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
                     - App\Security\GoogleAuthenticator
+                    - App\Security\TokenAuthenticator
                 entry_point: App\Security\AppCustomAuthenticator
             form_login:
                 use_referer: true

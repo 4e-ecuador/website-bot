@@ -157,3 +157,5 @@ Progress: Progreso
 'New Level: {level}': 'Nuevo nivel: {level}'
 'Items per page': 'Items por página'
 'Create new IngressEvent': 'Crear nuevo evento Ingress'
+recursion.header: '--- *A N U N C I O* ---'
+recursion.text.1: 'El agente @{agent} acaba de recursionar!'

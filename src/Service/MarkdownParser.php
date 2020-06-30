@@ -47,7 +47,7 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
                 $url = $this->urlGenerator->generate('agent_show', array('id' => $agent->getId()));
 
                 $linkText = sprintf(
-                    '<img src="/build/images/logos/%s.svg" style="height: 32px" alt="logo"> %s',
+                    '<img src="/build/images/logos/%s.svg" style="height: 32px" alt="logo"/> %s',
                     $agent->getFaction()->getName(),
                     $agentName[0]
                 );

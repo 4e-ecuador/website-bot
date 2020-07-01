@@ -89,6 +89,11 @@ class Agent
      */
     private $hasNotifyStatsResult;
 
+    /**
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $locale;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -292,6 +297,18 @@ class Agent
     public function setHasNotifyStatsResult(?bool $hasNotifyStatsResult): self
     {
         $this->hasNotifyStatsResult = $hasNotifyStatsResult;
+
+        return $this;
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): self
+    {
+        $this->locale = $locale;
 
         return $this;
     }

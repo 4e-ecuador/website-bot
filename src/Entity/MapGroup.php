@@ -44,7 +44,7 @@ class MapGroup
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Agent", mappedBy="map_group")
      */
-    private ArrayCollection $agents;
+    private Collection $agents;
 
     public function __construct()
     {

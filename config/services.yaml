@@ -74,6 +74,10 @@ services:
         arguments:
             $timeZone: '%env(DEFAULT_TIMEZONE)%'
 
+    App\Service\EventHelper:
+        arguments:
+            $timeZone: '%env(DEFAULT_TIMEZONE)%'
+
     App\Security\GoogleApiClient:
         arguments:
             $clientId: '%env(OAUTH_GOOGLE_ID_WEB)%'

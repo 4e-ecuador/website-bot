@@ -2,11 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_AGENT')"
+ *          }
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_AGENT')"
+ *          }
+ *      },
+ *     normalizationContext={"groups"={"agent:read"}}
+ * )
+ *
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  */
 class Agent
@@ -20,27 +36,37 @@ class Agent
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"agent:read"})
      */
     protected $nickname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Groups({"agent:read"})
      */
     private $realName;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     *
+     * @Groups({"agent:read"})
      */
     private $lat;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     *
+     * @Groups({"agent:read"})
      */
     private $lon;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Faction")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups({"agent:read"})
      */
     private $faction;
 
@@ -51,6 +77,8 @@ class Agent
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Groups({"agent:read"})
      */
     private $custom_medals;
 
@@ -61,6 +89,8 @@ class Agent
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Groups({"agent:read"})
      */
     private $telegram_name;
 

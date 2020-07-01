@@ -2,12 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Controller\Api\GetMeAction;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="agent_user")
+ *
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *         "get_me"={
+ *             "security"="is_granted('ROLE_AGENT')",
+ *             "method"="GET",
+ *             "path"="/users/me",
+ *             "controller"=GetMeAction::class,
+ *             "openapi_context"={
+ *                 "parameters"={}
+ *             },
+ *             "read"=false
+ *         }
+ *     },
+ *     normalizationContext={"groups"={"me:read"}}
+ * )
  */
 class User implements UserInterface
 {
@@ -15,6 +35,8 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"me:read"})
      */
     private $id;
 
@@ -30,6 +52,8 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
+     *
+     * @Groups({"me:read"})
      */
     private $agent;
 

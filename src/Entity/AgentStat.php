@@ -2,11 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use ArrayAccess;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AgentStatRepository")
+ *
+ * @ApiFilter(SearchFilter::class, properties={"agent": "exact"})
+ * @ApiResource(
+ *     attributes={
+ *          "order"={"datetime": "DESC"}
+ *     },
+ *     collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_AGENT')"
+ *          },
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_AGENT')"
+ *          }
+ *     }
+ * )
  */
 class AgentStat implements ArrayAccess
 {

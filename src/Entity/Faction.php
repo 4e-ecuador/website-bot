@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FactionRepository")
@@ -18,6 +19,8 @@ class Faction
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"agent:read"})
      */
     private $name;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
+<html prefix="og: http://ogp.me/ns#" lang="{{ locale }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,7 +29,7 @@
 {% include('_menu.html.twig') %}
 
 <div class="container" id="main-container">
-    <noscript><h1 class="alert alert-danger">Please activate Javascript</h1></noscript>
+    <noscript><h1 class="alert alert-danger">{{ 'Please activate Javascript'|trans }}</h1></noscript>
     {% include ('_flash-messages.html.twig') %}
     {% block body %}{% endblock %}
 </div>

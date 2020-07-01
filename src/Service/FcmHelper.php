@@ -7,19 +7,10 @@ namespace App\Service;
  */
 class FcmHelper
 {
-    /**
-     * @var string
-     */
-    private $fcmKey;
-
-    public $tokens = [];
-
-    public $type = '';
-
-    /**
-     * @var string
-     */
-    private $channelId;
+    private string $fcmKey;
+    public array $tokens = [];
+    public string $type = '';
+    private string $channelId;
 
     public function __construct(string $fcmKey, string $channelId)
     {
@@ -27,8 +18,11 @@ class FcmHelper
         $this->channelId = $channelId;
     }
 
-    public function sendMessage(string $title, string $message, $to = '/topics/allDevices')
-    {
+    public function sendMessage(
+        string $title,
+        string $message,
+        $to = '/topics/allDevices'
+    ) {
         $data = [
             'to'   => $to,
             'data' => [

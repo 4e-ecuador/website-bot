@@ -7,15 +7,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Templater
 {
-
-    /**
-     * @var string
-     */
-    private $rootDir;
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private string $rootDir;
+    private Filesystem $filesystem;
 
     public function __construct(string $rootDir, Filesystem $filesystem)
     {

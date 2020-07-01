@@ -13,16 +13,15 @@ use App\Type\CustomMessage\RecursionMessage;
 use App\Type\CustomMessage\SmurfAlertMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 use TelegramBot\Api\Types\Message;
+use UnexpectedValueException;
 
 class TelegramBotHelper
 {
     private BotApi $api;
-
     private MedalChecker $medalChecker;
-
     private TranslatorInterface $translator;
-
     private array $emojies
         = [
             'tadaa'      => "\xF0\x9F\x8E\x89",
@@ -30,11 +29,8 @@ class TelegramBotHelper
             'cross-mark' => "\xE2\x9D\x8C",
             'check-mark' => "\xE2\x9C\x85",
         ];
-
     private string $botName;
-
     private string $pageBaseUrl;
-
     private string $announceAdminCc;
 
     public function __construct(
@@ -66,11 +62,11 @@ class TelegramBotHelper
                 $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
                 break;
             default:
-                throw new \UnexpectedValueException('Unknown group name'.$name);
+                throw new UnexpectedValueException('Unknown group name'.$name);
         }
 
         if (!$id) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Required env var has not been set up: '.$name
             );
         }
@@ -148,7 +144,7 @@ class TelegramBotHelper
     public function getConnectLink(Agent $agent): string
     {
         // This seems necessary to lazy load the $agent object (???)
-        $unusedVar = $agent->getNickname();
+        $agent->getNickname();
 
         return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
@@ -182,6 +178,24 @@ class TelegramBotHelper
             ->getMessage();
 
         return $this->sendMessage($this->getGroupId($groupName), implode("\n", $message));
+    }
+
+    public function sendButtonMessage(string $groupName): Message
+    {
+        $prev = 3;
+        $text = 'hello test';
+        $buttons = [];
+
+        $buttons[] = ['text' => 'Prev', 'callback_data' => '/post_'.$prev];
+
+        return $this->api->sendMessage(
+            $this->getGroupId($groupName),
+            $text,
+            'markdown',
+            false,
+            null,
+            new InlineKeyboardMarkup([$buttons])
+        );
     }
 
     public function sendNewUserMessage(int $chatId, User $user): Message

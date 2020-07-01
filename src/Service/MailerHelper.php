@@ -12,20 +12,9 @@ use Symfony\Component\Mime\Email;
 
 class MailerHelper
 {
-    /**
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @var string
-     */
-    private $emailName;
-
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
+    private string $email;
+    private string $emailName;
+    private MailerInterface $mailer;
 
     public function __construct(string $email, string $emailName, MailerInterface $mailer)
     {
@@ -91,7 +80,7 @@ class MailerHelper
         return $response;
     }
 
-    public function sendTestMail(string $email)
+    public function sendTestMail(string $email): void
     {
         $message = $this->createNewMessage()
             ->to($email)

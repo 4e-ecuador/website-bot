@@ -6,39 +6,20 @@ use App\Entity\Event;
 use App\Repository\ChallengeRepository;
 use App\Repository\EventRepository;
 use DateTime;
+use DateTimeZone;
+use UnexpectedValueException;
 
 class EventHelper
 {
-    /**
-     * @var string
-     */
-    private $defaultTimezone;
+    private DateTimeZone $timezone;
+    private EventRepository $eventRepository;
+    private ChallengeRepository $challengeRepository;
 
-    /**
-     * @var \DateTimeZone
-     */
-    private $timezone;
-
-    /**
-     * @var EventRepository
-     */
-    private $eventRepository;
-    /**
-     * @var ChallengeRepository
-     */
-    private $challengeRepository;
-    /**
-     * @var DateTimeHelper
-     */
-    private $dateTimeHelper;
-
-    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository, DateTimeHelper $dateTimeHelper)
+    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository)
     {
-        $this->defaultTimezone = $_ENV['DEFAULT_TIMEZONE'];
-        $this->timezone = new \DateTimeZone($this->defaultTimezone);
+        $this->timezone = new DateTimeZone('');
         $this->eventRepository = $eventRepository;
         $this->challengeRepository = $challengeRepository;
-        $this->dateTimeHelper = $dateTimeHelper;
     }
 
     public function getNextFS(): DateTime
@@ -80,7 +61,7 @@ class EventHelper
                 if (false
                     === method_exists($currentEntries[$agentName], $methodName)
                 ) {
-                    throw new \UnexpectedValueException(
+                    throw new UnexpectedValueException(
                         'Unknown event type: '.$event->getEventType()
                     );
                 }
@@ -101,17 +82,17 @@ class EventHelper
         if (!$events) {
             $events = $this->eventRepository->findAll();
 
-            $now = new \DateTime('now', $this->timezone);
+            $now = new DateTime('now', $this->timezone);
 
             foreach ($events as $event) {
                 $event->setDateStart(
-                    new \DateTime(
+                    new DateTime(
                         $event->getDateStart()
                             ->format('Y-m-d H:i:s'), $this->timezone
                     )
                 );
                 $event->setDateEnd(
-                    new \DateTime(
+                    new DateTime(
                         $event->getDateEnd()
                             ->format('Y-m-d H:i:s'), $this->timezone
                     )
@@ -129,16 +110,12 @@ class EventHelper
         switch ($span) {
             case 'past':
                 return $pastEvents;
-                break;
             case 'present':
                 return $currentEvents;
-                break;
             case 'future':
                 return $futureEvents;
-                break;
             default:
-                throw new \UnexpectedValueException('Unknown span (must be: past, present or future)');
-                break;
+                throw new UnexpectedValueException('Unknown span (must be: past, present or future)');
         }
     }
 
@@ -154,17 +131,17 @@ class EventHelper
 
             $items = $this->challengeRepository->findAll();
 
-            $now = new \DateTime('now', $this->timezone);
+            $now = new DateTime('now', $this->timezone);
 
             foreach ($items as $item) {
                 $item->setDateStart(
-                    new \DateTime(
+                    new DateTime(
                         $item->getDateStart()
                             ->format('Y-m-d H:i:s'), $this->timezone
                     )
                 );
                 $item->setDateEnd(
-                    new \DateTime(
+                    new DateTime(
                         $item->getDateEnd()
                             ->format('Y-m-d H:i:s'), $this->timezone
                     )
@@ -183,6 +160,6 @@ class EventHelper
             return $challenges[$span];
         }
 
-        throw new \UnexpectedValueException('Unknown span (must be: past, present or future): '.$span);
+        throw new UnexpectedValueException('Unknown span (must be: past, present or future): '.$span);
     }
 }

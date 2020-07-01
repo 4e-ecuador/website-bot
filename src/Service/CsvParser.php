@@ -3,13 +3,11 @@
 namespace App\Service;
 
 use App\Exception\StatsNotAllException;
+use UnexpectedValueException;
 
 class CsvParser
 {
-    /**
-     * @var MedalChecker
-     */
-    private $medalChecker;
+    private MedalChecker $medalChecker;
 
     public function __construct(MedalChecker $medalChecker)
     {
@@ -21,11 +19,10 @@ class CsvParser
         switch ($type) {
             case 'prime':
                 return $this->parsePrimeCsv($csvString);
-                break;
             case 'agentstats':
                 return $this->parseAgentStatsCsv($csvString);
             default:
-                throw new \UnexpectedValueException('unknown CSV type');
+                throw new UnexpectedValueException('unknown CSV type');
         }
     }
 
@@ -73,7 +70,7 @@ class CsvParser
         }
 
         if (!$csv) {
-            throw new \UnexpectedValueException('Invalid CSV');
+            throw new UnexpectedValueException('Invalid CSV');
         }
 
         return $csv;
@@ -82,6 +79,7 @@ class CsvParser
     private function parseAgentStatsCsv(string $csvString): array
     {
         $csv = [];
+        $headVars = [];
 
         $lines = explode("\n", trim($csvString));
 
@@ -107,7 +105,7 @@ class CsvParser
         }
 
         if (!$csv) {
-            throw new \UnexpectedValueException('Invalid CSV');
+            throw new UnexpectedValueException('Invalid CSV');
         }
 
         return $csv;

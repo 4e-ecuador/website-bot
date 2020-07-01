@@ -3,19 +3,13 @@
 namespace App\Service;
 
 use Michelf\MarkdownInterface;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class MarkdownHelper
 {
-    /**
-     * @var AdapterInterface
-     */
-    private $cache;
-
-    /**
-     * @var MarkdownInterface
-     */
-    private $markdown;
+    private AdapterInterface $cache;
+    private MarkdownInterface $markdown;
 
     public function __construct(AdapterInterface $cache, MarkdownInterface $markdown)
     {
@@ -26,13 +20,16 @@ class MarkdownHelper
     public function parse(string $source): string
     {
         // return $this->markdown->transform($source);
-        $item = $this->cache->getItem('markdown_'.md5($source));
+        try {
+            $item = $this->cache->getItem('markdown_'.md5($source));
+            if (!$item->isHit()) {
+                $item->set($this->markdown->transform($source));
+                $this->cache->save($item);
+            }
 
-        if (!$item->isHit()) {
-            $item->set($this->markdown->transform($source));
-            $this->cache->save($item);
+            return $item->get();
+        } catch (InvalidArgumentException $e) {
+            return $e->getMessage();
         }
-
-        return $item->get();
     }
 }

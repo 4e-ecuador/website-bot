@@ -3,27 +3,24 @@
 namespace App\Service;
 
 use App\Repository\AgentRepository;
+use DOMDocument;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
 {
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
+    private AgentRepository $agentRepository;
+    private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(AgentRepository $agentRepository, UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        AgentRepository $agentRepository,
+        UrlGeneratorInterface $urlGenerator
+    ) {
         parent::__construct();
         $this->agentRepository = $agentRepository;
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function transform($text)
+    public function transform($text): string
     {
         $text = parent::transform($text);
 
@@ -38,13 +35,18 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         $text = preg_replace_callback(
             '/@([a-zA-Z0-9]+)/',
             function ($agentName) {
-                $agent = $this->agentRepository->findOneByNickName($agentName[1]);
+                $agent = $this->agentRepository->findOneByNickName(
+                    $agentName[1]
+                );
 
                 if (!$agent) {
                     return '<code>'.$agentName[0].'</code>';
                 }
 
-                $url = $this->urlGenerator->generate('agent_show', array('id' => $agent->getId()));
+                $url = $this->urlGenerator->generate(
+                    'agent_show',
+                    array('id' => $agent->getId())
+                );
 
                 $linkText = sprintf(
                     '<img src="/build/images/logos/%s.svg" style="height: 32px" alt="logo"/> %s',
@@ -52,7 +54,12 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
                     $agentName[0]
                 );
 
-                return sprintf('<a href="%s" class="%s">%s</a>', $url, $agent->getFaction()->getName(), $linkText);
+                return sprintf(
+                    '<a href="%s" class="%s">%s</a>',
+                    $url,
+                    $agent->getFaction()->getName(),
+                    $linkText
+                );
             },
             $text
         );
@@ -65,7 +72,7 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         $testString = "<div>$text</div>";
         $testString = str_replace('<br>', '<br/>', $testString);
 
-        $doc = new \DOMDocument('1.0', 'UTF-8');
+        $doc = new DOMDocument('1.0', 'UTF-8');
         // $doc->strictErrorChecking = true;
         // $doc->standalone = true;
         $doc->xmlStandalone = true;
@@ -74,8 +81,7 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
 
         $sNode = $doc->getElementsByTagName('img');
 
-        foreach($sNode as $searchNode)
-        {
+        foreach ($sNode as $searchNode) {
             $searchNode->setAttribute('class', 'img-fluid');
             $doc->importNode($searchNode);
         }

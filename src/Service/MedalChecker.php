@@ -5,10 +5,11 @@ namespace App\Service;
 use App\Entity\AgentStat;
 use App\Util\BadgeData;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use UnexpectedValueException;
 
 class MedalChecker
 {
-    private $medalLevels
+    private array $medalLevels
         = [
             'explorer'               => [
                 'desc'   => 'Unique Portals Visited',
@@ -132,7 +133,7 @@ class MedalChecker
             ],
         ];
 
-    private $primeHeaders
+    private array $primeHeaders
         = [
             'Time Span'                     => '',
             'Agent Name'                    => 'nickname',
@@ -187,7 +188,7 @@ class MedalChecker
             'Didact Fields Created'                  => 'currentChallenge',
         ];
 
-    private $customMedals
+    private array $customMedals
         = [
             'Anomaly' =>
                 [
@@ -290,9 +291,9 @@ class MedalChecker
 
         ];
 
-    private $discontinuedMedals = ['recruiter', 'seer'];
+    private array $discontinuedMedals = ['recruiter', 'seer'];
 
-    private $levelNames
+    private array $levelNames
         = [
             1 => 'Bronze',
             2 => 'Silver',
@@ -301,58 +302,49 @@ class MedalChecker
             5 => 'Black',
         ];
 
-    private $ingressLevels
+    private array $ingressLevels
         = [
-            '2' => [
+            2 => [
                 'ap'     => 2500,
                 'medals' => [],
             ],
-            '3' => [
+            3 => [
                 'ap'     => 20000,
                 'medals' => [],
             ],
-            '4' => [
+            4 => [
                 'ap'     => 70000,
                 'medals' => [],
             ],
-            '5' => [
+            5 => [
                 'ap'     => 150000,
                 'medals' => [],
             ],
-            '6' => [
+            6 => [
                 'ap'     => 300000,
                 'medals' => [],
             ],
-            '7' => [
+            7 => [
                 'ap'     => 600000,
                 'medals' => [],
             ],
-            '8' => [
+            8 => [
                 'ap'     => 1200000,
                 'medals' => [],
             ],
-            '9' => [
+            9 => [
                 'ap'     => 2400000,
                 'medals' => [],
             ],
         ];
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private array $translatedLevels = [];
+    private string $rootDir;
 
-    private $translatedLevels = [];
-
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    public function __construct(TranslatorInterface $translator, string $rootDir)
-    {
-        $this->translator = $translator;
-
+    public function __construct(
+        TranslatorInterface $translator,
+        string $rootDir
+    ) {
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');
@@ -368,7 +360,8 @@ class MedalChecker
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
                 $levels[$name] = $this->getMedalLevel(
-                    $name, $agentStat->$methodName() ?: 0
+                    $name,
+                    $agentStat->$methodName() ?: 0
                 );
 
                 if (0 === $levels[$name]
@@ -402,8 +395,10 @@ class MedalChecker
         return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
     }
 
-    public function getUpgrades(AgentStat $previousEntry, AgentStat $currentEntry): array
-    {
+    public function getUpgrades(
+        AgentStat $previousEntry,
+        AgentStat $currentEntry
+    ): array {
         $upgrades = [];
 
         $previousLevels = $this->checkLevels($previousEntry);
@@ -431,7 +426,8 @@ class MedalChecker
         return
             array_key_exists($medal, $this->medalLevels)
             && array_key_exists(
-                $level - 1, $this->medalLevels[$medal]['levels']
+                $level - 1,
+                $this->medalLevels[$medal]['levels']
             )
                 ? $this->medalLevels[$medal]['levels'][$level - 1]
                 : 0;
@@ -485,8 +481,12 @@ class MedalChecker
         return $doubleValue;
     }
 
-    public function getBadgePath(string $medal, int $level, int $size = 0, string $postFix = '.png'): string
-    {
+    public function getBadgePath(
+        string $medal,
+        int $level,
+        int $size = 0,
+        string $postFix = '.png'
+    ): string {
         $medal = ucfirst($medal);
         switch ($medal) {
             case 'Mind-controller':
@@ -545,7 +545,8 @@ class MedalChecker
             $badgeData = json_decode(
                 file_get_contents(
                     $this->rootDir.'/text-files/badgeinfos.json'
-                ), true
+                ),
+                true
             );
         }
 
@@ -555,6 +556,6 @@ class MedalChecker
             }
         }
 
-        throw new \UnexpectedValueException('No data for code:'.$code);
+        throw new UnexpectedValueException('No data for code:'.$code);
     }
 }

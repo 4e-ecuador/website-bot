@@ -11,10 +11,7 @@ class DateTimeHelper
      */
     private $defaultTimezone;
 
-    /**
-     * @var \DateTimeZone
-     */
-    private $timezone;
+    private \DateTimeZone $timezone;
 
     public function __construct()
     {
@@ -31,9 +28,6 @@ class DateTimeHelper
         return ($dateNow > $fsThisMonth) ? $fsNextMonth : $fsThisMonth;
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultTimezone(): string
     {
         return $this->defaultTimezone;

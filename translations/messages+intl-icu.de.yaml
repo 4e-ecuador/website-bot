@@ -1,0 +1,129 @@
+medal.level.bronce: __medal.level.bronce
+medal.level.silver: Silber
+medal.level.gold: Gold
+medal.level.platinum: __medal.level.platinum
+medal.level.onyx: __medal.level.onyx
+bot.message.missing.agent: __bot.message.missing.agent
+bot.message.agent.verified: __bot.message.agent.verified
+user.not.verified.2: __user.not.verified.2
+'Your profile has been updated.': '__Your profile has been updated.'
+email.confirmation.subject: __email.confirmation.subject
+'Please log in': 'Bitte einloggen'
+'Stat entry already added!': '__Stat entry already added!'
+'Stats upload successful!': '__Stats upload successful!'
+'My Profile': 'Mein Profil'
+'Agent: {agent_name}': 'Agent: {agent_name}'
+'Personal information': '__Personal information'
+'Meeting point': '__Meeting point'
+'Please move the marker to your meeting point location': '__Please move the marker to your meeting point location'
+account.map.added.group: __account.map.added.group
+account.map.added.warning: __account.map.added.warning
+'Custom medals': '__Custom medals'
+Notifications: __Notifications
+'Disconnect from Telegram - {agent}': '__Disconnect from Telegram - {agent}'
+'Connect to Telegram': '__Connect to Telegram'
+'Update profile': '__Update profile'
+Close: __Close
+'Show all': '__Show all'
+Statistics: __Statistics
+'First import: {date}': '__First import: {date}'
+'Latest Update: {last_update}': '__Latest Update: {last_update}'
+'Start Date': '__Start Date'
+'End Date': '__End Date'
+'All time stats': '__All time stats'
+'There are no statistics for this agent.': '__There are no statistics for this agent.'
+'Medals by date': '__Medals by date'
+'Medals from {startDate} to {endDate}': '__Medals from {startDate} to {endDate}'
+'Event type: {type}': '__Event type: {type}'
+'Final results': '__Final results'
+'The event ends in': '__The event ends in'
+'The event starts in': '__The event starts in'
+'Days:': '__Days:'
+'Hours:': '__Hours:'
+'Minutes:': '__Minutes:'
+'Seconds:': '__Seconds:'
+label.write: __label.write
+label.preview: __label.preview
+Delete: __Delete
+'Edit Agent': '__Edit Agent'
+Save: __Save
+'Agent index': '__Agent index'
+'no records found': '__no records found'
+'Edit User': '__Edit User'
+'Send confirmation mail': '__Send confirmation mail'
+Update: __Update
+'No records found': '__No records found'
+'Back to list': '__Back to list'
+Edit: __Edit
+'Create new IngressEvent': '__Create new IngressEvent'
+'Create new': '__Create new'
+'Ingress Mission Day': '__Ingress Mission Day'
+'Ingress First Saturday': '__Ingress First Saturday'
+'Ends in': '__Ends in'
+Welcome!: Willkommen!
+agents.in.database: "{count, plural,\n  =0 {Die Datenbank ist leer :(}\n  one {Es gibt nur einen Agenten in der Datenbank}\n  other {Wir haben # Agenten in der Datenbank.}\n}"
+'Import Stats': '__Import Stats'
+'Prime export': '__Prime export'
+Upload: __Upload
+'Search agent': '__Search agent'
+'Agent nickname': '__Agent nickname'
+Search: __Search
+'You are connected to Telegram but have not enabled notifications. You may do this {link}.': '__You are connected to Telegram but have not enabled notifications. You may do this {link}.'
+account.link.text: __account.link.text
+Events: __Events
+'Event Page': '__Event Page'
+Challenges: __Challenges
+'Current challenges': '__Current challenges'
+'Future Challenges': '__Future Challenges'
+'Past Challenges': '__Past Challenges'
+'No current challenges.': '__No current challenges.'
+'There are no future challenges.': '__There are no future challenges.'
+'There are no past challenges.': '__There are no past challenges.'
+'4E Events': '__4E Events'
+'Current events': '__Current events'
+'Future Events': '__Future Events'
+'Past Events': '__Past Events'
+'No current events.': '__No current events.'
+'There are no future events.': '__There are no future events.'
+'There are no past events.': '__There are no past events.'
+'of {maxPages} Pages': '__of {maxPages} Pages'
+'Items per page': '__Items per page'
+Faction: __Faction
+'Import statistics': '__Import statistics'
+'Use the copy stats button {img} from your ingress profile and paste it here.': '__Use the copy stats button {img} from your ingress profile and paste it here.'
+Submit: __Submit
+'Use the export function from {agentstats}': '__Use the export function from {agentstats}'
+'Import result': '__Import result'
+Progress: __Progress
+'Medal UPs': '__Medal UPs'
+'New Level: {level}': '__New Level: {level}'
+'Current Medals': '__Current Medals'
+'My Stats': '__My Stats'
+'Please sign in': '__Please sign in'
+'Google Login': '__Google Login'
+'New Help': '__New Help'
+'Create new Help': '__Create new Help'
+'Edit Help': '__Edit Help'
+'Help index': '__Help index'
+Title: __Title
+Actions: __Actions
+Help: __Help
+'Scores at:': '__Scores at:'
+Agents: __Agents
+Leaderboard: __Leaderboard
+Map: __Map
+Admin: __Admin
+Users: __Users
+Stats: __Stats
+Coments: __Coments
+'Map groups': '__Map groups'
+'Ingress Events': '__Ingress Events'
+'Import Agents': '__Import Agents'
+Logout: __Logout
+Login: __Login
+'Agents Map': '__Agents Map'
+'Web site settings': '__Web site settings'
+'Dark mode': '__Dark mode'
+'View Profile': '__View Profile'
+'Please activate Javascript': '__Please activate Javascript'
+'Latest comments': '__Latest comments'

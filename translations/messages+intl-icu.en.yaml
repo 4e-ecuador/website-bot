@@ -1,0 +1,129 @@
+medal.level.bronce: __medal.level.bronce
+medal.level.silver: __medal.level.silver
+medal.level.gold: __medal.level.gold
+medal.level.platinum: __medal.level.platinum
+medal.level.onyx: __medal.level.onyx
+bot.message.missing.agent: 'Unknown account or not activated. Please check on http://my-web-site/account'
+bot.message.agent.verified: 'our account has been verified.'
+user.not.verified.2: 'You do not have an agent assigned to your account - Please contact an administrator!'
+'Your profile has been updated.': 'Your profile has been updated.'
+email.confirmation.subject: 'Welcome to my website'
+'Please log in': 'Please log in'
+'Stat entry already added!': 'Stat entry already added!'
+'Stats upload successful!': 'Stats upload successful!'
+'My Profile': 'My Profile'
+'Agent: {agent_name}': 'Agent: {agent_name}'
+'Personal information': 'Personal information'
+'Meeting point': 'Meeting point'
+'Please move the marker to your meeting point location': 'Please move the marker to your meeting point location'
+account.map.added.group: 'Member of the map group: {group}'
+account.map.added.warning: 'You have not been assigned to a map group yet - Please contact an administrator"'
+'Custom medals': 'Custom medals'
+Notifications: Notifications
+'Disconnect from Telegram - {agent}': 'Disconnect from Telegram - {agent}'
+'Connect to Telegram': 'Connect to Telegram'
+'Update profile': 'Update profile'
+Close: Close
+'Show all': 'Show all'
+Statistics: Statistics
+'First import: {date}': 'First import: {date}'
+'Latest Update: {last_update}': 'Latest Update: {last_update}'
+'Start Date': 'Start Date'
+'End Date': 'End Date'
+'All time stats': 'All time stats'
+'There are no statistics for this agent.': 'There are no statistics for this agent.'
+'Medals by date': 'Medals by date'
+'Medals from {startDate} to {endDate}': 'Medals from {startDate} to {endDate}'
+'Event type: {type}': 'Event type: {type}'
+'Final results': 'Final results'
+'The event ends in': 'The event ends in'
+'The event starts in': 'The event starts in'
+'Days:': 'Days:'
+'Hours:': 'Hours:'
+'Minutes:': 'Minutes:'
+'Seconds:': 'Seconds:'
+label.write: Write
+label.preview: Preview
+Delete: Delete
+'Edit Agent': 'Edit Agent'
+Save: Save
+'Agent index': 'Agent index'
+'no records found': 'no records found'
+'Edit User': 'Edit User'
+'Send confirmation mail': 'Send confirmation mail'
+Update: Update
+'No records found': 'No records found'
+'Back to list': 'Back to list'
+Edit: Edit
+'Create new IngressEvent': 'Create new IngressEvent'
+'Create new': 'Create new'
+'Ingress Mission Day': 'Ingress Mission Day'
+'Ingress First Saturday': 'Ingress First Saturday'
+'Ends in': 'Ends in'
+Welcome!: Welcome!
+agents.in.database: "{count, plural,\n  =0 {The database is empty :(}\n  one {There is only one agent in our database}\n  other {We have # agents in our database.}\n}"
+'Import Stats': 'Import Stats'
+'Prime export': 'Prime export'
+Upload: Upload
+'Search agent': 'Search agent'
+'Agent nickname': 'Agent nickname'
+Search: Search
+'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'You are connected to Telegram but have not enabled notifications. You may do this {link}.'
+account.link.text: here
+Events: Events
+'Event Page': 'Event Page'
+Challenges: Challenges
+'Current challenges': 'Current challenges'
+'Future Challenges': 'Future Challenges'
+'Past Challenges': 'Past Challenges'
+'No current challenges.': 'No current challenges.'
+'There are no future challenges.': 'There are no future challenges.'
+'There are no past challenges.': 'There are no past challenges.'
+'4E Events': '4E Events'
+'Current events': 'Current events'
+'Future Events': 'Future Events'
+'Past Events': 'Past Events'
+'No current events.': 'No current events.'
+'There are no future events.': 'There are no future events.'
+'There are no past events.': 'There are no past events.'
+'of {maxPages} Pages': 'of {maxPages} Pages'
+'Items per page': 'Items per page'
+Faction: Faction
+'Import statistics': 'Import statistics'
+'Use the copy stats button {img} from your ingress profile and paste it here.': 'Use the copy stats button {img} from your ingress profile and paste it here.'
+Submit: Submit
+'Use the export function from {agentstats}': 'Use the export function from {agentstats}'
+'Import result': 'Import result'
+Progress: Progress
+'Medal UPs': 'Medal UPs'
+'New Level: {level}': 'New Level: {level}'
+'Current Medals': 'Current Medals'
+'My Stats': 'My Stats'
+'Please sign in': 'Please sign in'
+'Google Login': 'Google Login'
+'New Help': 'New Help'
+'Create new Help': 'Create new Help'
+'Edit Help': 'Edit Help'
+'Help index': 'Help index'
+Title: Title
+Actions: Actions
+Help: Help
+'Scores at:': 'Scores at:'
+Agents: Agents
+Leaderboard: Leaderboard
+Map: Map
+Admin: Admin
+Users: Users
+Stats: Stats
+Coments: Coments
+'Map groups': 'Map groups'
+'Ingress Events': 'Ingress Events'
+'Import Agents': 'Import Agents'
+Logout: Logout
+Login: Login
+'Agents Map': 'Agents Map'
+'Web site settings': '__Web site settings'
+'Dark mode': 'Dark mode'
+'View Profile': 'View Profile'
+'Please activate Javascript': 'Please activate Javascript'
+'Latest comments': 'Latest comments'

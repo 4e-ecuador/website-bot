@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,29 +15,29 @@ class Comment
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Agent", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $agent;
+    private ?Agent $agent;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $datetime;
+    private ?DateTimeInterface $datetime;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $commenter;
+    private ?User $commenter;
 
     public function getId(): ?int
     {
@@ -67,12 +68,12 @@ class Comment
         return $this;
     }
 
-    public function getDatetime(): ?\DateTimeInterface
+    public function getDatetime(): ?DateTimeInterface
     {
         return $this->datetime;
     }
 
-    public function setDatetime(\DateTimeInterface $datetime): self
+    public function setDatetime(DateTimeInterface $datetime): self
     {
         $this->datetime = $datetime;
 

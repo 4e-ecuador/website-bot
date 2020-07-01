@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
@@ -24,37 +25,37 @@ class IngressEvent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private ?string $type;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_start;
+    private ?DateTimeInterface $date_start;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_end;
+    private ?DateTimeInterface $date_end;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $link;
+    private ?string $link;
 
     public function getId(): ?int
     {
@@ -85,24 +86,24 @@ class IngressEvent
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
+    public function getDateStart(): ?DateTimeInterface
     {
         return $this->date_start;
     }
 
-    public function setDateStart(\DateTimeInterface $date_start): self
+    public function setDateStart(DateTimeInterface $date_start): self
     {
         $this->date_start = $date_start;
 
         return $this;
     }
 
-    public function getDateEnd(): ?\DateTimeInterface
+    public function getDateEnd(): ?DateTimeInterface
     {
         return $this->date_end;
     }
 
-    public function setDateEnd(\DateTimeInterface $date_end): self
+    public function setDateEnd(DateTimeInterface $date_end): self
     {
         $this->date_end = $date_end;
 

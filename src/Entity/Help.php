@@ -14,22 +14,22 @@ class Help
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private ?string $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     public function getId(): ?int
     {

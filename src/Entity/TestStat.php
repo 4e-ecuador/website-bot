@@ -14,12 +14,12 @@ class TestStat
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $csv;
+    private ?string $csv;
 
     public function getId(): ?int
     {

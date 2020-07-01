@@ -32,19 +32,19 @@ class MapGroup
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"read"})
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Agent", mappedBy="map_group")
      */
-    private $agents;
+    private ArrayCollection $agents;
 
     public function __construct()
     {

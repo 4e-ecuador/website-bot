@@ -38,39 +38,39 @@ class User implements UserInterface
      *
      * @Groups({"me:read"})
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
      *
      * @Groups({"me:read"})
      */
-    private $agent;
+    private ?Agent $agent;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $googleId;
+    private ?string $googleId;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $fireBaseToken;
+    private ?string $fireBaseToken;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
-    private $apiToken;
+    private ?string $apiToken;
 
     public function getId(): ?int
     {
@@ -89,7 +89,7 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function hasRole()
+    public function hasRole(): array
     {
         return $this->getRoles();
     }
@@ -112,7 +112,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -122,7 +122,7 @@ class User implements UserInterface
     {
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return (string)$this->email;
     }

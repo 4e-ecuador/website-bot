@@ -32,35 +32,35 @@ class Agent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"agent:read"})
      */
-    protected $nickname;
+    protected ?string $nickname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private $realName;
+    private ?string $realName;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private $lat;
+    private ?float $lat;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private $lon;
+    private ?float $lon;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Faction")
@@ -68,61 +68,61 @@ class Agent
      *
      * @Groups({"agent:read"})
      */
-    private $faction;
+    private ?Faction $faction;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="agent")
      */
-    private $comments;
+    private Collection $comments;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private $custom_medals;
+    private ?string $custom_medals;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MapGroup", inversedBy="agents")
      */
-    private $map_group;
+    private ?MapGroup $map_group;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private $telegram_name;
+    private ?string $telegram_name;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $telegram_id;
+    private ?int $telegram_id;
 
     /**
      * @ORM\Column(type="string", length=48, nullable=true)
      */
-    private $telegram_connection_secret;
+    private ?string $telegram_connection_secret;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $hasNotifyUploadStats;
+    private ?bool $hasNotifyUploadStats;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $hasNotifyEvents;
+    private ?bool $hasNotifyEvents;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $hasNotifyStatsResult;
+    private ?bool $hasNotifyStatsResult;
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
      */
-    private $locale;
+    private ?string $locale;
 
     public function __construct()
     {
@@ -196,7 +196,7 @@ class Agent
 
     public function __toString()
     {
-        return $this->nickname;
+        return (string)$this->nickname;
     }
 
     public function __sleep()
@@ -288,8 +288,9 @@ class Agent
         return $this->telegram_connection_secret;
     }
 
-    public function setTelegramConnectionSecret(?string $telegram_connection_secret): self
-    {
+    public function setTelegramConnectionSecret(
+        ?string $telegram_connection_secret
+    ): self {
         $this->telegram_connection_secret = $telegram_connection_secret;
 
         return $this;

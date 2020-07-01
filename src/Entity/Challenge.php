@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,27 +15,27 @@ class Challenge
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_start;
+    private ?DateTimeInterface $date_start;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_end;
+    private ?DateTimeInterface $date_end;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $code_name;
+    private ?string $code_name;
 
     public function getId(): ?int
     {
@@ -53,24 +54,24 @@ class Challenge
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
+    public function getDateStart(): ?DateTimeInterface
     {
         return $this->date_start;
     }
 
-    public function setDateStart(\DateTimeInterface $date_start): self
+    public function setDateStart(DateTimeInterface $date_start): self
     {
         $this->date_start = $date_start;
 
         return $this;
     }
 
-    public function getDateEnd(): ?\DateTimeInterface
+    public function getDateEnd(): ?DateTimeInterface
     {
         return $this->date_end;
     }
 
-    public function setDateEnd(\DateTimeInterface $date_end): self
+    public function setDateEnd(DateTimeInterface $date_end): self
     {
         $this->date_end = $date_end;
 

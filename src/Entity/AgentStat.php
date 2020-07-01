@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 use ArrayAccess;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,195 +37,195 @@ class AgentStat implements ArrayAccess
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $datetime;
+    private ?DateTimeInterface $datetime;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Agent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $agent;
+    private ?Agent $agent;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $ap;
+    private ?int $ap;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $explorer;
+    private ?int $explorer;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $recon;
+    private ?int $recon;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $seer;
+    private ?int $seer;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $trekker;
+    private ?int $trekker;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $builder;
+    private ?int $builder;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $connector;
+    private ?int $connector;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $mindController;
+    private ?int $mindController;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $illuminator;
+    private ?int $illuminator;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $recharger;
+    private ?int $recharger;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $liberator;
+    private ?int $liberator;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $pioneer;
+    private ?int $pioneer;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $engineer;
+    private ?int $engineer;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $purifier;
+    private ?int $purifier;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $specops;
+    private ?int $specops;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $hacker;
+    private ?int $hacker;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $translator;
+    private ?int $translator;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $sojourner;
+    private ?int $sojourner;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $recruiter;
+    private ?int $recruiter;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $missionday;
+    private ?int $missionday;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nl1331Meetups;
+    private ?int $nl1331Meetups;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $ifs;
+    private ?int $ifs;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $current_challenge;
+    private ?int $current_challenge;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $level;
+    private ?int $level;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $scout;
+    private ?int $scout;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $longest_link;
+    private ?int $longest_link;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $largest_field;
+    private ?int $largest_field;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $recursions;
+    private ?int $recursions;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $faction;
+    private ?string $faction;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
      */
-    private $nickname;
+    private ?string $nickname;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $drone_flight_distance;
+    private ?int $drone_flight_distance;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $drone_hacks;
+    private ?int $drone_hacks;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $drone_portals_visited;
+    private ?int $drone_portals_visited;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDatetime(): ?\DateTimeInterface
+    public function getDatetime(): ?DateTimeInterface
     {
         return $this->datetime;
     }
 
-    public function setDatetime(\DateTimeInterface $datetime): self
+    public function setDatetime(DateTimeInterface $datetime): self
     {
         $this->datetime = $datetime;
 
@@ -507,7 +508,7 @@ class AgentStat implements ArrayAccess
         return $this;
     }
 
-    public function findProperties()
+    public function findProperties(): array
     {
         $props = [];
 
@@ -535,7 +536,7 @@ class AgentStat implements ArrayAccess
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         if (strpos($offset, '-')) {
             $offset = lcfirst(
@@ -582,7 +583,7 @@ class AgentStat implements ArrayAccess
      * @return void
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         // TODO: Implement offsetSet() method.
     }
@@ -599,7 +600,7 @@ class AgentStat implements ArrayAccess
      * @return void
      * @since 5.0.0
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         // TODO: Implement offsetUnset() method.
     }
@@ -611,7 +612,8 @@ class AgentStat implements ArrayAccess
         foreach ($this as $index => $value) {
             if ($this->$index > $previous->$index
                 && (false === in_array(
-                        $index, [
+                        $index,
+                        [
                             'id',
                             'datetime',
                             'agent',

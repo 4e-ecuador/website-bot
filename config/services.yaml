@@ -63,6 +63,11 @@ services:
             $email: '%app.email%'
             $emailName: '%app.email.name%'
 
+    App\Service\IntlDateHelper:
+        arguments:
+            $locale: '%kernel.default_locale%'
+            $timeZone: '%env(DEFAULT_TIMEZONE)%'
+
     App\Security\GoogleApiClient:
         arguments:
             $clientId: '%env(OAUTH_GOOGLE_ID_WEB)%'

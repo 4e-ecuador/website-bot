@@ -70,7 +70,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
             new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
             new TwigFilter('formatIntlDate', [$this, 'formatIntlDate']),
-            new TwigFilter('intDateShort', [$this, 'intDateShort']),
+            new TwigFilter('intDateShort', [$this, 'intlDateShort']),
             new TwigFilter(
                 'md2html', [
                 $this,
@@ -92,6 +92,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
             new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
             new TwigFunction('php_version', [$this, 'getPhpVersion']),
+            new TwigFunction('intlDate', [$this, 'intlDate']),
         ];
     }
 
@@ -201,9 +202,14 @@ class AppExtension extends AbstractExtension
         return $this->intlDateHelper->format($date);
     }
 
-    public function intDateShort(\DateTime $dateTime): string
+    public function intlDateShort(\DateTime $dateTime): string
     {
         return $this->intlDateHelper->formatShort($dateTime);
+    }
+
+    public function intlDate($date, $format): string
+    {
+        return $this->intlDateHelper->formatCustom($date, $format);
     }
 
     public function getBadgeData(string $group, string $badge, $value): BadgeData

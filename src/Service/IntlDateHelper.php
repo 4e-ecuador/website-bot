@@ -7,76 +7,59 @@ use IntlDateFormatter;
 
 class IntlDateHelper
 {
-    /**
-     * @var DateTimeZone
-     */
-    private $defaultTimezone;
+    private DateTimeZone $defaultTimezone;
+    private IntlDateFormatter $formatterLong;
+    private IntlDateFormatter $formatterShort;
+    private string $locale;
+    private string $timeZone;
 
-    /**
-     * @var IntlDateFormatter
-     */
-    private $formatterLong;
-
-    /**
-     * @var IntlDateFormatter
-     */
-    private $formatterShort;
-
-    public function __construct()
+    public function __construct(string $locale, string $timeZone)
     {
-        $this->defaultTimezone = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+        $this->defaultTimezone = new \DateTimeZone($timeZone);
         $this->formatterLong = new IntlDateFormatter(
-            'es',
+            $locale,
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $_ENV['DEFAULT_TIMEZONE'],
+            $timeZone,
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM \'de\' y'
         );
 
         $this->formatterShort = new IntlDateFormatter(
-            'es',
+            $locale,
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $_ENV['DEFAULT_TIMEZONE'],
+            $timeZone,
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM'
         );
+
+        $this->locale = $locale;
+        $this->timeZone = $timeZone;
     }
 
     public function format(\DateTime $date)
     {
-        // $formatter = new IntlDateFormatter(
-        //     'es',
-        //     IntlDateFormatter::FULL,
-        //     IntlDateFormatter::FULL,
-        //     $_ENV['DEFAULT_TIMEZONE'],
-        //     IntlDateFormatter::GREGORIAN,
-        //     'd \'de\' MMMM \'de\' y'
-        // );
-
         return $this->formatterLong->format($date);
     }
 
     public function formatShort(\DateTime $date)
     {
-        // $formatter = new IntlDateFormatter(
-        //     'es',
-        //     IntlDateFormatter::FULL,
-        //     IntlDateFormatter::FULL,
-        //     $_ENV['DEFAULT_TIMEZONE'],
-        //     IntlDateFormatter::GREGORIAN,
-        //     'd \'de\' MMMM'
-        // );
-
         return $this->formatterShort->format($date);
     }
 
-    /**
-     * @return DateTimeZone
-     */
     public function getDefaultTimezone(): DateTimeZone
     {
         return $this->defaultTimezone;
+    }
+
+    public function formatCustom($date, $format)
+    {
+        $fmt = new IntlDateFormatter(
+            $this->locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL,
+            $this->timeZone, IntlDateFormatter::GREGORIAN, $format
+        );
+
+        return $fmt->format($date);
     }
 }

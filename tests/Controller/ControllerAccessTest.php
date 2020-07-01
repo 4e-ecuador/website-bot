@@ -59,6 +59,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         foreach (new \DirectoryIterator($path) as $item) {
             if (
                 $item->isDot()
+                || $item->isDir()
                 || in_array(
                     $item->getBasename(),
                     ['.gitignore', 'GoogleController.php']
@@ -101,7 +102,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
             $methods = $route->getMethods() ?: ['GET'];
             $path = str_replace('{id}', $defaultId, $path);
             foreach ($methods as $method) {
-                // echo "Testing: $method - $path".PHP_EOL;
+                echo "Testing: $method - $path".PHP_EOL;
                 $this->client->request($method, $path);
                 $this->assertEquals(
                     $defaultExpected,

@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: es
+    locales: [en, es, de]
     telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
     app.email: '%env(APP_EMAIL)%'
     app.email.name: '%env(APP_EMAIL_NAME)%'
@@ -32,8 +34,9 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\EventListener\:
+        resource: ../src/EventListener/*
+        tags: [kernel.event_listener]
 
     App\Command\HerokuDeployFinishedNofiticationCommand:
         arguments:
@@ -46,6 +49,10 @@ services:
     App\Command\AndroidNotificationCommand:
         arguments:
             $fcmKey: '%env(FCM_KEY)%'
+
+    App\Form\AgentAccountType:
+        arguments:
+            $locales: '%locales%'
 
     App\Service\TelegramBotHelper:
         arguments:
@@ -65,7 +72,6 @@ services:
 
     App\Service\IntlDateHelper:
         arguments:
-            $locale: '%kernel.default_locale%'
             $timeZone: '%env(DEFAULT_TIMEZONE)%'
 
     App\Security\GoogleApiClient:

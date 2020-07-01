@@ -4,6 +4,7 @@ namespace App\Service;
 
 use DateTimeZone;
 use IntlDateFormatter;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IntlDateHelper
 {
@@ -13,8 +14,9 @@ class IntlDateHelper
     private string $locale;
     private string $timeZone;
 
-    public function __construct(string $locale, string $timeZone)
+    public function __construct(string $timeZone, TranslatorInterface $translator)
     {
+        $locale = $translator->getLocale();
         $this->defaultTimezone = new \DateTimeZone($timeZone);
         $this->formatterLong = new IntlDateFormatter(
             $locale,

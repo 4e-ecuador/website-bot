@@ -144,6 +144,15 @@
 
     <hr>
 
+    <h4>{{ 'Web site settings'|trans }}</h4>
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(form.locale) }}
+        </div>
+        <div class="col-sm">{{ 'Dark mode'|trans }} - TBD</div>
+    </div>
+    <hr>
+
     <button class="btn btn-outline-success">{{ 'Update profile'|trans }}</button>
     {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}

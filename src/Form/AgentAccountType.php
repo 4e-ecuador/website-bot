@@ -4,14 +4,25 @@ namespace App\Form;
 
 use App\Entity\Agent;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Languages;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AgentAccountType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    private array $locales;
+
+    public function __construct($locales)
     {
+        $this->locales = $locales;
+    }
+
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
             ->add(
                 'real_name',
@@ -47,25 +58,52 @@ class AgentAccountType extends AbstractType
                     ],
                 ]
             )
-            ->add('hasNotifyEvents',
+            ->add(
+                'hasNotifyEvents',
                 null,
                 [
                     'label' => 'notify.events',
-                ])
-            ->add('hasNotifyUploadStats',
+                ]
+            )
+            ->add(
+                'hasNotifyUploadStats',
                 null,
                 [
                     'label' => 'notify.stats.upload',
-                ])
-            ->add('hasNotifyStatsResult',
+                ]
+            )
+            ->add(
+                'hasNotifyStatsResult',
                 null,
                 [
                     'label' => 'notify.stats.result',
-                ])
-        ;
+                ]
+            )
+            ->add(
+                'locale',
+                ChoiceType::class,
+                [
+                    'label'        => 'select.locale',
+                    'choices'      => $this->locales,
+                    'choice_label' => static function ($value) {
+                        $name = Languages::getName($value);
+                        $localName = Languages::getName($value, $value);
+
+                        // @TODO Español is written with a lower case letter :(
+                        $name = ucfirst($name);
+                        $localName = ucfirst($localName);
+
+                        return $name ? "$value - $localName ($name)" : $value;
+                    },
+                    'attr'         => [
+                        'class'      => 'selectpicker',
+                        'data-style' => 'btn-success',
+                    ],
+                ]
+            );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

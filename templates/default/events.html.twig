@@ -24,10 +24,10 @@
             <div class="card-body">
                 {% for fs in ingressFS %}
                     <div class="row table-hover">
-                        <div class="col-2">
+                        <div class="col-sm-2">
                             <b>{{ fs.name }}</b>
                         </div>
-                        <div class="col-2">
+                        <div class="col-sm-3">
                             <span class="text-warning">
                             {{ intlDate(fs.dateStart, 'd \'de\' MMMM') }}
                             </span>
@@ -35,7 +35,7 @@
                             {{ fs.dateStart|date('G:i') }}
                             </span>
                         </div>
-                        <div class="col-8">
+                        <div class="col-sm-7">
                             <a href="{{ fs.link }}">{{ 'Event Page'|trans }}</a>
                         </div>
                     </div>

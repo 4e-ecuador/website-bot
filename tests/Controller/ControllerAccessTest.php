@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Tests\FixtureAwareTestCase;
 use App\Tests\Fixtures\AgentFixture;
 use App\Tests\Fixtures\AgentStatFixture;
+use App\Tests\Fixtures\AgentUserFixture;
 use App\Tests\Fixtures\ChallengeFixture;
 use App\Tests\Fixtures\CommentFixture;
 use App\Tests\Fixtures\EventFixture;
@@ -38,6 +39,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
         parent::setUp();
         $kernel = static::bootKernel();
 
+        $this->addFixture(new AgentUserFixture());
         $this->addFixture(new AgentFixture());
         $this->addFixture(new AgentStatFixture());
         $this->addFixture(new CommentFixture());
@@ -102,7 +104,7 @@ class ControllerAccessTest extends FixtureAwareTestCase
             $methods = $route->getMethods() ?: ['GET'];
             $path = str_replace('{id}', $defaultId, $path);
             foreach ($methods as $method) {
-                echo "Testing: $method - $path".PHP_EOL;
+                // echo "Testing: $method - $path".PHP_EOL;
                 $this->client->request($method, $path);
                 $this->assertEquals(
                     $defaultExpected,

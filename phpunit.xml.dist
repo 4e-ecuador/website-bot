@@ -25,6 +25,7 @@
             <file>tests/Api/IngressEventResourceTest.php</file>
             <file>tests/Api/MapGroupResourceTest.php</file>
             <file>tests/Api/UserMeResourceTest.php</file>
+            <file>tests/Api/HttpsTest.php</file>
         </testsuite>
     </testsuites>
 

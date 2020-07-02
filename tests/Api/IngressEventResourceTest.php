@@ -11,7 +11,8 @@ class IngressEventResourceTest extends ApiTestCase
         $client = self::createClient();
 
         $response = $client->request(
-            'GET', '/api/ingress_events',
+            'GET',
+            '/api/ingress_events',
             ['headers' => ['accept' => 'application/json']]
         );
         self::assertResponseStatusCodeSame(200);
@@ -32,7 +33,8 @@ class IngressEventResourceTest extends ApiTestCase
             ->format('Y-m-d');
 
         $response = $client->request(
-            'GET', '/api/ingress_events?date_start[after]='.$date,
+            'GET',
+            '/api/ingress_events?date_start[after]='.$date,
             ['headers' => ['accept' => 'application/json']]
         );
         self::assertResponseStatusCodeSame(200);
@@ -49,7 +51,8 @@ class IngressEventResourceTest extends ApiTestCase
             ->format('Y-m-d');
 
         $response = $client->request(
-            'GET', '/api/ingress_events?date_start[after]='.$date,
+            'GET',
+            '/api/ingress_events?date_start[after]='.$date,
             ['headers' => ['accept' => 'application/json']]
         );
         self::assertResponseStatusCodeSame(200);

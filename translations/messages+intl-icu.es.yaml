@@ -1,8 +1,8 @@
 agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Solo hay un agente en la db}\n  other {Tenemos # agentes en la base de datos.}\n}"
 'Agent: {agent_name}': 'Agente: {agent_name}'
-'Latest Update: {last_update}': 'Ultima actualizacion: {last_update}'
-'Use the export function from {agentstats}': 'Utiliza la funcion para exportar en {agentstats}'
-'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el boton para copiar las estadisticas {img} desde tu perfil en ingress y pegalas aqui.'
+'Latest Update: {last_update}': 'Ultima actualización: {last_update}'
+'Use the export function from {agentstats}': 'Utiliza la función para exportar en {agentstats}'
+'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el botón para copiar las estadísticas {img} desde tu perfil en ingress y pégalas aqui.'
 new.medal.header: '--- *A N U N C I O* ---'
 new.medal.text.1: "{medals, plural,\n    =0    {No hay medallas...}\n    one   {¡El agente @{agent} se ha ganado una medalla nueva!}\n    other {¡El agente @{agent} se ha ganado # medallas nuevas!}\n}"
 new.medal.text.2: 'Medalla {medal} de {level}'
@@ -10,15 +10,15 @@ new.medal.text.3: '[¡Admiren este medallero!]({link})'
 new.medal.text.4: '¡Felicitaciones! {tadaa}'
 'Event type: {type}': 'Tipo de evento: {type}'
 countdown.seconds: "{count, plural,\n  =0 {# segundos}\n  one {# segundo}\n  other {# segundos}\n}"
-account.map.added.warning: 'No ha sido aniadido aun al mapa - contacte un admin!'
+account.map.added.warning: 'No ha sido añadido aún al mapa - contacte un administrador!'
 account.map.added.group: 'Miembro del grupo de mapa: {group}'
 'Medals from {startDate} to {endDate}': 'Medallas del {startDate} a {endDate}'
 Welcome!: Bienvenidos!
 'Medals by date': 'Medallas por fecha'
 Agents: Agentes
 Import: Importar
-'My Stats': 'Mis Estadisticas'
-Leaderboard: Leaderboard
+'My Stats': 'Mis Estadísticas'
+Leaderboard: Tablero de posiciones
 Admin: Admin
 'Import Agents': 'Importar Agentes'
 Users: Usuarios
@@ -31,10 +31,10 @@ Login: Ingresar
 'Create new': 'Crear nuevo'
 Unknown: Desconocido
 Map: Mapa
-Nickname: Nickname
-Faction: Faccion
+Nickname: Avatar
+Faction: Facción
 'Real name': 'Nombre Real'
-Position: Posicion
+Position: Posición
 Comments: Comentarios
 'Add Comment': 'Añadir Comentario'
 'Real Name': 'Nombre real'
@@ -45,18 +45,18 @@ Lon: Lon
 'Edit User': 'Editar Usuario'
 Update: Actualizar
 'Back to list': Regresar
-'Send confirmation mail': 'Mandar e-mail de confirmacion'
+'Send confirmation mail': 'Mandar e-mail de confirmación'
 Delete: Borrar
-'Import statistics': 'Importar estadisticas'
+'Import statistics': 'Importar estadísticas'
 Submit: Enviar
 email.confirmation.subject: 'Bienvenid@ a 4E'
 'Show all': 'Mostrar todos'
-Statistics: Estadisticas
+Statistics: Estadísticas
 Medals: Medallas
 'Update profile': 'Actualizar perfil'
 'My Profile': 'Mi Perfil'
-'Import Stats': 'Importar Estadisticas'
-Stats: Estadisticas
+'Import Stats': 'Importar Estadísticas'
+Stats: Estadísticas
 'Meeting point': 'Punto de encuentro'
 'Your profile has been updated.': 'Su perfil ha sido actualizado.'
 Help: Ayuda
@@ -64,7 +64,7 @@ Help: Ayuda
 Title: Titulo
 Actions: Acciones
 Edit: Editar
-'No records found': 'No se encontraron entradas'
+'No records found': 'No se encontraron registros'
 label.content: Contenido
 label.write: Escribir
 label.preview: Preview
@@ -84,7 +84,7 @@ medal.level.silver: plata
 medal.level.gold: oro
 medal.level.platinum: platino
 medal.level.onyx: ónix
-'no records found': 'No se encontraron entradas'
+'no records found': 'No se encontraron registros'
 Events: Eventos
 'The event ends in': 'El evento termina en'
 'The event starts in': 'El evento empieza en'
@@ -105,7 +105,7 @@ user.not.verified.2: 'No tiene un agente asignado a su usuario - contacte un adm
 'Reset custom Medals': 'Resetear Medallas'
 'Map groups': 'Grupos del mapa'
 Recursions: Recursiones
-'Stat entry already added!': 'Easa estadisticas ya se han subido anteriormente!'
+'Stat entry already added!': 'Las estadisticas ya se han subido anteriormente!'
 'Prime export': 'Prime export'
 Upload: Subir
 'Ingress Events': 'Eventos Ingresss'
@@ -116,13 +116,13 @@ Upload: Subir
 Challenges: Challenges
 'Scores at:': 'Puntajes al:'
 'Ends in': 'Termina en'
-'Current challenges': 'Challenges actuales'
-'No current challenges.': 'No hay Challenges actuales.'
-'Future Challenges': 'Challenges futuros'
-'There are no future challenges.': 'No hay Challenges futuros.'
-'Past Challenges': 'Challenges pasados'
-'There are no past challenges.': 'No hay Challenges pasados.'
-new.level.text.1: '¡El agente @{agent} alcanzo un nuevo nivel!'
+'Current challenges': 'Desafios actuales'
+'No current challenges.': 'No hay desafios actuales.'
+'Future Challenges': 'Desafios futuros'
+'There are no future challenges.': 'No hay desafios futuros.'
+'Past Challenges': 'Desafios pasados'
+'There are no past challenges.': 'No hay desafios pasados.'
+new.level.text.1: '¡El agente @{agent} alcanzó un nuevo nivel!'
 new.level.text.2: '-- *{level}* --'
 'Please move the marker to your meeting point location': 'Por favor ajuste el marcador a su punto de encuentro'
 dbadmin.label.stats: Stats
@@ -143,10 +143,10 @@ bot.message.agent.verified: 'Su cuenta ha sido verificada.'
 notify.events.head.fs.first: 'Se han anunciado los eventos FS para este mes!!!'
 notify.events.head.fs: 'Recuerden los eventos FS para este mes:'
 notify.events.events.fs: 'Links: {links}'
-notify.events.events.fs.extra: 'Recuerden que el registro se cierra una semana antes del evento y los eventos con menos de 10 participantes seran eliminados!!!'
-notify.upload.reminder: 'No se olviden de mantener actualizados sus estadisticas en http://agents.enl.ec/stats/stat-import'
-'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificacion. Puedes hacerlo {link}.'
-account.link.text: aqui
+notify.events.events.fs.extra: 'Recuerden que el registro se cierra una semana antes del evento y los eventos con menos de 10 participantes serán eliminados!!!'
+notify.upload.reminder: 'No se olviden de mantener actualizados sus estadísticas en http://agents.enl.ec/stats/stat-import'
+'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificación. Puedes hacerlo {link}.'
+account.link.text: aquí
 notify.events.today: 'El evento empieza HOY!!!'
 notify.events.days.remaining: "{count, plural,\n  =0 {El evento empieza HOY!!!}\n  one {Solo falta un dia!}\n  other {Solo faltan # dias!}\n}"
 'Stats upload successful!': 'Las estadisticas se han subidas exitosamente!'
@@ -158,7 +158,7 @@ Progress: Progreso
 'Items per page': 'Items por página'
 'Create new IngressEvent': 'Crear nuevo evento Ingress'
 recursion.header: '--- *A N U N C I O* ---'
-recursion.text.1: 'El agente @{agent} acaba de recursionar!'
+recursion.text.1: 'El agente @{agent} acaba de recursar!'
 '4E Events': 'Eventos 4E'
 'Event Page': 'Pagina del Evento'
 'Web site settings': 'Ajustes del sitio web'
@@ -166,4 +166,4 @@ select.locale: Idioma
 'Dark mode': 'Modo oscuro'
 'View Profile': 'Ver Perfil'
 'Please activate Javascript': 'Por favor active Javascript'
-'Latest comments': 'Ultimos comentarios'
+'Latest comments': 'Últimos comentarios'

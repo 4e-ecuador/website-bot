@@ -58,162 +58,162 @@ class AgentStat implements ArrayAccess
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $explorer;
+    private ?int $explorer = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $recon;
+    private ?int $recon = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $seer;
+    private ?int $seer = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $trekker;
+    private ?int $trekker = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $builder;
+    private ?int $builder = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $connector;
+    private ?int $connector = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $mindController;
+    private ?int $mindController = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $illuminator;
+    private ?int $illuminator = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $recharger;
+    private ?int $recharger = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $liberator;
+    private ?int $liberator = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $pioneer;
+    private ?int $pioneer = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $engineer;
+    private ?int $engineer = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $purifier;
+    private ?int $purifier = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $specops;
+    private ?int $specops = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $hacker;
+    private ?int $hacker = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $translator;
+    private ?int $translator = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $sojourner;
+    private ?int $sojourner = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $recruiter;
+    private ?int $recruiter = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $missionday;
+    private ?int $missionday = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $nl1331Meetups;
+    private ?int $nl1331Meetups = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $ifs;
+    private ?int $ifs = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $current_challenge;
+    private ?int $current_challenge = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $level;
+    private ?int $level = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $scout;
+    private ?int $scout = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $longest_link;
+    private ?int $longest_link = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $largest_field;
+    private ?int $largest_field = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $recursions;
+    private ?int $recursions = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private ?string $faction;
+    private ?string $faction = '';
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
      */
-    private ?string $nickname;
+    private ?string $nickname = '';
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_flight_distance;
+    private ?int $drone_flight_distance = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_hacks;
+    private ?int $drone_hacks = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_portals_visited;
+    private ?int $drone_portals_visited = null;
 
     public function getId(): ?int
     {

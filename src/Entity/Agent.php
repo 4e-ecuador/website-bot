@@ -12,12 +12,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "openapi_context"=Agent::API_GET_COLLECTION
  *          }
  *      },
  *     itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "openapi_context"=Agent::API_GET_ITEM
  *          }
  *      },
  *     normalizationContext={"groups"={"agent:read"}}
@@ -27,6 +29,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Agent
 {
+    public const API_GET_COLLECTION
+        = [
+            'summary' => 'Retrieves the collection of 4E Agent resources.',
+        ];
+
+    public const API_GET_ITEM
+        = [
+            'summary' => 'Retrieves a 4E Agent resource.',
+        ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

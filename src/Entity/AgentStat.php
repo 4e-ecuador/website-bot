@@ -6,9 +6,12 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
+use App\Controller\Api\PostStats;
+
 use ArrayAccess;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AgentStatRepository")
@@ -20,24 +23,45 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  *     collectionOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "path"="/stats",
  *          },
+ *          "post_csv"={
+ *             "security"="is_granted('ROLE_AGENT')",
+ *             "method"="POST",
+ *             "path"="/stats/csv",
+ *             "controller"=PostStats::class,
+ *             "denormalization_context"={"groups"={"stats:write"}},
+ *             "openapi_context"=AgentStat::API_POST_CSV_CONTEXT
+ *          }
  *      },
  *     itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "path"="/stats/{id}",
  *          }
  *     }
  * )
  */
 class AgentStat implements ArrayAccess
 {
+    public const API_POST_CSV_CONTEXT
+        = [
+            'summary'     => 'Create a AgentStat resource from CSV (actually TSV...)',
+            'description' => '# Thanks Niantic for producing a CSV file with TABS :('
+                ."\n"
+                .'## hahaha'
+                ."\n"
+                .'![A great rabbit](https://rabbit.org/graphics/fun/netbunnies/jellybean1-brennan1.jpg)',
+            'parameters'  => [],
+        ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -214,6 +238,20 @@ class AgentStat implements ArrayAccess
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $drone_portals_visited = null;
+
+    public ?string $csv = '';
+
+    /**
+     * The raw CSV data (for API import)
+     *
+     * @Groups({"stats:write"})
+     */
+    public function setCsv(string $csv): self
+    {
+        $this->csv = $csv;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

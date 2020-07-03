@@ -20,9 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method"="GET",
  *             "path"="/users/me",
  *             "controller"=GetMeAction::class,
- *             "openapi_context"={
- *                 "parameters"={}
- *             },
+ *             "openapi_context"=User::API_GET_ME_CONTEXT,
  *             "read"=false
  *         }
  *     },
@@ -31,6 +29,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User implements UserInterface
 {
+    public const API_GET_ME_CONTEXT
+        = [
+            'summary'     => 'Retrieves information about the currently logged in user.',
+            'description' => 'Most important thing: The agent ID.',
+            'parameters'  => [],
+        ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

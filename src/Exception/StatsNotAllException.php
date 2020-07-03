@@ -2,7 +2,8 @@
 
 namespace App\Exception;
 
-class StatsNotAllException extends \Exception
-{
+use Exception;
 
+class StatsNotAllException extends Exception
+{
 }

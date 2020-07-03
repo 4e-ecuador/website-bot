@@ -5,15 +5,18 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
-use App\Service\CsvParser;
-use App\Service\IntlDateHelper;
 use App\Service\MedalChecker;
-use App\Service\TelegramBotHelper;
+use App\Service\StatsImporter;
 use App\Type\BoardEntry;
+use DateInterval;
+use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use UnexpectedValueException;
 
 /**
  * @Route("/stats")
@@ -42,15 +46,16 @@ class StatsController extends AbstractController
     /**
      * @Route("/agent/data/{id}/{startDate}/{endDate}", name="agent_stats_data")
      * @IsGranted("ROLE_INTRO_AGENT")
+     * @throws Exception
      */
     public function agentStatsJson(Agent $agent, string $startDate, string $endDate, AgentStatRepository $statRepository): JsonResponse
     {
-        $data = new \stdClass();
+        $data = new stdClass();
 
         $data->ap = [];
         $data->hacker = [];
 
-        $entries = $statRepository->findByDateAndAgent(new \DateTime($startDate), new \DateTime($endDate), $agent);
+        $entries = $statRepository->findByDateAndAgent(new DateTime($startDate), new DateTime($endDate), $agent);
 
         $latest = null;
 
@@ -107,6 +112,7 @@ class StatsController extends AbstractController
                         'level',
                         'faction',
                         'nickname',
+                        'csv',
                     ]
                 )
                 ) {
@@ -143,7 +149,7 @@ class StatsController extends AbstractController
                 return $boardEntries[$typeOnly];
             }
 
-            throw new \UnexpectedValueException('Unknown type'.$typeOnly);
+            throw new UnexpectedValueException('Unknown type'.$typeOnly);
         }
 
         return $boardEntries;
@@ -174,8 +180,9 @@ class StatsController extends AbstractController
     /**
      * @Route("/by-date", name="stats_by_date")
      * @IsGranted("ROLE_AGENT")
+     * @throws Exception
      */
-    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker, IntlDateHelper $dateHelper): Response
+    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
     {
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
@@ -185,7 +192,7 @@ class StatsController extends AbstractController
 
         if ($startDate && $endDate) {
             $entries = $statRepository->findByDate(
-                new \DateTime($startDate), new \DateTime(
+                new DateTime($startDate), new DateTime(
                     $endDate.' 23:59:59'
                 )
             );
@@ -246,8 +253,8 @@ class StatsController extends AbstractController
         return $this->render(
             'stats/by_date.html.twig',
             [
-                'startDate'     => new \DateTime($startDate),
-                'endDate'       => new \DateTime($endDate),
+                'startDate'     => new DateTime($startDate),
+                'endDate'       => new DateTime($endDate),
                 'stats'         => $stats,
                 'medalsGained'  => $medalsGained,
                 'medalsGained1' => $medalsGained1,
@@ -255,164 +262,68 @@ class StatsController extends AbstractController
         );
     }
 
-    private function getMedalGroups($medals, int $medalsPerRow = 6): array
-    {
-        $medalGroups = [];
-        $rowCount = 1;
-        $groupCount = 0;
-
-        foreach ($medals as $medalName => $level) {
-            $medalGroups[$groupCount][$medalName] = $level;
-            $rowCount++;
-
-            if ($rowCount > $medalsPerRow) {
-                $groupCount++;
-                $rowCount = 1;
-            }
-        }
-
-        return $medalGroups;
-    }
-
     /**
      * @Route("/stat-import", name="stat_import", methods={"POST", "GET"})
      * @IsGranted("ROLE_INTRO_AGENT")
+     * @throws Exception
      */
-    public function StatImport(
-        Request $request, CsvParser $csvParser, MedalChecker $medalChecker,
-        AgentStatRepository $agentStatRepository, Security $security, TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator
+    public function statImport(
+        Request $request,
+        Security $security,
+        TranslatorInterface $translator,
+        StatsImporter $statsImporter
     ): Response {
         /* @type User $user */
         $user = $security->getUser();
+        if (!$user) {
+            throw new UnexpectedValueException('User not found');
+        }
 
         $agent = $user->getAgent();
-
         if (!$agent) {
             throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
         }
 
         $csv = $request->get('csv');
-        $importType = $request->get('type');
-        $fireBaseToken = $request->get('fire_base_token');
-        $medalUps = [];
-        $currents = [];
-        $currentEntry = null;
-        $newLevel = null;
-        $diff = [];
 
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($csv) {
             try {
-                $parsed = $csvParser->parse($csv, $importType);
+                $statEntry = $statsImporter->updateEntityFromCsv(new AgentStat(), $agent, $csv);
 
-                foreach ($parsed as $date => $values) {
-                    $statEntry = new AgentStat();
+                $entityManager->persist($statEntry);
+                $entityManager->flush();
 
-                    $statEntry->setDatetime(new \DateTime($date))
-                        ->setAgent($agent);
+                $this->addFlash('success', $translator->trans('Stats upload successful!'));
 
-                    if ($agentStatRepository->has($statEntry)) {
-                        $this->addFlash('warning', $translator->trans('Stat entry already added!'));
-                    } else {
-                        foreach ($values as $vName => $value) {
-                            $methodName = $medalChecker->getMethodName($vName);
-                            if (method_exists($statEntry, $methodName)) {
-                                $statEntry->$methodName($value);
-                            } else {
-                                $this->addFlash(
-                                    'warning',
-                                    'method not found: '.$methodName.' '.$vName
-                                );
-                            }
-                        }
+                $result = $statsImporter->checkImport($statEntry, $agent, $user);
 
-                        $entityManager->persist($statEntry);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', $translator->trans('Stats upload successful!'));
-
-                        $currentEntry = $statEntry;
-                    }
+                // @TODO temporal FireBase token store
+                $fireBaseToken = $request->get('fire_base_token');
+                if ($fireBaseToken && !$user->getFireBaseToken()) {
+                    $user->setFireBaseToken($fireBaseToken);
+                    $entityManager->persist($user);
+                    $entityManager->flush();
                 }
+
+                return $this->render(
+                    'import/result.html.twig',
+                    [
+                        'ups'      => $result->medalUps,
+                        'diff'     => $result->diff,
+                        'currents' => $result->currents,
+                        'newLevel' => $result->newLevel,
+                        'recursions' => $result->recursions,
+                    ]
+                );
             } catch (StatsNotAllException $exception) {
                 $this->addFlash('danger', $exception->getMessage());
-            } catch (\UnexpectedValueException $exception) {
+            } catch (UnexpectedValueException $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            } catch (StatsAlreadyAddedException $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-        }
-
-        if ($currentEntry) {
-            // Faction check
-            if ($currentEntry->getFaction() !== 'Enlightened') {
-                // Smurf detected!!!
-                $telegramBotHelper->sendSmurfAlertMessage('admin', $user, $agent, $currentEntry);
-            }
-
-            if ($agent->getNickname() !== $currentEntry->getNickname()) {
-                // Nickname mismatch
-                $telegramBotHelper->sendNicknameMismatchMessage('admin', $user, $agent, $currentEntry);
-            }
-
-            $previousEntry = $agentStatRepository->getPrevious($currentEntry);
-
-            if (!$previousEntry) {
-                // First import
-                $currents = $medalChecker->checkLevels($currentEntry);
-            } else {
-                $medalUps = $medalChecker->getUpgrades($previousEntry, $currentEntry);
-                $diff = $currentEntry->computeDiff($previousEntry);
-                if (in_array('ROLE_INTRO_AGENT', $user->getRoles())) {
-                    $groupName = 'intro';
-                } else {
-                    $groupName = 'default';
-                }
-
-                // Medal(s) gained - send a bot message !
-                if ($medalUps) {
-                    $telegramBotHelper->sendNewMedalMessage($groupName, $agent, $medalUps);
-                }
-
-                // Level changed
-                $previousLevel = $previousEntry->getLevel();
-                if ($previousLevel && $currentEntry->getLevel() !== $previousLevel) {
-                    $newLevel = $currentEntry->getLevel();
-                    $telegramBotHelper->sendLevelUpMessage($groupName, $agent, $newLevel, $currentEntry->getRecursions());
-                }
-
-                // Recursions
-                $recursions = $currentEntry->getRecursions();
-                if ($recursions) {
-                    $previousRecursions = $previousEntry->getRecursions();
-                    if ($previousRecursions) {
-                        if ($recursions > $previousRecursions) {
-                            // Re-recursion
-                            $telegramBotHelper->sendRecursionMessage($groupName, $agent, $recursions);
-                        }
-                    } else {
-                        // First recursion
-                        $telegramBotHelper->sendRecursionMessage($groupName, $agent, $recursions);
-                    }
-                }
-            }
-
-            // @TODO temporal FireBase token store
-            if ($fireBaseToken && !$user->getFireBaseToken()) {
-                $user->setFireBaseToken($fireBaseToken);
-                $entityManager->persist($user);
-                $entityManager->flush();
-            }
-
-            // Redirect
-            return $this->render(
-                'import/result.html.twig',
-                [
-                    'ups'      => $medalUps,
-                    'diff'     => $diff,
-                    'currents' => $currents,
-                    'newLevel' => $newLevel,
-                ]
-            );
         }
 
         return $this->render('import/agent_stats.html.twig');
@@ -429,8 +340,8 @@ class StatsController extends AbstractController
             $medalGroups = $medals;
         }
 
-        $dateEnd = new \DateTime();
-        $dateStart = (new \DateTime())->sub(new \DateInterval('P30D'));
+        $dateEnd = new DateTime();
+        $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
 
         return [
             'agent'             => $agent,

@@ -12,7 +12,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $client->request(
             'GET',
-            '/api/agent_stats',
+            '/api/stats',
             ['headers' => ['accept' => 'application/json']]
         );
         self::assertResponseStatusCodeSame(302);
@@ -24,7 +24,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $response = $client->request(
             'GET',
-            '/api/agent_stats',
+            '/api/stats',
             [
                 'headers' => [
                     'accept'       => 'application/json',
@@ -46,7 +46,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $client->request(
             'GET',
-            '/api/agent_stats/1',
+            '/api/stats/1',
             [
                 'headers' => [
                     'accept' => 'application/json',
@@ -62,7 +62,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $response = $client->request(
             'GET',
-            '/api/agent_stats/1',
+            '/api/stats/1',
             [
                 'headers' => [
                     'accept'       => 'application/json',
@@ -83,7 +83,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'accept' => 'application/json',
@@ -99,7 +99,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'accept'       => 'application/json',
@@ -117,7 +117,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $response = $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'Content-type' => 'application/json',
@@ -139,7 +139,7 @@ class AgentStatResourceTest extends ApiTestCase
 
         $response = $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'Content-type' => 'application/json',
@@ -165,7 +165,7 @@ GESAMT	nikp3h	Enlightened	2020-07-01	21:03:24	16	45806023	45806023	5175	48	1	77	
 
         $response = $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'Content-type' => 'application/json',
@@ -193,7 +193,7 @@ GESAMT	nikp3h	Enlightened	2020-07-01	21:03:24	16	45806023	45806023	5175	48	1	77	
 
         $response = $client->request(
             'POST',
-            '/api/agent_stats/csv',
+            '/api/stats/csv',
             [
                 'headers' => [
                     'Content-type' => 'application/json',

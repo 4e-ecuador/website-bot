@@ -14,7 +14,10 @@ class CsvParser
         $this->medalChecker = $medalChecker;
     }
 
-    public function parse(string $csvString, string $type): array
+    /**
+     * @throws StatsNotAllException
+     */
+    public function parse(string $csvString, string $type = 'prime'): array
     {
         switch ($type) {
             case 'prime':
@@ -26,6 +29,9 @@ class CsvParser
         }
     }
 
+    /**
+     * @throws StatsNotAllException
+     */
     private function parsePrimeCsv(string $csvString): array
     {
         $csv = [];

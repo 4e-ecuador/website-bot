@@ -385,11 +385,6 @@ class MedalChecker
         return $this->primeHeaders[$name] ?? '';
     }
 
-    public function getMethodName(string $vName): string
-    {
-        return 'set'.implode('', array_map('ucfirst', explode('-', $vName)));
-    }
-
     public function getGetterMethodName(string $vName): string
     {
         return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));

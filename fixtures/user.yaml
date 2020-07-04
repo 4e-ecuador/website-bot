@@ -1,0 +1,6 @@
+App\Entity\User:
+    user1:
+        email: 't0kent3st@example.com'
+        roles: ['ROLE_AGENT']
+        apiToken: 'T3stT0ken'
+        agent: '@agent1'

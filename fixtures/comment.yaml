@@ -1,0 +1,6 @@
+App\Entity\Comment:
+    comment1:
+        text: testComment
+        agent: '@agent1'
+        commenter: '@user1'
+        datetime: <(new \DateTime('2112-12-21'))>

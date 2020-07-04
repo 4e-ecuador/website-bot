@@ -1,0 +1,5 @@
+App\Entity\AgentStat:
+    stat1:
+        datetime: <(new \DateTime('2112-12-21'))>
+        agent: '@agent2'
+        ap: 1221

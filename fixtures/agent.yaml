@@ -1,0 +1,7 @@
+App\Entity\Agent:
+    agent1:
+        nickname: testAgent
+        faction: '@faction1'
+    agent2:
+        nickname: testAgent2
+        faction: '@faction1'

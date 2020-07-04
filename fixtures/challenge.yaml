@@ -1,0 +1,5 @@
+App\Entity\Challenge:
+    challenge1:
+        name: test
+        date_start: <(new \DateTime('2112-12-21'))>
+        date_end: <(new \DateTime('2112-12-21'))>

@@ -1,0 +1,3 @@
+App\Entity\TestStat:
+    testStat1:
+        csv: testCSV

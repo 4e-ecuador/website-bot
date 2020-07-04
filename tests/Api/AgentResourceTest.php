@@ -3,16 +3,21 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 
 class AgentResourceTest extends ApiTestCase
 {
+    use RecreateDatabaseTrait;
+
+    private string $url = '/api/agents';
+
     public function testCollectionFail(): void
     {
         $client = self::createClient();
 
         $client->request(
             'GET',
-            '/api/agents',
+            $this->url,
             ['headers' => ['accept' => 'application/json']]
         );
         self::assertResponseStatusCodeSame(302);
@@ -20,10 +25,10 @@ class AgentResourceTest extends ApiTestCase
 
     public function testCollection(): void
     {
-        $client = self::createClient([], ['base_uri' => 'https://127.0.0.1']);
+        $client = self::createClient([], ['base_uri' => 'https://example.com']);
         $response = $client->request(
             'GET',
-            '/api/agents',
+            $this->url,
             [
                 'headers' => [
                     'accept'       => 'application/json',
@@ -32,31 +37,27 @@ class AgentResourceTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(), false);
-
+        $expected = '['
+            .'{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""},'
+            .'{"nickname":"testAgent2","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}'
+            .']';
         self::assertResponseStatusCodeSame(200);
-        self::assertCount(6, $result);
-        self::assertEquals('UserAgent', $result[0]->nickname);
-        self::assertEquals('Agent1', $result[1]->nickname);
-        self::assertEquals('Agent2', $result[2]->nickname);
-        self::assertEquals('Agent3', $result[3]->nickname);
-        self::assertEquals('Agent4', $result[4]->nickname);
-        self::assertEquals('Agent5', $result[5]->nickname);
+        self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 
     public function testItemFail(): void
     {
-        self::createClient()->request('GET', '/api/agents/1');
+        self::createClient()->request('GET', $this->url.'/1');
         self::assertResponseStatusCodeSame(302);
     }
 
     public function testItem(): void
     {
-        $client = self::createClient([], ['base_uri' => 'https://127.0.0.1']);
+        $client = self::createClient([], ['base_uri' => 'https://example.com']);
 
         $response = $client->request(
             'GET',
-            '/api/agents/1',
+            $this->url.'/1',
             [
                 'headers' => [
                     'accept'       => 'application/json',
@@ -65,9 +66,8 @@ class AgentResourceTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(), false);
-
+        $expected = '{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}';
         self::assertResponseStatusCodeSame(200);
-        self::assertEquals('UserAgent', $result->nickname);
+        self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 }

@@ -17,15 +17,7 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-<!--            <directory>tests</directory>-->
-            <file>tests/Controller/ControllerAccessTest.php</file>
-
-            <file>tests/Api/AgentResourceTest.php</file>
-            <file>tests/Api/AgentStatResourceTest.php</file>
-            <file>tests/Api/IngressEventResourceTest.php</file>
-            <file>tests/Api/MapGroupResourceTest.php</file>
-            <file>tests/Api/UserMeResourceTest.php</file>
-            <file>tests/Api/HttpsTest.php</file>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 

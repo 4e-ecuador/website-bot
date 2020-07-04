@@ -3,9 +3,12 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 
 class IngressEventResourceTest extends ApiTestCase
 {
+    use RecreateDatabaseTrait;
+
     public function testListing(): void
     {
         $client = self::createClient();
@@ -21,15 +24,14 @@ class IngressEventResourceTest extends ApiTestCase
 
         self::assertCount(1, $result);
         self::assertEquals(1, $result[0]->id);
-        self::assertEquals('TEST', $result[0]->name);
+        self::assertEquals('testEvent', $result[0]->name);
     }
 
     public function testListingWithFutureDate(): void
     {
         $client = self::createClient();
 
-        $date = (new \DateTime())
-            ->add(new \DateInterval('P1D'))
+        $date = (new \DateTime('2200-12-21'))
             ->format('Y-m-d');
 
         $response = $client->request(

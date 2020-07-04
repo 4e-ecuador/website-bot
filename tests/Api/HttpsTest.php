@@ -3,9 +3,12 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 
 class HttpsTest extends ApiTestCase
 {
+    use RecreateDatabaseTrait;
+
     public function testSchemeHttp(): void
     {
         $client = self::createClient([], ['base_uri' => 'http://example.com']);
@@ -20,16 +23,16 @@ class HttpsTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(false), false);
+        $expected = '{"message":"Please use SSL and not: http"}';
 
         self::assertResponseStatusCodeSame(401);
-        self::assertEquals('Please use SSL and not: http', $result->message);
+        self::assertJsonStringEqualsJsonString($expected, $response->getContent(false));
     }
 
     public function testSchemeHttps(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
-        $response = $client->request(
+        $client->request(
             'GET',
             '/api/agents',
             [
@@ -40,9 +43,6 @@ class HttpsTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(false), false);
-
         self::assertResponseStatusCodeSame(200);
-        self::assertCount(6, $result);
     }
 }

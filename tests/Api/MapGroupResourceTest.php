@@ -3,9 +3,12 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 
 class MapGroupResourceTest extends ApiTestCase
 {
+    use RecreateDatabaseTrait;
+
     public function testCollectionFail(): void
     {
         self::createClient()->request('GET', '/api/map_groups');
@@ -14,7 +17,7 @@ class MapGroupResourceTest extends ApiTestCase
 
     public function testCollection(): void
     {
-        $client = self::createClient([], ['base_uri' => 'https://127.0.0.1']);
+        $client = self::createClient([], ['base_uri' => 'https://example.com']);
         $response = $client->request(
             'GET',
             '/api/map_groups',
@@ -41,7 +44,7 @@ class MapGroupResourceTest extends ApiTestCase
 
     public function testItem(): void
     {
-        $client = self::createClient([], ['base_uri' => 'https://127.0.0.1']);
+        $client = self::createClient([], ['base_uri' => 'https://example.com']);
         $response = $client->request(
             'GET',
             '/api/map_groups/1',

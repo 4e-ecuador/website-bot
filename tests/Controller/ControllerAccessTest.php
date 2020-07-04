@@ -2,63 +2,37 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\FixtureAwareTestCase;
-use App\Tests\Fixtures\AgentFixture;
-use App\Tests\Fixtures\AgentStatFixture;
-use App\Tests\Fixtures\AgentUserFixture;
-use App\Tests\Fixtures\ChallengeFixture;
-use App\Tests\Fixtures\CommentFixture;
-use App\Tests\Fixtures\EventFixture;
-use App\Tests\Fixtures\HelpFixture;
-use App\Tests\Fixtures\IngressEventFixture;
-use App\Tests\Fixtures\MapGroupFixture;
-use App\Tests\Fixtures\TestStatFixture;
+use DirectoryIterator;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ControllerAccessTest extends FixtureAwareTestCase
+class ControllerAccessTest extends WebTestCase
 {
-    private $routeLoader;
+    use RecreateDatabaseTrait;
 
-    private $exceptions
+    private array $exceptions
         = [
-            'default' => [
-                'expected' => 200,
+            'default'                  => [
+                'statusCode' => 200,
             ],
-            'app_login' => [
-                'expected' => 200,
+            'app_login'                => [
+                'statusCode' => 200,
             ],
             'connect_google_api_token' => [
-                'expected' => 200,
+                'statusCode' => 200,
             ],
         ];
 
-    protected $client;
-
-    protected function setUp()
+    public function testRoutes(): void
     {
-        $this->client = static::createClient();
-        parent::setUp();
-        $kernel = static::bootKernel();
+        $client = static::createClient();
+        $routeLoader = static::bootKernel()->getContainer()
+            ->get('routing.loader');
 
-        $this->addFixture(new AgentUserFixture());
-        $this->addFixture(new AgentFixture());
-        $this->addFixture(new AgentStatFixture());
-        $this->addFixture(new CommentFixture());
-        $this->addFixture(new HelpFixture());
-        $this->addFixture(new EventFixture());
-        $this->addFixture(new IngressEventFixture());
-        $this->addFixture(new MapGroupFixture());
-        $this->addFixture(new ChallengeFixture());
-        $this->addFixture(new TestStatFixture());
-        $this->executeFixtures();
-
-        $this->routeLoader = $kernel->getContainer()->get('routing.loader');
-    }
-
-    public function testShowPage()
-    {
-        $path = __DIR__.'/../../src/Controller';
-
-        foreach (new \DirectoryIterator($path) as $item) {
+        foreach (
+            new DirectoryIterator(__DIR__.'/../../src/Controller') as $item
+        ) {
             if (
                 $item->isDot()
                 || $item->isDir()
@@ -70,45 +44,45 @@ class ControllerAccessTest extends FixtureAwareTestCase
                 continue;
             }
 
-            $controllerName = basename($item->getBasename(), '.php');
-            $routerClass = 'App\Controller\\'.$controllerName;
-            $routes = $this->routeLoader->load($routerClass)->all();
+            $routerClass = 'App\Controller\\'.basename(
+                    $item->getBasename(),
+                    '.php'
+                );
+            $routes = $routeLoader->load($routerClass)->all();
 
-            $this->processRoutes($routes);
+            $this->processRoutes($routes, $client);
         }
     }
 
-    private function processRoutes(array $routes)
+    private function processRoutes(array $routes, KernelBrowser $browser): void
     {
         foreach ($routes as $routeName => $route) {
-            $defaultId = 1;
-            $defaultExpected = 302;
-
+            $expectedId = 1;
+            $expectedStatusCode = 302;
             if (array_key_exists($routeName, $this->exceptions)) {
                 if (array_key_exists(
-                    'expected',
+                    'statusCode',
                     $this->exceptions[$routeName]
                 )
                 ) {
-                    $defaultExpected = $this->exceptions[$routeName]['expected'];
+                    $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
                 }
                 if (array_key_exists('params', $this->exceptions[$routeName])) {
                     $params = $this->exceptions[$routeName]['params'];
                     if (array_key_exists('id', $params)) {
-                        $defaultId = $params['id'];
+                        $expectedId = $params['id'];
                     }
                 }
             }
 
-            $path = $route->getPath();
             $methods = $route->getMethods() ?: ['GET'];
-            $path = str_replace('{id}', $defaultId, $path);
+            $path = str_replace('{id}', $expectedId, $route->getPath());
             foreach ($methods as $method) {
                 // echo "Testing: $method - $path".PHP_EOL;
-                $this->client->request($method, $path);
+                $browser->request($method, $path);
                 $this->assertEquals(
-                    $defaultExpected,
-                    $this->client->getResponse()->getStatusCode(),
+                    $expectedStatusCode,
+                    $browser->getResponse()->getStatusCode(),
                     sprintf('failed: %s (%s)', $routeName, $path)
                 );
             }

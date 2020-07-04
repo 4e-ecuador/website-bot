@@ -10,6 +10,7 @@ use App\Repository\IngressEventRepository;
 use App\Service\DateTimeHelper;
 use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
+use DateTime;
 use DateTimeZone;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,8 +37,8 @@ class DefaultController extends AbstractController
         $challenges = [];
         $tz = new DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
 
-        $now = new \DateTime('now', $tz);
-        $now2 = new \DateTime();
+        $now = new DateTime('now', $tz);
+        $now2 = new DateTime();
 
         if ($this->isGranted('ROLE_AGENT')) {
             $comments = $commentRepository->findLatest(5);
@@ -50,12 +51,12 @@ class DefaultController extends AbstractController
 
             foreach ($events as $event) {
                 $event->setDateStart(
-                    new \DateTime(
+                    new DateTime(
                         $event->getDateStart()->format('Y-m-d H:i:s'), $tz
                     )
                 );
                 $event->setDateEnd(
-                    new \DateTime(
+                    new DateTime(
                         $event->getDateEnd()->format('Y-m-d H:i:s'), $tz
                     )
                 );

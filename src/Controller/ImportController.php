@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use UnexpectedValueException;
 
 class ImportController extends AbstractController
 {
@@ -35,34 +36,13 @@ class ImportController extends AbstractController
                         $factionRepository,
                         $agentRepository
                     );
-                } catch (\UnexpectedValueException $exception) {
+                } catch (UnexpectedValueException $exception) {
                     $this->addFlash('danger', $exception->getMessage());
 
                     return $this->render(
                         'import/index.html.twig',
                         [
                             'form' => $form->createView(),
-                        ]
-                    );
-                }
-            }
-
-            if ($data['agentsCSV']) {
-                try {
-                    $count += $this->importCsv(
-                        $data['csvRaw'],
-                        $data['province'],
-                        $data['city'],
-                        $wayPointHelper
-                    );
-                } catch (\UnexpectedValueException $exception) {
-                    $this->addFlash('danger', $exception->getMessage());
-
-                    return $this->render(
-                        'import/index.html.twig',
-                        [
-                            'form'   => $form->createView(),
-                            'cities' => $waypointRepo->findCities(),
                         ]
                     );
                 }
@@ -94,7 +74,7 @@ class ImportController extends AbstractController
         $importCount = 0;
 
         if (!$jsonData) {
-            throw new \UnexpectedValueException('Invalid JSON data received');
+            throw new UnexpectedValueException('Invalid JSON data received');
         }
 
         $entityManager = $this->getDoctrine()->getManager();

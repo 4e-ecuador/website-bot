@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use UnexpectedValueException;
 
 class MapController extends AbstractController
 {
@@ -46,7 +47,7 @@ class MapController extends AbstractController
         $mapGroup = $mapGroupRepository->findOneBy(['name' => $request->get('group', '4E')]);
 
         if (!$mapGroup) {
-            throw new \UnexpectedValueException('Map group not found!');
+            throw new UnexpectedValueException('Map group not found!');
         }
 
         $agents = $agentRepository->findMapAgents($mapGroup);
@@ -86,7 +87,7 @@ class MapController extends AbstractController
                     $imgPath = $assetsManager->getUrl('build/images/logos/RES.svg');
                     break;
                 default:
-                    throw new \UnexpectedValueException('Unknown faction');
+                    throw new UnexpectedValueException('Unknown faction');
             }
             $link = $this->generateUrl('agent_show', ['id' => $agent->getId()]);
             $response[] = sprintf(

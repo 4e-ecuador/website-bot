@@ -11,8 +11,11 @@ use App\Repository\UserRepository;
 use App\Service\FcmHelper;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
+use Exception;
 use Goutte\Client;
+use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function count;
 
 /**
  * @Route("/ingress/event")
@@ -39,7 +43,7 @@ class IngressEventController extends AbstractController
         $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
 
         $paginatorOptions->setMaxPages(
-            ceil(\count($events) / $paginatorOptions->getLimit())
+            ceil(count($events) / $paginatorOptions->getLimit())
         );
 
         return $this->render(
@@ -153,7 +157,7 @@ class IngressEventController extends AbstractController
                 try {
                     $telegramBotHelper->sendMessage($agent->getTelegramId(), implode("\n", $message));
                     $count++;
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $this->addFlash(
                         'warning', $exception->getMessage().' - Agent: '
                         .$agent->getNickname()
@@ -182,14 +186,14 @@ class IngressEventController extends AbstractController
                 ->getMessage(false);
 
             if (!$message) {
-                throw new \RuntimeException('No events to announce ;(');
+                throw new RuntimeException('No events to announce ;(');
             }
 
             $title = 'Nuevos Eventos Ingress!';
 
             $fbmHelper->sendMessage($title, implode("\n", $message));
             $this->addFlash('success', 'Announcement has been sent.');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', 'Error: '.$exception->getMessage());
         }
 
@@ -214,7 +218,7 @@ class IngressEventController extends AbstractController
                 ->getMessage(false);
 
             if (!$message) {
-                throw new \RuntimeException('No events to announce ;(');
+                throw new RuntimeException('No events to announce ;(');
             }
 
             $title = 'Nuevos Eventos Ingress!';
@@ -236,7 +240,7 @@ class IngressEventController extends AbstractController
             } else {
                 $this->addFlash('warning', 'No messages sent :(');
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', 'Error: '.$exception->getMessage());
         }
 
@@ -277,7 +281,7 @@ class IngressEventController extends AbstractController
         }
 
         $client = new Client();
-        $info = new \stdClass();
+        $info = new stdClass();
         $info->poc = [];
         $info->atendees = [];
 

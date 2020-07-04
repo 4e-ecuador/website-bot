@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function count;
 
 /**
  * @Route("/agent-stat")
@@ -31,7 +32,7 @@ class AgentStatController extends AbstractController
         $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
 
         $paginatorOptions->setMaxPages(
-            ceil(\count($stats) / $paginatorOptions->getLimit())
+            ceil(count($stats) / $paginatorOptions->getLimit())
         );
 
         $agents = [];

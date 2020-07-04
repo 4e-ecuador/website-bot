@@ -6,6 +6,7 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
+use App\Exception\TelegramBotMissingChatIdException;
 use App\Service\StatsImporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -17,13 +18,15 @@ class PostStats extends AbstractController
 {
     private StatsImporter $statsImporter;
     private EntityManagerInterface $entityManager;
+    private string $appEnv;
 
     public function __construct(
         StatsImporter $statsImporter,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager, string $appEnv
     ) {
         $this->statsImporter = $statsImporter;
         $this->entityManager = $entityManager;
+        $this->appEnv = $appEnv;
     }
 
     public function __invoke(AgentStat $data): JsonResponse
@@ -49,7 +52,11 @@ class PostStats extends AbstractController
             $this->entityManager->persist($data);
             $this->entityManager->flush();
 
-            $result = $this->statsImporter->checkImport($data, $agent, $user);
+            $result = $this->statsImporter->getImportResult($data);
+
+            if ('test' !== $this->appEnv) {
+                $this->statsImporter->sendResultMessages($result, $data, $user);
+            }
 
             return $this->json(['result' => $result]);
         } catch (StatsAlreadyAddedException $e) {
@@ -57,7 +64,7 @@ class PostStats extends AbstractController
         } catch (StatsNotAllException $e) {
             return $this->json(['error' => $e->getMessage()], 400);
         } catch (Exception $e) {
-            return $this->json(['error' => $e->getMessage()], 400);
+            return $this->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -10,12 +10,14 @@ use App\Repository\AgentRepository;
 use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function count;
 
 /**
  * @Route("/agent")
@@ -37,7 +39,7 @@ class AgentController extends AbstractController
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
 
         $paginatorOptions->setMaxPages(
-            ceil(\count($agents) / $paginatorOptions->getLimit())
+            ceil(count($agents) / $paginatorOptions->getLimit())
         );
 
         $factions = $factionRepository->findAll();
@@ -191,7 +193,7 @@ class AgentController extends AbstractController
             $comment->setCommenter($commenter)
                 ->setAgent($agent)
                 ->setText($text)
-                ->setDatetime(new \DateTime());
+                ->setDatetime(new DateTime());
 
             $entityManager->persist($comment);
             $entityManager->flush();

@@ -9,17 +9,9 @@ use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier
 {
-    /**
-     * @var Security
-     */
-    private $security;
-
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    private $appEnv;
+    private Security $security;
+    private TelegramBotHelper $telegramBotHelper;
+    private string $appEnv;
 
     public function __construct(Security $security, TelegramBotHelper $telegramBotHelper, string $appEnv)
     {

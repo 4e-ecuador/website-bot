@@ -92,7 +92,7 @@ class AccountController extends AbstractController
      * @Route("/account/tg-connect", name="tg_connect")
      * @IsGranted("ROLE_INTRO_AGENT")
      */
-    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper)
+    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper): RedirectResponse
     {
         $agent = $security->getUser()->getAgent();
 

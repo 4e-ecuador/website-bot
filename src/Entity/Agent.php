@@ -51,28 +51,28 @@ class Agent
      *
      * @Groups({"agent:read"})
      */
-    protected ?string $nickname;
+    protected ?string $nickname = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private ?string $realName;
+    private ?string $realName = '';
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private ?float $lat;
+    private ?float $lat = 0;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
      *
      * @Groups({"agent:read"})
      */
-    private ?float $lon;
+    private ?float $lon = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Faction")
@@ -92,7 +92,7 @@ class Agent
      *
      * @Groups({"agent:read"})
      */
-    private ?string $custom_medals;
+    private ?string $custom_medals = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MapGroup", inversedBy="agents")
@@ -104,7 +104,7 @@ class Agent
      *
      * @Groups({"agent:read"})
      */
-    private ?string $telegram_name;
+    private ?string $telegram_name = '';
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -134,7 +134,7 @@ class Agent
     /**
      * @ORM\Column(type="string", length=2, nullable=true)
      */
-    private ?string $locale;
+    private ?string $locale = '';
 
     public function __construct()
     {

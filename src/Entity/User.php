@@ -60,7 +60,7 @@ class User implements UserInterface
      *
      * @Groups({"me:read"})
      */
-    private ?Agent $agent;
+    private ?Agent $agent = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)

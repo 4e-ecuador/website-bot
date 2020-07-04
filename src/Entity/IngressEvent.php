@@ -50,12 +50,12 @@ class IngressEvent
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $description;
+    private ?string $description = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $link;
+    private ?string $link = '';
 
     public function getId(): ?int
     {

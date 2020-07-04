@@ -148,6 +148,9 @@
     "firebase/php-jwt": {
         "version": "v5.2.0"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "google/apiclient": {
         "version": "2.0",
         "recipe": {
@@ -174,6 +177,20 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.6.1"
+    },
+    "hautelook/alice-bundle": {
+        "version": "2.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.1",
+            "ref": "71822522faf7ed2792d86b7f94ce73443358ccb9"
+        },
+        "files": [
+            "config/packages/dev/hautelook_alice.yaml",
+            "config/packages/test/hautelook_alice.yaml",
+            "fixtures/.gitignore"
+        ]
     },
     "knplabs/knp-markdown-bundle": {
         "version": "1.8.1"
@@ -213,6 +230,22 @@
     },
     "monolog/monolog": {
         "version": "2.1.0"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.10.1"
+    },
+    "nelmio/alice": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.2",
+            "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
+        },
+        "files": [
+            "config/packages/dev/nelmio_alice.yaml",
+            "config/packages/test/nelmio_alice.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -276,6 +309,18 @@
     },
     "roave/security-advisories": {
         "version": "dev-master"
+    },
+    "sebastian/comparator": {
+        "version": "4.0.3"
+    },
+    "sebastian/diff": {
+        "version": "4.0.2"
+    },
+    "sebastian/exporter": {
+        "version": "4.0.2"
+    },
+    "sebastian/recursion-context": {
+        "version": "4.0.2"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -688,6 +733,15 @@
     },
     "telegram-bot/api": {
         "version": "v2.3.13"
+    },
+    "theofidry/alice-data-fixtures": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
+        }
     },
     "tijsverkoyen/css-to-inline-styles": {
         "version": "2.2.2"

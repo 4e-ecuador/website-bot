@@ -51,6 +51,7 @@
     "twig/string-extra": "^3.0"
   },
   "require-dev": {
+    "hautelook/alice-bundle": "^2.7",
     "roave/security-advisories": "dev-master",
     "symfony/debug-pack": "*",
     "symfony/maker-bundle": "^1.0",

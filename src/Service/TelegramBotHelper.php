@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Exception\TelegramBotMissingChatIdException;
 use App\Type\CustomMessage\LevelUpMessage;
 use App\Type\CustomMessage\NewMedalMessage;
 use App\Type\CustomMessage\NewUserMessage;
@@ -156,6 +157,10 @@ class TelegramBotHelper
 
     public function sendMessage(int $chatId, string $text, bool $disablePreview = false): Message
     {
+        if (0 === $chatId) {
+            return new Message();
+        }
+
         return $this->api->sendMessage($chatId, $text, 'markdown', $disablePreview);
     }
 
@@ -211,10 +216,9 @@ class TelegramBotHelper
         $message = (new SmurfAlertMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
             ->getMessage();
 
-        return $this->api->sendMessage(
+        return $this->sendMessage(
             $this->getGroupId($groupName),
-            str_replace('_', '\\_', implode("\n", $message)),
-            'markdown'
+            str_replace('_', '\\_', implode("\n", $message))
         );
     }
 
@@ -223,10 +227,9 @@ class TelegramBotHelper
         $message = (new NicknameMismatchMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
             ->getMessage();
 
-        return $this->api->sendMessage(
+        return $this->sendMessage(
             $this->getGroupId($groupName),
-            str_replace('_', '\\_', implode("\n", $message)),
-            'markdown'
+            str_replace('_', '\\_', implode("\n", $message))
         );
     }
 

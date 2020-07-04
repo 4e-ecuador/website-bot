@@ -13,6 +13,7 @@ use DateTime;
 use Exception;
 use RuntimeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use UnexpectedValueException;
 
 class StatsImporter
 {
@@ -21,7 +22,6 @@ class StatsImporter
     private TranslatorInterface $translator;
     private TelegramBotHelper $telegramBotHelper;
     private MedalChecker $medalChecker;
-    private ImportResult $importResult;
 
     public function __construct(
         CsvParser $csvParser,
@@ -35,8 +35,6 @@ class StatsImporter
         $this->translator = $translator;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->medalChecker = $medalChecker;
-
-        $this->importResult = new ImportResult();
     }
 
     /**
@@ -82,35 +80,53 @@ class StatsImporter
         return $statEntry;
     }
 
-    public function checkImport(
-        AgentStat $statEntry,
-        Agent $agent,
-        User $user
-    ): ImportResult {
+    public function getImportResult(AgentStat $statEntry): ImportResult
+    {
+        $importResult = new ImportResult();
         $previousEntry = $this->agentStatRepository->getPrevious($statEntry);
 
         if (!$previousEntry) {
             // First import
-            $this->importResult->currents = $this->medalChecker->checkLevels(
-                $statEntry
-            );
+            $importResult->currents = $this->medalChecker
+                ->checkLevels($statEntry);
 
-            return $this->importResult;
+            return $importResult;
         }
 
-        $this->importResult->diff = $statEntry->computeDiff($previousEntry);
+        $importResult->diff = $statEntry->computeDiff($previousEntry);
 
-        $this->sendAdminMessages($statEntry, $agent, $user);
-        $this->sendGroupMessages($previousEntry, $statEntry, $agent, $user);
+        $importResult->medalUps = $this->medalChecker
+            ->getUpgrades($previousEntry, $statEntry);
 
-        return $this->importResult;
+        $previousLevel = $previousEntry->getLevel();
+        if ($previousLevel && $statEntry->getLevel() !== $previousLevel) {
+            $importResult->newLevel = $statEntry->getLevel();
+        }
+
+        $recursions = $statEntry->getRecursions();
+        if ($recursions) {
+            $previousRecursions = $previousEntry->getRecursions();
+            if (!$previousRecursions || $recursions > $previousRecursions) {
+                $importResult->recursions = $recursions;
+            }
+        }
+
+        return $importResult;
     }
 
-    private function sendAdminMessages(
+    public function sendResultMessages(
+        ImportResult $result,
         AgentStat $statEntry,
-        Agent $agent,
         User $user
-    ): void {
+    ): self {
+        $agent = $user->getAgent();
+        if (null === $agent) {
+            throw new UnexpectedValueException('Agent not found');
+        }
+
+        /*
+         * Admin messages
+         */
         if ($statEntry->getFaction() !== 'Enlightened') {
             // Smurf detected!!!
             $this->telegramBotHelper->sendSmurfAlertMessage(
@@ -130,59 +146,43 @@ class StatsImporter
                 $statEntry
             );
         }
-    }
 
-    private function sendGroupMessages(
-        AgentStat $previousEntry,
-        AgentStat $statEntry,
-        Agent $agent,
-        User $user
-    ): void {
-        if (in_array('ROLE_INTRO_AGENT', $user->getRoles(), true)) {
-            $groupName = 'intro';
-        } else {
-            $groupName = 'default';
-        }
+        /*
+         * Group messages
+         */
+        $groupName = (in_array('ROLE_INTRO_AGENT', $user->getRoles(), true))
+            ? 'intro'
+            : 'default';
 
         // Medal(s) gained
-        $medalUps = $this->medalChecker->getUpgrades(
-            $previousEntry,
-            $statEntry
-        );
-        if ($medalUps) {
-            $this->importResult->medalUps = $medalUps;
+        if ($result->medalUps) {
             $this->telegramBotHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $medalUps
+                $result->medalUps
             );
         }
 
         // Level changed
-        $previousLevel = $previousEntry->getLevel();
-        if ($previousLevel && $statEntry->getLevel() !== $previousLevel) {
-            $this->importResult->newLevel = $statEntry->getLevel();
+        if ($result->newLevel) {
             $this->telegramBotHelper->sendLevelUpMessage(
                 $groupName,
                 $agent,
-                $this->importResult->newLevel,
-                $statEntry->getRecursions()?:0
+                $result->newLevel,
+                $result->recursions ?: 0
             );
         }
 
         // Recursions
-        $recursions = $statEntry->getRecursions();
-        if ($recursions) {
-            $previousRecursions = $previousEntry->getRecursions();
-            if (!$previousRecursions || $recursions > $previousRecursions) {
-                $this->importResult->recursions = $recursions;
-                $this->telegramBotHelper->sendRecursionMessage(
-                    $groupName,
-                    $agent,
-                    $recursions
-                );
-            }
+        if ($result->recursions) {
+            $this->telegramBotHelper->sendRecursionMessage(
+                $groupName,
+                $agent,
+                $result->recursions
+            );
         }
+
+        return $this;
     }
 
     private function getMethodName(string $vName): string

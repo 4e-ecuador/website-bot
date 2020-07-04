@@ -1,5 +1,5 @@
 App\Entity\AgentStat:
     stat1:
-        datetime: <(new \DateTime('2112-12-21'))>
+        datetime: <(new \DateTime('2112-12-21T00:00:00+00:00'))>
         agent: '@agent2'
         ap: 1221

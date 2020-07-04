@@ -35,8 +35,11 @@ class StatsController extends AbstractController
      * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
      */
-    public function agentStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
-    {
+    public function agentStats(
+        Agent $agent,
+        AgentStatRepository $statRepository,
+        MedalChecker $medalChecker
+    ): Response {
         return $this->render(
             'stats/agent-stats.html.twig',
             $this->getStats($agent, $statRepository, $medalChecker)
@@ -48,14 +51,22 @@ class StatsController extends AbstractController
      * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
-    public function agentStatsJson(Agent $agent, string $startDate, string $endDate, AgentStatRepository $statRepository): JsonResponse
-    {
+    public function agentStatsJson(
+        Agent $agent,
+        string $startDate,
+        string $endDate,
+        AgentStatRepository $statRepository
+    ): JsonResponse {
         $data = new stdClass();
 
         $data->ap = [];
         $data->hacker = [];
 
-        $entries = $statRepository->findByDateAndAgent(new DateTime($startDate), new DateTime($endDate), $agent);
+        $entries = $statRepository->findByDateAndAgent(
+            new DateTime($startDate),
+            new DateTime($endDate),
+            $agent
+        );
 
         $latest = null;
 
@@ -76,19 +87,27 @@ class StatsController extends AbstractController
      * @Route("/leaderboard", name="stats_leaderboard")
      * @IsGranted("ROLE_AGENT")
      */
-    public function leaderBoard(AgentStatRepository $statRepository, UserRepository $userRepository): Response
-    {
+    public function leaderBoard(
+        AgentStatRepository $statRepository,
+        UserRepository $userRepository
+    ): Response {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
-                'board'    => $this->getBoardEntries($userRepository, $statRepository),
+                'board'    => $this->getBoardEntries(
+                    $userRepository,
+                    $statRepository
+                ),
                 'cssClass' => 'col-sm-3 ',
             ]
         );
     }
 
-    private function getBoardEntries(UserRepository $userRepository, AgentStatRepository $statRepository, string $typeOnly = 'all')
-    {
+    private function getBoardEntries(
+        UserRepository $userRepository,
+        AgentStatRepository $statRepository,
+        string $typeOnly = 'all'
+    ) {
         $users = $userRepository->findAll();
         $boardEntries = [];
 
@@ -107,7 +126,8 @@ class StatsController extends AbstractController
 
             foreach ($agentEntry->findProperties() as $property) {
                 if (in_array(
-                    $property, [
+                    $property,
+                    [
                         'current_challenge',
                         'level',
                         'faction',
@@ -121,7 +141,10 @@ class StatsController extends AbstractController
 
                 $methodName = 'get'.str_replace('_', '', $property);
                 if ($agentEntry->$methodName()) {
-                    $boardEntries[$property][] = new BoardEntry($agent, $agentEntry->$methodName());
+                    $boardEntries[$property][] = new BoardEntry(
+                        $agent,
+                        $agentEntry->$methodName()
+                    );
                 }
             }
 
@@ -159,11 +182,18 @@ class StatsController extends AbstractController
      * @Route("/leaderboard-detail", name="stats_leaderboard_detail")
      * @IsGranted("ROLE_AGENT")
      */
-    public function leaderBoardDetail(AgentStatRepository $statRepository, UserRepository $userRepository, Request $request): Response
-    {
+    public function leaderBoardDetail(
+        AgentStatRepository $statRepository,
+        UserRepository $userRepository,
+        Request $request
+    ): Response {
         $item = $request->request->get('item', 'ap');
 
-        $entries = $this->getBoardEntries($userRepository, $statRepository, $item);
+        $entries = $this->getBoardEntries(
+            $userRepository,
+            $statRepository,
+            $item
+        );
 
         return $this->render(
             'stats/_stat_entry.html.twig',
@@ -182,8 +212,11 @@ class StatsController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      * @throws Exception
      */
-    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
-    {
+    public function byDate(
+        Request $request,
+        AgentStatRepository $statRepository,
+        MedalChecker $medalChecker
+    ): Response {
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
         $stats = [];
@@ -192,9 +225,8 @@ class StatsController extends AbstractController
 
         if ($startDate && $endDate) {
             $entries = $statRepository->findByDate(
-                new DateTime($startDate), new DateTime(
-                    $endDate.' 23:59:59'
-                )
+                new DateTime($startDate),
+                new DateTime($endDate.' 23:59:59')
             );
             $previous = [];
 
@@ -239,13 +271,14 @@ class StatsController extends AbstractController
         foreach ($medalsGained1 as $name => $items) {
             $a = $items;
             usort(
-                $a, static function ($a, $b) {
-                if ($a['level'] === $b['level']) {
-                    return 0;
-                }
+                $a,
+                static function ($a, $b) {
+                    if ($a['level'] === $b['level']) {
+                        return 0;
+                    }
 
-                return ($a['level'] > $b['level']) ? -1 : 1;
-            }
+                    return ($a['level'] > $b['level']) ? -1 : 1;
+                }
             );
             $medalsGained1[$name] = $a;
         }
@@ -271,7 +304,8 @@ class StatsController extends AbstractController
         Request $request,
         Security $security,
         TranslatorInterface $translator,
-        StatsImporter $statsImporter
+        StatsImporter $statsImporter,
+        string $appEnv
     ): Response {
         /* @type User $user */
         $user = $security->getUser();
@@ -281,7 +315,9 @@ class StatsController extends AbstractController
 
         $agent = $user->getAgent();
         if (!$agent) {
-            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
+            throw $this->createAccessDeniedException(
+                $translator->trans('user.not.verified.2')
+            );
         }
 
         $csv = $request->get('csv');
@@ -290,14 +326,23 @@ class StatsController extends AbstractController
 
         if ($csv) {
             try {
-                $statEntry = $statsImporter->updateEntityFromCsv(new AgentStat(), $agent, $csv);
+                $statEntry = $statsImporter
+                    ->updateEntityFromCsv(new AgentStat(), $agent, $csv);
 
                 $entityManager->persist($statEntry);
                 $entityManager->flush();
 
-                $this->addFlash('success', $translator->trans('Stats upload successful!'));
+                $this->addFlash(
+                    'success',
+                    $translator->trans('Stats upload successful!')
+                );
 
-                $result = $statsImporter->checkImport($statEntry, $agent, $user);
+                $result = $statsImporter->getImportResult($statEntry);
+
+                if ('test' !== $appEnv) {
+                    $statsImporter
+                        ->sendResultMessages($result, $statEntry, $user);
+                }
 
                 // @TODO temporal FireBase token store
                 $fireBaseToken = $request->get('fire_base_token');
@@ -310,10 +355,10 @@ class StatsController extends AbstractController
                 return $this->render(
                     'import/result.html.twig',
                     [
-                        'ups'      => $result->medalUps,
-                        'diff'     => $result->diff,
-                        'currents' => $result->currents,
-                        'newLevel' => $result->newLevel,
+                        'ups'        => $result->medalUps,
+                        'diff'       => $result->diff,
+                        'currents'   => $result->currents,
+                        'newLevel'   => $result->newLevel,
                         'recursions' => $result->recursions,
                     ]
                 );
@@ -329,8 +374,11 @@ class StatsController extends AbstractController
         return $this->render('import/agent_stats.html.twig');
     }
 
-    private function getStats(Agent $agent, AgentStatRepository $statRepository, MedalChecker $medalChecker): array
-    {
+    private function getStats(
+        Agent $agent,
+        AgentStatRepository $statRepository,
+        MedalChecker $medalChecker
+    ): array {
         $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
 
@@ -347,7 +395,10 @@ class StatsController extends AbstractController
             'agent'             => $agent,
             'agentCustomMedals' => json_decode($agent->getCustomMedals(), true),
             'medalGroups'       => $medalGroups,
-            'first'             => $statRepository->getAgentLatest($agent, true),
+            'first'             => $statRepository->getAgentLatest(
+                $agent,
+                true
+            ),
             'latest'            => $latest,
             'dateStart'         => $dateStart,
             'dateEnd'           => $dateEnd,

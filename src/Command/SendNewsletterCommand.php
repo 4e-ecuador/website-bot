@@ -36,15 +36,18 @@ class SendNewsletterCommand extends Command
      * @var IngressEventRepository
      */
     private $ingressEventRepository;
+    private string $defaultTimeZone;
+    private string $pageBaseUrl;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, UrlGeneratorInterface $router)
+    public function __construct(TelegramBotHelper $telegramBotHelper, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, UrlGeneratorInterface $router, string $defaultTimeZone, string $pageBaseUrl)
     {
+        parent::__construct();
         $this->eventRepository = $eventRepository;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->router = $router;
         $this->ingressEventRepository = $ingressEventRepository;
-
-        parent::__construct();
+        $this->defaultTimeZone = $defaultTimeZone;
+        $this->pageBaseUrl = $pageBaseUrl;
     }
 
     protected function configure()
@@ -57,11 +60,12 @@ class SendNewsletterCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+        $groupId = $this->telegramBotHelper->getGroupId();
+
 
         if ($input->getOption('group')) {
             if ('test' === $input->getOption('group')) {
-                $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                $groupId = $this->telegramBotHelper->getGroupId('test');
             } else {
                 throw new \UnexpectedValueException('Unknown group');
             }
@@ -71,19 +75,18 @@ class SendNewsletterCommand extends Command
 
         $message = [];
 
-        $timeZone = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+        $timeZone = new \DateTimeZone($this->defaultTimeZone);
 
         $dateNow = new DateTime('now', $timeZone);
 
         $context = $this->router->getContext();
-        $context->setHost(str_replace('http://', '', $_ENV['PAGE_BASE_URL']));
-        // $context->setBaseUrl('my/path');
+        $context->setHost(str_replace(['https://','http://'], '', $this->pageBaseUrl));
 
         $formatterDate = new IntlDateFormatter(
             'es',
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $_ENV['DEFAULT_TIMEZONE'],
+            $this->defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM \'de\' y'
         );
@@ -92,7 +95,7 @@ class SendNewsletterCommand extends Command
             'es',
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $_ENV['DEFAULT_TIMEZONE'],
+            $this->defaultTimeZone,
             IntlDateFormatter::GREGORIAN
         );
 

@@ -3,20 +3,15 @@
 namespace App\Service;
 
 use DateTime;
+use DateTimeZone;
 
 class DateTimeHelper
 {
-    /**
-     * @var string
-     */
-    private $defaultTimezone;
+    private DateTimeZone $timezone;
 
-    private \DateTimeZone $timezone;
-
-    public function __construct()
+    public function __construct(string $defaultTimeZone)
     {
-        $this->defaultTimezone = $_ENV['DEFAULT_TIMEZONE'];
-        $this->timezone = new \DateTimeZone($this->defaultTimezone);
+        $this->timezone = new DateTimeZone($defaultTimeZone);
     }
 
     public function getNextFS(): DateTime
@@ -27,10 +22,4 @@ class DateTimeHelper
 
         return ($dateNow > $fsThisMonth) ? $fsNextMonth : $fsThisMonth;
     }
-
-    public function getDefaultTimezone(): string
-    {
-        return $this->defaultTimezone;
-    }
-
 }

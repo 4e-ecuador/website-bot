@@ -26,7 +26,7 @@ class DefaultController extends AbstractController
         AgentRepository $agentRepository, CommentRepository $commentRepository,
         EventRepository $eventRepository, IngressEventRepository $ingressEventRepository,
         ChallengeRepository $challengeRepository,
-        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper
+        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper, string $defaultTimeZone
     ): Response {
         $comments = [];
         $currentEvents = [];
@@ -35,7 +35,7 @@ class DefaultController extends AbstractController
         $ingressFS = [];
         $ingressMD = [];
         $challenges = [];
-        $tz = new DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
+        $tz = new DateTimeZone($defaultTimeZone);
 
         $now = new DateTime('now', $tz);
         $now2 = new DateTime();

@@ -39,14 +39,14 @@ class TestMessageCommand extends Command
         try {
             if ($input->getOption('group')) {
                 if ('test' === $input->getOption('group')) {
-                    $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                    $groupId = $this->telegramBotHelper->getGroupId('test');
                 } else {
                     throw new \UnexpectedValueException('Unknown group');
                 }
 
                 $io->writeln('group set to: '.$input->getOption('group'));
             } else {
-                $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
+                $groupId = $this->telegramBotHelper->getGroupId();
             }
 
             $text = '`test '.date('Y-m-d H:i:s').' '.date_default_timezone_get()

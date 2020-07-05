@@ -96,7 +96,6 @@ class GoogleAuthenticator extends SocialAuthenticator
                 // Register new user
                 $newUser = true;
                 $user = (new User())
-                    ->setUsername($googleUser->getEmail())
                     ->setEmail($googleUser->getEmail())
                     ->setGoogleId($googleUser->getId());
             } else {
@@ -109,7 +108,8 @@ class GoogleAuthenticator extends SocialAuthenticator
             $this->entityManager->flush();
 
             if ($newUser) {
-                $this->telegramBotHelper->sendNewUserMessage($_ENV['ANNOUNCE_GROUP_ID_ADMIN'], $user);
+                $groupId = $this->telegramBotHelper->getGroupId('admin');
+                $this->telegramBotHelper->sendNewUserMessage($groupId, $user);
             }
         }
 

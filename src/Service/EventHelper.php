@@ -15,9 +15,9 @@ class EventHelper
     private EventRepository $eventRepository;
     private ChallengeRepository $challengeRepository;
 
-    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository, string $timeZone)
+    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository, string $defaultTimeZone)
     {
-        $this->timezone = new DateTimeZone($timeZone);
+        $this->timezone = new DateTimeZone($defaultTimeZone);
         $this->eventRepository = $eventRepository;
         $this->challengeRepository = $challengeRepository;
     }

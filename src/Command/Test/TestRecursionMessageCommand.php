@@ -36,8 +36,7 @@ class TestRecursionMessageCommand extends Command
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         TranslatorInterface $translator,
-        AgentRepository $agentRepository,
-        string $pageBaseUrl
+        AgentRepository $agentRepository
     ) {
         parent::__construct();
         $this->agentRepository = $agentRepository;

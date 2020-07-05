@@ -23,12 +23,12 @@ class HerokuDeployFinishedNofiticationCommand extends Command
      */
     private $pageBase;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, string $pageBase)
+    public function __construct(TelegramBotHelper $telegramBotHelper, string $pageBaseUrl)
     {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
-        $this->pageBase = $pageBase;
+        $this->pageBase = $pageBaseUrl;
     }
 
     protected function configure()

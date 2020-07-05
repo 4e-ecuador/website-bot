@@ -33,10 +33,12 @@ class TelegramBotHelper
     private string $botName;
     private string $pageBaseUrl;
     private string $announceAdminCc;
+    private array $groupIds = [];
 
     public function __construct(
         BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator,
-        string $botName, string $pageBaseUrl, string $announceAdminCc
+        string $botName, string $pageBaseUrl, string $announceAdminCc,
+        string $groupIdDefault, string $groupIdAdmin, string $groupIdIntro, string $groupIdTest
     ) {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
@@ -44,31 +46,25 @@ class TelegramBotHelper
         $this->botName = $botName;
         $this->pageBaseUrl = $pageBaseUrl;
         $this->announceAdminCc = $announceAdminCc;
+        $this->groupIds = [
+            'default' => $groupIdDefault,
+            'admin' => $groupIdAdmin,
+            'intro' => $groupIdIntro,
+            'test' => $groupIdTest,
+            ];
     }
 
     public function getGroupId(string $name = 'default'): int
     {
-        switch ($name) {
-            case 'default':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_1'];
-                break;
-            case 'test':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
-                break;
-            case 'admin':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'] ??
-                    getenv('ANNOUNCE_GROUP_ID_ADMIN');
-                break;
-            case 'intro':
-                $id = $_ENV['ANNOUNCE_GROUP_ID_INTRO'];
-                break;
-            default:
-                throw new UnexpectedValueException('Unknown group name'.$name);
+        if (array_key_exists($name, $this->groupIds)) {
+            $id = $this->groupIds[$name];
+        } else {
+            throw new UnexpectedValueException('Unknown TG bot group name'.$name);
         }
 
         if (!$id) {
             throw new UnexpectedValueException(
-                'Required env var has not been set up: '.$name
+                'Required TG bot env var has not been set up: '.$name
             );
         }
 

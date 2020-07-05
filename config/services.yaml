@@ -21,6 +21,8 @@ services:
         bind:
             $rootDir: '%kernel.project_dir%'
             $appEnv: '%env(APP_ENV)%'
+            $defaultTimeZone: '%env(DEFAULT_TIMEZONE)%'
+            $pageBaseUrl: '%env(PAGE_BASE_URL)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -38,14 +40,6 @@ services:
         resource: ../src/EventListener/*
         tags: [kernel.event_listener]
 
-    App\Command\HerokuDeployFinishedNofiticationCommand:
-        arguments:
-            $pageBase: '%env(PAGE_BASE_URL)%'
-
-    App\Command\Test\TestRecursionMessageCommand:
-        arguments:
-            $pageBaseUrl: '%env(PAGE_BASE_URL)%'
-
     App\Command\AndroidNotificationCommand:
         arguments:
             $fcmKey: '%env(FCM_KEY)%'
@@ -58,6 +52,10 @@ services:
         arguments:
             $botName: '%env(TELEGRAM_BOT_NAME)%'
             $pageBaseUrl: '%env(PAGE_BASE_URL)%'
+            $groupIdDefault: '%env(ANNOUNCE_GROUP_ID_1)%'
+            $groupIdAdmin: '%env(ANNOUNCE_GROUP_ID_ADMIN)%'
+            $groupIdIntro: '%env(ANNOUNCE_GROUP_ID_INTRO)%'
+            $groupIdTest: '%env(ANNOUNCE_GROUP_ID_TEST)%'
             $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
 
     App\Service\FcmHelper:
@@ -69,14 +67,6 @@ services:
         arguments:
             $email: '%app.email%'
             $emailName: '%app.email.name%'
-
-    App\Service\IntlDateHelper:
-        arguments:
-            $timeZone: '%env(DEFAULT_TIMEZONE)%'
-
-    App\Service\EventHelper:
-        arguments:
-            $timeZone: '%env(DEFAULT_TIMEZONE)%'
 
     App\Security\GoogleApiClient:
         arguments:

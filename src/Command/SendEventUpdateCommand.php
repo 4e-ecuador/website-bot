@@ -40,8 +40,9 @@ class SendEventUpdateCommand extends Command
      * @var string
      */
     private $rootDir;
+    private string $defaultTimeZone;
 
-    public function __construct(string $rootDir, TelegramBotHelper $telegramBotHelper, EventHelper $eventHelper, EventRepository $eventRepository, AgentStatRepository $statRepository)
+    public function __construct(string $rootDir, TelegramBotHelper $telegramBotHelper, EventHelper $eventHelper, EventRepository $eventRepository, AgentStatRepository $statRepository, string $defaultTimeZone)
     {
         parent::__construct();
 
@@ -50,6 +51,7 @@ class SendEventUpdateCommand extends Command
         $this->statRepository = $statRepository;
         $this->eventHelper = $eventHelper;
         $this->rootDir = $rootDir;
+        $this->defaultTimeZone = $defaultTimeZone;
     }
 
     protected function configure()
@@ -62,20 +64,18 @@ class SendEventUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $timeZone = new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']);
-        $dateNow = new \DateTime('now', $timeZone);
+        $dateNow = new \DateTime('now', new \DateTimeZone($this->defaultTimeZone));
 
         if ($input->getOption('group')) {
             if ('test' === $input->getOption('group')) {
-                $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+                $groupId = $this->telegramBotHelper->getGroupId('test');
             } else {
                 throw new \UnexpectedValueException('Unknown group');
             }
 
             $io->writeln('group set to: '.$input->getOption('group'));
         } else {
-            // $groupId = $_ENV['ANNOUNCE_GROUP_ID_1'];
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+            $groupId = $this->telegramBotHelper->getGroupId('test');
         }
 
         $events = $this->eventRepository->findAll();

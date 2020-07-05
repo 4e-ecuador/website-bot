@@ -15,15 +15,15 @@ class IntlDateHelper
     private string $locale;
     private string $timeZone;
 
-    public function __construct(string $timeZone, TranslatorInterface $translator)
+    public function __construct(string $defaultTimeZone, TranslatorInterface $translator)
     {
         $locale = $translator->getLocale();
-        $this->defaultTimezone = new DateTimeZone($timeZone);
+        $this->defaultTimezone = new DateTimeZone($defaultTimeZone);
         $this->formatterLong = new IntlDateFormatter(
             $locale,
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $timeZone,
+            $defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM \'de\' y'
         );
@@ -32,13 +32,13 @@ class IntlDateHelper
             $locale,
             IntlDateFormatter::FULL,
             IntlDateFormatter::FULL,
-            $timeZone,
+            $defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
             'd \'de\' MMMM'
         );
 
         $this->locale = $locale;
-        $this->timeZone = $timeZone;
+        $this->timeZone = $defaultTimeZone;
     }
 
     public function format(DateTime $date)

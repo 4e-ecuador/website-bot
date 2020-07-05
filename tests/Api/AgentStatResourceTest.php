@@ -203,7 +203,6 @@ class AgentStatResourceTest extends ApiTestCase
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
 
-        print_r($this->switchCsv());
         $response = $client->request(
             'POST',
             '/api/stats/csv',

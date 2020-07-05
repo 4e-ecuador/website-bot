@@ -38,7 +38,7 @@ class UserChangedNotifier
             return;
         }
 
-        $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
+        $groupId = $this->telegramBotHelper->getGroupId('admin');
 
         $text = [];
 

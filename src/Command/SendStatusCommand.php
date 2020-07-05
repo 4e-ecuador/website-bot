@@ -23,13 +23,14 @@ class SendStatusCommand extends Command
      * @var AgentStatRepository
      */
     private $agentStatRepository;
+    private string $defaultTimeZone;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, AgentStatRepository $agentStatRepository)
+    public function __construct(TelegramBotHelper $telegramBotHelper, AgentStatRepository $agentStatRepository, string $defaultTimeZone)
     {
+        parent::__construct();
         $this->telegramBotHelper = $telegramBotHelper;
         $this->agentStatRepository = $agentStatRepository;
-
-        parent::__construct();
+        $this->defaultTimeZone = $defaultTimeZone;
     }
 
     protected function configure()
@@ -47,11 +48,10 @@ class SendStatusCommand extends Command
         $io->writeln('Sending status update...');
 
         try {
-            $groupId = $_ENV['ANNOUNCE_GROUP_ID_ADMIN'];
-            // $groupId = $_ENV['ANNOUNCE_GROUP_ID_TEST'];
+            $groupId = $this->telegramBotHelper->getGroupId('admin');
 
-            $dateTime = new \DateTime('now -1 day', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
-            $localDateTime = new \DateTime('now', new \DateTimeZone($_ENV['DEFAULT_TIMEZONE']));
+            $dateTime = new \DateTime('now -1 day', new \DateTimeZone($this->defaultTimeZone));
+            $localDateTime = new \DateTime('now', new \DateTimeZone($this->defaultTimeZone));
 
             $statsCount = $this->agentStatRepository->findDayly($dateTime);
 
@@ -59,7 +59,7 @@ class SendStatusCommand extends Command
 
             $message[] = 'Status update: '.date('Y-m-d H:i:s');
             $message[] = 'Local time: '.$localDateTime->format('Y-m-d H:i:s');
-            $message[] = 'Timezone: '.$_ENV['DEFAULT_TIMEZONE'];
+            $message[] = 'Timezone: '.$this->defaultTimeZone;
             $message[] = 'Stats for: *'.$dateTime->format('Y-m-d').'*';
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));

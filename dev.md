@@ -69,3 +69,8 @@ bin/console app:update:badgedata
 ### Emoji unicodes.
 
 https://apps.timwhitlock.info/emoji/tables/unicode
+
+### Security
+
+* https://paragonie.com/blog/2017/02/split-tokens-token-based-authentication-protocols-without-side-channels
+* https://stackoverflow.com/a/46207302/1906767

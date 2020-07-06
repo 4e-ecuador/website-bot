@@ -92,7 +92,7 @@ Events: Eventos
 'Hours:': 'Horas:'
 'Minutes:': 'Minutos:'
 'Seconds:': 'Segundos:'
-'Current events': 'Aventos actuales'
+'Current events': 'Eventos actuales'
 'No current events.': 'Actualmente no hay eventos.'
 'Future Events': 'Eventos futuros'
 'There are no future events.': 'No hay eventos futuros.'
@@ -113,7 +113,7 @@ Upload: Subir
 'Ingress First Saturday': 'Ingress First Saturday'
 'Agents Map': 'Mapa de Agentes'
 'Telegram name': 'Nombre en Telegram'
-Challenges: Challenges
+Challenges: Desafios
 'Scores at:': 'Puntajes al:'
 'Ends in': 'Termina en'
 'Current challenges': 'Desafios actuales'

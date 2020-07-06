@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use RuntimeException;
+
 /**
  * FireBase Messaging helper
  */
@@ -102,7 +104,7 @@ class FcmHelper
         $decoded = json_decode($result, false);
 
         if (!$decoded) {
-            throw new \RuntimeException('Something went wrong with FCM :(');
+            throw new RuntimeException('Something went wrong with FCM :(');
         }
 
         return $result;

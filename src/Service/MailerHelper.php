@@ -83,6 +83,9 @@ class MailerHelper
         return $response;
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function sendTestMail(string $email): void
     {
         $message = $this->createNewMessage()

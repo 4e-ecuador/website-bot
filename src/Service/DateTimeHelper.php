@@ -4,6 +4,7 @@ namespace App\Service;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 
 class DateTimeHelper
 {
@@ -14,6 +15,9 @@ class DateTimeHelper
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getNextFS(): DateTime
     {
         $dateNow = new DateTime('now', $this->timezone);

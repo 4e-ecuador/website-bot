@@ -62,7 +62,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[]
      */
-    public function getFireBaseUsers()
+    public function getFireBaseUsers(): array
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.fireBaseToken IS NOT NULL')

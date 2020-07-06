@@ -11,7 +11,7 @@ class BadgeData
         }
     }
 
-    public $code;
-    public $title;
-    public $description;
+    public string $code;
+    public string $title;
+    public string $description;
 }

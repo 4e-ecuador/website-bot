@@ -261,6 +261,7 @@ class IngressEventController extends AbstractController
             $title = 'Nuevos Eventos Ingress!';
 
             $tokens = [];
+            $user = null;
 
             foreach ($users as $user) {
                 $tokens[] = $user->getFireBaseToken();
@@ -297,8 +298,8 @@ class IngressEventController extends AbstractController
      * @Route("/overview", name="ingress_event_overview", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function overview(IngressEventRepository $ingressEventRepository)
-    {
+    public function overview(IngressEventRepository $ingressEventRepository
+    ): Response {
         $events = $ingressEventRepository->findFutureFS();
 
         $eventIds = [];
@@ -334,17 +335,17 @@ class IngressEventController extends AbstractController
         $crawler = $client->request('GET', $event->getLink());
 
         $crawler->filterXPath('//table/tbody/tr/td/a')->each(
-            function ($node) use ($info) {
+            static function ($node) use ($info) {
                 $info->poc[$node->attr('class')] = $node->html();
             }
         );
 
         $crawler->filterXPath('//table/tbody/tr/td/div')->each(
-            function ($node) use ($info) {
+            static function ($node) use ($info) {
                 static $i = 0;
                 $string = $node->html();
                 $string = preg_replace(
-                    '#\<h4\>[\s\(\)\w]+\</h4\>#m',
+                    '#<h4>[\s()\w]+</h4>#m',
                     '',
                     $string
                 );

@@ -19,7 +19,7 @@ class MailController extends AbstractController
      * @Route("/send-confirmation-mail/{id}", name="user_send_confirmation_mail", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function sendConfirnationMail(
+    public function sendConfirmationMail(
         User $user,
         MailerHelper $mailerHelper,
         TranslatorInterface $translator

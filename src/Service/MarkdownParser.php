@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\AgentRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use DOMDocument;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -30,6 +31,9 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         return $text;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     private function replaceAgentName($text): string
     {
         $text = preg_replace_callback(

@@ -27,7 +27,7 @@ class IntlDateHelper
             IntlDateFormatter::FULL,
             $defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
-            'd \'de\' MMMM \'de\' y'
+            $translator->trans('date.format.long')
         );
 
         $this->formatterShort = new IntlDateFormatter(
@@ -36,7 +36,7 @@ class IntlDateHelper
             IntlDateFormatter::FULL,
             $defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
-            'd \'de\' MMMM'
+            $translator->trans('date.format.short')
         );
 
         $this->locale = $locale;

@@ -483,26 +483,17 @@ class MedalChecker
         string $postFix = '.png'
     ): string {
         $medal = ucfirst($medal);
-        switch ($medal) {
-            case 'Mind-controller':
-                $medal = 'MindController';
-                break;
-            case 'Recon':
-                $medal = 'OPR';
-                break;
-            case 'Specops':
-                $medal = 'SpecOps';
-                break;
-            case 'Missionday':
-                $medal = 'MissionDayPrime';
-                break;
-            case 'Nl-1331-meetups':
-            case 'Nl1331Meetups':
-                $medal = 'NL1331';
-                break;
-            case 'Ifs':
-                $medal = 'FS';
-                break;
+        $replacements = [
+            'Mind-controller' => 'MindController',
+            'Recon'           => 'OPR',
+            'Specops'         => 'SpecOps',
+            'Missionday'      => 'MissionDayPrime',
+            'Nl-1331-meetups' => 'NL1331',
+            'Nl1331Meetups'   => 'NL1331',
+            'Ifs'             => 'FS',
+        ];
+        if (array_key_exists($medal, $replacements)) {
+            $medal = $replacements[$medal];
         }
 
         $sizeString = $size ? '_'.$size : '';
@@ -551,6 +542,6 @@ class MedalChecker
             }
         }
 
-        throw new UnexpectedValueException('No data for code:'.$code);
+        throw new UnexpectedValueException('No data for code: '.$code);
     }
 }

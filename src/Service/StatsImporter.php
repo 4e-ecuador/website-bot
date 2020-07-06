@@ -13,6 +13,7 @@ use DateTime;
 use Exception;
 use RuntimeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use TelegramBot\Api\InvalidArgumentException;
 use UnexpectedValueException;
 
 class StatsImporter
@@ -114,6 +115,10 @@ class StatsImporter
         return $importResult;
     }
 
+    /**
+     * @throws \TelegramBot\Api\Exception
+     * @throws InvalidArgumentException
+     */
     public function sendResultMessages(
         ImportResult $result,
         AgentStat $statEntry,

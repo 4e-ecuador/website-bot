@@ -7,6 +7,7 @@ use App\Entity\MapGroup;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -78,6 +79,9 @@ class AgentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByNickName($value): ?Agent
     {
         return $this->createQueryBuilder('a')
@@ -87,6 +91,9 @@ class AgentRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function has(Agent $agent): ?Agent
     {
         return $this->createQueryBuilder('a')

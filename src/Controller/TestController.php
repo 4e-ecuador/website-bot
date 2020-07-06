@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,8 +24,9 @@ class TestController extends AbstractController
     /**
      * @Route("/", name="test")
      * @IsGranted("ROLE_ADMIN")
+     * @throws Exception
      */
-    public function index(KernelInterface $kernel)
+    public function index(KernelInterface $kernel): Response
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
@@ -54,7 +57,7 @@ class TestController extends AbstractController
     public function botTest(
         Request $request,
         TelegramBotHelper $telegramBotHelper
-    ) {
+    ): Response {
         $testText = $request->get('testtext');
 
         if ($testText) {
@@ -77,8 +80,10 @@ class TestController extends AbstractController
      * @Route("/mail", name="test_mail")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function mailTest(Request $request, MailerHelper $mailerHelper)
-    {
+    public function mailTest(
+        Request $request,
+        MailerHelper $mailerHelper
+    ): Response {
         $testtext = $request->get('testtext');
 
         if ($testtext) {

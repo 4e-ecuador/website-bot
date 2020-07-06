@@ -11,6 +11,7 @@ use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
 use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,6 +67,7 @@ class AgentController extends AbstractController
     /**
      * @Route("/new", name="agent_new", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
+     * @throws Exception
      */
     public function new(Request $request): Response
     {

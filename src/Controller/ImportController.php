@@ -89,7 +89,6 @@ class ImportController extends AbstractController
             $agent->setNickname($entry->name);
             $agent->setLat($entry->lat);
             $agent->setLon($entry->lng);
-            $agent->setHasMap(true);
 
             $agent->setFaction($faction);
 

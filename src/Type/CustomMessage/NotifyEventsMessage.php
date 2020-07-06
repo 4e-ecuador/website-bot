@@ -5,6 +5,7 @@ namespace App\Type\CustomMessage;
 use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
+use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsMessage extends AbstractCustomMessage
@@ -55,7 +56,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
                 $eventDate = $event->getDateStart();
             }
 
-            $daysRemaining = $eventDate->diff(new \DateTime())->days;
+            $daysRemaining = $eventDate->diff(new DateTime())->days;
 
             $message[] = $this->translator->trans(
                 'notify.events.events.fs',

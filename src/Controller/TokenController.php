@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use App\Security\GoogleApiClient;
+use Exception;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -75,7 +76,7 @@ class TokenController extends AbstractController
             }
 
             return $this->json(['token' => $apiToken]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->json(['error' => $exception->getMessage()], 200);
         }
     }
@@ -107,7 +108,7 @@ class TokenController extends AbstractController
                 // @TODO THIS IS JUST A TEST!!!
 
                 // user = userRepo->getByEmail($email)
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $exception->getMessage());
             }
         }

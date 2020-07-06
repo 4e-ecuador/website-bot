@@ -7,7 +7,6 @@ use App\Entity\Agent;
 class BoardEntry
 {
     private Agent $agent;
-
     private float $value;
 
     public function __construct(Agent $agent, float $value)

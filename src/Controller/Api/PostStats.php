@@ -19,16 +19,13 @@ class PostStats extends AbstractController
 {
     private StatsImporter $statsImporter;
     private EntityManagerInterface $entityManager;
-    private string $appEnv;
 
     public function __construct(
         StatsImporter $statsImporter,
-        EntityManagerInterface $entityManager,
-        string $appEnv
+        EntityManagerInterface $entityManager
     ) {
         $this->statsImporter = $statsImporter;
         $this->entityManager = $entityManager;
-        $this->appEnv = $appEnv;
     }
 
     public function __invoke(AgentStat $data): JsonResponse
@@ -56,11 +53,8 @@ class PostStats extends AbstractController
 
             $result = $this->statsImporter->getImportResult($data);
 
-            $result->messages = $this->statsImporter->sendResultMessages(
-                $result,
-                $data,
-                $user
-            );
+            $result->messages = $this->statsImporter
+                ->sendResultMessages($result, $data, $user);
 
             return $this->json(['result' => $result]);
         } catch (StatsAlreadyAddedException $e) {

@@ -10,6 +10,8 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 use TelegramBot\Api\Types\Inline\InputMessageContent;
 use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 
@@ -70,6 +72,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function processUpdate(UpdateEvent $event): void
     {
         $this->respondWelcome($event)
@@ -92,6 +98,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     private function respondWelcome(UpdateEvent $event
     ): TelegramUpdateSubscriber {
         $message = $event->getUpdate()->getMessage();
@@ -146,6 +156,9 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     private function respondInlineQuery(UpdateEvent $event
     ): TelegramUpdateSubscriber {
         // Disabled

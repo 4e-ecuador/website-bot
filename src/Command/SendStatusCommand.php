@@ -4,6 +4,9 @@ namespace App\Command;
 
 use App\Repository\AgentStatRepository;
 use App\Service\TelegramBotHelper;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,16 +16,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SendStatusCommand extends Command
 {
-    protected static $defaultName = 'sendStatus';
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    protected static $defaultName = 'sendStatus';// Type must be defined in base class :(
 
-    /**
-     * @var AgentStatRepository
-     */
-    private $agentStatRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private AgentStatRepository $agentStatRepository;
     private string $defaultTimeZone;
 
     public function __construct(
@@ -36,7 +33,7 @@ class SendStatusCommand extends Command
         $this->defaultTimeZone = $defaultTimeZone;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -64,13 +61,13 @@ class SendStatusCommand extends Command
         try {
             $groupId = $this->telegramBotHelper->getGroupId('admin');
 
-            $dateTime = new \DateTime(
+            $dateTime = new DateTime(
                 'now -1 day',
-                new \DateTimeZone($this->defaultTimeZone)
+                new DateTimeZone($this->defaultTimeZone)
             );
-            $localDateTime = new \DateTime(
+            $localDateTime = new DateTime(
                 'now',
-                new \DateTimeZone($this->defaultTimeZone)
+                new DateTimeZone($this->defaultTimeZone)
             );
 
             $statsCount = $this->agentStatRepository->findDayly($dateTime);
@@ -91,7 +88,7 @@ class SendStatusCommand extends Command
             );
 
             $io->success('Finished!');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $io->error($exception->getMessage());
 
             return 1;

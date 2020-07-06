@@ -12,27 +12,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TestRecursionMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:RecursionMessage';
+    protected static $defaultName = 'bot:test:RecursionMessage';// Type must be defined in base class :(
 
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var string
-     */
-    private $pageBaseUrl;
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private AgentRepository $agentRepository;
+    private TranslatorInterface $translator;
+    private string $pageBaseUrl;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -46,7 +36,7 @@ class TestRecursionMessageCommand extends Command
         $this->telegramBotHelper = $telegramBotHelper;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -63,20 +53,15 @@ class TestRecursionMessageCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
     ): int {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         $agent = $this->agentRepository->findOneByNickName('nikp3h');
         $recursions = 1;

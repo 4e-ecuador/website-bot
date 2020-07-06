@@ -3,20 +3,19 @@
 namespace App\Command\Test;
 
 use App\Service\TelegramBotHelper;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use UnexpectedValueException;
 
 class TestMessageCommand extends Command
 {
-    protected static $defaultName = 'app:bot:testMessage';
+    protected static $defaultName = 'app:bot:testMessage';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(TelegramBotHelper $telegramBotHelper)
     {
@@ -25,7 +24,7 @@ class TestMessageCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Send a bot message')
@@ -48,7 +47,7 @@ class TestMessageCommand extends Command
                 if ('test' === $input->getOption('group')) {
                     $groupId = $this->telegramBotHelper->getGroupId('test');
                 } else {
-                    throw new \UnexpectedValueException('Unknown group');
+                    throw new UnexpectedValueException('Unknown group');
                 }
 
                 $io->writeln('group set to: '.$input->getOption('group'));
@@ -63,7 +62,7 @@ class TestMessageCommand extends Command
             $io->success(
                 'You have a new command! Now make it your own! Pass --help to see your options.'
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $io->error($exception->getMessage());
         }
 

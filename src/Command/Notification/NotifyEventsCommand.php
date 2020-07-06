@@ -6,6 +6,7 @@ use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,27 +16,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsCommand extends Command
 {
-    protected static $defaultName = 'bot:notify:events';
+    protected static $defaultName = 'bot:notify:events';// Type must be defined in base class :(
 
-    /**
-     * @var IngressEventRepository
-     */
-    private $ingressEventRepository;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private IngressEventRepository $ingressEventRepository;
+    private TranslatorInterface $translator;
+    private AgentRepository $agentRepository;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(
         IngressEventRepository $ingressEventRepository,
@@ -51,7 +37,7 @@ class NotifyEventsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Send notifications of upcoming events.')
@@ -60,7 +46,7 @@ class NotifyEventsCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'The first announcement'
-            );;
+            );
     }
 
     protected function execute(
@@ -94,7 +80,7 @@ class NotifyEventsCommand extends Command
                         $agent->getTelegramId(),
                         implode("\n", $message)
                     );
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - Agent: '
                         .$agent->getNickname()

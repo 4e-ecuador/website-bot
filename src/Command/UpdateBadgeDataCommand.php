@@ -2,6 +2,11 @@
 
 namespace App\Command;
 
+use DirectoryIterator;
+use DOMDocument;
+use DOMXPath;
+use RuntimeException;
+use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,31 +17,13 @@ use function Symfony\Component\String\u;
 
 class UpdateBadgeDataCommand extends Command
 {
-    protected static $defaultName = 'app:update:badgedata';
+    protected static $defaultName = 'app:update:badgedata';// Type must be defined in base class :(
 
-    /**
-     * @var string
-     */
-    private $badgeRoot;
-
-    /**
-     * @var string
-     */
-    private $scrapeSite;
-
-    /**
-     * @var string
-     */
-    private $assetRoot;
-
-    /**
-     * @var array
-     */
-    private $sizes;
-    /**
-     * @var string
-     */
-    private $rootDir;
+    private string $badgeRoot;
+    private string $scrapeSite;
+    private string $assetRoot;
+    private array $sizes;
+    private string $rootDir;
 
     public function __construct(string $rootDir)
     {
@@ -49,7 +36,7 @@ class UpdateBadgeDataCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -96,9 +83,9 @@ class UpdateBadgeDataCommand extends Command
         $io->writeln('ok');
 
         libxml_use_internal_errors(true);
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $dom->loadHTML($html);
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
 
         foreach ($xpath->query('//div[contains(@class,"badge")]/img') as $item)
         {
@@ -124,7 +111,7 @@ class UpdateBadgeDataCommand extends Command
         foreach (
             $xpath->query('//div[@class="badgecontainer"]') as $badgeContainer
         ) {
-            $badgeInfo = new \stdClass();
+            $badgeInfo = new stdClass();
 
             foreach ($badgeContainer->getElementsByTagName('img') as $element) {
                 $badgeInfo->code = u(
@@ -165,7 +152,7 @@ class UpdateBadgeDataCommand extends Command
     private function resizeBadges(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): UpdateBadgeDataCommand {
         $io = new SymfonyStyle($input, $output);
 
         $io->writeln('Resizing...');
@@ -173,11 +160,11 @@ class UpdateBadgeDataCommand extends Command
         foreach ($this->sizes as $size) {
             $destDir = $this->badgeRoot.'/'.$size;
             if (!is_dir($destDir) && !mkdir($destDir) && !is_dir($destDir)) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     sprintf('Directory "%s" was not created', $destDir)
                 );
             }
-            foreach (new \DirectoryIterator($this->badgeRoot) as $item) {
+            foreach (new DirectoryIterator($this->badgeRoot) as $item) {
                 if ($item->isDot() || $item->isDir()) {
                     continue;
                 }
@@ -191,12 +178,11 @@ class UpdateBadgeDataCommand extends Command
                     .$destPath;
                 ob_start();
                 system($command, $return_var);
-                $output = ob_get_contents();
-                ob_end_clean();
+                $result = ob_get_clean();
 
-                if ($output) {
+                if ($result) {
                     $io->writeln('');
-                    $io->error($output);
+                    $io->error($result);
                 }
             }
         }
@@ -263,7 +249,7 @@ class UpdateBadgeDataCommand extends Command
                 $rowCount = 0;
 
                 foreach (
-                    new \DirectoryIterator(
+                    new DirectoryIterator(
                         $this->badgeRoot.'/'.$size
                     ) as $item
                 ) {
@@ -334,10 +320,10 @@ class UpdateBadgeDataCommand extends Command
         if ($status) {
             // Command exited with a status != 0
             if ($lastLine) {
-                throw new \RuntimeException($lastLine);
+                throw new RuntimeException($lastLine);
             }
 
-            throw new \RuntimeException('An unknown error occurred');
+            throw new RuntimeException('An unknown error occurred');
         }
 
         return $lastLine;

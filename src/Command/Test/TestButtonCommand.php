@@ -9,15 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TestButtonCommand extends Command
 {
-    protected static $defaultName = 'TestButton';
+    protected static $defaultName = 'TestButton';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(TelegramBotHelper $telegramBotHelper)
     {
@@ -26,7 +25,7 @@ class TestButtonCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -43,20 +42,15 @@ class TestButtonCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
     ): int {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         $this->telegramBotHelper->sendButtonMessage('test');
 

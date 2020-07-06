@@ -8,24 +8,15 @@ use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 use TelegramBot\Api\Types\Update;
 
 class Start extends AbstractCommand implements PublicCommandInterface
 {
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private AgentRepository $agentRepository;
+    private EntityManagerInterface $entityManager;
+    private TranslatorInterface $translator;
 
     public function __construct(
         AgentRepository $agentRepository,
@@ -37,26 +28,21 @@ class Start extends AbstractCommand implements PublicCommandInterface
         $this->translator = $translator;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getName(): string
     {
         return '/start';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(): string
     {
         return 'Start command';
     }
 
     /**
-     * @inheritDoc
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function execute(BotApi $api, Update $update)
+    public function execute(BotApi $api, Update $update): void
     {
         $response = [];
 

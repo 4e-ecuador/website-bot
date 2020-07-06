@@ -12,25 +12,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TestNotifyEventsMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:NotifyEventsMessage';
+    protected static $defaultName = 'bot:test:NotifyEventsMessage';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var IngressEventRepository
-     */
-    private $ingressEventRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private TranslatorInterface $translator;
+    private IngressEventRepository $ingressEventRepository;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -45,7 +36,7 @@ class TestNotifyEventsMessageCommand extends Command
         $this->ingressEventRepository = $ingressEventRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -62,6 +53,10 @@ class TestNotifyEventsMessageCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
@@ -80,15 +75,6 @@ class TestNotifyEventsMessageCommand extends Command
         $this->telegramBotHelper->sendMessage($chatId, $message);
 
         $io->text($message);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         $io->success(
             'You have a new command! Now make it your own! Pass --help to see your options.'

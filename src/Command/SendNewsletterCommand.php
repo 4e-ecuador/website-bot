@@ -6,6 +6,8 @@ use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
 use DateTime;
+use DateTimeZone;
+use Exception;
 use IntlDateFormatter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,29 +15,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use TelegramBot\Api\InvalidArgumentException;
+use UnexpectedValueException;
 
 class SendNewsletterCommand extends Command
 {
-    protected static $defaultName = 'app:send:newsletter';
+    protected static $defaultName = 'app:send:newsletter';// Type must be defined in base class :(
 
-    /**
-     * @var EventRepository
-     */
-    private $eventRepository;
-
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $router;
-    /**
-     * @var IngressEventRepository
-     */
-    private $ingressEventRepository;
+    private EventRepository $eventRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private UrlGeneratorInterface $router;
+    private IngressEventRepository $ingressEventRepository;
     private string $defaultTimeZone;
     private string $pageBaseUrl;
 
@@ -56,7 +46,7 @@ class SendNewsletterCommand extends Command
         $this->pageBaseUrl = $pageBaseUrl;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Send a newsletter')
@@ -68,6 +58,11 @@ class SendNewsletterCommand extends Command
             );
     }
 
+    /**
+     * @throws \TelegramBot\Api\Exception
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
@@ -79,7 +74,7 @@ class SendNewsletterCommand extends Command
             if ('test' === $input->getOption('group')) {
                 $groupId = $this->telegramBotHelper->getGroupId('test');
             } else {
-                throw new \UnexpectedValueException('Unknown group');
+                throw new UnexpectedValueException('Unknown group');
             }
 
             $io->writeln('group set to: '.$input->getOption('group'));
@@ -87,7 +82,7 @@ class SendNewsletterCommand extends Command
 
         $message = [];
 
-        $timeZone = new \DateTimeZone($this->defaultTimeZone);
+        $timeZone = new DateTimeZone($this->defaultTimeZone);
 
         $dateNow = new DateTime('now', $timeZone);
 
@@ -123,7 +118,6 @@ class SendNewsletterCommand extends Command
 
         $fsStrings = [];
 
-        /* @type \App\Entity\IngressEvent $fs */
         foreach ($ingressFS as $fs) {
             $fsStrings[] = sprintf('[%s](%s)', $fs->getName(), $fs->getLink());
         }
@@ -235,7 +229,10 @@ class SendNewsletterCommand extends Command
         return 0;
     }
 
-    private function getNextFS(\DateTimeZone $timeZone): DateTime
+    /**
+     * @throws Exception
+     */
+    private function getNextFS(DateTimeZone $timeZone): DateTime
     {
         $dateNow = new DateTime('now');
         $fsThisMonth = new DateTime('first saturday of this month', $timeZone);

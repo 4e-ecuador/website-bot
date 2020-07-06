@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,14 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use UnexpectedValueException;
 
 class UserAdminCommand extends Command
 {
-    protected static $defaultName = 'user-admin';
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    protected static $defaultName = 'user-admin';// Type must be defined in base class :(
+
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -81,17 +81,12 @@ class UserAdminCommand extends Command
                     $this->showMenu($input, $output);
                     break;
                 case 'Create User':
-                    $username = $helper->ask(
-                        $input,
-                        $output,
-                        new Question('Username: ')
-                    );
                     $email = $helper->ask(
                         $input,
                         $output,
                         new Question('Email: ')
                     );
-                    $this->createUser($username, $email, []);
+                    $this->createUser($email, []);
                     $io->success('User created');
                     $this->showMenu($input, $output);
                     break;
@@ -101,7 +96,7 @@ class UserAdminCommand extends Command
                         $output,
                         new Question('Email: ')
                     );
-                    $this->createUser('admin', $email, ['ROLE_ADMIN']);
+                    $this->createUser($email, ['ROLE_ADMIN']);
                     $io->success('Admin User created');
                     $this->showMenu($input, $output);
                     break;
@@ -117,11 +112,11 @@ class UserAdminCommand extends Command
                     $io->text('have Fun =;)');
                     break;
                 default:
-                    throw new \UnexpectedValueException(
+                    throw new UnexpectedValueException(
                         'Unknown answer: '.$answer
                     );
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $io->error($exception->getMessage());
             $this->showMenu($input, $output);
         }
@@ -148,13 +143,9 @@ class UserAdminCommand extends Command
         $table->render();
     }
 
-    private function createUser(
-        string $username,
-        string $email,
-        array $roles
-    ): void {
+    private function createUser(string $email, array $roles): void
+    {
         $user = (new User())
-            ->setUsername($username)
             ->setEmail($email)
             ->setRoles($roles);
 

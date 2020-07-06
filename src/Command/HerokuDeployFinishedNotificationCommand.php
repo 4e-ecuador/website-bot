@@ -9,19 +9,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
-class HerokuDeployFinishedNofiticationCommand extends Command
+class HerokuDeployFinishedNotificationCommand extends Command
 {
-    protected static $defaultName = 'HerokuDeployFinishedNofitication';
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    protected static $defaultName = 'HerokuDeployFinishedNotification';// Type must be defined in base class :(
 
-    /**
-     * @var string
-     */
-    private $pageBase;
+    private TelegramBotHelper $telegramBotHelper;
+    private string $pageBase;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -33,7 +29,7 @@ class HerokuDeployFinishedNofiticationCommand extends Command
         $this->pageBase = $pageBaseUrl;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -50,6 +46,10 @@ class HerokuDeployFinishedNofiticationCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

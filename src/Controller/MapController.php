@@ -34,7 +34,7 @@ class MapController extends AbstractController
         return $this->render(
             'map/index.html.twig',
             [
-                'agents' => $agentRepository->findAll(),
+                'agents'    => $agentRepository->findAll(),
                 'mapGroups' => $mapGroups,
             ]
         );

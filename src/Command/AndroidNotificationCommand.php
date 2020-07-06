@@ -11,12 +11,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class AndroidNotificationCommand extends Command
 {
-    protected static $defaultName = 'android-app:notify';
+    protected static $defaultName = 'android-app:notify';// Type must be defined in base class :(
 
-    /**
-     * @var string
-     */
-    private $fcmKey;
+    private string $fcmKey;
 
     public function __construct(string $fcmKey)
     {
@@ -25,7 +22,7 @@ class AndroidNotificationCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')

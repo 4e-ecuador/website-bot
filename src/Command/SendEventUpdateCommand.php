@@ -6,40 +6,25 @@ use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
 use App\Service\EventHelper;
 use App\Service\TelegramBotHelper;
+use CURLFile;
+use DateTime;
+use DateTimeZone;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use UnexpectedValueException;
 
 class SendEventUpdateCommand extends Command
 {
-    protected static $defaultName = 'app:send:eventUpdate';
+    protected static $defaultName = 'app:send:eventUpdate';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var EventRepository
-     */
-    private $eventRepository;
-
-    /**
-     * @var AgentStatRepository
-     */
-    private $statRepository;
-
-    /**
-     * @var EventHelper
-     */
-    private $eventHelper;
-
-    /**
-     * @var string
-     */
-    private $rootDir;
+    private TelegramBotHelper $telegramBotHelper;
+    private EventRepository $eventRepository;
+    private AgentStatRepository $statRepository;
+    private EventHelper $eventHelper;
+    private string $rootDir;
     private string $defaultTimeZone;
 
     public function __construct(
@@ -60,7 +45,7 @@ class SendEventUpdateCommand extends Command
         $this->defaultTimeZone = $defaultTimeZone;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Send event updates')
@@ -77,16 +62,16 @@ class SendEventUpdateCommand extends Command
         OutputInterface $output
     ): int {
         $io = new SymfonyStyle($input, $output);
-        $dateNow = new \DateTime(
+        $dateNow = new DateTime(
             'now',
-            new \DateTimeZone($this->defaultTimeZone)
+            new DateTimeZone($this->defaultTimeZone)
         );
 
         if ($input->getOption('group')) {
             if ('test' === $input->getOption('group')) {
                 $groupId = $this->telegramBotHelper->getGroupId('test');
             } else {
-                throw new \UnexpectedValueException('Unknown group');
+                throw new UnexpectedValueException('Unknown group');
             }
 
             $io->writeln('group set to: '.$input->getOption('group'));
@@ -145,7 +130,7 @@ class SendEventUpdateCommand extends Command
         return 0;
     }
 
-    private function createImage()
+    private function createImage(): CURLFile
     {
         $my_img = imagecreate(230, 140);
 
@@ -225,7 +210,7 @@ class SendEventUpdateCommand extends Command
         // $ffile = $this->rootDir.'/var/cache/test.jpg';
         // copy($meta['uri'], $ffile);
         // // return new \CURLFile('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/error_frox/dead-frog-clipart-1.jpg', 'image/jpeg', 'image');
-        return new \CURLFile($fileName, 'image/jpeg', 'image');
+        return new CURLFile($fileName, 'image/jpeg', 'image');
         // return new \CURLFile($ffile , 'image/jpeg', 'image');
         // return $meta['uri'];
         // $cFile = curl_file_create($meta['uri'], 'application/pdf', $name);

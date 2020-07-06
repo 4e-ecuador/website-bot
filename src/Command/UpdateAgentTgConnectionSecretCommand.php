@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Repository\AgentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,17 +12,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UpdateAgentTgConnectionSecretCommand extends Command
 {
-    protected static $defaultName = 'UpdateAgentTgConnectionSecret';
+    protected static $defaultName = 'UpdateAgentTgConnectionSecret';// Type must be defined in base class :(
 
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private AgentRepository $agentRepository;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         AgentRepository $agentRepository,
@@ -33,12 +27,15 @@ class UpdateAgentTgConnectionSecretCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command');
     }
 
+    /**
+     * @throws Exception
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

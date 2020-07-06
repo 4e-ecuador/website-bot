@@ -49,9 +49,9 @@ class AgentStatController extends AbstractController
         return $this->render(
             'agent_stat/index.html.twig',
             [
-                'agent_stats' => $stats,
+                'agent_stats'      => $stats,
                 'paginatorOptions' => $paginatorOptions,
-                'agents' => $agents,
+                'agents'           => $agents,
             ]
         );
     }

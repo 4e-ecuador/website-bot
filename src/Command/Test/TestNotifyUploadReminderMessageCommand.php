@@ -12,25 +12,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TestNotifyUploadReminderMessageCommand extends Command
 {
-    protected static $defaultName = 'TestNotifyUploadReminderMessage';
+    protected static $defaultName = 'TestNotifyUploadReminderMessage';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private TranslatorInterface $translator;
+    private AgentRepository $agentRepository;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -44,7 +35,7 @@ class TestNotifyUploadReminderMessageCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -61,6 +52,10 @@ class TestNotifyUploadReminderMessageCommand extends Command
             );
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
@@ -80,7 +75,7 @@ class TestNotifyUploadReminderMessageCommand extends Command
                         $agent->getTelegramId(),
                         $message
                     );
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - '.$agent->getNickname()
                     );
@@ -93,15 +88,6 @@ class TestNotifyUploadReminderMessageCommand extends Command
         $this->telegramBotHelper->sendMessage($chatId, $message);
 
         $io->text($message);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         $io->success(
             'You have a new command! Now make it your own! Pass --help to see your options.'

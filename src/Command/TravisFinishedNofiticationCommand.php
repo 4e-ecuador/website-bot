@@ -9,15 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TravisFinishedNofiticationCommand extends Command
 {
-    protected static $defaultName = 'TravisFinishedNofitication';
+    protected static $defaultName = 'TravisFinishedNofitication';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(TelegramBotHelper $telegramBotHelper)
     {
@@ -26,7 +25,7 @@ class TravisFinishedNofiticationCommand extends Command
         $this->telegramBotHelper = $telegramBotHelper;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -43,6 +42,10 @@ class TravisFinishedNofiticationCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

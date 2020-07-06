@@ -5,6 +5,7 @@ namespace App\Command\Notification;
 use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyUploadReminder;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,22 +14,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UploadStatsReminder extends Command
 {
-    protected static $defaultName = 'app:send:notification:uploadStatsReminder';
+    protected static $defaultName = 'app:send:notification:uploadStatsReminder';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private TranslatorInterface $translator;
+    private AgentRepository $agentRepository;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -42,7 +32,7 @@ class UploadStatsReminder extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command');
@@ -71,7 +61,7 @@ class UploadStatsReminder extends Command
                         $message
                     );
                     $count++;
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - '.$agent->getNickname()
                     );

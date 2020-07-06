@@ -9,26 +9,17 @@ use TelegramBot\Api\Types\Update;
 
 class Guides extends AbstractCommand implements PublicCommandInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function getName()
+    public function getName(): string
     {
         return '/guias';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return 'Guides command';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function execute(BotApi $api, Update $update)
+    public function execute(BotApi $api, Update $update): void
     {
         $text = "Guias blabla\n\n1. lala [aaa](https://aa.bb)\n1. lulu\n\nyau";
 

@@ -11,14 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class TestSmurfAlertMessageCommand extends Command
 {
-    protected static $defaultName = 'TestSmurfAlertMessage';
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    protected static $defaultName = 'TestSmurfAlertMessage';// Type must be defined in base class :(
+
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(TelegramBotHelper $telegramBotHelper)
     {
@@ -27,7 +27,7 @@ class TestSmurfAlertMessageCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Add a short description for your command')
@@ -44,6 +44,10 @@ class TestSmurfAlertMessageCommand extends Command
             );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output

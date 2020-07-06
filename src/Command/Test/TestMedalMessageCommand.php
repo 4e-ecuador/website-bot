@@ -4,6 +4,7 @@ namespace App\Command\Test;
 
 use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,17 +13,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class TestMedalMessageCommand extends Command
 {
-    protected static $defaultName = 'app:bot:testMedalMessage';
+    protected static $defaultName = 'app:bot:testMedalMessage';// Type must be defined in base class :(
 
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
+    private TelegramBotHelper $telegramBotHelper;
+    private AgentRepository $agentRepository;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -34,7 +28,7 @@ class TestMedalMessageCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Send a bot message')
@@ -72,7 +66,7 @@ class TestMedalMessageCommand extends Command
             );
 
             $io->success('Finished!');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $io->error($exception->getMessage());
         }
 

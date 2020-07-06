@@ -26,10 +26,10 @@ class AppExtension extends AbstractExtension
 {
     public array $roleFilters
         = [
-            'ROLE_AGENT' => 'Agent',
+            'ROLE_AGENT'       => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN' => 'Admin',
+            'ROLE_EDITOR'      => 'Editor',
+            'ROLE_ADMIN'       => 'Admin',
         ];
     private MedalChecker $medalChecker;
     private MarkdownHelper $markdownHelper;

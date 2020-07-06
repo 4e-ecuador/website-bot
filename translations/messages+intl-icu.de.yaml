@@ -1,3 +1,4 @@
+agents.in.database: "{count, plural,\n  =0 {Die Datenbank ist leer :(}\n  one {Es gibt nur einen Agenten in der Datenbank}\n  other {Wir haben # Agenten in der Datenbank.}\n}"
 medal.level.bronce: __medal.level.bronce
 medal.level.silver: Silber
 medal.level.gold: Gold
@@ -61,7 +62,6 @@ Edit: __Edit
 'Ingress First Saturday': '__Ingress First Saturday'
 'Ends in': '__Ends in'
 Welcome!: Willkommen!
-agents.in.database: "{count, plural,\n  =0 {Die Datenbank ist leer :(}\n  one {Es gibt nur einen Agenten in der Datenbank}\n  other {Wir haben # Agenten in der Datenbank.}\n}"
 'Import Stats': '__Import Stats'
 'Prime export': '__Prime export'
 Upload: __Upload
@@ -127,3 +127,5 @@ Login: __Login
 'View Profile': '__View Profile'
 'Please activate Javascript': '__Please activate Javascript'
 'Latest comments': '__Latest comments'
+date.format.long: 'd MMMM Y'
+date.format.short: 'd MMMM'

@@ -167,3 +167,5 @@ select.locale: Idioma
 'View Profile': 'Ver Perfil'
 'Please activate Javascript': 'Por favor active Javascript'
 'Latest comments': 'Últimos comentarios'
+date.format.long: 'd ''de'' MMMM ''de'' y'
+date.format.short: 'd ''de'' MMMM'

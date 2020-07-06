@@ -57,7 +57,7 @@ class ControllerAccessTest extends WebTestCase
     private function processRoutes(array $routes, KernelBrowser $browser): void
     {
         foreach ($routes as $routeName => $route) {
-            $expectedId = 1;
+            $defaultId = 1;
             $expectedStatusCode = 302;
             if (array_key_exists($routeName, $this->exceptions)) {
                 if (array_key_exists(
@@ -70,13 +70,13 @@ class ControllerAccessTest extends WebTestCase
                 if (array_key_exists('params', $this->exceptions[$routeName])) {
                     $params = $this->exceptions[$routeName]['params'];
                     if (array_key_exists('id', $params)) {
-                        $expectedId = $params['id'];
+                        $defaultId = $params['id'];
                     }
                 }
             }
 
             $methods = $route->getMethods() ?: ['GET'];
-            $path = str_replace('{id}', $expectedId, $route->getPath());
+            $path = str_replace('{id}', $defaultId, $route->getPath());
             foreach ($methods as $method) {
                 // echo "Testing: $method - $path".PHP_EOL;
                 $browser->request($method, $path);

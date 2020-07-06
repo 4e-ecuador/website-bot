@@ -3,6 +3,7 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 
 class IngressEventResourceTest extends ApiTestCase
@@ -31,7 +32,7 @@ class IngressEventResourceTest extends ApiTestCase
     {
         $client = self::createClient();
 
-        $date = (new \DateTime('2200-12-21'))
+        $date = (new DateTime('2200-12-21'))
             ->format('Y-m-d');
 
         $response = $client->request(
@@ -49,7 +50,7 @@ class IngressEventResourceTest extends ApiTestCase
     {
         $client = self::createClient();
 
-        $date = (new \DateTime())
+        $date = (new DateTime())
             ->format('Y-m-d');
 
         $response = $client->request(

@@ -1,0 +1,4 @@
+services:
+    app.telegrambot:
+        alias: TelegramBot\Api\BotApi
+        public: true

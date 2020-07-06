@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api;
 
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use TelegramBot\Api\BotApi;
@@ -16,7 +17,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
         $client = $this->createClientWithMock();
 
         $vars = [
-            'faction'   => 'TEST',
+            'faction' => 'TEST',
         ];
 
         $response = $client->request(
@@ -37,27 +38,15 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
     public function testPostCsvNicknameMismatch(): void
     {
-        $client = self::createClient([], ['base_uri' => 'https://example.com']);
-        $mockBotApi = $this->createMock(BotApi::class);
-        $mockBotApi->expects($this->once())
-            ->method('sendMessage')
-            ->willReturn(new Message());
-        $client->getContainer()->set('app.telegrambot', $mockBotApi);
-
-        $headers = [
-            'Content-type' => 'application/json',
-            'Accept'       => 'application/json',
-            'X-AUTH-TOKEN' => 'T3stT0ken',
-        ];
+        $client = $this->createClientWithMock();
         $vars = [
-            'agent'   => 'TESTfoo',
+            'agent' => 'TESTfoo',
         ];
-
         $response = $client->request(
             'POST',
             '/api/stats/csv',
             [
-                'headers' => $headers,
+                'headers' => $this->headers,
                 'json'    => ['csv' => $this->switchCsv($vars)],
             ]
         );
@@ -158,9 +147,9 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
         $client = $this->createClientWithMock();
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
-            'date'  => $dateTime->format('Y-m-d'),
-            'time'  => $dateTime->format('h:i:s'),
-            'level' => 2,
+            'date'       => $dateTime->format('Y-m-d'),
+            'time'       => $dateTime->format('h:i:s'),
+            'level'      => 2,
             'recursions' => 1,
         ];
 
@@ -186,7 +175,6 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-
         $result = json_decode($response->getContent());
 
         self::assertCount(1, $result->result->messages);
@@ -202,8 +190,8 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
         $client = $this->createClientWithMock();
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
-            'date'  => $dateTime->format('Y-m-d'),
-            'time'  => $dateTime->format('h:i:s'),
+            'date'       => $dateTime->format('Y-m-d'),
+            'time'       => $dateTime->format('h:i:s'),
             'recursions' => 1,
         ];
 
@@ -229,18 +217,17 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-
         $result = json_decode($response->getContent());
 
         self::assertCount(1, $result->result->messages);
 
-        $expectedDiff = '{"recursions":1}';
-        $resultDiff = json_encode($result->result->diff);
+        $expectedJson = '{"recursions":1}';
+        $actualJson = json_encode($result->result->diff);
 
-        self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
+        self::assertJsonStringEqualsJsonString($expectedJson, $actualJson);
     }
 
-    private function createClientWithMock()
+    private function createClientWithMock(): Client
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
 

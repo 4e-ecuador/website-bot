@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use function count;
 
 /**
  * @Route("/user")
@@ -24,19 +24,21 @@ class UserController extends AbstractController
      * @Route("/", name="user_index", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(UserRepository $userRepository, Request $request): Response
-    {
+    public function index(
+        UserRepository $userRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
 
         $users = $userRepository->getPaginatedList($paginatorOptions);
 
         $paginatorOptions->setMaxPages(
-            ceil(\count($users) / $paginatorOptions->getLimit())
+            ceil(count($users) / $paginatorOptions->getLimit())
         );
 
         $rolesList = [
-            0 => '',
-            'ROLE_USER' => 'User',
+            0            => '',
+            'ROLE_USER'  => 'User',
             'ROLE_AGENT' => 'Agent',
         ];
 
@@ -44,7 +46,7 @@ class UserController extends AbstractController
             'user/index.html.twig',
             [
                 'users'            => $users,
-                'rolesList'            => $rolesList,
+                'rolesList'        => $rolesList,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );
@@ -95,16 +97,14 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(
-        Request $request,
-        User $user,
-        UserPasswordEncoderInterface $encoder
-    ): Response {
+    public function edit(Request $request, User $user): Response
+    {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute(
                 'user_index',
                 [

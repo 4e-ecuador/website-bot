@@ -6,19 +6,21 @@ use App\Entity\IngressEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IngressEventType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
             ->add('name')
             ->add(
                 'type',
-                ChoiceType::class, [
+                ChoiceType::class,
+                [
                     'choices' => [
                         'IFS' => 'fs',
                         'MD'  => 'md',
@@ -28,20 +30,22 @@ class IngressEventType extends AbstractType
             ->add('link')
             ->add(
                 'date_start',
-                DateTimeType::class, [
+                DateTimeType::class,
+                [
                     'widget' => 'single_text',
                 ]
             )
             ->add(
                 'date_end',
-                DateTimeType::class, [
+                DateTimeType::class,
+                [
                     'widget' => 'single_text',
                 ]
             )
             ->add('description');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

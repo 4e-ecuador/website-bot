@@ -9,8 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChallengeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
             ->add('name')
             ->add('codeName')
@@ -18,7 +20,7 @@ class ChallengeType extends AbstractType
             ->add('date_end');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

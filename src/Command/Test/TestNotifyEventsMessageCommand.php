@@ -2,7 +2,6 @@
 
 namespace App\Command\Test;
 
-use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;

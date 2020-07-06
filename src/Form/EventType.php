@@ -10,20 +10,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
             ->add('name')
             ->add(
-                'eventType', ChoiceType::class, [
+                'eventType',
+                ChoiceType::class,
+                [
                     'choices' => [
-                        'AP'       => 'ap',
-                        'Hacker'   => 'hacker',
-                        'Builder'  => 'builder',
-                        'Trekker'  => 'trekker',
-                        'Purifier' => 'purifier',
-                        'Recharger' => 'recharger',
-                        'OPR' => 'recon',
+                        'AP'           => 'ap',
+                        'Hacker'       => 'hacker',
+                        'Builder'      => 'builder',
+                        'Trekker'      => 'trekker',
+                        'Purifier'     => 'purifier',
+                        'Recharger'    => 'recharger',
+                        'OPR'          => 'recon',
                         'Fields/Links' => 'fieldslinks',
                     ],
                 ]
@@ -32,7 +36,7 @@ class EventType extends AbstractType
             ->add('date_end');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

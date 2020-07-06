@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Challenge;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,7 +22,7 @@ class ChallengeRepository extends ServiceEntityRepository
 
     public function findCurrent()
     {
-        $now = new \DateTime();
+        $now = new DateTime();
 
         return $this->createQueryBuilder('c')
             ->andWhere('c.date_start <= :now')

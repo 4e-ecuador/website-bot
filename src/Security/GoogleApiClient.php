@@ -3,18 +3,14 @@
 namespace App\Security;
 
 use Google_Client;
+use Google_Service_Oauth2;
+use Google_Service_Oauth2_Userinfo;
+use UnexpectedValueException;
 
 class GoogleApiClient
 {
-    /**
-     * @var Google_Client
-     */
-    private $apiClient;
-
-    /**
-     * @var string
-     */
-    private $clientId;
+    private Google_Client $apiClient;
+    private string $clientId;
 
     public function __construct(string $clientId, string $clientSecret)
     {
@@ -41,9 +37,9 @@ class GoogleApiClient
         return $this;
     }
 
-    public function getUserInfo(): \Google_Service_Oauth2_Userinfo
+    public function getUserInfo(): Google_Service_Oauth2_Userinfo
     {
-        $googleOauth = new \Google_Service_Oauth2($this->apiClient);
+        $googleOauth = new Google_Service_Oauth2($this->apiClient);
 
         return $googleOauth->userinfo->get();
     }
@@ -53,7 +49,7 @@ class GoogleApiClient
         $payload = $this->apiClient->verifyIdToken($idToken);
 
         if (!$payload) {
-            throw new \UnexpectedValueException('Can not verify IdToken');
+            throw new UnexpectedValueException('Can not verify IdToken');
         }
 
         return $payload['email'] ?? null;
@@ -62,7 +58,7 @@ class GoogleApiClient
         $azp = $payload['azp'] ?? null;
 
         if ($azp !== $this->clientId) {
-            throw new \UnexpectedValueException('Invalid ClientId');
+            throw new UnexpectedValueException('Invalid ClientId');
         }
 
         return $payload;
@@ -78,11 +74,11 @@ class GoogleApiClient
                 $errorText .= ' - '.$tokenArray['error_description'];
             }
 
-            throw new \UnexpectedValueException($errorText);
+            throw new UnexpectedValueException($errorText);
         }
 
         if (!array_key_exists('access_token', $tokenArray)) {
-            throw new \UnexpectedValueException('Can not get a token =;(');
+            throw new UnexpectedValueException('Can not get a token =;(');
         }
 
         $this->apiClient->setAccessToken($tokenArray['access_token']);

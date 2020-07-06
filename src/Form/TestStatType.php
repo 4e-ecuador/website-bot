@@ -9,17 +9,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TestStatType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
-            ->add('csv')
-        ;
+            ->add('csv');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => TestStat::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => TestStat::class,
+            ]
+        );
     }
 }

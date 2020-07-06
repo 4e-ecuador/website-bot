@@ -8,46 +8,21 @@
 
 namespace App\Helper\Paginator;
 
+use UnexpectedValueException;
+use function in_array;
+
 /**
  * Class PaginatorOptions
  */
 class PaginatorOptions
 {
-    /**
-     * @var int
-     */
-    private $page = 0;
+    private int $page = 0;
+    private int $maxPages = 0;
+    private int $limit = 10;
+    private string $order = 'id';
+    private string $orderDir = 'ASC';
+    private array $criteria = [];
 
-    /**
-     * @var int
-     */
-    private $maxPages = 0;
-
-    /**
-     * @var int
-     */
-    private $limit = 10;
-
-    /**
-     * @var string
-     */
-    private $order = 'id';
-
-    /**
-     * @var string
-     */
-    private $orderDir = 'ASC';
-
-    /**
-     * @var array
-     */
-    private $criteria = [];
-
-    /**
-     * @param int $page
-     *
-     * @return PaginatorOptions
-     */
     public function setPage(int $page): PaginatorOptions
     {
         $this->page = $page;
@@ -93,8 +68,8 @@ class PaginatorOptions
         $dirs = ['ASC', 'DESC'];
         $dir = strtoupper($orderDir);
 
-        if (false === \in_array($dir, $dirs, true)) {
-            throw new \UnexpectedValueException(
+        if (false === in_array($dir, $dirs, true)) {
+            throw new UnexpectedValueException(
                 sprintf('Order dir must be %s', implode(', ', $dirs))
             );
         }

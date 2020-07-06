@@ -17,26 +17,11 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var BotApi
-     */
-    private $botApi;
-
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
-
-    private $isAllowedChat = false;
-
-    /**
-     * @var Templater
-     */
-    private $templater;
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
+    private BotApi $botApi;
+    private AgentRepository $agentRepository;
+    private bool $isAllowedChat = false;
+    private Templater $templater;
+    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(
         LoggerInterface $logger,

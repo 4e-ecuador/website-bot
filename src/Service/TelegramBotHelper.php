@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
-use App\Exception\TelegramBotMissingChatIdException;
 use App\Type\CustomMessage\LevelUpMessage;
 use App\Type\CustomMessage\NewMedalMessage;
 use App\Type\CustomMessage\NewUserMessage;
@@ -14,6 +13,8 @@ use App\Type\CustomMessage\RecursionMessage;
 use App\Type\CustomMessage\SmurfAlertMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 use TelegramBot\Api\Types\Message;
 use UnexpectedValueException;
@@ -33,7 +34,7 @@ class TelegramBotHelper
     private string $botName;
     private string $pageBaseUrl;
     private string $announceAdminCc;
-    private array $groupIds = [];
+    private array $groupIds;
 
     public function __construct(
         BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator,
@@ -151,36 +152,52 @@ class TelegramBotHelper
         return sprintf('http://www.telegram.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendMessage(int $chatId, string $text, bool $disablePreview = false): Message
     {
-        if (0 === $chatId) {
-            return new Message();
-        }
-
         return $this->api->sendMessage($chatId, $text, 'markdown', $disablePreview);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendPhoto($chatId, $photo, $caption): Message
     {
         return $this->api->sendPhoto($chatId, $photo, $caption, null, null, false, 'html');
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendNewMedalMessage(string $groupName, Agent $agent, array $medalUps): Message
     {
         $message = (new NewMedalMessage($this, $this->translator, $agent, $this->medalChecker, $medalUps, $this->pageBaseUrl))
-            ->getMessage();
+            ->getText();
 
-        return $this->sendMessage($this->getGroupId($groupName), implode("\n", $message));
+        return $this->sendMessage($this->getGroupId($groupName), $message);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendLevelUpMessage(string $groupName, Agent $agent, int $level, int $recursions): Message
     {
         $message = (new LevelUpMessage($this, $this->translator, $agent, $this->medalChecker, $level, $recursions, $this->pageBaseUrl))
-            ->getMessage();
+            ->getText();
 
-        return $this->sendMessage($this->getGroupId($groupName), implode("\n", $message));
+        return $this->sendMessage($this->getGroupId($groupName), $message);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendButtonMessage(string $groupName): Message
     {
         $prev = 3;
@@ -199,41 +216,57 @@ class TelegramBotHelper
         );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendNewUserMessage(int $chatId, User $user): Message
     {
         $message = (new NewUserMessage($this, $user))
-            ->getMessage();
+            ->getText();
 
-        return $this->sendMessage($chatId, implode("\n", $message));
+        return $this->sendMessage($chatId, $message);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendSmurfAlertMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
     {
         $message = (new SmurfAlertMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
-            ->getMessage();
+            ->getText();
 
         return $this->sendMessage(
             $this->getGroupId($groupName),
-            str_replace('_', '\\_', implode("\n", $message))
+            str_replace('_', '\\_', $message)
         );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendNicknameMismatchMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
     {
         $message = (new NicknameMismatchMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
-            ->getMessage();
+            ->getText();
 
         return $this->sendMessage(
             $this->getGroupId($groupName),
-            str_replace('_', '\\_', implode("\n", $message))
+            str_replace('_', '\\_', $message)
         );
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function sendRecursionMessage(string $groupName, Agent $agent, int $recursions): Message
     {
         $message = (new RecursionMessage($this, $this->translator, $agent, $recursions, $this->pageBaseUrl))
             ->getText();
 
-        return $this->api->sendMessage($this->getGroupId($groupName), $message,'markdown');
+        return $this->sendMessage($this->getGroupId($groupName), $message);
     }
 }

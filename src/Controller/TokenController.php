@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use App\Security\GoogleApiClient;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +21,7 @@ class TokenController extends AbstractController
      *
      * @Route("/connect/google/api-token", name="connect_google_api_token", methods={"GET"})
      */
-    public function getApiToken(Request $request, GoogleApiClient $client, UserRepository $userRepository)
+    public function getApiToken(Request $request, GoogleApiClient $client, UserRepository $userRepository): ?JsonResponse
     {
         if ('https' !== $request->getScheme()) {
             // WTF!!!
@@ -49,7 +51,7 @@ class TokenController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $email]);
 
             if (!$user) {
-                throw new \RuntimeException('User not found!');
+                throw new RuntimeException('User not found!');
             }
 
             if (!$this->isGranted('ROLE_X', $user)) {

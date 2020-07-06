@@ -22,7 +22,7 @@ class CommentRepository extends ServiceEntityRepository
     /**
      * @return Comment[]
      */
-    public function findLatest(int $number = 10)
+    public function findLatest(int $number = 10): array
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.datetime', 'DESC')

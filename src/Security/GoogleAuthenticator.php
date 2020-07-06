@@ -4,7 +4,6 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
@@ -25,30 +24,11 @@ class GoogleAuthenticator extends SocialAuthenticator
 {
     use TargetPathTrait;
 
-    /**
-     * @var ClientRegistry
-     */
-    private $clientRegistry;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var UserRepository
-     */
-    private $userManager;
-
-    /**
-     * @var TelegramBotHelper
-     */
-    private $telegramBotHelper;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
+    private ClientRegistry $clientRegistry;
+    private EntityManagerInterface $entityManager;
+    private UserRepository $userManager;
+    private TelegramBotHelper $telegramBotHelper;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
         ClientRegistry $clientRegistry, EntityManagerInterface $entityManager,

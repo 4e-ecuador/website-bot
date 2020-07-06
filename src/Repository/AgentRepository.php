@@ -95,7 +95,7 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function findMapAgents(MapGroup $group)
+    public function findMapAgents(MapGroup $group): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.map_group = :val')
@@ -107,7 +107,7 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function findAllAlphabetical()
+    public function findAllAlphabetical(): array
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.nickname', 'ASC')
@@ -118,7 +118,7 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function findNotifyAgents()
+    public function findNotifyAgents(): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.telegram_id IS NOT NULL')

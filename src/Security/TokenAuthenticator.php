@@ -16,7 +16,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -25,10 +25,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request): bool
     {
+        return $request->headers->has('X-AUTH-TOKEN');
         $token = $request->headers->get('X-AUTH-TOKEN');
 
         return $token ? true : false;
-        // return $request->headers->has('X-AUTH-TOKEN');
     }
 
     public function getCredentials(Request $request)
@@ -65,7 +65,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->findOneBy(['apiToken' => $credentials]);
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         return true;
     }
@@ -74,7 +74,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         Request $request,
         TokenInterface $token,
         $providerKey
-    ) {
+    ): ?Response {
         return null;
     }
 
@@ -86,7 +86,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             'message' => strtr(
                 $exception->getMessageKey(),
                 $exception->getMessageData()
-            )
+            ),
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
@@ -103,7 +103,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function supportsRememberMe()
+    public function supportsRememberMe(): bool
     {
         return false;
     }

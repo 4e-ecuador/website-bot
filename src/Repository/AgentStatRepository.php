@@ -6,6 +6,8 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -54,7 +56,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findByDate(\DateTimeInterface $startDate, \DateTimeInterface $endDate): iterable
+    public function findByDate(DateTimeInterface $startDate, DateTimeInterface $endDate): iterable
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
@@ -69,7 +71,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findByDateAndAgent(\DateTime $startDate, \DateTime $endDate, Agent $agent): iterable
+    public function findByDateAndAgent(DateTime $startDate, DateTime $endDate, Agent $agent): iterable
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
@@ -145,8 +147,8 @@ class AgentStatRepository extends ServiceEntityRepository
 
     public function findTodays()
     {
-        $startDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 00:00:00'));
-        $endDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 23:59:59'));
+        $startDatetime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 00:00:00'));
+        $endDatetime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 23:59:59'));
 
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startValue')
@@ -157,7 +159,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findDayly(\DateTime $dateTime)
+    public function findDayly(DateTime $dateTime)
     {
         $startDatetime = $dateTime->format('Y-m-d').' 00:00:00';
         $endDatetime = $dateTime->format('Y-m-d').' 23:59:59';

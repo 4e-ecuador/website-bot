@@ -13,10 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    /**
-     * @var AgentRepository
-     */
-    private $agentRepository;
+    private AgentRepository $agentRepository;
 
     public function __construct(AgentRepository $agentRepository)
     {
@@ -36,10 +33,11 @@ class UserType extends AbstractType
                     'class'       => Agent::class,
                     'placeholder' => '',
                     'required'    => false,
-                    'choices'     => $this->agentRepository->findAllAlphabetical(),
-                    'attr'   =>  [
-                        'class'   => 'selectpicker',
-                        'data-style'=>'btn-success',
+                    'choices'     => $this->agentRepository->findAllAlphabetical(
+                    ),
+                    'attr'        => [
+                        'class'            => 'selectpicker',
+                        'data-style'       => 'btn-success',
                         'data-live-search' => 'true',
                     ],
                 ]
@@ -56,10 +54,10 @@ class UserType extends AbstractType
                         'User'        => 'ROLE_USER',
                     ],
                     'multiple' => true,
-                    'attr'   =>  [
-                        'class'   => 'selectpicker',
-                        'data-style'=>'btn-success'
-                    ]
+                    'attr'     => [
+                        'class'      => 'selectpicker',
+                        'data-style' => 'btn-success',
+                    ],
                 ]
             );
     }

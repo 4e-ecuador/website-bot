@@ -17,19 +17,16 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use UnexpectedValueException;
 
 class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    private $entityManager;
-    private $urlGenerator;
-    private $csrfTokenManager;
-
-    /**
-     * @var string
-     */
-    private $appEnv;
+    private EntityManagerInterface $entityManager;
+    private UrlGeneratorInterface $urlGenerator;
+    private CsrfTokenManagerInterface $csrfTokenManager;
+    private string $appEnv;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -43,7 +40,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         $this->appEnv = $appEnv;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return 'app_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
@@ -52,7 +49,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email'      => $request->request->get('email'),
+            'email' => $request->request->get('email'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -83,18 +80,24 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         if (false === in_array($this->appEnv, ['dev', 'test'])) {
-            throw new \UnexpectedValueException('GTFO!');
+            throw new UnexpectedValueException('GTFO!');
         }
 
         return true;
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+    public function onAuthenticationSuccess(
+        Request $request,
+        TokenInterface $token,
+        $providerKey
+    ) {
+        $targetPath = $this->getTargetPath(
+            $request->getSession(),
+            $providerKey
+        );
 
         if ($targetPath) {
             return new RedirectResponse($targetPath);
@@ -103,7 +106,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(): string
     {
         return $this->urlGenerator->generate('app_login');
     }

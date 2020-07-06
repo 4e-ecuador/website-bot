@@ -9,12 +9,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HelpType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
             ->add('title')
             ->add(
-                'text', null, [
+                'text',
+                null,
+                [
                     'attr'       => ['rows' => 10],
                     'label'      => 'label.content',
                     'block_name' => 'editor',
@@ -22,7 +26,7 @@ class HelpType extends AbstractType
             );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

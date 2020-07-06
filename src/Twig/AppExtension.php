@@ -12,36 +12,28 @@ use App\Service\IntlDateHelper;
 use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
 use App\Util\BadgeData;
+use DateTime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use UnexpectedValueException;
+use function get_class;
 
 /**
  * Class AppExtension
  */
 class AppExtension extends AbstractExtension
 {
-    public $roleFilters
+    public array $roleFilters
         = [
-            'ROLE_AGENT'  => 'Agent',
-            'ROLE_INTRO_AGENT'  => 'Intro Agent',
-            'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN'  => 'Admin',
+            'ROLE_AGENT'       => 'Agent',
+            'ROLE_INTRO_AGENT' => 'Intro Agent',
+            'ROLE_EDITOR'      => 'Editor',
+            'ROLE_ADMIN'       => 'Admin',
         ];
-
-    /**
-     * @var MedalChecker
-     */
-    private $medalChecker;
-
-    /**
-     * @var MarkdownHelper
-     */
-    private $markdownHelper;
-    /**
-     * @var IntlDateHelper
-     */
-    private $intlDateHelper;
+    private MedalChecker $medalChecker;
+    private MarkdownHelper $markdownHelper;
+    private IntlDateHelper $intlDateHelper;
 
     public function __construct(MedalChecker $medalChecker, MarkdownHelper $markdownHelper, IntlDateHelper $intlDateHelper)
     {
@@ -81,7 +73,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions():array
     {
         return [
             new TwigFunction('medalValue', [$this, 'getMedalValue']),
@@ -108,7 +100,7 @@ class AppExtension extends AbstractExtension
         $array = (array)$classObject;
         $response = [];
 
-        $className = \get_class($classObject);
+        $className = get_class($classObject);
 
         foreach ($array as $k => $v) {
             $response[trim(str_replace($className, '', $k))] = $v;
@@ -197,12 +189,12 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getChallengePath($medal, $level);
     }
 
-    public function formatIntlDate(\DateTime $date)
+    public function formatIntlDate(DateTime $date)
     {
         return $this->intlDateHelper->format($date);
     }
 
-    public function intlDateShort(\DateTime $dateTime): string
+    public function intlDateShort(DateTime $dateTime): string
     {
         return $this->intlDateHelper->formatShort($dateTime);
     }
@@ -230,7 +222,7 @@ class AppExtension extends AbstractExtension
                 $code = 'Badge_'.$badge.'_'.$tier;
                 break;
             default:
-                throw new \UnexpectedValueException('Unknown group: '.$group);
+                throw new UnexpectedValueException('Unknown group: '.$group);
         }
 
         return $this->medalChecker->getBadgeData($code);

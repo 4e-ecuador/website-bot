@@ -118,18 +118,20 @@ class StatsImporter
         ImportResult $result,
         AgentStat $statEntry,
         User $user
-    ): self {
+    ): array {
         $agent = $user->getAgent();
         if (null === $agent) {
             throw new UnexpectedValueException('Agent not found');
         }
+
+        $messages = [];
 
         /*
          * Admin messages
          */
         if ($statEntry->getFaction() !== 'Enlightened') {
             // Smurf detected!!!
-            $this->telegramBotHelper->sendSmurfAlertMessage(
+            $messages[] = $this->telegramBotHelper->sendSmurfAlertMessage(
                 'admin',
                 $user,
                 $agent,
@@ -139,7 +141,7 @@ class StatsImporter
 
         if ($agent->getNickname() !== $statEntry->getNickname()) {
             // Nickname mismatch
-            $this->telegramBotHelper->sendNicknameMismatchMessage(
+            $messages[] = $this->telegramBotHelper->sendNicknameMismatchMessage(
                 'admin',
                 $user,
                 $agent,
@@ -156,7 +158,7 @@ class StatsImporter
 
         // Medal(s) gained
         if ($result->medalUps) {
-            $this->telegramBotHelper->sendNewMedalMessage(
+            $messages[] = $this->telegramBotHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
                 $result->medalUps
@@ -165,7 +167,7 @@ class StatsImporter
 
         // Level changed
         if ($result->newLevel) {
-            $this->telegramBotHelper->sendLevelUpMessage(
+            $messages[] = $this->telegramBotHelper->sendLevelUpMessage(
                 $groupName,
                 $agent,
                 $result->newLevel,
@@ -175,14 +177,14 @@ class StatsImporter
 
         // Recursions
         if ($result->recursions) {
-            $this->telegramBotHelper->sendRecursionMessage(
+            $messages[] = $this->telegramBotHelper->sendRecursionMessage(
                 $groupName,
                 $agent,
                 $result->recursions
             );
         }
 
-        return $this;
+        return $messages;
     }
 
     private function getMethodName(string $vName): string

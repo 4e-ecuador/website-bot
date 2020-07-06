@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\IngressEvent;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,7 +29,7 @@ class IngressEventRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
-            ->setParameter('val', (new \DateTime())->format('Y-m-d)'))
+            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->orderBy('i.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
@@ -38,12 +39,12 @@ class IngressEventRepository extends ServiceEntityRepository
     /**
      * @return IngressEvent[]
      */
-    public function findFutureFS()
+    public function findFutureFS(): array
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
             ->andWhere('i.type = :type')
-            ->setParameter('val', (new \DateTime())->format('Y-m-d)'))
+            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->setParameter('type', 'fs')
             ->orderBy('i.name', 'ASC')
             ->setMaxResults(10)
@@ -54,12 +55,12 @@ class IngressEventRepository extends ServiceEntityRepository
     /**
      * @return IngressEvent[]
      */
-    public function findFutureMD()
+    public function findFutureMD(): array
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
             ->andWhere('i.type = :type')
-            ->setParameter('val', (new \DateTime())->format('Y-m-d)'))
+            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->setParameter('type', 'md')
             ->orderBy('i.name', 'ASC')
             ->setMaxResults(10)

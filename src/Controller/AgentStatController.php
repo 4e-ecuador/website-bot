@@ -25,8 +25,11 @@ class AgentStatController extends AbstractController
      * @Route("/", name="agent_stat_index", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function index(AgentStatRepository $agentStatRepository, AgentRepository $agentRepository, Request $request): Response
-    {
+    public function index(
+        AgentStatRepository $agentStatRepository,
+        AgentRepository $agentRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
 
         $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
@@ -46,9 +49,9 @@ class AgentStatController extends AbstractController
         return $this->render(
             'agent_stat/index.html.twig',
             [
-                'agent_stats'      => $stats,
+                'agent_stats' => $stats,
                 'paginatorOptions' => $paginatorOptions,
-                'agents'           => $agents,
+                'agents' => $agents,
             ]
         );
     }

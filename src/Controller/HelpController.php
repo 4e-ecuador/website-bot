@@ -24,7 +24,8 @@ class HelpController extends AbstractController
     public function index(HelpRepository $helpRepository): Response
     {
         return $this->render(
-            'help/index.html.twig', [
+            'help/index.html.twig',
+            [
                 'helps' => $helpRepository->findAll(),
             ]
         );
@@ -50,7 +51,8 @@ class HelpController extends AbstractController
         }
 
         return $this->render(
-            'help/new.html.twig', [
+            'help/new.html.twig',
+            [
                 'help' => $help,
                 'form' => $form->createView(),
             ]
@@ -64,7 +66,8 @@ class HelpController extends AbstractController
     public function show(Help $help): Response
     {
         return $this->render(
-            'help/show.html.twig', [
+            'help/show.html.twig',
+            [
                 'help' => $help,
             ]
         );
@@ -74,8 +77,10 @@ class HelpController extends AbstractController
      * @Route("/page/{slug}", name="help_show2", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show2(string $slug, HelpRepository $helpRepository): Response
-    {
+    public function show2(
+        string $slug,
+        HelpRepository $helpRepository
+    ): Response {
         $help = $helpRepository->findOneBy(['slug' => $slug]);
 
         if (!$help) {
@@ -103,7 +108,8 @@ class HelpController extends AbstractController
         }
 
         return $this->render(
-            'help/edit.html.twig', [
+            'help/edit.html.twig',
+            [
                 'help' => $help,
                 'form' => $form->createView(),
             ]
@@ -117,7 +123,8 @@ class HelpController extends AbstractController
     public function delete(Request $request, Help $help): Response
     {
         if ($this->isCsrfTokenValid(
-            'delete'.$help->getId(), $request->request->get('_token')
+            'delete'.$help->getId(),
+            $request->request->get('_token')
         )
         ) {
             $entityManager = $this->getDoctrine()->getManager();

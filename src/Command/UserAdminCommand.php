@@ -31,8 +31,10 @@ class UserAdminCommand extends Command
         $this->setDescription('Administer Users');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $io->title('KuKu\'s User Admin');
@@ -42,13 +44,17 @@ class UserAdminCommand extends Command
         return 0;
     }
 
-    private function showMenu(InputInterface $input, OutputInterface $output): void
-    {
+    private function showMenu(
+        InputInterface $input,
+        OutputInterface $output
+    ): void {
         $io = new SymfonyStyle($input, $output);
 
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
-        $io->text(sprintf('There are %d users in the database.', count($users)));
+        $io->text(
+            sprintf('There are %d users in the database.', count($users))
+        );
 
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
@@ -75,14 +81,26 @@ class UserAdminCommand extends Command
                     $this->showMenu($input, $output);
                     break;
                 case 'Create User':
-                    $username = $helper->ask($input, $output, new Question('Username: '));
-                    $email = $helper->ask($input, $output, new Question('Email: '));
+                    $username = $helper->ask(
+                        $input,
+                        $output,
+                        new Question('Username: ')
+                    );
+                    $email = $helper->ask(
+                        $input,
+                        $output,
+                        new Question('Email: ')
+                    );
                     $this->createUser($username, $email, []);
                     $io->success('User created');
                     $this->showMenu($input, $output);
                     break;
                 case 'Create Admin User':
-                    $email = $helper->ask($input, $output, new Question('Email: '));
+                    $email = $helper->ask(
+                        $input,
+                        $output,
+                        new Question('Email: ')
+                    );
                     $this->createUser('admin', $email, ['ROLE_ADMIN']);
                     $io->success('Admin User created');
                     $this->showMenu($input, $output);
@@ -109,8 +127,10 @@ class UserAdminCommand extends Command
         }
     }
 
-    private function renderUsersTable(OutputInterface $output, array $users): void
-    {
+    private function renderUsersTable(
+        OutputInterface $output,
+        array $users
+    ): void {
         $table = new Table($output);
         $table->setHeaders(['ID', 'Username', 'email', 'Roles']);
 
@@ -128,8 +148,11 @@ class UserAdminCommand extends Command
         $table->render();
     }
 
-    private function createUser(string $username, string $email, array $roles): void
-    {
+    private function createUser(
+        string $username,
+        string $email,
+        array $roles
+    ): void {
         $user = (new User())
             ->setUsername($username)
             ->setEmail($email)

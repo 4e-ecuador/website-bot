@@ -25,7 +25,8 @@ class ChallengeController extends AbstractController
     public function index(ChallengeRepository $challengeRepository): Response
     {
         return $this->render(
-            'challenge/index.html.twig', [
+            'challenge/index.html.twig',
+            [
                 'challenges' => $challengeRepository->findAll(),
             ]
         );
@@ -50,7 +51,8 @@ class ChallengeController extends AbstractController
         }
 
         return $this->render(
-            'challenge/new.html.twig', [
+            'challenge/new.html.twig',
+            [
                 'challenge' => $challenge,
                 'form'      => $form->createView(),
             ]
@@ -61,12 +63,19 @@ class ChallengeController extends AbstractController
      * @Route("/{id}", name="challenge_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(Challenge $challenge, AgentStatRepository $statRepository, ChallengeHelper $challengeHelper): Response
-    {
-        $entries = $statRepository->findByDate($challenge->getDateStart(), $challenge->getDateEnd());
+    public function show(
+        Challenge $challenge,
+        AgentStatRepository $statRepository,
+        ChallengeHelper $challengeHelper
+    ): Response {
+        $entries = $statRepository->findByDate(
+            $challenge->getDateStart(),
+            $challenge->getDateEnd()
+        );
 
         return $this->render(
-            'challenge/show.html.twig', [
+            'challenge/show.html.twig',
+            [
                 'challenge' => $challenge,
                 'entries'   => $challengeHelper->getResults($entries),
             ]
@@ -89,7 +98,8 @@ class ChallengeController extends AbstractController
         }
 
         return $this->render(
-            'challenge/edit.html.twig', [
+            'challenge/edit.html.twig',
+            [
                 'challenge' => $challenge,
                 'form'      => $form->createView(),
             ]
@@ -103,7 +113,8 @@ class ChallengeController extends AbstractController
     public function delete(Request $request, Challenge $challenge): Response
     {
         if ($this->isCsrfTokenValid(
-            'delete'.$challenge->getId(), $request->request->get('_token')
+            'delete'.$challenge->getId(),
+            $request->request->get('_token')
         )
         ) {
             $entityManager = $this->getDoctrine()->getManager();

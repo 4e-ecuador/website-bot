@@ -27,8 +27,11 @@ class Start extends AbstractCommand implements PublicCommandInterface
      */
     private $translator;
 
-    public function __construct(AgentRepository $agentRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
-    {
+    public function __construct(
+        AgentRepository $agentRepository,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
+    ) {
         $this->agentRepository = $agentRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
@@ -66,16 +69,21 @@ class Start extends AbstractCommand implements PublicCommandInterface
             if (!$tgUser) {
                 $response[] = 'Missing user';
             } elseif (!preg_match(
-                self::REGEXP, $update->getMessage()->getText(), $matches
+                self::REGEXP,
+                $update->getMessage()->getText(),
+                $matches
             )
             ) {
                 $response[] = 'Missing code';
             } else {
                 $code = preg_replace('/[^0-9a-z]+/', '', $matches[3]);
-                $agent = $this->agentRepository->findOneBy(['telegram_connection_secret' => $code]);
+                $agent = $this->agentRepository->findOneBy(
+                    ['telegram_connection_secret' => $code]
+                );
 
                 if (!$agent) {
-                    $response[] = $this->translator->trans('bot.message.missing.agent');
+                    $response[] = $this->translator
+                        ->trans('bot.message.missing.agent');
                     $response[] = 'code: '.$code;
                 } else {
                     $agent->setTelegramName($tgUser->getUsername());
@@ -84,7 +92,8 @@ class Start extends AbstractCommand implements PublicCommandInterface
                     $this->entityManager->persist($agent);
                     $this->entityManager->flush();
 
-                    $response[] = $this->translator->trans('bot.message.agent.verified');
+                    $response[] = $this->translator
+                        ->trans('bot.message.agent.verified');
                 }
             }
         }

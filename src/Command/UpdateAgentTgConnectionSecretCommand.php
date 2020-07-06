@@ -23,8 +23,10 @@ class UpdateAgentTgConnectionSecretCommand extends Command
      */
     private $entityManager;
 
-    public function __construct(AgentRepository $agentRepository, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        AgentRepository $agentRepository,
+        EntityManagerInterface $entityManager
+    ) {
         $this->agentRepository = $agentRepository;
         $this->entityManager = $entityManager;
 
@@ -34,12 +36,13 @@ class UpdateAgentTgConnectionSecretCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-        ;
+            ->setDescription('Add a short description for your command');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $agents = $this->agentRepository->findAll();

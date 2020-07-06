@@ -22,12 +22,17 @@ final class Version20191126184421 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('ALTER TABLE agent ADD map_group_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE agent ADD CONSTRAINT FK_268B9C9D9CA6EF60 FOREIGN KEY (map_group_id) REFERENCES map_group (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('CREATE INDEX IDX_268B9C9D9CA6EF60 ON agent (map_group_id)');
+        $this->addSql(
+            'ALTER TABLE agent ADD CONSTRAINT FK_268B9C9D9CA6EF60 FOREIGN KEY (map_group_id) REFERENCES map_group (id) NOT DEFERRABLE INITIALLY IMMEDIATE'
+        );
+        $this->addSql(
+            'CREATE INDEX IDX_268B9C9D9CA6EF60 ON agent (map_group_id)'
+        );
         $this->addSql('ALTER TABLE map_group ADD name VARCHAR(255) NOT NULL');
     }
 
@@ -36,7 +41,8 @@ final class Version20191126184421 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('CREATE SCHEMA public');

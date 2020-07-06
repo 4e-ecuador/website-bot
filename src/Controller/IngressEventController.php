@@ -36,8 +36,10 @@ class IngressEventController extends AbstractController
      * @Route("/", name="ingress_event_index", methods={"GET", "POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(IngressEventRepository $ingressEventRepository, Request $request): Response
-    {
+    public function index(
+        IngressEventRepository $ingressEventRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
 
         $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
@@ -47,8 +49,9 @@ class IngressEventController extends AbstractController
         );
 
         return $this->render(
-            'ingress_event/index.html.twig', [
-                'ingress_events' => $events,
+            'ingress_event/index.html.twig',
+            [
+                'ingress_events'   => $events,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );
@@ -76,7 +79,8 @@ class IngressEventController extends AbstractController
         }
 
         return $this->render(
-            'ingress_event/new.html.twig', [
+            'ingress_event/new.html.twig',
+            [
                 'ingress_event' => $ingressEvent,
                 'form'          => $form->createView(),
             ]
@@ -90,7 +94,8 @@ class IngressEventController extends AbstractController
     public function show(IngressEvent $ingressEvent): Response
     {
         return $this->render(
-            'ingress_event/show.html.twig', [
+            'ingress_event/show.html.twig',
+            [
                 'ingress_event' => $ingressEvent,
             ]
         );
@@ -112,7 +117,8 @@ class IngressEventController extends AbstractController
         }
 
         return $this->render(
-            'ingress_event/edit.html.twig', [
+            'ingress_event/edit.html.twig',
+            [
                 'ingress_event' => $ingressEvent,
                 'form'          => $form->createView(),
             ]
@@ -123,10 +129,13 @@ class IngressEventController extends AbstractController
      * @Route("/{id}", name="ingress_event_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, IngressEvent $ingressEvent): Response
-    {
+    public function delete(
+        Request $request,
+        IngressEvent $ingressEvent
+    ): Response {
         if ($this->isCsrfTokenValid(
-            'delete'.$ingressEvent->getId(), $request->request->get('_token')
+            'delete'.$ingressEvent->getId(),
+            $request->request->get('_token')
         )
         ) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -142,10 +151,17 @@ class IngressEventController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      */
     public function announceTg(
-        TelegramBotHelper $telegramBotHelper, IngressEventRepository $ingressEventRepository,
-        AgentRepository $agentRepository, TranslatorInterface $translator
+        TelegramBotHelper $telegramBotHelper,
+        IngressEventRepository $ingressEventRepository,
+        AgentRepository $agentRepository,
+        TranslatorInterface $translator
     ): RedirectResponse {
-        $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+        $message = (new NotifyEventsMessage(
+            $telegramBotHelper,
+            $ingressEventRepository,
+            $translator,
+            true
+        ))
             ->getMessage();
 
         $agents = $agentRepository->findNotifyAgents();
@@ -155,11 +171,15 @@ class IngressEventController extends AbstractController
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyEvents()) {
                 try {
-                    $telegramBotHelper->sendMessage($agent->getTelegramId(), implode("\n", $message));
+                    $telegramBotHelper->sendMessage(
+                        $agent->getTelegramId(),
+                        implode("\n", $message)
+                    );
                     $count++;
                 } catch (Exception $exception) {
                     $this->addFlash(
-                        'warning', $exception->getMessage().' - Agent: '
+                        'warning',
+                        $exception->getMessage().' - Agent: '
                         .$agent->getNickname()
                     );
                 }
@@ -167,7 +187,10 @@ class IngressEventController extends AbstractController
         }
 
         if ($count) {
-            $this->addFlash('success', sprintf('Announcements sent to %d agents!', $count));
+            $this->addFlash(
+                'success',
+                sprintf('Announcements sent to %d agents!', $count)
+            );
         }
 
         return $this->redirectToRoute('ingress_event_index');
@@ -178,11 +201,18 @@ class IngressEventController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      */
     public function announceFbm(
-        FcmHelper $fbmHelper, TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository, TranslatorInterface $translator
+        FcmHelper $fbmHelper,
+        TelegramBotHelper $telegramBotHelper,
+        IngressEventRepository $ingressEventRepository,
+        TranslatorInterface $translator
     ): RedirectResponse {
         try {
-            $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+            $message = (new NotifyEventsMessage(
+                $telegramBotHelper,
+                $ingressEventRepository,
+                $translator,
+                true
+            ))
                 ->getMessage(false);
 
             if (!$message) {
@@ -205,16 +235,23 @@ class IngressEventController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      */
     public function announceFbmToken(
-        FcmHelper $fbmHelper, TelegramBotHelper $telegramBotHelper,
+        FcmHelper $fbmHelper,
+        TelegramBotHelper $telegramBotHelper,
         IngressEventRepository $ingressEventRepository,
-        UserRepository $userRepository, TranslatorInterface $translator
+        UserRepository $userRepository,
+        TranslatorInterface $translator
     ): RedirectResponse {
         try {
             $users = $userRepository->getFireBaseUsers();
 
             $count = 0;
 
-            $message = (new NotifyEventsMessage($telegramBotHelper, $ingressEventRepository, $translator, true))
+            $message = (new NotifyEventsMessage(
+                $telegramBotHelper,
+                $ingressEventRepository,
+                $translator,
+                true
+            ))
                 ->getMessage(false);
 
             if (!$message) {
@@ -229,14 +266,23 @@ class IngressEventController extends AbstractController
                 $tokens[] = $user->getFireBaseToken();
                 $count++;
             }
-            if (!$fbmHelper->sendMessageWithTokens('URG '.$title, implode("\n", $message), $tokens)) {
+            if (!$fbmHelper->sendMessageWithTokens(
+                'URG '.$title,
+                implode("\n", $message),
+                $tokens
+            )
+            ) {
                 $this->addFlash(
-                    'warning', 'Message not sent :'.$user->getUsername()
+                    'warning',
+                    'Message not sent :'.$user->getUsername()
                 );
             }
 
             if ($count) {
-                $this->addFlash('success', sprintf('Announcements sent to %d agents!', $count));
+                $this->addFlash(
+                    'success',
+                    sprintf('Announcements sent to %d agents!', $count)
+                );
             } else {
                 $this->addFlash('warning', 'No messages sent :(');
             }
@@ -264,7 +310,7 @@ class IngressEventController extends AbstractController
         return $this->render(
             'ingress_event/overview.html.twig',
             [
-                'events' => $events,
+                'events'   => $events,
                 'eventIds' => $eventIds,
             ]
         );
@@ -277,7 +323,7 @@ class IngressEventController extends AbstractController
     public function fetchOverview(IngressEvent $event): JsonResponse
     {
         if (!$event->getLink()) {
-            return $this->json(['error'=>'no link provided']);
+            return $this->json(['error' => 'no link provided']);
         }
 
         $client = new Client();
@@ -287,21 +333,29 @@ class IngressEventController extends AbstractController
 
         $crawler = $client->request('GET', $event->getLink());
 
-        $crawler->filterXPath('//table/tbody/tr/td/a')->each(function ($node) use ($info) {
-            $info->poc[$node->attr('class')] = $node->html();
-        });
+        $crawler->filterXPath('//table/tbody/tr/td/a')->each(
+            function ($node) use ($info) {
+                $info->poc[$node->attr('class')] = $node->html();
+            }
+        );
 
-        $crawler->filterXPath('//table/tbody/tr/td/div')->each(function ($node) use ($info) {
-            static $i = 0;
-            $string = $node->html();
-            $string = preg_replace('#\<h4\>[\s\(\)\w]+\</h4\>#m', '', $string);
+        $crawler->filterXPath('//table/tbody/tr/td/div')->each(
+            function ($node) use ($info) {
+                static $i = 0;
+                $string = $node->html();
+                $string = preg_replace(
+                    '#\<h4\>[\s\(\)\w]+\</h4\>#m',
+                    '',
+                    $string
+                );
 
-            $atendees = explode('<br>', trim($string));
-            $factions = array_keys($info->poc);
+                $atendees = explode('<br>', trim($string));
+                $factions = array_keys($info->poc);
 
-            $info->atendees[$factions[$i]] = $atendees;
-            $i++;
-        });
+                $info->atendees[$factions[$i]] = $atendees;
+                $i++;
+            }
+        );
 
         return $this->json($info);
     }

@@ -22,9 +22,12 @@ class TestStatController extends AbstractController
      */
     public function index(TestStatRepository $testStatRepository): Response
     {
-        return $this->render('test_stat/index.html.twig', [
-            'test_stats' => $testStatRepository->findAll(),
-        ]);
+        return $this->render(
+            'test_stat/index.html.twig',
+            [
+                'test_stats' => $testStatRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -44,10 +47,13 @@ class TestStatController extends AbstractController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->render('test_stat/new.html.twig', [
-            'test_stat' => $testStat,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'test_stat/new.html.twig',
+            [
+                'test_stat' => $testStat,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -55,9 +61,12 @@ class TestStatController extends AbstractController
      */
     public function show(TestStat $testStat): Response
     {
-        return $this->render('test_stat/show.html.twig', [
-            'test_stat' => $testStat,
-        ]);
+        return $this->render(
+            'test_stat/show.html.twig',
+            [
+                'test_stat' => $testStat,
+            ]
+        );
     }
 
     /**
@@ -74,10 +83,13 @@ class TestStatController extends AbstractController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->render('test_stat/edit.html.twig', [
-            'test_stat' => $testStat,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'test_stat/edit.html.twig',
+            [
+                'test_stat' => $testStat,
+                'form'      => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -85,7 +97,11 @@ class TestStatController extends AbstractController
      */
     public function delete(Request $request, TestStat $testStat): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$testStat->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$testStat->getId(),
+            $request->request->get('_token')
+        )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($testStat);
             $entityManager->flush();

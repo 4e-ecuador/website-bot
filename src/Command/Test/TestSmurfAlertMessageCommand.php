@@ -31,13 +31,23 @@ class TestSmurfAlertMessageCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $user = new User();
 
         $agent = new Agent();
@@ -46,7 +56,12 @@ class TestSmurfAlertMessageCommand extends Command
 
         $statEntry->setFaction('TEST');
 
-        $this->telegramBotHelper->sendSmurfAlertMessage('test', $user, $agent, $statEntry);
+        $this->telegramBotHelper->sendSmurfAlertMessage(
+            'test',
+            $user,
+            $agent,
+            $statEntry
+        );
 
         return 0;
     }

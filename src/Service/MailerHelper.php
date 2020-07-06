@@ -16,8 +16,11 @@ class MailerHelper
     private string $emailName;
     private MailerInterface $mailer;
 
-    public function __construct(string $email, string $emailName, MailerInterface $mailer)
-    {
+    public function __construct(
+        string $email,
+        string $emailName,
+        MailerInterface $mailer
+    ) {
         $this->email = $email;
         $this->emailName = $emailName;
         $this->mailer = $mailer;

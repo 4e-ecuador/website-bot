@@ -53,12 +53,23 @@ class UpdateBadgeDataCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Scrape Badges');
@@ -72,8 +83,10 @@ class UpdateBadgeDataCommand extends Command
         return 0;
     }
 
-    private function scrapeBadges(InputInterface $input, OutputInterface $output): UpdateBadgeDataCommand
-    {
+    private function scrapeBadges(
+        InputInterface $input,
+        OutputInterface $output
+    ): UpdateBadgeDataCommand {
         $io = new SymfonyStyle($input, $output);
 
         $io->write('Querying site...');
@@ -97,7 +110,8 @@ class UpdateBadgeDataCommand extends Command
                 $io->writeln('exists');
             } else {
                 file_put_contents(
-                    $imgPath, file_get_contents(
+                    $imgPath,
+                    file_get_contents(
                         $this->scrapeSite.'/'.$original
                     )
                 );
@@ -113,8 +127,11 @@ class UpdateBadgeDataCommand extends Command
             $badgeInfo = new \stdClass();
 
             foreach ($badgeContainer->getElementsByTagName('img') as $element) {
-                $badgeInfo->code = u($element->getAttribute('data-original'))->slice(
-                    0, strlen($element->getAttribute('data-original')) - 4
+                $badgeInfo->code = u(
+                    $element->getAttribute('data-original')
+                )->slice(
+                    0,
+                    strlen($element->getAttribute('data-original')) - 4
                 );
             }
 
@@ -128,7 +145,9 @@ class UpdateBadgeDataCommand extends Command
                 // @TODO HTML is malformed :(
                 // $badgeInfo->x = $element->nodeValue;
                 // $temp = str_replace($badgeInfo->title, '', $element->nodeValue);
-                $temp = u($element->nodeValue)->slice(strlen($badgeInfo->title));
+                $temp = u($element->nodeValue)->slice(
+                    strlen($badgeInfo->title)
+                );
                 $badgeInfo->description = $temp;//$element->nodeValue;
             }
 
@@ -143,8 +162,10 @@ class UpdateBadgeDataCommand extends Command
         return $this;
     }
 
-    private function resizeBadges(InputInterface $input, OutputInterface $output)
-    {
+    private function resizeBadges(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
         $io = new SymfonyStyle($input, $output);
 
         $io->writeln('Resizing...');
@@ -152,7 +173,9 @@ class UpdateBadgeDataCommand extends Command
         foreach ($this->sizes as $size) {
             $destDir = $this->badgeRoot.'/'.$size;
             if (!is_dir($destDir) && !mkdir($destDir) && !is_dir($destDir)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $destDir));
+                throw new \RuntimeException(
+                    sprintf('Directory "%s" was not created', $destDir)
+                );
             }
             foreach (new \DirectoryIterator($this->badgeRoot) as $item) {
                 if ($item->isDot() || $item->isDir()) {
@@ -183,8 +206,10 @@ class UpdateBadgeDataCommand extends Command
         return $this;
     }
 
-    private function makeCssSprite(InputInterface $input, OutputInterface $output): UpdateBadgeDataCommand
-    {
+    private function makeCssSprite(
+        InputInterface $input,
+        OutputInterface $output
+    ): UpdateBadgeDataCommand {
         $io = new SymfonyStyle($input, $output);
 
         $io->writeln('Generating sprite image and CSS...');
@@ -274,7 +299,9 @@ class UpdateBadgeDataCommand extends Command
                     $cssLines[] = sprintf(
                         '.medal'.$size.'-'.$groupName
                         .'.medal-%s {background-position: %s %s}',
-                        $name, $xPos, $yPos
+                        $name,
+                        $xPos,
+                        $yPos
                     );
                     $colCount++;
                     if ($colCount >= $imagesPerRow) {

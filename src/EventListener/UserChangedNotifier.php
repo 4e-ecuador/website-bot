@@ -13,8 +13,11 @@ class UserChangedNotifier
     private TelegramBotHelper $telegramBotHelper;
     private string $appEnv;
 
-    public function __construct(Security $security, TelegramBotHelper $telegramBotHelper, string $appEnv)
-    {
+    public function __construct(
+        Security $security,
+        TelegramBotHelper $telegramBotHelper,
+        string $appEnv
+    ) {
         $this->security = $security;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->appEnv = $appEnv;
@@ -46,7 +49,8 @@ class UserChangedNotifier
         $text[] = '';
         $text[] = sprintf(
             'A user account has been changed by %s'
-            , $adminUser->getUsername()
+            ,
+            $adminUser->getUsername()
         );
         $text[] = '';
         $text[] = 'ID: '.$user->getId();
@@ -55,7 +59,9 @@ class UserChangedNotifier
         $text[] = 'Agent: '.($user->getAgent() ? $user->getAgent()
                 ->getNickname() : '');
         $text[] = str_replace(
-            '_', '\\_', 'Roles: '.implode(', ', $user->getRoles())
+            '_',
+            '\\_',
+            'Roles: '.implode(', ', $user->getRoles())
         );
 
         $this->telegramBotHelper->sendMessage($groupId, implode("\n", $text));

@@ -31,8 +31,10 @@ class GoogleAuthenticator extends SocialAuthenticator
     private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
-        ClientRegistry $clientRegistry, EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator, TelegramBotHelper $telegramBotHelper
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $entityManager,
+        UrlGeneratorInterface $urlGenerator,
+        TelegramBotHelper $telegramBotHelper
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
@@ -67,11 +69,15 @@ class GoogleAuthenticator extends SocialAuthenticator
         $userRepository = $this->entityManager->getRepository(User::class);
 
         // Fetch user by google id
-        $user = $userRepository->findOneBy(['googleId' => $googleUser->getId()]);
+        $user = $userRepository->findOneBy(
+            ['googleId' => $googleUser->getId()]
+        );
 
         if (!$user) {
             // Fetch user by email - @todo remove
-            $user = $userRepository->findOneBy(['email' => $googleUser->getEmail()]);
+            $user = $userRepository->findOneBy(
+                ['email' => $googleUser->getEmail()]
+            );
             if (!$user) {
                 // Register new user
                 $newUser = true;
@@ -104,9 +110,15 @@ class GoogleAuthenticator extends SocialAuthenticator
         return $this->clientRegistry->getClient('google');
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
-    {
-        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+    public function onAuthenticationSuccess(
+        Request $request,
+        TokenInterface $token,
+        $providerKey
+    ): RedirectResponse {
+        $targetPath = $this->getTargetPath(
+            $request->getSession(),
+            $providerKey
+        );
 
         if ($targetPath) {
             return new RedirectResponse($targetPath);
@@ -115,8 +127,10 @@ class GoogleAuthenticator extends SocialAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('default'));
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
-    {
+    public function onAuthenticationFailure(
+        Request $request,
+        AuthenticationException $exception
+    ): Response {
         $message = strtr(
             $exception->getMessageKey(),
             $exception->getMessageData()
@@ -129,8 +143,13 @@ class GoogleAuthenticator extends SocialAuthenticator
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      */
-    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
-    {
-        return new RedirectResponse('/connect/', Response::HTTP_TEMPORARY_REDIRECT);
+    public function start(
+        Request $request,
+        AuthenticationException $authException = null
+    ): RedirectResponse {
+        return new RedirectResponse(
+            '/connect/',
+            Response::HTTP_TEMPORARY_REDIRECT
+        );
     }
 }

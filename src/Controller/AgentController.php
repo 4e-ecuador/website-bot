@@ -31,7 +31,8 @@ class AgentController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     public function index(
-        AgentRepository $agentRepository, FactionRepository $factionRepository,
+        AgentRepository $agentRepository,
+        FactionRepository $factionRepository,
         Request $request
     ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
@@ -214,8 +215,10 @@ class AgentController extends AbstractController
      * @Route("/lookup", name="agent_lookup", methods={"POST"})
      * @IsGranted("ROLE_EDITOR")
      */
-    public function lookup(AgentRepository $agentRepository, Request $request): JsonResponse
-    {
+    public function lookup(
+        AgentRepository $agentRepository,
+        Request $request
+    ): JsonResponse {
         $query = $request->query->get('query');
 
         $list = [];

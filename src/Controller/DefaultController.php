@@ -23,10 +23,14 @@ class DefaultController extends AbstractController
      * @Route("/", name="default")
      */
     public function index(
-        AgentRepository $agentRepository, CommentRepository $commentRepository,
-        EventRepository $eventRepository, IngressEventRepository $ingressEventRepository,
+        AgentRepository $agentRepository,
+        CommentRepository $commentRepository,
+        EventRepository $eventRepository,
+        IngressEventRepository $ingressEventRepository,
         ChallengeRepository $challengeRepository,
-        DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper, string $defaultTimeZone
+        DateTimeHelper $dateTimeHelper,
+        MarkdownHelper $markdownHelper,
+        string $defaultTimeZone
     ): Response {
         $comments = [];
         $currentEvents = [];
@@ -96,19 +100,27 @@ class DefaultController extends AbstractController
      * @Route("/events", name="default_events")
      * @IsGranted("ROLE_AGENT")
      */
-    public function events(EventHelper $eventHelper, IngressEventRepository $ingressEventRepository): Response
-    {
+    public function events(
+        EventHelper $eventHelper,
+        IngressEventRepository $ingressEventRepository
+    ): Response {
         return $this->render(
             'default/events.html.twig',
             [
-                'ingressFS'      => $ingressEventRepository->findFutureFS(),
-                'ingressMD'      => $ingressEventRepository->findFutureMD(),
-                'pastEvents'     => $eventHelper->getEventsInSpan('past'),
-                'currentEvents'  => $eventHelper->getEventsInSpan('present'),
-                'futureEvents'   => $eventHelper->getEventsInSpan('future'),
-                'pastChallenges'     => $eventHelper->getChallengesInSpan('past'),
-                'currentChallenges'  => $eventHelper->getChallengesInSpan('present'),
-                'futureChallenges'   => $eventHelper->getChallengesInSpan('future'),
+                'ingressFS'         => $ingressEventRepository->findFutureFS(),
+                'ingressMD'         => $ingressEventRepository->findFutureMD(),
+                'pastEvents'        => $eventHelper->getEventsInSpan('past'),
+                'currentEvents'     => $eventHelper->getEventsInSpan('present'),
+                'futureEvents'      => $eventHelper->getEventsInSpan('future'),
+                'pastChallenges'    => $eventHelper->getChallengesInSpan(
+                    'past'
+                ),
+                'currentChallenges' => $eventHelper->getChallengesInSpan(
+                    'present'
+                ),
+                'futureChallenges'  => $eventHelper->getChallengesInSpan(
+                    'future'
+                ),
             ]
         );
     }

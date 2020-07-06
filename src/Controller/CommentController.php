@@ -65,7 +65,9 @@ class CommentController extends AbstractController
      * @IsGranted("ROLE_EDITOR")
      */
     public function getSingle(
-        Request $request, CommentRepository $commentRepository, MarkdownHelper $markdownHelper
+        Request $request,
+        CommentRepository $commentRepository,
+        MarkdownHelper $markdownHelper
     ): JsonResponse {
         $commentId = $request->request->get('comment_id');
 
@@ -175,7 +177,8 @@ class CommentController extends AbstractController
      */
     public function getAgentCommentIds(
         Request $request,
-        AgentRepository $agentRepository, MarkdownHelper $markdownHelper
+        AgentRepository $agentRepository,
+        MarkdownHelper $markdownHelper
     ) {
         $html = '';
         $agentId = $request->request->get('agent_id');

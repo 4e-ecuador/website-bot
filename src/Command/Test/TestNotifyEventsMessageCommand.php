@@ -32,8 +32,11 @@ class TestNotifyEventsMessageCommand extends Command
      */
     private $ingressEventRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator, IngressEventRepository $ingressEventRepository)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator,
+        IngressEventRepository $ingressEventRepository
+    ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
@@ -46,15 +49,31 @@ class TestNotifyEventsMessageCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
         $firstAnnounce = false;
-        $message = (new NotifyEventsMessage($this->telegramBotHelper, $this->ingressEventRepository,  $this->translator, $firstAnnounce))->getText();
+        $message = (new NotifyEventsMessage(
+            $this->telegramBotHelper,
+            $this->ingressEventRepository,
+            $this->translator,
+            $firstAnnounce
+        ))->getText();
 
         $chatId = $this->telegramBotHelper->getGroupId('test');
         $io->text($chatId);
@@ -71,7 +90,9 @@ class TestNotifyEventsMessageCommand extends Command
             // ...
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success(
+            'You have a new command! Now make it your own! Pass --help to see your options.'
+        );
 
         return 0;
     }

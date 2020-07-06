@@ -24,8 +24,10 @@ class TestMedalMessageCommand extends Command
      */
     private $agentRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, AgentRepository $agentRepository)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        AgentRepository $agentRepository
+    ) {
         $this->telegramBotHelper = $telegramBotHelper;
         $this->agentRepository = $agentRepository;
 
@@ -36,11 +38,18 @@ class TestMedalMessageCommand extends Command
     {
         $this
             ->setDescription('Send a bot message')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
+            ->addOption(
+                'group',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Group name'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         try {
@@ -56,7 +65,11 @@ class TestMedalMessageCommand extends Command
 
             $medalUps = ['purifier' => 5];
 
-            $this->telegramBotHelper->sendNewMedalMessage($groupName, $agent, $medalUps);
+            $this->telegramBotHelper->sendNewMedalMessage(
+                $groupName,
+                $agent,
+                $medalUps
+            );
 
             $io->success('Finished!');
         } catch (\Exception $exception) {

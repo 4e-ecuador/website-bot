@@ -21,8 +21,11 @@ class TokenController extends AbstractController
      *
      * @Route("/connect/google/api-token", name="connect_google_api_token", methods={"GET"})
      */
-    public function getApiToken(Request $request, GoogleApiClient $client, UserRepository $userRepository): ?JsonResponse
-    {
+    public function getApiToken(
+        Request $request,
+        GoogleApiClient $client,
+        UserRepository $userRepository
+    ): ?JsonResponse {
         if ('https' !== $request->getScheme()) {
             // WTF!!!
             // return $this->json(['error' => 'Scheme not allowed - please use SSL!'.$request->getScheme()], 200);
@@ -41,7 +44,13 @@ class TokenController extends AbstractController
             return $this->json(['error' => 'Missing token'], 200);
         }
 
-        $client->setRedirectUri($this->generateUrl('connect_google_api_token', [], UrlGeneratorInterface::ABSOLUTE_URL))
+        $client->setRedirectUri(
+            $this->generateUrl(
+                'connect_google_api_token',
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+        )
             ->addScope("email")
             ->addScope("profile");
 
@@ -76,9 +85,13 @@ class TokenController extends AbstractController
      *
      * Route("/connect/google/api-token-test-form", name="connect_google_api_token_test_form")
      */
-    public function testForm(Request $request, GoogleApiClient $client): Response
-    {
-        $client->setRedirectUri($this->generateUrl('connect_google_api_token_test_form', [], 0))
+    public function testForm(
+        Request $request,
+        GoogleApiClient $client
+    ): Response {
+        $client->setRedirectUri(
+            $this->generateUrl('connect_google_api_token_test_form', [], 0)
+        )
             ->addScope("email")
             ->addScope("profile");
         $code = $request->query->get('code');

@@ -49,7 +49,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'email'      => $request->request->get('email'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(

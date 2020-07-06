@@ -11,8 +11,10 @@ class MarkdownHelper
     private AdapterInterface $cache;
     private MarkdownInterface $markdown;
 
-    public function __construct(AdapterInterface $cache, MarkdownInterface $markdown)
-    {
+    public function __construct(
+        AdapterInterface $cache,
+        MarkdownInterface $markdown
+    ) {
         $this->cache = $cache;
         $this->markdown = $markdown;
     }

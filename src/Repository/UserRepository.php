@@ -24,8 +24,8 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getPaginatedList(PaginatorOptions $paginatorOptions): Paginator
-    {
+    public function getPaginatedList(PaginatorOptions $paginatorOptions
+    ): Paginator {
         $query = $this->createQueryBuilder('a');
 
         $query->orderBy(

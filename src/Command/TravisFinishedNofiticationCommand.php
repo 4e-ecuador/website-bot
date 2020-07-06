@@ -30,13 +30,23 @@ class TravisFinishedNofiticationCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
@@ -46,9 +56,13 @@ class TravisFinishedNofiticationCommand extends Command
         $result = getenv('TRAVIS_TEST_RESULT');
 
         if ($result) {
-            $status = 'failed '.$this->telegramBotHelper->getEmoji('cross-mark');
+            $status = 'failed '.$this->telegramBotHelper->getEmoji(
+                    'cross-mark'
+                );
         } else {
-            $status = 'succeeded '.$this->telegramBotHelper->getEmoji('check-mark');
+            $status = 'succeeded '.$this->telegramBotHelper->getEmoji(
+                    'check-mark'
+                );
         }
 
         $message[] = "Travis build *$status!*";
@@ -60,7 +74,11 @@ class TravisFinishedNofiticationCommand extends Command
 
         echo implode("\n", $message);
 
-        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), true);
+        $this->telegramBotHelper->sendMessage(
+            $groupId,
+            implode("\n", $message),
+            true
+        );
 
         $io->success('Message has been sent!');
 

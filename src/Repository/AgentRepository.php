@@ -57,7 +57,11 @@ class AgentRepository extends ServiceEntityRepository
 
         $query = $query->getQuery();
 
-        return $this->paginate($query, $options->getPage(), $options->getLimit());
+        return $this->paginate(
+            $query,
+            $options->getPage(),
+            $options->getLimit()
+        );
     }
 
     /**

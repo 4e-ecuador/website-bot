@@ -29,11 +29,18 @@ class TestMessageCommand extends Command
     {
         $this
             ->setDescription('Send a bot message')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
+            ->addOption(
+                'group',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Group name'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         try {
@@ -53,7 +60,9 @@ class TestMessageCommand extends Command
                 .'`';
             $io->writeln($text);
             $this->telegramBotHelper->sendMessage($groupId, $text);
-            $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+            $io->success(
+                'You have a new command! Now make it your own! Pass --help to see your options.'
+            );
         } catch (\Exception $exception) {
             $io->error($exception->getMessage());
         }

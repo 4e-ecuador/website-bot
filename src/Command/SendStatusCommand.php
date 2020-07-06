@@ -25,8 +25,11 @@ class SendStatusCommand extends Command
     private $agentStatRepository;
     private string $defaultTimeZone;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, AgentStatRepository $agentStatRepository, string $defaultTimeZone)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        AgentStatRepository $agentStatRepository,
+        string $defaultTimeZone
+    ) {
         parent::__construct();
         $this->telegramBotHelper = $telegramBotHelper;
         $this->agentStatRepository = $agentStatRepository;
@@ -37,12 +40,23 @@ class SendStatusCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $io->writeln('Sending status update...');
@@ -50,8 +64,14 @@ class SendStatusCommand extends Command
         try {
             $groupId = $this->telegramBotHelper->getGroupId('admin');
 
-            $dateTime = new \DateTime('now -1 day', new \DateTimeZone($this->defaultTimeZone));
-            $localDateTime = new \DateTime('now', new \DateTimeZone($this->defaultTimeZone));
+            $dateTime = new \DateTime(
+                'now -1 day',
+                new \DateTimeZone($this->defaultTimeZone)
+            );
+            $localDateTime = new \DateTime(
+                'now',
+                new \DateTimeZone($this->defaultTimeZone)
+            );
 
             $statsCount = $this->agentStatRepository->findDayly($dateTime);
 
@@ -64,7 +84,11 @@ class SendStatusCommand extends Command
             $message[] = '';
             $message[] = sprintf('Stats uploaded: %d', count($statsCount));
 
-            $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message),true);
+            $this->telegramBotHelper->sendMessage(
+                $groupId,
+                implode("\n", $message),
+                true
+            );
 
             $io->success('Finished!');
         } catch (\Exception $exception) {

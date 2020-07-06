@@ -15,8 +15,11 @@ class EventHelper
     private EventRepository $eventRepository;
     private ChallengeRepository $challengeRepository;
 
-    public function __construct(EventRepository $eventRepository, ChallengeRepository $challengeRepository, string $defaultTimeZone)
-    {
+    public function __construct(
+        EventRepository $eventRepository,
+        ChallengeRepository $challengeRepository,
+        string $defaultTimeZone
+    ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
         $this->eventRepository = $eventRepository;
         $this->challengeRepository = $challengeRepository;
@@ -25,8 +28,14 @@ class EventHelper
     public function getNextFS(): DateTime
     {
         $dateNow = new DateTime('now', $this->timezone);
-        $fsThisMonth = new DateTime('first saturday of this month', $this->timezone);
-        $fsNextMonth = new DateTime('first saturday of next month', $this->timezone);
+        $fsThisMonth = new DateTime(
+            'first saturday of this month',
+            $this->timezone
+        );
+        $fsNextMonth = new DateTime(
+            'first saturday of next month',
+            $this->timezone
+        );
 
         return ($dateNow > $fsThisMonth) ? $fsNextMonth : $fsThisMonth;
     }
@@ -115,14 +124,15 @@ class EventHelper
             case 'future':
                 return $futureEvents;
             default:
-                throw new UnexpectedValueException('Unknown span (must be: past, present or future)');
+                throw new UnexpectedValueException(
+                    'Unknown span (must be: past, present or future)'
+                );
         }
     }
 
     public function getChallengesInSpan(string $span): ?array
     {
         static $items = [], $challenges = [];
-
 
         if (!$items) {
             $challenges['past'] = [];
@@ -160,6 +170,8 @@ class EventHelper
             return $challenges[$span];
         }
 
-        throw new UnexpectedValueException('Unknown span (must be: past, present or future): '.$span);
+        throw new UnexpectedValueException(
+            'Unknown span (must be: past, present or future): '.$span
+        );
     }
 }

@@ -37,8 +37,12 @@ class NotifyEventsCommand extends Command
      */
     private $telegramBotHelper;
 
-    public function __construct(IngressEventRepository $ingressEventRepository, AgentRepository $agentRepository, TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator)
-    {
+    public function __construct(
+        IngressEventRepository $ingressEventRepository,
+        AgentRepository $agentRepository,
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator
+    ) {
         $this->ingressEventRepository = $ingressEventRepository;
         $this->translator = $translator;
         $this->agentRepository = $agentRepository;
@@ -51,15 +55,27 @@ class NotifyEventsCommand extends Command
     {
         $this
             ->setDescription('Send notifications of upcoming events.')
-            ->addOption('first-announce', null, InputOption::VALUE_NONE, 'The first announcement');;
+            ->addOption(
+                'first-announce',
+                null,
+                InputOption::VALUE_NONE,
+                'The first announcement'
+            );;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
         $firstAnnounce = $input->getOption('first-announce');
 
-        $message = (new NotifyEventsMessage($this->telegramBotHelper, $this->ingressEventRepository, $this->translator, $firstAnnounce))
+        $message = (new NotifyEventsMessage(
+            $this->telegramBotHelper,
+            $this->ingressEventRepository,
+            $this->translator,
+            $firstAnnounce
+        ))
             ->getMessage();
 
         if (!$message) {
@@ -74,7 +90,10 @@ class NotifyEventsCommand extends Command
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyEvents()) {
                 try {
-                    $this->telegramBotHelper->sendMessage($agent->getTelegramId(), implode("\n", $message));
+                    $this->telegramBotHelper->sendMessage(
+                        $agent->getTelegramId(),
+                        implode("\n", $message)
+                    );
                 } catch (\Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - Agent: '
@@ -84,7 +103,12 @@ class NotifyEventsCommand extends Command
             }
         }
 
-        $io->success(sprintf('Notifications have been sent to %d agents!', count($agents)));
+        $io->success(
+            sprintf(
+                'Notifications have been sent to %d agents!',
+                count($agents)
+            )
+        );
 
         return 0;
     }

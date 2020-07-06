@@ -23,8 +23,10 @@ class HerokuDeployFinishedNofiticationCommand extends Command
      */
     private $pageBase;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, string $pageBaseUrl)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        string $pageBaseUrl
+    ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
@@ -35,13 +37,23 @@ class HerokuDeployFinishedNofiticationCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
         $groupId = $this->telegramBotHelper->getGroupId('admin');
@@ -49,7 +61,11 @@ class HerokuDeployFinishedNofiticationCommand extends Command
 
         $message[] = sprintf('New release on %s', $this->pageBase);
 
-        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message), true);
+        $this->telegramBotHelper->sendMessage(
+            $groupId,
+            implode("\n", $message),
+            true
+        );
 
         $io->success('Message has been sent!');
 

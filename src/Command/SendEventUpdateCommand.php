@@ -42,8 +42,14 @@ class SendEventUpdateCommand extends Command
     private $rootDir;
     private string $defaultTimeZone;
 
-    public function __construct(string $rootDir, TelegramBotHelper $telegramBotHelper, EventHelper $eventHelper, EventRepository $eventRepository, AgentStatRepository $statRepository, string $defaultTimeZone)
-    {
+    public function __construct(
+        string $rootDir,
+        TelegramBotHelper $telegramBotHelper,
+        EventHelper $eventHelper,
+        EventRepository $eventRepository,
+        AgentStatRepository $statRepository,
+        string $defaultTimeZone
+    ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
@@ -58,13 +64,23 @@ class SendEventUpdateCommand extends Command
     {
         $this
             ->setDescription('Send event updates')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
+            ->addOption(
+                'group',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Group name'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
-        $dateNow = new \DateTime('now', new \DateTimeZone($this->defaultTimeZone));
+        $dateNow = new \DateTime(
+            'now',
+            new \DateTimeZone($this->defaultTimeZone)
+        );
 
         if ($input->getOption('group')) {
             if ('test' === $input->getOption('group')) {
@@ -94,7 +110,10 @@ class SendEventUpdateCommand extends Command
         var_dump(count($currentEvents));
 
         foreach ($currentEvents as $event) {
-            $entries = $this->statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
+            $entries = $this->statRepository->findByDate(
+                $event->getDateStart(),
+                $event->getDateEnd()
+            );
 
             $results = $this->eventHelper->calculateResults($event, $entries);
 
@@ -113,7 +132,11 @@ class SendEventUpdateCommand extends Command
         // $this->telegramBotHelper->sendMessage($groupId,'lalala');
         // $image = '/home/elkuku/repos/symf-postgre-heroku-test/assets/images/error_frox/dead-frog-clipart-1.jpg';
         // $curlFile = new \CURLFile('/home/elkuku/repos/symf-postgre-heroku-test/assets/images/error_frox/dead-frog-clipart-1.jpg');
-        $this->telegramBotHelper->sendPhoto($groupId, $image, implode("\n", $caption));
+        $this->telegramBotHelper->sendPhoto(
+            $groupId,
+            $image,
+            implode("\n", $caption)
+        );
         // $this->telegramBotHelper->sendPhoto($groupId, $image, 'lalala');
 
         $io->warning($this->rootDir);
@@ -126,9 +149,15 @@ class SendEventUpdateCommand extends Command
     {
         $my_img = imagecreate(230, 140);
 
-        $medal1 = imagecreatefrompng($this->rootDir.'/assets/images/medals/1st-place-medal_36.png');
-        $medal2 = imagecreatefrompng($this->rootDir.'/assets/images/medals/2nd-place-medal_36.png');
-        $medal3 = imagecreatefrompng($this->rootDir.'/assets/images/medals/3rd-place-medal_36.png');
+        $medal1 = imagecreatefrompng(
+            $this->rootDir.'/assets/images/medals/1st-place-medal_36.png'
+        );
+        $medal2 = imagecreatefrompng(
+            $this->rootDir.'/assets/images/medals/2nd-place-medal_36.png'
+        );
+        $medal3 = imagecreatefrompng(
+            $this->rootDir.'/assets/images/medals/3rd-place-medal_36.png'
+        );
 
         $background = imagecolorallocate($my_img, 255, 255, 255);
         // $text_colour = imagecolorallocate( $my_img, 0, 0, 0 );

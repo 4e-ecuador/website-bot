@@ -32,8 +32,11 @@ class TestNotifyUploadReminderMessageCommand extends Command
      */
     private $agentRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator, AgentRepository $agentRepository)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator,
+        AgentRepository $agentRepository
+    ) {
         $this->telegramBotHelper = $telegramBotHelper;
         $this->translator = $translator;
         $this->agentRepository = $agentRepository;
@@ -45,21 +48,38 @@ class TestNotifyUploadReminderMessageCommand extends Command
     {
         $this
             ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addArgument(
+                'arg1',
+                InputArgument::OPTIONAL,
+                'Argument description'
+            )
+            ->addOption(
+                'option1',
+                null,
+                InputOption::VALUE_NONE,
+                'Option description'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
-        $message = (new NotifyUploadReminder($this->telegramBotHelper, $this->translator))->getText();
+        $message = (new NotifyUploadReminder(
+            $this->telegramBotHelper,
+            $this->translator
+        ))->getText();
 
         $agents = $this->agentRepository->findNotifyAgents();
 
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyUploadStats()) {
                 try {
-                    $this->telegramBotHelper->sendMessage($agent->getTelegramId(), $message);
+                    $this->telegramBotHelper->sendMessage(
+                        $agent->getTelegramId(),
+                        $message
+                    );
                 } catch (\Exception $exception) {
                     $io->warning(
                         $exception->getMessage().' - '.$agent->getNickname()
@@ -83,7 +103,9 @@ class TestNotifyUploadReminderMessageCommand extends Command
             // ...
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success(
+            'You have a new command! Now make it your own! Pass --help to see your options.'
+        );
 
         return 0;
     }

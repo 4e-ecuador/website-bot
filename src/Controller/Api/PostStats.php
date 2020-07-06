@@ -23,7 +23,8 @@ class PostStats extends AbstractController
 
     public function __construct(
         StatsImporter $statsImporter,
-        EntityManagerInterface $entityManager, string $appEnv
+        EntityManagerInterface $entityManager,
+        string $appEnv
     ) {
         $this->statsImporter = $statsImporter;
         $this->entityManager = $entityManager;
@@ -55,21 +56,41 @@ class PostStats extends AbstractController
 
             $result = $this->statsImporter->getImportResult($data);
 
-            $result->messages = $this->statsImporter->sendResultMessages($result, $data, $user);
+            $result->messages = $this->statsImporter->sendResultMessages(
+                $result,
+                $data,
+                $user
+            );
 
             return $this->json(['result' => $result]);
         } catch (StatsAlreadyAddedException $e) {
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
+            return $this->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_CONFLICT
+            );
         } catch (StatsNotAllException $e) {
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
+            return $this->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_CONFLICT
+            );
         } catch (HttpException $e) {
             if (isset($result)) {
                 // Telegram bot failed :(
-                return $this->json(['result' => $result, 'error' => $e->getMessage()], Response::HTTP_OK);
+                return $this->json(
+                    ['result' => $result, 'error' => $e->getMessage()],
+                    Response::HTTP_OK
+                );
             }
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+            return $this->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         } catch (Exception $e) {
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
     }
 }

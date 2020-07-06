@@ -22,11 +22,16 @@ final class Version20191126173007 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
-        $this->addSql('CREATE SEQUENCE map_group_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE map_group (id INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql(
+            'CREATE SEQUENCE map_group_id_seq INCREMENT BY 1 MINVALUE 1 START 1'
+        );
+        $this->addSql(
+            'CREATE TABLE map_group (id INT NOT NULL, PRIMARY KEY(id))'
+        );
     }
 
     public function down(Schema $schema): void
@@ -34,7 +39,8 @@ final class Version20191126173007 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('CREATE SCHEMA public');

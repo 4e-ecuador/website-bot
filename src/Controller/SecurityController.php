@@ -14,8 +14,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, Request $request, UserInterface $user = null): Response
-    {
+    public function login(
+        AuthenticationUtils $authenticationUtils,
+        Request $request,
+        UserInterface $user = null
+    ): Response {
         $referer = $request->headers->get('referer');
 
         // get the login error if there is one

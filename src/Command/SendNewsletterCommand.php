@@ -39,8 +39,14 @@ class SendNewsletterCommand extends Command
     private string $defaultTimeZone;
     private string $pageBaseUrl;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, UrlGeneratorInterface $router, string $defaultTimeZone, string $pageBaseUrl)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        EventRepository $eventRepository,
+        IngressEventRepository $ingressEventRepository,
+        UrlGeneratorInterface $router,
+        string $defaultTimeZone,
+        string $pageBaseUrl
+    ) {
         parent::__construct();
         $this->eventRepository = $eventRepository;
         $this->telegramBotHelper = $telegramBotHelper;
@@ -54,14 +60,20 @@ class SendNewsletterCommand extends Command
     {
         $this
             ->setDescription('Send a newsletter')
-            ->addOption('group', null, InputOption::VALUE_OPTIONAL, 'Group name');
+            ->addOption(
+                'group',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Group name'
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
         $groupId = $this->telegramBotHelper->getGroupId();
-
 
         if ($input->getOption('group')) {
             if ('test' === $input->getOption('group')) {
@@ -80,7 +92,9 @@ class SendNewsletterCommand extends Command
         $dateNow = new DateTime('now', $timeZone);
 
         $context = $this->router->getContext();
-        $context->setHost(str_replace(['https://','http://'], '', $this->pageBaseUrl));
+        $context->setHost(
+            str_replace(['https://', 'http://'], '', $this->pageBaseUrl)
+        );
 
         $formatterDate = new IntlDateFormatter(
             'es',
@@ -154,7 +168,11 @@ class SendNewsletterCommand extends Command
             $message[] = '';
             $message[] = 'Eventos actuales:';
             foreach ($currentEvents as $event) {
-                $link = $this->router->generate('event_show', ['id' => $event->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->router->generate(
+                    'event_show',
+                    ['id' => $event->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
                 $message[] = sprintf(
                     '- [%s](%s) (tipo: *%s*) termina el dia %s',
                     $event->getName(),
@@ -173,7 +191,11 @@ class SendNewsletterCommand extends Command
             $message[] = '';
             $message[] = 'Eventos futuros:';
             foreach ($futureEvents as $event) {
-                $link = $this->router->generate('event_show', ['id' => $event->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->router->generate(
+                    'event_show',
+                    ['id' => $event->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
                 $lll = new DateTime(
                     $event->getDateStart()->format('Y-m-d H:i:s'), $timeZone
                 );
@@ -188,15 +210,25 @@ class SendNewsletterCommand extends Command
             }
         }
 
-        $statsImportPage = $this->router->generate('stat_import', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $statsImportPage = $this->router->generate(
+            'stat_import',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
         $message[] = '';
-        $message[] = sprintf('*No te olvides de* [subir tus estadisticas](%s)*!*', $statsImportPage);
+        $message[] = sprintf(
+            '*No te olvides de* [subir tus estadisticas](%s)*!*',
+            $statsImportPage
+        );
         $message[] = '';
         $message[] = 'In Jarvis we trust!';
         $message[] = '';
 
-        $this->telegramBotHelper->sendMessage($groupId, implode("\n", $message));
+        $this->telegramBotHelper->sendMessage(
+            $groupId,
+            implode("\n", $message)
+        );
 
         $io->success('Finished!');
 

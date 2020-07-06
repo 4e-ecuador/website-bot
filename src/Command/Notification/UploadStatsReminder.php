@@ -30,8 +30,11 @@ class UploadStatsReminder extends Command
      */
     private $agentRepository;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper, TranslatorInterface $translator, AgentRepository $agentRepository)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        TranslatorInterface $translator,
+        AgentRepository $agentRepository
+    ) {
         $this->telegramBotHelper = $telegramBotHelper;
         $this->translator = $translator;
         $this->agentRepository = $agentRepository;
@@ -45,11 +48,16 @@ class UploadStatsReminder extends Command
             ->setDescription('Add a short description for your command');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
 
-        $message = (new NotifyUploadReminder($this->telegramBotHelper, $this->translator))->getText();
+        $message = (new NotifyUploadReminder(
+            $this->telegramBotHelper,
+            $this->translator
+        ))->getText();
 
         $agents = $this->agentRepository->findNotifyAgents();
 
@@ -58,7 +66,10 @@ class UploadStatsReminder extends Command
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyUploadStats()) {
                 try {
-                    $this->telegramBotHelper->sendMessage($agent->getTelegramId(), $message);
+                    $this->telegramBotHelper->sendMessage(
+                        $agent->getTelegramId(),
+                        $message
+                    );
                     $count++;
                 } catch (\Exception $exception) {
                     $io->warning(

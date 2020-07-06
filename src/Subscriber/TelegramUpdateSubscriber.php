@@ -146,8 +146,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         return $this;
     }
 
-    private function respondInlineQuery(UpdateEvent $event): TelegramUpdateSubscriber
-    {
+    private function respondInlineQuery(UpdateEvent $event
+    ): TelegramUpdateSubscriber {
         // Disabled
         return $this;
 

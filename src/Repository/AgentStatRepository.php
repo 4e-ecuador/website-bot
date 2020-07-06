@@ -56,8 +56,10 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findByDate(DateTimeInterface $startDate, DateTimeInterface $endDate): iterable
-    {
+    public function findByDate(
+        DateTimeInterface $startDate,
+        DateTimeInterface $endDate
+    ): iterable {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
@@ -71,8 +73,11 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findByDateAndAgent(DateTime $startDate, DateTime $endDate, Agent $agent): iterable
-    {
+    public function findByDateAndAgent(
+        DateTime $startDate,
+        DateTime $endDate,
+        Agent $agent
+    ): iterable {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
@@ -88,8 +93,10 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function getAgentStats(Agent $agent, string $order = 'DESC'): iterable
-    {
+    public function getAgentStats(
+        Agent $agent,
+        string $order = 'DESC'
+    ): iterable {
         return $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
@@ -101,8 +108,10 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat
      */
-    public function getAgentLatest(Agent $agent, bool $first = false): ?AgentStat
-    {
+    public function getAgentLatest(
+        Agent $agent,
+        bool $first = false
+    ): ?AgentStat {
         $entries = $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
@@ -111,7 +120,7 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getResult();
 
         if ($entries) {
-            return $first ? $entries[count($entries)-1] : $entries[0];
+            return $first ? $entries[count($entries) - 1] : $entries[0];
         }
 
         return null;
@@ -147,8 +156,14 @@ class AgentStatRepository extends ServiceEntityRepository
 
     public function findTodays()
     {
-        $startDatetime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 00:00:00'));
-        $endDatetime = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d 23:59:59'));
+        $startDatetime = DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            date('Y-m-d 00:00:00')
+        );
+        $endDatetime = DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            date('Y-m-d 23:59:59')
+        );
 
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startValue')

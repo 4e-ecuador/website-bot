@@ -51,11 +51,13 @@ class CsvParser
             $vars = explode($sepChar, $line);
 
             if (false === in_array(
-                    $vars[0], [
-                    'GESAMT',
-                    'SIEMPRE',
-                    'ALL TIME',
-                ], true
+                    $vars[0],
+                    [
+                        'GESAMT',
+                        'SIEMPRE',
+                        'ALL TIME',
+                    ],
+                    true
                 )
             ) {
                 throw new StatsNotAllException('Prime stats not ALL');

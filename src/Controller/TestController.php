@@ -28,18 +28,21 @@ class TestController extends AbstractController
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        $input = new ArrayInput([
-            'command' => 'about',
-        ]);
+        $input = new ArrayInput(
+            [
+                'command' => 'about',
+            ]
+        );
 
         $output = new BufferedOutput();
 
         $application->run($input, $output);
 
         return $this->render(
-            'test/index.html.twig', [
+            'test/index.html.twig',
+            [
                 'controller_name' => 'TestController',
-                'sysInfo' => $output->fetch(),
+                'sysInfo'         => $output->fetch(),
             ]
         );
     }
@@ -48,8 +51,10 @@ class TestController extends AbstractController
      * @Route("/bot", name="test_bot")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function botTest(Request $request, TelegramBotHelper $telegramBotHelper)
-    {
+    public function botTest(
+        Request $request,
+        TelegramBotHelper $telegramBotHelper
+    ) {
         $testText = $request->get('testtext');
 
         if ($testText) {
@@ -61,7 +66,8 @@ class TestController extends AbstractController
         }
 
         return $this->render(
-            'test/bottest.html.twig', [
+            'test/bottest.html.twig',
+            [
                 'testtext' => $testText,
             ]
         );
@@ -80,7 +86,8 @@ class TestController extends AbstractController
         }
 
         return $this->render(
-            'test/mailtest.html.twig', [
+            'test/mailtest.html.twig',
+            [
                 'testtext' => $testtext,
             ]
         );

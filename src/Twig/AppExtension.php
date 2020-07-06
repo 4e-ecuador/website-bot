@@ -26,17 +26,20 @@ class AppExtension extends AbstractExtension
 {
     public array $roleFilters
         = [
-            'ROLE_AGENT'       => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR'      => 'Editor',
-            'ROLE_ADMIN'       => 'Admin',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN' => 'Admin',
         ];
     private MedalChecker $medalChecker;
     private MarkdownHelper $markdownHelper;
     private IntlDateHelper $intlDateHelper;
 
-    public function __construct(MedalChecker $medalChecker, MarkdownHelper $markdownHelper, IntlDateHelper $intlDateHelper)
-    {
+    public function __construct(
+        MedalChecker $medalChecker,
+        MarkdownHelper $markdownHelper,
+        IntlDateHelper $intlDateHelper
+    ) {
         $this->medalChecker = $medalChecker;
         $this->markdownHelper = $markdownHelper;
         $this->intlDateHelper = $intlDateHelper;
@@ -73,7 +76,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions():array
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('medalValue', [$this, 'getMedalValue']),
@@ -179,9 +182,18 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getDoubleValue($medal, $value);
     }
 
-    public function getBadgePath(string $medal, int $level, int $size = 0, string $postFix = '.png'): string
-    {
-        return $this->medalChecker->getBadgePath($medal, $level, $size, $postFix);
+    public function getBadgePath(
+        string $medal,
+        int $level,
+        int $size = 0,
+        string $postFix = '.png'
+    ): string {
+        return $this->medalChecker->getBadgePath(
+            $medal,
+            $level,
+            $size,
+            $postFix
+        );
     }
 
     public function getChallengePath(string $medal, int $level): string
@@ -204,8 +216,11 @@ class AppExtension extends AbstractExtension
         return $this->intlDateHelper->formatCustom($date, $format);
     }
 
-    public function getBadgeData(string $group, string $badge, $value): BadgeData
-    {
+    public function getBadgeData(
+        string $group,
+        string $badge,
+        $value
+    ): BadgeData {
         switch ($group) {
             case 'Anomaly':
                 $code = 'Anomaly_'.$badge;

@@ -15,8 +15,10 @@ class IntlDateHelper
     private string $locale;
     private string $timeZone;
 
-    public function __construct(string $defaultTimeZone, TranslatorInterface $translator)
-    {
+    public function __construct(
+        string $defaultTimeZone,
+        TranslatorInterface $translator
+    ) {
         $locale = $translator->getLocale();
         $this->defaultTimezone = new DateTimeZone($defaultTimeZone);
         $this->formatterLong = new IntlDateFormatter(

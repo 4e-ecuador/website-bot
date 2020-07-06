@@ -21,13 +21,18 @@ class AccountController extends AbstractController
      * @IsGranted("ROLE_USER")
      */
     public function account(
-        Request $request, Security $security, TranslatorInterface $translator,
-        MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper
+        Request $request,
+        Security $security,
+        TranslatorInterface $translator,
+        MedalChecker $medalChecker,
+        TelegramBotHelper $telegramBotHelper
     ): Response {
         $agent = $security->getUser()->getAgent();
 
         if (!$agent) {
-            throw $this->createAccessDeniedException($translator->trans('user.not.verified.2'));
+            throw $this->createAccessDeniedException(
+                $translator->trans('user.not.verified.2')
+            );
         }
 
         $agentAccount = $request->request->get('agent_account');
@@ -47,7 +52,10 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', $translator->trans('Your profile has been updated.'));
+            $this->addFlash(
+                'success',
+                $translator->trans('Your profile has been updated.')
+            );
 
             return $this->redirectToRoute('default');
         }
@@ -55,13 +63,17 @@ class AccountController extends AbstractController
         return $this->render(
             'account/index.html.twig',
             [
-                'agent'               => $agent,
-                'agentCustomMedals'   => $customMedals,
-                'form'                => $form->createView(),
-                'message'             => '',
-                'telegramConnectLink' => $telegramBotHelper->getConnectLink($agent),
-                'telegramConnectLink2' => $telegramBotHelper->getConnectLink2($agent),
-                'customMedals'        => $medalChecker->getCustomMedalGroups(),
+                'agent'                => $agent,
+                'agentCustomMedals'    => $customMedals,
+                'form'                 => $form->createView(),
+                'message'              => '',
+                'telegramConnectLink'  => $telegramBotHelper->getConnectLink(
+                    $agent
+                ),
+                'telegramConnectLink2' => $telegramBotHelper->getConnectLink2(
+                    $agent
+                ),
+                'customMedals'         => $medalChecker->getCustomMedalGroups(),
             ]
         );
     }
@@ -92,8 +104,10 @@ class AccountController extends AbstractController
      * @Route("/account/tg-connect", name="tg_connect")
      * @IsGranted("ROLE_INTRO_AGENT")
      */
-    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper): RedirectResponse
-    {
+    public function telegramConnect(
+        Security $security,
+        TelegramBotHelper $telegramBotHelper
+    ): RedirectResponse {
         $agent = $security->getUser()->getAgent();
 
         if (!$agent) {
@@ -101,6 +115,5 @@ class AccountController extends AbstractController
         }
 
         return $this->redirect($telegramBotHelper->getConnectLink($agent));
-
     }
 }

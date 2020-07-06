@@ -37,9 +37,16 @@ class TelegramBotHelper
     private array $groupIds;
 
     public function __construct(
-        BotApi $api, MedalChecker $medalChecker, TranslatorInterface $translator,
-        string $botName, string $pageBaseUrl, string $announceAdminCc,
-        string $groupIdDefault, string $groupIdAdmin, string $groupIdIntro, string $groupIdTest
+        BotApi $api,
+        MedalChecker $medalChecker,
+        TranslatorInterface $translator,
+        string $botName,
+        string $pageBaseUrl,
+        string $announceAdminCc,
+        string $groupIdDefault,
+        string $groupIdAdmin,
+        string $groupIdIntro,
+        string $groupIdTest
     ) {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
@@ -49,10 +56,10 @@ class TelegramBotHelper
         $this->announceAdminCc = $announceAdminCc;
         $this->groupIds = [
             'default' => $groupIdDefault,
-            'admin' => $groupIdAdmin,
-            'intro' => $groupIdIntro,
-            'test' => $groupIdTest,
-            ];
+            'admin'   => $groupIdAdmin,
+            'intro'   => $groupIdIntro,
+            'test'    => $groupIdTest,
+        ];
     }
 
     public function getGroupId(string $name = 'default'): int
@@ -60,7 +67,9 @@ class TelegramBotHelper
         if (array_key_exists($name, $this->groupIds)) {
             $id = $this->groupIds[$name];
         } else {
-            throw new UnexpectedValueException('Unknown TG bot group name'.$name);
+            throw new UnexpectedValueException(
+                'Unknown TG bot group name'.$name
+            );
         }
 
         if (!$id) {
@@ -144,21 +153,37 @@ class TelegramBotHelper
         // This seems necessary to lazy load the $agent object (???)
         $agent->getNickname();
 
-        return sprintf('https://t.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
+        return sprintf(
+            'https://t.me/%s?start=%s',
+            $this->botName,
+            $agent->getTelegramConnectionSecret()
+        );
     }
 
     public function getConnectLink2($agent): string
     {
-        return sprintf('http://www.telegram.me/%s?start=%s', $this->botName, $agent->getTelegramConnectionSecret());
+        return sprintf(
+            'http://www.telegram.me/%s?start=%s',
+            $this->botName,
+            $agent->getTelegramConnectionSecret()
+        );
     }
 
     /**
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendMessage(int $chatId, string $text, bool $disablePreview = false): Message
-    {
-        return $this->api->sendMessage($chatId, $text, 'markdown', $disablePreview);
+    public function sendMessage(
+        int $chatId,
+        string $text,
+        bool $disablePreview = false
+    ): Message {
+        return $this->api->sendMessage(
+            $chatId,
+            $text,
+            'markdown',
+            $disablePreview
+        );
     }
 
     /**
@@ -167,16 +192,34 @@ class TelegramBotHelper
      */
     public function sendPhoto($chatId, $photo, $caption): Message
     {
-        return $this->api->sendPhoto($chatId, $photo, $caption, null, null, false, 'html');
+        return $this->api->sendPhoto(
+            $chatId,
+            $photo,
+            $caption,
+            null,
+            null,
+            false,
+            'html'
+        );
     }
 
     /**
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendNewMedalMessage(string $groupName, Agent $agent, array $medalUps): Message
-    {
-        $message = (new NewMedalMessage($this, $this->translator, $agent, $this->medalChecker, $medalUps, $this->pageBaseUrl))
+    public function sendNewMedalMessage(
+        string $groupName,
+        Agent $agent,
+        array $medalUps
+    ): Message {
+        $message = (new NewMedalMessage(
+            $this,
+            $this->translator,
+            $agent,
+            $this->medalChecker,
+            $medalUps,
+            $this->pageBaseUrl
+        ))
             ->getText();
 
         return $this->sendMessage($this->getGroupId($groupName), $message);
@@ -186,9 +229,21 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendLevelUpMessage(string $groupName, Agent $agent, int $level, int $recursions): Message
-    {
-        $message = (new LevelUpMessage($this, $this->translator, $agent, $this->medalChecker, $level, $recursions, $this->pageBaseUrl))
+    public function sendLevelUpMessage(
+        string $groupName,
+        Agent $agent,
+        int $level,
+        int $recursions
+    ): Message {
+        $message = (new LevelUpMessage(
+            $this,
+            $this->translator,
+            $agent,
+            $this->medalChecker,
+            $level,
+            $recursions,
+            $this->pageBaseUrl
+        ))
             ->getText();
 
         return $this->sendMessage($this->getGroupId($groupName), $message);
@@ -232,9 +287,19 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendSmurfAlertMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
-    {
-        $message = (new SmurfAlertMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
+    public function sendSmurfAlertMessage(
+        string $groupName,
+        User $user,
+        Agent $agent,
+        AgentStat $statEntry
+    ): Message {
+        $message = (new SmurfAlertMessage(
+            $this,
+            $user,
+            $agent,
+            $statEntry,
+            $this->announceAdminCc
+        ))
             ->getText();
 
         return $this->sendMessage(
@@ -247,9 +312,19 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendNicknameMismatchMessage(string $groupName, User $user, Agent $agent, AgentStat $statEntry): Message
-    {
-        $message = (new NicknameMismatchMessage($this, $user, $agent, $statEntry, $this->announceAdminCc))
+    public function sendNicknameMismatchMessage(
+        string $groupName,
+        User $user,
+        Agent $agent,
+        AgentStat $statEntry
+    ): Message {
+        $message = (new NicknameMismatchMessage(
+            $this,
+            $user,
+            $agent,
+            $statEntry,
+            $this->announceAdminCc
+        ))
             ->getText();
 
         return $this->sendMessage(
@@ -262,9 +337,18 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendRecursionMessage(string $groupName, Agent $agent, int $recursions): Message
-    {
-        $message = (new RecursionMessage($this, $this->translator, $agent, $recursions, $this->pageBaseUrl))
+    public function sendRecursionMessage(
+        string $groupName,
+        Agent $agent,
+        int $recursions
+    ): Message {
+        $message = (new RecursionMessage(
+            $this,
+            $this->translator,
+            $agent,
+            $recursions,
+            $this->pageBaseUrl
+        ))
             ->getText();
 
         return $this->sendMessage($this->getGroupId($groupName), $message);

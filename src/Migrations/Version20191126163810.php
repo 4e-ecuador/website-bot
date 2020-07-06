@@ -22,10 +22,13 @@ final class Version20191126163810 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
-        $this->addSql('ALTER TABLE agent_stat RENAME COLUMN nl1331meetups TO nl1331_meetups');
+        $this->addSql(
+            'ALTER TABLE agent_stat RENAME COLUMN nl1331meetups TO nl1331_meetups'
+        );
     }
 
     public function down(Schema $schema): void
@@ -33,10 +36,13 @@ final class Version20191126163810 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE agent_stat RENAME COLUMN nl1331_meetups TO nl1331meetups');
+        $this->addSql(
+            'ALTER TABLE agent_stat RENAME COLUMN nl1331_meetups TO nl1331meetups'
+        );
     }
 }

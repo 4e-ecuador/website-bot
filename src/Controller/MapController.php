@@ -21,8 +21,10 @@ class MapController extends AbstractController
      * @Route("/map", name="agent-map")
      * @IsGranted("ROLE_AGENT")
      */
-    public function map(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository): Response
-    {
+    public function map(
+        AgentRepository $agentRepository,
+        MapGroupRepository $mapGroupRepository
+    ): Response {
         $mapGroups = [];
 
         foreach ($mapGroupRepository->findAll() as $group) {
@@ -32,7 +34,7 @@ class MapController extends AbstractController
         return $this->render(
             'map/index.html.twig',
             [
-                'agents'    => $agentRepository->findAll(),
+                'agents' => $agentRepository->findAll(),
                 'mapGroups' => $mapGroups,
             ]
         );
@@ -42,9 +44,14 @@ class MapController extends AbstractController
      * @Route("/map_json", name="map-json")
      * @IsGranted("ROLE_AGENT")
      */
-    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository, Request $request): JsonResponse
-    {
-        $mapGroup = $mapGroupRepository->findOneBy(['name' => $request->get('group', '4E')]);
+    public function mapJson(
+        AgentRepository $agentRepository,
+        MapGroupRepository $mapGroupRepository,
+        Request $request
+    ): JsonResponse {
+        $mapGroup = $mapGroupRepository->findOneBy(
+            ['name' => $request->get('group', '4E')]
+        );
 
         if (!$mapGroup) {
             throw new UnexpectedValueException('Map group not found!');
@@ -72,19 +79,29 @@ class MapController extends AbstractController
      * @Route("/map/agent-info/{id}", name="agent-info")
      * @IsGranted("ROLE_AGENT")
      */
-    public function mapAgentInfo(Agent $agent, TranslatorInterface $translator, Packages $assetsManager): Response
-    {
+    public function mapAgentInfo(
+        Agent $agent,
+        TranslatorInterface $translator,
+        Packages $assetsManager
+    ): Response {
         $response = [];
 
         if ($this->isGranted('ROLE_AGENT')) {
             $statsLink = $imgPath = '';
             switch ($agent->getFaction()->getName()) {
                 case 'ENL':
-                    $statsLink = $this->generateUrl('agent_stats', ['id' => $agent->getId()]);
-                    $imgPath = $assetsManager->getUrl('build/images/logos/ENL.svg');
+                    $statsLink = $this->generateUrl(
+                        'agent_stats',
+                        ['id' => $agent->getId()]
+                    );
+                    $imgPath = $assetsManager->getUrl(
+                        'build/images/logos/ENL.svg'
+                    );
                     break;
                 case 'RES':
-                    $imgPath = $assetsManager->getUrl('build/images/logos/RES.svg');
+                    $imgPath = $assetsManager->getUrl(
+                        'build/images/logos/RES.svg'
+                    );
                     break;
                 default:
                     throw new UnexpectedValueException('Unknown faction');

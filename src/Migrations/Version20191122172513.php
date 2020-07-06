@@ -22,7 +22,8 @@ final class Version20191122172513 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('ALTER TABLE agent ADD recursions INT DEFAULT NULL');
@@ -34,7 +35,8 @@ final class Version20191122172513 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf(
             $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.'
+            !== 'postgresql',
+            'Migration can only be executed safely on \'postgresql\'.'
         );
 
         $this->addSql('CREATE SCHEMA public');

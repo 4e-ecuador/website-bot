@@ -26,7 +26,8 @@ class EventController extends AbstractController
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render(
-            'event/index.html.twig', [
+            'event/index.html.twig',
+            [
                 'events' => $eventRepository->findAll(),
             ]
         );
@@ -51,7 +52,8 @@ class EventController extends AbstractController
         }
 
         return $this->render(
-            'event/new.html.twig', [
+            'event/new.html.twig',
+            [
                 'event' => $event,
                 'form'  => $form->createView(),
             ]
@@ -62,9 +64,15 @@ class EventController extends AbstractController
      * @Route("/{id}", name="event_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(Event $event, AgentStatRepository $statRepository, EventHelper $eventHelper): Response
-    {
-        $entries = $statRepository->findByDate($event->getDateStart(), $event->getDateEnd());
+    public function show(
+        Event $event,
+        AgentStatRepository $statRepository,
+        EventHelper $eventHelper
+    ): Response {
+        $entries = $statRepository->findByDate(
+            $event->getDateStart(),
+            $event->getDateEnd()
+        );
 
         $values = $eventHelper->calculateResults($event, $entries);
 
@@ -79,8 +87,9 @@ class EventController extends AbstractController
         }
 
         return $this->render(
-            'event/show.html.twig', [
-                'event'  => $event,
+            'event/show.html.twig',
+            [
+                'event' => $event,
                 'values' => $values,
                 'status' => $status,
             ]
@@ -103,7 +112,8 @@ class EventController extends AbstractController
         }
 
         return $this->render(
-            'event/edit.html.twig', [
+            'event/edit.html.twig',
+            [
                 'event' => $event,
                 'form'  => $form->createView(),
             ]
@@ -117,7 +127,8 @@ class EventController extends AbstractController
     public function delete(Request $request, Event $event): Response
     {
         if ($this->isCsrfTokenValid(
-            'delete'.$event->getId(), $request->request->get('_token')
+            'delete'.$event->getId(),
+            $request->request->get('_token')
         )
         ) {
             $entityManager = $this->getDoctrine()->getManager();

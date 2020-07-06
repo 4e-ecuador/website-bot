@@ -6,12 +6,13 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
-use App\Exception\TelegramBotMissingChatIdException;
 use App\Service\StatsImporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use TelegramBot\Api\HttpException;
 use UnexpectedValueException;
 
 class PostStats extends AbstractController
@@ -54,17 +55,21 @@ class PostStats extends AbstractController
 
             $result = $this->statsImporter->getImportResult($data);
 
-            if ('test' !== $this->appEnv) {
-                $this->statsImporter->sendResultMessages($result, $data, $user);
-            }
+            $result->messages = $this->statsImporter->sendResultMessages($result, $data, $user);
 
             return $this->json(['result' => $result]);
         } catch (StatsAlreadyAddedException $e) {
-            return $this->json(['error' => $e->getMessage()], 400);
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
         } catch (StatsNotAllException $e) {
-            return $this->json(['error' => $e->getMessage()], 400);
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_CONFLICT);
+        } catch (HttpException $e) {
+            if (isset($result)) {
+                // Telegram bot failed :(
+                return $this->json(['result' => $result, 'error' => $e->getMessage()], Response::HTTP_OK);
+            }
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (Exception $e) {
-            return $this->json(['error' => $e->getMessage()], 500);
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -4,11 +4,19 @@ namespace App\Tests\Api;
 
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use JsonException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class AgentStatResourcePostTest extends AgentStatResourceBase
 {
     use RecreateDatabaseTrait;
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testPostCsvFail(): void
     {
         $client = self::createClient();
@@ -25,6 +33,13 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         self::assertResponseStatusCodeSame(302);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvFailWrongMediaType(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -34,13 +49,18 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             '/api/stats/csv',
             [
                 'headers' => [
-                    'accept'       => 'application/json',
+                    'accept' => 'application/json',
                     'X-AUTH-TOKEN' => 'T3stT0ken',
                 ],
             ]
         );
 
-        $result = json_decode($response->getContent(false), false);
+        $result = json_decode(
+            $response->getContent(false),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertResponseStatusCodeSame(415);
         self::assertEquals('An error occurred', $result->title);
@@ -50,6 +70,13 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         );
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvFailMissingData(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -61,11 +88,22 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         );
         self::assertResponseStatusCodeSame(400);
 
-        $result = json_decode($response->getContent(false), false);
+        $result = json_decode(
+            $response->getContent(false),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertEquals('Syntax error', $result->detail);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     */
     public function testPostCsvFailInvalidCsv(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -79,12 +117,18 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             ]
         );
 
-        $result = json_decode($response->getContent(false), false);
+        $expected = '{"error":"Invalid CSV"}';
 
-        self::assertResponseStatusCodeSame(500);
-        self::assertEquals('Invalid CSV', $result->error);
+        self::assertResponseStatusCodeSame(409);
+        self::assertJsonStringEqualsJsonString($expected, $response->getContent(false));
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testPostCsvStatsNotAll(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -103,9 +147,18 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         $expected = '{"error":"Prime stats not ALL"}';
 
         self::assertResponseStatusCodeSame(409);
-        self::assertJsonStringEqualsJsonString($expected, $response->getContent(false));
+        self::assertJsonStringEqualsJsonString(
+            $expected,
+            $response->getContent(false)
+        );
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testPostCsvFirstImport(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -132,6 +185,12 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         );
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testPostCsvDouble(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -159,6 +218,12 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         );
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testPostCsvFirstStats(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -193,8 +258,8 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         self::assertResponseStatusCodeSame(200);
 
         $expected = '{"result":{"currents":[],'
-            .'"diff":{"ap":1},'.'
-            "medalUps":[],"newLevel":0,"recursions":0,"messages":[]}}';
+            .'"diff":{"ap":1},'
+            .'"medalUps":[],"newLevel":0,"recursions":0,"messages":[]}}';
         self::assertJsonStringEqualsJsonString(
             $expected,
             $response->getContent(false)

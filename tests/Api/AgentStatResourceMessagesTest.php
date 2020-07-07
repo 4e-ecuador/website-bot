@@ -5,6 +5,11 @@ namespace App\Tests\Api;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use JsonException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Message;
 
@@ -12,6 +17,13 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 {
     use RecreateDatabaseTrait;
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvSmurfAlert(): void
     {
         $client = $this->createClientWithMock();
@@ -31,11 +43,23 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvNicknameMismatch(): void
     {
         $client = $this->createClientWithMock();
@@ -53,11 +77,23 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvNewMedal(): void
     {
         $client = $this->createClientWithMock();
@@ -90,16 +126,28 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
 
         $expectedDiff = '{"explorer":99}';
-        $resultDiff = json_encode($result->result->diff);
+        $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
         self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvNewLevel(): void
     {
         $client = $this->createClientWithMock();
@@ -132,16 +180,28 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
 
         $expectedDiff = '{"level":1}';
-        $resultDiff = json_encode($result->result->diff);
+        $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
         self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvNewLevelRecursed(): void
     {
         $client = $this->createClientWithMock();
@@ -175,16 +235,28 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
 
         $expectedDiff = '{"level":1}';
-        $resultDiff = json_encode($result->result->diff);
+        $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
         self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testPostCsvRecursion(): void
     {
         $client = $this->createClientWithMock();
@@ -217,12 +289,17 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
 
         self::assertResponseStatusCodeSame(200);
 
-        $result = json_decode($response->getContent());
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertCount(1, $result->result->messages);
 
         $expectedJson = '{"recursions":1}';
-        $actualJson = json_encode($result->result->diff);
+        $actualJson = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
         self::assertJsonStringEqualsJsonString($expectedJson, $actualJson);
     }

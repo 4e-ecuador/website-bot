@@ -4,11 +4,18 @@ namespace App\Tests\Api;
 
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class AgentStatResourceGetTest extends AgentStatResourceBase
 {
     use RecreateDatabaseTrait;
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testCollectionFail(): void
     {
         self::createClient()
@@ -16,6 +23,12 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     */
     public function testCollection(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -43,6 +56,9 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
         );
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testItemFail(): void
     {
         self::createClient()->request(
@@ -57,6 +73,12 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testItem(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);

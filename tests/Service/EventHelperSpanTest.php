@@ -5,7 +5,8 @@ namespace App\Tests\Service;
 use App\Entity\Challenge;
 use App\Entity\Event;
 use App\Service\EventHelper;
-use Doctrine\ORM\EntityManager;
+use DateTime;
+use Exception;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
@@ -15,34 +16,36 @@ class EventHelperSpanTest extends KernelTestCase
     use RecreateDatabaseTrait;
 
     private EventHelper $eventHelper;
-    private EntityManager $em;
 
     public function setUp(): void
     {
         self::bootKernel();
-        $this->em = self::$container->get('doctrine.orm.entity_manager');
+        $em = self::$container->get('doctrine.orm.entity_manager');
 
         $event = (new Event())
             ->setName('Test')
-            ->setDateStart((new \DateTime('now'))->modify('-1 day'))
-            ->setDateEnd((new \DateTime('now'))->modify('-1 day'));
-        $this->em->persist($event);
+            ->setDateStart((new DateTime('now'))->modify('-1 day'))
+            ->setDateEnd((new DateTime('now'))->modify('-1 day'));
+        $em->persist($event);
 
         $event = (new Event())
             ->setName('Test')
-            ->setDateStart(new \DateTime('now'))
-            ->setDateEnd(new \DateTime('now'));
-        $this->em->persist($event);
+            ->setDateStart(new DateTime('now'))
+            ->setDateEnd(new DateTime('now'));
+        $em->persist($event);
 
-        $this->em->flush();
+        $em->flush();
 
         $this->eventHelper = new EventHelper(
-            $this->em->getRepository(Event::class),
-            $this->em->getRepository(Challenge::class),
+            $em->getRepository(Event::class),
+            $em->getRepository(Challenge::class),
             'UTC'
         );
     }
 
+    /**
+     * @throws Exception
+     */
     public function testGetEventsInSpanInvalid(): void
     {
         $this->expectException(UnexpectedValueException::class);
@@ -52,6 +55,9 @@ class EventHelperSpanTest extends KernelTestCase
         $this->eventHelper->getEventsInSpan('test');
     }
 
+    /**
+     * @throws Exception
+     */
     public function testGetEventsInSpanPast(): void
     {
         $result = $this->eventHelper->getEventsInSpan('past');
@@ -60,6 +66,9 @@ class EventHelperSpanTest extends KernelTestCase
         self::assertCount(1, $result);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testGetEventsInSpanPresent(): void
     {
         $result = $this->eventHelper->getEventsInSpan('present');
@@ -68,6 +77,9 @@ class EventHelperSpanTest extends KernelTestCase
         self::assertCount(1, $result);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testGetEventsInSpanFuture(): void
     {
         $result = $this->eventHelper->getEventsInSpan('future');

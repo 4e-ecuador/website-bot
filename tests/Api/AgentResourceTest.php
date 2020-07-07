@@ -4,6 +4,10 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class AgentResourceTest extends ApiTestCase
 {
@@ -11,6 +15,9 @@ class AgentResourceTest extends ApiTestCase
 
     private string $url = '/api/agents';
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testCollectionFail(): void
     {
         $client = self::createClient();
@@ -23,6 +30,12 @@ class AgentResourceTest extends ApiTestCase
         self::assertResponseStatusCodeSame(302);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     */
     public function testCollection(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -45,12 +58,21 @@ class AgentResourceTest extends ApiTestCase
         self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testItemFail(): void
     {
         self::createClient()->request('GET', $this->url.'/1');
         self::assertResponseStatusCodeSame(302);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function testItem(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);

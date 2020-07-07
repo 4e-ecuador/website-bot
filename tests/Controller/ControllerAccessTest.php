@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use DirectoryIterator;
+use Exception;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -24,6 +25,9 @@ class ControllerAccessTest extends WebTestCase
             ],
         ];
 
+    /**
+     * @throws Exception
+     */
     public function testRoutes(): void
     {
         $client = static::createClient();

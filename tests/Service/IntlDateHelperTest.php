@@ -3,6 +3,7 @@
 namespace App\Tests\Service;
 
 use App\Service\IntlDateHelper;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class IntlDateHelperTest extends KernelTestCase
@@ -21,7 +22,7 @@ class IntlDateHelperTest extends KernelTestCase
     public function testFormat(): void
     {
         $response = $this->intlDateHelper->format(
-            new \DateTime('2112-12-21T00:00:00+00:00')
+            new DateTime('2112-12-21T00:00:00+00:00')
         );
 
         self::assertEquals('21 December 2112', $response);
@@ -31,7 +32,7 @@ class IntlDateHelperTest extends KernelTestCase
     public function testFormatShort(): void
     {
         $response = $this->intlDateHelper->formatShort(
-            new \DateTime('2112-12-21T00:00:00+00:00')
+            new DateTime('2112-12-21T00:00:00+00:00')
         );
 
         self::assertEquals('21 December', $response);
@@ -40,7 +41,7 @@ class IntlDateHelperTest extends KernelTestCase
     public function testFormatCustom(): void
     {
         $response = $this->intlDateHelper->formatCustom(
-            new \DateTime('2112-12-21T00:00:00+00:00'),
+            new DateTime('2112-12-21T00:00:00+00:00'),
             "dd 'de' MMMM 'xx' YYYY"
         );
 

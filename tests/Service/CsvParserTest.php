@@ -2,6 +2,7 @@
 
 namespace App\Tests\Service;
 
+use App\Exception\InvalidCsvException;
 use App\Exception\StatsNotAllException;
 use App\Service\CsvParser;
 use App\Service\MedalChecker;
@@ -23,6 +24,10 @@ class CsvParserTest extends KernelTestCase
         $this->csvParser = new CsvParser($medalChecker);
     }
 
+    /**
+     * @throws StatsNotAllException
+     * @throws InvalidCsvException
+     */
     public function testParseUnknownType(): void
     {
         $this->expectException(UnexpectedValueException::class);
@@ -30,42 +35,53 @@ class CsvParserTest extends KernelTestCase
         $this->csvParser->parse('', 'INVALID');
     }
 
+    /**
+     * @throws InvalidCsvException
+     * @throws StatsNotAllException
+     */
     public function testParseNotAll(): void
     {
         $this->expectException(StatsNotAllException::class);
         $this->expectExceptionMessage('Prime stats not ALL');
-        $this->csvParser->parse($this->switchCsv(['span'=>'TEST']));
+        $this->csvParser->parse($this->switchCsv(['span' => 'TEST']));
     }
 
+    /**
+     * @throws InvalidCsvException
+     * @throws StatsNotAllException
+     */
     public function testParseInvalid(): void
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(InvalidCsvException::class);
         $this->expectExceptionMessage('Invalid CSV');
         $this->csvParser->parse('test');
     }
 
+    /**
+     * @throws InvalidCsvException
+     * @throws StatsNotAllException
+     */
     public function testParse(): void
     {
         $response = $this->csvParser->parse($this->switchCsv());
         self::assertIsArray($response);
     }
 
-
-    protected function switchCsv(array $replacements = [])
+    protected function switchCsv(array $replacements = []): string
     {
-        $csv = "Time Span	Agent Name	Agent Faction	Date (yyyy-mm-dd)	Time (hh:mm:ss)	Level	Lifetime AP	Current AP	Unique Portals Visited	Unique Portals Drone Visited	Furthest Drone Flight Distance	Portals Discovered	Seer Points	XM Collected	OPR Agreements	Distance Walked	Resonators Deployed	Links Created	Control Fields Created	Mind Units Captured	Longest Link Ever Created	Largest Control Field	XM Recharged	Portals Captured	Unique Portals Captured	Mods Deployed	Resonators Destroyed	Portals Neutralized	Enemy Links Destroyed	Enemy Fields Destroyed	Max Time Portal Held	Max Time Link Maintained	Max Link Length x Days	Max Time Field Held	Largest Field MUs x Days	Unique Missions Completed	Hacks	Drone Hacks	Glyph Hack Points	Longest Hacking Streak	Agents Successfully Recruited	Mission Day(s) Attended	NL-1331 Meetup(s) Attended	First Saturday Events	Recursions	  
-{span}	{agent}	{faction}	{date}	{time}	{level}	{ap}	1000	{explorer}	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	{recursions}";
+        $csv = "Time Span\tAgent Name\tAgent Faction\tDate (yyyy-mm-dd)\tTime (hh:mm:ss)\tLevel\tLifetime AP\tCurrent AP\tUnique Portals Visited\tUnique Portals Drone Visited\tFurthest Drone Flight Distance\tPortals Discovered\tSeer Points\tXM Collected\tOPR Agreements\tDistance Walked\tResonators Deployed\tLinks Created\tControl Fields Created\tMind Units Captured\tLongest Link Ever Created\tLargest Control Field\tXM Recharged\tPortals Captured\tUnique Portals Captured\tMods Deployed\tResonators Destroyed\tPortals Neutralized\tEnemy Links Destroyed\tEnemy Fields Destroyed\tMax Time Portal Held\tMax Time Link Maintained\tMax Link Length x Days\tMax Time Field Held\tLargest Field MUs x Days\tUnique Missions Completed\tHacks\tDrone Hacks\tGlyph Hack Points\tLongest Hacking Streak\tAgents Successfully Recruited\tMission Day(s) Attended\tNL-1331 Meetup(s) Attended\tFirst Saturday Events\tRecursions\n"
+            ."{span}\t{agent}\t{faction}\t{date}\t{time}\t{level}\t{ap}\t1000\t{explorer}\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t{recursions}";
 
         $dateTime = new DateTime('1999-11-11 11:11:11');
         $vars = [
-            'span'     => 'GESAMT',
-            'agent'    => 'testAgent',
-            'faction'  => 'Enlightened',
-            'date'     => $dateTime->format('Y-m-d'),
-            'time'     => $dateTime->format('h:i:s'),
-            'level'    => 1,
-            'ap'       => 1,
-            'explorer' => 1,
+            'span'       => 'GESAMT',
+            'agent'      => 'testAgent',
+            'faction'    => 'Enlightened',
+            'date'       => $dateTime->format('Y-m-d'),
+            'time'       => $dateTime->format('h:i:s'),
+            'level'      => 1,
+            'ap'         => 1,
+            'explorer'   => 1,
             'recursions' => 0,
         ];
 

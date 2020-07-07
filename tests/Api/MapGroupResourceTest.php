@@ -4,17 +4,32 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use JsonException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class MapGroupResourceTest extends ApiTestCase
 {
     use RecreateDatabaseTrait;
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testCollectionFail(): void
     {
         self::createClient()->request('GET', '/api/map_groups');
         self::assertResponseStatusCodeSame(302);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws JsonException
+     */
     public function testCollection(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -29,19 +44,34 @@ class MapGroupResourceTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(), false);
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertResponseStatusCodeSame(200);
         self::assertCount(1, $result);
         self::assertEquals('TestMapGroup', $result[0]->name);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function testItemFail(): void
     {
         self::createClient()->request('GET', '/api/map_groups/1');
         self::assertResponseStatusCodeSame(302);
     }
 
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
     public function testItem(): void
     {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
@@ -56,7 +86,12 @@ class MapGroupResourceTest extends ApiTestCase
             ]
         );
 
-        $result = json_decode($response->getContent(), false);
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         self::assertResponseStatusCodeSame(200);
         self::assertEquals('TestMapGroup', $result->name);

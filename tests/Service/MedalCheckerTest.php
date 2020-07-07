@@ -6,6 +6,7 @@ use App\Entity\AgentStat;
 use App\Service\MedalChecker;
 use App\Util\BadgeData;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use UnexpectedValueException;
 
 class MedalCheckerTest extends KernelTestCase
 {
@@ -170,7 +171,7 @@ class MedalCheckerTest extends KernelTestCase
 
     public function testGetBadgeDataException(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('No data for code: TEST');
         $this->medalChecker->getBadgeData('TEST');
     }

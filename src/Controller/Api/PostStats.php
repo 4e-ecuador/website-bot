@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Exception\InvalidCsvException;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
 use App\Service\StatsImporter;
@@ -63,6 +64,11 @@ class PostStats extends AbstractController
                 Response::HTTP_CONFLICT
             );
         } catch (StatsNotAllException $e) {
+            return $this->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_CONFLICT
+            );
+        } catch (InvalidCsvException $e) {
             return $this->json(
                 ['error' => $e->getMessage()],
                 Response::HTTP_CONFLICT

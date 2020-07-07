@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Exception\InvalidCsvException;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
@@ -42,6 +43,7 @@ class StatsImporter
      * @throws StatsNotAllException
      * @throws StatsAlreadyAddedException
      * @throws Exception
+     * @throws InvalidCsvException
      */
     public function updateEntityFromCsv(
         AgentStat $statEntry,

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Exception\InvalidCsvException;
 use App\Exception\StatsNotAllException;
 use UnexpectedValueException;
 
@@ -16,6 +17,7 @@ class CsvParser
 
     /**
      * @throws StatsNotAllException
+     * @throws InvalidCsvException
      */
     public function parse(string $csvString, string $type = 'prime'): array
     {
@@ -31,6 +33,7 @@ class CsvParser
 
     /**
      * @throws StatsNotAllException
+     * @throws InvalidCsvException
      */
     private function parsePrimeCsv(string $csvString): array
     {
@@ -78,12 +81,15 @@ class CsvParser
         }
 
         if (!$csv) {
-            throw new UnexpectedValueException('Invalid CSV');
+            throw new InvalidCsvException('Invalid CSV');
         }
 
         return $csv;
     }
 
+    /**
+     * @throws InvalidCsvException
+     */
     private function parseAgentStatsCsv(string $csvString): array
     {
         $csv = [];
@@ -113,7 +119,7 @@ class CsvParser
         }
 
         if (!$csv) {
-            throw new UnexpectedValueException('Invalid CSV');
+            throw new InvalidCsvException('Invalid CSV');
         }
 
         return $csv;

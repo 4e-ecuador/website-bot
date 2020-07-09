@@ -30,22 +30,22 @@ class IngressEvent
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $name;
+    private ?string $name = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $type;
+    private ?string $type = '';
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_start;
+    private ?DateTimeInterface $date_start = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_end;
+    private ?DateTimeInterface $date_end = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)

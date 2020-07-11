@@ -43,7 +43,7 @@ class User implements UserInterface
      *
      * @Groups({"me:read"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="json")
@@ -53,7 +53,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private ?string $email;
+    private ?string $email = '';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
@@ -65,17 +65,17 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private ?string $googleId;
+    private ?string $googleId = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $fireBaseToken;
+    private ?string $fireBaseToken = '';
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
-    private ?string $apiToken;
+    private ?string $apiToken = '';
 
     public function getId(): ?int
     {

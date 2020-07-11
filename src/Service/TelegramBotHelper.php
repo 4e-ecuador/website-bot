@@ -23,14 +23,8 @@ class TelegramBotHelper
 {
     private BotApi $api;
     private MedalChecker $medalChecker;
+    private EmojiService $emojiService;
     private TranslatorInterface $translator;
-    private array $emojies
-        = [
-            'tadaa'      => "\xF0\x9F\x8E\x89",
-            'redlight'   => "\xF0\x9F\x9A\xA8",
-            'cross-mark' => "\xE2\x9D\x8C",
-            'check-mark' => "\xE2\x9C\x85",
-        ];
     private string $botName;
     private string $pageBaseUrl;
     private string $announceAdminCc;
@@ -40,6 +34,7 @@ class TelegramBotHelper
         BotApi $api,
         MedalChecker $medalChecker,
         TranslatorInterface $translator,
+        EmojiService $emojiService,
         string $botName,
         string $pageBaseUrl,
         string $announceAdminCc,
@@ -60,6 +55,7 @@ class TelegramBotHelper
             'intro'   => $groupIdIntro,
             'test'    => $groupIdTest,
         ];
+        $this->emojiService = $emojiService;
     }
 
     public function getGroupId(string $name = 'default'): int
@@ -79,13 +75,6 @@ class TelegramBotHelper
         }
 
         return (int)$id;
-    }
-
-    public function getEmoji(string $name): string
-    {
-        return array_key_exists($name, $this->emojies)
-            ? $this->emojies[$name]
-            : '?';
     }
 
     public function checkChatId($chatId): bool
@@ -214,6 +203,7 @@ class TelegramBotHelper
     ): Message {
         $message = (new NewMedalMessage(
             $this,
+            $this->emojiService,
             $this->translator,
             $agent,
             $this->medalChecker,
@@ -237,6 +227,7 @@ class TelegramBotHelper
     ): Message {
         $message = (new LevelUpMessage(
             $this,
+            $this->emojiService,
             $this->translator,
             $agent,
             $this->medalChecker,
@@ -295,6 +286,7 @@ class TelegramBotHelper
     ): Message {
         $message = (new SmurfAlertMessage(
             $this,
+            $this->emojiService,
             $user,
             $agent,
             $statEntry,
@@ -320,6 +312,7 @@ class TelegramBotHelper
     ): Message {
         $message = (new NicknameMismatchMessage(
             $this,
+            $this->emojiService,
             $user,
             $agent,
             $statEntry,
@@ -344,6 +337,7 @@ class TelegramBotHelper
     ): Message {
         $message = (new RecursionMessage(
             $this,
+            $this->emojiService,
             $this->translator,
             $agent,
             $recursions,

@@ -57,16 +57,16 @@ class PostStats extends AbstractController
             $result->messages = $this->statsImporter
                 ->sendResultMessages($result, $data, $user);
 
-            return $this->json(['result' => $result]);
+            return $this->json(['result' => $result], Response::HTTP_CREATED);
         } catch (StatsAlreadyAddedException $e) {
             return $this->json(
                 ['error' => $e->getMessage()],
-                Response::HTTP_CONFLICT
+                Response::HTTP_UNPROCESSABLE_ENTITY
             );
         } catch (StatsNotAllException $e) {
             return $this->json(
                 ['error' => $e->getMessage()],
-                Response::HTTP_CONFLICT
+                Response::HTTP_PRECONDITION_REQUIRED
             );
         } catch (InvalidCsvException $e) {
             return $this->json(
@@ -78,13 +78,13 @@ class PostStats extends AbstractController
                 // Telegram bot failed :(
                 return $this->json(
                     ['result' => $result, 'error' => $e->getMessage()],
-                    Response::HTTP_OK
+                    Response::HTTP_CREATED
                 );
             }
 
             return $this->json(
                 ['error' => $e->getMessage()],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_SERVICE_UNAVAILABLE
             );
         } catch (Exception $e) {
             return $this->json(

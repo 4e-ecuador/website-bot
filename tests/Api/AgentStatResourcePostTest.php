@@ -5,6 +5,7 @@ namespace App\Tests\Api;
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use JsonException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -30,7 +31,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
                 ],
             ]
         );
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -62,7 +63,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertResponseStatusCodeSame(415);
+        self::assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
         self::assertEquals('An error occurred', $result->title);
         self::assertStringStartsWith(
             'The content-type "application/x-www-form-urlencoded" is not supported.',
@@ -86,7 +87,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             '/api/stats/csv',
             ['headers' => $this->headers]
         );
-        self::assertResponseStatusCodeSame(400);
+        self::assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
 
         $result = json_decode(
             $response->getContent(false),
@@ -119,7 +120,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
 
         $expected = '{"error":"Invalid CSV"}';
 
-        self::assertResponseStatusCodeSame(409);
+        self::assertResponseStatusCodeSame(Response::HTTP_CONFLICT);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent(false));
     }
 
@@ -146,7 +147,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
 
         $expected = '{"error":"Prime stats not ALL"}';
 
-        self::assertResponseStatusCodeSame(409);
+        self::assertResponseStatusCodeSame(Response::HTTP_PRECONDITION_REQUIRED);
         self::assertJsonStringEqualsJsonString(
             $expected,
             $response->getContent(false)
@@ -178,7 +179,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             .'"currents":{"explorer":0,"recon":0,"trekker":0,"builder":0,"connector":0,"mind-controller":0,"engineer":0,"illuminator":0,"recharger":0,"liberator":0,"pioneer":0,"purifier":0,"specops":0,"missionday":0,"nl-1331-meetups":0,"hacker":0,"translator":0,"sojourner":0,"ifs":0,"scout":0'
             .'},"diff":[],"medalUps":[],"newLevel":0,"recursions":0,"messages":[]}}';
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
         self::assertJsonStringEqualsJsonString(
             $expected,
             $response->getContent(false)
@@ -204,11 +205,11 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
 
         $client
             ->request('POST', '/api/stats/csv', $content);
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client
             ->request('POST', '/api/stats/csv', $content);
-        self::assertResponseStatusCodeSame(409);
+        self::assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $expected = '{"error":"Stat entry already added!"}';
 
@@ -244,7 +245,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
                 'json'    => ['csv' => $this->switchCsv()],
             ]
         );
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client->request(
             'POST',
@@ -255,7 +256,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $expected = '{"result":{"currents":[],'
             .'"diff":{"ap":1},'

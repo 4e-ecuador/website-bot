@@ -5,6 +5,7 @@ namespace App\Tests\Api;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use JsonException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -20,7 +21,7 @@ class UserMeResourceTest extends ApiTestCase
     public function testMeFail(): void
     {
         self::createClient()->request('GET', '/api/users/me');
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -44,7 +45,7 @@ class UserMeResourceTest extends ApiTestCase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $result = json_decode(
             $response->getContent(),

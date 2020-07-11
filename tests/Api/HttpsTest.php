@@ -4,6 +4,7 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -35,7 +36,7 @@ class HttpsTest extends ApiTestCase
 
         $expected = '{"message":"Please use SSL and not: http"}';
 
-        self::assertResponseStatusCodeSame(401);
+        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent(false));
     }
 
@@ -56,6 +57,6 @@ class HttpsTest extends ApiTestCase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }

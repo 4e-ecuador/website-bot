@@ -6,6 +6,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use JsonException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -41,7 +42,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),
@@ -75,7 +76,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),
@@ -113,7 +114,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client->request(
             'POST',
@@ -124,7 +125,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),
@@ -167,7 +168,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client->request(
             'POST',
@@ -178,7 +179,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),
@@ -222,7 +223,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client->request(
             'POST',
@@ -233,7 +234,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),
@@ -276,7 +277,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $response = $client->request(
             'POST',
@@ -287,7 +288,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             ]
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $result = json_decode(
             $response->getContent(),

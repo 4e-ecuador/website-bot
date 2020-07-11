@@ -6,6 +6,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use DateTime;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use JsonException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -31,7 +32,7 @@ class IngressEventResourceTest extends ApiTestCase
             '/api/ingress_events',
             ['headers' => ['accept' => 'application/json']]
         );
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $result = json_decode(
             $response->getContent(),
@@ -64,7 +65,7 @@ class IngressEventResourceTest extends ApiTestCase
             '/api/ingress_events?date_start[after]='.$date,
             ['headers' => ['accept' => 'application/json']]
         );
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $result = json_decode(
             $response->getContent(),
@@ -94,7 +95,7 @@ class IngressEventResourceTest extends ApiTestCase
             '/api/ingress_events?date_start[after]='.$date,
             ['headers' => ['accept' => 'application/json']]
         );
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $result = json_decode(
             $response->getContent(),
@@ -112,7 +113,7 @@ class IngressEventResourceTest extends ApiTestCase
     {
         self::createClient()
             ->request('GET', '/api/ingress_events/1');
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     /**
@@ -122,6 +123,6 @@ class IngressEventResourceTest extends ApiTestCase
     {
         self::createClient()
             ->request('GET', '/api/ingress_events/2');
-        self::assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -27,7 +28,7 @@ class AgentResourceTest extends ApiTestCase
             $this->url,
             ['headers' => ['accept' => 'application/json']]
         );
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -54,7 +55,7 @@ class AgentResourceTest extends ApiTestCase
             .'{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""},'
             .'{"nickname":"testAgent2","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}'
             .']';
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 
@@ -64,7 +65,7 @@ class AgentResourceTest extends ApiTestCase
     public function testItemFail(): void
     {
         self::createClient()->request('GET', $this->url.'/1');
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -89,7 +90,7 @@ class AgentResourceTest extends ApiTestCase
         );
 
         $expected = '{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}';
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 }

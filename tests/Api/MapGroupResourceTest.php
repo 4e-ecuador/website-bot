@@ -5,6 +5,7 @@ namespace App\Tests\Api;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use JsonException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -20,7 +21,7 @@ class MapGroupResourceTest extends ApiTestCase
     public function testCollectionFail(): void
     {
         self::createClient()->request('GET', '/api/map_groups');
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -51,7 +52,7 @@ class MapGroupResourceTest extends ApiTestCase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertCount(1, $result);
         self::assertEquals('TestMapGroup', $result[0]->name);
     }
@@ -62,7 +63,7 @@ class MapGroupResourceTest extends ApiTestCase
     public function testItemFail(): void
     {
         self::createClient()->request('GET', '/api/map_groups/1');
-        self::assertResponseStatusCodeSame(302);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     /**
@@ -93,7 +94,7 @@ class MapGroupResourceTest extends ApiTestCase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertEquals('TestMapGroup', $result->name);
     }
 }

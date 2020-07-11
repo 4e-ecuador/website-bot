@@ -66,12 +66,10 @@ class TravisFinishedNofiticationCommand extends Command
         $result = getenv('TRAVIS_TEST_RESULT');
 
         if ($result) {
-            $emoji = 'failed '.$this->emojiService
-                    ->getEmoji('cross-mark')->getBytecode();
+            $emoji = $this->emojiService->getEmoji('cross-mark')->getBytecode();
             $message[] = $emoji.' Travis build *failed!*';
         } else {
-            $emoji = 'succeeded '.$this->emojiService
-                    ->getEmoji('check-mark')->getBytecode();
+            $emoji = $this->emojiService->getEmoji('check-mark')->getBytecode();
             $message[] = $emoji.' Travis build *succeeded!*';
         }
 

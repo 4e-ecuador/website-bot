@@ -3,6 +3,8 @@
 namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
+use App\Exception\EmojiNotFoundException;
+use App\Service\EmojiService;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
@@ -11,19 +13,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LevelUpMessage extends AbstractCustomMessage
 {
     private TranslatorInterface $translator;
-
-    private int $level;
-
-    private Agent $agent;
-
     private MedalChecker $medalChecker;
-
-    private string $pageBaseUrl;
-
+    private EmojiService $emojiService;
+    private Agent $agent;
+    private int $level;
     private int $recursions;
+    private string $pageBaseUrl;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
+        EmojiService $emojiService,
         TranslatorInterface $translator,
         Agent $agent,
         MedalChecker $medalChecker,
@@ -31,19 +30,22 @@ class LevelUpMessage extends AbstractCustomMessage
         int $recursions,
         string $pageBaseUrl
     ) {
+        parent::__construct($telegramBotHelper);
         $this->agent = $agent;
         $this->level = $level;
         $this->recursions = $recursions;
         $this->translator = $translator;
         $this->medalChecker = $medalChecker;
         $this->pageBaseUrl = $pageBaseUrl;
-
-        parent::__construct($telegramBotHelper);
+        $this->emojiService = $emojiService;
     }
 
+    /**
+     * @throws EmojiNotFoundException
+     */
     public function getMessage(): array
     {
-        $tada = $this->telegramBotHelper->getEmoji('tadaa');
+        $tada = $this->emojiService->getEmoji('tadaa')->getBytecode();
 
         $response = [];
 

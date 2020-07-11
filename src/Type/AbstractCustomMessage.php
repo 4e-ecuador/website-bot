@@ -3,6 +3,7 @@
 namespace App\Type;
 
 use App\Entity\Agent;
+use App\Entity\User;
 use App\Service\TelegramBotHelper;
 
 abstract class AbstractCustomMessage
@@ -29,5 +30,19 @@ abstract class AbstractCustomMessage
             $agent->getTelegramName()
                 ?: $agent->getNickname()
         );
+    }
+
+    protected function getAgentUserData(Agent $agent, User $user): array
+    {
+        $message = [];
+        $message[] = 'Agent: '.$agent->getNickname();
+        $message[] = 'ID: '.$agent->getId();
+        $message[] = '';
+        $message[] = 'User: '.$user->getUsername();
+        $message[] = 'ID: '.$user->getId();
+        $message[] = '';
+        $message[] = 'Please verify!';
+
+        return $message;
     }
 }

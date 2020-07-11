@@ -11,9 +11,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class NotifyEventsMessage extends AbstractCustomMessage
 {
     private IngressEventRepository $ingressEventRepository;
-
     private bool $firstAnnounce;
-
     private TranslatorInterface $translator;
 
     public function __construct(

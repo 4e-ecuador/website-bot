@@ -7,9 +7,7 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -29,19 +27,7 @@ class TestSmurfAlertMessageCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
+        $this->setDescription('Test the smurf alert');
     }
 
     /**
@@ -52,9 +38,11 @@ class TestSmurfAlertMessageCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
-        $user = new User();
+        $user = (new User())
+            ->setEmail('test@example.com');
 
-        $agent = new Agent();
+        $agent = (new Agent())
+            ->setNickname('TEST');
 
         $statEntry = new AgentStat();
 

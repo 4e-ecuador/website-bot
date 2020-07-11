@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Exception\EmojiNotFoundException;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,12 +19,16 @@ class TravisFinishedNofiticationCommand extends Command
     protected static $defaultName = 'TravisFinishedNofitication';// Type must be defined in base class :(
 
     private TelegramBotHelper $telegramBotHelper;
+    private EmojiService $emojiService;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper)
-    {
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        EmojiService $emojiService
+    ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
+        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
@@ -45,6 +51,7 @@ class TravisFinishedNofiticationCommand extends Command
     /**
      * @throws Exception
      * @throws InvalidArgumentException
+     * @throws EmojiNotFoundException
      */
     protected function execute(
         InputInterface $input,
@@ -59,16 +66,15 @@ class TravisFinishedNofiticationCommand extends Command
         $result = getenv('TRAVIS_TEST_RESULT');
 
         if ($result) {
-            $status = 'failed '.$this->telegramBotHelper->getEmoji(
-                    'cross-mark'
-                );
+            $emoji = 'failed '.$this->emojiService
+                    ->getEmoji('cross-mark')->getBytecode();
+            $message[] = $emoji.' Travis build *failed!*';
         } else {
-            $status = 'succeeded '.$this->telegramBotHelper->getEmoji(
-                    'check-mark'
-                );
+            $emoji = 'succeeded '.$this->emojiService
+                    ->getEmoji('check-mark')->getBytecode();
+            $message[] = $emoji.' Travis build *succeeded!*';
         }
 
-        $message[] = "Travis build *$status!*";
         $message[] = '`Repository:  '.getenv('TRAVIS_REPO_SLUG').'`';
         $message[] = '`Branch:      '.getenv('TRAVIS_BRANCH').'`';
         $message[] = '*Commit Msg:*';

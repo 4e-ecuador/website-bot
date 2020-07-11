@@ -3,8 +3,10 @@
 namespace App\Command\Test;
 
 use App\Repository\AgentRepository;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\RecursionMessage;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,11 +23,13 @@ class TestRecursionMessageCommand extends Command
 
     private AgentRepository $agentRepository;
     private TranslatorInterface $translator;
-    private string $pageBaseUrl;
     private TelegramBotHelper $telegramBotHelper;
+    private EmojiService $emojiService;
+    private string $pageBaseUrl;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
+        EmojiService $emojiService,
         TranslatorInterface $translator,
         AgentRepository $agentRepository
     ) {
@@ -34,6 +38,7 @@ class TestRecursionMessageCommand extends Command
         $this->translator = $translator;
         $this->pageBaseUrl = 'http://agents.enl.ec';// $pageBaseUrl;
         $this->telegramBotHelper = $telegramBotHelper;
+        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
@@ -56,6 +61,7 @@ class TestRecursionMessageCommand extends Command
     /**
      * @throws Exception
      * @throws InvalidArgumentException
+     * @throws NonUniqueResultException
      */
     protected function execute(
         InputInterface $input,
@@ -64,9 +70,10 @@ class TestRecursionMessageCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $agent = $this->agentRepository->findOneByNickName('nikp3h');
-        $recursions = 1;
+        $recursions = 66;
         $message = (new RecursionMessage(
             $this->telegramBotHelper,
+            $this->emojiService,
             $this->translator,
             $agent,
             $recursions,
@@ -76,12 +83,10 @@ class TestRecursionMessageCommand extends Command
         $io->text($message);
 
         $chatId = $this->telegramBotHelper->getGroupId('test');
-        // $io->text($chatId);
+
         $this->telegramBotHelper->sendMessage($chatId, $message);
 
-        $io->success(
-            'You have a new command! Now make it your own! Pass --help to see your options.'
-        );
+        $io->success('Message sent!');
 
         return 0;
     }

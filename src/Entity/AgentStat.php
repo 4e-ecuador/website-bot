@@ -17,9 +17,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\AgentStatRepository")
  *
  * @ApiFilter(SearchFilter::class, properties={"agent": "exact"})
+ *
  * @ApiResource(
  *     attributes={
  *          "order"={"datetime": "DESC"}
+ *     },
+ *     itemOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "path"="/stats/{id}",
+ *          }
  *     },
  *     collectionOperations={
  *          "get"={
@@ -35,12 +42,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "openapi_context"=AgentStat::API_POST_CSV_CONTEXT
  *          }
  *      },
- *     itemOperations={
- *          "get"={
- *              "security"="is_granted('ROLE_AGENT')",
- *              "path"="/stats/{id}",
- *          }
- *     }
  * )
  */
 class AgentStat implements ArrayAccess
@@ -54,6 +55,76 @@ class AgentStat implements ArrayAccess
                 ."\n"
                 .'![A great rabbit](https://rabbit.org/graphics/fun/netbunnies/jellybean1-brennan1.jpg)',
             'parameters'  => [],
+            'responses'   => [
+                '201' => [
+                    'description' => 'Stats upload successful.',
+                    'content'     => [
+                        'application/json' => [
+                            'schema'  =>
+                                [
+                                    'type'        => 'object',
+                                    'description' => 'Stats import result',
+                                    'properties'  => [
+                                        'result' => [
+                                            'type'       => 'object',
+                                            // 'description' => 'lalaarray',
+                                            'properties' => [
+                                                'currents'   => [
+                                                    'type'        => 'object',
+                                                    'description' => 'Only on first import. Shows all medals and their levels.',
+                                                    'items'       => [],
+                                                ],
+                                                'diff'       => [
+                                                    'type'        => 'array',
+                                                    'description' => 'Diff to previous import',
+                                                    'items'       => [],
+
+                                                ],
+                                                'medalUps'   => [
+                                                    'type'        => 'array',
+                                                    'description' => 'Medals gained',
+                                                    'items'       => [],
+
+                                                ],
+                                                'newLevel'   => [
+                                                    'type'        => 'integer',
+                                                    'description' => 'New level reached.',
+                                                ],
+                                                'recursions' => [
+                                                    'type'        => 'integer',
+                                                    'description' => 'Number of recursions.',
+                                                ],
+                                                'messages'   => [
+                                                    'description' => 'Messages that have been sent during import.',
+                                                    'type'        => 'array',
+                                                    'items'       => [],
+
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            'example' => <<<JSON
+{
+  "result": {
+    "currents":{},
+    "diff":[],
+    "medalUps":[],
+    "newLevel":0,
+    "recursions":0,
+    "messages":[]
+  }
+}
+JSON,
+                        ],
+                    ],
+                ],
+                '409' => ['description' => 'Invalid CSV.'],
+                '422' => ['description' => 'Stats already added.'],
+                '428' => ['description' => 'Stats not ALL.'],
+                '500' => ['description' => 'Server error.'],
+                '503' => ['description' => 'Telegram bot failed.'],
+            ],
         ];
 
     /**

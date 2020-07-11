@@ -34,6 +34,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
         $message = [];
         $ingressFS = $this->ingressEventRepository->findFutureFS();
         $ingressMD = $this->ingressEventRepository->findFutureMD();
+        $sendDaysBeforeEvent = 8;
 
         if ($ingressFS) {
             if ($this->firstAnnounce) {
@@ -57,6 +58,13 @@ class NotifyEventsMessage extends AbstractCustomMessage
             }
 
             $daysRemaining = $eventDate->diff(new DateTime())->days;
+
+            // TODO wtf?
+            $daysRemaining += 1;
+
+            if ($daysRemaining > $sendDaysBeforeEvent) {
+                return [];
+            }
 
             $message[] = $this->translator->trans(
                 'notify.events.events.fs',

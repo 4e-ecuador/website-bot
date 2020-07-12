@@ -110,7 +110,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             return $this;
         }
 
-        $newChatMember = $message->getNewChatMember();
+        $newChatMember = $message->getNewChatMembers();
 
         if (!$newChatMember) {
             return $this;
@@ -128,7 +128,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
         $me = $this->botApi->getMe();
 
-        if ($me->getId() === $newChatMember->getId()) {
+        if ($me->getId() === $newChatMember[0]->getId()) {
             // Bot has been added to chat
             $text = sprintf(
                 "Hello my name is %s (@%s) and I am a friendly BOT =;)\n\nDevs: %s",
@@ -144,7 +144,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
             $text = sprintf(
                 'Hello @%s welcome on board =;)',
-                $newChatMember->getUsername()
+                $newChatMember[0]->getUsername()
             );
         }
 

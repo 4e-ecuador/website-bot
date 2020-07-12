@@ -39,6 +39,13 @@ final class EmojiService
                 'unicode'     => 'U+2705',
                 'bytecode'    => "\xE2\x9C\x85",
             ],
+            // ✨
+            'sparkles'   => [
+                'description' => 'sparkles',
+                'raw'         => '✨',
+                'unicode'     => 'U+2728',
+                'bytecode'    => "\xE2\x9C\xA8",
+            ],
             // '' => [
             //     'description' => '',
             //     'unicode'     => '',

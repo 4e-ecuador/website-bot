@@ -7,6 +7,7 @@ use App\Repository\ChallengeRepository;
 use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
+use App\Service\CiteService;
 use App\Service\DateTimeHelper;
 use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
@@ -32,7 +33,8 @@ class DefaultController extends AbstractController
         ChallengeRepository $challengeRepository,
         DateTimeHelper $dateTimeHelper,
         MarkdownHelper $markdownHelper,
-        string $defaultTimeZone
+        string $defaultTimeZone,
+        CiteService $citeService
     ): Response {
         $comments = [];
         $currentEvents = [];
@@ -94,6 +96,7 @@ class DefaultController extends AbstractController
                 'ingressMD'      => $ingressMD,
                 'nextFs'         => $dateTimeHelper->getNextFS(),
                 'challenges'     => $challenges,
+                'cite'           => $citeService->getRandomCite(),
             ]
         );
     }

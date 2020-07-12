@@ -8,8 +8,16 @@
 {% endblock %}
 
 {% block body %}
+
+    <div class="card">
+        <div class="card-body cite">
+            <h5>{{ cite }}</h5>
+        </div>
+    </div>
+
     {# {{ now|date('Y-m-d H:i:s e', false) }}<br> #}
     {# {{ now2|date('Y-m-d H:i:s e', false) }}<br> #}
+
     <div class="row">
         <div class="col-sm-7">
             {% include '/default/_greeting.html.twig' %}

@@ -3,7 +3,7 @@ agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Sol
 'Latest Update: {last_update}': 'Ultima actualización: {last_update}'
 'Use the export function from {agentstats}': 'Utiliza la función para exportar en {agentstats}'
 'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el botón para copiar las estadísticas {img} desde tu perfil en ingress y pégalas aqui.'
-new.medal.header: '--- *A N U N C I O* ---'
+announce.header: '*A N U N C I O*'
 new.medal.text.1: "{medals, plural,\n    =0    {No hay medallas...}\n    one   {¡El agente @{agent} se ha ganado una medalla nueva!}\n    other {¡El agente @{agent} se ha ganado # medallas nuevas!}\n}"
 new.medal.text.2: 'Medalla {medal} de {level}'
 new.medal.text.3: '[¡Admiren este medallero!]({link})'
@@ -157,7 +157,6 @@ Progress: Progreso
 'New Level: {level}': 'Nuevo nivel: {level}'
 'Items per page': 'Items por página'
 'Create new IngressEvent': 'Crear nuevo evento Ingress'
-recursion.header: '--- *A N U N C I O* ---'
 recursion.text.1: 'El agente @{agent} acaba de recursar!'
 '4E Events': 'Eventos 4E'
 'Event Page': 'Pagina del Evento'

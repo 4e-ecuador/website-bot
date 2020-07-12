@@ -40,12 +40,22 @@ class StatsImporter
     }
 
     /**
+     * @throws InvalidCsvException
+     * @throws StatsAlreadyAddedException
+     * @throws StatsNotAllException
+     */
+    public function createEntryFromCsv(Agent $agent, $csv): AgentStat
+    {
+        return $this->updateEntryFromCsv(new AgentStat(), $agent, $csv);
+    }
+
+    /**
      * @throws StatsNotAllException
      * @throws StatsAlreadyAddedException
      * @throws Exception
      * @throws InvalidCsvException
      */
-    public function updateEntityFromCsv(
+    public function updateEntryFromCsv(
         AgentStat $statEntry,
         Agent $agent,
         string $csv
@@ -125,20 +135,18 @@ class StatsImporter
         ImportResult $result,
         AgentStat $statEntry,
         User $user
-    ): array {
+    ): void {
         $agent = $user->getAgent();
         if (null === $agent) {
             throw new UnexpectedValueException('Agent not found');
         }
-
-        $messages = [];
 
         /*
          * Admin messages
          */
         if ($statEntry->getFaction() !== 'Enlightened') {
             // Smurf detected!!!
-            $messages[] = $this->telegramBotHelper->sendSmurfAlertMessage(
+            $this->telegramBotHelper->sendSmurfAlertMessage(
                 'admin',
                 $user,
                 $agent,
@@ -148,7 +156,7 @@ class StatsImporter
 
         if ($agent->getNickname() !== $statEntry->getNickname()) {
             // Nickname mismatch
-            $messages[] = $this->telegramBotHelper->sendNicknameMismatchMessage(
+            $this->telegramBotHelper->sendNicknameMismatchMessage(
                 'admin',
                 $user,
                 $agent,
@@ -165,7 +173,7 @@ class StatsImporter
 
         // Medal(s) gained
         if ($result->medalUps) {
-            $messages[] = $this->telegramBotHelper->sendNewMedalMessage(
+            $this->telegramBotHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
                 $result->medalUps
@@ -174,7 +182,7 @@ class StatsImporter
 
         // Level changed
         if ($result->newLevel) {
-            $messages[] = $this->telegramBotHelper->sendLevelUpMessage(
+            $this->telegramBotHelper->sendLevelUpMessage(
                 $groupName,
                 $agent,
                 $result->newLevel,
@@ -184,14 +192,12 @@ class StatsImporter
 
         // Recursions
         if ($result->recursions) {
-            $messages[] = $this->telegramBotHelper->sendRecursionMessage(
+            $this->telegramBotHelper->sendRecursionMessage(
                 $groupName,
                 $agent,
                 $result->recursions
             );
         }
-
-        return $messages;
     }
 
     private function getMethodName(string $vName): string

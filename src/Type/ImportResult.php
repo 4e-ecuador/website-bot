@@ -9,5 +9,4 @@ class ImportResult
     public ?array $medalUps = [];
     public ?int $newLevel = 0;
     public ?int $recursions = 0;
-    public ?array $messages = [];
 }

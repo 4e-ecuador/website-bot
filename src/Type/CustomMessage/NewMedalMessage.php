@@ -44,17 +44,14 @@ class NewMedalMessage extends AbstractCustomMessage
     public function getMessage(): array
     {
         $tadaa = $this->emojiService->getEmoji('tadaa')->getBytecode();
-
-        $firstValue = reset($this->medalUps);
-        $firstMedal = key($this->medalUps);
+        $redLight = $this->emojiService->getEmoji('redlight')->getBytecode();
 
         $message = [];
 
-        $message[] = $this->translator->trans('new.medal.header');
-
-        // Medal image
-        $message[] = '[ ]('.$this->pageBaseUrl.'/build/images/badges/'
-            .$this->medalChecker->getBadgePath($firstMedal, $firstValue).')';
+        $message[] = $redLight.' '
+            .$this->translator->trans('announce.header')
+            .' '.$redLight;
+        $message[] = '';
 
         $message[] = $this->translator->trans(
             'new.medal.text.1',

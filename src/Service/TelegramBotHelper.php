@@ -11,6 +11,7 @@ use App\Type\CustomMessage\NewUserMessage;
 use App\Type\CustomMessage\NicknameMismatchMessage;
 use App\Type\CustomMessage\RecursionMessage;
 use App\Type\CustomMessage\SmurfAlertMessage;
+use CURLFile;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
@@ -24,24 +25,28 @@ class TelegramBotHelper
     private BotApi $api;
     private MedalChecker $medalChecker;
     private EmojiService $emojiService;
+    private CiteService $citeService;
     private TranslatorInterface $translator;
     private string $botName;
     private string $pageBaseUrl;
     private string $announceAdminCc;
     private array $groupIds;
+    private string $rootDir;
 
     public function __construct(
         BotApi $api,
         MedalChecker $medalChecker,
         TranslatorInterface $translator,
         EmojiService $emojiService,
+        CiteService $citeService,
         string $botName,
         string $pageBaseUrl,
         string $announceAdminCc,
         string $groupIdDefault,
         string $groupIdAdmin,
         string $groupIdIntro,
-        string $groupIdTest
+        string $groupIdTest,
+        string $rootDir
     ) {
         $this->api = $api;
         $this->medalChecker = $medalChecker;
@@ -56,6 +61,8 @@ class TelegramBotHelper
             'test'    => $groupIdTest,
         ];
         $this->emojiService = $emojiService;
+        $this->citeService = $citeService;
+        $this->rootDir = $rootDir;
     }
 
     public function getGroupId(string $name = 'default'): int
@@ -188,7 +195,7 @@ class TelegramBotHelper
             null,
             null,
             false,
-            'html'
+            'markdown'
         );
     }
 
@@ -212,7 +219,19 @@ class TelegramBotHelper
         ))
             ->getText();
 
-        return $this->sendMessage($this->getGroupId($groupName), $message);
+        $firstValue = reset($medalUps);
+        $firstMedal = key($medalUps);
+
+        $photo = new CURLFile(
+            $this->rootDir.'/assets/images/badges/'
+            .$this->medalChecker->getBadgePath($firstMedal, $firstValue)
+        );
+
+        return $this->sendPhoto(
+            $this->getGroupId($groupName),
+            $photo,
+            $message
+        );
     }
 
     /**
@@ -228,6 +247,7 @@ class TelegramBotHelper
         $message = (new LevelUpMessage(
             $this,
             $this->emojiService,
+            $this->citeService,
             $this->translator,
             $agent,
             $this->medalChecker,
@@ -237,7 +257,15 @@ class TelegramBotHelper
         ))
             ->getText();
 
-        return $this->sendMessage($this->getGroupId($groupName), $message);
+        $photo = new CURLFile(
+            $this->rootDir.'/assets/images/logos/ingress-enl.jpeg'
+        );
+
+        return $this->sendPhoto(
+            $this->getGroupId($groupName),
+            $photo,
+            $message
+        );
     }
 
     /**
@@ -340,11 +368,18 @@ class TelegramBotHelper
             $this->emojiService,
             $this->translator,
             $agent,
-            $recursions,
-            $this->pageBaseUrl
+            $recursions
         ))
             ->getText();
 
-        return $this->sendMessage($this->getGroupId($groupName), $message);
+        $photo = new CURLFile(
+            $this->rootDir.'/assets/images/badges/UniqueBadge_Simulacrum.png'
+        );
+
+        return $this->sendPhoto(
+            $this->getGroupId($groupName),
+            $photo,
+            $message
+        );
     }
 }

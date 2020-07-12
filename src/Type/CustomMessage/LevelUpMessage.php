@@ -4,6 +4,7 @@ namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
+use App\Service\CiteService;
 use App\Service\EmojiService;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
@@ -15,6 +16,7 @@ class LevelUpMessage extends AbstractCustomMessage
     private TranslatorInterface $translator;
     private MedalChecker $medalChecker;
     private EmojiService $emojiService;
+    private CiteService $citeService;
     private Agent $agent;
     private int $level;
     private int $recursions;
@@ -23,6 +25,7 @@ class LevelUpMessage extends AbstractCustomMessage
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
+        CiteService $citeService,
         TranslatorInterface $translator,
         Agent $agent,
         MedalChecker $medalChecker,
@@ -31,6 +34,7 @@ class LevelUpMessage extends AbstractCustomMessage
         string $pageBaseUrl
     ) {
         parent::__construct($telegramBotHelper);
+
         $this->agent = $agent;
         $this->level = $level;
         $this->recursions = $recursions;
@@ -38,6 +42,7 @@ class LevelUpMessage extends AbstractCustomMessage
         $this->medalChecker = $medalChecker;
         $this->pageBaseUrl = $pageBaseUrl;
         $this->emojiService = $emojiService;
+        $this->citeService = $citeService;
     }
 
     /**
@@ -46,35 +51,36 @@ class LevelUpMessage extends AbstractCustomMessage
     public function getMessage(): array
     {
         $tada = $this->emojiService->getEmoji('tadaa')->getBytecode();
+        $redLight = $this->emojiService->getEmoji('redlight')->getBytecode();
 
-        $response = [];
+        $message = [];
 
-        $response[] = $this->translator->trans('new.medal.header');
+        $message[] = $redLight.' '
+            .$this->translator->trans('announce.header')
+            .' '.$redLight;
+        $message[] = '';
 
-        $response[] = '[ ]('.$this->pageBaseUrl.'/build/images/badges/'
-            .$this->medalChecker->getBadgePath('LevelUp_'.$this->level, 0).')';
-
-        $response[] = $this->translator->trans(
+        $message[] = $this->translator->trans(
             'new.level.text.1',
             [
                 'agent' => $this->getAgentTelegramName($this->agent),
             ]
         );
 
-        $response[] = '';
+        $message[] = '';
 
         if ($this->recursions) {
-            $response[] = str_repeat('16+', $this->recursions);
+            $message[] = str_repeat('16+', $this->recursions);
         }
 
-        $response[] = $this->translator->trans(
+        $message[] = $this->translator->trans(
             'new.level.text.2',
             ['level' => $this->level]
         );
 
-        $response[] = '';
+        $message[] = '';
 
-        $response[] = $this->translator->trans(
+        $message[] = $this->translator->trans(
             'new.medal.text.3',
             [
                 'link' => sprintf(
@@ -84,14 +90,17 @@ class LevelUpMessage extends AbstractCustomMessage
                 ),
             ]
         );
-        $response[] = '';
-        $response[] = $this->translator->trans(
+        $message[] = '';
+        $message[] = $this->translator->trans(
             'new.medal.text.4',
             [
                 'tadaa' => $tada.$tada.$tada,
             ]
         );
 
-        return $response;
+        // $message[] = '';
+        // $message[] = sprintf('_%s_', $this->citeService->getRandomCite());
+
+        return $message;
     }
 }

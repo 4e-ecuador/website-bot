@@ -15,21 +15,18 @@ class RecursionMessage extends AbstractCustomMessage
     private int $recursions;
     private EmojiService $emojiService;
     private TranslatorInterface $translator;
-    private string $pageBaseUrl;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
         TranslatorInterface $translator,
         Agent $agent,
-        int $recursions,
-        string $pageBaseUrl
+        int $recursions
     ) {
         parent::__construct($telegramBotHelper);
         $this->agent = $agent;
         $this->recursions = $recursions;
         $this->translator = $translator;
-        $this->pageBaseUrl = $pageBaseUrl;
         $this->emojiService = $emojiService;
     }
 
@@ -39,11 +36,13 @@ class RecursionMessage extends AbstractCustomMessage
     public function getMessage(): array
     {
         $tadaa = $this->emojiService->getEmoji('tadaa')->getBytecode();
+        $redLight = $this->emojiService->getEmoji('redlight')->getBytecode();
         $message = [];
 
-        $message[] = $this->translator->trans('recursion.header');
-        $message[] = '[ ]('.$this->pageBaseUrl
-            .'/build/images/badges/UniqueBadge_Simulacrum.png)';
+        $message[] = $redLight.' '
+            .$this->translator->trans('announce.header')
+            .' '.$redLight;
+        $message[] = '';
         $message[] = $this->translator->trans(
             'recursion.text.1',
             [

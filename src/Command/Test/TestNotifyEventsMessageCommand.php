@@ -3,12 +3,11 @@
 namespace App\Command\Test;
 
 use App\Repository\IngressEventRepository;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,35 +21,26 @@ class TestNotifyEventsMessageCommand extends Command
     private TelegramBotHelper $telegramBotHelper;
     private TranslatorInterface $translator;
     private IngressEventRepository $ingressEventRepository;
+    private EmojiService $emojiService;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         TranslatorInterface $translator,
-        IngressEventRepository $ingressEventRepository
+        IngressEventRepository $ingressEventRepository,
+    EmojiService $emojiService
     ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
         $this->translator = $translator;
-
         $this->ingressEventRepository = $ingressEventRepository;
+        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
+            ->setDescription('Bot test');
     }
 
     /**
@@ -66,18 +56,22 @@ class TestNotifyEventsMessageCommand extends Command
         $message = (new NotifyEventsMessage(
             $this->telegramBotHelper,
             $this->ingressEventRepository,
+            $this->emojiService,
             $this->translator,
             $firstAnnounce
         ))->getText();
 
+        if (!$message) {
+            $io->warning('No events :(');
+
+            return 0;
+        }
+
         $chatId = $this->telegramBotHelper->getGroupId('test');
-        $io->text($chatId);
         $this->telegramBotHelper->sendMessage($chatId, $message);
 
-        $io->text($message);
-
         $io->success(
-            'You have a new command! Now make it your own! Pass --help to see your options.'
+            'Message sent!'
         );
 
         return 0;

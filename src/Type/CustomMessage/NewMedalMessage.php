@@ -44,13 +44,13 @@ class NewMedalMessage extends AbstractCustomMessage
     public function getMessage(): array
     {
         $tadaa = $this->emojiService->getEmoji('tadaa')->getBytecode();
-        $redLight = $this->emojiService->getEmoji('redlight')->getBytecode();
+        $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
 
         $message = [];
 
-        $message[] = $redLight.' '
+        $message[] = $speaker.' '
             .$this->translator->trans('announce.header')
-            .' '.$redLight;
+            .' '.$speaker;
         $message[] = '';
 
         $message[] = $this->translator->trans(

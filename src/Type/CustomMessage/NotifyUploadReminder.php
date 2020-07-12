@@ -2,6 +2,7 @@
 
 namespace App\Type\CustomMessage;
 
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -9,21 +10,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class NotifyUploadReminder extends AbstractCustomMessage
 {
     private TranslatorInterface $translator;
+    private EmojiService $emojiService;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        EmojiService $emojiService
     ) {
-        $this->translator = $translator;
-
         parent::__construct($telegramBotHelper);
+
+        $this->translator = $translator;
+        $this->emojiService = $emojiService;
     }
 
     public function getMessage(): array
     {
+        $bulb = $this->emojiService->getEmoji('light-bulb')->getBytecode();
         $message = [];
 
-        $message[] = $this->translator->trans('notify.upload.reminder');
+        $message[] = $bulb.' '.$this->translator->trans('notify.upload.reminder');
 
         return $message;
     }

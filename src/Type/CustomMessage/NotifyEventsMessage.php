@@ -3,6 +3,7 @@
 namespace App\Type\CustomMessage;
 
 use App\Repository\IngressEventRepository;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use DateTime;
@@ -11,24 +12,29 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class NotifyEventsMessage extends AbstractCustomMessage
 {
     private IngressEventRepository $ingressEventRepository;
-    private bool $firstAnnounce;
+    private EmojiService $emojiService;
     private TranslatorInterface $translator;
+    private bool $firstAnnounce;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         IngressEventRepository $ingressEventRepository,
+        EmojiService $emojiService,
         TranslatorInterface $translator,
         bool $firstAnnounce
     ) {
+        parent::__construct($telegramBotHelper);
+
         $this->ingressEventRepository = $ingressEventRepository;
         $this->firstAnnounce = $firstAnnounce;
         $this->translator = $translator;
-
-        parent::__construct($telegramBotHelper);
+        $this->emojiService = $emojiService;
     }
 
     public function getMessage($useLinks = true): array
     {
+        $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
+
         $message = [];
         $ingressFS = $this->ingressEventRepository->findFutureFS();
         $ingressMD = $this->ingressEventRepository->findFutureMD();
@@ -36,11 +42,13 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
         if ($ingressFS) {
             if ($this->firstAnnounce) {
-                $message[] = $this->translator->trans(
-                    'notify.events.head.fs.first'
-                );
+                $message[] = $speaker.' '.$this->translator->trans(
+                        'notify.events.head.fs.first'
+                    );
             } else {
-                $message[] = $this->translator->trans('notify.events.head.fs');
+                $message[] = $speaker.' '.$this->translator->trans(
+                        'notify.events.head.fs'
+                    );
             }
 
             $links = [];
@@ -55,10 +63,14 @@ class NotifyEventsMessage extends AbstractCustomMessage
                 $eventDate = $event->getDateStart();
             }
 
+            if (!isset($eventDate)) {
+                return [];
+            }
+
             $daysRemaining = $eventDate->diff(new DateTime())->days;
 
             // TODO wtf?
-            $daysRemaining += 1;
+            ++$daysRemaining;
 
             if ($daysRemaining > $sendDaysBeforeEvent) {
                 return [];
@@ -90,6 +102,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
         if ($ingressMD) {
             $message[] = 'HAY MD!!! - contacte un dev =;)';
             if ($this->firstAnnounce) {
+                $message[] = 'YAY!!!';
                 // $io->success('FIRST');
             }
         }

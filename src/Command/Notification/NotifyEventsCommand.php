@@ -69,8 +69,6 @@ class NotifyEventsCommand extends Command
             return 0;
         }
 
-        $io->text($message);
-
         $agents = $this->agentRepository->findNotifyAgents();
 
         foreach ($agents as $agent) {

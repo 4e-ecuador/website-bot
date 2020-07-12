@@ -2,15 +2,15 @@
 
 namespace App\Command;
 
+use App\Exception\EmojiNotFoundException;
 use App\Repository\AgentStatRepository;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -20,46 +20,43 @@ class SendStatusCommand extends Command
 
     private TelegramBotHelper $telegramBotHelper;
     private AgentStatRepository $agentStatRepository;
+    private EmojiService $emojiService;
     private string $defaultTimeZone;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
         AgentStatRepository $agentStatRepository,
+        EmojiService $emojiService,
         string $defaultTimeZone
     ) {
         parent::__construct();
         $this->telegramBotHelper = $telegramBotHelper;
         $this->agentStatRepository = $agentStatRepository;
         $this->defaultTimeZone = $defaultTimeZone;
+        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
+            ->setDescription('Send status.');
     }
 
+    /**
+     * @throws EmojiNotFoundException
+     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
     ): int {
         $io = new SymfonyStyle($input, $output);
+        $barChart = $this->emojiService->getEmoji('bar-chart');
 
-        $io->writeln('Sending status update...');
+        $io->writeln('Sending '.$barChart->getNative().' status update...');
 
         try {
             $groupId = $this->telegramBotHelper->getGroupId('admin');
+            $groupId = $this->telegramBotHelper->getGroupId('test');
 
             $dateTime = new DateTime(
                 'now -1 day',
@@ -74,7 +71,7 @@ class SendStatusCommand extends Command
 
             $message = [];
 
-            $message[] = 'Status update: '.date('Y-m-d H:i:s');
+            $message[] = $barChart->getBytecode().' '.'Status update: '.date('Y-m-d H:i:s');
             $message[] = 'Local time: '.$localDateTime->format('Y-m-d H:i:s');
             $message[] = 'Timezone: '.$this->defaultTimeZone;
             $message[] = 'Stats for: *'.$dateTime->format('Y-m-d').'*';

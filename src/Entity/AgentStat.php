@@ -26,12 +26,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get"={
  *              "security"="is_granted('ROLE_AGENT')",
  *              "path"="/stats/{id}",
+ *              "openapi_context"=AgentStat::API_GET_CONTEXT
  *          }
  *     },
  *     collectionOperations={
  *          "get"={
  *              "security"="is_granted('ROLE_AGENT')",
  *              "path"="/stats",
+ *              "openapi_context"=AgentStat::API_GET_CONTEXT
  *          },
  *          "post_csv"={
  *             "security"="is_granted('ROLE_AGENT')",
@@ -46,6 +48,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class AgentStat implements ArrayAccess
 {
+    public const API_GET_CONTEXT =[
+        'security'=> ['name' => 'api_key'],
+
+    ];
     public const API_POST_CSV_CONTEXT
         = [
             'summary'     => 'Create a AgentStat resource from CSV (actually TSV...)',
@@ -54,7 +60,7 @@ class AgentStat implements ArrayAccess
                 .'## hahaha'
                 ."\n"
                 .'![A great rabbit](https://rabbit.org/graphics/fun/netbunnies/jellybean1-brennan1.jpg)',
-            'parameters'  => [],
+            'security'=> ['name' => 'api_key'],
             'responses'   => [
                 '201' => [
                     'description' => 'Stats upload successful.',
@@ -67,7 +73,6 @@ class AgentStat implements ArrayAccess
                                     'properties'  => [
                                         'result' => [
                                             'type'       => 'object',
-                                            // 'description' => 'lalaarray',
                                             'properties' => [
                                                 'currents'   => [
                                                     'type'        => 'object',

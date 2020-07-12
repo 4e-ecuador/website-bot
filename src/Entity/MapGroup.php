@@ -14,12 +14,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "openapi_context"={"security": {"name": "api_key"}}
  *          },
  *     },
  *     itemOperations={
  *          "get"={
- *              "security"="is_granted('ROLE_AGENT')"
+ *              "security"="is_granted('ROLE_AGENT')",
+ *              "openapi_context"={"security": {"name": "api_key"}}
  *          },
  *     },
  *     normalizationContext={"groups"={"read"}}

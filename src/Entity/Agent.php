@@ -32,11 +32,13 @@ class Agent
     public const API_GET_COLLECTION
         = [
             'summary' => 'Retrieves the collection of 4E Agent resources.',
+            'security'=> ['name' => 'api_key'],
         ];
 
     public const API_GET_ITEM
         = [
             'summary' => 'Retrieves a 4E Agent resource.',
+            'security'=> ['name' => 'api_key'],
         ];
 
     /**

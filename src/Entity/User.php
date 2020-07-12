@@ -33,6 +33,7 @@ class User implements UserInterface
         = [
             'summary'     => 'Retrieves information about the currently logged in user.',
             'description' => 'Most important thing: The agent ID.',
+            'security'=> ['name' => 'api_key'],
             'parameters'  => [],
         ];
 

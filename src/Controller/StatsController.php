@@ -327,7 +327,7 @@ class StatsController extends AbstractController
         if ($csv) {
             try {
                 $statEntry = $statsImporter
-                    ->updateEntityFromCsv(new AgentStat(), $agent, $csv);
+                    ->createEntryFromCsv($agent, $csv);
 
                 $entityManager->persist($statEntry);
                 $entityManager->flush();

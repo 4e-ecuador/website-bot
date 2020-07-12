@@ -44,18 +44,18 @@ class PostStats extends AbstractController
         }
 
         try {
-            $data = $this->statsImporter
-                ->updateEntityFromCsv($data, $agent, $data->csv);
+            $statEntry = $this->statsImporter
+                ->updateEntryFromCsv($data, $agent, $data->csv);
 
             $data->csv = null;
 
-            $this->entityManager->persist($data);
+            $this->entityManager->persist($statEntry);
             $this->entityManager->flush();
 
-            $result = $this->statsImporter->getImportResult($data);
+            $result = $this->statsImporter->getImportResult($statEntry);
 
-            $result->messages = $this->statsImporter
-                ->sendResultMessages($result, $data, $user);
+            $this->statsImporter
+                ->sendResultMessages($result, $statEntry, $user);
 
             return $this->json(['result' => $result], Response::HTTP_CREATED);
         } catch (StatsAlreadyAddedException $e) {
@@ -74,14 +74,16 @@ class PostStats extends AbstractController
                 Response::HTTP_CONFLICT
             );
         } catch (HttpException $e) {
+            // Telegram bot failed :(
             if (isset($result)) {
-                // Telegram bot failed :(
+                // But we have a result so.. 201
                 return $this->json(
                     ['result' => $result, 'error' => $e->getMessage()],
                     Response::HTTP_CREATED
                 );
             }
 
+            // No result :(
             return $this->json(
                 ['error' => $e->getMessage()],
                 Response::HTTP_SERVICE_UNAVAILABLE

@@ -27,65 +27,38 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
      */
     public function testPostCsvSmurfAlert(): void
     {
-        $client = $this->createClientWithMock();
-
-        $vars = [
-            'faction' => 'TEST',
-        ];
-
-        $response = $client->request(
+        $this->createClientWithMock()->request(
             'POST',
             '/api/stats/csv',
             [
                 'headers' => $this->headers,
-                'json'    => ['csv' => $this->switchCsv($vars)],
+                'json'    => [
+                    'csv' => $this->switchCsv(['faction' => 'TEST',]),
+                ],
             ]
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-
-        $result = json_decode(
-            $response->getContent(),
-            false,
-            512,
-            JSON_THROW_ON_ERROR
-        );
-
-        self::assertCount(1, $result->result->messages);
     }
 
     /**
-     * @throws ClientExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      * @throws JsonException
      */
     public function testPostCsvNicknameMismatch(): void
     {
-        $client = $this->createClientWithMock();
-        $vars = [
-            'agent' => 'TESTfoo',
-        ];
-        $response = $client->request(
+        $this->createClientWithMock()->request(
             'POST',
             '/api/stats/csv',
             [
                 'headers' => $this->headers,
-                'json'    => ['csv' => $this->switchCsv($vars)],
+                'json'    => [
+                    'csv' => $this->switchCsv(['agent' => 'TESTfoo']),
+                ],
             ]
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-
-        $result = json_decode(
-            $response->getContent(),
-            false,
-            512,
-            JSON_THROW_ON_ERROR
-        );
-
-        self::assertCount(1, $result->result->messages);
     }
 
     /**
@@ -97,7 +70,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
      */
     public function testPostCsvNewMedal(): void
     {
-        $client = $this->createClientWithMock();
+        $client = $this->createClientWithMock('sendPhoto');
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
             'date'     => $dateTime->format('Y-m-d'),
@@ -134,8 +107,6 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertCount(1, $result->result->messages);
-
         $expectedDiff = '{"explorer":99}';
         $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
@@ -151,7 +122,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
      */
     public function testPostCsvNewLevel(): void
     {
-        $client = $this->createClientWithMock();
+        $client = $this->createClientWithMock('sendPhoto');
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
             'date'  => $dateTime->format('Y-m-d'),
@@ -188,8 +159,6 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertCount(1, $result->result->messages);
-
         $expectedDiff = '{"level":1}';
         $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
@@ -205,7 +174,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
      */
     public function testPostCsvNewLevelRecursed(): void
     {
-        $client = $this->createClientWithMock();
+        $client = $this->createClientWithMock('sendPhoto');
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
             'date'       => $dateTime->format('Y-m-d'),
@@ -243,8 +212,6 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertCount(1, $result->result->messages);
-
         $expectedDiff = '{"level":1}';
         $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
@@ -260,7 +227,7 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
      */
     public function testPostCsvRecursion(): void
     {
-        $client = $this->createClientWithMock();
+        $client = $this->createClientWithMock('sendPhoto');
         $dateTime = new DateTime('1999-11-11 11:11:12');
         $vars = [
             'date'       => $dateTime->format('Y-m-d'),
@@ -297,21 +264,19 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
             JSON_THROW_ON_ERROR
         );
 
-        self::assertCount(1, $result->result->messages);
-
         $expectedJson = '{"recursions":1}';
         $actualJson = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
 
         self::assertJsonStringEqualsJsonString($expectedJson, $actualJson);
     }
 
-    private function createClientWithMock(): Client
-    {
+    private function createClientWithMock(string $method = 'sendMessage'
+    ): Client {
         $client = self::createClient([], ['base_uri' => 'https://example.com']);
 
         $mockBotApi = $this->createMock(BotApi::class);
-        $mockBotApi->expects($this->once())
-            ->method('sendMessage')
+        $mockBotApi->expects(self::once())
+            ->method($method)
             ->willReturn(new Message());
         $client->getContainer()->set('app.telegrambot', $mockBotApi);
 

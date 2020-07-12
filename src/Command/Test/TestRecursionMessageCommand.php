@@ -71,20 +71,8 @@ class TestRecursionMessageCommand extends Command
 
         $agent = $this->agentRepository->findOneByNickName('nikp3h');
         $recursions = 66;
-        $message = (new RecursionMessage(
-            $this->telegramBotHelper,
-            $this->emojiService,
-            $this->translator,
-            $agent,
-            $recursions,
-            $this->pageBaseUrl
-        ))->getText();
 
-        $io->text($message);
-
-        $chatId = $this->telegramBotHelper->getGroupId('test');
-
-        $this->telegramBotHelper->sendMessage($chatId, $message);
+        $this->telegramBotHelper->sendRecursionMessage('test', $agent, $recursions);
 
         $io->success('Message sent!');
 

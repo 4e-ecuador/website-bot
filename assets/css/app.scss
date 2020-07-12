@@ -130,5 +130,8 @@ a[href*="//"]:not([href*="agents.enl.ec"]):after {
 }
 
 div.cite {
+  margin-bottom: 20px;
+}
+div.cite-body {
   font-style: italic;
 }

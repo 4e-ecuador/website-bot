@@ -2,7 +2,9 @@
 
 namespace App\BotCommand;
 
+use App\Exception\EmojiNotFoundException;
 use App\Service\CiteService;
+use App\Service\EmojiService;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
 use TelegramBot\Api\BotApi;
@@ -13,10 +15,14 @@ use TelegramBot\Api\Types\Update;
 class Cite extends AbstractCommand implements PublicCommandInterface
 {
     private CiteService $citeService;
+    private EmojiService $emojiService;
 
-    public function __construct(CiteService $citeService)
-    {
+    public function __construct(
+        CiteService $citeService,
+        EmojiService $emojiService
+    ) {
         $this->citeService = $citeService;
+        $this->emojiService = $emojiService;
     }
 
     public function getName(): string
@@ -32,12 +38,16 @@ class Cite extends AbstractCommand implements PublicCommandInterface
     /**
      * @throws Exception
      * @throws InvalidArgumentException
+     * @throws EmojiNotFoundException
      */
     public function execute(BotApi $api, Update $update): void
     {
+        $silhouette = $this->emojiService->getEmoji('silhouette')
+            ->getBytecode();
+
         $api->sendMessage(
             $update->getMessage()->getChat()->getId(),
-            '_'.$this->citeService->getRandomCite().'_',
+            $silhouette.' _'.$this->citeService->getRandomCite().'_',
             'markdown'
         );
     }

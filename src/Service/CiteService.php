@@ -9,13 +9,37 @@ use UnexpectedValueException;
 
 final class CiteService
 {
-    private array $cites;
+    private string $rootDir;
 
     public function __construct(string $rootDir)
     {
+        $this->rootDir = $rootDir;
+    }
+
+    public function getRandomCite(): string
+    {
+        $cites = $this->fetchCites();
+
+        try {
+            $i = random_int(0, count($cites));
+        } catch (Exception $e) {
+            $i = 0;
+        }
+
+        return $cites[$i];
+    }
+
+    private function fetchCites()
+    {
+        static $cites;
+
+        if ($cites) {
+            return $cites;
+        }
+
         try {
             $values = Yaml::parseFile(
-                $rootDir.'/text-files/warrior-cites-es.yaml'
+                $this->rootDir.'/text-files/warrior-cites-es.yaml'
             );
 
             if (!array_key_exists('cites', $values)) {
@@ -24,20 +48,13 @@ final class CiteService
                 );
             }
 
-            $this->cites = $values['cites'];
+            $cites = $values['cites'];
         } catch (ParseException $exception) {
-            $this->cites = [$exception->getMessage()];
-        }
-    }
-
-    public function getRandomCite(): string
-    {
-        try {
-            $i = random_int(0, count($this->cites));
-        } catch (Exception $e) {
-            $i = 0;
+            $cites = [$exception->getMessage()];
+        } catch (UnexpectedValueException $exception) {
+            $cites = [$exception->getMessage()];
         }
 
-        return $this->cites[$i];
+        return $cites;
     }
 }

@@ -67,6 +67,11 @@ final class EmojiService
                 'bytecode'    => "\xF0\x9F\x92\xA1",
                 'native'      => '💡',
             ],
+            'silhouette' => [
+                'description' => 'bust in silhouette',
+                'unicode'     => 'U+1F464',
+                'bytecode'    => "\xF0\x9F\x91\xA4",
+            ],
             // '' => [
             //     'description' => '',
             //     'unicode'     => '',

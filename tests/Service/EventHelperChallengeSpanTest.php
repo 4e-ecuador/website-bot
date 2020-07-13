@@ -21,17 +21,18 @@ class EventHelperChallengeSpanTest extends KernelTestCase
     {
         self::bootKernel();
         $em = self::$container->get('doctrine.orm.entity_manager');
+        $tz = new \DateTimeZone('UTC');
 
         $challenge = (new Challenge())
             ->setName('TestPast')
-            ->setDateStart((new DateTime('now'))->modify('-1 day'))
-            ->setDateEnd((new DateTime('now'))->modify('-1 day'));
+            ->setDateStart((new DateTime('now', $tz))->modify('-1 day'))
+            ->setDateEnd((new DateTime('now', $tz))->modify('-1 day'));
         $em->persist($challenge);
 
         $challenge = (new Challenge())
             ->setName('TestPresent')
-            ->setDateStart(new DateTime('now'))
-            ->setDateEnd(new DateTime('now'));
+            ->setDateStart(new DateTime('now', $tz))
+            ->setDateEnd(new DateTime('now', $tz));
         $em->persist($challenge);
 
         $em->flush();

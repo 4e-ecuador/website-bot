@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>
+        <img src="{{ asset('build/images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
+        Emojis
+        <img src="{{ asset('build/images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
+    </h2>
+<table class="table table-condensed table-hover">
+    <thead>
+    <tr>
+        <td>Emoji</td>
+        <td>Native</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Unicode</td>
+        <td>Bytecode</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for emoji in emojis %}
+    <tr>
+        <td><img src="{{ asset('build/images/tg-emojis/'~emoji.name~'.png') }}" alt="" height="24px"></td>
+        <td>{{ emoji.native }}</td>
+        <td><code>{{ emoji.name }}</code></td>
+        <td>{{ emoji.description }}</td>
+        <td><pre>{{ emoji.unicode }}</pre></td>
+        <td>
+            <pre>{{ emoji.bytecode|e("url")|escape_bytecode }}</pre>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

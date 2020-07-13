@@ -85,10 +85,30 @@ final class EmojiService
                 $this->emojies[$name]['description'],
                 $this->emojies[$name]['unicode'],
                 $this->emojies[$name]['bytecode'],
-                $this->emojies[$name]['bytecode'] ?? 'x'
+                $this->emojies[$name]['native'] ?? ''
             );
         }
 
         throw new EmojiNotFoundException('No such emoji ;(');
+    }
+
+    public function getKeys(): array
+    {
+        return array_keys($this->emojies);
+    }
+
+    /**
+     * @return Emoji[]
+     * @throws EmojiNotFoundException
+     */
+    public function getAll(): array
+    {
+        $emojis = [];
+
+        foreach ($this->getKeys() as $key) {
+            $emojis[] = $this->getEmoji($key);
+        }
+
+        return $emojis;
     }
 }

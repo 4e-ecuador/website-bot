@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\EmojiService;
 use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
 use Exception;
@@ -96,5 +97,23 @@ class TestController extends AbstractController
                 'testtext' => $testtext,
             ]
         );
+    }
+
+    /**
+     * @Route("/emojis", name="test_emojis")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function testEmojis(EmojiService $emojiService)
+    {
+        // $keys = $emojiService->getKeys();
+        //
+        // $emojis = $emojiService->getAll();
+        return $this->render(
+            'test/emojis.html.twig',
+            [
+                'emojis' => $emojiService->getAll(),
+            ]
+        );
+
     }
 }

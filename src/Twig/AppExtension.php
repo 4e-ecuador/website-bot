@@ -18,6 +18,7 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use UnexpectedValueException;
 use function get_class;
+use function Symfony\Component\String\s;
 
 /**
  * Class AppExtension
@@ -73,6 +74,7 @@ class AppExtension extends AbstractExtension
             ], ['is_safe' => ['html']]
             ),
             new TwigFilter('stripTitle', [$this, 'medalDescFilter']),
+            new TwigFilter('escape_bytecode', [$this, 'escapeBytecode']),
         ];
     }
 
@@ -251,5 +253,13 @@ class AppExtension extends AbstractExtension
     public function stripGmail(string $string)
     {
         return str_replace('@gmail.com', '', $string);
+    }
+
+    public function escapeBytecode($string)
+    {
+        $a = str_replace('%', "\\x", $string);
+        // $a = str_replace("\\", "\\/\\\\\\", $string);
+
+        return $a;
     }
 }

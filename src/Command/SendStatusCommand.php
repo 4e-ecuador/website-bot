@@ -55,7 +55,7 @@ class SendStatusCommand extends Command
         $io->writeln('Sending '.$barChart->getNative().' status update...');
 
         try {
-            $groupId = $this->telegramBotHelper->getGroupId('test');
+            $groupId = $this->telegramBotHelper->getGroupId('admin');
 
             $dateTime = new DateTime(
                 'now -1 day',

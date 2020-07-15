@@ -55,7 +55,6 @@ class SendStatusCommand extends Command
         $io->writeln('Sending '.$barChart->getNative().' status update...');
 
         try {
-            $groupId = $this->telegramBotHelper->getGroupId('admin');
             $groupId = $this->telegramBotHelper->getGroupId('test');
 
             $dateTime = new DateTime(
@@ -71,12 +70,14 @@ class SendStatusCommand extends Command
 
             $message = [];
 
-            $message[] = $barChart->getBytecode().' '.'Status update: '.date('Y-m-d H:i:s');
-            $message[] = 'Local time: '.$localDateTime->format('Y-m-d H:i:s');
-            $message[] = 'Timezone: '.$this->defaultTimeZone;
+            $message[] = $barChart->getBytecode().' *Status update* ';
+            $message[] = 'Server: '.date('Y-m-d H:i:s');
+            $message[] = 'Local : '.$localDateTime->format('Y-m-d H:i:s');
+            $message[] = 'TZ: '.$this->defaultTimeZone;
+            $message[] = '';
             $message[] = 'Stats for: *'.$dateTime->format('Y-m-d').'*';
             $message[] = '';
-            $message[] = sprintf('Stats uploaded: %d', count($statsCount));
+            $message[] = sprintf('Stats uploaded: `%d`', count($statsCount));
 
             $this->telegramBotHelper->sendMessage(
                 $groupId,

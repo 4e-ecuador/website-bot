@@ -278,6 +278,11 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
+    private ?int $scoutController;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
     private ?int $longest_link = null;
 
     /**
@@ -871,6 +876,18 @@ JSON,
     public function setDronePortalsVisited(?int $drone_portals_visited): self
     {
         $this->drone_portals_visited = $drone_portals_visited;
+
+        return $this;
+    }
+
+    public function getScoutController(): ?int
+    {
+        return $this->scoutController;
+    }
+
+    public function setScoutController(?int $scoutController): self
+    {
+        $this->scoutController = $scoutController;
 
         return $this;
     }

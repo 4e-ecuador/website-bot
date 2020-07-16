@@ -123,6 +123,10 @@ class MedalChecker
                 'desc'   => 'Scan portals',
                 'levels' => [50, 250, 1000, 3000, 6000],
             ],
+            'scout-controller'       => [
+                'desc'   => 'Scan unique portals',
+                'levels' => [100, 500, 1000, 5000, 15000],
+            ],
             'Umbra Deploy Challenge' => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
@@ -484,13 +488,14 @@ class MedalChecker
     ): string {
         $medal = ucfirst($medal);
         $replacements = [
-            'Mind-controller' => 'MindController',
-            'Recon'           => 'OPR',
-            'Specops'         => 'SpecOps',
-            'Missionday'      => 'MissionDayPrime',
-            'Nl-1331-meetups' => 'NL1331',
-            'Nl1331Meetups'   => 'NL1331',
-            'Ifs'             => 'FS',
+            'Mind-controller'  => 'MindController',
+            'Recon'            => 'OPR',
+            'Specops'          => 'SpecOps',
+            'Missionday'       => 'MissionDayPrime',
+            'Nl-1331-meetups'  => 'NL1331',
+            'Nl1331Meetups'    => 'NL1331',
+            'Ifs'              => 'FS',
+            'Scout-controller' => 'ScoutController',
         ];
         if (array_key_exists($medal, $replacements)) {
             $medal = $replacements[$medal];

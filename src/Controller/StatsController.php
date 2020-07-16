@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
-use App\Entity\AgentStat;
+use App\Entity\TestStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
@@ -330,6 +330,12 @@ class StatsController extends AbstractController
                     ->createEntryFromCsv($agent, $csv);
 
                 $entityManager->persist($statEntry);
+                $entityManager->flush();
+
+                // TODO TEST!!
+                $testStat = (new TestStat())
+                    ->setCsv($csv);
+                $entityManager->persist($testStat);
                 $entityManager->flush();
 
                 $this->addFlash(

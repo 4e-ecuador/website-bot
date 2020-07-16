@@ -176,7 +176,7 @@ class AgentStatResourcePostTest extends AgentStatResourceBase
         );
 
         $expected = '{"result":{'
-            .'"currents":{"explorer":0,"recon":0,"trekker":0,"builder":0,"connector":0,"mind-controller":0,"engineer":0,"illuminator":0,"recharger":0,"liberator":0,"pioneer":0,"purifier":0,"specops":0,"missionday":0,"nl-1331-meetups":0,"hacker":0,"translator":0,"sojourner":0,"ifs":0,"scout":0'
+            .'"currents":{"explorer":0,"recon":0,"trekker":0,"builder":0,"connector":0,"mind-controller":0,"engineer":0,"illuminator":0,"recharger":0,"liberator":0,"pioneer":0,"purifier":0,"specops":0,"missionday":0,"nl-1331-meetups":0,"hacker":0,"translator":0,"sojourner":0,"ifs":0,"scout":0,"scout-controller": 0'
             .'},"diff":[],"medalUps":[],"newLevel":0,"recursions":0}}';
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);

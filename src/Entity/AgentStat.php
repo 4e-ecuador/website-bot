@@ -278,7 +278,7 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $scoutController;
+    private ?int $scoutController = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

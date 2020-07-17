@@ -263,7 +263,7 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $current_challenge = null;
+    private ?int $currentChallenge = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -283,12 +283,12 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $longest_link = null;
+    private ?int $longestLink = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $largest_field = null;
+    private ?int $largestField = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -308,17 +308,22 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_flight_distance = null;
+    private ?int $droneFlightDistance = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_hacks = null;
+    private ?int $droneHacks = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $drone_portals_visited = null;
+    private ?int $dronePortalsVisited = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $droneForcedRecalls = null;
 
     public ?string $csv = '';
 
@@ -750,12 +755,12 @@ JSON,
 
     public function getCurrentChallenge(): ?int
     {
-        return $this->current_challenge;
+        return $this->currentChallenge;
     }
 
-    public function setCurrentChallenge(?int $current_challenge): self
+    public function setCurrentChallenge(?int $currentChallenge): self
     {
-        $this->current_challenge = $current_challenge;
+        $this->currentChallenge = $currentChallenge;
 
         return $this;
     }
@@ -786,24 +791,24 @@ JSON,
 
     public function getLongestLink(): ?int
     {
-        return $this->longest_link;
+        return $this->longestLink;
     }
 
-    public function setLongestLink(?int $longest_link): self
+    public function setLongestLink(?int $longestLink): self
     {
-        $this->longest_link = $longest_link;
+        $this->longestLink = $longestLink;
 
         return $this;
     }
 
     public function getLargestField(): ?int
     {
-        return $this->largest_field;
+        return $this->largestField;
     }
 
-    public function setLargestField(?int $largest_field): self
+    public function setLargestField(?int $largestField): self
     {
-        $this->largest_field = $largest_field;
+        $this->largestField = $largestField;
 
         return $this;
     }
@@ -846,36 +851,36 @@ JSON,
 
     public function getDroneFlightDistance(): ?int
     {
-        return $this->drone_flight_distance;
+        return $this->droneFlightDistance;
     }
 
-    public function setDroneFlightDistance(?int $drone_flight_distance): self
+    public function setDroneFlightDistance(?int $droneFlightDistance): self
     {
-        $this->drone_flight_distance = $drone_flight_distance;
+        $this->droneFlightDistance = $droneFlightDistance;
 
         return $this;
     }
 
     public function getDroneHacks(): ?int
     {
-        return $this->drone_hacks;
+        return $this->droneHacks;
     }
 
-    public function setDroneHacks(?int $drone_hacks): self
+    public function setDroneHacks(?int $droneHacks): self
     {
-        $this->drone_hacks = $drone_hacks;
+        $this->droneHacks = $droneHacks;
 
         return $this;
     }
 
     public function getDronePortalsVisited(): ?int
     {
-        return $this->drone_portals_visited;
+        return $this->dronePortalsVisited;
     }
 
     public function setDronePortalsVisited(?int $drone_portals_visited): self
     {
-        $this->drone_portals_visited = $drone_portals_visited;
+        $this->dronePortalsVisited = $drone_portals_visited;
 
         return $this;
     }
@@ -888,6 +893,18 @@ JSON,
     public function setScoutController(?int $scoutController): self
     {
         $this->scoutController = $scoutController;
+
+        return $this;
+    }
+
+    public function getDroneForcedRecalls(): ?int
+    {
+        return $this->droneForcedRecalls;
+    }
+
+    public function setDroneForcedRecalls(?int $droneForcedRecalls): self
+    {
+        $this->droneForcedRecalls = $droneForcedRecalls;
 
         return $this;
     }

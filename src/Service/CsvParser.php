@@ -53,6 +53,12 @@ class CsvParser
 
             $vars = explode($sepChar, $line);
 
+            if (count($vars) !== count($headVars)) {
+                throw new UnexpectedValueException(
+                    'CSV field count does not match!'
+                );
+            }
+
             if (false === in_array(
                     $vars[0],
                     [

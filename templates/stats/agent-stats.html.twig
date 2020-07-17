@@ -101,10 +101,15 @@
         </span>
         {% endfor %}
 
+        <h4>Scout</h4>
+        Scans: <code>{{ latest.scout ?? 0 }}</code>
+        Controller: <code>{{ latest.scoutController ?? 0 }}</code>
+
         <h4>Dronenet</h4>
-        Portals: <code>{{ latest.drone_portals_visited }}</code>
-        Hacks: <code>{{ latest.drone_hacks }}</code>
-        Flight: <code>{{ latest.drone_flight_distance }}</code>km
+        Portals: <code>{{ latest.dronePortalsVisited }}</code>
+        Hacks: <code>{{ latest.droneHacks }}</code>
+        Forced recalls: <code>{{ latest.droneForcedRecalls ?? 0 }}</code>
+        Flight: <code>{{ latest.droneFlightDistance }}</code> km
 
 
         <!-- Stats container -->
@@ -184,4 +189,6 @@
             </div>
         </div>
     </div>
+
+    {{ dump(latest) }}
 {% endblock %}

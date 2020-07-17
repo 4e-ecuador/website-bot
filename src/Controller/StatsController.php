@@ -322,21 +322,21 @@ class StatsController extends AbstractController
 
         $csv = $request->get('csv');
 
-        $entityManager = $this->getDoctrine()->getManager();
-
         if ($csv) {
             try {
+                $entityManager = $this->getDoctrine()->getManager();
+
                 $statEntry = $statsImporter
                     ->createEntryFromCsv($agent, $csv);
 
                 $entityManager->persist($statEntry);
                 $entityManager->flush();
-
-                // TODO TEST!!
-                $testStat = (new TestStat())
-                    ->setCsv($csv);
-                $entityManager->persist($testStat);
-                $entityManager->flush();
+                //
+                // // TODO TEST!!
+                // $testStat = (new TestStat())
+                //     ->setCsv($csv);
+                // $entityManager->persist($testStat);
+                // $entityManager->flush();
 
                 $this->addFlash(
                     'success',

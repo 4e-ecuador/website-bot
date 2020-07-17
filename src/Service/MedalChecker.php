@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\AgentStat;
 use App\Util\BadgeData;
+use JsonException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
@@ -179,11 +180,14 @@ class MedalChecker
             'Mission Day(s) Attended'       => 'missionday',
             'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
             'First Saturday Events'         => 'ifs',
-            'Portal Scans Uploaded'         => 'scout',
 
-            'Furthest Drone Flight Distance' => 'drone-flight-distance',
+            'Portal Scans Uploaded'              => 'scout',
+            'Scout Controller on Unique Portals' => 'scout-controller',
+
             'Drone Hacks'                    => 'drone-hacks',
             'Unique Portals Drone Visited'   => 'drone-portals-visited',
+            'Furthest Drone Flight Distance' => 'drone-flight-distance',
+            'Forced Drone Recalls'           => 'drone-forced-recalls',
 
             'Level'      => 'level',
             'Recursions' => 'recursions',
@@ -386,6 +390,12 @@ class MedalChecker
 
     public function translatePrimeHeader($name): string
     {
+        if (false === array_key_exists($name, $this->primeHeaders)) {
+            throw new UnexpectedValueException(
+                'Prime header not found: '.$name
+            );
+        }
+
         return $this->primeHeaders[$name] ?? '';
     }
 
@@ -528,6 +538,9 @@ class MedalChecker
             ? $this->levelNames[$level] : '??';
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getBadgeData(string $code): BadgeData
     {
         static $badgeData;
@@ -537,7 +550,9 @@ class MedalChecker
                 file_get_contents(
                     $this->rootDir.'/text-files/badgeinfos.json'
                 ),
-                true
+                true,
+                512,
+                JSON_THROW_ON_ERROR
             );
         }
 

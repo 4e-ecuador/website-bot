@@ -82,10 +82,9 @@ class StatsImporter
                 if (method_exists($statEntry, $methodName)) {
                     $statEntry->$methodName($value);
                 } else {
-                    // $this->addFlash(
-                    //     'warning',
-                    //     'method not found: '.$methodName.' '.$vName
-                    // );
+                    throw new UnexpectedValueException(
+                        'Method not found: '.$methodName
+                    );
                 }
             }
         }

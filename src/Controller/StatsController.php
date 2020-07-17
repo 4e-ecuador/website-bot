@@ -329,10 +329,10 @@ class StatsController extends AbstractController
                 $statEntry = $statsImporter
                     ->createEntryFromCsv($agent, $csv);
 
-                // $entityManager->persist($statEntry);
-                // $entityManager->flush();
+                $entityManager->persist($statEntry);
+                $entityManager->flush();
 
-                // // TODO TEST!!
+                // TODO TEST!!
                 // $testStat = (new TestStat())
                 //     ->setCsv($csv);
                 // $entityManager->persist($testStat);

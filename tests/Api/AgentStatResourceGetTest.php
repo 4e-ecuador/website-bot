@@ -46,7 +46,10 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
 
         $expected = '['
             .'{"csv":"","id":1,"datetime":"2112-12-21T00:00:00+00:00",'
-            .'"agent":"\/api\/agents\/2","ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,"mindController":null,"illuminator":null,"recharger":null,"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"nl1331Meetups":null,"ifs":null,"currentChallenge":null,"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null}'
+            .'"agent":"\/api\/agents\/2","ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,'
+            .'"mindController":null,"illuminator":null,"recharger":null,"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,'
+            .'"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"nl1331Meetups":null,"ifs":null,"currentChallenge":null,'
+            .'"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null}'
             .']';
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -96,7 +99,10 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
 
         $expected = '{"csv":"","id":1,"datetime":"2112-12-21T00:00:00+00:00",'
             .'"agent":"\/api\/agents\/2",'
-            .'"ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,"mindController":null,"illuminator":null,"recharger":null,"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"nl1331Meetups":null,"ifs":null,"currentChallenge":null,"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null}';
+            .'"ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,"mindController":null,"illuminator":null,"recharger":null,'
+            .'"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,'
+            .'"nl1331Meetups":null,"ifs":null,"currentChallenge":null,"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"",'
+            .'"nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null}';
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString(

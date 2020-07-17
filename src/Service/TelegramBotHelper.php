@@ -206,7 +206,8 @@ class TelegramBotHelper
     public function sendNewMedalMessage(
         string $groupName,
         Agent $agent,
-        array $medalUps
+        array $medalUps,
+        array $medalDoubles
     ): Message {
         $message = (new NewMedalMessage(
             $this,
@@ -215,12 +216,20 @@ class TelegramBotHelper
             $agent,
             $this->medalChecker,
             $medalUps,
+            $medalDoubles,
             $this->pageBaseUrl
         ))
             ->getText();
 
-        $firstValue = reset($medalUps);
-        $firstMedal = key($medalUps);
+        if ($medalUps) {
+            $firstValue = reset($medalUps);
+            $firstMedal = key($medalUps);
+        } elseif ($medalDoubles) {
+            $firstValue = 5;
+            $firstMedal = key($medalDoubles);
+        } else {
+            throw new UnexpectedValueException('no medal ups nor doubles :(');
+        }
 
         $photo = new CURLFile(
             $this->rootDir.'/assets/images/badges/'

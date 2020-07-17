@@ -18,6 +18,7 @@ class NewMedalMessage extends AbstractCustomMessage
     private Agent $agent;
     private array $medalUps;
     private string $pageBaseUrl;
+    private array $medalDoubles;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
@@ -26,6 +27,7 @@ class NewMedalMessage extends AbstractCustomMessage
         Agent $agent,
         MedalChecker $medalChecker,
         array $medalUps,
+        array $medalDoubles,
         string $pageBaseUrl
     ) {
         parent::__construct($telegramBotHelper);
@@ -36,6 +38,7 @@ class NewMedalMessage extends AbstractCustomMessage
         $this->medalChecker = $medalChecker;
         $this->pageBaseUrl = $pageBaseUrl;
         $this->emojiService = $emojiService;
+        $this->medalDoubles = $medalDoubles;
     }
 
     /**
@@ -67,8 +70,24 @@ class NewMedalMessage extends AbstractCustomMessage
             $message[] = $this->translator->trans(
                 'new.medal.text.2',
                 [
-                    'medal' => $medal,
-                    'level' => $this->medalChecker->translateMedalLevel($level),
+                    'medal'  => $medal,
+                    'level'  => $this->medalChecker
+                        ->translateMedalLevel($level),
+                    'double' => array_key_exists($medal, $this->medalDoubles)
+                        ? 'X '.$this->medalDoubles[$medal]
+                        : '',
+                ]
+            );
+        }
+
+        foreach ($this->medalDoubles as $medal => $level) {
+            $message[] = $this->translator->trans(
+                'new.medal.text.2',
+                [
+                    'medal'  => $medal,
+                    'level'  => $this->medalChecker
+                        ->translateMedalLevel(5),
+                    'double' => 'X '.$level,
                 ]
             );
         }

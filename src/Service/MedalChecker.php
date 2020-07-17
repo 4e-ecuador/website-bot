@@ -424,6 +424,29 @@ class MedalChecker
         return $upgrades;
     }
 
+    public function getDoubles(
+        AgentStat $previousEntry,
+        AgentStat $currentEntry
+    ): array {
+        $doubles = [];
+
+        $currentLevels = $this->checkLevels($currentEntry);
+
+        foreach ($currentLevels as $name => $currentLevel) {
+            if (5 === $currentLevel) {
+                $methodName = $this->getGetterMethodName($name);
+                $currentDouble = $this->getDoubleValue($name, $currentEntry->$methodName());
+                $previousDouble = $this->getDoubleValue($name, $previousEntry->$methodName());
+                if ($currentDouble > $previousDouble) {
+                    // DOUBLE!
+                    $doubles[$name] = $currentDouble;
+                }
+            }
+        }
+
+        return $doubles;
+    }
+
     public function getDescription(string $medal): string
     {
         return array_key_exists($medal, $this->medalLevels)

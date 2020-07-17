@@ -110,6 +110,9 @@ class StatsImporter
         $importResult->medalUps = $this->medalChecker
             ->getUpgrades($previousEntry, $statEntry);
 
+        $importResult->medalDoubles = $this->medalChecker
+            ->getDoubles($previousEntry, $statEntry);
+
         $previousLevel = $previousEntry->getLevel();
         if ($previousLevel && $statEntry->getLevel() !== $previousLevel) {
             $importResult->newLevel = $statEntry->getLevel();
@@ -175,7 +178,17 @@ class StatsImporter
             $this->telegramBotHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $result->medalUps
+                $result->medalUps, []
+            );
+        }
+
+        // Medal doubles
+        if ($result->medalDoubles) {
+            $this->telegramBotHelper->sendNewMedalMessage(
+                $groupName,
+                $agent,
+                $result->medalUps,
+                $result->medalDoubles
             );
         }
 

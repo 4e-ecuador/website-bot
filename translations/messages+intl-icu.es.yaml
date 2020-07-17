@@ -5,7 +5,7 @@ agents.in.database: "{count, plural,\n  =0 {No hay agentes en la db}\n  one {Sol
 'Use the copy stats button {img} from your ingress profile and paste it here.': 'Utiliza el botón para copiar las estadísticas {img} desde tu perfil en ingress y pégalas aqui.'
 announce.header: '*A N U N C I O*'
 new.medal.text.1: "{medals, plural,\n    =0    {No hay medallas...}\n    one   {¡El agente @{agent} se ha ganado una medalla nueva!}\n    other {¡El agente @{agent} se ha ganado # medallas nuevas!}\n}"
-new.medal.text.2: 'Medalla {medal} de {level}'
+new.medal.text.2: 'Medalla {medal} de {level} {double}'
 new.medal.text.3: '[¡Admiren este medallero!]({link})'
 new.medal.text.4: '¡Felicitaciones! {tadaa}'
 'Event type: {type}': 'Tipo de evento: {type}'

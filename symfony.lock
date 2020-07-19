@@ -29,6 +29,9 @@
             "config/routes/boshurik_telegram_bot.yaml"
         ]
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.10.99"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -42,10 +45,10 @@
         ]
     },
     "doctrine/cache": {
-        "version": "1.10.1"
+        "version": "1.10.2"
     },
     "doctrine/collections": {
-        "version": "1.6.5"
+        "version": "1.6.6"
     },
     "doctrine/common": {
         "version": "2.13.3"
@@ -167,10 +170,10 @@
         "version": "v0.139"
     },
     "google/auth": {
-        "version": "v1.9.0"
+        "version": "v1.10.0"
     },
     "guzzlehttp/guzzle": {
-        "version": "6.5.5"
+        "version": "7.0.1"
     },
     "guzzlehttp/promises": {
         "version": "v1.3.1"
@@ -217,7 +220,7 @@
         "version": "1.0.4"
     },
     "league/oauth2-client": {
-        "version": "2.4.1"
+        "version": "2.5.0"
     },
     "league/oauth2-google": {
         "version": "3.0.2"
@@ -284,7 +287,7 @@
         "version": "1.3.0"
     },
     "phpseclib/phpseclib": {
-        "version": "2.0.27"
+        "version": "2.0.28"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -359,7 +362,7 @@
         "version": "v5.1.2"
     },
     "symfony/cache-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/config": {
         "version": "v5.1.2"
@@ -398,7 +401,7 @@
         "version": "v5.1.2"
     },
     "symfony/deprecation-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/doctrine-bridge": {
         "version": "v5.1.2"
@@ -416,7 +419,7 @@
         "version": "v5.1.2"
     },
     "symfony/event-dispatcher-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/expression-language": {
         "version": "v5.1.2"
@@ -474,7 +477,7 @@
         "version": "v5.1.2"
     },
     "symfony/http-client-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/http-foundation": {
         "version": "v5.1.2"
@@ -534,7 +537,7 @@
         "version": "v5.1.2"
     },
     "symfony/orm-pack": {
-        "version": "v1.0.8"
+        "version": "v2.0.0"
     },
     "symfony/phpunit-bridge": {
         "version": "4.3",
@@ -552,25 +555,25 @@
         ]
     },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-intl-icu": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-intl-idn": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-intl-normalizer": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-mbstring": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-php73": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/polyfill-php80": {
-        "version": "v1.17.1"
+        "version": "v1.18.0"
     },
     "symfony/process": {
         "version": "v5.1.2"
@@ -629,7 +632,7 @@
         "version": "v1.0.3"
     },
     "symfony/service-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/stopwatch": {
         "version": "v5.1.2"
@@ -654,7 +657,7 @@
         ]
     },
     "symfony/translation-contracts": {
-        "version": "v2.1.2"
+        "version": "v2.1.3"
     },
     "symfony/twig-bridge": {
         "version": "v5.1.2"
@@ -735,7 +738,7 @@
         "version": "v5.1.2"
     },
     "telegram-bot/api": {
-        "version": "2.3.15"
+        "version": "v2.3.16"
     },
     "theofidry/alice-data-fixtures": {
         "version": "1.0",
@@ -747,31 +750,31 @@
         }
     },
     "tijsverkoyen/css-to-inline-styles": {
-        "version": "2.2.2"
+        "version": "2.2.3"
     },
     "twig/cssinliner-extra": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "twig/extra-bundle": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "twig/inky-extra": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "twig/markdown-extra": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "twig/string-extra": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "twig/twig": {
-        "version": "v3.0.3"
+        "version": "v3.0.4"
     },
     "webimpress/safe-writer": {
         "version": "2.0.1"
     },
     "webmozart/assert": {
-        "version": "1.9.0"
+        "version": "1.9.1"
     },
     "willdurand/negotiation": {
         "version": "v2.3.1"

@@ -14,12 +14,12 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@forevolve/bootstrap-dark": "^1.0.0-alpha.1075",
+        "@forevolve/bootstrap-dark": "^1.0.0-alpha.1091",
         "bootstrap": "^4.5.0",
-        "bootstrap-select": "^1.13.17",
+        "bootstrap-select": "^1.13.18",
         "highcharts": "^8.1.2",
         "jquery": "^3.5.1",
-        "jsrender": "^1.0.6",
+        "jsrender": "^1.0.7",
         "leaflet": "^1.6.0",
         "leaflet.markercluster": "^1.4.1",
         "node-sass": "^4.14.1",

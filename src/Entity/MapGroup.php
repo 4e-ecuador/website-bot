@@ -41,7 +41,7 @@ class MapGroup
      *
      * @Groups({"read"})
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Agent", mappedBy="map_group")

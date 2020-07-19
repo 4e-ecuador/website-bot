@@ -82,7 +82,7 @@ class Agent
      *
      * @Groups({"agent:read"})
      */
-    private ?Faction $faction;
+    private ?Faction $faction = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="agent")
@@ -99,7 +99,7 @@ class Agent
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MapGroup", inversedBy="agents")
      */
-    private ?MapGroup $map_group;
+    private ?MapGroup $map_group = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

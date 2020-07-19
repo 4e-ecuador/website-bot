@@ -20,22 +20,22 @@ class Challenge
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_start;
+    private ?DateTimeInterface $date_start = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_end;
+    private ?DateTimeInterface $date_end = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $code_name;
+    private ?string $code_name = null;
 
     public function getId(): ?int
     {

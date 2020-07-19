@@ -142,18 +142,18 @@ JSON,
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $datetime;
+    private ?DateTimeInterface $datetime = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Agent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Agent $agent;
+    private ?Agent $agent = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $ap;
+    private ?int $ap = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

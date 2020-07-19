@@ -20,24 +20,24 @@ class Comment
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $text;
+    private ?string $text = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Agent", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Agent $agent;
+    private ?Agent $agent = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $datetime;
+    private ?DateTimeInterface $datetime = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $commenter;
+    private ?User $commenter = null;
 
     public function getId(): ?int
     {

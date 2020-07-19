@@ -20,22 +20,22 @@ class Event
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_start;
+    private ?DateTimeInterface $date_start = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $date_end;
+    private ?DateTimeInterface $date_end = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $event_type;
+    private ?string $event_type = null;
 
     public function getId(): ?int
     {

@@ -19,17 +19,17 @@ class Help
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $text;
+    private ?string $text = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $slug;
+    private ?string $slug = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $title;
+    private ?string $title = '';
 
     public function getId(): ?int
     {

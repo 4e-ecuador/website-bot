@@ -19,7 +19,7 @@ class TestStat
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $csv;
+    private ?string $csv = null;
 
     public function getId(): ?int
     {

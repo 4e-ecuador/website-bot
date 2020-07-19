@@ -29,7 +29,8 @@ function initmap(lat, lon) {
         let groups = $('#jsData').data('mapgroups')
         let div = L.DomUtil.create('div', 'info legend')
         div.innerHTML =
-            '<select id="groupSelect" class="selectpicker" data-style="btn-success" data-width="fit">'
+            '<a class="btn btn-sm btn-outline-secondary" href="/">Home</a><br>'
+            + '<select id="groupSelect" class="selectpicker" data-style="btn-success" data-width="fit">'
             + '<option>' + groups.join('</option><option>') + '</option>'
             + '</select>'
         div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation

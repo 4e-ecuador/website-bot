@@ -21,7 +21,7 @@ final class CiteService
         $cites = $this->fetchCites();
 
         try {
-            $i = random_int(0, count($cites));
+            $i = random_int(0, count($cites) - 1);
         } catch (Exception $e) {
             $i = 0;
         }

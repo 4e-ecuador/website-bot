@@ -78,6 +78,16 @@ class User implements UserInterface
      */
     private ?string $apiToken = '';
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $avatar = '';
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $avatarEncoded = '';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -194,6 +204,30 @@ class User implements UserInterface
     public function setApiToken(?string $apiToken): self
     {
         $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getAvatarEncoded(): ?string
+    {
+        return $this->avatarEncoded;
+    }
+
+    public function setAvatarEncoded(?string $avatarEncoded): self
+    {
+        $this->avatarEncoded = $avatarEncoded;
 
         return $this;
     }

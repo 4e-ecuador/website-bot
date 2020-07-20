@@ -130,3 +130,16 @@ Login: __Login
 'Latest comments': '__Latest comments'
 date.format.long: 'd MMMM Y'
 date.format.short: 'd MMMM'
+new.medal.text.1: __new.medal.text.1
+new.medal.text.2: __new.medal.text.2
+new.medal.text.3: __new.medal.text.3
+new.medal.text.4: __new.medal.text.4
+new.level.text.1: __new.level.text.1
+new.level.text.2: __new.level.text.2
+notify.events.head.fs.first: __notify.events.head.fs.first
+notify.events.head.fs: __notify.events.head.fs
+notify.events.events.fs: __notify.events.events.fs
+notify.events.events.fs.extra: __notify.events.events.fs.extra
+notify.events.days.remaining: __notify.events.days.remaining
+notify.upload.reminder: __notify.upload.reminder
+recursion.text.1: __recursion.text.1

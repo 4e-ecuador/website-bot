@@ -75,7 +75,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function findByAgent(Agent $agentId): User
+    public function findByAgent(Agent $agentId): ?User
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.agent = :val')

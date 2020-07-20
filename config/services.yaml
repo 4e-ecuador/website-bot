@@ -23,6 +23,7 @@ services:
             $appEnv: '%env(APP_ENV)%'
             $defaultTimeZone: '%env(DEFAULT_TIMEZONE)%'
             $pageBaseUrl: '%env(PAGE_BASE_URL)%'
+            $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -51,12 +52,10 @@ services:
     App\Service\TelegramBotHelper:
         arguments:
             $botName: '%env(TELEGRAM_BOT_NAME)%'
-            $pageBaseUrl: '%env(PAGE_BASE_URL)%'
             $groupIdDefault: '%env(ANNOUNCE_GROUP_ID_1)%'
             $groupIdAdmin: '%env(ANNOUNCE_GROUP_ID_ADMIN)%'
             $groupIdIntro: '%env(ANNOUNCE_GROUP_ID_INTRO)%'
             $groupIdTest: '%env(ANNOUNCE_GROUP_ID_TEST)%'
-            $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
 
     App\Service\FcmHelper:
         arguments:

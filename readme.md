@@ -12,15 +12,18 @@
 1. `composer install`
 1. `npm install`
 1. `npm run dev`
-1. `docker-compose up -d`
-1. `docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`<br>
-e.g.: `docker cp backups/dump.sql website-bot_database_1:/dump.sql`
-1. `docker exec -it <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`<br>
-e.g.: `docker exec -it website-bot_database_1 psql -U main -d main -f /dump.sql`
+1. `docker-compose up -d` - or setup a PostgreSQL database "by hand" ;)
+1. `symfony console doctrine:schem:create` - only for a NEW setup! (see below ⬇ )
+1. `symfony console doctrine:fixtures:load` - only for a NEW setup! (see below ⬇ )
 1. `symfony server:start -d`
 1. `symfony open:local`
 
-NOTE: If you deploy a NEW setp, omit the steps `7` and `8` and just run `doctrine:database:create` and `doctrine:fixtures:load`
+NOTE: If you deploy the site with database dump, omit the steps `7` and `8` and import the database to docker or other database:
+
+* 7 `docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`<br>
+e.g.: `docker cp backups/dump.sql website-bot_database_1:/dump.sql`
+* 8 `docker exec -it <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`<br>
+e.g.: `docker exec -it website-bot_database_1 psql -U main -d main -f /dump.sql`
 
 ## Credits
 

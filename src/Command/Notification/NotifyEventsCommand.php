@@ -4,6 +4,7 @@ namespace App\Command\Notification;
 
 use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
+use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Exception;
@@ -22,19 +23,22 @@ class NotifyEventsCommand extends Command
     private TranslatorInterface $translator;
     private AgentRepository $agentRepository;
     private TelegramBotHelper $telegramBotHelper;
+    private EmojiService $emojiService;
 
     public function __construct(
         IngressEventRepository $ingressEventRepository,
         AgentRepository $agentRepository,
         TelegramBotHelper $telegramBotHelper,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        EmojiService $emojiService
     ) {
+        parent::__construct();
+
         $this->ingressEventRepository = $ingressEventRepository;
         $this->translator = $translator;
         $this->agentRepository = $agentRepository;
         $this->telegramBotHelper = $telegramBotHelper;
-
-        parent::__construct();
+        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
@@ -55,10 +59,10 @@ class NotifyEventsCommand extends Command
     ): int {
         $io = new SymfonyStyle($input, $output);
         $firstAnnounce = $input->getOption('first-announce');
-
         $message = (new NotifyEventsMessage(
             $this->telegramBotHelper,
             $this->ingressEventRepository,
+            $this->emojiService,
             $this->translator,
             $firstAnnounce
         ))

@@ -13,7 +13,9 @@ use App\Service\StatsImporter;
 use App\Type\BoardEntry;
 use DateInterval;
 use DateTime;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use JsonException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +35,7 @@ class StatsController extends AbstractController
     /**
      * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
+     * @throws NonUniqueResultException
      */
     public function agentStats(
         Agent $agent,
@@ -52,6 +55,17 @@ class StatsController extends AbstractController
         $dateEnd = new DateTime();
         $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
 
+        try {
+            $customMedals = json_decode(
+                $agent->getCustomMedals(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR | JSON_ERROR_NONE
+            );
+        } catch (JsonException $e) {
+            $customMedals = '';
+        }
+
         return $this->render(
             'stats/agent-stats.html.twig',
             [
@@ -63,12 +77,7 @@ class StatsController extends AbstractController
                 'dateEnd'     => $dateEnd,
                 'first'       => $statRepository->getAgentLatest($agent, true),
 
-                'agentCustomMedals' => json_decode(
-                    $agent->getCustomMedals(),
-                    true,
-                    512,
-                    JSON_THROW_ON_ERROR
-                ),
+                'agentCustomMedals' => $customMedals,
             ]
         );
     }

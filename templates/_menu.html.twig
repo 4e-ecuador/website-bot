@@ -116,11 +116,16 @@
                 {% if app.user.agent %}
                     <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="oi oi-person"></span>
+                        {% if app.user.avatarEncoded %}
+                            <img src="{{ app.user.avatarEncoded }}" height="24" alt="Avatar">
+                        {% else %}
+                            <span class="oi oi-person"></span>
+                        {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
                     <a class="dropdown-item nav-link" href={{ path('app_account') }}>
-                        <span class="oi oi-person"> {{ app.user.agent.nickname }}
+                        <span class="oi oi-person"> {{ 'My Profile'|trans }}
+                            {# {{ app.user.agent.nickname }} #}
                     </a>
                     <a class="dropdown-item nav-link" href={{ path('agent_stats', {'id': app.user.agent.id}) }}>
                         <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}

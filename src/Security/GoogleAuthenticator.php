@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\AvatarHelper;
 use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
@@ -19,6 +20,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
 
 class GoogleAuthenticator extends SocialAuthenticator
 {
@@ -29,17 +32,20 @@ class GoogleAuthenticator extends SocialAuthenticator
     private UserRepository $userManager;
     private TelegramBotHelper $telegramBotHelper;
     private UrlGeneratorInterface $urlGenerator;
+    private AvatarHelper $avatarHelper;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
-        TelegramBotHelper $telegramBotHelper
+        TelegramBotHelper $telegramBotHelper,
+        AvatarHelper $avatarHelper
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
         $this->telegramBotHelper = $telegramBotHelper;
         $this->urlGenerator = $urlGenerator;
+        $this->avatarHelper = $avatarHelper;
     }
 
     public function supports(Request $request): bool
@@ -49,8 +55,6 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @param Request $request
-     *
      * @return AccessToken|mixed
      */
     public function getCredentials(Request $request)
@@ -60,6 +64,10 @@ class GoogleAuthenticator extends SocialAuthenticator
         return $this->fetchAccessToken($this->getGoogleClient());
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         /** @var GoogleUser $googleUser */
@@ -97,6 +105,14 @@ class GoogleAuthenticator extends SocialAuthenticator
                 $groupId = $this->telegramBotHelper->getGroupId('admin');
                 $this->telegramBotHelper->sendNewUserMessage($groupId, $user);
             }
+        }
+
+        if (!$user->getAvatar()) {
+            // Update avatar
+            $user->setAvatar($googleUser->getAvatar());
+            $this->avatarHelper->updateAvatar($user);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         }
 
         return $user;

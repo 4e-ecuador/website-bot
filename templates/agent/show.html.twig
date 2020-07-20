@@ -29,6 +29,9 @@
     >
     </span>
 
+    {% if user and user.avatarEncoded %}
+    <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
+    {% endif %}
     <div class="btn-group float-right" role="group">
         {{ buttons.back(path('agent_index')) }}
         {% if is_granted('ROLE_EDITOR') %}
@@ -39,17 +42,13 @@
            href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
     </div>
 
-    <h1>{{ 'Agent'|trans }}</h1>
+    <h1>{{ 'Agent'|trans }}
+    <img src="{{ asset('build/images/logos/'~agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
+    <code>{{ agent.nickname }}</code>
+    </h1>
 
     <table class="table">
         <tbody>
-        <tr>
-            <th>{{ 'Nickname'|trans }}</th>
-            <td class="alert-{% if 'RES' == agent.faction.name %}info{% else %}success{% endif %}">
-                <img src="{{ asset('build/images/logos/'~agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
-                <code>{{ agent.nickname }}</code>
-            </td>
-        </tr>
         {% if agent.realName %}
             <tr>
                 <th>{{ 'Real name'|trans }}</th>

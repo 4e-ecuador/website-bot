@@ -45,6 +45,11 @@ services:
         arguments:
             $fcmKey: '%env(FCM_KEY)%'
 
+    App\Command\SortLanguageFilesCommand:
+        arguments:
+            $locale: '%locale%'
+            $locales: '%locales%'
+
     App\Form\AgentAccountType:
         arguments:
             $locales: '%locales%'

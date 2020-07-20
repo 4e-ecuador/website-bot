@@ -33,6 +33,15 @@
             <td>{{ user.fireBaseToken }}</td>
         </tr>
         <tr>
+            <th>
+                Avatar URL
+                {% if user.avatarEncoded %}
+                    <img src="{{ user.avatarEncoded }}" alt="Avatar" height="50">
+                {% endif %}
+            </th>
+            <td>{{ user.avatar }}</td>
+        </tr>
+        <tr>
             <th>Roles</th>
             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
         </tr>

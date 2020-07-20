@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
 use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
@@ -14,7 +15,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use TelegramBot\Api\InvalidArgumentException;
 
 /**
  * @Route("/test")
@@ -54,6 +57,9 @@ class TestController extends AbstractController
     /**
      * @Route("/bot", name="test_bot")
      * @IsGranted("ROLE_ADMIN")
+     *
+     * @throws \TelegramBot\Api\Exception
+     * @throws InvalidArgumentException
      */
     public function botTest(
         Request $request,
@@ -80,6 +86,7 @@ class TestController extends AbstractController
     /**
      * @Route("/mail", name="test_mail")
      * @IsGranted("ROLE_ADMIN")
+     * @throws TransportExceptionInterface
      */
     public function mailTest(
         Request $request,
@@ -100,14 +107,12 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/emojis", name="test_emojis")
+     * @Route("/emojis✨", name="test_emojis")
      * @IsGranted("ROLE_ADMIN")
+     * @throws EmojiNotFoundException
      */
-    public function testEmojis(EmojiService $emojiService)
+    public function testEmojis(EmojiService $emojiService): Response
     {
-        // $keys = $emojiService->getKeys();
-        //
-        // $emojis = $emojiService->getAll();
         return $this->render(
             'test/emojis.html.twig',
             [

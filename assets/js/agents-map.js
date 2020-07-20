@@ -7,6 +7,9 @@ require('leaflet.markercluster')
 require('leaflet.markercluster/dist/MarkerCluster.css')
 require('leaflet.markercluster/dist/MarkerCluster.Default.css')
 
+require('leaflet-fullscreen')
+require('leaflet-fullscreen/dist/leaflet.fullscreen.css')
+
 require('../css/agents-map.css')
 
 let map
@@ -17,7 +20,8 @@ function initmap(lat, lon) {
     const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
     map = new L.Map('map', {
-        zoomControl: false
+        fullscreenControl: true,
+        // zoomControl: false
     })
 
     map.addLayer(osm)

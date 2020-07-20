@@ -9,7 +9,6 @@ new.medal.text.2: 'Medalla {medal} de {level} {double}'
 new.medal.text.3: '[¡Admiren este medallero!]({link})'
 new.medal.text.4: '¡Felicitaciones! {tadaa}'
 'Event type: {type}': 'Tipo de evento: {type}'
-countdown.seconds: "{count, plural,\n  =0 {# segundos}\n  one {# segundo}\n  other {# segundos}\n}"
 account.map.added.warning: 'No ha sido añadido aún al mapa - contacte un administrador!'
 account.map.added.group: 'Miembro del grupo de mapa: {group}'
 'Medals from {startDate} to {endDate}': 'Medallas del {startDate} a {endDate}'
@@ -102,7 +101,6 @@ Events: Eventos
 'Personal information': 'Information personal'
 'Agent data': 'Agent data'
 user.not.verified.2: 'No tiene un agente asignado a su usuario - contacte un admin!'
-'Reset custom Medals': 'Resetear Medallas'
 'Map groups': 'Grupos del mapa'
 Recursions: Recursiones
 'Stat entry already added!': 'Las estadisticas ya se han subido anteriormente!'
@@ -147,7 +145,6 @@ notify.events.events.fs.extra: 'Recuerden que el registro se cierra una semana a
 notify.upload.reminder: 'No se olviden de mantener actualizados sus estadísticas en http://agents.enl.ec/stats/stat-import'
 'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificación. Puedes hacerlo {link}.'
 account.link.text: aquí
-notify.events.today: 'El evento empieza HOY!!!'
 notify.events.days.remaining: "{count, plural,\n  =0 {El evento empieza HOY!!!}\n  one {Solo falta un dia!}\n  other {Solo faltan # dias!}\n}"
 'Stats upload successful!': 'Las estadisticas se han subidas exitosamente!'
 'Import result': 'Resultado del importe'

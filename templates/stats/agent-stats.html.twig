@@ -16,7 +16,7 @@
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
 
     {% if user and user.avatarEncoded %}
-        <img src="{{ app.user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
+        <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
     {% endif %}
     <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-right btn btn-outline-success"
        title="{{ 'View Profile'|trans }}">

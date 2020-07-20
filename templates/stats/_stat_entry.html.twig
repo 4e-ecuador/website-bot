@@ -26,7 +26,7 @@
                     {% endif %}
                     <a href="{{ path('agent_stats', {'id': entry.agent.id}) }}">
                         {% if entry.user.avatarEncoded %}
-                            <img src="{{ app.user.avatarEncoded }}" height="24" alt="Avatar">
+                            <img src="{{ entry.user.avatarEncoded }}" height="24" alt="Avatar">
                         {% endif %}
                         {{ entry.agent.nickname }}
                     </a>

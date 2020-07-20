@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
-use App\Entity\TestStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
@@ -38,11 +37,39 @@ class StatsController extends AbstractController
     public function agentStats(
         Agent $agent,
         AgentStatRepository $statRepository,
+        UserRepository $userRepository,
         MedalChecker $medalChecker
     ): Response {
+        $medalGroups = [];
+        $latest = $statRepository->getAgentLatest($agent);
+
+        if ($latest) {
+            $medals = $medalChecker->checkLevels($latest);
+            arsort($medals);
+            $medalGroups = $medals;
+        }
+
+        $dateEnd = new DateTime();
+        $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
+
         return $this->render(
             'stats/agent-stats.html.twig',
-            $this->getStats($agent, $statRepository, $medalChecker)
+            [
+                'agent'       => $agent,
+                'user'        => $userRepository->findByAgent($agent),
+                'medalGroups' => $medalGroups,
+                'latest'      => $latest,
+                'dateStart'   => $dateStart,
+                'dateEnd'     => $dateEnd,
+                'first'       => $statRepository->getAgentLatest($agent, true),
+
+                'agentCustomMedals' => json_decode(
+                    $agent->getCustomMedals(),
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                ),
+            ]
         );
     }
 
@@ -143,6 +170,7 @@ class StatsController extends AbstractController
                 if ($agentEntry->$methodName()) {
                     $boardEntries[$property][] = new BoardEntry(
                         $agent,
+                        $user,
                         $agentEntry->$methodName()
                     );
                 }
@@ -150,6 +178,7 @@ class StatsController extends AbstractController
 
             $boardEntries['Fields/Links'][] = new BoardEntry(
                 $agent,
+                $user,
                 $agentEntry->getMindController() / $agentEntry->getConnector()
             );
         }
@@ -378,37 +407,6 @@ class StatsController extends AbstractController
         }
 
         return $this->render('import/agent_stats.html.twig');
-    }
-
-    private function getStats(
-        Agent $agent,
-        AgentStatRepository $statRepository,
-        MedalChecker $medalChecker
-    ): array {
-        $medalGroups = [];
-        $latest = $statRepository->getAgentLatest($agent);
-
-        if ($latest) {
-            $medals = $medalChecker->checkLevels($latest);
-            arsort($medals);
-            $medalGroups = $medals;
-        }
-
-        $dateEnd = new DateTime();
-        $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
-
-        return [
-            'agent'             => $agent,
-            'agentCustomMedals' => json_decode($agent->getCustomMedals(), true),
-            'medalGroups'       => $medalGroups,
-            'first'             => $statRepository->getAgentLatest(
-                $agent,
-                true
-            ),
-            'latest'            => $latest,
-            'dateStart'         => $dateStart,
-            'dateEnd'           => $dateEnd,
-        ];
     }
 }
 

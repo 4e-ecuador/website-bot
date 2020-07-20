@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\AgentAccountType;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
+use JsonException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,12 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use UnexpectedValueException;
 
 class AccountController extends AbstractController
 {
     /**
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
+     * @throws JsonException
      */
     public function account(
         Request $request,
@@ -27,7 +30,13 @@ class AccountController extends AbstractController
         MedalChecker $medalChecker,
         TelegramBotHelper $telegramBotHelper
     ): Response {
-        $agent = $security->getUser()->getAgent();
+        $user = $security->getUser();
+
+        if (!$user) {
+            throw new UnexpectedValueException('User not found');
+        }
+
+        $agent = $user->getAgent();
 
         if (!$agent) {
             throw $this->createAccessDeniedException(
@@ -37,12 +46,20 @@ class AccountController extends AbstractController
 
         $agentAccount = $request->request->get('agent_account');
 
-        $customMedals = json_decode($agent->getCustomMedals(), true);
+        $customMedals = json_decode(
+            $agent->getCustomMedals(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         if ($agentAccount) {
             $customMedals = $request->request->get('customMedals');
 
-            $agentAccount['customMedals'] = json_encode($customMedals);
+            $agentAccount['customMedals'] = json_encode(
+                $customMedals,
+                JSON_THROW_ON_ERROR
+            );
 
             $request->request->set('agent_account', $agentAccount);
         }

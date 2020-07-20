@@ -11,6 +11,7 @@ use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
 use DateTime;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,13 +103,15 @@ class AgentController extends AbstractController
     /**
      * @Route("/{id}", name="agent_show", methods={"GET"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_AGENT")
+     * @throws NonUniqueResultException
      */
-    public function show(Agent $agent): Response
+    public function show(Agent $agent, UserRepository $userRepository): Response
     {
         return $this->render(
             'agent/show.html.twig',
             [
                 'agent' => $agent,
+                'user'  => $userRepository->findByAgent($agent),
             ]
         );
     }

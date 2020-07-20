@@ -19,10 +19,7 @@ function initmap(lat, lon) {
     const osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
-    map = new L.Map('map', {
-        fullscreenControl: true,
-        // zoomControl: false
-    })
+    map = new L.Map('map', {fullscreenControl: true})
 
     map.addLayer(osm)
 

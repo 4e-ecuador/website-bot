@@ -2,6 +2,10 @@ const $ = require('jquery')
 
 require('leaflet')
 require('leaflet/dist/leaflet.css')
+
+require('leaflet-fullscreen')
+require('leaflet-fullscreen/dist/leaflet.fullscreen.css')
+
 require('../css/map-edit.css')
 
 let map
@@ -17,7 +21,7 @@ function initmap(lat, lon, zoom) {
         popupAnchor: [0, -18],
     })
 
-    map = new L.Map('map')
+    map = new L.Map('map', {fullscreenControl: true})
 
     map.addLayer(osm)
 
@@ -29,9 +33,9 @@ function initmap(lat, lon, zoom) {
     }).addTo(map)
 
     marker.on('drag', function () {
-        const latlng = marker.getLatLng()
-        $('#agent_lat').val(latlng.lat)
-        $('#agent_lon').val(latlng.lng)
+        const latLng = marker.getLatLng()
+        $('#agent_lat').val(latLng.lat)
+        $('#agent_lon').val(latLng.lng)
     })
 }
 

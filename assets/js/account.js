@@ -2,6 +2,10 @@ const $ = require('jquery')
 
 require('leaflet')
 require('leaflet/dist/leaflet.css')
+
+require('leaflet-fullscreen')
+require('leaflet-fullscreen/dist/leaflet.fullscreen.css')
+
 require('../css/account.css')
 
 let map
@@ -11,7 +15,7 @@ function initmap(lat, lon, zoom) {
     const osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
 
-    map = new L.Map('map')
+    map = new L.Map('map', {fullscreenControl: true})
 
     map.addLayer(osm)
 

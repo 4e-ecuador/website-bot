@@ -1,4 +1,5 @@
 agents.in.database: "{count, plural,\n  =0 {Die Datenbank ist leer :(}\n  one {Es gibt nur einen Agenten in der Datenbank}\n  other {Wir haben # Agenten in der Datenbank.}\n}"
+announce.header: '*A N N O U N C E M E N T*'
 medal.level.bronce: __medal.level.bronce
 medal.level.silver: Silber
 medal.level.gold: Gold

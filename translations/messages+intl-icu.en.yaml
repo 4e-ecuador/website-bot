@@ -1,4 +1,5 @@
 agents.in.database: "{count, plural,\n  =0 {The database is empty :(}\n  one {There is only one agent in our database}\n  other {We have # agents in our database.}\n}"
+announce.header: '*Ankündigung*'
 medal.level.bronce: __medal.level.bronce
 medal.level.silver: __medal.level.silver
 medal.level.gold: __medal.level.gold

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Asset\Packages;
@@ -82,7 +83,8 @@ class MapController extends AbstractController
     public function mapAgentInfo(
         Agent $agent,
         TranslatorInterface $translator,
-        Packages $assetsManager
+        Packages $assetsManager,
+        UserRepository $userRepository
     ): Response {
         $response = [];
 
@@ -106,11 +108,19 @@ class MapController extends AbstractController
                 default:
                     throw new UnexpectedValueException('Unknown faction');
             }
+            $user = $userRepository->findByAgent($agent);
+            $userPic = $user && $user->getAvatarEncoded()
+                ? sprintf(
+                    '<img src="%s" alt="Avatar" style="height: 32px;">',
+                    $user->getAvatarEncoded()
+                )
+                : '';
             $link = $this->generateUrl('agent_show', ['id' => $agent->getId()]);
             $response[] = sprintf(
-                '<img src="%s" alt="logo" style="height: 32px;"><a href="%s">%s</a>',
-                $imgPath,
+                '<a href="%s"><img src="%s" alt="logo" style="height: 32px;">%s %s</a>',
                 $link,
+                $imgPath,
+                $userPic,
                 $agent->getNickname()
             );
             if ($agent->getRealName()) {

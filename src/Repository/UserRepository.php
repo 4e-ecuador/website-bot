@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Agent;
 use App\Entity\User;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -68,5 +70,17 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('u.fireBaseToken IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findByAgent(Agent $agentId): User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.agent = :val')
+            ->setParameter('val', $agentId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

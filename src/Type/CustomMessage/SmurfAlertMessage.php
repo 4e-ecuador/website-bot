@@ -7,30 +7,21 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 
 class SmurfAlertMessage extends AbstractCustomMessage
 {
+    private EmojiService $emojiService;
+
     private User $user;
     private Agent $agent;
-    private EmojiService $emojiService;
     private AgentStat $statEntry;
     private string $announceAdminCc;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
-        User $user,
-        Agent $agent,
-        AgentStat $statEntry,
         string $announceAdminCc
     ) {
-        parent::__construct($telegramBotHelper);
-
-        $this->user = $user;
-        $this->agent = $agent;
-        $this->statEntry = $statEntry;
         $this->announceAdminCc = $announceAdminCc;
         $this->emojiService = $emojiService;
     }
@@ -58,5 +49,53 @@ class SmurfAlertMessage extends AbstractCustomMessage
         $message[] = 'CC: '.$this->announceAdminCc;
 
         return $message;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return SmurfAlertMessage
+     */
+    public function setUser(User $user): SmurfAlertMessage
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @param Agent $agent
+     *
+     * @return SmurfAlertMessage
+     */
+    public function setAgent(Agent $agent): SmurfAlertMessage
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @param AgentStat $statEntry
+     *
+     * @return SmurfAlertMessage
+     */
+    public function setStatEntry(AgentStat $statEntry): SmurfAlertMessage
+    {
+        $this->statEntry = $statEntry;
+
+        return $this;
+    }
+
+    /**
+     * @param string $announceAdminCc
+     *
+     * @return SmurfAlertMessage
+     */
+    public function setAnnounceAdminCc(string $announceAdminCc
+    ): SmurfAlertMessage {
+        $this->announceAdminCc = $announceAdminCc;
+
+        return $this;
     }
 }

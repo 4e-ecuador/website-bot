@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Agent;
+use App\Entity\AgentStat;
+use App\Entity\User;
+use App\Type\CustomMessage\NewUserMessage;
+use App\Type\CustomMessage\NicknameMismatchMessage;
+use App\Type\CustomMessage\SmurfAlertMessage;
+use TelegramBot\Api\Exception;
+use TelegramBot\Api\InvalidArgumentException;
+use TelegramBot\Api\Types\Message;
+
+class TelegramAdminMessageHelper
+{
+    private TelegramBotHelper $telegramBotHelper;
+    private string $announceAdminCc;
+
+    private NewUserMessage $newUserMessage;
+    private NicknameMismatchMessage $nicknameMismatchMessage;
+    private SmurfAlertMessage $smurfAlertMessage;
+
+    public function __construct(
+        TelegramBotHelper $telegramBotHelper,
+        string $announceAdminCc,
+
+        NewUserMessage $newUserMessage,
+        NicknameMismatchMessage $nicknameMismatchMessage,
+        SmurfAlertMessage $smurfAlertMessage
+    ) {
+        $this->telegramBotHelper = $telegramBotHelper;
+
+        $this->newUserMessage = $newUserMessage;
+        $this->nicknameMismatchMessage = $nicknameMismatchMessage;
+        $this->smurfAlertMessage = $smurfAlertMessage;
+        $this->announceAdminCc = $announceAdminCc;
+    }
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function sendNewUserMessage(int $chatId, User $user): Message
+    {
+        $message = $this->newUserMessage
+            ->setUser($user)
+            ->getText();
+
+        return $this->telegramBotHelper->sendMessage($chatId, $message);
+    }
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function sendSmurfAlertMessage(
+        string $groupName,
+        User $user,
+        Agent $agent,
+        AgentStat $statEntry
+    ): Message {
+        $message = $this->smurfAlertMessage
+            ->setUser($user)
+            ->setAgent($agent)
+            ->setAnnounceAdminCc($this->announceAdminCc)
+            ->setStatEntry($statEntry)
+            ->getText();
+
+        return $this->telegramBotHelper->sendMessage(
+            $this->telegramBotHelper->getGroupId($groupName),
+            str_replace('_', '\\_', $message)
+        );
+    }
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function sendNicknameMismatchMessage(
+        string $groupName,
+        User $user,
+        Agent $agent,
+        AgentStat $statEntry
+    ): Message {
+        $message = $this->nicknameMismatchMessage
+            ->setUser($user)
+            ->setAgent($agent)
+            ->setStatEntry($statEntry)
+            ->getText();
+
+        return $this->telegramBotHelper->sendMessage(
+            $this->telegramBotHelper->getGroupId($groupName),
+            str_replace('_', '\\_', $message)
+        );
+    }
+}

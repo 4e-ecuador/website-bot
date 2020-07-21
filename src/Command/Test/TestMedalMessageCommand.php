@@ -3,7 +3,7 @@
 namespace App\Command\Test;
 
 use App\Repository\AgentRepository;
-use App\Service\TelegramBotHelper;
+use App\Service\TelegramMessageHelper;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,17 +15,17 @@ class TestMedalMessageCommand extends Command
 {
     protected static $defaultName = 'app:bot:testMedalMessage';// Type must be defined in base class :(
 
-    private TelegramBotHelper $telegramBotHelper;
     private AgentRepository $agentRepository;
+    private TelegramMessageHelper $telegramMessageHelper;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
+        TelegramMessageHelper $telegramMessageHelper,
         AgentRepository $agentRepository
     ) {
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->agentRepository = $agentRepository;
-
         parent::__construct();
+
+        $this->telegramMessageHelper = $telegramMessageHelper;
+        $this->agentRepository = $agentRepository;
     }
 
     protected function configure(): void
@@ -58,11 +58,13 @@ class TestMedalMessageCommand extends Command
             $agent = $this->agentRepository->findOneByNickName('nikp3h');
 
             $medalUps = ['purifier' => 5];
+            $medalDoubles = [];
 
-            $this->telegramBotHelper->sendNewMedalMessage(
+            $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $medalUps
+                $medalUps,
+                $medalDoubles
             );
 
             $io->success('Finished!');

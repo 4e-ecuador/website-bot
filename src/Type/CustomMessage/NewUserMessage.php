@@ -3,22 +3,11 @@
 namespace App\Type\CustomMessage;
 
 use App\Entity\User;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 
 class NewUserMessage extends AbstractCustomMessage
 {
-
     private User $user;
-
-    public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        User $user
-    ) {
-        $this->user = $user;
-
-        parent::__construct($telegramBotHelper);
-    }
 
     public function getMessage(): array
     {
@@ -31,5 +20,12 @@ class NewUserMessage extends AbstractCustomMessage
         $message[] = 'Please verify!';
 
         return $message;
+    }
+
+    public function setUser(User $user): NewUserMessage
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

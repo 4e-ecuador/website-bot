@@ -5,27 +5,21 @@ namespace App\Type\CustomMessage;
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RecursionMessage extends AbstractCustomMessage
 {
-    private Agent $agent;
-    private int $recursions;
     private EmojiService $emojiService;
     private TranslatorInterface $translator;
 
+    private Agent $agent;
+    private int $recursions;
+
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
-        TranslatorInterface $translator,
-        Agent $agent,
-        int $recursions
+        TranslatorInterface $translator
     ) {
-        parent::__construct($telegramBotHelper);
-        $this->agent = $agent;
-        $this->recursions = $recursions;
         $this->translator = $translator;
         $this->emojiService = $emojiService;
     }
@@ -65,5 +59,29 @@ class RecursionMessage extends AbstractCustomMessage
         $message[] = '';
 
         return $message;
+    }
+
+    /**
+     * @param Agent $agent
+     *
+     * @return RecursionMessage
+     */
+    public function setAgent(Agent $agent): RecursionMessage
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @param int $recursions
+     *
+     * @return RecursionMessage
+     */
+    public function setRecursions(int $recursions): RecursionMessage
+    {
+        $this->recursions = $recursions;
+
+        return $this;
     }
 }

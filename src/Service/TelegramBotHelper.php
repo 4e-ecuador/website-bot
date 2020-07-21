@@ -3,16 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Agent;
-use App\Entity\AgentStat;
-use App\Entity\User;
-use App\Type\CustomMessage\LevelUpMessage;
-use App\Type\CustomMessage\NewMedalMessage;
-use App\Type\CustomMessage\NewUserMessage;
-use App\Type\CustomMessage\NicknameMismatchMessage;
-use App\Type\CustomMessage\RecursionMessage;
-use App\Type\CustomMessage\SmurfAlertMessage;
-use CURLFile;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -23,46 +13,26 @@ use UnexpectedValueException;
 class TelegramBotHelper
 {
     private BotApi $api;
-    private MedalChecker $medalChecker;
-    private EmojiService $emojiService;
-    private CiteService $citeService;
-    private TranslatorInterface $translator;
     private string $botName;
-    private string $pageBaseUrl;
-    private string $announceAdminCc;
     private array $groupIds;
-    private string $rootDir;
 
     public function __construct(
         BotApi $api,
-        MedalChecker $medalChecker,
-        TranslatorInterface $translator,
-        EmojiService $emojiService,
-        CiteService $citeService,
+
         string $botName,
-        string $pageBaseUrl,
-        string $announceAdminCc,
         string $groupIdDefault,
         string $groupIdAdmin,
         string $groupIdIntro,
-        string $groupIdTest,
-        string $rootDir
+        string $groupIdTest
     ) {
         $this->api = $api;
-        $this->medalChecker = $medalChecker;
-        $this->translator = $translator;
         $this->botName = $botName;
-        $this->pageBaseUrl = $pageBaseUrl;
-        $this->announceAdminCc = $announceAdminCc;
         $this->groupIds = [
             'default' => $groupIdDefault,
             'admin'   => $groupIdAdmin,
             'intro'   => $groupIdIntro,
             'test'    => $groupIdTest,
         ];
-        $this->emojiService = $emojiService;
-        $this->citeService = $citeService;
-        $this->rootDir = $rootDir;
     }
 
     public function getGroupId(string $name = 'default'): int
@@ -203,84 +173,6 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendNewMedalMessage(
-        string $groupName,
-        Agent $agent,
-        array $medalUps,
-        array $medalDoubles
-    ): Message {
-        $message = (new NewMedalMessage(
-            $this,
-            $this->emojiService,
-            $this->translator,
-            $agent,
-            $this->medalChecker,
-            $medalUps,
-            $medalDoubles,
-            $this->pageBaseUrl
-        ))
-            ->getText();
-
-        if ($medalUps) {
-            $firstValue = reset($medalUps);
-            $firstMedal = key($medalUps);
-        } elseif ($medalDoubles) {
-            $firstValue = 5;
-            $firstMedal = key($medalDoubles);
-        } else {
-            throw new UnexpectedValueException('no medal ups nor doubles :(');
-        }
-
-        $photo = new CURLFile(
-            $this->rootDir.'/assets/images/badges/'
-            .$this->medalChecker->getBadgePath($firstMedal, $firstValue)
-        );
-
-        return $this->sendPhoto(
-            $this->getGroupId($groupName),
-            $photo,
-            $message
-        );
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function sendLevelUpMessage(
-        string $groupName,
-        Agent $agent,
-        int $level,
-        int $recursions
-    ): Message {
-        $message = (new LevelUpMessage(
-            $this,
-            $this->emojiService,
-            $this->citeService,
-            $this->translator,
-            $agent,
-            $this->medalChecker,
-            $level,
-            $recursions,
-            $this->pageBaseUrl
-        ))
-            ->getText();
-
-        $photo = new CURLFile(
-            $this->rootDir.'/assets/images/logos/ingress-enl.jpeg'
-        );
-
-        return $this->sendPhoto(
-            $this->getGroupId($groupName),
-            $photo,
-            $message
-        );
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
     public function sendButtonMessage(string $groupName): Message
     {
         $prev = 3;
@@ -296,99 +188,6 @@ class TelegramBotHelper
             false,
             null,
             new InlineKeyboardMarkup([$buttons])
-        );
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function sendNewUserMessage(int $chatId, User $user): Message
-    {
-        $message = (new NewUserMessage($this, $user))
-            ->getText();
-
-        return $this->sendMessage($chatId, $message);
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function sendSmurfAlertMessage(
-        string $groupName,
-        User $user,
-        Agent $agent,
-        AgentStat $statEntry
-    ): Message {
-        $message = (new SmurfAlertMessage(
-            $this,
-            $this->emojiService,
-            $user,
-            $agent,
-            $statEntry,
-            $this->announceAdminCc
-        ))
-            ->getText();
-
-        return $this->sendMessage(
-            $this->getGroupId($groupName),
-            str_replace('_', '\\_', $message)
-        );
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function sendNicknameMismatchMessage(
-        string $groupName,
-        User $user,
-        Agent $agent,
-        AgentStat $statEntry
-    ): Message {
-        $message = (new NicknameMismatchMessage(
-            $this,
-            $this->emojiService,
-            $user,
-            $agent,
-            $statEntry,
-            $this->announceAdminCc
-        ))
-            ->getText();
-
-        return $this->sendMessage(
-            $this->getGroupId($groupName),
-            str_replace('_', '\\_', $message)
-        );
-    }
-
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function sendRecursionMessage(
-        string $groupName,
-        Agent $agent,
-        int $recursions
-    ): Message {
-        $message = (new RecursionMessage(
-            $this,
-            $this->emojiService,
-            $this->translator,
-            $agent,
-            $recursions
-        ))
-            ->getText();
-
-        $photo = new CURLFile(
-            $this->rootDir.'/assets/images/badges/UniqueBadge_Simulacrum.png'
-        );
-
-        return $this->sendPhoto(
-            $this->getGroupId($groupName),
-            $photo,
-            $message
         );
     }
 }

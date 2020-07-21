@@ -4,17 +4,9 @@ namespace App\Type;
 
 use App\Entity\Agent;
 use App\Entity\User;
-use App\Service\TelegramBotHelper;
 
 abstract class AbstractCustomMessage
 {
-    protected TelegramBotHelper $telegramBotHelper;
-
-    public function __construct(TelegramBotHelper $telegramBotHelper, ...$args)
-    {
-        $this->telegramBotHelper = $telegramBotHelper;
-    }
-
     abstract public function getMessage(): array;
 
     public function getText(): string

@@ -5,7 +5,7 @@ namespace App\Command\Test;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
-use App\Service\TelegramBotHelper;
+use App\Service\TelegramAdminMessageHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,13 +16,13 @@ class TestSmurfAlertMessageCommand extends Command
 {
     protected static $defaultName = 'TestSmurfAlertMessage';// Type must be defined in base class :(
 
-    private TelegramBotHelper $telegramBotHelper;
+    private TelegramAdminMessageHelper $telegramAdminMessageHelper;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper)
+    public function __construct(TelegramAdminMessageHelper $telegramAdminMessageHelper)
     {
-        $this->telegramBotHelper = $telegramBotHelper;
-
         parent::__construct();
+
+        $this->telegramAdminMessageHelper = $telegramAdminMessageHelper;
     }
 
     protected function configure(): void
@@ -48,7 +48,7 @@ class TestSmurfAlertMessageCommand extends Command
 
         $statEntry->setFaction('TEST');
 
-        $this->telegramBotHelper->sendSmurfAlertMessage(
+        $this->telegramAdminMessageHelper->sendSmurfAlertMessage(
             'test',
             $user,
             $agent,

@@ -6,7 +6,6 @@ use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
 use App\Service\MedalChecker;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,30 +14,21 @@ class NewMedalMessage extends AbstractCustomMessage
     private MedalChecker $medalChecker;
     private EmojiService $emojiService;
     private TranslatorInterface $translator;
+    private string $pageBaseUrl;
     private Agent $agent;
     private array $medalUps;
-    private string $pageBaseUrl;
     private array $medalDoubles;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
         TranslatorInterface $translator,
-        Agent $agent,
         MedalChecker $medalChecker,
-        array $medalUps,
-        array $medalDoubles,
         string $pageBaseUrl
     ) {
-        parent::__construct($telegramBotHelper);
-
         $this->translator = $translator;
-        $this->agent = $agent;
-        $this->medalUps = $medalUps;
         $this->medalChecker = $medalChecker;
         $this->pageBaseUrl = $pageBaseUrl;
         $this->emojiService = $emojiService;
-        $this->medalDoubles = $medalDoubles;
     }
 
     /**
@@ -50,7 +40,6 @@ class NewMedalMessage extends AbstractCustomMessage
         $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
 
         $message = [];
-
         $message[] = $speaker.' '
             .$this->translator->trans('announce.header')
             .' '.$speaker;
@@ -112,5 +101,41 @@ class NewMedalMessage extends AbstractCustomMessage
         );
 
         return $message;
+    }
+
+    /**
+     * @param array $medalUps
+     *
+     * @return NewMedalMessage
+     */
+    public function setMedalUps(array $medalUps): NewMedalMessage
+    {
+        $this->medalUps = $medalUps;
+
+        return $this;
+    }
+
+    /**
+     * @param Agent $agent
+     *
+     * @return NewMedalMessage
+     */
+    public function setAgent(Agent $agent): NewMedalMessage
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @param array $medalDoubles
+     *
+     * @return NewMedalMessage
+     */
+    public function setMedalDoubles(array $medalDoubles): NewMedalMessage
+    {
+        $this->medalDoubles = $medalDoubles;
+
+        return $this;
     }
 }

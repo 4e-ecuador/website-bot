@@ -21,6 +21,9 @@ class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
         $this->urlGenerator = $urlGenerator;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function transform($text): string
     {
         $text = parent::transform($text);

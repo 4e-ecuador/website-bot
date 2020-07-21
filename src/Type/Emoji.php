@@ -10,8 +10,13 @@ class Emoji
     private string $bytecode;
     private string $native;
 
-    public function __construct(string $name, string $description, string $unicode, string $bytecode, string $native = 'x')
-    {
+    public function __construct(
+        string $name,
+        string $description,
+        string $unicode,
+        string $bytecode,
+        string $native = 'x'
+    ) {
         $this->name = $name;
         $this->description = $description;
         $this->unicode = $unicode;

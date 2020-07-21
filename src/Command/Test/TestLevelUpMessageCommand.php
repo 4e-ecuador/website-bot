@@ -3,11 +3,9 @@
 namespace App\Command\Test;
 
 use App\Entity\Agent;
-use App\Service\TelegramBotHelper;
+use App\Service\TelegramMessageHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -16,30 +14,18 @@ class TestLevelUpMessageCommand extends Command
 {
     protected static $defaultName = 'TestLevelUpMessage';// Type must be defined in base class :(
 
-    private TelegramBotHelper $telegramBotHelper;
+    private TelegramMessageHelper $telegramMessageHelper;
 
-    public function __construct(TelegramBotHelper $telegramBotHelper)
+    public function __construct(TelegramMessageHelper $telegramMessageHelper)
     {
-        $this->telegramBotHelper = $telegramBotHelper;
-
         parent::__construct();
+
+        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
+        $this->setDescription('Test LevelUp Message');
     }
 
     /**
@@ -51,12 +37,12 @@ class TestLevelUpMessageCommand extends Command
         OutputInterface $output
     ): int {
         $agent = (new Agent())
-        ->setNickname('nikp3h');
+            ->setNickname('nikp3h');
 
         $level = 6;
         $recursions = 3;
 
-        $this->telegramBotHelper->sendLevelUpMessage(
+        $this->telegramMessageHelper->sendLevelUpMessage(
             'test',
             $agent,
             $level,

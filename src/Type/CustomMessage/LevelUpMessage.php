@@ -4,45 +4,28 @@ namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
-use App\Service\CiteService;
 use App\Service\EmojiService;
-use App\Service\MedalChecker;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LevelUpMessage extends AbstractCustomMessage
 {
     private TranslatorInterface $translator;
-    private MedalChecker $medalChecker;
     private EmojiService $emojiService;
-    private CiteService $citeService;
+    private string $pageBaseUrl;
+
     private Agent $agent;
     private int $level;
     private int $recursions;
-    private string $pageBaseUrl;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
-        CiteService $citeService,
         TranslatorInterface $translator,
-        Agent $agent,
-        MedalChecker $medalChecker,
-        int $level,
-        int $recursions,
         string $pageBaseUrl
     ) {
-        parent::__construct($telegramBotHelper);
-
-        $this->agent = $agent;
-        $this->level = $level;
-        $this->recursions = $recursions;
         $this->translator = $translator;
-        $this->medalChecker = $medalChecker;
         $this->pageBaseUrl = $pageBaseUrl;
         $this->emojiService = $emojiService;
-        $this->citeService = $citeService;
     }
 
     /**
@@ -98,9 +81,27 @@ class LevelUpMessage extends AbstractCustomMessage
             ]
         );
 
-        // $message[] = '';
-        // $message[] = sprintf('_%s_', $this->citeService->getRandomCite());
-
         return $message;
+    }
+
+    public function setAgent(Agent $agent): LevelUpMessage
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    public function setLevel(int $level): LevelUpMessage
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function setRecursions(int $recursions): LevelUpMessage
+    {
+        $this->recursions = $recursions;
+
+        return $this;
     }
 }

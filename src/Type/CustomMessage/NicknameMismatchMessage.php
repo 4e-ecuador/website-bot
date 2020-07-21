@@ -7,30 +7,21 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 
 class NicknameMismatchMessage extends AbstractCustomMessage
 {
-    private User $user;
-    private Agent $agent;
-    private AgentStat $statEntry;
     private EmojiService $emojiService;
     private string $announceAdminCc;
 
+    private User $user;
+    private Agent $agent;
+    private AgentStat $statEntry;
+
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         EmojiService $emojiService,
-        User $user,
-        Agent $agent,
-        AgentStat $statEntry,
         string $announceAdminCc
     ) {
-        parent::__construct($telegramBotHelper);
-
-        $this->user = $user;
-        $this->agent = $agent;
-        $this->statEntry = $statEntry;
         $this->announceAdminCc = $announceAdminCc;
         $this->emojiService = $emojiService;
     }
@@ -60,5 +51,26 @@ class NicknameMismatchMessage extends AbstractCustomMessage
         $message[] = 'CC: '.$this->announceAdminCc;
 
         return $message;
+    }
+
+    public function setUser(User $user): NicknameMismatchMessage
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function setAgent(Agent $agent): NicknameMismatchMessage
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    public function setStatEntry(AgentStat $statEntry): NicknameMismatchMessage
+    {
+        $this->statEntry = $statEntry;
+
+        return $this;
     }
 }

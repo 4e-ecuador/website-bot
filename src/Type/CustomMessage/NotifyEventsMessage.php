@@ -4,7 +4,6 @@ namespace App\Type\CustomMessage;
 
 use App\Repository\IngressEventRepository;
 use App\Service\EmojiService;
-use App\Service\TelegramBotHelper;
 use App\Type\AbstractCustomMessage;
 use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -17,16 +16,11 @@ class NotifyEventsMessage extends AbstractCustomMessage
     private bool $firstAnnounce;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
         IngressEventRepository $ingressEventRepository,
         EmojiService $emojiService,
-        TranslatorInterface $translator,
-        bool $firstAnnounce
+        TranslatorInterface $translator
     ) {
-        parent::__construct($telegramBotHelper);
-
         $this->ingressEventRepository = $ingressEventRepository;
-        $this->firstAnnounce = $firstAnnounce;
         $this->translator = $translator;
         $this->emojiService = $emojiService;
     }
@@ -39,7 +33,6 @@ class NotifyEventsMessage extends AbstractCustomMessage
         $ingressFS = $this->ingressEventRepository->findFutureFS();
         $ingressMD = $this->ingressEventRepository->findFutureMD();
         $sendDaysBeforeEvent = 8;
-
         if ($ingressFS) {
             if ($this->firstAnnounce) {
                 $message[] = $speaker.' '.$this->translator->trans(
@@ -108,5 +101,12 @@ class NotifyEventsMessage extends AbstractCustomMessage
         }
 
         return $message;
+    }
+
+    public function setFirstAnnounce(bool $firstAnnounce): NotifyEventsMessage
+    {
+        $this->firstAnnounce = $firstAnnounce;
+
+        return $this;
     }
 }

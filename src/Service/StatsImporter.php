@@ -22,12 +22,14 @@ class StatsImporter
     private CsvParser $csvParser;
     private AgentStatRepository $agentStatRepository;
     private TranslatorInterface $translator;
-    private TelegramBotHelper $telegramBotHelper;
+    private TelegramMessageHelper $telegramMessageHelper;
+    private TelegramAdminMessageHelper $telegramAdminMessageHelper;
     private MedalChecker $medalChecker;
 
     public function __construct(
         CsvParser $csvParser,
-        TelegramBotHelper $telegramBotHelper,
+        TelegramAdminMessageHelper $telegramAdminMessageHelper,
+        TelegramMessageHelper $telegramMessageHelper,
         MedalChecker $medalChecker,
         AgentStatRepository $agentStatRepository,
         TranslatorInterface $translator
@@ -35,8 +37,9 @@ class StatsImporter
         $this->csvParser = $csvParser;
         $this->agentStatRepository = $agentStatRepository;
         $this->translator = $translator;
-        $this->telegramBotHelper = $telegramBotHelper;
         $this->medalChecker = $medalChecker;
+        $this->telegramMessageHelper = $telegramMessageHelper;
+        $this->telegramAdminMessageHelper = $telegramAdminMessageHelper;
     }
 
     /**
@@ -148,7 +151,7 @@ class StatsImporter
          */
         if ($statEntry->getFaction() !== 'Enlightened') {
             // Smurf detected!!!
-            $this->telegramBotHelper->sendSmurfAlertMessage(
+            $this->telegramAdminMessageHelper->sendSmurfAlertMessage(
                 'admin',
                 $user,
                 $agent,
@@ -158,7 +161,7 @@ class StatsImporter
 
         if ($agent->getNickname() !== $statEntry->getNickname()) {
             // Nickname mismatch
-            $this->telegramBotHelper->sendNicknameMismatchMessage(
+            $this->telegramAdminMessageHelper->sendNicknameMismatchMessage(
                 'admin',
                 $user,
                 $agent,
@@ -175,16 +178,17 @@ class StatsImporter
 
         // Medal(s) gained
         if ($result->medalUps) {
-            $this->telegramBotHelper->sendNewMedalMessage(
+            $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $result->medalUps, []
+                $result->medalUps,
+                []
             );
         }
 
         // Medal doubles
         if ($result->medalDoubles) {
-            $this->telegramBotHelper->sendNewMedalMessage(
+            $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
                 $result->medalUps,
@@ -194,7 +198,7 @@ class StatsImporter
 
         // Level changed
         if ($result->newLevel) {
-            $this->telegramBotHelper->sendLevelUpMessage(
+            $this->telegramMessageHelper->sendLevelUpMessage(
                 $groupName,
                 $agent,
                 $result->newLevel,
@@ -204,7 +208,7 @@ class StatsImporter
 
         // Recursions
         if ($result->recursions) {
-            $this->telegramBotHelper->sendRecursionMessage(
+            $this->telegramMessageHelper->sendRecursionMessage(
                 $groupName,
                 $agent,
                 $result->recursions

@@ -5,7 +5,9 @@ namespace App\Security;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\AvatarHelper;
+use App\Service\TelegramAdminMessageHelper;
 use App\Service\TelegramBotHelper;
+use App\Service\TelegramMessageHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
@@ -33,12 +35,15 @@ class GoogleAuthenticator extends SocialAuthenticator
     private TelegramBotHelper $telegramBotHelper;
     private UrlGeneratorInterface $urlGenerator;
     private AvatarHelper $avatarHelper;
+    private TelegramMessageHelper $telegramMessageHelper;
+    private TelegramAdminMessageHelper $telegramAdminMessageHelper;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         TelegramBotHelper $telegramBotHelper,
+        TelegramAdminMessageHelper $telegramAdminMessageHelper,
         AvatarHelper $avatarHelper
     ) {
         $this->clientRegistry = $clientRegistry;
@@ -46,6 +51,7 @@ class GoogleAuthenticator extends SocialAuthenticator
         $this->telegramBotHelper = $telegramBotHelper;
         $this->urlGenerator = $urlGenerator;
         $this->avatarHelper = $avatarHelper;
+        $this->telegramAdminMessageHelper = $telegramAdminMessageHelper;
     }
 
     public function supports(Request $request): bool
@@ -103,7 +109,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
             if ($newUser) {
                 $groupId = $this->telegramBotHelper->getGroupId('admin');
-                $this->telegramBotHelper->sendNewUserMessage($groupId, $user);
+                $this->telegramAdminMessageHelper->sendNewUserMessage($groupId, $user);
             }
         }
 

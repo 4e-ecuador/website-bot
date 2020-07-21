@@ -3,7 +3,7 @@
 namespace App\Command\Test;
 
 use App\Repository\AgentRepository;
-use App\Service\TelegramBotHelper;
+use App\Service\TelegramMessageHelper;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,15 +17,15 @@ class TestRecursionMessageCommand extends Command
     protected static $defaultName = 'bot:test:RecursionMessage';// Type must be defined in base class :(
 
     private AgentRepository $agentRepository;
-    private TelegramBotHelper $telegramBotHelper;
+    private TelegramMessageHelper $telegramMessageHelper;
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
+        TelegramMessageHelper $telegramMessageHelper,
         AgentRepository $agentRepository
     ) {
         parent::__construct();
         $this->agentRepository = $agentRepository;
-        $this->telegramBotHelper = $telegramBotHelper;
+        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void
@@ -48,7 +48,7 @@ class TestRecursionMessageCommand extends Command
         $agent = $this->agentRepository->findOneByNickName('nikp3h');
         $recursions = 66;
 
-        $this->telegramBotHelper
+        $this->telegramMessageHelper
             ->sendRecursionMessage('test', $agent, $recursions);
 
         $io->success('Message sent!');

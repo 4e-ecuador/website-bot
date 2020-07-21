@@ -152,18 +152,9 @@ class IngressEventController extends AbstractController
      */
     public function announceTg(
         TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository,
-        AgentRepository $agentRepository,
-        TranslatorInterface $translator
-    ): RedirectResponse {
-        $message = (new NotifyEventsMessage(
-            $telegramBotHelper,
-            $ingressEventRepository,
-            $translator,
-            true
-        ))
-            ->getMessage();
-
+        AgentRepository $agentRepository
+    ): RedirectResponse
+    {
         $agents = $agentRepository->findNotifyAgents();
 
         $count = 0;
@@ -171,10 +162,11 @@ class IngressEventController extends AbstractController
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyEvents()) {
                 try {
-                    $telegramBotHelper->sendMessage(
+                    $telegramBotHelper->sendNotifyEventsMessage(
                         $agent->getTelegramId(),
-                        implode("\n", $message)
+                        true
                     );
+
                     $count++;
                 } catch (Exception $exception) {
                     $this->addFlash(
@@ -202,18 +194,13 @@ class IngressEventController extends AbstractController
      */
     public function announceFbm(
         FcmHelper $fbmHelper,
-        TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository,
-        TranslatorInterface $translator
-    ): RedirectResponse {
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse
+    {
         try {
-            $message = (new NotifyEventsMessage(
-                $telegramBotHelper,
-                $ingressEventRepository,
-                $translator,
-                true
-            ))
-                ->getMessage(false);
+            $message = $notifyEventsMessage
+                ->setFirstAnnounce(true)
+                ->getText();
 
             if (!$message) {
                 throw new RuntimeException('No events to announce ;(');
@@ -236,46 +223,38 @@ class IngressEventController extends AbstractController
      */
     public function announceFbmToken(
         FcmHelper $fbmHelper,
-        TelegramBotHelper $telegramBotHelper,
-        IngressEventRepository $ingressEventRepository,
         UserRepository $userRepository,
-        TranslatorInterface $translator
-    ): RedirectResponse {
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse
+    {
         try {
-            $users = $userRepository->getFireBaseUsers();
-
-            $count = 0;
-
-            $message = (new NotifyEventsMessage(
-                $telegramBotHelper,
-                $ingressEventRepository,
-                $translator,
-                true
-            ))
-                ->getMessage(false);
+            $message = $notifyEventsMessage
+                ->setFirstAnnounce(true)
+                ->getText();
 
             if (!$message) {
                 throw new RuntimeException('No events to announce ;(');
             }
 
+            $users = $userRepository->getFireBaseUsers();
+            $count = 0;
             $title = 'Nuevos Eventos Ingress!';
-
             $tokens = [];
-            $user = null;
 
             foreach ($users as $user) {
                 $tokens[] = $user->getFireBaseToken();
                 $count++;
             }
+
             if (!$fbmHelper->sendMessageWithTokens(
                 'URG '.$title,
-                implode("\n", $message),
+                $message,
                 $tokens
             )
             ) {
                 $this->addFlash(
                     'warning',
-                    'Message not sent :'.$user->getUsername()
+                    'Message not sent :'
                 );
             }
 

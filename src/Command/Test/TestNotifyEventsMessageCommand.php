@@ -2,15 +2,12 @@
 
 namespace App\Command\Test;
 
-use App\Repository\IngressEventRepository;
-use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
-use App\Type\CustomMessage\NotifyEventsMessage;
+use App\Service\TelegramMessageHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
@@ -19,28 +16,21 @@ class TestNotifyEventsMessageCommand extends Command
     protected static $defaultName = 'bot:test:NotifyEventsMessage';// Type must be defined in base class :(
 
     private TelegramBotHelper $telegramBotHelper;
-    private TranslatorInterface $translator;
-    private IngressEventRepository $ingressEventRepository;
-    private EmojiService $emojiService;
+    private TelegramMessageHelper $telegramMessageHelper;
 
     public function __construct(
         TelegramBotHelper $telegramBotHelper,
-        TranslatorInterface $translator,
-        IngressEventRepository $ingressEventRepository,
-    EmojiService $emojiService
+        TelegramMessageHelper $telegramMessageHelper
     ) {
         parent::__construct();
 
         $this->telegramBotHelper = $telegramBotHelper;
-        $this->translator = $translator;
-        $this->ingressEventRepository = $ingressEventRepository;
-        $this->emojiService = $emojiService;
+        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Bot test');
+        $this->setDescription('Test Notify Events Message');
     }
 
     /**
@@ -53,26 +43,12 @@ class TestNotifyEventsMessageCommand extends Command
     ): int {
         $io = new SymfonyStyle($input, $output);
         $firstAnnounce = false;
-        $message = (new NotifyEventsMessage(
-            $this->telegramBotHelper,
-            $this->ingressEventRepository,
-            $this->emojiService,
-            $this->translator,
-            $firstAnnounce
-        ))->getText();
-
-        if (!$message) {
-            $io->warning('No events :(');
-
-            return 0;
-        }
 
         $chatId = $this->telegramBotHelper->getGroupId('test');
-        $this->telegramBotHelper->sendMessage($chatId, $message);
 
-        $io->success(
-            'Message sent!'
-        );
+        $this->telegramMessageHelper->sendNotifyEventsMessage($chatId, $firstAnnounce);
+
+        $io->success('Message sent!');
 
         return 0;
     }

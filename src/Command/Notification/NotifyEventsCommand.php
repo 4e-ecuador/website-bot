@@ -3,8 +3,6 @@
 namespace App\Command\Notification;
 
 use App\Repository\AgentRepository;
-use App\Repository\IngressEventRepository;
-use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Exception;
@@ -13,32 +11,26 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsCommand extends Command
 {
     protected static $defaultName = 'bot:notify:events';// Type must be defined in base class :(
 
-    private IngressEventRepository $ingressEventRepository;
-    private TranslatorInterface $translator;
     private AgentRepository $agentRepository;
     private TelegramBotHelper $telegramBotHelper;
-    private EmojiService $emojiService;
+
+    private NotifyEventsMessage $notifyEventsMessage;
 
     public function __construct(
-        IngressEventRepository $ingressEventRepository,
+        NotifyEventsMessage $notifyEventsMessage,
         AgentRepository $agentRepository,
-        TelegramBotHelper $telegramBotHelper,
-        TranslatorInterface $translator,
-        EmojiService $emojiService
+        TelegramBotHelper $telegramBotHelper
     ) {
         parent::__construct();
 
-        $this->ingressEventRepository = $ingressEventRepository;
-        $this->translator = $translator;
         $this->agentRepository = $agentRepository;
         $this->telegramBotHelper = $telegramBotHelper;
-        $this->emojiService = $emojiService;
+        $this->notifyEventsMessage = $notifyEventsMessage;
     }
 
     protected function configure(): void
@@ -59,14 +51,9 @@ class NotifyEventsCommand extends Command
     ): int {
         $io = new SymfonyStyle($input, $output);
         $firstAnnounce = $input->getOption('first-announce');
-        $message = (new NotifyEventsMessage(
-            $this->telegramBotHelper,
-            $this->ingressEventRepository,
-            $this->emojiService,
-            $this->translator,
-            $firstAnnounce
-        ))
-            ->getMessage();
+        $message = $this->notifyEventsMessage
+            ->setFirstAnnounce($firstAnnounce)
+            ->getText();
 
         if (!$message) {
             // No message - no events :(
@@ -80,7 +67,7 @@ class NotifyEventsCommand extends Command
                 try {
                     $this->telegramBotHelper->sendMessage(
                         $agent->getTelegramId(),
-                        implode("\n", $message)
+                        $message
                     );
                 } catch (Exception $exception) {
                     $io->warning(

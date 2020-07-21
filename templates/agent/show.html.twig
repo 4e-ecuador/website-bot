@@ -72,8 +72,8 @@
             </tr>
         {% endif %}
         <tr>
-            <th>{{ 'Position'|trans }}</th>
-            <td>
+            <td colspan="2">
+                {{ 'Position'|trans }}
                 <span class="js-agent-coords" data-lat="{{ agent.lat }}" data-lon="{{ agent.lon }}"></span>
                 {% if agent.lat and agent.lon %}
                     <div id="map"></div>

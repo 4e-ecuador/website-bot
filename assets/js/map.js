@@ -1,5 +1,9 @@
 require('leaflet')
 require('leaflet/dist/leaflet.css')
+
+require('leaflet-fullscreen')
+require('leaflet-fullscreen/dist/leaflet.fullscreen.css')
+
 require('../css/map.css')
 
 let map
@@ -14,7 +18,8 @@ function initmap(lat, lon) {
         iconAnchor: [11, 36],
         popupAnchor: [0, -18],
     })
-    map = new L.Map('map')
+
+    map = new L.Map('map', {fullscreenControl: true})
 
     map.addLayer(osm)
 

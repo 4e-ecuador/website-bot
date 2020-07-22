@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Agent;
 use App\Type\CustomMessage\LevelUpMessage;
+use App\Type\CustomMessage\MedalDoubleMessage;
 use App\Type\CustomMessage\NewMedalMessage;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use App\Type\CustomMessage\NotifyUploadReminder;
@@ -20,6 +21,7 @@ class TelegramMessageHelper
     private MedalChecker $medalChecker;
 
     private NewMedalMessage $newMedalMessage;
+    private MedalDoubleMessage $medalDoubleMessage;
     private LevelUpMessage $levelUpMessage;
     private NotifyEventsMessage $notifyEventsMessage;
     private NotifyUploadReminder $notifyUploadReminder;
@@ -33,6 +35,7 @@ class TelegramMessageHelper
         string $rootDir,
 
         NewMedalMessage $newMedalMessage,
+        MedalDoubleMessage $medalDoubleMessage,
         LevelUpMessage $levelUpMessage,
         NotifyEventsMessage $notifyEventsMessage,
         NotifyUploadReminder $notifyUploadReminder,
@@ -43,6 +46,7 @@ class TelegramMessageHelper
         $this->rootDir = $rootDir;
 
         $this->newMedalMessage = $newMedalMessage;
+        $this->medalDoubleMessage = $medalDoubleMessage;
         $this->levelUpMessage = $levelUpMessage;
         $this->notifyEventsMessage = $notifyEventsMessage;
         $this->notifyUploadReminder = $notifyUploadReminder;
@@ -112,24 +116,44 @@ class TelegramMessageHelper
     public function sendNewMedalMessage(
         string $groupName,
         Agent $agent,
-        array $medalUps,
-        array $medalDoubles
+        array $medalUps
     ): Message {
         $message = $this->newMedalMessage
             ->setAgent($agent)
             ->setMedalUps($medalUps)
+            ->getText();
+
+        $firstValue = reset($medalUps);
+        $firstMedal = key($medalUps);
+
+        $photo = new CURLFile(
+            $this->rootDir.'/assets/images/badges/'
+            .$this->medalChecker->getBadgePath($firstMedal, $firstValue)
+        );
+
+        return $this->telegramBotHelper->sendPhoto(
+            $this->telegramBotHelper->getGroupId($groupName),
+            $photo,
+            $message
+        );
+    }
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function sendMedalDoubleMessage(
+        string $groupName,
+        Agent $agent,
+        array $medalDoubles
+    ): Message {
+        $message = $this->medalDoubleMessage
+            ->setAgent($agent)
             ->setMedalDoubles($medalDoubles)
             ->getText();
 
-        if ($medalUps) {
-            $firstValue = reset($medalUps);
-            $firstMedal = key($medalUps);
-        } elseif ($medalDoubles) {
-            $firstValue = 5;
-            $firstMedal = key($medalDoubles);
-        } else {
-            throw new UnexpectedValueException('no medal ups nor doubles :(');
-        }
+        $firstMedal = key($medalDoubles);
+        $firstValue = 5;
 
         $photo = new CURLFile(
             $this->rootDir.'/assets/images/badges/'

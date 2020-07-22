@@ -181,17 +181,15 @@ class StatsImporter
             $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $result->medalUps,
-                []
+                $result->medalUps
             );
         }
 
         // Medal doubles
         if ($result->medalDoubles) {
-            $this->telegramMessageHelper->sendNewMedalMessage(
+            $this->telegramMessageHelper->sendMedalDoubleMessage(
                 $groupName,
                 $agent,
-                $result->medalUps,
                 $result->medalDoubles
             );
         }

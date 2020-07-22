@@ -9,14 +9,14 @@ use App\Service\MedalChecker;
 use App\Type\AbstractCustomMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class NewMedalMessage extends AbstractCustomMessage
+class MedalDoubleMessage extends AbstractCustomMessage
 {
     private MedalChecker $medalChecker;
     private EmojiService $emojiService;
     private TranslatorInterface $translator;
     private string $pageBaseUrl;
     private Agent $agent;
-    private array $medalUps;
+    private array $medalDoubles;
 
     public function __construct(
         EmojiService $emojiService,
@@ -47,21 +47,21 @@ class NewMedalMessage extends AbstractCustomMessage
         $message[] = $this->translator->trans(
             'new.medal.text.1',
             [
-                'medals' => count($this->medalUps),
+                'medals' => count($this->medalDoubles),
                 'agent'  => $this->getAgentTelegramName($this->agent),
             ]
         );
 
         $message[] = '';
 
-        foreach ($this->medalUps as $medal => $level) {
+        foreach ($this->medalDoubles as $medal => $level) {
             $message[] = $this->translator->trans(
                 'new.medal.text.2',
                 [
                     'medal'  => $medal,
                     'level'  => $this->medalChecker
-                        ->translateMedalLevel($level),
-                    'double' => '',
+                        ->translateMedalLevel(5),
+                    'double' => 'X '.$level,
                 ]
             );
         }
@@ -88,16 +88,16 @@ class NewMedalMessage extends AbstractCustomMessage
         return $message;
     }
 
-    public function setMedalUps(array $medalUps): NewMedalMessage
+    public function setAgent(Agent $agent): self
     {
-        $this->medalUps = $medalUps;
+        $this->agent = $agent;
 
         return $this;
     }
 
-    public function setAgent(Agent $agent): NewMedalMessage
+    public function setMedalDoubles(array $medalDoubles): self
     {
-        $this->agent = $agent;
+        $this->medalDoubles = $medalDoubles;
 
         return $this;
     }

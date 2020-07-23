@@ -21,9 +21,17 @@ class AvatarHelper
         $returnValue = curl_exec($curl);
 
         // TODO: error checking!!!
-
-        $imageData = chunk_split(base64_encode($returnValue));
         curl_close($curl);
+
+        $image = imagecreatefromstring($returnValue);
+
+        $imgResized = imagescale($image , 100, 100);
+
+        ob_start();
+        imagejpeg($imgResized);
+        $contents = ob_get_clean();
+
+        $imageData = chunk_split(base64_encode($contents));
 
         $user->setAvatarEncoded('data:image/jpg;base64,'.$imageData);
 

@@ -113,7 +113,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             }
         }
 
-        if (!$user->getAvatar()) {
+        if (true){//!$user->getAvatar()) {
             // Update avatar
             $user->setAvatar($googleUser->getAvatar());
             $this->avatarHelper->updateAvatar($user);

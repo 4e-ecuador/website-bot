@@ -200,7 +200,7 @@ class StatsImporter
                 $groupName,
                 $agent,
                 $result->newLevel,
-                $result->recursions ?: 0
+                $statEntry->getRecursions() ?: 0
             );
         }
 

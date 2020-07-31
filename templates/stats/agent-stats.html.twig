@@ -55,7 +55,13 @@
                                 {% if 'AvenirShard' == medal %}
                                     <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
                                           title="{{ badgeData.title }}"></span>
-                                        {% else %}
+                                {% elseif 'Paragon' == medal %}
+                                    <span class="medal50-events medal-UniqueBadge_Paragon"
+                                          title="{{ badgeData.title }}"></span>
+                                {% elseif 'KnightTessellation' == medal %}
+                                    <span class="medal50-badges medal-Badge_{{ medal }}_{{ value }}"
+                                          title="{{ badgeData.title }}"></span>
+                                {% else %}
                                     <span class="medal50-events medal-EventBadge_{{ medal }}_{{ value }}"
                                           title="{{ badgeData.title }}"></span>
                                 {% endif %}

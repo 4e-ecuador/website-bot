@@ -233,6 +233,15 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'KnightTessellation'   =>
+                        [
+                            'Silver',
+                            'Gold',
+                        ],
+                    'Paragon'              =>
+                        [
+                            '',
+                        ],
                     'DidactField'          =>
                         [
                             'Bronze',
@@ -435,8 +444,14 @@ class MedalChecker
         foreach ($currentLevels as $name => $currentLevel) {
             if (5 === $currentLevel) {
                 $methodName = $this->getGetterMethodName($name);
-                $currentDouble = $this->getDoubleValue($name, $currentEntry->$methodName());
-                $previousDouble = $this->getDoubleValue($name, $previousEntry->$methodName());
+                $currentDouble = $this->getDoubleValue(
+                    $name,
+                    $currentEntry->$methodName()
+                );
+                $previousDouble = $this->getDoubleValue(
+                    $name,
+                    $previousEntry->$methodName()
+                );
                 if ($currentDouble > $previousDouble) {
                     // DOUBLE!
                     $doubles[$name] = $currentDouble;

@@ -230,6 +230,12 @@ class AppExtension extends AbstractExtension
             case 'Event':
                 if ('AvenirShard' === $badge) {
                     $code = 'UniqueBadge_AvenirShardChallenge';
+                }
+                elseif ('Paragon' === $badge) {
+                    $code = 'UniqueBadge_Paragon';
+                }
+                elseif ('KnightTessellation' === $badge) {
+                    $code = 'Badge_'.$badge.'_'.$value;
                 } else {
                     $code = 'EventBadge_'.$badge.'_'.$value;
                 }

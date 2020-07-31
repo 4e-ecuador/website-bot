@@ -111,6 +111,12 @@
                                             {% if 'AvenirShard' == medal %}
                                                 <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
                                                       title="Avenir Shard Challenge"></span>
+                                            {% elseif 'Paragon' == medal %}
+                                                <span class="medal50-events medal-UniqueBadge_Paragon"
+                                                      title="Avenir Shard Challenge"></span>
+                                            {% elseif 'KnightTessellation' == medal %}
+                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
+                                                      title="{{ medal~' '~tier }}"></span>
                                             {% else %}
                                                 <span class="medal50-events medal-EventBadge_{{ medal~name }}"
                                                       title="{{ medal~' '~tier }}"></span>
@@ -156,7 +162,9 @@
         <div class="col-sm">
             {{ form_row(form.locale) }}
         </div>
-        <div class="col-sm">{{ 'Dark mode'|trans }} - TBD</div>
+        <div class="col-sm">
+{#            {{ 'Dark mode'|trans }} - TBD#}
+        </div>
     </div>
     <hr>
 

@@ -14,7 +14,7 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestSmurfAlertMessageCommand extends Command
 {
-    protected static $defaultName = 'TestSmurfAlertMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:SmurfAlertMessage';// Type must be defined in base class :(
 
     private TelegramAdminMessageHelper $telegramAdminMessageHelper;
 
@@ -55,6 +55,6 @@ class TestSmurfAlertMessageCommand extends Command
             $statEntry
         );
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

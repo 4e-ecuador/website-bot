@@ -51,8 +51,8 @@ class TestRecursionMessageCommand extends Command
         $this->telegramMessageHelper
             ->sendRecursionMessage('test', $agent, $recursions);
 
-        $io->success('Message sent!');
+        $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

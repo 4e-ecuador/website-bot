@@ -16,7 +16,7 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestNotifyUploadReminderMessageCommand extends Command
 {
-    protected static $defaultName = 'TestNotifyUploadReminderMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';// Type must be defined in base class :(
 
     private TelegramBotHelper $telegramBotHelper;
     private TranslatorInterface $translator;
@@ -85,10 +85,8 @@ class TestNotifyUploadReminderMessageCommand extends Command
 
         $io->text($message);
 
-        $io->success(
-            'Message sent!'
-        );
+        $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

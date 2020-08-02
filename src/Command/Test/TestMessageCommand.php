@@ -13,7 +13,7 @@ use UnexpectedValueException;
 
 class TestMessageCommand extends Command
 {
-    protected static $defaultName = 'app:bot:testMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:message';// Type must be defined in base class :(
 
     private TelegramBotHelper $telegramBotHelper;
 
@@ -59,13 +59,11 @@ class TestMessageCommand extends Command
                 .'`';
             $io->writeln($text);
             $this->telegramBotHelper->sendMessage($groupId, $text);
-            $io->success(
-                'You have a new command! Now make it your own! Pass --help to see your options.'
-            );
+            $io->success('Message has been sent!');
         } catch (Exception $exception) {
             $io->error($exception->getMessage());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

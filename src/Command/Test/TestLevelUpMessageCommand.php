@@ -12,7 +12,7 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestLevelUpMessageCommand extends Command
 {
-    protected static $defaultName = 'TestLevelUpMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:levelUpMessage';// Type must be defined in base class :(
 
     private TelegramMessageHelper $telegramMessageHelper;
 
@@ -49,6 +49,6 @@ class TestLevelUpMessageCommand extends Command
             $recursions
         );
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

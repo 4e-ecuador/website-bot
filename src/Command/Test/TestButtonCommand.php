@@ -14,7 +14,7 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestButtonCommand extends Command
 {
-    protected static $defaultName = 'TestButton';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:button';// Type must be defined in base class :(
 
     private TelegramBotHelper $telegramBotHelper;
 
@@ -54,10 +54,8 @@ class TestButtonCommand extends Command
 
         $this->telegramBotHelper->sendButtonMessage('test');
 
-        $io->success(
-            'You have a new command! Now make it your own! Pass --help to see your options.'
-        );
+        $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class TestMedalMessageCommand extends Command
 {
-    protected static $defaultName = 'app:bot:testMedalMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:medalMessage';// Type must be defined in base class :(
 
     private AgentRepository $agentRepository;
     private TelegramMessageHelper $telegramMessageHelper;
@@ -58,13 +58,11 @@ class TestMedalMessageCommand extends Command
             $agent = $this->agentRepository->findOneByNickName('nikp3h');
 
             $medalUps = ['purifier' => 5];
-            $medalDoubles = [];
 
             $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
                 $agent,
-                $medalUps,
-                $medalDoubles
+                $medalUps
             );
 
             $io->success('Finished!');
@@ -72,6 +70,6 @@ class TestMedalMessageCommand extends Command
             $io->error($exception->getMessage());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

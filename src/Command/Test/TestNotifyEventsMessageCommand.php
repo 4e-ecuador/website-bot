@@ -48,8 +48,8 @@ class TestNotifyEventsMessageCommand extends Command
 
         $this->telegramMessageHelper->sendNotifyEventsMessage($chatId, $firstAnnounce);
 
-        $io->success('Message sent!');
+        $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -4,25 +4,12 @@ namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
-use App\Service\EmojiService;
 use App\Type\AbstractCustomMessage;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RecursionMessage extends AbstractCustomMessage
 {
-    private EmojiService $emojiService;
-    private TranslatorInterface $translator;
-
     private Agent $agent;
     private int $recursions;
-
-    public function __construct(
-        EmojiService $emojiService,
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
-        $this->emojiService = $emojiService;
-    }
 
     /**
      * @throws EmojiNotFoundException

@@ -6,25 +6,13 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\EmojiNotFoundException;
-use App\Service\EmojiService;
 use App\Type\AbstractCustomMessage;
 
 class SmurfAlertMessage extends AbstractCustomMessage
 {
-    private EmojiService $emojiService;
-
     private User $user;
     private Agent $agent;
     private AgentStat $statEntry;
-    private string $announceAdminCc;
-
-    public function __construct(
-        EmojiService $emojiService,
-        string $announceAdminCc
-    ) {
-        $this->announceAdminCc = $announceAdminCc;
-        $this->emojiService = $emojiService;
-    }
 
     /**
      * @throws EmojiNotFoundException

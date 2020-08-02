@@ -2,28 +2,12 @@
 
 namespace App\Type\CustomMessage;
 
-use App\Repository\IngressEventRepository;
-use App\Service\EmojiService;
 use App\Type\AbstractCustomMessage;
 use DateTime;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NotifyEventsMessage extends AbstractCustomMessage
 {
-    private IngressEventRepository $ingressEventRepository;
-    private EmojiService $emojiService;
-    private TranslatorInterface $translator;
     private bool $firstAnnounce;
-
-    public function __construct(
-        IngressEventRepository $ingressEventRepository,
-        EmojiService $emojiService,
-        TranslatorInterface $translator
-    ) {
-        $this->ingressEventRepository = $ingressEventRepository;
-        $this->translator = $translator;
-        $this->emojiService = $emojiService;
-    }
 
     public function getMessage($useLinks = true): array
     {

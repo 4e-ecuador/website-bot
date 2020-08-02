@@ -4,29 +4,13 @@ namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
-use App\Service\EmojiService;
 use App\Type\AbstractCustomMessage;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LevelUpMessage extends AbstractCustomMessage
 {
-    private TranslatorInterface $translator;
-    private EmojiService $emojiService;
-    private string $pageBaseUrl;
-
     private Agent $agent;
     private int $level;
     private int $recursions;
-
-    public function __construct(
-        EmojiService $emojiService,
-        TranslatorInterface $translator,
-        string $pageBaseUrl
-    ) {
-        $this->translator = $translator;
-        $this->pageBaseUrl = $pageBaseUrl;
-        $this->emojiService = $emojiService;
-    }
 
     /**
      * @throws EmojiNotFoundException

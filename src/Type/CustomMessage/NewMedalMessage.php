@@ -4,31 +4,12 @@ namespace App\Type\CustomMessage;
 
 use App\Entity\Agent;
 use App\Exception\EmojiNotFoundException;
-use App\Service\EmojiService;
-use App\Service\MedalChecker;
 use App\Type\AbstractCustomMessage;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NewMedalMessage extends AbstractCustomMessage
 {
-    private MedalChecker $medalChecker;
-    private EmojiService $emojiService;
-    private TranslatorInterface $translator;
-    private string $pageBaseUrl;
     private Agent $agent;
     private array $medalUps;
-
-    public function __construct(
-        EmojiService $emojiService,
-        TranslatorInterface $translator,
-        MedalChecker $medalChecker,
-        string $pageBaseUrl
-    ) {
-        $this->translator = $translator;
-        $this->medalChecker = $medalChecker;
-        $this->pageBaseUrl = $pageBaseUrl;
-        $this->emojiService = $emojiService;
-    }
 
     /**
      * @throws EmojiNotFoundException

@@ -6,25 +6,13 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\EmojiNotFoundException;
-use App\Service\EmojiService;
 use App\Type\AbstractCustomMessage;
 
 class NicknameMismatchMessage extends AbstractCustomMessage
 {
-    private EmojiService $emojiService;
-    private string $announceAdminCc;
-
     private User $user;
     private Agent $agent;
     private AgentStat $statEntry;
-
-    public function __construct(
-        EmojiService $emojiService,
-        string $announceAdminCc
-    ) {
-        $this->announceAdminCc = $announceAdminCc;
-        $this->emojiService = $emojiService;
-    }
 
     /**
      * @throws EmojiNotFoundException

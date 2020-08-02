@@ -18,7 +18,6 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use UnexpectedValueException;
 use function get_class;
-use function Symfony\Component\String\s;
 
 /**
  * Class AppExtension

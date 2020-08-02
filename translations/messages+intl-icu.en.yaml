@@ -137,7 +137,7 @@ notify.stats.upload: ____notify.stats.upload
 notify.stats.result: ____notify.stats.result
 notify.events: ____notify.events
 bot.message.missing.agent: 'Unknown account or not activated. Please check on http://my-web-site/account'
-bot.message.agent.verified: 'our account has been verified.'
+bot.message.agent.verified: 'Your account has been verified.'
 notify.events.head.fs.first: __notify.events.head.fs.first
 notify.events.head.fs: __notify.events.head.fs
 notify.events.events.fs: __notify.events.events.fs

@@ -96,3 +96,4 @@ Error: Fehler
 'This form should not contain extra fields.': 'Dieses Formular sollte keine zusätzlichen Felder enthalten.'
 'The uploaded file was too large. Please try to upload a smaller file.': 'Die hochgeladene Datei ist zu groß. Versuchen Sie bitte eine kleinere Datei hochzuladen.'
 'The CSRF token is invalid. Please try to resubmit the form.': 'Der CSRF-Token ist ungültig. Versuchen Sie bitte das Formular erneut zu senden.'
+'This value is not a valid HTML5 color.': 'Dieser Wert ist keine gültige HTML5 Farbe.'

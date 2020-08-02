@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Backup a PostgreSQL database on Heroku
+#
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd ../backups && pwd )"
+cd "$DIR" || exit 1
+
+APP_NAME=agents-4e
+
+FILE_NAME=$(date +"%Y-%m-%d-%H-%M-%S")_dump.sql
+
+echo Starting Backup...
+
+rm -f latest.dump
+
+heroku pg:backups:capture --app $APP_NAME
+heroku pg:backups:download --app $APP_NAME
+#heroku pg:backups:capture --remote $APP_NAME
+#heroku pg:backups:download --remote $APP_NAME
+
+#FLAGS="--no-owner --quote-all-identifiers --no-acl --format p --data-only"
+#FLAGS="--no-owner --no-acl --data-only"
+FLAGS="--no-owner --no-acl"
+
+pg_restore latest.dump > "$FILE_NAME" $FLAGS
+
+echo Backup saved to "$FILE_NAME"
+
+echo Finished!

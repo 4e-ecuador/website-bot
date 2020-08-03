@@ -23,7 +23,11 @@ heroku pg:backups:download --app $APP_NAME
 #FLAGS="--no-owner --no-acl --data-only"
 FLAGS="--no-owner --no-acl"
 
-pg_restore latest.dump > "$FILE_NAME" $FLAGS
+# pg_restore V 10
+#pg_restore -f latest.dump > "$FILE_NAME" $FLAGS
+
+# pg_restore V 12
+pg_restore -f "$FILE_NAME"  $FLAGS latest.dump
 
 echo Backup saved to "$FILE_NAME"
 

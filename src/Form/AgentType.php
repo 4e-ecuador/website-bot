@@ -61,6 +61,8 @@ class AgentType extends AbstractType
                     ],
                 ]
             )
+            // TODO temp...
+            ->add('locale')
             ->add(
                 'mapGroup',
                 EntityType::class,

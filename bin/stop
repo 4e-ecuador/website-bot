@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Startup script
+# Stop script
 #
 
 check() {
@@ -17,12 +17,10 @@ check "symfony"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd )"
 cd "$DIR" || exit 1
 
-echo "Starting dev env in $DIR ..."
+echo "Stopping dev env in $DIR ..."
 
-docker-compose up -d
+docker-compose stop
 
-symfony server:start -d
+symfony server:stop
 
-symfony open:local
-
-echo "hF =;)"
+echo "bye =;)"

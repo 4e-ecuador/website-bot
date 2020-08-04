@@ -3,6 +3,18 @@
 # Backup a PostgreSQL database on Heroku
 #
 
+check() {
+if ! command -v "$1" &> /dev/null
+then
+    echo "ERROR: Command '$1' could not be found on your system :("
+    exit 1
+fi
+}
+
+check "heroku"
+check "pg_restore"
+
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd ../backups && pwd )"
 cd "$DIR" || exit 1
 

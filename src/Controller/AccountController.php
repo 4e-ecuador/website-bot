@@ -46,12 +46,7 @@ class AccountController extends AbstractController
 
         $agentAccount = $request->request->get('agent_account');
 
-        $customMedals = json_decode(
-            $agent->getCustomMedals(),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        );
+        $customMedals = json_decode($agent->getCustomMedals(), true);
 
         if ($agentAccount) {
             $customMedals = $request->request->get('customMedals');

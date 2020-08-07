@@ -74,7 +74,7 @@ class User implements UserInterface
     private ?string $fireBaseToken = '';
 
     /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $apiToken = '';
 

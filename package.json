@@ -4,6 +4,9 @@
         "core-js": "^3.6.5",
         "postcss-loader": "^3.0.0",
         "regenerator-runtime": "^0.13.7",
+        "vue": "^2.5",
+        "vue-loader": "^15",
+        "vue-template-compiler": "^2.6.11",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -17,8 +20,13 @@
     "dependencies": {
         "@forevolve/bootstrap-dark": "^1.0.0-alpha.1091",
         "autoprefixer": "^9.8.5",
+        "axios": "^0.19.2",
         "bootstrap": "^4.5.0",
         "bootstrap-select": "^1.13.18",
+        "eslint": "^7.6.0",
+        "eslint-config-airbnb": "^18.2.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-vue": "^6.2.2",
         "highcharts": "^8.1.2",
         "jquery": "^3.5.1",
         "jsrender": "^1.0.7",

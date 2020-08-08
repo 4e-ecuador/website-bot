@@ -1,4 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
+var path = require('path');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -38,6 +39,8 @@ Encore
 
     .addEntry('paginator', './assets/js/paginator.js')
 
+    .addEntry('agents', './assets/js/agents.js')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -45,13 +48,19 @@ Encore
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
 
+    // This is our alias to the root vue components dir
+    .addAliases({
+        '@': path.resolve(__dirname, 'assets', 'js'),
+        styles: path.resolve(__dirname, 'assets', 'scss'),
+    })
+
     /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
+      * FEATURE CONFIG
+      *
+      * Enable & configure other features below. For a full
+      * list of features, see:
+      * https://symfony.com/doc/current/frontend.html#adding-more-features
+      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
@@ -67,6 +76,8 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
     .enablePostCssLoader()
+
+    .enableVueLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

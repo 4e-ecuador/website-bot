@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     attributes={"order"={"nickname": "ASC"}},
  *     collectionOperations={
  *          "get"={
  *              "security"="is_granted('ROLE_AGENT')",
@@ -24,6 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      },
  *     normalizationContext={"groups"={"agent:read"}}
  * )
+ *
+ * @ApiFilter(SearchFilter::class, properties={"nickname": "ipartial", "realName": "ipartial", "faction": "exact"})
  *
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  */
@@ -45,6 +50,8 @@ class Agent
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"agent:read"})
      */
     protected ?int $id = null;
 

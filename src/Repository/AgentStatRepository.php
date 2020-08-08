@@ -187,4 +187,15 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return AgentStat[]
+     */
+    public function findAllDateDesc()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.datetime', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

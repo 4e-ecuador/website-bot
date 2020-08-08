@@ -66,6 +66,20 @@ class AgentController extends AbstractController
     }
 
     /**
+     * @Route("/test", name="agent_index2", methods={"GET","POST"})
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function index2()
+    {
+        return $this->render(
+            'agent/index2.html.twig',
+            [
+            ]
+        );
+
+    }
+
+    /**
      * @Route("/new", name="agent_new", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
      * @throws Exception

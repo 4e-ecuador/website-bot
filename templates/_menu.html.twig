@@ -17,6 +17,12 @@
                         title="{{ 'Agents'|trans }}">
                         <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></span></a>
                     </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item{% if page == 'agent_index2' %} active{% endif %}"
+                        title="{{ 'Agents 2'|trans }}">
+                        <a class="nav-link text-info" href={{ path('agent_index2') }}><span class="oi oi-people"></span></a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item{% if page == 'stats_leaderboard' %} active{% endif %}"
                         title="{{ 'Leaderboard'|trans }}">
                         <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></span></a>

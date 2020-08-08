@@ -16,7 +16,7 @@ for (let i in eventIds) {
             out.html(html)
             updateTotal()
         }, error: function(xhr){
-            out.html("An error occured: " + xhr.status + " " + xhr.statusText)
+            out.html("An error occurred: " + xhr.status + " " + xhr.statusText)
         }
     })
 }

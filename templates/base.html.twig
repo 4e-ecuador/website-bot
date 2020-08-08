@@ -24,6 +24,8 @@
     {{ encore_entry_link_tags('app') }}
 
     {% block stylesheets %}{% endblock %}
+
+    {% if 'prod' == app.environment %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171814386-1"></script>
     <script>
@@ -32,6 +34,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-171814386-1');
     </script>
+    {% endif %}
 </head>
 <body class="bootstrap-dark">
 {% include('_menu.html.twig') %}

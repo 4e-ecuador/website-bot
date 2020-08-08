@@ -1,0 +1,39 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "airbnb-base",
+        "plugin:vue/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 9,
+        "sourceType": "module"
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "rules": {
+        "semi": ["error", "never"],
+        "vue/html-indent": [
+            "error",
+            4
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "no-alert": 0,
+        "no-unused-vars": "warn",
+        "spaced-comment": "off",
+        "no-param-reassign": 0,
+        "import/extensions": 0,
+        "import/no-unresolved": 0,
+        "import/prefer-default-export": 0,
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ]
+    }
+}

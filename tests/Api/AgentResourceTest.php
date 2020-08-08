@@ -52,8 +52,8 @@ class AgentResourceTest extends ApiTestCase
         );
 
         $expected = '['
-            .'{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""},'
-            .'{"nickname":"testAgent2","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}'
+            .'{"id":1,"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""},'
+            .'{"id":2,"nickname":"testAgent2","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}'
             .']';
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent());
@@ -89,7 +89,7 @@ class AgentResourceTest extends ApiTestCase
             ]
         );
 
-        $expected = '{"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}';
+        $expected = '{"id":1,"nickname":"testAgent","realName":"","lat":0,"lon":0,"faction":{"name":"enl"},"custom_medals":"","telegram_name":""}';
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString($expected, $response->getContent());
     }

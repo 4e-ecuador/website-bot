@@ -11,7 +11,11 @@
 </template>
 
 <script>
-let Agent = {'id': 0, 'nickname': '', 'realName': ''}
+// function Agent(id, nickname, realName){
+//     this.id = id
+//     this.nickname = nickname
+//     this.realName = realName
+// }
 export default {
     name: 'AgentRow',
     props: {

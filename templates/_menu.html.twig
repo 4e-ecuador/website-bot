@@ -17,12 +17,6 @@
                         title="{{ 'Agents'|trans }}">
                         <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></span></a>
                     </li>
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item{% if page == 'agent_index2' %} active{% endif %}"
-                        title="{{ 'Agents 2'|trans }}">
-                        <a class="nav-link text-info" href={{ path('agent_index2') }}><span class="oi oi-people"></span></a>
-                    </li>
-                    {% endif %}
                     <li class="nav-item{% if page == 'stats_leaderboard' %} active{% endif %}"
                         title="{{ 'Leaderboard'|trans }}">
                         <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></span></a>
@@ -106,6 +100,10 @@
                                     <span class="oi oi-beaker"></span>&nbsp;
                                     TEST
                                 </a>
+                                <a class="dropdown-item text-info" href={{ path('agent_index2') }}>
+                                    <span class="oi oi-people"></span>&nbsp;
+                                    Agents Vue
+                                </a>
                             </div>
                         </li>
                     {% endif %}
@@ -131,7 +129,7 @@
                     <div class="dropdown-menu dropdown-menu-right bg-dark">
                     <a class="dropdown-item nav-link" href={{ path('app_account') }}>
                         <span class="oi oi-person"></span> {{ 'My Profile'|trans }}
-                            {# {{ app.user.agent.nickname }} #}
+                        {# {{ app.user.agent.nickname }} #}
                     </a>
                     <a class="dropdown-item nav-link" href={{ path('agent_stats', {'id': app.user.agent.id}) }}>
                         <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}

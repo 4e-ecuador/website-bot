@@ -1,11 +1,11 @@
 <template>
     <div class="input-group">
         <input
-            v-model="searchTerm"
+            :value="searchTerm"
             class="form-control"
             placeholder="Buscar agentes..."
             type="search"
-            @input="onInput"
+            @input="searchTerm = $event.target.value;onInput()"
         >
         <div
             class="input-group-append"

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-sm-3">
                 <span v-if="totalItems === 1">
                     Un agente encontrado
                 </span>
@@ -13,19 +13,21 @@
                 <button
                     v-if="pagination['hydra:previous']"
                     @click="onPaginateMinus"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary"
                 >
                     <span class="oi oi-arrow-thick-left"></span>
                 </button>
+            </div>
+            <div class="col-2 btn-group">
                 <button
                     v-if="pagination['hydra:next']"
                     @click="onPaginatePlus"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary"
                 >
                     <span class="oi oi-arrow-thick-right"></span>
                 </button>
             </div>
-            <div class="col-8">
+            <div class="col-5">
                 <search-bar @search-agents="onSearchAgents"/>
             </div>
         </div>

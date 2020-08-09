@@ -27,7 +27,7 @@
                     <span class="oi oi-arrow-thick-right"></span>
                 </button>
             </div>
-            <div class="col-5">
+            <div class="col">
                 <search-bar @search-agents="onSearchAgents"/>
             </div>
         </div>

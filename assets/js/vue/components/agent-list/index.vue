@@ -5,7 +5,7 @@
             v-show="!loading && agents.length === 0"
             class="text-warning"
         >
-            No se encontraron agentes con el criterio de busqueda!
+            {{translate('no.search.result.criteria')}}
         </h5>
 
         <table class="table table-sm table-hover">
@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import AgentRow from '@/components/agent-list/agent-row'
-import Loading from '@/parts/loading'
+import AgentRow from '@/vue/components/agent-list/agent-row'
+import Loading from '@/vue/parts/loading'
+import {translate} from '@/vue/services/translation-service'
 
 export default {
     name: 'AgentList',
@@ -46,6 +47,11 @@ export default {
         agents: {
             type: Array,
             required: true,
+        },
+    },
+    methods: {
+        translate(key) {
+            return translate(key)
         },
     },
 }

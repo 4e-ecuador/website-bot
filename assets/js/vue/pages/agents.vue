@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AgentListing from '@/components/agent-listing'
+import AgentListing from '@/vue/components/agent-listing'
 
 export default {
     name: 'Agents',

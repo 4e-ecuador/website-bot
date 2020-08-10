@@ -51,14 +51,14 @@ class Agent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"agent:read"})
+     * @Groups({"agent:read", "admin:read"})
      */
     protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"agent:read"})
+     * @Groups({"agent:read", "admin:read"})
      */
     protected ?string $nickname = '';
 

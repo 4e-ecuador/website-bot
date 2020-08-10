@@ -1,13 +1,25 @@
 {% extends 'base.html.twig' %}
 {% import '_/buttons.html.twig' as buttons %}
 
-{% import '_paginator-elements.html.twig' as paginator %}
-
 {% block title %}{{ 'Agent index'|trans }}{% endblock %}
 
-{% block javascripts %}
+{% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_script_tags('paginator') }}
+    {{ encore_entry_link_tags('vue/agents') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.translations = {
+            "searchbar.placeholder": "{{ 'searchbar.placeholder.agent'|trans }}",
+            "search.result.0": '{{ 'search.result.agent.0'|trans }}',
+            "search.result.1": '{{ 'search.result.agent.1'|trans }}',
+            "search.result.other": '{{ 'search.result.agent.other'|trans }}',
+            "no.search.result.criteria": '{{ 'no.agents.found.search.criteria'|trans }}',
+        }
+    </script>
+    {{ parent() }}
+    {{ encore_entry_script_tags('vue/agents') }}
 {% endblock %}
 
 {% block body %}
@@ -19,78 +31,6 @@
 
     <h1>{{ 'Agent index'|trans }}</h1>
 
-    <form method="post">
-
-        <div class="row">
-            <div class="col-xs-2">{{ paginator.listLimit(paginatorOptions) }}</div>
-            <div class="col-xs-10">{{ paginator.pagination(paginatorOptions) }}</div>
-        </div>
-
-        <table class="table table-sm table-hover">
-            <thead>
-            <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>{{ paginator.ordering('id', paginatorOptions) }}</th>
-                {% endif %}
-                <th>
-                    {{ paginator.select('faction', factions, paginatorOptions) }}
-                </th>
-                <th>
-                    {{ paginator.ordering('nickname', paginatorOptions) }}
-                    {{ paginator.criteria('nickname', paginatorOptions) }}
-                </th>
-                <th>
-                    {{ paginator.criteria('realName', paginatorOptions) }}
-                </th>
-                <th></th>
-                <th></th>
-                {% if is_granted('ROLE_EDITOR') %}
-                    <th></th>
-                {% endif %}
-            </tr>
-            <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>ID</th>
-                {% endif %}
-                <th></th>
-                <th>Nick</th>
-                <th>Nombre</th>
-                <th>C</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for agent in agents %}
-                <tr>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <td>{{ agent.id }}</td>
-                    {% endif %}
-                    <td>
-                        <img src="/build/images/logos/{{ agent.faction.name }}.svg" style="width: 24px">
-                    </td>
-                    <td>
-                        <a class="{{ agent.faction.name }}" href="{{ path('agent_show', {'id': agent.id}) }}">
-                            {{ agent.nickname }}
-                        </a>
-                    </td>
-                    <td>{{ agent.realName }}</td>
-                    <td>{{ agent.comments|length ? agent.comments|length : '' }}</td>
-                    <td>
-                        <a href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
-                        {% if is_granted('ROLE_EDITOR') %}
-                            <a href="{{ path('agent_edit', {'id': agent.id}) }}"><span class="oi oi-pencil"></span></a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4" class="alert alert-warning">{{ 'no records found'|trans }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {{ paginator.formFields(paginatorOptions) }}
-
-    </form>
-
+    <div id="app"></div>
 {% endblock %}
+

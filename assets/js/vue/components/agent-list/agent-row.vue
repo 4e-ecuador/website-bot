@@ -11,11 +11,6 @@
 </template>
 
 <script>
-// function Agent(id, nickname, realName){
-//     this.id = id
-//     this.nickname = nickname
-//     this.realName = realName
-// }
 export default {
     name: 'AgentRow',
     props: {

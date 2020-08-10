@@ -21,10 +21,20 @@ class UserController extends AbstractController
     use PaginatorTrait;
 
     /**
-     * @Route("/", name="user_index", methods={"GET","POST"})
+     * @Route("/", name="user_index", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(
+    public function index(): Response
+    {
+        // This is a Vue View ;)
+        return $this->render('user/index.html.twig');
+    }
+
+    /**
+     * @Route("/old", name="user_index_old", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function indexOLD(
         UserRepository $userRepository,
         Request $request
     ): Response {
@@ -43,7 +53,7 @@ class UserController extends AbstractController
         ];
 
         return $this->render(
-            'user/index.html.twig',
+            'user/index_old.html.twig',
             [
                 'users'            => $users,
                 'rolesList'        => $rolesList,
@@ -85,12 +95,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->render(
-            'user/show.html.twig',
-            [
-                'user' => $user,
-            ]
-        );
+        return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
     /**
@@ -103,7 +108,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            // Ensure array keys are lost...
+            $user->setRoles(array_values($user->getRoles()));
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $this->redirectToRoute(
                 'user_index',

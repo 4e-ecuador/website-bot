@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Controller\Api\GetMeAction;
@@ -13,7 +15,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="agent_user")
  *
  * @ApiResource(
- *     collectionOperations={},
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"admin:read"}},
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "openapi_context"={"security": {"name": "api_key"}}
+ *          }
+ *     },
  *     itemOperations={
  *         "get_me"={
  *             "security"="is_granted('ROLE_AGENT')",
@@ -26,6 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     normalizationContext={"groups"={"me:read"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"email": "ipartial"})
  */
 class User implements UserInterface
 {
@@ -42,34 +51,38 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"me:read"})
+     * @Groups({"me:read", "admin:read"})
      */
     private ?int $id = null;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"admin:read"})
      */
     private array $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"admin:read"})
      */
     private ?string $email = '';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
      *
-     * @Groups({"me:read"})
+     * @Groups({"me:read", "admin:read"})
      */
     private ?Agent $agent = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"admin:read"})
      */
     private ?string $googleId = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"admin:read"})
      */
     private ?string $fireBaseToken = '';
 
@@ -80,6 +93,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"admin:read"})
      */
     private ?string $avatar = '';
 

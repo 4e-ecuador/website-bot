@@ -3,7 +3,7 @@
         <input
             :value="searchTerm"
             class="form-control"
-            placeholder="Buscar agentes..."
+            :placeholder="translate('searchbar.placeholder')"
             type="search"
             @input="searchTerm = $event.target.value;onInput()"
         >
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import {translate} from '@/vue/services/translation-service'
+
 export default {
     name: 'SearchBar',
     data() {
@@ -31,18 +33,21 @@ export default {
         }
     },
     methods: {
+        translate(key) {
+            return translate(key)
+        },
         onInput() {
             if (this.searchTimeout) {
                 clearTimeout(this.searchTimeout)
             }
             this.searchTimeout = setTimeout(() => {
-                this.$emit('search-agents', {term: this.searchTerm})
+                this.$emit('search', {term: this.searchTerm})
                 this.searchTimeout = null
             }, 200)
         },
         eraseSearchTerm() {
             this.searchTerm = ''
-            this.$emit('search-agents', {term: this.searchTerm})
+            this.$emit('search', {term: this.searchTerm})
         },
     },
 }

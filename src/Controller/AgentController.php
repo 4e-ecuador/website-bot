@@ -29,10 +29,20 @@ class AgentController extends AbstractController
     use PaginatorTrait;
 
     /**
-     * @Route("/", name="agent_index", methods={"GET","POST"})
+     * @Route("/", name="agent_index", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function index(
+    public function index(): Response
+    {
+        // Tis is s Vue View ;)
+        return $this->render('agent/index.html.twig');
+    }
+
+    /**
+     * @Route("/old", name="agent_index_old", methods={"GET","POST"})
+     * @IsGranted("ROLE_AGENT")
+     */
+    public function indexOLD(
         AgentRepository $agentRepository,
         FactionRepository $factionRepository,
         Request $request
@@ -49,34 +59,18 @@ class AgentController extends AbstractController
 
         $factionList = [];
 
-        // $factionList[0] = '';
-
         foreach ($factions as $faction) {
             $factionList[$faction->getId()] = $faction->getName();
         }
 
         return $this->render(
-            'agent/index.html.twig',
+            'agent/index_old.html.twig',
             [
                 'agents'           => $agents,
                 'paginatorOptions' => $paginatorOptions,
                 'factions'         => $factionList,
             ]
         );
-    }
-
-    /**
-     * @Route("/test", name="agent_index2", methods={"GET","POST"})
-     * @IsGranted("ROLE_AGENT")
-     */
-    public function index2()
-    {
-        return $this->render(
-            'agent/index2.html.twig',
-            [
-            ]
-        );
-
     }
 
     /**

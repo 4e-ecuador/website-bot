@@ -2,12 +2,7 @@
     <div>
         <div class="row">
             <div class="col-sm-3">
-                <span v-if="totalItems === 1">
-                    Un agente encontrado
-                </span>
-                <span v-else>
-                    {{ totalItems }} agentes encontrados
-                </span>
+                {{searchResultCount}}
             </div>
             <div class="col-2 btn-group">
                 <button
@@ -28,7 +23,7 @@
                 </button>
             </div>
             <div class="col">
-                <search-bar @search-agents="onSearchAgents"/>
+                <search-bar @search="onSearchAgents"/>
             </div>
         </div>
 
@@ -40,9 +35,10 @@
 </template>
 
 <script>
-import AgentList from '@/components/agent-list'
-import {fetchAgents} from '@/services/agents-service'
-import SearchBar from '@/parts/search-bar'
+import AgentList from '@/vue/components/agent-list'
+import SearchBar from '@/vue/parts/search-bar'
+import {fetchAgents} from '@/vue/services/agents-service'
+import {translate,translatePlural} from '@/vue/services/translation-service'
 
 export default {
     name: 'AgentsListing',
@@ -55,12 +51,17 @@ export default {
         totalItems: 0,
         pagination: {},
         pageNum: 1,
-        totalPages: 0,
         loading: false,
         searchTerm: null,
     }),
     created() {
         this.loadAgents()
+    },
+    computed: {
+        searchResultCount() {
+            return translatePlural('search.result', this.totalItems)
+                .replace('{count}', this.totalItems)
+        },
     },
     methods: {
         onSearchAgents({term}) {

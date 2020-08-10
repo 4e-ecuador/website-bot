@@ -165,3 +165,13 @@ select.locale: Locale
 'Latest comments': 'Latest comments'
 date.format.long: 'd MMMM Y'
 date.format.short: 'd MMMM'
+no.agents.found.search.criteria: __no.agents.found.search.criteria
+no.users.found.search.criteria: __no.users.found.search.criteria
+searchbar.placeholder.email: __searchbar.placeholder.email
+search.result.user.0: __search.result.user.0
+search.result.user.1: __search.result.user.1
+search.result.user.other: __search.result.user.other
+searchbar.placeholder.agent: __searchbar.placeholder.agent
+search.result.agent.0: __search.result.agent.0
+search.result.agent.1: __search.result.agent.1
+search.result.agent.other: __search.result.agent.other

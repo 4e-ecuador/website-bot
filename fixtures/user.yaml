@@ -4,3 +4,8 @@ App\Entity\User:
         roles: ['ROLE_AGENT']
         apiToken: 'T3stT0ken'
         agent: '@agent1'
+    user2:
+        email: 't0kent3stAdmin@example.com'
+        roles: ['ROLE_ADMIN']
+        apiToken: 'Adm1nT0ken'
+        agent: '@agent2'

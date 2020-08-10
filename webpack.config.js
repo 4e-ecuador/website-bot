@@ -39,7 +39,9 @@ Encore
 
     .addEntry('paginator', './assets/js/paginator.js')
 
-    .addEntry('agents', './assets/js/agents.js')
+    // Vue
+    .addEntry('vue/agents', './assets/js/vue/agents.js')
+    .addEntry('vue/users', './assets/js/vue/users.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

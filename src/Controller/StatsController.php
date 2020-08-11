@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\TestStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;

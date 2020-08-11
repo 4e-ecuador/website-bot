@@ -5,40 +5,79 @@
 {% block body %}
     <h2>{{ 'Import result'|trans }}</h2>
 
-    {% if diff %}
-        <div class="alert alert-success">
-            <h3>{{ 'Progress'|trans }}:</h3>
-            <ul>
-                {% for name, value in diff %}
-                    <li>{{ name }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if ups %}
-        <div class="alert alert-success">
-            <h3>{{ 'Medal UPs'|trans }}</h3>
-            <ul>
-                {% for name,level in ups %}
-                    <li>
-                        {{ name }}: {{ level|medalLevel }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
     {% if newLevel %}
         <div class="alert alert-success">
             <h3>{{ 'New Level: {level}'|trans({'level': newLevel}) }}</h3>
         </div>
     {% endif %}
 
+    {% if medalUps %}
+        <div class="alert alert-success">
+            <h3>{{ 'Medal Upgrades'|trans }}</h3>
+            {% for name,level in medalUps %}
+                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
+                      title="{{ name }} - {{ level|translateMedalLevel }}"></span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if diff %}
+        <div class="">
+            {% for name, value in diff %}
+                <div class="row">
+                    {% if 'ap' == name %}
+                        <div class="col">
+                            <h5>AP: <span class="badge badge-success">+ {{ value|number_format }}</span></h5>
+                        </div>
+                    {% else %}
+                        <div class="col-6 col-md-2">
+                            {% set level = medalLevel(name, statEntry[name]) %}
+                            {% if level %}
+                                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
+                                      title="{{ name }} - {{ level|translateMedalLevel }}"></span>
+                                {% set doubleCount = medalDoubleValue(name, statEntry[name]) %}
+                                {% if doubleCount > 1 %}
+                                    <span class="text-warning">X {{ doubleCount }}</span>
+                                {% endif %}
+                            {% else %}
+                                {{ name }}
+                            {% endif %}
+                            <span class="badge badge-success">+ {{ value|number_format }}</span>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            {% if 'droneHacks' == name %}
+                            {% else %}
+                                {% if level < 5 %}
+                                    <span
+                                            class="medal50-badges medal-{{ getBadgePath(name, level+1, 0, '') }}"
+                                            title="{{ name }} - {{ (level+1)|translateMedalLevel }}"
+                                    ></span>
+                                    <span class="badge badge-secondary">- {{ (medalValue(name,level + 1)-statEntry[name])|number_format }}</span>
+                                {% else %}
+                                    <span
+                                            class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
+                                            title="{{ name }} - {{ (level)|translateMedalLevel }}"
+                                    ></span>
+                                    <span class="text-warning">X {{ doubleCount + 1 }}</span>
+                                    <span class="badge badge-secondary">- {{ (((doubleCount + 1) * medalValue(name,level)) - statEntry[name])|number_format }}</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% if currents %}
+        <h1>{{ 'First import succesfull! Welcome agent.'|trans }}</h1>
         <h3>{{ 'Current Medals'|trans }}</h3>
         <table>
             {% for name,level in currents %}
+                <span
+                        class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"
+                        title="{{ name }} - {{ (level+1)|translateMedalLevel }}"
+                ></span>
                 <tr>
                     <td>{{ name }}</td>
                     <td>{{ level|medalLevel }}</td>
@@ -50,5 +89,4 @@
     <a class="btn btn-outline-success" href="{{ path('agent_stats', {'id': app.user.agent.id}) }}">
         <span class="oi oi-graph"></span> {{ 'My Stats'|trans }}
     </a>
-
 {% endblock %}

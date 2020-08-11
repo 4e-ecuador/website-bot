@@ -371,10 +371,10 @@ class StatsController extends AbstractController
                 $entityManager->flush();
 
                 // TODO TEST!!
-                // $testStat = (new TestStat())
-                //     ->setCsv($csv);
-                // $entityManager->persist($testStat);
-                // $entityManager->flush();
+                $testStat = (new TestStat())
+                    ->setCsv($csv);
+                $entityManager->persist($testStat);
+                $entityManager->flush();
 
                 $this->addFlash(
                     'success',
@@ -384,8 +384,15 @@ class StatsController extends AbstractController
                 $result = $statsImporter->getImportResult($statEntry);
 
                 if ('test' !== $appEnv) {
-                    $statsImporter
-                        ->sendResultMessages($result, $statEntry, $user);
+                    try {
+                        $statsImporter
+                            ->sendResultMessages($result, $statEntry, $user);
+                    } catch (\Exception $exception) {
+                        $this->addFlash('warning', $translator->trans('Sorry but the message has not been sent :('));
+                        if ('dev' === $appEnv) {
+                            throw $exception;
+                        }
+                    }
                 }
 
                 // @TODO temporal FireBase token store
@@ -399,18 +406,19 @@ class StatsController extends AbstractController
                 return $this->render(
                     'import/result.html.twig',
                     [
-                        'ups'        => $result->medalUps,
+                        'statEntry'  => $statEntry,
                         'diff'       => $result->diff,
-                        'currents'   => $result->currents,
+                        'medalUps'   => $result->medalUps,
                         'newLevel'   => $result->newLevel,
                         'recursions' => $result->recursions,
+                        'currents'   => $result->currents,
                     ]
                 );
-            } catch (StatsNotAllException $exception) {
-                $this->addFlash('danger', $exception->getMessage());
-            } catch (UnexpectedValueException $exception) {
-                $this->addFlash('danger', $exception->getMessage());
-            } catch (StatsAlreadyAddedException $exception) {
+            } catch (
+            StatsNotAllException
+            |StatsAlreadyAddedException
+            |UnexpectedValueException
+            $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
         }

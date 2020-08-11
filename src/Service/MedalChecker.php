@@ -470,6 +470,12 @@ class MedalChecker
 
     public function getLevelValue(string $medal, int $level): int
     {
+        if ('nl1331Meetups' === $medal) {
+            $medal = 'nl-1331-meetups';
+        }
+        if ('mindController' === $medal) {
+            $medal = 'mind-controller';
+        }
         return
             array_key_exists($medal, $this->medalLevels)
             && array_key_exists(

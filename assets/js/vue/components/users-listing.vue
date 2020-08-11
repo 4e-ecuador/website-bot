@@ -5,22 +5,18 @@
                 {{searchResultCount}}
             </div>
             <div class="col-2 btn-group">
-                <button
+                <paginate-button-previous
                     v-if="pagination['hydra:previous']"
-                    @click="onPaginatePrevious"
-                    class="btn btn-outline-secondary"
-                >
-                    <span class="oi oi-arrow-thick-left"></span>
-                </button>
+                    @paginate-previous="onPaginatePrevious"
+                    :link="pagination['hydra:previous']"
+                />
             </div>
             <div class="col-2 btn-group">
-                <button
+                <paginate-button-next
                     v-if="pagination['hydra:next']"
-                    @click="onPaginateNext"
-                    class="btn btn-outline-secondary"
-                >
-                    <span class="oi oi-arrow-thick-right"></span>
-                </button>
+                    @paginate-next="onPaginateNext"
+                    :link="pagination['hydra:next']"
+                />
             </div>
             <div class="col">
                 <search-bar @search="onSearchAgents"/>
@@ -37,12 +33,16 @@
 <script>
 import UsersList from '@/vue/components/users-list'
 import SearchBar from '@/vue/parts/search-bar'
+import PaginateButtonNext from '@/vue/parts/paginate-button-next'
+import PaginateButtonPrevious from '@/vue/parts/paginate-button-previous'
 import {fetchUsers} from '@/vue/services/users-service'
 import {translate,translatePlural} from '@/vue/services/translation-service'
 
 export default {
     name: 'UsersListing',
     components: {
+        PaginateButtonPrevious,
+        PaginateButtonNext,
         UsersList,
         SearchBar,
     },

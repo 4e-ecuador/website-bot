@@ -5,22 +5,18 @@
                 {{searchResultCount}}
             </div>
             <div class="col-2 btn-group">
-                <button
+                <paginate-button-previous
                     v-if="pagination['hydra:previous']"
-                    @click="onPaginateMinus"
-                    class="btn btn-outline-secondary"
-                >
-                    <span class="oi oi-arrow-thick-left"></span>
-                </button>
+                    @paginate-previous="onPaginatePrevious"
+                    :link="pagination['hydra:previous']"
+                />
             </div>
             <div class="col-2 btn-group">
-                <button
+                <paginate-button-next
                     v-if="pagination['hydra:next']"
-                    @click="onPaginatePlus"
-                    class="btn btn-outline-secondary"
-                >
-                    <span class="oi oi-arrow-thick-right"></span>
-                </button>
+                    @paginate-next="onPaginateNext"
+                    :link="pagination['hydra:next']"
+                />
             </div>
             <div class="col">
                 <search-bar @search="onSearchAgents"/>
@@ -36,6 +32,8 @@
 
 <script>
 import AgentList from '@/vue/components/agent-list'
+import PaginateButtonNext from '@/vue/parts/paginate-button-next'
+import PaginateButtonPrevious from '@/vue/parts/paginate-button-previous'
 import SearchBar from '@/vue/parts/search-bar'
 import {fetchAgents} from '@/vue/services/agents-service'
 import {translate,translatePlural} from '@/vue/services/translation-service'
@@ -44,6 +42,8 @@ export default {
     name: 'AgentsListing',
     components: {
         AgentList,
+        PaginateButtonPrevious,
+        PaginateButtonNext,
         SearchBar,
     },
     data: () => ({
@@ -69,11 +69,11 @@ export default {
             this.pageNum = 1
             this.loadAgents()
         },
-        onPaginatePlus() {
+        onPaginateNext() {
             this.pageNum++
             this.loadAgents()
         },
-        onPaginateMinus() {
+        onPaginatePrevious() {
             this.pageNum--
             this.loadAgents()
         },

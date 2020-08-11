@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: es
-    locales: [en, es, de]
+    locales: [es, en, de]
     telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
     app.email: '%env(APP_EMAIL)%'
     app.email.name: '%env(APP_EMAIL_NAME)%'

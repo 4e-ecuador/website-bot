@@ -175,3 +175,8 @@ searchbar.placeholder.agent: __searchbar.placeholder.agent
 search.result.agent.0: __search.result.agent.0
 search.result.agent.1: __search.result.agent.1
 search.result.agent.other: __search.result.agent.other
+paginate.previous.page: __paginate.previous.page
+paginate.next.page: __paginate.next.page
+'Sorry but the message has not been sent :(': '__Sorry but the message has not been sent :('
+'Medal Upgrades': '__Medal Upgrades'
+'First import succesfull! Welcome agent.': '__First import succesfull! Welcome agent.'

@@ -186,7 +186,7 @@ class MedalChecker
 
             'Drone Hacks'                    => 'drone-hacks',
             'Unique Portals Drone Visited'   => 'drone-portals-visited',
-            'Furthest Drone Flight Distance' => 'drone-flight-distance',
+            'Furthest Drone Distance'        => 'drone-flight-distance',
             'Forced Drone Recalls'           => 'drone-forced-recalls',
 
             'Level'      => 'level',

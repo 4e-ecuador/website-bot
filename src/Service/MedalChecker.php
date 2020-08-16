@@ -176,13 +176,19 @@ class MedalChecker
             'Hacks'                         => 'hacker',
             'Glyph Hack Points'             => 'translator',
             'Longest Hacking Streak'        => 'sojourner',
+            // old
             'Agents Successfully Recruited' => 'recruiter',
+            // new
+            'Agents Recruited' => 'recruiter',
             'Mission Day(s) Attended'       => 'missionday',
             'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
             'First Saturday Events'         => 'ifs',
 
             'Portal Scans Uploaded'              => 'scout',
+            // old
             'Scout Controller on Unique Portals' => 'scout-controller',
+            // new
+            'Uniques Scout Controlled' => 'scout-controller',
 
             'Drone Hacks'                    => 'drone-hacks',
             'Unique Portals Drone Visited'   => 'drone-portals-visited',

@@ -167,6 +167,60 @@ class AgentStatResourceMessagesTest extends AgentStatResourceBase
         self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
         self::assertJsonStringEqualsJsonString($expectedMedalDoubles, $resultMedalDoubles);
     }
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws JsonException
+     */
+    public function testPostCsvMedalOnyx(): void
+    {
+        $client = $this->createClientWithMock('sendPhoto');
+        $dateTime = new DateTime('1999-11-11 11:11:12');
+        $vars = [
+            'date'     => $dateTime->format('Y-m-d'),
+            'time'     => $dateTime->format('h:i:s'),
+            'explorer' => 30000,
+        ];
+
+        $client->request(
+            'POST',
+            '/api/stats/csv',
+            [
+                'headers' => $this->headers,
+                'json'    => ['csv' => $this->switchCsv(['explorer'=> 10000])],
+            ]
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
+
+        $response = $client->request(
+            'POST',
+            '/api/stats/csv',
+            [
+                'headers' => $this->headers,
+                'json'    => ['csv' => $this->switchCsv($vars)],
+            ]
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
+
+        $result = json_decode(
+            $response->getContent(),
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        $expectedDiff = '{"explorer":20000}';
+        $expectedMedalDoubles = '[]';
+        $resultDiff = json_encode($result->result->diff, JSON_THROW_ON_ERROR);
+        $resultMedalDoubles = json_encode($result->result->medalDoubles, JSON_THROW_ON_ERROR);
+
+        self::assertJsonStringEqualsJsonString($expectedDiff, $resultDiff);
+        self::assertJsonStringEqualsJsonString($expectedMedalDoubles, $resultMedalDoubles);
+    }
 
     /**
      * @throws ClientExceptionInterface

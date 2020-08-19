@@ -40,10 +40,10 @@ class User implements UserInterface
 {
     public const API_GET_ME_CONTEXT
         = [
-            'summary'     => 'Retrieves information about the currently logged in user.',
+            'summary' => 'Retrieves information about the currently logged in user.',
             'description' => 'Most important thing: The agent ID.',
-            'security'=> ['name' => 'api_key'],
-            'parameters'  => [],
+            'security' => ['name' => 'api_key'],
+            'parameters' => [],
         ];
 
     /**
@@ -154,6 +154,15 @@ class User implements UserInterface
 
     public function getUsername(): string
     {
+        if ($this->agent) {
+            // return $this->agent->getNickname();
+            return sprintf(
+                '%s <%s>',
+                $this->agent->getNickname(),
+                $this->email
+            );
+        }
+
         return (string)$this->email;
     }
 

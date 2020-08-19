@@ -458,7 +458,7 @@ class MedalChecker
                     $name,
                     $previousEntry->$methodName()
                 );
-                if ($currentDouble > $previousDouble) {
+                if ($currentDouble > $previousDouble && $currentDouble > 1) {
                     // DOUBLE!
                     $doubles[$name] = $currentDouble;
                 }

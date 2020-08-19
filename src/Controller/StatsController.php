@@ -384,15 +384,13 @@ class StatsController extends AbstractController
 
                 $result = $statsImporter->getImportResult($statEntry);
 
-                if ('test' !== $appEnv) {
-                    try {
-                        $statsImporter
-                            ->sendResultMessages($result, $statEntry, $user);
-                    } catch (\Exception $exception) {
-                        $this->addFlash('warning', $translator->trans('Sorry but the message has not been sent :('));
-                        if ('dev' === $appEnv) {
-                            throw $exception;
-                        }
+                try {
+                    $statsImporter
+                        ->sendResultMessages($result, $statEntry, $user);
+                } catch (\Exception $exception) {
+                    $this->addFlash('warning', $translator->trans('Sorry but the message has not been sent :('));
+                    if ('dev' === $appEnv) {
+                        throw $exception;
                     }
                 }
 

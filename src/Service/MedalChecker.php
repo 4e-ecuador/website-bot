@@ -482,6 +482,9 @@ class MedalChecker
         if ('mindController' === $medal) {
             $medal = 'mind-controller';
         }
+        if ('scoutController' === $medal) {
+            $medal = 'scout-controller';
+        }
         return
             array_key_exists($medal, $this->medalLevels)
             && array_key_exists(

@@ -14,7 +14,6 @@
     "api-platform/api-pack": "^1.2",
     "boshurik/telegram-bot-bundle": "^4.0",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
-    "easycorp/easyadmin-bundle": "^2.3",
     "fabpot/goutte": "^4.0",
     "google/apiclient": "^2.5",
     "knplabs/knp-markdown-bundle": "^1.7",

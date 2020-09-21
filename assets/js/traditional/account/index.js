@@ -1,43 +1,8 @@
-const $ = require('jquery')
+import $ from 'jquery'
+import Map from '@/helper/Map'
 
-require('leaflet')
-require('leaflet/dist/leaflet.css')
-
-require('leaflet-fullscreen')
-require('leaflet-fullscreen/dist/leaflet.fullscreen.css')
-
-require('../css/account.css')
-
-let map
-
-function initmap(lat, lon, zoom) {
-    const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    const osmAttrib = 'Map data (C) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-    const osm = new L.TileLayer(osmUrl, {attribution: osmAttrib})
-
-    map = new L.Map('map', {fullscreenControl: true})
-
-    map.addLayer(osm)
-
-    map.setView(new L.LatLng(lat, lon), zoom)
-
-    const myIcon = L.icon({
-        iconUrl: '/build/images/ico/my-icon.png',
-        iconSize: [22, 36],
-        iconAnchor: [11, 36],
-        popupAnchor: [0, -18],
-    })
-
-    let marker = L.marker([lat, lon], {
-        draggable: 'true', icon: myIcon
-    }).addTo(map)
-
-    marker.on('drag', function () {
-        const latlng = marker.getLatLng()
-        $('#agent_account_lat').val(latlng.lat)
-        $('#agent_account_lon').val(latlng.lng)
-    })
-}
+import '../../../css/map/edit-map.css'
+import  '../../../css/traditional/account/index.css'
 
 let lat = parseFloat($('#agent_account_lat').val().replace(',', '.'))
 let lon = parseFloat($('#agent_account_lon').val().replace(',', '.'))
@@ -47,12 +12,19 @@ if (isNaN(lat)) {
     lat = -1.262326
     zoom = 5
 }
+
 if (isNaN(lon)) {
     lon = -79.09357
     zoom = 5
 }
 
-initmap(lat, lon, zoom)
+const map = new Map(lat, lon, zoom)
+
+map.addDraggableMarker(lat, lon, function () {
+    const latLng = this.getLatLng()
+    $('#agent_account_lat').val(latLng.lat)
+    $('#agent_account_lon').val(latLng.lng)
+})
 
 $('.medalLabel')
     .each(function () {

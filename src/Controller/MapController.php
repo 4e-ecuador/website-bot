@@ -22,21 +22,15 @@ class MapController extends AbstractController
      * @Route("/map", name="agent-map")
      * @IsGranted("ROLE_AGENT")
      */
-    public function map(
-        AgentRepository $agentRepository,
-        MapGroupRepository $mapGroupRepository
-    ): Response {
-        $mapGroups = [];
-
-        foreach ($mapGroupRepository->findAll() as $group) {
-            $mapGroups[] = $group->getName();
-        }
-
+    public function map(MapGroupRepository $mapGroupRepository): Response
+    {
         return $this->render(
             'map/index.html.twig',
             [
-                'agents'    => $agentRepository->findAll(),
-                'mapGroups' => $mapGroups,
+                'mapGroups' => array_column(
+                    $mapGroupRepository->getNames(),
+                    'name'
+                ),
             ]
         );
     }
@@ -82,59 +76,55 @@ class MapController extends AbstractController
      */
     public function mapAgentInfo(
         Agent $agent,
-        TranslatorInterface $translator,
         Packages $assetsManager,
         UserRepository $userRepository
     ): Response {
         $response = [];
 
-        if ($this->isGranted('ROLE_AGENT')) {
-            $statsLink = $imgPath = '';
-            switch ($agent->getFaction()->getName()) {
-                case 'ENL':
-                    $statsLink = $this->generateUrl(
-                        'agent_stats',
-                        ['id' => $agent->getId()]
-                    );
-                    $imgPath = $assetsManager->getUrl(
-                        'build/images/logos/ENL.svg'
-                    );
-                    break;
-                case 'RES':
-                    $imgPath = $assetsManager->getUrl(
-                        'build/images/logos/RES.svg'
-                    );
-                    break;
-                default:
-                    throw new UnexpectedValueException('Unknown faction');
-            }
-            $user = $userRepository->findByAgent($agent);
-            $userPic = $user && $user->getAvatarEncoded()
-                ? sprintf(
-                    '<img src="%s" alt="Avatar" style="height: 32px;">',
-                    $user->getAvatarEncoded()
-                )
-                : '';
-            $link = $this->generateUrl('agent_show', ['id' => $agent->getId()]);
-            $response[] = sprintf(
-                '<a href="%s"><img src="%s" alt="logo" style="height: 32px;">%s %s</a>',
-                $link,
-                $imgPath,
-                $userPic,
-                $agent->getNickname()
-            );
-            if ($agent->getRealName()) {
-                $response[] = $agent->getRealName();
-            }
-            if ($statsLink) {
-                $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
-            }
-        } else {
-            $response[] = $translator->trans('Please log in');
+        $statsLink = $imgPath = '';
+        switch ($agent->getFaction()->getName()) {
+            case 'ENL':
+                $statsLink = $this->generateUrl(
+                    'agent_stats',
+                    ['id' => $agent->getId()]
+                );
+                $imgPath = $assetsManager->getUrl(
+                    'build/images/logos/ENL.svg'
+                );
+                break;
+            case 'RES':
+                $imgPath = $assetsManager->getUrl(
+                    'build/images/logos/RES.svg'
+                );
+                break;
+            default:
+                throw new UnexpectedValueException('Unknown faction');
         }
+        $user = $userRepository->findByAgent($agent);
+        $userPic = $user && $user->getAvatarEncoded()
+            ? sprintf(
+                '<img src="%s" alt="Avatar" style="height: 32px;">',
+                $user->getAvatarEncoded()
+            )
+            : '';
+        $link = $this->generateUrl('agent_show', ['id' => $agent->getId()]);
+        $response[] = sprintf(
+            '<a href="%s"><img src="%s" alt="logo" style="height: 32px;">%s %s</a>',
+            $link,
+            $imgPath,
+            $userPic,
+            $agent->getNickname()
+        );
+        if ($agent->getRealName()) {
+            $response[] = $agent->getRealName();
+        }
+        if ($statsLink) {
+            $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
+        }
+
         if ($this->isGranted('ROLE_ADMIN')) {
-            $response[] = '';
-            $response[] = 'More ADMIN info... TBD';
+            // $response[] = '';
+            // $response[] = 'More ADMIN info... TBD';
         }
 
         return new Response(implode('<br>', $response));

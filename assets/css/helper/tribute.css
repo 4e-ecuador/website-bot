@@ -1,0 +1,9 @@
+/* Tributejs */
+
+.tribute-container ul {
+    background-color: #1f2327;
+}
+
+.tribute-container li.highlight {
+    background-color: #272b2f;
+}

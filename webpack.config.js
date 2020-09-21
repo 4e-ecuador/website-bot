@@ -1,5 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
-var path = require('path');
+const Encore = require('@symfony/webpack-encore')
+const path = require('path')
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -10,38 +10,29 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
+
     // public path used by the web server to access the output path
     .setPublicPath('/build')
-    // only needed for CDN's or sub-directory deploy
-    //.setManifestKeyPrefix('build/')
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Add 1 entry for each "page" of your app
-     * (including one that's included on every page - e.g. "app")
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('account', './assets/js/account.js')
-    .addEntry('editor', './assets/js/editor.js')
-    .addEntry('events', './assets/js/events.js')
-    .addEntry('map', './assets/js/map.js')
-    .addEntry('agents-map', './assets/js/agents-map.js')
-    .addEntry('map-edit', './assets/js/map-edit.js')
-    .addEntry('user-edit', './assets/js/user-edit.js')
-    .addEntry('comment', './assets/js/comment.js')
-    .addEntry('stats-leaderboard', './assets/js/stats-leaderboard.js')
-    .addEntry('stats-agent-stats', './assets/js/stats-agent-stats.js')
-    .addEntry('ingress-events-overview', './assets/js/ingress-events/overview.js')
 
-    .addEntry('paginator', './assets/js/paginator.js')
+    .addEntry('traditional/account/index', './assets/js/traditional/account/index.js')
+    .addEntry('traditional/agent/show', './assets/js/traditional/agent/show.js')
+    .addEntry('traditional/agent/edit', './assets/js/traditional/agent/edit.js')
+    .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
+    .addEntry('traditional/map/index', './assets/js/traditional/map/index.js')
+    .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
+    .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
+    .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')
 
     // Vue
     .addEntry('vue/agents', './assets/js/vue/agents.js')
     .addEntry('vue/users', './assets/js/vue/users.js')
+
+    // Helper
+    .addEntry('helper/editor', './assets/js/helper/editor.js')
+    .addEntry('helper/events', './assets/js/helper/events.js')
+    .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -81,31 +72,9 @@ Encore
 
     .enableVueLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
-
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-
-    // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/js/admin.js')
-
     .copyFiles({
         from: './assets/images',
-
-        // optional target path, relative to the output dir
         to: 'images/[path][name].[ext]',
-
-        // if versioning is enabled, add the file hash too
-        //to: 'images/[path][name].[hash:8].[ext]',
-
-        // only copy files matching this pattern
-        //pattern: /\.(png|jpg|jpeg)$/
     })
 ;
 

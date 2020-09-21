@@ -179,7 +179,7 @@ class CommentController extends AbstractController
         Request $request,
         AgentRepository $agentRepository,
         MarkdownHelper $markdownHelper
-    ) {
+    ): JsonResponse {
         $html = '';
         $agentId = $request->request->get('agent_id');
         $agent = $agentRepository->findOneBy(['id' => $agentId]);

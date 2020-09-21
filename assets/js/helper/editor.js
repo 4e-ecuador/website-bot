@@ -1,6 +1,6 @@
 const $ = require('jquery')
 
-require('../css/editor.css')
+import '../../css/helper/editor.css'
 
 const jsData = $('#js-data')
 

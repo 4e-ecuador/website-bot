@@ -2,7 +2,7 @@ const $ = require('jquery')
 const Highcharts = require('highcharts')
 
 require('highcharts/css/themes/dark-unica.css')
-require('../css/stats-agent-stats.css')
+require('../../../css/traditional/stats/agent-stats.css')
 
 function draw_chart(start, end, container) {
     let id = $('#js-agent-id').data('js-agent-id')

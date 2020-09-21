@@ -19,4 +19,11 @@ class MapGroupRepository extends ServiceEntityRepository
         parent::__construct($registry, MapGroup::class);
     }
 
+    public function getNames()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.name')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

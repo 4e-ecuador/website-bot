@@ -200,7 +200,7 @@ class AgentController extends AbstractController
             $text = $request->request->get('comment');
 
             if (!$text) {
-                return $this->json(['error' => 'no comment...x']);
+                return $this->json(['error' => 'no comment...']);
             }
 
             $comment = new Comment();
@@ -216,7 +216,7 @@ class AgentController extends AbstractController
                 'id' => $comment->getId(),
             ];
 
-            $mailerHelper->sendNewCommentMail($comment);
+            // $mailerHelper->sendNewCommentMail($comment);
 
             return $this->json($response);
         }

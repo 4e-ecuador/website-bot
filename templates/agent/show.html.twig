@@ -8,15 +8,14 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('map') }}
-    {{ encore_entry_link_tags('comment') }}
+    {{ encore_entry_link_tags('traditional/agent/show') }}
+    {{ encore_entry_link_tags('helper/editor') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('map') }}
-    {{ encore_entry_script_tags('comment') }}
-    {{ encore_entry_script_tags('editor') }}
+    {{ encore_entry_script_tags('traditional/agent/show') }}
+    {{ encore_entry_script_tags('helper/editor') }}
 {% endblock %}
 
 {% block body %}

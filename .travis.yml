@@ -19,8 +19,8 @@ services:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - composer install
-  - npm install
-  - npm run dev
+  - yarn install
+  - yarn dev
 
 script:
   - SYMFONY_DEPRECATIONS_HELPER=disabled ./bin/phpunit $PHPUNIT_FLAGS

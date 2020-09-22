@@ -151,9 +151,19 @@ class IngressEventController extends AbstractController
      */
     public function announceTg(
         TelegramBotHelper $telegramBotHelper,
-        AgentRepository $agentRepository
-    ): RedirectResponse
-    {
+        AgentRepository $agentRepository,
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse {
+        $message = $notifyEventsMessage
+            ->setFirstAnnounce(true)
+            ->getText();
+
+        if (!$message) {
+            $this->addFlash('warning', 'No events to announce ;(');
+
+            return $this->redirectToRoute('ingress_event_index');
+        }
+
         $agents = $agentRepository->findNotifyAgents();
 
         $count = 0;
@@ -161,8 +171,9 @@ class IngressEventController extends AbstractController
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyEvents()) {
                 try {
-                    $telegramBotHelper->sendNotifyEventsMessage(
+                    $telegramBotHelper->sendMessage(
                         $agent->getTelegramId(),
+                        $message,
                         true
                     );
 
@@ -194,8 +205,7 @@ class IngressEventController extends AbstractController
     public function announceFbm(
         FcmHelper $fbmHelper,
         NotifyEventsMessage $notifyEventsMessage
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         try {
             $message = $notifyEventsMessage
                 ->setFirstAnnounce(true)
@@ -210,7 +220,7 @@ class IngressEventController extends AbstractController
             $fbmHelper->sendMessage($title, implode("\n", $message));
             $this->addFlash('success', 'Announcement has been sent.');
         } catch (Exception $exception) {
-            $this->addFlash('error', 'Error: '.$exception->getMessage());
+            $this->addFlash('danger', 'Error: '.$exception->getMessage());
         }
 
         return $this->redirectToRoute('ingress_event_index');
@@ -224,8 +234,7 @@ class IngressEventController extends AbstractController
         FcmHelper $fbmHelper,
         UserRepository $userRepository,
         NotifyEventsMessage $notifyEventsMessage
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         try {
             $message = $notifyEventsMessage
                 ->setFirstAnnounce(true)
@@ -266,7 +275,7 @@ class IngressEventController extends AbstractController
                 $this->addFlash('warning', 'No messages sent :(');
             }
         } catch (Exception $exception) {
-            $this->addFlash('error', 'Error: '.$exception->getMessage());
+            $this->addFlash('danger', 'Error: '.$exception->getMessage());
         }
 
         return $this->redirectToRoute('ingress_event_index');

@@ -49,7 +49,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
             // TODO wtf?
             ++$daysRemaining;
 
-            if ($daysRemaining > $sendDaysBeforeEvent) {
+            if ($daysRemaining > $sendDaysBeforeEvent && ! $this->firstAnnounce) {
                 return [];
             }
 

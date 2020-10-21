@@ -328,6 +328,11 @@ JSON,
     public ?string $csv = '';
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $kineticCapsulesCompleted = null;
+
+    /**
      * The raw CSV data (for API import)
      *
      * @Groups({"stats:write"})
@@ -905,6 +910,18 @@ JSON,
     public function setDroneForcedRecalls(?int $droneForcedRecalls): self
     {
         $this->droneForcedRecalls = $droneForcedRecalls;
+
+        return $this;
+    }
+
+    public function getKineticCapsulesCompleted(): ?int
+    {
+        return $this->kineticCapsulesCompleted;
+    }
+
+    public function setKineticCapsulesCompleted(?int $kineticCapsulesCompleted): self
+    {
+        $this->kineticCapsulesCompleted = $kineticCapsulesCompleted;
 
         return $this;
     }

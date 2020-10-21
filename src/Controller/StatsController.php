@@ -372,10 +372,10 @@ class StatsController extends AbstractController
                 $entityManager->flush();
 
                 // TODO TEST!!
-                $testStat = (new TestStat())
-                    ->setCsv($csv);
-                $entityManager->persist($testStat);
-                $entityManager->flush();
+                // $testStat = (new TestStat())
+                //     ->setCsv($csv);
+                // $entityManager->persist($testStat);
+                // $entityManager->flush();
 
                 $this->addFlash(
                     'success',

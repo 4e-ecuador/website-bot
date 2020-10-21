@@ -45,8 +45,8 @@
                             <span class="badge badge-success">+ {{ value|number_format }}</span>
                         </div>
                         <div class="col-6 col-md-2">
-                            {% if name starts with 'drone' %}
-                                {# No drone medals so far... #}
+                            {% if name == 'kineticCapsulesCompleted' or name starts with 'drone' %}
+                                {# No medals so far... #}
                             {% else %}
                                 {% if level < 5 %}
                                     <span

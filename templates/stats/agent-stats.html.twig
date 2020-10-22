@@ -111,24 +111,34 @@
         </span>
         {% endfor %}
 
-        <h4>Scout</h4>
-        Scans: <code>{{ latest.scout ?? 0 }}</code>
-        Controller: <code>{{ latest.scoutController ?? 0 }}</code>
+        <hr>
 
-        <h4>Dronenet</h4>
+        <h4>
+            <img src="{{ asset('build/images/ico/drone.jpg') }}" alt="Drone">
+            Dronenet
+        </h4>
+
         Portals: <code>{{ latest.dronePortalsVisited }}</code>
         Hacks: <code>{{ latest.droneHacks }}</code>
         Forced recalls: <code>{{ latest.droneForcedRecalls ?? 0 }}</code>
         Flight: <code>{{ latest.droneFlightDistance }}</code> km
 
+        <hr>
+
+        <h4>
+            <img src="{{ asset('build/images/ico/kinetic-capsule.jpg') }}" alt="Kinetic Capsule">
+            Kinetics
+        </h4>
+        {% if latest.kineticCapsulesCompleted %}
+            {{ 'Kinetic capsules completed'|trans }}: {{ latest.kineticCapsulesCompleted }}
+        {% else %}
+            {{ 'No kinetic capsules completed yet'|trans }}
+        {% endif %}
+
+        <hr>
 
         <!-- Stats container -->
-        <hr>
-        {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
-        &nbsp;-&nbsp;
-        {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
-        <hr>
-
+        <h1>Stats</h1>
         <label for="dateStart" title="{{ 'Start Date'|trans }}"><span class="oi oi-media-play"></span></label>
         <input type="date" id="dateStart" class="statsSelect" value="{{ dateStart|date('Y-m-d') }}">
         <label for="dateEnd" title="{{ 'End Date'|trans }}"><span class="oi oi-media-stop"></span></label>
@@ -142,6 +152,11 @@
         <input id="dateStartAll" type="hidden" value="{{ first.datetime|date('Y-m-d') }}">
         <input id="dateEndAll" type="hidden" value="{{ latest.datetime|date('Y-m-d') }}">
 
+        <hr>
+        {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
+        &nbsp;-&nbsp;
+        {{ 'Latest Update: {last_update}'|trans({'last_update': latest.datetime|date('Y-m-d')}) }}
+        <hr>
     {% else %}
         <div>{{ 'There are no statistics for this agent.'|trans }}</div>
     {% endif %}

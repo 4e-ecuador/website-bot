@@ -200,6 +200,8 @@ class MedalChecker
 
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
             'Didact Fields Created'                  => 'currentChallenge',
+
+            'Kinetic Capsules Completed'                  => 'kinetic-capsules-completed',
         ];
 
     private array $customMedals

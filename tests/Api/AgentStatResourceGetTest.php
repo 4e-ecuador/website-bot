@@ -49,7 +49,8 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
             .'"agent":"\/api\/agents\/2","ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,'
             .'"mindController":null,"illuminator":null,"recharger":null,"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,'
             .'"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"nl1331Meetups":null,"ifs":null,"currentChallenge":null,'
-            .'"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null}'
+            .'"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,'
+            .'"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null,"kineticCapsulesCompleted":null}'
             .']';
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -102,7 +103,7 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
             .'"ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,"mindController":null,"illuminator":null,"recharger":null,'
             .'"liberator":null,"pioneer":null,"engineer":null,"purifier":null,"specops":null,"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,'
             .'"nl1331Meetups":null,"ifs":null,"currentChallenge":null,"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"",'
-            .'"nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null}';
+            .'"nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null,"kineticCapsulesCompleted":null}';
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertJsonStringEqualsJsonString(

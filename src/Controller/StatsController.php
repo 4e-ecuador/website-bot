@@ -121,20 +121,24 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/leaderboard", name="stats_leaderboard")
+     * @Route("/leaderboard/{timeSpan}", defaults={"timeSpan"="all"}, name="stats_leaderboard")
      * @IsGranted("ROLE_AGENT")
      */
     public function leaderBoard(
         AgentStatRepository $statRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        string $timeSpan
     ): Response {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
                 'board'    => $this->getBoardEntries(
                     $userRepository,
-                    $statRepository
+                    $statRepository,
+                    'all',
+                    $timeSpan
                 ),
+                'timeSpan' => $timeSpan,
                 'cssClass' => 'col-sm-3 ',
             ]
         );
@@ -143,10 +147,13 @@ class StatsController extends AbstractController
     private function getBoardEntries(
         UserRepository $userRepository,
         AgentStatRepository $statRepository,
-        string $typeOnly = 'all'
+        string $typeOnly = 'all',
+        string $timeSpan = 'all'
     ) {
         $users = $userRepository->findAll();
         $boardEntries = [];
+
+        $timeSpanParts = explode(':', $timeSpan);
 
         foreach ($users as $user) {
             $agent = $user->getAgent();
@@ -155,7 +162,26 @@ class StatsController extends AbstractController
                 continue;
             }
 
-            $agentEntry = $statRepository->getAgentLatest($agent);
+            switch ($timeSpanParts[0]) {
+                case 'all':
+                    $agentEntry = $statRepository->getAgentLatest($agent);
+                    break;
+                case 'date':
+                    $startDate = new DateTime($timeSpanParts[1].' 00:00:01');
+                    $endDate = new DateTime($timeSpanParts[1].' 23:59:59');
+                    $agentEntry = $statRepository->findByDateAndAgent(
+                        $startDate,
+                        $endDate,
+                        $agent
+                    );
+                    if ($agentEntry) {
+                        $agentEntry = $agentEntry[count($agentEntry) - 1];
+                    }
+                    break;
+
+                default:
+                    throw new UnexpectedValueException('Invalid timeSpan');
+            }
 
             if (!$agentEntry) {
                 continue;
@@ -388,7 +414,12 @@ class StatsController extends AbstractController
                     $statsImporter
                         ->sendResultMessages($result, $statEntry, $user);
                 } catch (\Exception $exception) {
-                    $this->addFlash('warning', $translator->trans('Sorry but the message has not been sent :('));
+                    $this->addFlash(
+                        'warning',
+                        $translator->trans(
+                            'Sorry but the message has not been sent :('
+                        )
+                    );
                     if ('dev' === $appEnv) {
                         throw $exception;
                     }

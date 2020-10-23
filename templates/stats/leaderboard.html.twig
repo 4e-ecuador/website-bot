@@ -14,7 +14,8 @@
 
 {% block body %}
     <h1>{{ 'Leaderboard'|trans }}</h1>
-
+    {{ timeSpan }}
+    {% include 'stats/_time_span_select.html.twig' %}
     {% set maxCount = 4 %}
 
     <div class="row">

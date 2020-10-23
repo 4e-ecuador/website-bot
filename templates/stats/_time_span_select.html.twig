@@ -1,0 +1,42 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a id="tab-span-all" class="nav-link active" data-toggle="tab" href="#span-all" role="tab">
+            {{ 'timespan.all'|trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a id="profile-tab" class="nav-link" data-toggle="tab" href="#span-day" role="tab">
+            {{ 'timespan.day'|trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a id="contact-tab" class="nav-link" data-toggle="tab" href="#span-week" role="tab">
+            {{ 'timespan.week'|trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a id="contact2-tab" class="nav-link" data-toggle="tab" href="#span-month" role="tab">
+            {{ 'timespan.month'|trans }}
+        </a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div id="span-all" class="tab-pane fade show active" role="tabpanel">
+        <form action="/stats/leaderboard" method="post">
+            <button class="btn btn-outline-success btnLoadBoard">{{ 'Show'|trans }}</button>
+        </form>
+    </div>
+    <div id="span-day" class="tab-pane fade" role="tabpanel">
+        <input type="date" id="span-select-day">
+        <button data-time-span="all" class="btn btn-outline-success btnLoadBoard">{{ 'Show'|trans }}</button>
+    </div>
+    <div id="span-week" class="tab-pane fade" role="tabpanel">
+        <input type="week" id="span-select-day">
+        <button class="btn btn-outline-success btnLoadBoard">{{ 'Show'|trans }}</button>
+
+    </div>
+    <div id="span-month" class="tab-pane fade" role="tabpanel">
+        <input type="month" id="span-select-day">
+        <button class="btn btn-outline-success btnLoadBoard">{{ 'Show'|trans }}</button>
+    </div>
+</div>

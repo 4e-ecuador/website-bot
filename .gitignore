@@ -26,5 +26,5 @@ yarn-error.log
 ###< docker ###
 
 ## LOCAL
-/test/
+/testdata/
 .idea/workspace.xml

@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier

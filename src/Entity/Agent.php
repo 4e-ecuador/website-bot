@@ -145,9 +145,15 @@ class Agent
      */
     private ?string $locale = '';
 
+    /**
+     * @ORM\OneToMany(targetEntity=GameLog::class, mappedBy="agent")
+     */
+    private $gameLogs;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->gameLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +367,37 @@ class Agent
     public function setLocale(?string $locale): self
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameLog[]
+     */
+    public function getGameLogs(): Collection
+    {
+        return $this->gameLogs;
+    }
+
+    public function addGameLog(GameLog $gameLog): self
+    {
+        if (!$this->gameLogs->contains($gameLog)) {
+            $this->gameLogs[] = $gameLog;
+            $gameLog->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameLog(GameLog $gameLog): self
+    {
+        if ($this->gameLogs->contains($gameLog)) {
+            $this->gameLogs->removeElement($gameLog);
+            // set the owning side to null (unless already changed)
+            if ($gameLog->getAgent() === $this) {
+                $gameLog->setAgent(null);
+            }
+        }
 
         return $this;
     }

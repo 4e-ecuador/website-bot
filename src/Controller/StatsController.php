@@ -7,6 +7,7 @@ use App\Entity\TestStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
+use App\Form\GDPRUploadType;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
 use App\Service\MedalChecker;
@@ -20,6 +21,7 @@ use JsonException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -359,6 +361,26 @@ class StatsController extends AbstractController
             );
         }
 
+        $GDPRForm = $this->createForm(GDPRUploadType::class);//, $product);
+        $GDPRForm->handleRequest($request);
+
+        if ($GDPRForm->isSubmitted() && $GDPRForm->isValid()) {
+            /** @var UploadedFile $gameLog */
+            $gameLog = $GDPRForm->get('game-log')->getData();
+
+            if ($gameLog) {
+                $dd1 = $gameLog->getFilename();
+                $dd2 = $gameLog->getRealPath();
+                $dd = $gameLog->openFile();
+
+                // $dd->fgetcsv();
+
+                while (!$dd->eof()) {
+                    $zzz = $dd->fgetcsv("\t");
+                }
+            }
+        }
+
         $csv = $request->get('csv');
 
         if ($csv) {
@@ -422,7 +444,12 @@ class StatsController extends AbstractController
             }
         }
 
-        return $this->render('import/agent_stats.html.twig');
+        return $this->render(
+            'import/agent_stats.html.twig',
+            [
+                'form' => $GDPRForm->createView(),
+            ]
+        );
     }
 }
 

@@ -32,4 +32,16 @@
             </form>
         </div>
     </div>
+
+    <hr>
+
+    <h2>{{ 'Import game statistics'|trans }}</h2>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-success" title="{{ button_label|default('Save'|trans) }}">
+        <span class="oi oi-check"></span>
+    </button>
+    {{ form_end(form) }}
+
 {% endblock %}

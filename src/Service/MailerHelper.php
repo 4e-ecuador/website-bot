@@ -30,7 +30,7 @@ class MailerHelper
     {
         try {
             $message = $this->createNewTwigMessage()
-                ->to(new Address($user->getEmail(), $user->getUsername()))
+                ->to(new Address($user->getEmail(), $user->getUserAgentName()))
                 ->subject($subject)
                 ->htmlTemplate('emails/confirmation.html.twig')
                 ->context(['user' => $user,]);

@@ -154,8 +154,12 @@ class User implements UserInterface
 
     public function getUsername(): string
     {
+        return (string)$this->email;
+    }
+
+    public function getUserAgentName(): string
+    {
         if ($this->agent) {
-            // return $this->agent->getNickname();
             return sprintf(
                 '%s <%s>',
                 $this->agent->getNickname(),

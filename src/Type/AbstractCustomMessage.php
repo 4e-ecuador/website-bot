@@ -57,7 +57,7 @@ abstract class AbstractCustomMessage
         $message[] = 'Agent: '.$agent->getNickname();
         $message[] = 'ID: '.$agent->getId();
         $message[] = '';
-        $message[] = 'User: '.$user->getUsername();
+        $message[] = 'User: '.$user->getUserAgentName();
         $message[] = 'ID: '.$user->getId();
         $message[] = '';
         $message[] = 'Please verify!';

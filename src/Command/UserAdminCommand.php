@@ -134,7 +134,7 @@ class UserAdminCommand extends Command
             $table->addRow(
                 [
                     $user->getId(),
-                    $user->getUsername(),
+                    $user->getUserAgentName(),
                     $user->getEmail(),
                     implode(", ", $user->getRoles()),
                 ]

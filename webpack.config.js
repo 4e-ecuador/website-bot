@@ -34,6 +34,9 @@ Encore
     .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -48,17 +51,21 @@ Encore
     })
 
     /*
-      * FEATURE CONFIG
-      *
-      * Enable & configure other features below. For a full
-      * list of features, see:
-      * https://symfony.com/doc/current/frontend.html#adding-more-features
-      */
+     * FEATURE CONFIG
+     *
+     * Enable & configure other features below. For a full
+     * list of features, see:
+     * https://symfony.com/doc/current/frontend.html#adding-more-features
+     */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
+
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+    })
 
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {

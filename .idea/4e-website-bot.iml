@@ -33,7 +33,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/fabpot/goutte" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fig/link-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/firebase/php-jwt" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/google/apiclient" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/google/apiclient-services" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/google/auth" />
@@ -55,7 +54,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/alice" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/cors-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/proxy-manager" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
@@ -155,7 +153,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/markdown-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/string-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/webimpress/safe-writer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/willdurand/negotiation" />
     </content>

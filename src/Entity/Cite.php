@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Api\GetCite;
 
 /**
- * @ApiResource(
+ * ApiResource(
  *     collectionOperations={},
  *     itemOperations={
  *         "get_cite"={

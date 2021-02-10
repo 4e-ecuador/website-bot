@@ -33,6 +33,10 @@
                     <span class="doubleCount">X {{ latest.recursions }}</span>
                 {% endif %}
             {% endif %}
+            {% if latest.monthsSubscribed %}
+                <span class="medal50-events medal-UniqueBadge_CORE" title="CORE subscriptions"></span>
+                {{ latest.monthsSubscribed }}
+            {% endif %}
         {% endif %}
     </p>
     {% if latest %}

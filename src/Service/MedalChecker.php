@@ -202,6 +202,8 @@ class MedalChecker
             'Didact Fields Created'                  => 'currentChallenge',
 
             'Kinetic Capsules Completed'                  => 'kinetic-capsules-completed',
+
+            'Months Subscribed' => 'monthsSubscribed',
         ];
 
     private array $customMedals
@@ -232,6 +234,7 @@ class MedalChecker
                 ],
             'Annual'  =>
                 [
+                    'Resonance' => [],
                     'Resurgence' => [],
                     'Ouroboros'  => [],
                     'Sage'       => [],

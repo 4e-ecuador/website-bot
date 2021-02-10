@@ -325,12 +325,17 @@ JSON,
      */
     private ?int $droneForcedRecalls = null;
 
-    public ?string $csv = '';
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $kineticCapsulesCompleted = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $monthsSubscribed = null;
+
+    public ?string $csv = '';
 
     /**
      * The raw CSV data (for API import)
@@ -922,6 +927,18 @@ JSON,
     public function setKineticCapsulesCompleted(?int $kineticCapsulesCompleted): self
     {
         $this->kineticCapsulesCompleted = $kineticCapsulesCompleted;
+
+        return $this;
+    }
+
+    public function getMonthsSubscribed(): ?int
+    {
+        return $this->monthsSubscribed;
+    }
+
+    public function setMonthsSubscribed(?int $monthsSubscribed): self
+    {
+        $this->monthsSubscribed = $monthsSubscribed;
 
         return $this;
     }

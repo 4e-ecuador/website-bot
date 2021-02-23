@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ comment.id }}</td>
                 <td>{{ comment.datetime ? comment.datetime|date('Y-m-d H:i') : '' }}</td>
-                <td>{{ comment.commenter.agent.nickname }}</td>
+                <td>{{ comment.commenter.agent ? comment.commenter.agent.nickname : '?' }}</td>
                 <td>{{ comment.agent.nickname }}</td>
                 <td>
                     <a href="{{ path('comment_show', {'id': comment.id}) }}">show</a>

@@ -40,7 +40,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hautelook/alice-bundle" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/knplabs/knp-markdown-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/knpuniversity/oauth2-client-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-eventmanager" />
@@ -48,7 +47,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/oauth2-client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/oauth2-google" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/lorenzo/pinky" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/michelf/php-markdown" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/alice" />

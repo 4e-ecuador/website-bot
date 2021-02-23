@@ -873,7 +873,6 @@ false posixrules
     <schema id="17" parent="2" name="public">
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
-      <Grants></Grants>
       <StateNumber>360</StateNumber>
       <Owner>main</Owner>
       <IntrospectionStateNumber>650</IntrospectionStateNumber>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c314eb3497770eda0f03b95350cb886b",
+    "content-hash": "a5bed7057f5f029f84ba62e869f08e9a",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -203,41 +203,41 @@
         },
         {
             "name": "boshurik/telegram-bot-bundle",
-            "version": "4.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoShurik/TelegramBotBundle.git",
-                "reference": "19c3f841f852f5852023865feeca6735629854c1"
+                "reference": "67feb469f795a1ca09a6599c145442241e38e82d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoShurik/TelegramBotBundle/zipball/19c3f841f852f5852023865feeca6735629854c1",
-                "reference": "19c3f841f852f5852023865feeca6735629854c1",
+                "url": "https://api.github.com/repos/BoShurik/TelegramBotBundle/zipball/67feb469f795a1ca09a6599c145442241e38e82d",
+                "reference": "67feb469f795a1ca09a6599c145442241e38e82d",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "php": "^7.2",
+                "php": "^7.2 || ^8.0",
                 "symfony/console": "^4.4 || ^5.0",
                 "symfony/event-dispatcher": "^4.4 || ^5.0",
                 "symfony/framework-bundle": "^4.4 || ^5.0",
+                "symfony/yaml": "^4.4 || ^5.0",
                 "telegram-bot/api": "^2.3.14"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "matthiasnoback/symfony-dependency-injection-test": "^4.1",
-                "php-mock/php-mock-phpunit": "^2.6",
-                "phpunit/phpunit": "^8.0",
-                "psalm/plugin-symfony": "^1.2",
+                "friendsofphp/php-cs-fixer": "^2.16.5",
+                "psalm/plugin-symfony": "^1.2 || ^2.0",
                 "symfony/messenger": "^4.4 || ^5.0",
+                "symfony/phpunit-bridge": "^5.0",
                 "symfony/security-guard": "^4.4 || ^5.0",
-                "vimeo/psalm": "^3.10"
+                "vimeo/psalm": "^3.10 || ^4.0"
             },
             "suggest": {
                 "symfony/messenger": "Required to handle messages with queues",
                 "symfony/security-guard": "Required to implement user authentication through Telegram"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -266,9 +266,9 @@
             "description": "Telegram bot bundle",
             "support": {
                 "issues": "https://github.com/BoShurik/TelegramBotBundle/issues",
-                "source": "https://github.com/BoShurik/TelegramBotBundle/tree/4.1.1"
+                "source": "https://github.com/BoShurik/TelegramBotBundle/tree/master"
             },
-            "time": "2020-10-24T07:42:24+00:00"
+            "time": "2020-12-02T08:44:34+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -2536,73 +2536,6 @@
             "time": "2020-09-30T07:37:11+00:00"
         },
         {
-            "name": "knplabs/knp-markdown-bundle",
-            "version": "1.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/KnpMarkdownBundle.git",
-                "reference": "7238cc264eab9c42d1a5b71950b55fe3dd78ab38"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMarkdownBundle/zipball/7238cc264eab9c42d1a5b71950b55fe3dd78ab38",
-                "reference": "7238cc264eab9c42d1a5b71950b55fe3dd78ab38",
-                "shasum": ""
-            },
-            "require": {
-                "michelf/php-markdown": "~1.4",
-                "php": "^7.1.3",
-                "symfony/dependency-injection": "~3.4|^4.0|^5.0",
-                "symfony/framework-bundle": "~3.4|^4.0|^5.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^4.4.0 || ^5.0",
-                "symfony/templating": "~3.4|^4.0|^5.0"
-            },
-            "suggest": {
-                "ext-sundown": "to use optional support for php-sundown extension instead of php implementation",
-                "symfony/twig-bundle": "to use the Twig markdown filter"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Knp\\Bundle\\MarkdownBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://github.com/KnpLabs/KnpMarkdownBundle/contributors"
-                }
-            ],
-            "description": "Knplabs markdown bundle transforms markdown into html",
-            "homepage": "http://github.com/KnpLabs/KnpMarkdownBundle",
-            "keywords": [
-                "bundle",
-                "knp",
-                "knplabs",
-                "markdown"
-            ],
-            "support": {
-                "issues": "https://github.com/KnpLabs/KnpMarkdownBundle/issues",
-                "source": "https://github.com/KnpLabs/KnpMarkdownBundle/tree/master"
-            },
-            "time": "2019-11-26T13:18:52+00:00"
-        },
-        {
             "name": "knpuniversity/oauth2-client-bundle",
             "version": "v2.7.0",
             "source": {
@@ -3041,59 +2974,6 @@
                 "source": "https://github.com/lorenzo/pinky/tree/1.0.5"
             },
             "time": "2019-09-16T21:23:31+00:00"
-        },
-        {
-            "name": "michelf/php-markdown",
-            "version": "1.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "c83178d49e372ca967d1a8c77ae4e051b3a3c75c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/c83178d49e372ca967d1a8c77ae4e051b3a3c75c",
-                "reference": "c83178d49e372ca967d1a8c77ae4e051b3a3c75c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=4.3 <5.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Michelf\\": "Michelf/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Michel Fortin",
-                    "email": "michel.fortin@michelf.ca",
-                    "homepage": "https://michelf.ca/",
-                    "role": "Developer"
-                },
-                {
-                    "name": "John Gruber",
-                    "homepage": "https://daringfireball.net/"
-                }
-            ],
-            "description": "PHP Markdown",
-            "homepage": "https://michelf.ca/projects/php-markdown/",
-            "keywords": [
-                "markdown"
-            ],
-            "support": {
-                "issues": "https://github.com/michelf/php-markdown/issues",
-                "source": "https://github.com/michelf/php-markdown/tree/1.9.0"
-            },
-            "time": "2019-12-02T02:32:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -11587,12 +11467,13 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "boshurik/telegram-bot-bundle": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4",
+        "php": "^7.4||^8.0",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-dom": "*",

@@ -10,15 +10,15 @@
 1. `git clone` this repository
 1. `cd` to repo
 1. `composer install`
-1. `npm install`
-1. `npm run dev`
+1. `yarn`
+1. `yarn dev`
 1. `docker-compose up -d` - or setup a PostgreSQL database "by hand" ;)
 1. `symfony console doctrine:schem:create` - only for a NEW setup! (see below ⬇ )
 1. `symfony console doctrine:fixtures:load` - only for a NEW setup! (see below ⬇ )
 1. `symfony server:start -d`
 1. `symfony open:local`
 
-NOTE: If you deploy the site with database dump, omit the steps `7` and `8` and import the database to docker or other database:
+NOTE: If you deploy the site with a database dump, omit the steps `7` and `8` and import the database to docker or other database:
 
 * 7 `docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`<br>
 e.g.: `docker cp backups/dump.sql website-bot_database_1:/dump.sql`
@@ -31,3 +31,5 @@ e.g.: `docker exec -it website-bot_database_1 psql -U main -d main -f /dump.sql`
 * Ingress badges: https://dedo1911.xyz/Badges
 
 Devs: [dev.md](dev.md)
+
+**Disclaimer** Of course this is not affiliated or related in any way with [Ingress](https://ingress.com), [Niantic](https://nianticlabs.com), [Google](https://google.com) or the [Bundesnachrichtendienst](https://www.bnd.bund.de) ;=) 

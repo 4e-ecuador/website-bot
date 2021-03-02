@@ -9,9 +9,11 @@ use App\Exception\EmojiNotFoundException;
 use App\Type\Emoji;
 
 /**
- *
  *                                     ☺
  *
+ * 😀😃😄😁😆😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟
+ * 😕🙁☹😣😖😫😩🥺😢😭😤😠😡🤬 🤯😳🥵 🥶😱😨😰😥😓🤗🤔🤭 🤫🤥😶😐😑😬🙄😯😦😧
+ * 😮😲🥱😴🤤😪😵🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👹👺🤡💩👻💀☠👽👾🤖🎃😺😸😹😻😼😽🙀😿😾
  */
 final class EmojiService
 {

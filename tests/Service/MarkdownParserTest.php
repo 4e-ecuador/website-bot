@@ -15,7 +15,6 @@ class MarkdownParserTest extends KernelTestCase
         self::bootKernel();
         $em = self::$container->get('doctrine.orm.entity_manager');
 
-        return;
         $this->markdownParser = new MarkdownParser(
             $em->getRepository(Agent::class),
             self::$container->get('router')->getGenerator()
@@ -24,7 +23,6 @@ class MarkdownParserTest extends KernelTestCase
 
     public function testTransform(): void
     {
-        return;
         $result = $this->markdownParser->transform('foo *bar* baz');
 
         $expected = "<div><p>foo <em>bar</em> baz</p>\n</div>\n";
@@ -34,7 +32,6 @@ class MarkdownParserTest extends KernelTestCase
 
     public function testAgentNameMissing(): void
     {
-        return;
         $result = $this->markdownParser->transform('foo @bar baz');
 
         $expected = "<div><p>foo <code>@bar</code> baz</p>\n</div>\n";
@@ -44,7 +41,6 @@ class MarkdownParserTest extends KernelTestCase
 
     public function testAgentName(): void
     {
-        return;
         $result = $this->markdownParser->transform('foo @testAgent baz');
 
         $expected = '<div><p>foo <a href="/agent/1" class="enl">'
@@ -56,7 +52,6 @@ class MarkdownParserTest extends KernelTestCase
 
     public function testImageResponsive(): void
     {
-        return;
         $result = $this->markdownParser->transform('foo ![image](https://example.com/image.jpg) baz');
 
         $expected = '<div><p>foo '

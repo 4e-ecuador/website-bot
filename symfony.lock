@@ -185,6 +185,9 @@
             "fixtures/.gitignore"
         ]
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.9.0"
+    },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
         "recipe": {
@@ -214,6 +217,9 @@
     },
     "lorenzo/pinky": {
         "version": "1.0.5"
+    },
+    "michelf/php-markdown": {
+        "version": "1.9.0"
     },
     "monolog/monolog": {
         "version": "2.2.0"

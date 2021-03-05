@@ -47,6 +47,9 @@ add nodejs
 3. **Copy the dump**<br>`docker cp </path/to/dump/in/host> <container_name>:<path_to_volume>`
 4. **Execute `psql`**<br> `docker exec <container_name> psql -U <database_owner> -d <database_name> -f <path_to_dump>`<br>NOTE: Use `docker exec -it ...` to use the psql binary from the docker container.
 
+or better...
+`cat backup.sql | docker exec -i 4e-website-bot_database_1 psql -U main`
+
 ## Google OAuth
 
 https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4

@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
-use App\Entity\TestStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
+use App\Service\LeaderBoardService;
 use App\Service\MedalChecker;
 use App\Service\StatsImporter;
 use App\Type\BoardEntry;
@@ -125,96 +125,19 @@ class StatsController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     public function leaderBoard(
-        AgentStatRepository $statRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        LeaderBoardService $leaderBoardService,
     ): Response {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
                 'board'    => $this->getBoardEntries(
                     $userRepository,
-                    $statRepository
+                    $leaderBoardService,
                 ),
                 'cssClass' => 'col-sm-3 ',
             ]
         );
-    }
-
-    private function getBoardEntries(
-        UserRepository $userRepository,
-        AgentStatRepository $statRepository,
-        string $typeOnly = 'all'
-    ) {
-        $users = $userRepository->findAll();
-        $boardEntries = [];
-
-        foreach ($users as $user) {
-            $agent = $user->getAgent();
-
-            if (!$agent) {
-                continue;
-            }
-
-            $agentEntry = $statRepository->getAgentLatest($agent);
-
-            if (!$agentEntry) {
-                continue;
-            }
-
-            foreach ($agentEntry->findProperties() as $property) {
-                if (in_array(
-                    $property,
-                    [
-                        'current_challenge',
-                        'level',
-                        'faction',
-                        'nickname',
-                        'csv',
-                    ]
-                )
-                ) {
-                    continue;
-                }
-
-                $methodName = 'get'.str_replace('_', '', $property);
-                if ($agentEntry->$methodName()) {
-                    $boardEntries[$property][] = new BoardEntry(
-                        $agent,
-                        $user,
-                        $agentEntry->$methodName()
-                    );
-                }
-            }
-
-            $boardEntries['Fields/Links'][] = new BoardEntry(
-                $agent,
-                $user,
-                $agentEntry->getMindController() / $agentEntry->getConnector()
-            );
-        }
-
-        foreach ($boardEntries as $type => $entries) {
-            usort(
-                $boardEntries[$type],
-                static function ($a, $b) {
-                    if ($a->getValue() === $b->getValue()) {
-                        return 0;
-                    }
-
-                    return ($a->getValue() > $b->getValue()) ? -1 : 1;
-                }
-            );
-        }
-
-        if ($typeOnly && $typeOnly !== 'all') {
-            if (array_key_exists($typeOnly, $boardEntries)) {
-                return $boardEntries[$typeOnly];
-            }
-
-            throw new UnexpectedValueException('Unknown type'.$typeOnly);
-        }
-
-        return $boardEntries;
     }
 
     /**
@@ -224,13 +147,14 @@ class StatsController extends AbstractController
     public function leaderBoardDetail(
         AgentStatRepository $statRepository,
         UserRepository $userRepository,
+        LeaderBoardService $leaderBoardService,
         Request $request
     ): Response {
         $item = $request->request->get('item', 'ap');
 
         $entries = $this->getBoardEntries(
             $userRepository,
-            $statRepository,
+            $leaderBoardService,
             $item
         );
 
@@ -244,6 +168,16 @@ class StatsController extends AbstractController
 
             ]
         );
+    }
+
+    private function getBoardEntries(
+        UserRepository $userRepository,
+        LeaderBoardService $leaderBoardService,
+        string $typeOnly = 'all'
+    ) {
+        $users = $userRepository->findAll();
+
+        return $leaderBoardService->getBoard($users, $typeOnly);
     }
 
     /**

@@ -2,6 +2,9 @@ require('../css/app.scss')
 require('bootstrap')
 require('bootstrap-select')
 
+// start the Stimulus application
+import '../bootstrap';
+
 const $ = require('jquery');
 
 let darkmode = localStorage.getItem('4e-darkmode')

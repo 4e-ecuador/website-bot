@@ -1,0 +1,25 @@
+{% if agents|length < 2 %}
+    {{ 'Select another agent' }}
+{% else %}
+    {% for type, entries in board %}
+        <h5>{{ type|u.snake|replace({'_': ' '})|title }}</h5>
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {% if entry.user.avatarEncoded %}
+                        <img src="{{ entry.user.avatarEncoded }}" height="24" alt="Avatar">
+                    {% endif %}
+                    {# <span class="badge badge-pill badge-secondary">{{ count }}</span> #}
+                    {{ entry.agent.nickname }}
+                    {% if 'Fields/Links' == type  or 'Links/Fields' == type %}
+                        {{ entry.value|number_format(2, '.', ',') }}
+                    {% else %}
+                        {{ entry.value|number_format }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endif %}
+
+

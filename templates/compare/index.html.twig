@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ 'Compare statistics'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Compare statistics'|trans }}</h1>
+
+    <div
+            {{ stimulus_controller('compare', {
+                url: path('compare_result'),
+            }) }}
+            data-action="compare-search:update:view->compare#updateView"
+    >
+        <div
+                {{ stimulus_controller('compare-search', {
+                    urlSearch: path('compare_preview'),
+                    urlAgentList: path('compare_agent_list'),
+                }) }}
+        >
+                <div
+                        data-compare-search-target="agentList"
+                >
+                </div>
+            <div class="input-group">
+                <input
+                        name="q"
+                        value="{{ searchTerm }}"
+                        placeholder="Search products..."
+                        type="search"
+                        class="form-control"
+                        data-action="compare-search#onSearchInput keydown->compare-search#onKeydown"
+                        data-compare-search-target="input"
+                />
+                <div
+                        class="search-preview"
+                        data-compare-search-target="result"
+                >
+                </div>
+            </div>
+        </div>
+        <div data-compare-target="result"></div>
+    </div>
+{% endblock %}

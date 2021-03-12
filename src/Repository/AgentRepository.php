@@ -8,8 +8,8 @@ use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Agent|null find($id, $lockMode = null, $lockVersion = null)
@@ -68,14 +68,22 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function searchByAgentName(string $agentName): array
-    {
-        return $this->createQueryBuilder('a')
+    public function searchByAgentName(
+        string $agentName,
+        array $excludes = []
+    ): array {
+        $query = $this->createQueryBuilder('a')
             ->andWhere('LOWER(a.nickname) LIKE LOWER(:val)')
             ->setParameter('val', '%'.$agentName.'%')
             ->orderBy('a.nickname', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
+            ->setMaxResults(10);
+
+        if ($excludes) {
+            $query->andWhere('a.id NOT IN (:excludes)')
+                ->setParameter('excludes', $excludes);
+        }
+
+        return $query->getQuery()
             ->getResult();
     }
 
@@ -135,5 +143,15 @@ class AgentRepository extends ServiceEntityRepository
             ->andWhere('a.telegram_id IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Agent[]
+     */
+    public function searchByIds(array $ids): array {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id IN (:val)')
+            ->setParameter('val', $ids)
+            ->getQuery()->getResult();
     }
 }

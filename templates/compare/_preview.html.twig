@@ -1,0 +1,16 @@
+<div class="list-group">
+    {% for agent in agents %}
+        <div
+                class="list-group-item list-group-item-action list-group-item-success"
+                data-action="click->compare-search#addItem"
+                data-id="{{ agent.id }}"
+                data-compare-search-target="resultItem"
+        >
+            {{ agent.nickname }}
+        </div>
+    {% else %}
+        <div class="list-group-item">
+            No results found :(
+        </div>
+    {% endfor %}
+</div>

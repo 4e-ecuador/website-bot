@@ -1,0 +1,19 @@
+<h5>
+    {% for agent in agents %}
+        <span class="badge badge-pill badge-success">
+            {{ agent.nickname }}&nbsp;
+            <a
+                    href="#"
+                    title="{{ 'Remove'|trans }}"
+                    class="badge badge-danger"
+                    data-id="{{ agent.id }}"
+                    data-action="click->compare-search#removeItem"
+            >X</a>
+        </span>
+    {% endfor %}
+</h5>
+{% if agents|length == 1 %}
+    {{ 'Select another agent' }}
+{% endif %}
+
+

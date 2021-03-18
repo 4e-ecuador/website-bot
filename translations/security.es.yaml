@@ -13,3 +13,5 @@
 'Credentials have expired.': 'Las credenciales han expirado.'
 'Account is disabled.': 'La cuenta está deshabilitada.'
 'Account is locked.': 'La cuenta está bloqueada.'
+'Too many failed login attempts, please try again later.': 'Demasiados intentos fallidos de inicio de sesión, inténtelo de nuevo más tarde.'
+'Invalid or expired login link.': 'Enlace de inicio de sesión inválido o expirado.'

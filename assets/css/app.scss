@@ -145,3 +145,11 @@ div.cite-body {
 .search-preview img {
   width: 50px;
 }
+
+.agent-item {
+  transition: opacity 500ms;
+}
+
+.agent-item.removing {
+  opacity: 0.5;
+}

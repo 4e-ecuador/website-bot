@@ -12,7 +12,7 @@ export default class extends Controller {
             agents: JSON.stringify(event.detail.ids),
         })
 
-        this.resultTarget.innerHTML = 'Loading...'
+        this.resultTarget.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>'
 
         const response = await fetch(`${this.urlValue}?${params.toString()}`)
         this.resultTarget.innerHTML = await response.text()

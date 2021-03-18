@@ -180,3 +180,11 @@ paginate.next.page: 'Siguiente pagina'
 'Sorry but the message has not been sent :(': 'Lo sentimos pero su mensaje no ha sido enviado :('
 'Medal Upgrades': 'Upgrades de medallas'
 'First import succesfull! Welcome agent.': 'Primer importe exitoso! Bienvenid@ agente.'
+Compare: Comparar
+'Kinetic capsules completed': 'Capsulas Kineticas completadas'
+'No kinetic capsules completed yet': 'Aun no tiene Capsulas Kineticas completadas'
+'Compare statistics': 'Comparar estadisticas'
+'Search for agents to compare with...': 'Buscar agentes para comparar...'
+Remove: Remover
+'No results found :(': 'No se encontraron resultados :('
+'Select another agent': 'Seleccione otro agente'

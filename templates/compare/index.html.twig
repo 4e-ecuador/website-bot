@@ -6,9 +6,7 @@
     <h1>{{ 'Compare statistics'|trans }}</h1>
 
     <div
-            {{ stimulus_controller('compare', {
-                url: path('compare_result'),
-            }) }}
+            {{ stimulus_controller('compare', {url: path('compare_result')}) }}
             data-action="compare-search:update:view->compare#updateView"
     >
         <div
@@ -17,15 +15,13 @@
                     urlAgentList: path('compare_agent_list'),
                 }) }}
         >
-                <div
-                        data-compare-search-target="agentList"
-                >
-                </div>
+            <div data-compare-search-target="agentList">
+            </div>
             <div class="input-group">
                 <input
                         name="q"
                         value="{{ searchTerm }}"
-                        placeholder="Search products..."
+                        placeholder="{{ 'Search for agents to compare with...'|trans }}"
                         type="search"
                         class="form-control"
                         data-action="compare-search#onSearchInput keydown->compare-search#onKeydown"
@@ -38,6 +34,7 @@
                 </div>
             </div>
         </div>
-        <div data-compare-target="result"></div>
+        <div data-compare-target="result">
+        </div>
     </div>
 {% endblock %}

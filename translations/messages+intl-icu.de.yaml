@@ -180,3 +180,11 @@ paginate.next.page: __paginate.next.page
 'Sorry but the message has not been sent :(': '__Sorry but the message has not been sent :('
 'Medal Upgrades': '__Medal Upgrades'
 'First import succesfull! Welcome agent.': '__First import succesfull! Welcome agent.'
+Compare: __Compare
+'Kinetic capsules completed': '__Kinetic capsules completed'
+'No kinetic capsules completed yet': '__No kinetic capsules completed yet'
+'Compare statistics': '__Compare statistics'
+'Search for agents to compare with...': '__Search for agents to compare with...'
+Remove: __Remove
+'No results found :(': '__No results found :('
+'Select another agent': '__Select another agent'

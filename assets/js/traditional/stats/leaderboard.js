@@ -21,9 +21,6 @@ $('.btnLoadBoard')
     .on('click', function () {
         const $input = $(this)
             .prev()
-        // console.log($input)
-        // console.log($input.attr('type'))
-        // console.log($input.val())
 
         let span = ''
 

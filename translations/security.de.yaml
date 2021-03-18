@@ -13,3 +13,5 @@
 'Credentials have expired.': 'Die Zugangsdaten sind abgelaufen.'
 'Account is disabled.': 'Der Account ist deaktiviert.'
 'Account is locked.': 'Der Account ist gesperrt.'
+'Too many failed login attempts, please try again later.': 'Zu viele fehlgeschlagene Anmeldeversuche, bitte versuchen Sie es später noch einmal.'
+'Invalid or expired login link.': 'Ungültiger oder abgelaufener Anmelde-Link.'

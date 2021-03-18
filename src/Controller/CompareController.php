@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\AgentRepository;
-use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
 use App\Service\LeaderBoardService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CompareController extends AbstractController
 {
-    #[Route('/compare', name: 'compare')]
+    #[Route('/compare', name: 'compare', methods: ['GET'])]
     public function index(
         Request $request
     ): Response {
@@ -31,20 +30,14 @@ class CompareController extends AbstractController
         );
     }
 
-    #[Route('/compare-preview', name: 'compare_preview')]
+    #[Route('/compare-preview', name: 'compare_preview', methods: ['GET'])]
     public function preview(
         Request $request,
         AgentRepository $agentRepository
     ): Response {
         $searchTerm = $request->query->get('q');
         try {
-            $excludes = json_decode(
-                $request->query->get('excludes'),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-            $excludes = \array_map(static fn(string $id): int => (int) $id, $excludes);
+            $excludes = $this->getIdsFromRequest($request, 'excludes');
         } catch (\JsonException $e) {
             return new Response($e->getMessage());
         }
@@ -60,44 +53,13 @@ class CompareController extends AbstractController
         );
     }
 
-    #[Route('/compare-agent-list', name: 'compare_agent_list')]
+    #[Route('/compare-agent-list', name: 'compare_agent_list', methods: ['GET'])]
     public function agentList(
         Request $request,
         AgentRepository $agentRepository,
-        UserRepository $userRepository,
-        AgentStatRepository $agentStatRepository,
-        LeaderBoardService $leaderBoardService
     ): Response {
-        $board = [];
         try {
-            $ids = json_decode(
-                $request->query->get('agents'),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-            $ids = \array_map(static fn(string $id): int => (int) $id, $ids);
-            $stats = [];
-            if (count($ids) > 1) {
-                $users = [];
-                foreach ($ids as $id) {
-                    $agent = $agentRepository->find($id);
-                    if ($agent) {
-                        $user = $userRepository->findByAgent($agent);
-                        if ($user) {
-                            $users[] = $user;
-                        }
-                    }
-                    $s = new \stdClass();
-                    $s->agent = $agent;
-                    $s->data = $agentStatRepository->getAgentLatest($agent);
-
-                    $stats[] = $s;
-                }
-                if (count($users) > 1) {
-                    $board = $leaderBoardService->getBoard($users);
-                }
-            }
+            $ids = $this->getIdsFromRequest($request);
         } catch (\Exception $exception) {
             return new Response($exception->getMessage());
         }
@@ -106,50 +68,30 @@ class CompareController extends AbstractController
             'compare/_agent_list.html.twig',
             [
                 'agents' => $agentRepository->searchByIds($ids),
-                'stats'  => $stats,
-                'board'  => $board,
             ]
         );
     }
 
-    #[Route('/compare-result', name: 'compare_result')]
+    #[Route('/compare-result', name: 'compare_result', methods: ['GET'])]
     public function compareResult(
         Request $request,
         AgentRepository $agentRepository,
         UserRepository $userRepository,
-        AgentStatRepository $agentStatRepository,
         LeaderBoardService $leaderBoardService
     ): Response {
-        $board = [];
         try {
-            $ids = json_decode(
-                $request->query->get('agents'),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-            $ids = \array_map(static fn(string $id): int => (int) $id, $ids);
-            $stats = [];
-            if (count($ids) > 1) {
-                $users = [];
-                foreach ($ids as $id) {
-                    $agent = $agentRepository->find($id);
-                    if ($agent) {
-                        $user = $userRepository->findByAgent($agent);
-                        if ($user) {
-                            $users[] = $user;
-                        }
+            $ids = $this->getIdsFromRequest($request);
+            $users = [];
+            foreach ($ids as $id) {
+                $agent = $agentRepository->find($id);
+                if ($agent) {
+                    $user = $userRepository->findByAgent($agent);
+                    if ($user) {
+                        $users[] = $user;
                     }
-                    $s = new \stdClass();
-                    $s->agent = $agent;
-                    $s->data = $agentStatRepository->getAgentLatest($agent);
-
-                    $stats[] = $s;
-                }
-                if (count($users) > 1) {
-                    $board = $leaderBoardService->getBoard($users);
                 }
             }
+            $board = $leaderBoardService->getBoard($users);
         } catch (\Exception $exception) {
             return new Response($exception->getMessage());
         }
@@ -157,10 +99,28 @@ class CompareController extends AbstractController
         return $this->render(
             'compare/_result.html.twig',
             [
-                'agents' => $agentRepository->searchByIds($ids),
-                'stats'  => $stats,
-                'board'  => $board,
+                'board' => $board,
             ]
         );
+    }
+
+    /**
+     * @return int[]
+     * @throws \JsonException
+     */
+    private function getIdsFromRequest(Request $request, $key = 'agents'): array
+    {
+        $ids = json_decode(
+            $request->query->get($key),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        if (!is_array($ids)) {
+            return [];
+        }
+
+        return \array_map(static fn(string $id): int => (int)$id, $ids);
     }
 }

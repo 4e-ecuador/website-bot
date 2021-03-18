@@ -1,6 +1,5 @@
 import { Controller } from 'stimulus'
-import { useClickOutside, useDebounce } from 'stimulus-use'
-import { useDispatch } from 'stimulus-use';
+import { useClickOutside, useDebounce, useDispatch } from 'stimulus-use'
 
 export default class extends Controller {
     static values = {
@@ -8,9 +7,7 @@ export default class extends Controller {
         urlAgentList: String,
     }
 
-    static targets = [
-        'input', 'resultItem', 'result', 'agentList'
-    ]
+    static targets = ['input', 'resultItem', 'result', 'agentList']
 
     static debounces = ['_search']
 
@@ -88,6 +85,8 @@ export default class extends Controller {
     }
 
     removeItem(event) {
+        event.currentTarget.parentNode.classList.add('removing');
+
         this._removeItem(event.currentTarget.dataset.id)
     }
 
@@ -110,13 +109,13 @@ export default class extends Controller {
 
         this.resultTarget.innerHTML = ''
 
-        const response = await fetch(`${this.urlAgentListValue}?${params.toString()}`)
-        this.agentListTarget.innerHTML = await response.text()
-
         const ids = this.agentsIds
         this.dispatch('update:view', {
             ids,
         })
+
+        const response = await fetch(`${this.urlAgentListValue}?${params.toString()}`)
+        this.agentListTarget.innerHTML = await response.text()
 
         this.inputTarget.value = ''
         this.inputTarget.focus()

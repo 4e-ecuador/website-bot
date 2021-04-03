@@ -176,6 +176,7 @@ class MedalChecker
             'Hacks'                         => 'hacker',
             'Glyph Hack Points'             => 'translator',
             'Longest Hacking Streak'        => 'sojourner',
+            'Longest Sojourner Streak'      => 'sojourner',
             // old
             'Agents Successfully Recruited' => 'recruiter',
             // new

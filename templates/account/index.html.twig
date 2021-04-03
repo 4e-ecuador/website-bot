@@ -104,6 +104,7 @@
                                            value="1" class="hiddenCheckBox"
                                             {{ checked }}>
                                 {% elseif 'Event' == group %}
+
                                     {% for tier in tiers %}
                                         {% set name = '' == tier ? '' : '_'~tier %}
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
@@ -115,6 +116,9 @@
                                                 <span class="medal50-events medal-UniqueBadge_Paragon"
                                                       title="Avenir Shard Challenge"></span>
                                             {% elseif 'KnightTessellation' == medal %}
+                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
+                                                      title="{{ medal~' '~tier }}"></span>
+                                            {% elseif 'KineticChallenge' == medal %}
                                                 <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
                                                       title="{{ medal~' '~tier }}"></span>
                                             {% else %}

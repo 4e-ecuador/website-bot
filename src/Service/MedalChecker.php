@@ -245,6 +245,10 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'KineticChallenge'     =>
+                        [
+                            'Bronze',
+                        ],
                     'KnightTessellation'   =>
                         [
                             'Silver',

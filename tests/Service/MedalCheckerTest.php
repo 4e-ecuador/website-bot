@@ -165,7 +165,7 @@ class MedalCheckerTest extends KernelTestCase
     {
         $result = $this->medalChecker->getBadgeData('Anomaly_Requiem');
         self::assertInstanceOf(BadgeData::class, $result);
-        self::assertSame('Requiem', $result->title);
+        self::assertSame('Requiem [UNRELEASED]', $result->title);
         self::assertSame('In recognition of contributions during Requiem.', $result->description);
     }
 

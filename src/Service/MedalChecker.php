@@ -205,6 +205,9 @@ class MedalChecker
             'Kinetic Capsules Completed'                  => 'kinetic-capsules-completed',
 
             'Months Subscribed' => 'monthsSubscribed',
+
+            // event 4/2021
+            'Unique Event Portals Hacked' => '',
         ];
 
     private array $customMedals

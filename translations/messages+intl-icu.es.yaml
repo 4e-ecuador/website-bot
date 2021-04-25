@@ -146,7 +146,7 @@ notify.upload.reminder: 'No se olviden de mantener actualizados sus estadística
 'You are connected to Telegram but have not enabled notifications. You may do this {link}.': 'Estas conectado con Telegram pero no has activado ninguna notificación. Puedes hacerlo {link}.'
 account.link.text: aquí
 notify.events.days.remaining: "{count, plural,\n  =0 {El evento empieza HOY!!!}\n  one {Solo falta un dia!}\n  other {Solo faltan # dias!}\n}"
-'Stats upload successful!': 'Las estadisticas se han subidas exitosamente!'
+'Stats upload successful!': 'Las estadisticas se han subido exitosamente!'
 'Import result': 'Resultado del importe'
 Progress: Progreso
 'Medal UPs': 'Subidas de medallas'

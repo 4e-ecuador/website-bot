@@ -47,7 +47,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
             $daysRemaining = $eventDate->diff(new DateTime())->days;
 
             // TODO wtf?
-            ++$daysRemaining;
+            // ++$daysRemaining;
 
             if ($daysRemaining > $sendDaysBeforeEvent && ! $this->firstAnnounce) {
                 return [];

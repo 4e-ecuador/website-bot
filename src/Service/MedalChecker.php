@@ -88,14 +88,14 @@ class MedalChecker
                 'desc'   => 'Longest Hacking Streak',
                 'levels' => [15, 30, 60, 180, 360],
             ],
+            'epoch' => [
+                'desc'   => 'Complete Hacking Streak',
+                'levels' => [2, 4, 8, 30, 60],
+            ],
             'recruiter'              => [
                 'desc'   => 'Agents successfully recruited',
                 'levels' => [2, 10, 25, 50, 100],
             ],
-            // 'recursions'             => [
-            //     'desc'   => 'Recursions',
-            //     'levels' => [1, 0, 0, 0, 0],
-            // ],
             'prime_challenge'        => [
                 'desc'   => 'Prime Challenges',
                 'levels' => [1, 2, 3, 4, 0],
@@ -177,18 +177,24 @@ class MedalChecker
             'Glyph Hack Points'             => 'translator',
             'Longest Hacking Streak'        => 'sojourner',
             'Longest Sojourner Streak'      => 'sojourner',
-            // old
+
+            // Sojourner 2.0
+            'Completed Hackstreaks' => 'epoch-hackstreaks',
+
+            // Old
             'Agents Successfully Recruited' => 'recruiter',
-            // new
+            // New
             'Agents Recruited' => 'recruiter',
+
             'Mission Day(s) Attended'       => 'missionday',
             'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
             'First Saturday Events'         => 'ifs',
 
             'Portal Scans Uploaded'              => 'scout',
-            // old
+
+            // Old
             'Scout Controller on Unique Portals' => 'scout-controller',
-            // new
+            // New
             'Uniques Scout Controlled' => 'scout-controller',
 
             'Drone Hacks'                    => 'drone-hacks',
@@ -206,8 +212,10 @@ class MedalChecker
 
             'Months Subscribed' => 'monthsSubscribed',
 
-            // event 4/2021
+            // Event 4/2021
             'Unique Event Portals Hacked' => '',
+            // Event 4/2021
+            'Matryoshka Links Created' => '',
         ];
 
     private array $customMedals
@@ -317,12 +325,6 @@ class MedalChecker
                             'Explorer',
                             'Odyssey',
                         ],
-
-                    // 'FieldTest'            =>
-                    //     [
-                    //         'XX',
-                    //         'Elite',
-                    //     ],
                 ],
 
         ];
@@ -336,42 +338,6 @@ class MedalChecker
             3 => 'Gold',
             4 => 'Platinum',
             5 => 'Black',
-        ];
-
-    private array $ingressLevels
-        = [
-            2 => [
-                'ap'     => 2500,
-                'medals' => [],
-            ],
-            3 => [
-                'ap'     => 20000,
-                'medals' => [],
-            ],
-            4 => [
-                'ap'     => 70000,
-                'medals' => [],
-            ],
-            5 => [
-                'ap'     => 150000,
-                'medals' => [],
-            ],
-            6 => [
-                'ap'     => 300000,
-                'medals' => [],
-            ],
-            7 => [
-                'ap'     => 600000,
-                'medals' => [],
-            ],
-            8 => [
-                'ap'     => 1200000,
-                'medals' => [],
-            ],
-            9 => [
-                'ap'     => 2400000,
-                'medals' => [],
-            ],
         ];
 
     private array $translatedLevels = [];
@@ -405,7 +371,8 @@ class MedalChecker
                 ) {
                     unset($levels[$name]);
                 }
-            }
+            }else{
+                echo'GULP: '.$methodName;}
         }
 
         return $levels;
@@ -420,7 +387,7 @@ class MedalChecker
     {
         if (false === array_key_exists($name, $this->primeHeaders)) {
             throw new UnexpectedValueException(
-                'Prime header not found: '.$name
+                sprintf('Prime header not found: "%s"', $name)
             );
         }
 

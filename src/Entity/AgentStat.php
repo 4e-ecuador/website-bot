@@ -335,6 +335,11 @@ JSON,
      */
     private ?int $monthsSubscribed = null;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $epoch = null;
+
     public ?string $csv = '';
 
     /**
@@ -939,6 +944,18 @@ JSON,
     public function setMonthsSubscribed(?int $monthsSubscribed): self
     {
         $this->monthsSubscribed = $monthsSubscribed;
+
+        return $this;
+    }
+
+    public function getEpoch(): ?int
+    {
+        return $this->epoch;
+    }
+
+    public function setEpochHackstreaks(?int $epoch): self
+    {
+        $this->epoch = $epoch;
 
         return $this;
     }

@@ -371,8 +371,7 @@ class MedalChecker
                 ) {
                     unset($levels[$name]);
                 }
-            }else{
-                echo'GULP: '.$methodName;}
+            }
         }
 
         return $levels;

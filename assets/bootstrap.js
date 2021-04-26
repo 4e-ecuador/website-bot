@@ -1,4 +1,5 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
+import Clipboard from "stimulus-clipboard"
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -6,3 +7,5 @@ export const app = startStimulusApp(require.context(
     true,
     /\.(j|t)sx?$/
 ));
+
+app.register("clipboard", Clipboard)

@@ -1,0 +1,11 @@
+<form action="" data-modify-stats-target="form">
+    {% for key, value in data %}
+        <div class="form-group row">
+            <label for="{{ key }}" class="col-sm-8 col-form-label text-right">{{ key }}</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" id="{{ key }}" value="{{ value }}"
+                       data-action="modify-stats#processFields">
+            </div>
+        </div>
+    {% endfor %}
+</form>

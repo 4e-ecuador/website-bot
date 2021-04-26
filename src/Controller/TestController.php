@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Exception\EmojiNotFoundException;
+use App\Service\CsvParser;
 use App\Service\EmojiService;
 use App\Service\MailerHelper;
 use App\Service\TelegramBotHelper;
@@ -120,5 +121,62 @@ class TestController extends AbstractController
             ]
         );
 
+    }
+
+    /**
+     * @Route("/modify-stats", name="test_modify_stats")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function modifyStats(): Response
+    {
+        return $this->render('test/modify-stats.html.twig');
+    }
+
+    /**
+     * @Route("/modify-stats/input", name="test_modify_stats_input")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function modifyStatsInput(Request $request, CsvParser $csvParser): Response
+    {
+        try {
+            $csv = $request->query->get('q');
+
+            if (!$csv) {
+                throw new \UnexpectedValueException('No CSV received!');
+            }
+
+            $lines = explode("\n", trim($csv));
+
+            if (2 !== count($lines)) {
+                throw new \UnexpectedValueException('CSV must have 2 lines!');
+            }
+
+            if (!str_contains($lines[0], "\t")) {
+                throw new \UnexpectedValueException('We want TABS!!!');
+            }
+
+            $keys = explode("\t", trim($lines[0]));
+            $values = explode("\t", trim($lines[1]));
+
+            if (count($keys) !== count($values)) {
+                throw new \UnexpectedValueException('Key/Value count mismatch!');
+            }
+
+            $data = [];
+            foreach ($keys as $i => $key) {
+                $data[$key] = $values[$i];
+            }
+
+            return $this->render(
+                'test/_modify-stats-fields.html.twig',[
+                    'data' => $data,
+                ]
+            );
+        } catch (Exception $exception) {
+            return new Response(
+                $exception->getMessage(),
+                Response::HTTP_NOT_ACCEPTABLE
+            );
+        }
     }
 }

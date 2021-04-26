@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stats editor!{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('modify-stats', {
+        urlInput: path('test_modify_stats_input')
+    }) }}
+            class="row"
+    >
+        <div class="col">
+            <h3>Input</h3>
+            <textarea
+                    data-modify-stats-target="input"
+                    data-action="modify-stats#processInput"
+                    cols="40" rows="20"></textarea>
+        </div>
+
+        <div class="col" data-modify-stats-target="formFields" style="overflow-y: scroll; height: 500px">
+        </div>
+
+        <div class="col">
+            <h3>Output</h3>
+            <div
+                    data-controller="clipboard"
+                    data-clipboard-success-content="Copied!"
+            >
+                <textarea
+                        data-modify-stats-target="output"
+                        data-clipboard-target="source"
+                        cols="40"
+                        rows="20"></textarea>
+                <button
+                        type="button"
+                        data-action="clipboard#copy"
+                        data-clipboard-target="button"
+                        class="btn btn-outline-success"
+                >
+                    Copy to clipboard
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

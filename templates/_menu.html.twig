@@ -15,11 +15,15 @@
                 <ul class="nav navbar-nav">
                     <li class="nav-item{% if page == 'agent_index' %} active{% endif %}"
                         title="{{ 'Agents'|trans }}">
-                        <a class="nav-link" href={{ path('agent_index') }}><span class="oi oi-people"></span></a>
+                        <a class="nav-link" href={{ path('agent_index') }}>
+                            <span class="oi oi-people"></span>
+                        </a>
                     </li>
                     <li class="nav-item{% if page == 'stats_leaderboard' %} active{% endif %}"
                         title="{{ 'Leaderboard'|trans }}">
-                        <a class="nav-link" href={{ path('stats_leaderboard') }}><span class="oi oi-graph"></span></a>
+                        <a class="nav-link" href={{ path('stats_leaderboard') }}>
+                            <span class="oi oi-graph"></span>
+                        </a>
                     </li>
                     <li class="nav-item{% if page == 'agent-map' %} active{% endif %}" title="{{ 'Map'|trans }}">
                         <a class="nav-link" href="{{ path('agent-map') }}"><span class="oi oi-globe"></span></a>
@@ -90,6 +94,10 @@
                                 <a class="dropdown-item" href="{{ path('test_stat_index') }}">
                                     <span class="oi oi-beaker"></span>&nbsp;
                                     TEST stats
+                                </a>
+                                <a class="dropdown-item" href="{{ path('test_modify_stats') }}">
+                                    <span class="oi oi-beaker"></span>&nbsp;
+                                    Modify stats
                                 </a>
                                 <a class="dropdown-item" href="{{ path('test_emojis') }}">
                                     <span class="oi oi-eye"></span>&nbsp;

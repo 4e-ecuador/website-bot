@@ -89,6 +89,6 @@ class TravisFinishedNofiticationCommand extends Command
 
         $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

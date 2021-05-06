@@ -57,6 +57,6 @@ class UpdateAgentTgConnectionSecretCommand extends Command
 
         $io->success('Database has been updated.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

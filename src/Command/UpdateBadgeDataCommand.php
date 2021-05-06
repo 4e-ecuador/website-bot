@@ -2,12 +2,14 @@
 
 namespace App\Command;
 
+use App\Exception\NothingHasChangedException;
 use DirectoryIterator;
 use DOMDocument;
 use DOMXPath;
 use RuntimeException;
 use stdClass;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -47,15 +49,23 @@ class UpdateBadgeDataCommand extends Command
 
         $io->title('Scrape Badges');
 
-        $this->scrapeBadges($input, $output)
-            ->resizeBadges($input, $output)
-            ->makeCssSprite($input, $output);
+        try {
+            $this->scrapeBadges($input, $output)
+                ->resizeBadges($input, $output)
+                ->makeCssSprite($input, $output);
+        } catch (NothingHasChangedException) {
+            $io->writeln('');
+            $io->writeln('Nothing has changed...');
+        }
 
         $io->success('Finished!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
+    /**
+     * @throws NothingHasChangedException
+     */
     private function scrapeBadges(
         InputInterface $input,
         OutputInterface $output
@@ -73,14 +83,20 @@ class UpdateBadgeDataCommand extends Command
         $dom->loadHTML($html);
         $xpath = new DOMXPath($dom);
 
+        $items = $xpath->query('//div[contains(@class,"badge")]/img');
+
+        $nothingHasChanged = true;
+        $progressBar = new ProgressBar($output, count($items));
+        $progressBar->start();
+
         foreach ($xpath->query('//div[contains(@class,"badge")]/img') as $item)
         {
             $original = $item->getAttribute('data-original');
-            $io->write($original.'... ');
+            // $io->write($original.'... ');
 
             $imgPath = $this->badgeRoot.'/'.$original;
             if (file_exists($imgPath)) {
-                $io->writeln('exists');
+                // $io->writeln('exists');
             } else {
                 file_put_contents(
                     $imgPath,
@@ -88,8 +104,16 @@ class UpdateBadgeDataCommand extends Command
                         $this->scrapeSite.'/'.$original
                     )
                 );
-                $io->writeln('ok');
+                // $io->writeln('ok');
+                $nothingHasChanged = false;
             }
+            $progressBar->advance();
+        }
+        $progressBar->finish();
+
+
+        if ($nothingHasChanged) {
+            throw new NothingHasChangedException();
         }
 
         $badgeInfos = [];

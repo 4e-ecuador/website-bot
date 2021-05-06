@@ -41,7 +41,7 @@ class UserAdminCommand extends Command
 
         $this->showMenu($input, $output);
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function showMenu(

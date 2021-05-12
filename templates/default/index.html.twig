@@ -23,18 +23,18 @@
 
     <div class="row">
         <div class="col-sm-7">
-            {% include '/default/_greeting.html.twig' %}
+            {% include 'default/_greeting.html.twig' %}
         </div>
 
         <div class="col-sm-5">
-            {% include '/default/_search_box.html.twig' %}
+            {% include 'default/_search_box.html.twig' %}
         </div>
     </div>
 
     {% if is_granted('ROLE_AGENT') %}
-        {% include '/default/_event_list.html.twig' %}
+        {% include 'default/_event_list.html.twig' %}
     {% endif %}
     {% if is_granted('ROLE_EDITOR') %}
-        {% include '/default/_comment_list.html.twig' %}
+        {% include 'default/_comment_list.html.twig' %}
     {% endif %}
 {% endblock %}

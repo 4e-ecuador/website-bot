@@ -385,6 +385,7 @@ class MedalChecker
     public function translatePrimeHeader($name): string
     {
         if (false === array_key_exists($name, $this->primeHeaders)) {
+            return '';
             throw new UnexpectedValueException(
                 sprintf('Prime header not found: "%s"', $name)
             );

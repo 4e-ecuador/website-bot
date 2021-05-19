@@ -74,7 +74,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
-    .enablePostCssLoader()
+    // .enablePostCssLoader()
 
     .enableVueLoader()
 

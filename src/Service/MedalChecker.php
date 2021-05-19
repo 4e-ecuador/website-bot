@@ -148,7 +148,7 @@ class MedalChecker
             'Lifetime AP'                   => 'ap',
             'Current AP'                    => '',
             'Unique Portals Visited'        => 'explorer',
-            'Portals Discovered'            => '',
+            'Portals Discovered'            => 'portals-discovered',
             'Seer Points'                   => 'seer',
             'XM Collected'                  => '',
             'OPR Agreements'                => 'recon',
@@ -201,16 +201,17 @@ class MedalChecker
             'Unique Portals Drone Visited'   => 'drone-portals-visited',
             'Furthest Drone Distance'        => 'drone-flight-distance',
             'Forced Drone Recalls'           => 'drone-forced-recalls',
+            'Drones Returned'                => 'drones-returned',
 
             'Level'      => 'level',
             'Recursions' => 'recursions',
 
-            'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
-            'Didact Fields Created'                  => 'currentChallenge',
-
             'Kinetic Capsules Completed'                  => 'kinetic-capsules-completed',
 
             'Months Subscribed' => 'monthsSubscribed',
+
+            'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
+            'Didact Fields Created'                  => 'currentChallenge',
 
             // Event 4/2021
             'Unique Event Portals Hacked' => '',

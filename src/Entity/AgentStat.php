@@ -340,6 +340,16 @@ JSON,
      */
     private ?int $epoch = null;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $portalsDiscovered = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $dronesReturned = null;
+
     public ?string $csv = '';
 
     /**
@@ -956,6 +966,30 @@ JSON,
     public function setEpochHackstreaks(?int $epoch): self
     {
         $this->epoch = $epoch;
+
+        return $this;
+    }
+
+    public function getPortalsDiscovered(): ?int
+    {
+        return $this->portalsDiscovered;
+    }
+
+    public function setPortalsDiscovered(?int $portalsDiscovered): self
+    {
+        $this->portalsDiscovered = $portalsDiscovered;
+
+        return $this;
+    }
+
+    public function getDronesReturned(): ?int
+    {
+        return $this->dronesReturned;
+    }
+
+    public function setDronesReturned(?int $dronesReturned): self
+    {
+        $this->dronesReturned = $dronesReturned;
 
         return $this;
     }

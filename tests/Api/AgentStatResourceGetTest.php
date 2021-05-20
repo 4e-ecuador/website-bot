@@ -50,6 +50,7 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
             .'"mindController":null,"illuminator":null,"recharger":null,"liberator":null,"pioneer":null,"engineer":null,"epoch": null,"purifier":null,"specops":null,'
             .'"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"monthsSubscribed": null,"nl1331Meetups":null,"ifs":null,"currentChallenge":null,'
             .'"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"","nickname":"","droneFlightDistance":null,'
+            .'"dronesReturned": null,"portalsDiscovered": null,'
             .'"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null,"kineticCapsulesCompleted":null}'
             .']';
 
@@ -103,6 +104,7 @@ class AgentStatResourceGetTest extends AgentStatResourceBase
             .'"ap":1221,"explorer":null,"recon":null,"seer":null,"trekker":null,"builder":null,"connector":null,"mindController":null,"illuminator":null,"recharger":null,'
             .'"liberator":null,"pioneer":null,"engineer":null,"epoch": null,"purifier":null,"specops":null,"hacker":null,"translator":null,"sojourner":null,"recruiter":null,"missionday":null,"monthsSubscribed": null,'
             .'"nl1331Meetups":null,"ifs":null,"currentChallenge":null,"level":null,"scout":null,"longestLink":null,"largestField":null,"recursions":null,"faction":"",'
+            .'"dronesReturned": null,"portalsDiscovered": null,'
             .'"nickname":"","droneFlightDistance":null,"droneHacks":null,"dronePortalsVisited":null,"scoutController": null,"droneForcedRecalls": null,"kineticCapsulesCompleted":null}';
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);

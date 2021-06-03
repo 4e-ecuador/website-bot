@@ -313,7 +313,7 @@ JSON,
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $droneHacks = null;
+    private ?int $maverick = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -884,14 +884,14 @@ JSON,
         return $this;
     }
 
-    public function getDroneHacks(): ?int
+    public function getMaverick(): ?int
     {
-        return $this->droneHacks;
+        return $this->maverick;
     }
 
-    public function setDroneHacks(?int $droneHacks): self
+    public function setMaverick(?int $maverick): self
     {
-        $this->droneHacks = $droneHacks;
+        $this->maverick = $maverick;
 
         return $this;
     }

@@ -128,6 +128,10 @@ class MedalChecker
                 'desc'   => 'Scan unique portals',
                 'levels' => [100, 500, 1000, 5000, 15000],
             ],
+            'maverick'       => [
+                'desc'   => 'Drone hack portals',
+                'levels' => [250, 1000, 2000, 5000, 10000],
+            ],
             'Umbra Deploy Challenge' => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
@@ -197,7 +201,7 @@ class MedalChecker
             // New
             'Uniques Scout Controlled' => 'scout-controller',
 
-            'Drone Hacks'                    => 'drone-hacks',
+            'Drone Hacks'                    => 'maverick',
             'Unique Portals Drone Visited'   => 'drone-portals-visited',
             'Furthest Drone Distance'        => 'drone-flight-distance',
             'Forced Drone Recalls'           => 'drone-forced-recalls',

@@ -11,7 +11,7 @@ class GoogleApiClient
 {
     private Google_Client $apiClient;
 
-    public function __construct(private string $clientId, string $clientSecret)
+    public function __construct(string $clientId, string $clientSecret)
     {
         $this->apiClient = new Google_Client(
             [

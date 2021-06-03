@@ -78,7 +78,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     }
 
     /**
-     * @throws IdentityProviderException
+     * @throws IdentityProviderException|Exception
      */
     public function authenticate(Request $request): PassportInterface
     {

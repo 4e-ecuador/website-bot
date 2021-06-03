@@ -157,6 +157,11 @@ class User implements UserInterface, \Stringable
         return (string)$this->email;
     }
 
+    public function getUserIdentifier(): string
+    {
+        return (string)$this->email;
+    }
+
     public function getUserAgentName(): string
     {
         if ($this->agent) {

@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  */
-class Agent
+class Agent implements \Stringable
 {
     public const API_GET_COLLECTION
         = [
@@ -215,7 +215,7 @@ class Agent
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->nickname;
     }

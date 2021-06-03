@@ -11,27 +11,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractCustomMessage
 {
-    protected EmojiService $emojiService;
-    protected TranslatorInterface $translator;
-    protected MedalChecker $medalChecker;
-    protected IngressEventRepository $ingressEventRepository;
-    protected string $pageBaseUrl;
-    protected string $announceAdminCc;
-
-    public function __construct(
-        EmojiService $emojiService,
-        TranslatorInterface $translator,
-        MedalChecker $medalChecker,
-        IngressEventRepository $ingressEventRepository,
-        string $pageBaseUrl,
-        string $announceAdminCc
-    ) {
-        $this->emojiService = $emojiService;
-        $this->translator = $translator;
-        $this->medalChecker = $medalChecker;
-        $this->pageBaseUrl = $pageBaseUrl;
-        $this->announceAdminCc = $announceAdminCc;
-        $this->ingressEventRepository = $ingressEventRepository;
+    public function __construct(protected EmojiService $emojiService, protected TranslatorInterface $translator, protected MedalChecker $medalChecker, protected IngressEventRepository $ingressEventRepository, protected string $pageBaseUrl, protected string $announceAdminCc)
+    {
     }
 
     abstract public function getMessage(): array;

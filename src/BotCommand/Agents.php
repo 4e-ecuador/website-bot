@@ -12,11 +12,8 @@ use TelegramBot\Api\Types\Update;
 
 class Agents extends AbstractCommand implements PublicCommandInterface
 {
-    private AgentRepository $repository;
-
-    public function __construct(AgentRepository $repository)
+    public function __construct(private AgentRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function getName(): string
@@ -71,8 +68,7 @@ class Agents extends AbstractCommand implements PublicCommandInterface
                         $response[] = '';
                         $agentsLike = [];
                         foreach ($agents as $agent) {
-                            if (strpos($agent->getNickname(), $parts[1])
-                                !== false
+                            if (str_contains($agent->getNickname(), $parts[1])
                             ) {
                                 $agentsLike[] = ' `'.$agent->getNickname()
                                     .'` - '.$agent->getRealName();

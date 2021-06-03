@@ -63,7 +63,7 @@ class StatsController extends AbstractController
                 512,
                 JSON_THROW_ON_ERROR | JSON_ERROR_NONE
             );
-        } catch (JsonException $e) {
+        } catch (JsonException) {
             $customMedals = '';
         }
 

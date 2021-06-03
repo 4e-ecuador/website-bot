@@ -9,16 +9,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
 {
-    private AgentRepository $agentRepository;
-    private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(
-        AgentRepository $agentRepository,
-        UrlGeneratorInterface $urlGenerator
+        private AgentRepository $agentRepository,
+        private UrlGeneratorInterface $urlGenerator
     ) {
         parent::__construct();
-        $this->agentRepository = $agentRepository;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**

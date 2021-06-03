@@ -10,11 +10,9 @@ use UnexpectedValueException;
 class GoogleApiClient
 {
     private Google_Client $apiClient;
-    private string $clientId;
 
-    public function __construct(string $clientId, string $clientSecret)
+    public function __construct(private string $clientId, string $clientSecret)
     {
-        $this->clientId = $clientId;
         $this->apiClient = new Google_Client(
             [
                 'client_id'     => $clientId,

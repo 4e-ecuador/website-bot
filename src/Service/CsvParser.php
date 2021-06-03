@@ -8,11 +8,8 @@ use UnexpectedValueException;
 
 class CsvParser
 {
-    private MedalChecker $medalChecker;
-
-    public function __construct(MedalChecker $medalChecker)
+    public function __construct(private MedalChecker $medalChecker)
     {
-        $this->medalChecker = $medalChecker;
     }
 
     /**

@@ -16,24 +16,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SendStatusCommand extends Command
 {
-    protected static $defaultName = 'sendStatus';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private AgentStatRepository $agentStatRepository;
-    private EmojiService $emojiService;
-    private string $defaultTimeZone;
+    protected static $defaultName = 'sendStatus';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        AgentStatRepository $agentStatRepository,
-        EmojiService $emojiService,
-        string $defaultTimeZone
+        private TelegramBotHelper $telegramBotHelper,
+        private AgentStatRepository $agentStatRepository,
+        private EmojiService $emojiService,
+        private string $defaultTimeZone
     ) {
         parent::__construct();
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->agentStatRepository = $agentStatRepository;
-        $this->defaultTimeZone = $defaultTimeZone;
-        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void

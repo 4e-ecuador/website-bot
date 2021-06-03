@@ -15,18 +15,8 @@ use UnexpectedValueException;
 
 class Start extends AbstractCommand implements PublicCommandInterface
 {
-    private AgentRepository $agentRepository;
-    private EntityManagerInterface $entityManager;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        AgentRepository $agentRepository,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
-    ) {
-        $this->agentRepository = $agentRepository;
-        $this->entityManager = $entityManager;
-        $this->translator = $translator;
+    public function __construct(private AgentRepository $agentRepository, private EntityManagerInterface $entityManager, private TranslatorInterface $translator)
+    {
     }
 
     public function getName(): string

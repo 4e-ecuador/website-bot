@@ -13,19 +13,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class TestMedalMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:medalMessage';// Type must be defined in base class :(
-
-    private AgentRepository $agentRepository;
-    private TelegramMessageHelper $telegramMessageHelper;
+    protected static $defaultName = 'bot:test:medalMessage';
 
     public function __construct(
-        TelegramMessageHelper $telegramMessageHelper,
-        AgentRepository $agentRepository
+        private TelegramMessageHelper $telegramMessageHelper,
+        private AgentRepository $agentRepository
     ) {
         parent::__construct();
-
-        $this->telegramMessageHelper = $telegramMessageHelper;
-        $this->agentRepository = $agentRepository;
     }
 
     protected function configure(): void

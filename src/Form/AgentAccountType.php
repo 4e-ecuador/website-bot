@@ -12,11 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AgentAccountType extends AbstractType
 {
-    private array $locales;
-
-    public function __construct($locales)
+    public function __construct(private $locales)
     {
-        $this->locales = $locales;
     }
 
     public function buildForm(

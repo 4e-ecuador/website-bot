@@ -17,40 +17,8 @@ use UnexpectedValueException;
 
 class TelegramMessageHelper
 {
-    private TelegramBotHelper $telegramBotHelper;
-    private MedalChecker $medalChecker;
-
-    private NewMedalMessage $newMedalMessage;
-    private MedalDoubleMessage $medalDoubleMessage;
-    private LevelUpMessage $levelUpMessage;
-    private NotifyEventsMessage $notifyEventsMessage;
-    private NotifyUploadReminder $notifyUploadReminder;
-    private RecursionMessage $recursionMessage;
-
-    private string $rootDir;
-
-    public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        MedalChecker $medalChecker,
-        string $rootDir,
-
-        NewMedalMessage $newMedalMessage,
-        MedalDoubleMessage $medalDoubleMessage,
-        LevelUpMessage $levelUpMessage,
-        NotifyEventsMessage $notifyEventsMessage,
-        NotifyUploadReminder $notifyUploadReminder,
-        RecursionMessage $recursionMessage
-    ) {
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->medalChecker = $medalChecker;
-        $this->rootDir = $rootDir;
-
-        $this->newMedalMessage = $newMedalMessage;
-        $this->medalDoubleMessage = $medalDoubleMessage;
-        $this->levelUpMessage = $levelUpMessage;
-        $this->notifyEventsMessage = $notifyEventsMessage;
-        $this->notifyUploadReminder = $notifyUploadReminder;
-        $this->recursionMessage = $recursionMessage;
+    public function __construct(private TelegramBotHelper $telegramBotHelper, private MedalChecker $medalChecker, private string $rootDir, private NewMedalMessage $newMedalMessage, private MedalDoubleMessage $medalDoubleMessage, private LevelUpMessage $levelUpMessage, private NotifyEventsMessage $notifyEventsMessage, private NotifyUploadReminder $notifyUploadReminder, private RecursionMessage $recursionMessage)
+    {
     }
 
     /**

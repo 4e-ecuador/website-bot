@@ -39,11 +39,6 @@ class SmurfAlertMessage extends AbstractCustomMessage
         return $message;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return SmurfAlertMessage
-     */
     public function setUser(User $user): SmurfAlertMessage
     {
         $this->user = $user;
@@ -51,11 +46,6 @@ class SmurfAlertMessage extends AbstractCustomMessage
         return $this;
     }
 
-    /**
-     * @param Agent $agent
-     *
-     * @return SmurfAlertMessage
-     */
     public function setAgent(Agent $agent): SmurfAlertMessage
     {
         $this->agent = $agent;
@@ -63,11 +53,6 @@ class SmurfAlertMessage extends AbstractCustomMessage
         return $this;
     }
 
-    /**
-     * @param AgentStat $statEntry
-     *
-     * @return SmurfAlertMessage
-     */
     public function setStatEntry(AgentStat $statEntry): SmurfAlertMessage
     {
         $this->statEntry = $statEntry;
@@ -75,11 +60,6 @@ class SmurfAlertMessage extends AbstractCustomMessage
         return $this;
     }
 
-    /**
-     * @param string $announceAdminCc
-     *
-     * @return SmurfAlertMessage
-     */
     public function setAnnounceAdminCc(string $announceAdminCc
     ): SmurfAlertMessage {
         $this->announceAdminCc = $announceAdminCc;

@@ -23,21 +23,8 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    private EntityManagerInterface $entityManager;
-    private UrlGeneratorInterface $urlGenerator;
-    private CsrfTokenManagerInterface $csrfTokenManager;
-    private string $appEnv;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        string $appEnv
-    ) {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->appEnv = $appEnv;
+    public function __construct(private EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator, private CsrfTokenManagerInterface $csrfTokenManager, private string $appEnv)
+    {
     }
 
     public function supports(Request $request): bool

@@ -13,14 +13,10 @@ use UnexpectedValueException;
 
 class TestMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:message';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:message';
 
-    private TelegramBotHelper $telegramBotHelper;
-
-    public function __construct(TelegramBotHelper $telegramBotHelper)
+    public function __construct(private TelegramBotHelper $telegramBotHelper)
     {
-        $this->telegramBotHelper = $telegramBotHelper;
-
         parent::__construct();
     }
 

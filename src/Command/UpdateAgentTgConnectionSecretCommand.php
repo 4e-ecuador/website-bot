@@ -12,18 +12,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UpdateAgentTgConnectionSecretCommand extends Command
 {
-    protected static $defaultName = 'UpdateAgentTgConnectionSecret';// Type must be defined in base class :(
-
-    private AgentRepository $agentRepository;
-    private EntityManagerInterface $entityManager;
+    protected static $defaultName = 'UpdateAgentTgConnectionSecret';
 
     public function __construct(
-        AgentRepository $agentRepository,
-        EntityManagerInterface $entityManager
+        private AgentRepository $agentRepository,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->agentRepository = $agentRepository;
-        $this->entityManager = $entityManager;
-
         parent::__construct();
     }
 

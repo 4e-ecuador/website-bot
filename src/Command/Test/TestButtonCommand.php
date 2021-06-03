@@ -14,14 +14,10 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestButtonCommand extends Command
 {
-    protected static $defaultName = 'bot:test:button';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:button';
 
-    private TelegramBotHelper $telegramBotHelper;
-
-    public function __construct(TelegramBotHelper $telegramBotHelper)
+    public function __construct(private TelegramBotHelper $telegramBotHelper)
     {
-        $this->telegramBotHelper = $telegramBotHelper;
-
         parent::__construct();
     }
 

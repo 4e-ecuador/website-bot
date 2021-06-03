@@ -18,25 +18,16 @@ use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
     use LoggerAwareTrait;
-
-    private BotApi $botApi;
-    private AgentRepository $agentRepository;
     private bool $isAllowedChat = false;
-    private Templater $templater;
-    private TelegramBotHelper $telegramBotHelper;
 
     public function __construct(
         LoggerInterface $logger,
-        BotApi $botApi,
-        AgentRepository $agentRepository,
-        Templater $templater,
-        TelegramBotHelper $telegramBotHelper
+        private BotApi $botApi,
+        private AgentRepository $agentRepository,
+        private Templater $templater,
+        private TelegramBotHelper $telegramBotHelper
     ) {
         $this->setLogger($logger);
-        $this->botApi = $botApi;
-        $this->agentRepository = $agentRepository;
-        $this->templater = $templater;
-        $this->telegramBotHelper = $telegramBotHelper;
     }
 
     public function check(UpdateEvent $event): void

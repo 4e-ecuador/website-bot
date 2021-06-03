@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "ipartial"})
  */
-class User implements UserInterface
+class User implements UserInterface, \Stringable
 {
     public const API_GET_ME_CONTEXT
         = [
@@ -170,7 +170,7 @@ class User implements UserInterface
         return (string)$this->email;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->email;
     }

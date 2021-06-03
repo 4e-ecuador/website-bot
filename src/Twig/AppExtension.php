@@ -31,18 +31,9 @@ class AppExtension extends AbstractExtension
             'ROLE_EDITOR'      => 'Editor',
             'ROLE_ADMIN'       => 'Admin',
         ];
-    private MedalChecker $medalChecker;
-    private MarkdownHelper $markdownHelper;
-    private IntlDateHelper $intlDateHelper;
 
-    public function __construct(
-        MedalChecker $medalChecker,
-        MarkdownHelper $markdownHelper,
-        IntlDateHelper $intlDateHelper
-    ) {
-        $this->medalChecker = $medalChecker;
-        $this->markdownHelper = $markdownHelper;
-        $this->intlDateHelper = $intlDateHelper;
+    public function __construct(private MedalChecker $medalChecker, private MarkdownHelper $markdownHelper, private IntlDateHelper $intlDateHelper)
+    {
     }
 
     /**
@@ -96,15 +87,13 @@ class AppExtension extends AbstractExtension
      * Convert object to array for Twig usage..
      *
      * @param object $classObject
-     *
-     * @return array
      */
     public function objectFilter($classObject): array
     {
         $array = (array)$classObject;
         $response = [];
 
-        $className = get_class($classObject);
+        $className = $classObject::class;
 
         foreach ($array as $k => $v) {
             $response[trim(str_replace($className, '', $k))] = $v;

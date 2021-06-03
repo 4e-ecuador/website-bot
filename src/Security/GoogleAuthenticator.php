@@ -28,30 +28,11 @@ use TelegramBot\Api\InvalidArgumentException;
 class GoogleAuthenticator extends SocialAuthenticator
 {
     use TargetPathTrait;
-
-    private ClientRegistry $clientRegistry;
-    private EntityManagerInterface $entityManager;
     private UserRepository $userManager;
-    private TelegramBotHelper $telegramBotHelper;
-    private UrlGeneratorInterface $urlGenerator;
-    private AvatarHelper $avatarHelper;
     private TelegramMessageHelper $telegramMessageHelper;
-    private TelegramAdminMessageHelper $telegramAdminMessageHelper;
 
-    public function __construct(
-        ClientRegistry $clientRegistry,
-        EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator,
-        TelegramBotHelper $telegramBotHelper,
-        TelegramAdminMessageHelper $telegramAdminMessageHelper,
-        AvatarHelper $avatarHelper
-    ) {
-        $this->clientRegistry = $clientRegistry;
-        $this->entityManager = $entityManager;
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->urlGenerator = $urlGenerator;
-        $this->avatarHelper = $avatarHelper;
-        $this->telegramAdminMessageHelper = $telegramAdminMessageHelper;
+    public function __construct(private ClientRegistry $clientRegistry, private EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator, private TelegramBotHelper $telegramBotHelper, private TelegramAdminMessageHelper $telegramAdminMessageHelper, private AvatarHelper $avatarHelper)
+    {
     }
 
     public function supports(Request $request): bool

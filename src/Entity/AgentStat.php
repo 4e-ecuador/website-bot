@@ -729,7 +729,6 @@ JSON,
      *                      The value to set.
      *                      </p>
      *
-     * @return void
      * @since 5.0.0
      */
     public function offsetSet($offset, $value): void
@@ -746,7 +745,6 @@ JSON,
      *                      The offset to unset.
      *                      </p>
      *
-     * @return void
      * @since 5.0.0
      */
     public function offsetUnset($offset): void

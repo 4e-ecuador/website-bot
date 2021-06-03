@@ -9,15 +9,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocaleListener
 {
-    private Security $security;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        Security $security,
-        TranslatorInterface $translator
-    ) {
-        $this->security = $security;
-        $this->translator = $translator;
+    public function __construct(private Security $security, private TranslatorInterface $translator)
+    {
     }
 
     public function __invoke(RequestEvent $event): void

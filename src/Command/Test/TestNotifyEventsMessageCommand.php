@@ -13,19 +13,13 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestNotifyEventsMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:NotifyEventsMessage';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private TelegramMessageHelper $telegramMessageHelper;
+    protected static $defaultName = 'bot:test:NotifyEventsMessage';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        TelegramMessageHelper $telegramMessageHelper
+        private TelegramBotHelper $telegramBotHelper,
+        private TelegramMessageHelper $telegramMessageHelper
     ) {
         parent::__construct();
-
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void

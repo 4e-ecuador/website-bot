@@ -14,23 +14,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class NotifyEventsCommand extends Command
 {
-    protected static $defaultName = 'bot:notify:events';// Type must be defined in base class :(
-
-    private AgentRepository $agentRepository;
-    private TelegramBotHelper $telegramBotHelper;
-
-    private NotifyEventsMessage $notifyEventsMessage;
+    protected static $defaultName = 'bot:notify:events';
 
     public function __construct(
-        NotifyEventsMessage $notifyEventsMessage,
-        AgentRepository $agentRepository,
-        TelegramBotHelper $telegramBotHelper
+        private NotifyEventsMessage $notifyEventsMessage,
+        private AgentRepository $agentRepository,
+        private TelegramBotHelper $telegramBotHelper
     ) {
         parent::__construct();
-
-        $this->agentRepository = $agentRepository;
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->notifyEventsMessage = $notifyEventsMessage;
     }
 
     protected function configure(): void

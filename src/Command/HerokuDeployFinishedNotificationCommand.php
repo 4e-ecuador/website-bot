@@ -14,22 +14,14 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class HerokuDeployFinishedNotificationCommand extends Command
 {
-    protected static $defaultName = 'HerokuDeployFinishedNotification';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private EmojiService $emojiService;
-    private string $pageBase;
+    protected static $defaultName = 'HerokuDeployFinishedNotification';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        EmojiService $emojiService,
-        string $pageBaseUrl
+        private TelegramBotHelper $telegramBotHelper,
+        private EmojiService $emojiService,
+        private string $pageBaseUrl
     ) {
         parent::__construct();
-
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->pageBase = $pageBaseUrl;
-        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void
@@ -54,7 +46,7 @@ class HerokuDeployFinishedNotificationCommand extends Command
         $message = sprintf(
             '%s New release on %s',
             $this->emojiService->getEmoji('sparkles')->getBytecode(),
-            $this->pageBase
+            $this->pageBaseUrl
         );
 
         $this->telegramBotHelper->sendMessage($groupId, $message, true);

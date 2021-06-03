@@ -7,15 +7,8 @@ use App\Entity\User;
 
 class BoardEntry
 {
-    private Agent $agent;
-    private float $value;
-    private User $user;
-
-    public function __construct(Agent $agent, User $user, float $value)
+    public function __construct(private Agent $agent, private User $user, private float $value)
     {
-        $this->agent = $agent;
-        $this->value = $value;
-        $this->user = $user;
     }
 
     public function getAgent(): Agent

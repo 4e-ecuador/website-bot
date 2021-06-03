@@ -18,15 +18,8 @@ use UnexpectedValueException;
 
 class PostStats extends AbstractController
 {
-    private StatsImporter $statsImporter;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(
-        StatsImporter $statsImporter,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->statsImporter = $statsImporter;
-        $this->entityManager = $entityManager;
+    public function __construct(private StatsImporter $statsImporter, private EntityManagerInterface $entityManager)
+    {
     }
 
     public function __invoke(AgentStat $data): JsonResponse

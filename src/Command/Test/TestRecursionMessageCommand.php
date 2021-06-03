@@ -14,18 +14,13 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestRecursionMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:RecursionMessage';// Type must be defined in base class :(
-
-    private AgentRepository $agentRepository;
-    private TelegramMessageHelper $telegramMessageHelper;
+    protected static $defaultName = 'bot:test:RecursionMessage';
 
     public function __construct(
-        TelegramMessageHelper $telegramMessageHelper,
-        AgentRepository $agentRepository
+        private TelegramMessageHelper $telegramMessageHelper,
+        private AgentRepository $agentRepository
     ) {
         parent::__construct();
-        $this->agentRepository = $agentRepository;
-        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void

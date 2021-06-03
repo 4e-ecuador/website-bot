@@ -12,15 +12,11 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestLevelUpMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:levelUpMessage';// Type must be defined in base class :(
+    protected static $defaultName = 'bot:test:levelUpMessage';
 
-    private TelegramMessageHelper $telegramMessageHelper;
-
-    public function __construct(TelegramMessageHelper $telegramMessageHelper)
+    public function __construct(private TelegramMessageHelper $telegramMessageHelper)
     {
         parent::__construct();
-
-        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void

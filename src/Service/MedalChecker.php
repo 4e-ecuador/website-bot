@@ -342,18 +342,16 @@ class MedalChecker
         ];
 
     private array $translatedLevels = [];
-    private string $rootDir;
 
     public function __construct(
         TranslatorInterface $translator,
-        string $rootDir
+        private string $rootDir
     ) {
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');
         $this->translatedLevels[4] = $translator->trans('medal.level.platinum');
         $this->translatedLevels[5] = $translator->trans('medal.level.onyx');
-        $this->rootDir = $rootDir;
     }
 
     public function checkLevels(AgentStat $agentStat): array

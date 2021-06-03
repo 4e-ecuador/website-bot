@@ -12,18 +12,8 @@ use Symfony\Component\Mime\Email;
 
 class MailerHelper
 {
-    private string $email;
-    private string $emailName;
-    private MailerInterface $mailer;
-
-    public function __construct(
-        string $email,
-        string $emailName,
-        MailerInterface $mailer
-    ) {
-        $this->email = $email;
-        $this->emailName = $emailName;
-        $this->mailer = $mailer;
+    public function __construct(private string $email, private string $emailName, private MailerInterface $mailer)
+    {
     }
 
     public function sendConfirmationMail(User $user, string $subject): string

@@ -16,25 +16,15 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TestNotifyUploadReminderMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private TranslatorInterface $translator;
-    private AgentRepository $agentRepository;
-    private EmojiService $emojiService;
+    protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        TranslatorInterface $translator,
-        AgentRepository $agentRepository,
-        EmojiService $emojiService
+        private TelegramBotHelper $telegramBotHelper,
+        private TranslatorInterface $translator,
+        private AgentRepository $agentRepository,
+        private EmojiService $emojiService
     ) {
         parent::__construct();
-
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->translator = $translator;
-        $this->agentRepository = $agentRepository;
-        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void

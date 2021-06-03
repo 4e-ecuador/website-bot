@@ -7,11 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GetCite extends AbstractController
 {
-    private CiteService $citeService;
-
-    public function __construct(CiteService $citeService)
+    public function __construct(private CiteService $citeService)
     {
-        $this->citeService = $citeService;
     }
 
     public function __invoke(): string

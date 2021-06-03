@@ -48,11 +48,6 @@ class RecursionMessage extends AbstractCustomMessage
         return $message;
     }
 
-    /**
-     * @param Agent $agent
-     *
-     * @return RecursionMessage
-     */
     public function setAgent(Agent $agent): RecursionMessage
     {
         $this->agent = $agent;
@@ -60,11 +55,6 @@ class RecursionMessage extends AbstractCustomMessage
         return $this;
     }
 
-    /**
-     * @param int $recursions
-     *
-     * @return RecursionMessage
-     */
     public function setRecursions(int $recursions): RecursionMessage
     {
         $this->recursions = $recursions;

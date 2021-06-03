@@ -25,7 +25,7 @@ class LeaderBoardService
                 $agent = $user->getAgent();
             } else {
                 throw new \UnexpectedValueException(
-                    'Unsupported user type:'.get_class($user)
+                    'Unsupported user type:'.$user::class
                 );
             }
 

@@ -9,15 +9,11 @@ use RuntimeException;
  */
 class FcmHelper
 {
-    private string $fcmKey;
     public array $tokens = [];
     public string $type = '';
-    private string $channelId;
 
-    public function __construct(string $fcmKey, string $channelId)
+    public function __construct(private string $fcmKey, private string $channelId)
     {
-        $this->fcmKey = $fcmKey;
-        $this->channelId = $channelId;
     }
 
     public function sendMessage(

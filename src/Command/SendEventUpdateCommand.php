@@ -18,31 +18,17 @@ use UnexpectedValueException;
 
 class SendEventUpdateCommand extends Command
 {
-    protected static $defaultName = 'app:send:eventUpdate';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private EventRepository $eventRepository;
-    private AgentStatRepository $statRepository;
-    private EventHelper $eventHelper;
-    private string $rootDir;
-    private string $defaultTimeZone;
+    protected static $defaultName = 'app:send:eventUpdate';
 
     public function __construct(
-        string $rootDir,
-        TelegramBotHelper $telegramBotHelper,
-        EventHelper $eventHelper,
-        EventRepository $eventRepository,
-        AgentStatRepository $statRepository,
-        string $defaultTimeZone
+        private string $rootDir,
+        private TelegramBotHelper $telegramBotHelper,
+        private EventHelper $eventHelper,
+        private EventRepository $eventRepository,
+        private AgentStatRepository $statRepository,
+        private string $defaultTimeZone
     ) {
         parent::__construct();
-
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->eventRepository = $eventRepository;
-        $this->statRepository = $statRepository;
-        $this->eventHelper = $eventHelper;
-        $this->rootDir = $rootDir;
-        $this->defaultTimeZone = $defaultTimeZone;
     }
 
     protected function configure(): void

@@ -11,16 +11,10 @@ use Symfony\Component\Yaml\Yaml;
 class SortLanguageFilesCommand extends Command
 {
     protected static $defaultName = 'SortLanguageFiles';
-    private string $rootDir;
-    private string $locale;
-    private array $locales;
 
-    public function __construct(string $rootDir, string $locale, array $locales)
+    public function __construct(private string $rootDir, private string $locale, private array $locales)
     {
         parent::__construct();
-        $this->rootDir = $rootDir;
-        $this->locale = $locale;
-        $this->locales = $locales;
     }
 
     protected function configure()

@@ -16,19 +16,13 @@ use TelegramBot\Api\InvalidArgumentException;
 
 class TravisFinishedNofiticationCommand extends Command
 {
-    protected static $defaultName = 'TravisFinishedNofitication';// Type must be defined in base class :(
-
-    private TelegramBotHelper $telegramBotHelper;
-    private EmojiService $emojiService;
+    protected static $defaultName = 'TravisFinishedNofitication';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        EmojiService $emojiService
+        private TelegramBotHelper $telegramBotHelper,
+        private EmojiService $emojiService
     ) {
         parent::__construct();
-
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->emojiService = $emojiService;
     }
 
     protected function configure(): void

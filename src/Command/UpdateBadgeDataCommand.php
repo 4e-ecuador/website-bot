@@ -23,11 +23,9 @@ class UpdateBadgeDataCommand extends Command
     private string $scrapeSite;
     private string $assetRoot;
     private array $sizes;
-    private string $rootDir;
 
-    public function __construct(string $rootDir)
+    public function __construct(private string $rootDir)
     {
-        $this->rootDir = $rootDir;
         $this->assetRoot = $rootDir.'/assets';
         $this->badgeRoot = $rootDir.'/assets/images/badges';
         $this->scrapeSite = 'https://dedo1911.xyz/Badges';
@@ -270,7 +268,7 @@ class UpdateBadgeDataCommand extends Command
                     }
 
                     foreach ($blackList as $black) {
-                        if (0 === strpos($item->getFilename(), $black)) {
+                        if (str_starts_with($item->getFilename(), $black)) {
                             continue 2;
                         }
                     }
@@ -278,7 +276,7 @@ class UpdateBadgeDataCommand extends Command
                     $found = false;
 
                     foreach ($groupItems as $groupItem) {
-                        if (0 === strpos($item->getFilename(), $groupItem)) {
+                        if (str_starts_with($item->getFilename(), $groupItem)) {
                             $found = true;
                         }
                     }

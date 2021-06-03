@@ -9,11 +9,8 @@ use UnexpectedValueException;
 
 final class CiteService
 {
-    private string $rootDir;
-
-    public function __construct(string $rootDir)
+    public function __construct(private string $rootDir)
     {
-        $this->rootDir = $rootDir;
     }
 
     public function getRandomCite(): string
@@ -22,7 +19,7 @@ final class CiteService
 
         try {
             $i = random_int(0, count($cites) - 1);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $i = 0;
         }
 

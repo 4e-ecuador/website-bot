@@ -126,11 +126,6 @@ class AgentStatRepository extends ServiceEntityRepository
         return null;
     }
 
-    /**
-     * @param PaginatorOptions $options
-     *
-     * @return Paginator
-     */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {
         $query = $this->createQueryBuilder('a');

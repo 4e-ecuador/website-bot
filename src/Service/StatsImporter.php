@@ -19,27 +19,8 @@ use UnexpectedValueException;
 
 class StatsImporter
 {
-    private CsvParser $csvParser;
-    private AgentStatRepository $agentStatRepository;
-    private TranslatorInterface $translator;
-    private TelegramMessageHelper $telegramMessageHelper;
-    private TelegramAdminMessageHelper $telegramAdminMessageHelper;
-    private MedalChecker $medalChecker;
-
-    public function __construct(
-        CsvParser $csvParser,
-        TelegramAdminMessageHelper $telegramAdminMessageHelper,
-        TelegramMessageHelper $telegramMessageHelper,
-        MedalChecker $medalChecker,
-        AgentStatRepository $agentStatRepository,
-        TranslatorInterface $translator
-    ) {
-        $this->csvParser = $csvParser;
-        $this->agentStatRepository = $agentStatRepository;
-        $this->translator = $translator;
-        $this->medalChecker = $medalChecker;
-        $this->telegramMessageHelper = $telegramMessageHelper;
-        $this->telegramAdminMessageHelper = $telegramAdminMessageHelper;
+    public function __construct(private CsvParser $csvParser, private TelegramAdminMessageHelper $telegramAdminMessageHelper, private TelegramMessageHelper $telegramMessageHelper, private MedalChecker $medalChecker, private AgentStatRepository $agentStatRepository, private TranslatorInterface $translator)
+    {
     }
 
     /**

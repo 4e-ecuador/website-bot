@@ -12,19 +12,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UploadStatsReminder extends Command
 {
-    protected static $defaultName = 'app:send:notification:uploadStatsReminder';// Type must be defined in base class :(
-
-    private AgentRepository $agentRepository;
-    private TelegramMessageHelper $telegramMessageHelper;
+    protected static $defaultName = 'app:send:notification:uploadStatsReminder';
 
     public function __construct(
-        TelegramMessageHelper $telegramMessageHelper,
-        AgentRepository $agentRepository
+        private TelegramMessageHelper $telegramMessageHelper,
+        private AgentRepository $agentRepository
     ) {
         parent::__construct();
-
-        $this->agentRepository = $agentRepository;
-        $this->telegramMessageHelper = $telegramMessageHelper;
     }
 
     protected function configure(): void

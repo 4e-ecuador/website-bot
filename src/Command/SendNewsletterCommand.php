@@ -20,30 +20,17 @@ use UnexpectedValueException;
 
 class SendNewsletterCommand extends Command
 {
-    protected static $defaultName = 'app:send:newsletter';// Type must be defined in base class :(
-
-    private EventRepository $eventRepository;
-    private TelegramBotHelper $telegramBotHelper;
-    private UrlGeneratorInterface $router;
-    private IngressEventRepository $ingressEventRepository;
-    private string $defaultTimeZone;
-    private string $pageBaseUrl;
+    protected static $defaultName = 'app:send:newsletter';
 
     public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        EventRepository $eventRepository,
-        IngressEventRepository $ingressEventRepository,
-        UrlGeneratorInterface $router,
-        string $defaultTimeZone,
-        string $pageBaseUrl
+        private TelegramBotHelper $telegramBotHelper,
+        private EventRepository $eventRepository,
+        private IngressEventRepository $ingressEventRepository,
+        private UrlGeneratorInterface $router,
+        private string $defaultTimeZone,
+        private string $pageBaseUrl
     ) {
         parent::__construct();
-        $this->eventRepository = $eventRepository;
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->router = $router;
-        $this->ingressEventRepository = $ingressEventRepository;
-        $this->defaultTimeZone = $defaultTimeZone;
-        $this->pageBaseUrl = $pageBaseUrl;
     }
 
     protected function configure(): void

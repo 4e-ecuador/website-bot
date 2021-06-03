@@ -14,27 +14,8 @@ use TelegramBot\Api\Types\Message;
 
 class TelegramAdminMessageHelper
 {
-    private TelegramBotHelper $telegramBotHelper;
-    private string $announceAdminCc;
-
-    private NewUserMessage $newUserMessage;
-    private NicknameMismatchMessage $nicknameMismatchMessage;
-    private SmurfAlertMessage $smurfAlertMessage;
-
-    public function __construct(
-        TelegramBotHelper $telegramBotHelper,
-        string $announceAdminCc,
-
-        NewUserMessage $newUserMessage,
-        NicknameMismatchMessage $nicknameMismatchMessage,
-        SmurfAlertMessage $smurfAlertMessage
-    ) {
-        $this->telegramBotHelper = $telegramBotHelper;
-
-        $this->newUserMessage = $newUserMessage;
-        $this->nicknameMismatchMessage = $nicknameMismatchMessage;
-        $this->smurfAlertMessage = $smurfAlertMessage;
-        $this->announceAdminCc = $announceAdminCc;
+    public function __construct(private TelegramBotHelper $telegramBotHelper, private string $announceAdminCc, private NewUserMessage $newUserMessage, private NicknameMismatchMessage $nicknameMismatchMessage, private SmurfAlertMessage $smurfAlertMessage)
+    {
     }
 
     /**

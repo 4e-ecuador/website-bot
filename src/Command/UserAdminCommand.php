@@ -16,14 +16,11 @@ use UnexpectedValueException;
 
 class UserAdminCommand extends Command
 {
-    protected static $defaultName = 'user-admin';// Type must be defined in base class :(
+    protected static $defaultName = 'user-admin';
 
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
     }
 
     protected function configure(): void

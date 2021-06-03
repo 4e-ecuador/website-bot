@@ -8,15 +8,8 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class MarkdownHelper
 {
-    private AdapterInterface $cache;
-    private MarkdownInterface $markdown;
-
-    public function __construct(
-        AdapterInterface $cache,
-        MarkdownInterface $markdown
-    ) {
-        $this->cache = $cache;
-        $this->markdown = $markdown;
+    public function __construct(private AdapterInterface $cache, private MarkdownInterface $markdown)
+    {
     }
 
     public function parse(string $source): string

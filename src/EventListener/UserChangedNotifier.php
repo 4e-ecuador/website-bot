@@ -9,18 +9,8 @@ use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier
 {
-    private Security $security;
-    private TelegramBotHelper $telegramBotHelper;
-    private string $appEnv;
-
-    public function __construct(
-        Security $security,
-        TelegramBotHelper $telegramBotHelper,
-        string $appEnv
-    ) {
-        $this->security = $security;
-        $this->telegramBotHelper = $telegramBotHelper;
-        $this->appEnv = $appEnv;
+    public function __construct(private Security $security, private TelegramBotHelper $telegramBotHelper, private string $appEnv)
+    {
     }
 
     public function postUpdate(User $user, LifecycleEventArgs $event): void

@@ -14,15 +14,8 @@ use TelegramBot\Api\Types\Update;
 
 class Cite extends AbstractCommand implements PublicCommandInterface
 {
-    private CiteService $citeService;
-    private EmojiService $emojiService;
-
-    public function __construct(
-        CiteService $citeService,
-        EmojiService $emojiService
-    ) {
-        $this->citeService = $citeService;
-        $this->emojiService = $emojiService;
+    public function __construct(private CiteService $citeService, private EmojiService $emojiService)
+    {
     }
 
     public function getName(): string

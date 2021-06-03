@@ -12,21 +12,17 @@ use UnexpectedValueException;
 
 class TelegramBotHelper
 {
-    private BotApi $api;
-    private string $botName;
     private array $groupIds;
 
     public function __construct(
-        BotApi $api,
+        private BotApi $api,
 
-        string $botName,
+        private string $botName,
         string $groupIdDefault,
         string $groupIdAdmin,
         string $groupIdIntro,
         string $groupIdTest
     ) {
-        $this->api = $api;
-        $this->botName = $botName;
         $this->groupIds = [
             'default' => $groupIdDefault,
             'admin'   => $groupIdAdmin,

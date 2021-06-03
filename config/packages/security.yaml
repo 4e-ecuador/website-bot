@@ -14,10 +14,12 @@ security:
         main:
             lazy: true
             entry_point: App\Security\AppCustomAuthenticator
+            custom_authenticators:
+                - App\Security\AppCustomAuthenticator
+                - App\Security\GoogleAuthenticator
+
             guard:
                 authenticators:
-                    - App\Security\AppCustomAuthenticator
-                    - App\Security\GoogleAuthenticator
                     - App\Security\TokenAuthenticator
             form_login:
                 use_referer: true

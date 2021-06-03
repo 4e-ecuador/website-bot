@@ -14,7 +14,7 @@
                 <label for="inputEmail" class="sr-only">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                        placeholder="e-mail" required autofocus>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('login') }}">
                 <button class="btn btn-lg btn-outline-success" type="submit">
                     Sign in
                 </button>

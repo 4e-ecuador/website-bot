@@ -10,11 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class TokenAuthenticator extends AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractAuthenticator
 {
     public function __construct(private EntityManagerInterface $em)
     {
@@ -23,12 +24,18 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supports(Request $request): bool
     {
         return $request->headers->has('X-AUTH-TOKEN');
-        $token = $request->headers->get('X-AUTH-TOKEN');
-
-        return $token ? true : false;
     }
 
-    public function getCredentials(Request $request)
+    public function authenticate(Request $request): PassportInterface
+    {
+        $user = $this->getUser($request);
+
+        return new SelfValidatingPassport(
+            new UserBadge($user->getUserIdentifier()),
+        );
+    }
+
+    private function getToken(Request $request):string
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
 
@@ -49,28 +56,18 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $token;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    private function getUser(Request $request):User
     {
-        if (null === $credentials) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
-            return null;
-        }
+        $token = $this->getToken($request);
 
-        // if a User is returned, checkCredentials() is called
         return $this->em->getRepository(User::class)
-            ->findOneBy(['apiToken' => $credentials]);
-    }
-
-    public function checkCredentials($credentials, UserInterface $user): bool
-    {
-        return true;
+            ->findOneBy(['apiToken' => $token]);
     }
 
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
-        $providerKey
+        $firewallName
     ): ?Response {
         return null;
     }
@@ -78,7 +75,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(
         Request $request,
         AuthenticationException $exception
-    ) {
+    ): ?Response {
         $data = [
             'message' => strtr(
                 $exception->getMessageKey(),
@@ -89,10 +86,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function start(
-        Request $request,
-        AuthenticationException $authException = null
-    ) {
+    public function start(): JsonResponse {
         $data = [
             'message' => 'Authentication Required',
         ];

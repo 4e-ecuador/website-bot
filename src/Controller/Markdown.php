@@ -9,23 +9,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/markdown")
- */
+#[Route(path: '/markdown')]
 class Markdown extends AbstractController
 {
     /**
      * Converts a markdown string to HTML.
      *
-     * @Route("/preview", name="markdown_preview")
      * @IsGranted("ROLE_EDITOR")
      */
-    public function preview(
-        Request $request,
-        MarkdownHelper $markdownHelper
-    ): JsonResponse {
+    #[Route(path: '/preview', name: 'markdown_preview')]
+    public function preview(Request $request, MarkdownHelper $markdownHelper): JsonResponse
+    {
         $text = $request->request->get('text');
-
         return $this->json(
             ['data' => $text ? $markdownHelper->parse($text) : ':(']
         );

@@ -19,32 +19,23 @@ class TokenController extends AbstractController
      * This method will be called by the client to obtain an API token.
      * A query parameter 'idtoken' is expected containing the JWT IdToken
      * obtained from a Google OAuth request.
-     *
-     * @Route("/connect/google/api-token", name="connect_google_api_token", methods={"GET"})
      */
-    public function getApiToken(
-        Request $request,
-        GoogleApiClient $client,
-        UserRepository $userRepository
-    ): ?JsonResponse {
+    #[Route(path: '/connect/google/api-token', name: 'connect_google_api_token', methods: ['GET'])]
+    public function getApiToken(Request $request, GoogleApiClient $client, UserRepository $userRepository): ?JsonResponse
+    {
         if ('https' !== $request->getScheme()) {
             // WTF!!!
             // return $this->json(['error' => 'Scheme not allowed - please use SSL!'.$request->getScheme()], 200);
         }
-
         // @TODO POSTPOSTPOST...
         $idToken = $request->query->get('idtoken');
-
         if ($idToken) {
             return $this->json(['error' => 'Please use POST...'], 200);
         }
-
         $idToken = $request->request->get('idtoken');
-
         if (!$idToken) {
             return $this->json(['error' => 'Missing token'], 200);
         }
-
         $client->setRedirectUri(
             $this->generateUrl(
                 'connect_google_api_token',
@@ -54,7 +45,6 @@ class TokenController extends AbstractController
         )
             ->addScope("email")
             ->addScope("profile");
-
         try {
             $email = $client->fetchEmailWithToken($idToken);
 

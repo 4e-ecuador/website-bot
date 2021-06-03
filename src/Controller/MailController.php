@@ -10,24 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/mailer")
- */
+#[Route(path: '/mailer')]
 class MailController extends AbstractController
 {
     /**
-     * @Route("/send-confirmation-mail/{id}", name="user_send_confirmation_mail", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function sendConfirmationMail(
-        User $user,
-        MailerHelper $mailerHelper,
-        TranslatorInterface $translator
-    ): Response {
+    #[Route(path: '/send-confirmation-mail/{id}', name: 'user_send_confirmation_mail', methods: ['GET'])]
+    public function sendConfirmationMail(User $user, MailerHelper $mailerHelper, TranslatorInterface $translator): Response
+    {
         $subject = $translator->trans('email.confirmation.subject');
-
         $response = $mailerHelper->sendConfirmationMail($user, $subject);
-
         return new Response($response);
     }
 }

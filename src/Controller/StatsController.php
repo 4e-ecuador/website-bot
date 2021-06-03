@@ -28,34 +28,25 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
-/**
- * @Route("/stats")
- */
+#[Route(path: '/stats')]
 class StatsController extends AbstractController
 {
     /**
-     * @Route("/agent/{id}", name="agent_stats")
      * @IsGranted("ROLE_AGENT")
      * @throws NonUniqueResultException
      */
-    public function agentStats(
-        Agent $agent,
-        AgentStatRepository $statRepository,
-        UserRepository $userRepository,
-        MedalChecker $medalChecker
-    ): Response {
+    #[Route(path: '/agent/{id}', name: 'agent_stats')]
+    public function agentStats(Agent $agent, AgentStatRepository $statRepository, UserRepository $userRepository, MedalChecker $medalChecker): Response
+    {
         $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
-
         if ($latest) {
             $medals = $medalChecker->checkLevels($latest);
             arsort($medals);
             $medalGroups = $medals;
         }
-
         $dateEnd = new DateTime();
         $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
-
         try {
             $customMedals = json_decode(
                 $agent->getCustomMedals(),
@@ -66,7 +57,6 @@ class StatsController extends AbstractController
         } catch (JsonException) {
             $customMedals = '';
         }
-
         return $this->render(
             'stats/agent-stats.html.twig',
             [
@@ -82,31 +72,22 @@ class StatsController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/agent/data/{id}/{startDate}/{endDate}", name="agent_stats_data")
      * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
-    public function agentStatsJson(
-        Agent $agent,
-        string $startDate,
-        string $endDate,
-        AgentStatRepository $statRepository
-    ): JsonResponse {
+    #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data')]
+    public function agentStatsJson(Agent $agent, string $startDate, string $endDate, AgentStatRepository $statRepository): JsonResponse
+    {
         $data = new stdClass();
-
         $data->ap = [];
         $data->hacker = [];
-
         $entries = $statRepository->findByDateAndAgent(
             new DateTime($startDate),
             new DateTime($endDate),
             $agent
         );
-
         $latest = null;
-
         if ($entries) {
             foreach ($entries as $entry) {
                 // Get the correct datetime format for highcharts
@@ -116,18 +97,14 @@ class StatsController extends AbstractController
                 $data->hacker[] = [$date, $entry->getHacker()];
             }
         }
-
         return new JsonResponse($data);
     }
-
     /**
-     * @Route("/leaderboard", name="stats_leaderboard")
      * @IsGranted("ROLE_AGENT")
      */
-    public function leaderBoard(
-        UserRepository $userRepository,
-        LeaderBoardService $leaderBoardService,
-    ): Response {
+    #[Route(path: '/leaderboard', name: 'stats_leaderboard')]
+    public function leaderBoard(UserRepository $userRepository, LeaderBoardService $leaderBoardService): Response
+    {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
@@ -139,25 +116,18 @@ class StatsController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/leaderboard-detail", name="stats_leaderboard_detail")
      * @IsGranted("ROLE_AGENT")
      */
-    public function leaderBoardDetail(
-        AgentStatRepository $statRepository,
-        UserRepository $userRepository,
-        LeaderBoardService $leaderBoardService,
-        Request $request
-    ): Response {
+    #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail')]
+    public function leaderBoardDetail(AgentStatRepository $statRepository, UserRepository $userRepository, LeaderBoardService $leaderBoardService, Request $request): Response
+    {
         $item = $request->request->get('item', 'ap');
-
         $entries = $this->getBoardEntries(
             $userRepository,
             $leaderBoardService,
             $item
         );
-
         return $this->render(
             'stats/_stat_entry.html.twig',
             [
@@ -169,7 +139,6 @@ class StatsController extends AbstractController
             ]
         );
     }
-
     private function getBoardEntries(
         UserRepository $userRepository,
         LeaderBoardService $leaderBoardService,
@@ -179,23 +148,18 @@ class StatsController extends AbstractController
 
         return $leaderBoardService->getBoard($users, $typeOnly);
     }
-
     /**
-     * @Route("/by-date", name="stats_by_date")
      * @IsGranted("ROLE_AGENT")
      * @throws Exception
      */
-    public function byDate(
-        Request $request,
-        AgentStatRepository $statRepository,
-        MedalChecker $medalChecker
-    ): Response {
+    #[Route(path: '/by-date', name: 'stats_by_date')]
+    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
+    {
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
         $stats = [];
         $medalsGained = [];
         $medalsGained1 = [];
-
         if ($startDate && $endDate) {
             $entries = $statRepository->findByDate(
                 new DateTime($startDate),
@@ -240,7 +204,6 @@ class StatsController extends AbstractController
                 }
             }
         }
-
         foreach ($medalsGained1 as $name => $items) {
             $a = $items;
             usort(
@@ -255,7 +218,6 @@ class StatsController extends AbstractController
             );
             $medalsGained1[$name] = $a;
         }
-
         return $this->render(
             'stats/by_date.html.twig',
             [
@@ -267,34 +229,25 @@ class StatsController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/stat-import", name="stat_import", methods={"POST", "GET"})
      * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
-    public function statImport(
-        Request $request,
-        Security $security,
-        TranslatorInterface $translator,
-        StatsImporter $statsImporter,
-        string $appEnv
-    ): Response {
+    #[Route(path: '/stat-import', name: 'stat_import', methods: ['POST', 'GET'])]
+    public function statImport(Request $request, Security $security, TranslatorInterface $translator, StatsImporter $statsImporter, string $appEnv): Response
+    {
         /* @type User $user */
         $user = $security->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
-
         $agent = $user->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException(
                 $translator->trans('user.not.verified.2')
             );
         }
-
         $csv = $request->get('csv');
-
         if ($csv) {
             try {
                 $entityManager = $this->getDoctrine()->getManager();
@@ -355,7 +308,6 @@ class StatsController extends AbstractController
                 $this->addFlash('danger', $exception->getMessage());
             }
         }
-
         return $this->render('import/agent_stats.html.twig');
     }
 }

@@ -12,15 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/help")
- */
+#[Route(path: '/help')]
 class HelpController extends AbstractController
 {
     /**
-     * @Route("/", name="help_index", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/', name: 'help_index', methods: ['GET'])]
     public function index(HelpRepository $helpRepository): Response
     {
         return $this->render(
@@ -30,17 +28,15 @@ class HelpController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/new", name="help_new", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
      */
+    #[Route(path: '/new', name: 'help_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $help = new Help();
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
             $entityManager = $this->getDoctrine()->getManager();
@@ -49,7 +45,6 @@ class HelpController extends AbstractController
 
             return $this->redirectToRoute('help_index');
         }
-
         return $this->render(
             'help/new.html.twig',
             [
@@ -58,11 +53,10 @@ class HelpController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="help_show", methods={"GET"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/{id}', name: 'help_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Help $help): Response
     {
         return $this->render(
@@ -72,33 +66,26 @@ class HelpController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/page/{slug}", name="help_show2", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show2(
-        string $slug,
-        HelpRepository $helpRepository
-    ): Response {
+    #[Route(path: '/page/{slug}', name: 'help_show2', methods: ['GET'])]
+    public function show2(string $slug, HelpRepository $helpRepository): Response
+    {
         $help = $helpRepository->findOneBy(['slug' => $slug]);
-
         if (!$help) {
             throw $this->createNotFoundException();
         }
-
         return $this->render('help/show.html.twig', ['help' => $help,]);
     }
-
     /**
-     * @Route("/{id}/edit", name="help_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
      */
+    #[Route(path: '/{id}/edit', name: 'help_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Help $help): Response
     {
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
 
@@ -106,7 +93,6 @@ class HelpController extends AbstractController
 
             return $this->redirectToRoute('help_index');
         }
-
         return $this->render(
             'help/edit.html.twig',
             [
@@ -115,11 +101,10 @@ class HelpController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="help_delete", methods={"DELETE"})
      * @IsGranted("ROLE_EDITOR")
      */
+    #[Route(path: '/{id}', name: 'help_delete', methods: ['DELETE'])]
     public function delete(Request $request, Help $help): Response
     {
         if ($this->isCsrfTokenValid(
@@ -131,7 +116,6 @@ class HelpController extends AbstractController
             $entityManager->remove($help);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('help_index');
     }
 }

@@ -14,15 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/event")
- */
+#[Route(path: '/event')]
 class EventController extends AbstractController
 {
     /**
-     * @Route("/", name="event_index", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/', name: 'event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render(
@@ -32,17 +30,15 @@ class EventController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/new", name="event_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
@@ -50,7 +46,6 @@ class EventController extends AbstractController
 
             return $this->redirectToRoute('event_index');
         }
-
         return $this->render(
             'event/new.html.twig',
             [
@@ -59,25 +54,18 @@ class EventController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="event_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(
-        Event $event,
-        AgentStatRepository $statRepository,
-        EventHelper $eventHelper
-    ): Response {
+    #[Route(path: '/{id}', name: 'event_show', methods: ['GET'])]
+    public function show(Event $event, AgentStatRepository $statRepository, EventHelper $eventHelper): Response
+    {
         $entries = $statRepository->findByDate(
             $event->getDateStart(),
             $event->getDateEnd()
         );
-
         $values = $eventHelper->calculateResults($event, $entries);
-
         $now = new DateTime();
-
         if ($event->getDateStart() > $now) {
             $status = 'future';
         } elseif ($event->getDateEnd() < $now) {
@@ -85,7 +73,6 @@ class EventController extends AbstractController
         } else {
             $status = 'current';
         }
-
         return $this->render(
             'event/show.html.twig',
             [
@@ -95,22 +82,19 @@ class EventController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event): Response
     {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('event_index');
         }
-
         return $this->render(
             'event/edit.html.twig',
             [
@@ -119,11 +103,10 @@ class EventController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="event_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}', name: 'event_delete', methods: ['DELETE'])]
     public function delete(Request $request, Event $event): Response
     {
         if ($this->isCsrfTokenValid(
@@ -135,7 +118,6 @@ class EventController extends AbstractController
             $entityManager->remove($event);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('event_index');
     }
 }

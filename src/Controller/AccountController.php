@@ -19,35 +19,24 @@ use UnexpectedValueException;
 class AccountController extends AbstractController
 {
     /**
-     * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
      * @throws JsonException
      */
-    public function account(
-        Request $request,
-        Security $security,
-        TranslatorInterface $translator,
-        MedalChecker $medalChecker,
-        TelegramBotHelper $telegramBotHelper
-    ): Response {
+    #[Route(path: '/account', name: 'app_account')]
+    public function account(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
+    {
         $user = $security->getUser();
-
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
-
         $agent = $user->getAgent();
-
         if (!$agent) {
             throw $this->createAccessDeniedException(
                 $translator->trans('user.not.verified.2')
             );
         }
-
         $agentAccount = $request->request->get('agent_account');
-
         $customMedals = json_decode($agent->getCustomMedals(), true);
-
         if ($agentAccount) {
             $customMedals = $request->request->get('customMedals');
 
@@ -58,10 +47,8 @@ class AccountController extends AbstractController
 
             $request->request->set('agent_account', $agentAccount);
         }
-
         $form = $this->createForm(AgentAccountType::class, $agent);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash(
@@ -71,7 +58,6 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute('default');
         }
-
         return $this->render(
             'account/index.html.twig',
             [
@@ -91,41 +77,32 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/account/tg-disconnect", name="tg_disconnect")
      * @IsGranted("ROLE_INTRO_AGENT")
      */
+    #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect')]
     public function telegramDisconnect(Security $security): RedirectResponse
     {
         $agent = $security->getUser()->getAgent();
-
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
-
         $agent->setTelegramId(null);
-
         $em = $this->getDoctrine()->getManager();
-
         $em->persist($agent);
         $em->flush();
-
         return $this->redirectToRoute('app_account');
     }
 
     /**
-     * @Route("/account/tg-connect", name="tg_connect")
      * @IsGranted("ROLE_INTRO_AGENT")
      */
-    public function telegramConnect(
-        Security $security,
-        TelegramBotHelper $telegramBotHelper
-    ): RedirectResponse {
+    #[Route(path: '/account/tg-connect', name: 'tg_connect')]
+    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper): RedirectResponse
+    {
         $agent = $security->getUser()->getAgent();
-
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
-
         return $this->redirect($telegramBotHelper->getConnectLink($agent));
     }
 }

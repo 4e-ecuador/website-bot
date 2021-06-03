@@ -13,15 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/challenge")
- */
+#[Route(path: '/challenge')]
 class ChallengeController extends AbstractController
 {
     /**
-     * @Route("/", name="challenge_index", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/', name: 'challenge_index', methods: ['GET'])]
     public function index(ChallengeRepository $challengeRepository): Response
     {
         return $this->render(
@@ -31,17 +29,15 @@ class ChallengeController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/new", name="challenge_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/new', name: 'challenge_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $challenge = new Challenge();
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($challenge);
@@ -49,7 +45,6 @@ class ChallengeController extends AbstractController
 
             return $this->redirectToRoute('challenge_index');
         }
-
         return $this->render(
             'challenge/new.html.twig',
             [
@@ -58,21 +53,16 @@ class ChallengeController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="challenge_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function show(
-        Challenge $challenge,
-        AgentStatRepository $statRepository,
-        ChallengeHelper $challengeHelper
-    ): Response {
+    #[Route(path: '/{id}', name: 'challenge_show', methods: ['GET'])]
+    public function show(Challenge $challenge, AgentStatRepository $statRepository, ChallengeHelper $challengeHelper): Response
+    {
         $entries = $statRepository->findByDate(
             $challenge->getDateStart(),
             $challenge->getDateEnd()
         );
-
         return $this->render(
             'challenge/show.html.twig',
             [
@@ -81,22 +71,19 @@ class ChallengeController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}/edit", name="challenge_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}/edit', name: 'challenge_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Challenge $challenge): Response
     {
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('challenge_index');
         }
-
         return $this->render(
             'challenge/edit.html.twig',
             [
@@ -105,11 +92,10 @@ class ChallengeController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="challenge_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}', name: 'challenge_delete', methods: ['DELETE'])]
     public function delete(Request $request, Challenge $challenge): Response
     {
         if ($this->isCsrfTokenValid(
@@ -121,7 +107,6 @@ class ChallengeController extends AbstractController
             $entityManager->remove($challenge);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('challenge_index');
     }
 }

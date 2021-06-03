@@ -14,38 +14,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function count;
 
-/**
- * @Route("/agent-stat")
- */
+#[Route(path: '/agent-stat')]
 class AgentStatController extends AbstractController
 {
     use PaginatorTrait;
-
     /**
-     * @Route("/", name="agent_stat_index", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function index(
-        AgentStatRepository $agentStatRepository,
-        AgentRepository $agentRepository,
-        Request $request
-    ): Response {
+    #[Route(path: '/', name: 'agent_stat_index', methods: ['GET', 'POST'])]
+    public function index(AgentStatRepository $agentStatRepository, AgentRepository $agentRepository, Request $request): Response
+    {
         $paginatorOptions = $this->getPaginatorOptions($request);
-
         $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
-
         $paginatorOptions->setMaxPages(
             ceil(count($stats) / $paginatorOptions->getLimit())
         );
-
         $agents = [];
-
         $agents[0] = '';
-
         foreach ($agentRepository->findAllAlphabetical() as $item) {
             $agents[$item->getId()] = $item->getNickname();
         }
-
         return $this->render(
             'agent_stat/index.html.twig',
             [
@@ -55,17 +43,15 @@ class AgentStatController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/new", name="agent_stat_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/new', name: 'agent_stat_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $agentStat = new AgentStat();
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($agentStat);
@@ -73,7 +59,6 @@ class AgentStatController extends AbstractController
 
             return $this->redirectToRoute('agent_stat_index');
         }
-
         return $this->render(
             'agent_stat/new.html.twig',
             [
@@ -82,11 +67,10 @@ class AgentStatController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="agent_stat_show", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/{id}', name: 'agent_stat_show', methods: ['GET'])]
     public function show(AgentStat $agentStat): Response
     {
         return $this->render(
@@ -96,22 +80,19 @@ class AgentStatController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}/edit", name="agent_stat_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}/edit', name: 'agent_stat_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, AgentStat $agentStat): Response
     {
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('agent_stat_index');
         }
-
         return $this->render(
             'agent_stat/edit.html.twig',
             [
@@ -120,11 +101,10 @@ class AgentStatController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="agent_stat_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
     public function delete(Request $request, AgentStat $agentStat): Response
     {
         if ($this->isCsrfTokenValid(
@@ -136,7 +116,6 @@ class AgentStatController extends AbstractController
             $entityManager->remove($agentStat);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('agent_stat_index');
     }
 }

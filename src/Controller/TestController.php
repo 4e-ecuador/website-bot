@@ -21,31 +21,27 @@ use Symfony\Component\Routing\Annotation\Route;
 use TelegramBot\Api\InvalidArgumentException;
 
 /**
- * @Route("/test")
  * @IsGranted("ROLE_ADMIN")
  */
+#[Route(path: '/test')]
 class TestController extends AbstractController
 {
     /**
-     * @Route("/", name="test")
      * @IsGranted("ROLE_ADMIN")
      * @throws Exception
      */
+    #[Route(path: '/', name: 'test')]
     public function index(KernelInterface $kernel): Response
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
-
         $input = new ArrayInput(
             [
                 'command' => 'about',
             ]
         );
-
         $output = new BufferedOutput();
-
         $application->run($input, $output);
-
         return $this->render(
             'test/index.html.twig',
             [
@@ -54,20 +50,16 @@ class TestController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/bot", name="test_bot")
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws \TelegramBot\Api\Exception
      * @throws InvalidArgumentException
      */
-    public function botTest(
-        Request $request,
-        TelegramBotHelper $telegramBotHelper
-    ): Response {
+    #[Route(path: '/bot', name: 'test_bot')]
+    public function botTest(Request $request, TelegramBotHelper $telegramBotHelper): Response
+    {
         $testText = $request->get('testtext');
-
         if ($testText) {
             $groupId = $telegramBotHelper->getGroupId($request->get('group'));
 
@@ -75,7 +67,6 @@ class TestController extends AbstractController
 
             $this->addFlash('success', 'Message has been sent.');
         }
-
         return $this->render(
             'test/bottest.html.twig',
             [
@@ -83,22 +74,17 @@ class TestController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/mail", name="test_mail")
      * @IsGranted("ROLE_ADMIN")
      * @throws TransportExceptionInterface
      */
-    public function mailTest(
-        Request $request,
-        MailerHelper $mailerHelper
-    ): Response {
+    #[Route(path: '/mail', name: 'test_mail')]
+    public function mailTest(Request $request, MailerHelper $mailerHelper): Response
+    {
         $testtext = $request->get('testtext');
-
         if ($testtext) {
             $mailerHelper->sendTestMail('elkuku.n7@gmail.com');
         }
-
         return $this->render(
             'test/mailtest.html.twig',
             [
@@ -106,12 +92,11 @@ class TestController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/emojis✨", name="test_emojis")
      * @IsGranted("ROLE_ADMIN")
      * @throws EmojiNotFoundException
      */
+    #[Route(path: '/emojis✨', name: 'test_emojis')]
     public function testEmojis(EmojiService $emojiService): Response
     {
         return $this->render(
@@ -120,22 +105,19 @@ class TestController extends AbstractController
                 'emojis' => $emojiService->getAll(),
             ]
         );
-
     }
-
     /**
-     * @Route("/modify-stats", name="test_modify_stats")
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/modify-stats', name: 'test_modify_stats')]
     public function modifyStats(): Response
     {
         return $this->render('test/modify-stats.html.twig');
     }
-
     /**
-     * @Route("/modify-stats/input", name="test_modify_stats_input")
      * @IsGranted("ROLE_ADMIN")
      */
+    #[Route(path: '/modify-stats/input', name: 'test_modify_stats_input')]
     public function modifyStatsInput(Request $request, CsvParser $csvParser): Response
     {
         try {

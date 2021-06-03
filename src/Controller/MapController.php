@@ -19,9 +19,9 @@ use UnexpectedValueException;
 class MapController extends AbstractController
 {
     /**
-     * @Route("/map", name="agent-map")
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/map', name: 'agent-map')]
     public function map(MapGroupRepository $mapGroupRepository): Response
     {
         return $this->render(
@@ -36,26 +36,19 @@ class MapController extends AbstractController
     }
 
     /**
-     * @Route("/map_json", name="map-json")
      * @IsGranted("ROLE_AGENT")
      */
-    public function mapJson(
-        AgentRepository $agentRepository,
-        MapGroupRepository $mapGroupRepository,
-        Request $request
-    ): JsonResponse {
+    #[Route(path: '/map_json', name: 'map-json')]
+    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository, Request $request): JsonResponse
+    {
         $mapGroup = $mapGroupRepository->findOneBy(
             ['name' => $request->get('group', '4E')]
         );
-
         if (!$mapGroup) {
             throw new UnexpectedValueException('Map group not found!');
         }
-
         $agents = $agentRepository->findMapAgents($mapGroup);
-
         $array = [];
-
         foreach ($agents as $agent) {
             $a = [];
 
@@ -66,21 +59,16 @@ class MapController extends AbstractController
 
             $array[] = $a;
         }
-
         return $this->json($array);
     }
 
     /**
-     * @Route("/map/agent-info/{id}", name="agent-info")
      * @IsGranted("ROLE_AGENT")
      */
-    public function mapAgentInfo(
-        Agent $agent,
-        Packages $assetsManager,
-        UserRepository $userRepository
-    ): Response {
+    #[Route(path: '/map/agent-info/{id}', name: 'agent-info')]
+    public function mapAgentInfo(Agent $agent, Packages $assetsManager, UserRepository $userRepository): Response
+    {
         $response = [];
-
         $statsLink = $imgPath = '';
         switch ($agent->getFaction()->getName()) {
             case 'ENL':
@@ -121,12 +109,10 @@ class MapController extends AbstractController
         if ($statsLink) {
             $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
         }
-
         if ($this->isGranted('ROLE_ADMIN')) {
             // $response[] = '';
             // $response[] = 'More ADMIN info... TBD';
         }
-
         return new Response(implode('<br>', $response));
     }
 }

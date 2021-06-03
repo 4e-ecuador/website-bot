@@ -21,48 +21,35 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function count;
 
-/**
- * @Route("/agent")
- */
+#[Route(path: '/agent')]
 class AgentController extends AbstractController
 {
     use PaginatorTrait;
-
     /**
-     * @Route("/", name="agent_index", methods={"GET"})
      * @IsGranted("ROLE_AGENT")
      */
+    #[Route(path: '/', name: 'agent_index', methods: ['GET'])]
     public function index(): Response
     {
         // Tis is s Vue View ;)
         return $this->render('agent/index.html.twig');
     }
-
     /**
-     * @Route("/old", name="agent_index_old", methods={"GET","POST"})
      * @IsGranted("ROLE_AGENT")
      */
-    public function indexOLD(
-        AgentRepository $agentRepository,
-        FactionRepository $factionRepository,
-        Request $request
-    ): Response {
+    #[Route(path: '/old', name: 'agent_index_old', methods: ['GET', 'POST'])]
+    public function indexOLD(AgentRepository $agentRepository, FactionRepository $factionRepository, Request $request): Response
+    {
         $paginatorOptions = $this->getPaginatorOptions($request);
-
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
-
         $paginatorOptions->setMaxPages(
             ceil(count($agents) / $paginatorOptions->getLimit())
         );
-
         $factions = $factionRepository->findAll();
-
         $factionList = [];
-
         foreach ($factions as $faction) {
             $factionList[$faction->getId()] = $faction->getName();
         }
-
         return $this->render(
             'agent/index_old.html.twig',
             [
@@ -72,22 +59,18 @@ class AgentController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/new", name="agent_new", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
      * @throws Exception
      */
+    #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $agent = new Agent();
-
         $agent->setLat($this->getParameter('app.default_lat'));
         $agent->setLon($this->getParameter('app.default_lon'));
-
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $secret = bin2hex(random_bytes(24));
             $agent->setTelegramConnectionSecret($secret);
@@ -98,7 +81,6 @@ class AgentController extends AbstractController
 
             return $this->redirectToRoute('agent_index');
         }
-
         return $this->render(
             'agent/new.html.twig',
             [
@@ -107,12 +89,11 @@ class AgentController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="agent_show", methods={"GET"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_AGENT")
      * @throws NonUniqueResultException
      */
+    #[Route(path: '/{id}', name: 'agent_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Agent $agent, UserRepository $userRepository): Response
     {
         return $this->render(
@@ -123,16 +104,14 @@ class AgentController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}/edit", name="agent_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_EDITOR")
      */
+    #[Route(path: '/{id}/edit', name: 'agent_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Agent $agent): Response
     {
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -143,7 +122,6 @@ class AgentController extends AbstractController
                 ]
             );
         }
-
         return $this->render(
             'agent/edit.html.twig',
             [
@@ -152,11 +130,10 @@ class AgentController extends AbstractController
             ]
         );
     }
-
     /**
-     * @Route("/{id}", name="agent_delete", methods={"DELETE"})
      * @IsGranted("ROLE_EDITOR")
      */
+    #[Route(path: '/{id}', name: 'agent_delete', methods: ['DELETE'])]
     public function delete(Request $request, Agent $agent): Response
     {
         if ($this->isCsrfTokenValid(
@@ -168,20 +145,14 @@ class AgentController extends AbstractController
             $entityManager->remove($agent);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('agent_index');
     }
-
     /**
-     * @Route("/{id}/add_comment", name="agent_add_comment", methods={"POST"})
      * @IsGranted("ROLE_EDITOR")
      */
-    public function addComment(
-        Request $request,
-        Agent $agent,
-        UserRepository $userRepository,
-        MailerHelper $mailerHelper
-    ): JsonResponse {
+    #[Route(path: '/{id}/add_comment', name: 'agent_add_comment', methods: ['POST'])]
+    public function addComment(Request $request, Agent $agent, UserRepository $userRepository, MailerHelper $mailerHelper): JsonResponse
+    {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
             $request->request->get('_token')
@@ -220,30 +191,23 @@ class AgentController extends AbstractController
 
             return $this->json($response);
         }
-
         return $this->json(['error' => 'error']);
     }
-
     /**
-     * @Route("/lookup", name="agent_lookup", methods={"POST"})
      * @IsGranted("ROLE_EDITOR")
      */
-    public function lookup(
-        AgentRepository $agentRepository,
-        Request $request
-    ): JsonResponse {
+    #[Route(path: '/lookup', name: 'agent_lookup', methods: ['POST'])]
+    public function lookup(AgentRepository $agentRepository, Request $request): JsonResponse
+    {
         $query = $request->query->get('query');
-
         $list = [];
         $results = $agentRepository->searchByAgentName($query);
-
         foreach ($results as $result) {
             $list[] = [
                 'name'    => $result->getNickname(),
                 'faction' => $result->getFaction()->getName(),
             ];
         }
-
         return $this->json($list);
     }
 }

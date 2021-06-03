@@ -8,6 +8,7 @@ use App\Repository\AgentRepository;
 use App\Repository\FactionRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use UnexpectedValueException;
@@ -15,14 +16,11 @@ use UnexpectedValueException;
 class ImportController extends AbstractController
 {
     /**
-     * @Route("/import", name="import")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(
-        Request $request,
-        FactionRepository $factionRepository,
-        AgentRepository $agentRepository
-    ) {
+    #[Route(path: '/import', name: 'import')]
+    public function index(Request $request, FactionRepository $factionRepository, AgentRepository $agentRepository): RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -56,7 +54,6 @@ class ImportController extends AbstractController
 
             return $this->redirectToRoute('default');
         }
-
         return $this->render(
             'import/index.html.twig',
             [
@@ -69,7 +66,7 @@ class ImportController extends AbstractController
         string $agentsJSON,
         FactionRepository $factionRepository,
         AgentRepository $agentRepository
-    ) {
+    ): int {
         $jsonData = json_decode($agentsJSON);
         $importCount = 0;
 

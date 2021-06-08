@@ -120,18 +120,14 @@ class EventHelper
             }
         }
 
-        switch ($span) {
-            case 'past':
-                return $pastEvents;
-            case 'present':
-                return $currentEvents;
-            case 'future':
-                return $futureEvents;
-            default:
-                throw new UnexpectedValueException(
-                    'Unknown span (must be: past, present or future)'
-                );
-        }
+        return match ($span) {
+            'past' => $pastEvents,
+            'present' => $currentEvents,
+            'future' => $futureEvents,
+            default => throw new UnexpectedValueException(
+                'Unknown span (must be: past, present or future)'
+            ),
+        };
     }
 
     /**

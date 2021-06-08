@@ -18,14 +18,11 @@ class CsvParser
      */
     public function parse(string $csvString, string $type = 'prime'): array
     {
-        switch ($type) {
-            case 'prime':
-                return $this->parsePrimeCsv($csvString);
-            case 'agentstats':
-                return $this->parseAgentStatsCsv($csvString);
-            default:
-                throw new UnexpectedValueException('unknown CSV type');
-        }
+        return match ($type) {
+            'prime' => $this->parsePrimeCsv($csvString),
+            'agentstats' => $this->parseAgentStatsCsv($csvString),
+            default => throw new UnexpectedValueException('unknown CSV type'),
+        };
     }
 
     /**

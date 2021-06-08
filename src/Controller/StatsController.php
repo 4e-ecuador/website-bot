@@ -11,7 +11,6 @@ use App\Repository\UserRepository;
 use App\Service\LeaderBoardService;
 use App\Service\MedalChecker;
 use App\Service\StatsImporter;
-use App\Type\BoardEntry;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\NonUniqueResultException;

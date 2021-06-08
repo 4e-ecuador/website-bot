@@ -161,7 +161,7 @@
         ]
     },
     "google/apiclient-services": {
-        "version": "v0.179.0"
+        "version": "v0.180.0"
     },
     "google/auth": {
         "version": "v1.15.1"
@@ -391,7 +391,7 @@
         "version": "3.0.3"
     },
     "sebastian/type": {
-        "version": "2.3.1"
+        "version": "2.3.2"
     },
     "sebastian/version": {
         "version": "3.0.2"
@@ -519,7 +519,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.3",
-            "ref": "8af7647cd89416f68e41df5c343a5e531d2bf025"
+            "ref": "772b77cfb5017644547ef7f9364c54e4eb9a6c61"
         },
         "files": [
             "config/packages/cache.yaml",
@@ -662,15 +662,14 @@
         "version": "v5.3.0"
     },
     "symfony/routing": {
-        "version": "5.1",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.1",
-            "ref": "b4f3e7c95e38b606eef467e8a42a8408fc460c43"
+            "version": "5.3",
+            "ref": "2d706bd8c6a9e6730343bb22092dabba1f42f4f3"
         },
         "files": [
-            "config/packages/prod/routing.yaml",
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
@@ -740,15 +739,14 @@
         "version": "v5.3.0"
     },
     "symfony/twig-bundle": {
-        "version": "5.0",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.0",
-            "ref": "fab9149bbaa4d5eca054ed93f9e1b66cc500895d"
+            "version": "5.3",
+            "ref": "b416645602504d22d15912e0918001e6d71bb9fa"
         },
         "files": [
-            "config/packages/test/twig.yaml",
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]

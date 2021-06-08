@@ -2,16 +2,13 @@
 
 namespace App\Service;
 
-use App\Entity\Agent;
 use App\Entity\User;
 use App\Repository\AgentStatRepository;
-use App\Repository\UserRepository;
 use App\Type\BoardEntry;
 
 class LeaderBoardService
 {
     public function __construct(
-        private UserRepository $userRepository,
         private AgentStatRepository $statRepository,
     ) {
     }

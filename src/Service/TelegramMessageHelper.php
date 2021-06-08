@@ -17,8 +17,17 @@ use UnexpectedValueException;
 
 class TelegramMessageHelper
 {
-    public function __construct(private TelegramBotHelper $telegramBotHelper, private MedalChecker $medalChecker, private string $rootDir, private NewMedalMessage $newMedalMessage, private MedalDoubleMessage $medalDoubleMessage, private LevelUpMessage $levelUpMessage, private NotifyEventsMessage $notifyEventsMessage, private NotifyUploadReminder $notifyUploadReminder, private RecursionMessage $recursionMessage)
-    {
+    public function __construct(
+        private TelegramBotHelper $telegramBotHelper,
+        private MedalChecker $medalChecker,
+        private string $rootDir,
+        private NewMedalMessage $newMedalMessage,
+        private MedalDoubleMessage $medalDoubleMessage,
+        private LevelUpMessage $levelUpMessage,
+        private NotifyEventsMessage $notifyEventsMessage,
+        private NotifyUploadReminder $notifyUploadReminder,
+        private RecursionMessage $recursionMessage
+    ) {
     }
 
     /**

@@ -17,7 +17,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use UnexpectedValueException;
-use function get_class;
 
 /**
  * Class AppExtension

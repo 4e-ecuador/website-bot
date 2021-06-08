@@ -11,8 +11,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractCustomMessage
 {
-    public function __construct(protected EmojiService $emojiService, protected TranslatorInterface $translator, protected MedalChecker $medalChecker, protected IngressEventRepository $ingressEventRepository, protected string $pageBaseUrl, protected string $announceAdminCc)
-    {
+    public function __construct(
+        protected EmojiService $emojiService,
+        protected TranslatorInterface $translator,
+        protected MedalChecker $medalChecker,
+        protected IngressEventRepository $ingressEventRepository,
+        protected string $pageBaseUrl,
+        protected string $announceAdminCc
+    ) {
     }
 
     abstract public function getMessage(): array;

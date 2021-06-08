@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -32,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  */
-class Agent implements \Stringable
+class Agent implements Stringable
 {
     public const API_GET_COLLECTION
         = [
@@ -220,7 +221,7 @@ class Agent implements \Stringable
         return (string)$this->nickname;
     }
 
-    public function __sleep()
+    public function __sleep(): array
     {
         return ['id', 'nickname'];
     }

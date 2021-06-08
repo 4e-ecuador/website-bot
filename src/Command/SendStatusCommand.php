@@ -9,15 +9,18 @@ use App\Service\TelegramBotHelper;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'sendStatus',
+    description: 'Send status'
+)]
 class SendStatusCommand extends Command
 {
-    protected static $defaultName = 'sendStatus';
-
     public function __construct(
         private TelegramBotHelper $telegramBotHelper,
         private AgentStatRepository $agentStatRepository,
@@ -25,12 +28,6 @@ class SendStatusCommand extends Command
         private string $defaultTimeZone
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Send status.');
     }
 
     /**
@@ -80,9 +77,9 @@ class SendStatusCommand extends Command
         } catch (Exception $exception) {
             $io->error($exception->getMessage());
 
-            return 1;
+            return Command::FAILURE;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

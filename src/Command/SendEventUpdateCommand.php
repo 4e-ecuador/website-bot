@@ -9,6 +9,7 @@ use App\Service\TelegramBotHelper;
 use CURLFile;
 use DateTime;
 use DateTimeZone;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,10 +17,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use UnexpectedValueException;
 
+#[AsCommand(
+    name: 'app:send:eventUpdate',
+    description: 'Send event updates'
+)]
 class SendEventUpdateCommand extends Command
 {
-    protected static $defaultName = 'app:send:eventUpdate';
-
     public function __construct(
         private string $rootDir,
         private TelegramBotHelper $telegramBotHelper,
@@ -34,7 +37,6 @@ class SendEventUpdateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send event updates')
             ->addOption(
                 'group',
                 null,
@@ -113,7 +115,7 @@ class SendEventUpdateCommand extends Command
         $io->warning($this->rootDir);
         $io->success('Finished!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function createImage(): CURLFile

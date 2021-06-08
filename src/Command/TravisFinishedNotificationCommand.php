@@ -5,41 +5,25 @@ namespace App\Command;
 use App\Exception\EmojiNotFoundException;
 use App\Service\EmojiService;
 use App\Service\TelegramBotHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
-class TravisFinishedNofiticationCommand extends Command
+#[AsCommand(
+    name: 'app:TravisFinishedNotification',
+    description: 'Send a notification on travis job finish - used in travis.yml'
+)]
+class TravisFinishedNotificationCommand extends Command
 {
-    protected static $defaultName = 'TravisFinishedNofitication';
-
     public function __construct(
         private TelegramBotHelper $telegramBotHelper,
         private EmojiService $emojiService
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
     }
 
     /**

@@ -2,37 +2,21 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'android-app:notify',
+    description: 'Send a notification to android devices'
+)]
 class AndroidNotificationCommand extends Command
 {
-    protected static $defaultName = 'android-app:notify';
-
     public function __construct(private string $fcmKey)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
     }
 
     protected function execute(
@@ -53,7 +37,8 @@ class AndroidNotificationCommand extends Command
                     'channel_id' => 'WEB APP CHANNEL ID',
                     'sound'      => 'default',
                 ],
-            ]
+            ],
+            JSON_THROW_ON_ERROR
         );
 
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
@@ -70,6 +55,6 @@ class AndroidNotificationCommand extends Command
 
         $io->success('Message has been sent!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

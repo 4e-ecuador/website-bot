@@ -52,7 +52,7 @@ class TestNotifyUploadReminderMessageCommand extends Command
 
             var_dump(count($agents));
 
-            return 1;
+            return Command::FAILURE;
 
             foreach ($agents as $agent) {
                 if ($agent->getHasNotifyUploadStats()) {

@@ -2,25 +2,22 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 
+#[AsCommand(
+    name: 'app:sortLanguageFiles',
+    description: 'Sort strings in language files'
+)]
 class SortLanguageFilesCommand extends Command
 {
-    protected static $defaultName = 'SortLanguageFiles';
-
     public function __construct(private string $rootDir, private string $locale, private array $locales)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('Sort strings in language files');
     }
 
     protected function execute(
@@ -77,6 +74,6 @@ class SortLanguageFilesCommand extends Command
 
         $io->success('Language files have been sorted!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

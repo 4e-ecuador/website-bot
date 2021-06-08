@@ -6,16 +6,19 @@ use App\Repository\AgentRepository;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'bot:notify:events',
+    description: 'Send notifications of upcoming events'
+)]
 class NotifyEventsCommand extends Command
 {
-    protected static $defaultName = 'bot:notify:events';
-
     public function __construct(
         private NotifyEventsMessage $notifyEventsMessage,
         private AgentRepository $agentRepository,
@@ -27,7 +30,6 @@ class NotifyEventsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send notifications of upcoming events.')
             ->addOption(
                 'first-announce',
                 null,
@@ -48,7 +50,7 @@ class NotifyEventsCommand extends Command
 
         if (!$message) {
             // No message - no events :(
-            return 0;
+            return Command::SUCCESS;
         }
 
         $agents = $this->agentRepository->findNotifyAgents();
@@ -76,6 +78,6 @@ class NotifyEventsCommand extends Command
             )
         );
 
-        return 0;
+        return Command::SUCCESS
     }
 }

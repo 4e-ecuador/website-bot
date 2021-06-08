@@ -6,8 +6,10 @@ use App\Exception\NothingHasChangedException;
 use DirectoryIterator;
 use DOMDocument;
 use DOMXPath;
+use JsonException;
 use RuntimeException;
 use stdClass;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,10 +17,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Symfony\Component\String\u;
 
+#[AsCommand(
+    name: 'app:update:badgedata',
+    description: 'Scrape an ingress fan site for medal images'
+)]
 class UpdateBadgeDataCommand extends Command
 {
-    protected static $defaultName = 'app:update:badgedata';// Type must be defined in base class :(
-
     private string $badgeRoot;
     private string $scrapeSite;
     private string $assetRoot;
@@ -32,11 +36,6 @@ class UpdateBadgeDataCommand extends Command
         $this->sizes = [50, 24];
 
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription('Scrape an ingress fan site for medal images');
     }
 
     protected function execute(
@@ -53,7 +52,13 @@ class UpdateBadgeDataCommand extends Command
                 ->makeCssSprite($input, $output);
         } catch (NothingHasChangedException) {
             $io->writeln('');
-            $io->writeln('Nothing has changed...');
+            $io->success('Nothing has changed.');
+
+            return Command::SUCCESS;
+        } catch (JsonException $e) {
+            $io->error($e->getMessage());
+
+            return Command::FAILURE;
         }
 
         $io->success('Finished!');
@@ -63,6 +68,7 @@ class UpdateBadgeDataCommand extends Command
 
     /**
      * @throws NothingHasChangedException
+     * @throws JsonException
      */
     private function scrapeBadges(
         InputInterface $input,
@@ -90,23 +96,23 @@ class UpdateBadgeDataCommand extends Command
         foreach ($xpath->query('//div[contains(@class,"badge")]/img') as $item)
         {
             $original = $item->getAttribute('data-original');
-            // $io->write($original.'... ');
 
             $imgPath = $this->badgeRoot.'/'.$original;
-            if (file_exists($imgPath)) {
-                // $io->writeln('exists');
-            } else {
+
+            if (false === file_exists($imgPath)) {
                 file_put_contents(
                     $imgPath,
                     file_get_contents(
                         $this->scrapeSite.'/'.$original
                     )
                 );
-                // $io->writeln('ok');
+
                 $nothingHasChanged = false;
             }
+
             $progressBar->advance();
         }
+
         $progressBar->finish();
 
 
@@ -151,7 +157,7 @@ class UpdateBadgeDataCommand extends Command
 
         file_put_contents(
             $this->rootDir.'/text-files/badgeinfos.json',
-            json_encode($badgeInfos)
+            json_encode($badgeInfos, JSON_THROW_ON_ERROR)
         );
 
         return $this;
@@ -324,7 +330,7 @@ class UpdateBadgeDataCommand extends Command
         return $this;
     }
 
-    private function execCommand($command)
+    private function execCommand($command): bool|string
     {
         $lastLine = system($command, $status);
         if ($status) {

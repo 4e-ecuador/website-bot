@@ -28,4 +28,4 @@ script:
 #  - cat ./var/log/test.log
 
 after_script:
-  - ./bin/console TravisFinishedNofitication
+  - ./bin/console app:TravisFinishedNotification

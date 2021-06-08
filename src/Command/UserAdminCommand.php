@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,18 +15,16 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use UnexpectedValueException;
 
+#[AsCommand(
+    name: 'user-admin',
+    description: 'Administer user accounts',
+    aliases: ['useradmin', 'admin']
+)]
 class UserAdminCommand extends Command
 {
-    protected static $defaultName = 'user-admin';
-
     public function __construct(private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription('Administer Users');
     }
 
     protected function execute(

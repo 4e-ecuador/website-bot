@@ -9,6 +9,7 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use IntlDateFormatter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,9 +19,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use TelegramBot\Api\InvalidArgumentException;
 use UnexpectedValueException;
 
+#[AsCommand(
+    name: 'app:send:newsletter',
+    description: 'Send a newsletter'
+)]
 class SendNewsletterCommand extends Command
 {
-    protected static $defaultName = 'app:send:newsletter';
 
     public function __construct(
         private TelegramBotHelper $telegramBotHelper,
@@ -36,7 +40,6 @@ class SendNewsletterCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send a newsletter')
             ->addOption(
                 'group',
                 null,
@@ -213,7 +216,7 @@ class SendNewsletterCommand extends Command
 
         $io->success('Finished!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

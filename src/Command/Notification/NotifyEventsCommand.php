@@ -78,6 +78,6 @@ class NotifyEventsCommand extends Command
             )
         );
 
-        return Command::SUCCESS
+        return Command::SUCCESS;
     }
 }

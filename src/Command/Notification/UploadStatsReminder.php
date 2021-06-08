@@ -52,6 +52,6 @@ class UploadStatsReminder extends Command
 
         $io->success(sprintf('Messages have been sent to %d agents.', $count));
 
-        return Command::SUCCESS
+        return Command::SUCCESS;
     }
 }

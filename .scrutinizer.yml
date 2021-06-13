@@ -1,0 +1,25 @@
+build:
+#    services:
+#        postgres: 13
+    dependencies:
+        override:
+            - npm install -g 'yarn'
+            - yarn install
+            - yarn dev
+            - composer install
+#            - cp .env.scrutinizer .env
+#            - bin/console doctrine:migrations:migrate -n
+#            - bin/console doctrine:fixtures:load -n
+
+filter:
+    excluded_paths:
+        - 'tests/*'
+        - 'bin/*'
+        - 'src/Kernel.php'
+        - 'public/index.php'
+
+coding_style:
+    php:
+        spaces:
+            within:
+                brackets: false

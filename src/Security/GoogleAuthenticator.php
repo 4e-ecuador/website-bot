@@ -8,6 +8,7 @@ use App\Service\TelegramAdminMessageHelper;
 use App\Service\TelegramBotHelper;
 use App\Service\TelegramMessageHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -19,10 +20,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use TelegramBot\Api\Exception;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 
 class GoogleAuthenticator extends AbstractAuthenticator
@@ -78,7 +79,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     }
 
     /**
-     * @throws IdentityProviderException|Exception
+     * @throws IdentityProviderException
      */
     public function authenticate(Request $request): PassportInterface
     {
@@ -91,13 +92,10 @@ class GoogleAuthenticator extends AbstractAuthenticator
         $user = $this->getUser($googleUser);
 
         return new SelfValidatingPassport(
-            new UserBadge($user->getEmail()),
+            new UserBadge($user->getEmail()), [new RememberMeBadge()]
         );
     }
 
-    /**
-     * @throws Exception
-     */
     private function getUser(GoogleUser $googleUser): User
     {
         // 1) have they logged in with Google before? Easy!
@@ -127,7 +125,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
                     $groupId,
                     $user
                 );
-            } catch (\Exception) {
+            } catch (Exception) {
             }
         }
 

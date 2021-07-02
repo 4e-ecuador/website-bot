@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\TelegramAdminMessageHelper;
 use App\Service\TelegramBotHelper;
-use App\Service\TelegramMessageHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
@@ -30,9 +29,6 @@ class GoogleAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    private UserRepository $userManager;
-    private TelegramMessageHelper $telegramMessageHelper;
-
     public function __construct(
         private ClientRegistry $clientRegistry,
         private EntityManagerInterface $entityManager,
@@ -45,14 +41,13 @@ class GoogleAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): bool
     {
-        // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
     }
 
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
-        $firewallName
+        string $firewallName
     ): RedirectResponse {
         $targetPath = $this->getTargetPath(
             $request->getSession(),

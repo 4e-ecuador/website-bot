@@ -25,10 +25,10 @@
     </database>
     <role id="4" parent="1" name="main">
       <ObjectId>10</ObjectId>
-      <SuperRole>1</SuperRole>
       <CreateDb>1</CreateDb>
       <CreateRole>1</CreateRole>
       <CanLogin>1</CanLogin>
+      <SuperRole>1</SuperRole>
       <Replication>1</Replication>
       <BypassRls>1</BypassRls>
     </role>

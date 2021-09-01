@@ -1,4 +1,3 @@
-# configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration
 knpu_oauth2_client:
     clients:
         # the key "google" can be anything, it

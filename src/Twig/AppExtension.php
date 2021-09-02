@@ -226,6 +226,9 @@ class AppExtension extends AbstractExtension
                 }
                 elseif ('KineticChallenge' === $badge) {
                     $code = 'Badge_'.$badge.'_'.$value;
+                }
+                elseif ('CourierChallenge' === $badge) {
+                    $code = 'Badge_'.$badge.'_'.$value;
                 } else {
                     $code = 'EventBadge_'.$badge.'_'.$value;
                 }

@@ -62,10 +62,9 @@
                                 {% elseif 'Paragon' == medal %}
                                     <span class="medal50-events medal-UniqueBadge_Paragon"
                                           title="{{ badgeData.title }}"></span>
-                                {% elseif 'KnightTessellation' == medal %}
-                                    <span class="medal50-badges medal-Badge_{{ medal }}_{{ value }}"
-                                          title="{{ badgeData.title }}"></span>
-                                {% elseif 'KineticChallenge' == medal %}
+                                {% elseif medal in [
+                                    'CourierChallenge', 'KineticChallenge', 'KnightTessellation'
+                                ] %}
                                     <span class="medal50-badges medal-Badge_{{ medal }}_{{ value }}"
                                           title="{{ badgeData.title }}"></span>
                                 {% else %}

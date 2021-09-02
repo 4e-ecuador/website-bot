@@ -114,11 +114,14 @@
                                                       title="Avenir Shard Challenge"></span>
                                             {% elseif 'Paragon' == medal %}
                                                 <span class="medal50-events medal-UniqueBadge_Paragon"
-                                                      title="Avenir Shard Challenge"></span>
+                                                      title="Paragon Challenge"></span>
                                             {% elseif 'KnightTessellation' == medal %}
                                                 <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
                                                       title="{{ medal~' '~tier }}"></span>
                                             {% elseif 'KineticChallenge' == medal %}
+                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
+                                                      title="{{ medal~' '~tier }}"></span>
+                                            {% elseif 'CourierChallenge' == medal %}
                                                 <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
                                                       title="{{ medal~' '~tier }}"></span>
                                             {% else %}

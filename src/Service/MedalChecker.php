@@ -261,6 +261,12 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'CourierChallenge'     =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
                     'KineticChallenge'     =>
                         [
                             'Bronze',

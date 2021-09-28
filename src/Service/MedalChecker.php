@@ -270,6 +270,8 @@ class MedalChecker
                     'KineticChallenge'     =>
                         [
                             'Bronze',
+                            'Silver',
+                            'Gold',
                         ],
                     'KnightTessellation'   =>
                         [

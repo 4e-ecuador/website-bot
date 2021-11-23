@@ -13,7 +13,6 @@
     "ext-intl": "*",
     "ext-json": "*",
     "ext-libxml": "*",
-    "api-platform/core": "^2.6",
     "boshurik/telegram-bot-bundle": "4.1.x-dev",
     "composer/package-versions-deprecated": "1.11.99.3",
     "doctrine/annotations": "^1.0",

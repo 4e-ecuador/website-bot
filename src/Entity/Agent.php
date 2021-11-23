@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,41 +9,10 @@ use Stringable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(
- *     attributes={"order"={"nickname": "ASC"}},
- *     collectionOperations={
- *          "get"={
- *              "security"="is_granted('ROLE_AGENT')",
- *              "openapi_context"=Agent::API_GET_COLLECTION
- *          }
- *      },
- *     itemOperations={
- *          "get"={
- *              "security"="is_granted('ROLE_AGENT')",
- *              "openapi_context"=Agent::API_GET_ITEM
- *          }
- *      },
- *     normalizationContext={"groups"={"agent:read"}}
- * )
- *
- * @ApiFilter(SearchFilter::class, properties={"nickname": "ipartial", "realName": "ipartial", "faction": "exact"})
- *
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  */
 class Agent implements Stringable
 {
-    public const API_GET_COLLECTION
-        = [
-            'summary' => 'Retrieves the collection of 4E Agent resources.',
-            'security'=> ['name' => 'api_key'],
-        ];
-
-    public const API_GET_ITEM
-        = [
-            'summary' => 'Retrieves a 4E Agent resource.',
-            'security'=> ['name' => 'api_key'],
-        ];
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

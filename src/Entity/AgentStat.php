@@ -2,12 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
-use App\Controller\Api\PostStats;
-
 use ArrayAccess;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,36 +9,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AgentStatRepository")
- *
- * @ApiFilter(SearchFilter::class, properties={"agent": "exact"})
- *
- * @ApiResource(
- *     attributes={
- *          "order"={"datetime": "DESC"}
- *     },
- *     itemOperations={
- *          "get"={
- *              "security"="is_granted('ROLE_AGENT')",
- *              "path"="/stats/{id}",
- *              "openapi_context"=AgentStat::API_GET_CONTEXT
- *          }
- *     },
- *     collectionOperations={
- *          "get"={
- *              "security"="is_granted('ROLE_AGENT')",
- *              "path"="/stats",
- *              "openapi_context"=AgentStat::API_GET_CONTEXT
- *          },
- *          "post_csv"={
- *             "security"="is_granted('ROLE_AGENT')",
- *             "method"="POST",
- *             "path"="/stats/csv",
- *             "controller"=PostStats::class,
- *             "denormalization_context"={"groups"={"stats:write"}},
- *             "openapi_context"=AgentStat::API_POST_CSV_CONTEXT
- *          }
- *      },
- * )
  */
 class AgentStat implements ArrayAccess
 {

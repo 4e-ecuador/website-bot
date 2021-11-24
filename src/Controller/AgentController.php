@@ -31,7 +31,7 @@ class AgentController extends AbstractController
     #[Route(path: '/', name: 'agent_index', methods: ['GET'])]
     public function index(): Response
     {
-        // Tis is s Vue View ;)
+        // This is s Vue View ;)
         return $this->render('agent/index.html.twig');
     }
     /**
@@ -130,6 +130,7 @@ class AgentController extends AbstractController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -147,6 +148,7 @@ class AgentController extends AbstractController
         }
         return $this->redirectToRoute('agent_index');
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -193,6 +195,7 @@ class AgentController extends AbstractController
         }
         return $this->json(['error' => 'error']);
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -209,5 +212,50 @@ class AgentController extends AbstractController
             ];
         }
         return $this->json($list);
+    }
+
+    #[Route(path: '/jsonlist', name: 'json_lookup_agents', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
+    public function agentsListJson(AgentRepository $agentRepository, Request $request): JsonResponse
+    {
+        $page = $request->query->get('page', 1);
+        $paginatorOptions = [
+            'page' => $page,
+            'criteria' => [
+                'nickname' => $request->query->get('nickname', '')
+            ]
+        ];
+        $modRequest = clone $request;
+        $modRequest->query->set('paginatorOptions', $paginatorOptions);
+
+        $paginatorOptions = $this->getPaginatorOptions($modRequest);
+        $agents = $agentRepository->getPaginatedList($paginatorOptions);
+        $paginatorOptions->setMaxPages(
+            ceil(count($agents) / $paginatorOptions->getLimit())
+        );
+
+        $list = [];
+
+        foreach ($agents as $agent) {
+            $list[] = [
+                'id'    => $agent->getId(),
+                'nickname'    => $agent->getNickname(),
+                'realName'    => $agent->getRealName(),
+            ];
+        }
+
+        $response = new \stdClass();
+
+        $response->{'hydra:member'} = $list;
+
+        $view = new \stdClass();
+        $view->{'hydra:previous'} = ($page > 1) ? 'X' : null;
+        $view->{'hydra:next'} = ($page < $paginatorOptions->getMaxPages()) ? 'X' : null;
+        $view->{'hydra:last'} = $paginatorOptions->getMaxPages();
+
+        $response->{'hydra:view'} = $view;
+        $response->{'hydra:totalItems'} = $agents->count();
+
+        return $this->json($response);
     }
 }

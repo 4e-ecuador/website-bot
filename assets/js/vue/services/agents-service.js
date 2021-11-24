@@ -18,7 +18,7 @@ export function fetchAgents(searchTerm, pageNum) {
     // TODO fixed faction
     params.faction = 1
 
-    return axios.get('/api/agents', {
+    return axios.get('/agent/jsonlist', {
         params,
     });
 }

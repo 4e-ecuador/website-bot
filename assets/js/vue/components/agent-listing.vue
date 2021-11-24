@@ -2,7 +2,8 @@
     <div>
         <div class="row">
             <div class="col-sm-3">
-                {{searchResultCount}}
+                {{searchResultCount}} <br>
+                {{pageCounter}}
             </div>
             <div class="col-2 btn-group">
                 <paginate-button-previous
@@ -51,6 +52,7 @@ export default {
         totalItems: 0,
         pagination: {},
         pageNum: 1,
+        totalPages: 1,
         loading: false,
         searchTerm: null,
     }),
@@ -61,6 +63,11 @@ export default {
         searchResultCount() {
             return translatePlural('search.result', this.totalItems)
                 .replace('{count}', this.totalItems)
+        },
+        pageCounter() {
+            return translate('page.counter')
+                .replace('{page}', this.pageNum)
+                .replace('{maxPages}', this.totalPages)
         },
     },
     methods: {
@@ -91,7 +98,7 @@ export default {
             this.totalItems = response.data['hydra:totalItems']
             this.pagination = response.data['hydra:view']
             // TODO ugly maxpages...
-            this.totalPages = this.pagination['hydra:last'] ? this.pagination['hydra:last'].replace(/^\D+/g, '') : 0
+            this.totalPages = this.pagination['hydra:last'] ? this.pagination['hydra:last'] : 0
         },
     },
 }

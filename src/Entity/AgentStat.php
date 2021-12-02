@@ -4,330 +4,148 @@ namespace App\Entity;
 
 use ArrayAccess;
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use App\Repository\AgentStatRepository;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\AgentStatRepository")
- */
+#[Entity(repositoryClass: AgentStatRepository::class)]
 class AgentStat implements ArrayAccess
 {
-    public const API_GET_CONTEXT
-        = [
-            'security' => ['name' => 'api_key'],
-
-        ];
-    public const API_POST_CSV_CONTEXT
-        = [
-            'summary'     => 'Create a AgentStat resource from CSV (actually TSV...)',
-            'description' => '# Thanks Niantic for producing a CSV file with TABS :('
-                ."\n"
-                .'## hahaha'
-                ."\n"
-                .'![A great rabbit](https://rabbit.org/graphics/fun/netbunnies/jellybean1-brennan1.jpg)',
-            'security'    => ['name' => 'api_key'],
-            'responses'   => [
-                '201' => [
-                    'description' => 'Stats upload successful.',
-                    'content'     => [
-                        'application/json' => [
-                            'schema'  =>
-                                [
-                                    'type'        => 'object',
-                                    'description' => 'Stats import result',
-                                    'properties'  => [
-                                        'result' => [
-                                            'type'       => 'object',
-                                            'properties' => [
-                                                'currents'   => [
-                                                    'type'        => 'object',
-                                                    'description' => 'Only on first import. Shows all medals and their levels.',
-                                                    'items'       => [],
-                                                ],
-                                                'diff'       => [
-                                                    'type'        => 'array',
-                                                    'description' => 'Diff to previous import',
-                                                    'items'       => [],
-
-                                                ],
-                                                'medalUps'   => [
-                                                    'type'        => 'array',
-                                                    'description' => 'Medals gained',
-                                                    'items'       => [],
-
-                                                ],
-                                                'newLevel'   => [
-                                                    'type'        => 'integer',
-                                                    'description' => 'New level reached.',
-                                                ],
-                                                'recursions' => [
-                                                    'type'        => 'integer',
-                                                    'description' => 'Number of recursions.',
-                                                ],
-                                                'messages'   => [
-                                                    'description' => 'Messages that have been sent during import.',
-                                                    'type'        => 'array',
-                                                    'items'       => [],
-
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            'example' => <<<JSON
-{
-  "result": {
-    "currents":{},
-    "diff":[],
-    "medalUps":[],
-    "newLevel":0,
-    "recursions":0,
-    "messages":[]
-  }
-}
-JSON,
-                        ],
-                    ],
-                ],
-                '409' => ['description' => 'Invalid CSV.'],
-                '422' => ['description' => 'Stats already added.'],
-                '428' => ['description' => 'Stats not ALL.'],
-                '500' => ['description' => 'Server error.'],
-                '503' => ['description' => 'Telegram bot failed.'],
-            ],
-        ];
-
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $datetime = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Agent")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ManyToOne(targetEntity: Agent::class)]
+    #[JoinColumn(nullable: false)]
     private ?Agent $agent = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[Column(type: Types::INTEGER)]
     private ?int $ap = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $explorer = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $recon = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $seer = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $trekker = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $builder = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $connector = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $mindController = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $illuminator = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $recharger = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $liberator = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $pioneer = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $engineer = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $purifier = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $specops = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $hacker = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $translator = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $sojourner = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $recruiter = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $missionday = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $nl1331Meetups = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $ifs = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $currentChallenge = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $level = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $scout = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $scoutController = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $longestLink = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $largestField = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $recursions = null;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $faction = '';
 
-    /**
-     * @ORM\Column(type="string", length=150, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 150, nullable: true)]
     private ?string $nickname = '';
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $droneFlightDistance = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $maverick = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $dronePortalsVisited = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $droneForcedRecalls = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $kineticCapsulesCompleted = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $monthsSubscribed = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $epoch = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $portalsDiscovered = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $dronesReturned = null;
-
-    public ?string $csv = '';
-
-    /**
-     * The raw CSV data (for API import)
-     *
-     * @Groups({"stats:write"})
-     */
-    public function setCsv(string $csv): self
-    {
-        $this->csv = $csv;
-
-        return $this;
-    }
 
     public function getId(): ?int
     {
@@ -627,7 +445,7 @@ JSON,
         $props = [];
 
         foreach ($this as $index => $value) {
-            if (false === in_array($index, ['id', 'datetime', 'agent'])) {
+            if (false === in_array($index, ['id', Types::DATETIME_MUTABLE, 'agent'])) {
                 $props[] = $index;
             }
         }
@@ -727,7 +545,7 @@ JSON,
                         $index,
                         [
                             'id',
-                            'datetime',
+                            Types::DATETIME_MUTABLE,
                             'agent',
                             'faction',
                             'nickname',

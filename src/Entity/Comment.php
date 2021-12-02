@@ -3,40 +3,34 @@
 namespace App\Entity;
 
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\CommentRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
- */
+#[Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[Column(type: Types::TEXT)]
     private ?string $text = '';
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Agent", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ManyToOne(targetEntity: Agent::class, inversedBy: 'comments')]
+    #[JoinColumn(nullable: false)]
     private ?Agent $agent = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $datetime = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(nullable: false)]
     private ?User $commenter = null;
 
     public function getId(): ?int

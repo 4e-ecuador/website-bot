@@ -4,112 +4,68 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Stringable;
-use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\AgentRepository;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
- */
+#[Entity(repositoryClass: AgentRepository::class)]
 class Agent implements Stringable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @Groups({"agent:read", "admin:read"})
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups({"agent:read", "admin:read"})
-     */
+    #[Column(type: Types::STRING, length: 255)]
     protected ?string $nickname = '';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $realName = '';
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
     private ?float $lat = 0;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
     private ?float $lon = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Faction")
-     * @ORM\JoinColumn(nullable=false)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[ManyToOne(targetEntity: Faction::class)]
+    #[JoinColumn(nullable: false)]
     private ?Faction $faction = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="agent")
-     */
+    #[OneToMany(mappedBy: 'agent', targetEntity: Comment::class)]
     private Collection $comments;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: Types::TEXT, nullable: true)]
     private ?string $custom_medals = '';
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\MapGroup", inversedBy="agents")
-     */
+    #[ManyToOne(targetEntity: MapGroup::class, inversedBy: 'agents')]
     private ?MapGroup $map_group = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $telegram_name = '';
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $telegram_id;
 
-    /**
-     * @ORM\Column(type="string", length=48, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 48, nullable: true)]
     private ?string $telegram_connection_secret;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $hasNotifyUploadStats;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $hasNotifyEvents;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $hasNotifyStatsResult;
 
-    /**
-     * @ORM\Column(type="string", length=2, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 2, nullable: true)]
     private ?string $locale = '';
 
     public function __construct()

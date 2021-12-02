@@ -2,26 +2,21 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\FactionRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\FactionRepository")
- */
+#[Entity(repositoryClass: FactionRepository::class)]
 class Faction
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups({"agent:read"})
-     */
+    #[Column(type: Types::STRING, length: 255)]
     private ?string $name;
 
     public function getId(): ?int

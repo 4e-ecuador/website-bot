@@ -3,38 +3,30 @@
 namespace App\Entity;
 
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\EventRepository;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
- */
+#[Entity(repositoryClass: EventRepository::class)]
 class Event
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $date_start = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $date_end = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $event_type = null;
 
     public function getId(): ?int

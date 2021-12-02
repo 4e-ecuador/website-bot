@@ -4,31 +4,25 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use App\Repository\MapGroupRepository;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\MapGroupRepository")
- */
+#[Entity(repositoryClass: MapGroupRepository::class)]
 class MapGroup
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups({"read"})
-     */
+    #[Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Agent", mappedBy="map_group")
-     */
+    #[OneToMany(mappedBy: 'map_group', targetEntity: Agent::class)]
     private Collection $agents;
 
     public function __construct()

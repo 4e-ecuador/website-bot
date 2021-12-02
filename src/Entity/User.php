@@ -2,61 +2,57 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Table;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="agent_user")
- */
+#[Entity(repositoryClass: UserRepository::class)]
+#[Table(name: 'agent_user')]
+#[UniqueEntity(fields: 'identifier', message: 'This identifier is already in use')]
 class User implements UserInterface, \Stringable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[Id, GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[Column(type: Types::JSON)]
     private array $roles = [];
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $email = '';
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Agent", cascade={"persist", "remove"})
-     */
+    #[OneToOne(targetEntity: Agent::class, cascade: [
+        'persist',
+        'remove',
+    ])]
     private ?Agent $agent = null;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $googleId = '';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $fireBaseToken = '';
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[Column(type: Types::STRING, nullable: true)]
     private ?string $apiToken = '';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $avatar = '';
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[Column(type: Types::TEXT, nullable: true)]
     private ?string $avatarEncoded = '';
+
+    public function __toString(): string
+    {
+        return (string)$this->email;
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +65,7 @@ class User implements UserInterface, \Stringable
     public function getRoles(): array
     {
         $roles = $this->roles;
+
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
@@ -130,11 +127,6 @@ class User implements UserInterface, \Stringable
             );
         }
 
-        return (string)$this->email;
-    }
-
-    public function __toString(): string
-    {
         return (string)$this->email;
     }
 

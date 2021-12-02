@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -91,9 +90,10 @@ class User implements UserInterface, \Stringable
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**
@@ -105,8 +105,9 @@ class User implements UserInterface, \Stringable
         // $this->plainPassword = null;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
+        return null;
     }
 
     public function getUsername(): string

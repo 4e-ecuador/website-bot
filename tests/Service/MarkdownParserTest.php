@@ -13,11 +13,11 @@ class MarkdownParserTest extends KernelTestCase
     public function setUp(): void
     {
         self::bootKernel();
-        $em = self::$container->get('doctrine.orm.entity_manager');
+        $em = self::getContainer()->get('doctrine.orm.entity_manager');
 
         $this->markdownParser = new MarkdownParser(
             $em->getRepository(Agent::class),
-            self::$container->get('router')->getGenerator()
+            self::getContainer()->get('router')->getGenerator()
         );
     }
 

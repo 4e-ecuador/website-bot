@@ -18,7 +18,7 @@ class CsvParserTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $medalChecker = new MedalChecker(
-            self::$container->get('translator'), $kernel->getProjectDir()
+            self::getContainer()->get('translator'), $kernel->getProjectDir()
         );
 
         $this->csvParser = new CsvParser($medalChecker);

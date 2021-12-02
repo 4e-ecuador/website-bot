@@ -20,7 +20,7 @@ class EventHelperSpanTest extends KernelTestCase
     public function setUp(): void
     {
         self::bootKernel();
-        $em = self::$container->get('doctrine.orm.entity_manager');
+        $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $tz = new \DateTimeZone('UTC');
 
         $event = (new Event())

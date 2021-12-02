@@ -16,7 +16,7 @@ class MedalCheckerTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $this->medalChecker = new MedalChecker(
-            self::$container->get('translator'),  $kernel->getProjectDir()
+            self::getContainer()->get('translator'),  $kernel->getProjectDir()
         );
     }
 
@@ -41,7 +41,7 @@ class MedalCheckerTest extends KernelTestCase
         ];
         foreach ($levels as $i => $level) {
             $result = $this->medalChecker->getLevelName($i);
-            self::assertSame($levels[$i], $result);
+            self::assertSame($level, $result);
         }
     }
 

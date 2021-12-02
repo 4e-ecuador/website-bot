@@ -15,7 +15,7 @@ class IntlDateHelperTest extends KernelTestCase
         self::bootKernel();
 
         $this->intlDateHelper = new IntlDateHelper(
-            'UTC', self::$container->get('translator')
+            'UTC', self::getContainer()->get('translator')
         );
     }
 

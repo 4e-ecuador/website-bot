@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/help')]
-class HelpController extends AbstractController
+class HelpController extends BaseController
 {
     /**
      * @IsGranted("ROLE_AGENT")

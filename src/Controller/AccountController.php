@@ -7,7 +7,6 @@ use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
 use JsonException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,16 +15,16 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
-class AccountController extends AbstractController
+class AccountController extends BaseController
 {
     /**
      * @IsGranted("ROLE_USER")
      * @throws JsonException
      */
     #[Route(path: '/account', name: 'app_account')]
-    public function account(Request $request, Security $security, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
+    public function account(Request $request, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
     {
-        $user = $security->getUser();
+        $user = $this->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
@@ -36,7 +35,12 @@ class AccountController extends AbstractController
             );
         }
         $agentAccount = $request->request->get('agent_account');
-        $customMedals = json_decode($agent->getCustomMedals(), true);
+        $customMedals = json_decode(
+            $agent->getCustomMedals(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
         if ($agentAccount) {
             $customMedals = $request->request->get('customMedals');
 
@@ -80,9 +84,9 @@ class AccountController extends AbstractController
      * @IsGranted("ROLE_INTRO_AGENT")
      */
     #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect')]
-    public function telegramDisconnect(Security $security): RedirectResponse
+    public function telegramDisconnect(): RedirectResponse
     {
-        $agent = $security->getUser()->getAgent();
+        $agent = $this->getUser()->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
@@ -97,9 +101,9 @@ class AccountController extends AbstractController
      * @IsGranted("ROLE_INTRO_AGENT")
      */
     #[Route(path: '/account/tg-connect', name: 'tg_connect')]
-    public function telegramConnect(Security $security, TelegramBotHelper $telegramBotHelper): RedirectResponse
+    public function telegramConnect(TelegramBotHelper $telegramBotHelper): RedirectResponse
     {
-        $agent = $security->getUser()->getAgent();
+        $agent = $this->getUser()->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }

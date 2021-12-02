@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/event')]
-class EventController extends AbstractController
+class EventController extends BaseController
 {
     /**
      * @IsGranted("ROLE_AGENT")

@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use function count;
 
 #[Route(path: '/ingress/event')]
-class IngressEventController extends AbstractController
+class IngressEventController extends BaseController
 {
     use PaginatorTrait;
     /**

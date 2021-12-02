@@ -7,14 +7,13 @@ use App\Form\UserType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function count;
 
 #[Route(path: '/user')]
-class UserController extends AbstractController
+class UserController extends BaseController
 {
     use PaginatorTrait;
     /**

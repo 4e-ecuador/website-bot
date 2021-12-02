@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use UnexpectedValueException;
 
-class ImportController extends AbstractController
+class ImportController extends BaseController
 {
     /**
      * @IsGranted("ROLE_ADMIN")

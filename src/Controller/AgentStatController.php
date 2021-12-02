@@ -8,14 +8,13 @@ use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function count;
 
 #[Route(path: '/agent-stat')]
-class AgentStatController extends AbstractController
+class AgentStatController extends BaseController
 {
     use PaginatorTrait;
     /**

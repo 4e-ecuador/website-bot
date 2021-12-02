@@ -35,7 +35,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         );
     }
 
-    private function getToken(Request $request):string
+    private function getToken(Request $request): string
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
 
@@ -56,7 +56,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         return $token;
     }
 
-    private function getUser(Request $request):User
+    private function getUser(Request $request): User
     {
         $token = $this->getToken($request);
 
@@ -86,7 +86,8 @@ class TokenAuthenticator extends AbstractAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function start(): JsonResponse {
+    public function start(): JsonResponse
+    {
         $data = [
             'message' => 'Authentication Required',
         ];

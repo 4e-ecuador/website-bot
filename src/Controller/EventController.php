@@ -30,6 +30,7 @@ class EventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -46,6 +47,7 @@ class EventController extends BaseController
 
             return $this->redirectToRoute('event_index');
         }
+
         return $this->render(
             'event/new.html.twig',
             [
@@ -54,12 +56,16 @@ class EventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/{id}', name: 'event_show', methods: ['GET'])]
-    public function show(Event $event, AgentStatRepository $statRepository, EventHelper $eventHelper): Response
-    {
+    public function show(
+        Event $event,
+        AgentStatRepository $statRepository,
+        EventHelper $eventHelper
+    ): Response {
         $entries = $statRepository->findByDate(
             $event->getDateStart(),
             $event->getDateEnd()
@@ -73,15 +79,17 @@ class EventController extends BaseController
         } else {
             $status = 'current';
         }
+
         return $this->render(
             'event/show.html.twig',
             [
-                'event'  => $event,
+                'event' => $event,
                 'values' => $values,
                 'status' => $status,
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -95,6 +103,7 @@ class EventController extends BaseController
 
             return $this->redirectToRoute('event_index');
         }
+
         return $this->render(
             'event/edit.html.twig',
             [
@@ -103,6 +112,7 @@ class EventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -118,6 +128,7 @@ class EventController extends BaseController
             $entityManager->remove($event);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('event_index');
     }
 }

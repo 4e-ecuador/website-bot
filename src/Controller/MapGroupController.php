@@ -43,6 +43,7 @@ class MapGroupController extends BaseController
 
             return $this->redirectToRoute('map_group_index');
         }
+
         return $this->render(
             'map_group/new.html.twig',
             [
@@ -51,10 +52,14 @@ class MapGroupController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    #[Route(path: '/{id}/edit', name: 'map_group_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'map_group_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     public function edit(Request $request, MapGroup $mapGroup): Response
     {
         $form = $this->createForm(MapGroupType::class, $mapGroup);
@@ -64,6 +69,7 @@ class MapGroupController extends BaseController
 
             return $this->redirectToRoute('map_group_index');
         }
+
         return $this->render(
             'map_group/edit.html.twig',
             [
@@ -72,6 +78,7 @@ class MapGroupController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -87,6 +94,7 @@ class MapGroupController extends BaseController
             $entityManager->remove($mapGroup);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('map_group_index');
     }
 }

@@ -115,7 +115,6 @@ class UpdateBadgeDataCommand extends Command
 
         $progressBar->finish();
 
-
         if ($nothingHasChanged) {
             throw new NothingHasChangedException();
         }

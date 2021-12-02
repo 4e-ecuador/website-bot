@@ -88,7 +88,7 @@ class MedalChecker
                 'desc'   => 'Longest Hacking Streak',
                 'levels' => [15, 30, 60, 180, 360],
             ],
-            'epoch' => [
+            'epoch'                  => [
                 'desc'   => 'Complete Hacking Streak',
                 'levels' => [2, 4, 8, 30, 60],
             ],
@@ -128,7 +128,7 @@ class MedalChecker
                 'desc'   => 'Scan unique portals',
                 'levels' => [100, 500, 1000, 5000, 15000],
             ],
-            'maverick'       => [
+            'maverick'               => [
                 'desc'   => 'Drone hack portals',
                 'levels' => [250, 1000, 2000, 5000, 10000],
             ],
@@ -183,34 +183,34 @@ class MedalChecker
             'Longest Sojourner Streak'      => 'sojourner',
 
             // Sojourner 2.0
-            'Completed Hackstreaks' => 'epoch-hackstreaks',
+            'Completed Hackstreaks'         => 'epoch-hackstreaks',
 
             // Old
             'Agents Successfully Recruited' => 'recruiter',
             // New
-            'Agents Recruited' => 'recruiter',
+            'Agents Recruited'              => 'recruiter',
 
-            'Mission Day(s) Attended'       => 'missionday',
-            'NL-1331 Meetup(s) Attended'    => 'nl-1331-meetups',
-            'First Saturday Events'         => 'ifs',
+            'Mission Day(s) Attended'    => 'missionday',
+            'NL-1331 Meetup(s) Attended' => 'nl-1331-meetups',
+            'First Saturday Events'      => 'ifs',
 
             'Portal Scans Uploaded'              => 'scout',
 
             // Old
             'Scout Controller on Unique Portals' => 'scout-controller',
             // New
-            'Uniques Scout Controlled' => 'scout-controller',
+            'Uniques Scout Controlled'           => 'scout-controller',
 
-            'Drone Hacks'                    => 'maverick',
-            'Unique Portals Drone Visited'   => 'drone-portals-visited',
-            'Furthest Drone Distance'        => 'drone-flight-distance',
-            'Forced Drone Recalls'           => 'drone-forced-recalls',
-            'Drones Returned'                => 'drones-returned',
+            'Drone Hacks'                  => 'maverick',
+            'Unique Portals Drone Visited' => 'drone-portals-visited',
+            'Furthest Drone Distance'      => 'drone-flight-distance',
+            'Forced Drone Recalls'         => 'drone-forced-recalls',
+            'Drones Returned'              => 'drones-returned',
 
             'Level'      => 'level',
             'Recursions' => 'recursions',
 
-            'Kinetic Capsules Completed'                  => 'kinetic-capsules-completed',
+            'Kinetic Capsules Completed' => 'kinetic-capsules-completed',
 
             'Months Subscribed' => 'monthsSubscribed',
 
@@ -218,9 +218,9 @@ class MedalChecker
             'Didact Fields Created'                  => 'currentChallenge',
 
             // Event 4/2021
-            'Unique Event Portals Hacked' => '',
+            'Unique Event Portals Hacked'            => '',
             // Event 4/2021
-            'Matryoshka Links Created' => '',
+            'Matryoshka Links Created'               => '',
         ];
 
     private array $customMedals
@@ -251,7 +251,7 @@ class MedalChecker
                 ],
             'Annual'  =>
                 [
-                    'Resonance' => [],
+                    'Resonance'  => [],
                     'Resurgence' => [],
                     'Ouroboros'  => [],
                     'Sage'       => [],
@@ -476,6 +476,7 @@ class MedalChecker
         if ('scoutController' === $medal) {
             $medal = 'scout-controller';
         }
+
         return
             array_key_exists($medal, $this->medalLevels)
             && array_key_exists(

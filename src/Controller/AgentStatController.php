@@ -17,12 +17,16 @@ use function count;
 class AgentStatController extends BaseController
 {
     use PaginatorTrait;
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/', name: 'agent_stat_index', methods: ['GET', 'POST'])]
-    public function index(AgentStatRepository $agentStatRepository, AgentRepository $agentRepository, Request $request): Response
-    {
+    public function index(
+        AgentStatRepository $agentStatRepository,
+        AgentRepository $agentRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
         $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
@@ -33,15 +37,17 @@ class AgentStatController extends BaseController
         foreach ($agentRepository->findAllAlphabetical() as $item) {
             $agents[$item->getId()] = $item->getNickname();
         }
+
         return $this->render(
             'agent_stat/index.html.twig',
             [
-                'agent_stats'      => $stats,
+                'agent_stats' => $stats,
                 'paginatorOptions' => $paginatorOptions,
-                'agents'           => $agents,
+                'agents' => $agents,
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -58,6 +64,7 @@ class AgentStatController extends BaseController
 
             return $this->redirectToRoute('agent_stat_index');
         }
+
         return $this->render(
             'agent_stat/new.html.twig',
             [
@@ -66,6 +73,7 @@ class AgentStatController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
@@ -79,10 +87,14 @@ class AgentStatController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    #[Route(path: '/{id}/edit', name: 'agent_stat_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'agent_stat_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     public function edit(Request $request, AgentStat $agentStat): Response
     {
         $form = $this->createForm(AgentStatType::class, $agentStat);
@@ -92,6 +104,7 @@ class AgentStatController extends BaseController
 
             return $this->redirectToRoute('agent_stat_index');
         }
+
         return $this->render(
             'agent_stat/edit.html.twig',
             [
@@ -100,6 +113,7 @@ class AgentStatController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -115,6 +129,7 @@ class AgentStatController extends BaseController
             $entityManager->remove($agentStat);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('agent_stat_index');
     }
 }

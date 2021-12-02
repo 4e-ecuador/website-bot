@@ -22,7 +22,7 @@ class AvatarHelper
 
         $image = imagecreatefromstring($returnValue);
 
-        $imgResized = imagescale($image , 100, 100);
+        $imgResized = imagescale($image, 100, 100);
 
         ob_start();
         imagejpeg($imgResized);

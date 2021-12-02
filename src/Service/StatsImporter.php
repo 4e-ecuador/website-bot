@@ -19,8 +19,14 @@ use UnexpectedValueException;
 
 class StatsImporter
 {
-    public function __construct(private CsvParser $csvParser, private TelegramAdminMessageHelper $telegramAdminMessageHelper, private TelegramMessageHelper $telegramMessageHelper, private MedalChecker $medalChecker, private AgentStatRepository $agentStatRepository, private TranslatorInterface $translator)
-    {
+    public function __construct(
+        private CsvParser $csvParser,
+        private TelegramAdminMessageHelper $telegramAdminMessageHelper,
+        private TelegramMessageHelper $telegramMessageHelper,
+        private MedalChecker $medalChecker,
+        private AgentStatRepository $agentStatRepository,
+        private TranslatorInterface $translator
+    ) {
     }
 
     /**

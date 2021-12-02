@@ -7,8 +7,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Templater
 {
-    public function __construct(private string $rootDir, private Filesystem $filesystem)
-    {
+    public function __construct(
+        private string $rootDir,
+        private Filesystem $filesystem
+    ) {
     }
 
     public function getTemplate(string $templateName)

@@ -28,6 +28,7 @@ class HelpController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -45,6 +46,7 @@ class HelpController extends BaseController
 
             return $this->redirectToRoute('help_index');
         }
+
         return $this->render(
             'help/new.html.twig',
             [
@@ -53,6 +55,7 @@ class HelpController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
@@ -66,18 +69,23 @@ class HelpController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/page/{slug}', name: 'help_show2', methods: ['GET'])]
-    public function show2(string $slug, HelpRepository $helpRepository): Response
-    {
+    public function show2(
+        string $slug,
+        HelpRepository $helpRepository
+    ): Response {
         $help = $helpRepository->findOneBy(['slug' => $slug]);
         if (!$help) {
             throw $this->createNotFoundException();
         }
+
         return $this->render('help/show.html.twig', ['help' => $help,]);
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -93,6 +101,7 @@ class HelpController extends BaseController
 
             return $this->redirectToRoute('help_index');
         }
+
         return $this->render(
             'help/edit.html.twig',
             [
@@ -101,6 +110,7 @@ class HelpController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -116,6 +126,7 @@ class HelpController extends BaseController
             $entityManager->remove($help);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('help_index');
     }
 }

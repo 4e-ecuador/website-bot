@@ -24,6 +24,7 @@ use function count;
 class AgentController extends BaseController
 {
     use PaginatorTrait;
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
@@ -33,12 +34,16 @@ class AgentController extends BaseController
         // This is s Vue View ;)
         return $this->render('agent/index.html.twig');
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/old', name: 'agent_index_old', methods: ['GET', 'POST'])]
-    public function indexOLD(AgentRepository $agentRepository, FactionRepository $factionRepository, Request $request): Response
-    {
+    public function indexOLD(
+        AgentRepository $agentRepository,
+        FactionRepository $factionRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
@@ -49,6 +54,7 @@ class AgentController extends BaseController
         foreach ($factions as $faction) {
             $factionList[$faction->getId()] = $faction->getName();
         }
+
         return $this->render(
             'agent/index_old.html.twig',
             [
@@ -58,6 +64,7 @@ class AgentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      * @throws Exception
@@ -80,6 +87,7 @@ class AgentController extends BaseController
 
             return $this->redirectToRoute('agent_index');
         }
+
         return $this->render(
             'agent/new.html.twig',
             [
@@ -88,6 +96,7 @@ class AgentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      * @throws NonUniqueResultException
@@ -103,6 +112,7 @@ class AgentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -121,6 +131,7 @@ class AgentController extends BaseController
                 ]
             );
         }
+
         return $this->render(
             'agent/edit.html.twig',
             [
@@ -145,6 +156,7 @@ class AgentController extends BaseController
             $entityManager->remove($agent);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('agent_index');
     }
 
@@ -152,8 +164,12 @@ class AgentController extends BaseController
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/{id}/add_comment', name: 'agent_add_comment', methods: ['POST'])]
-    public function addComment(Request $request, Agent $agent, UserRepository $userRepository, MailerHelper $mailerHelper): JsonResponse
-    {
+    public function addComment(
+        Request $request,
+        Agent $agent,
+        UserRepository $userRepository,
+        MailerHelper $mailerHelper
+    ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
             $request->request->get('_token')
@@ -192,6 +208,7 @@ class AgentController extends BaseController
 
             return $this->json($response);
         }
+
         return $this->json(['error' => 'error']);
     }
 
@@ -199,8 +216,10 @@ class AgentController extends BaseController
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/lookup', name: 'agent_lookup', methods: ['POST'])]
-    public function lookup(AgentRepository $agentRepository, Request $request): JsonResponse
-    {
+    public function lookup(
+        AgentRepository $agentRepository,
+        Request $request
+    ): JsonResponse {
         $query = $request->query->get('query');
         $list = [];
         $results = $agentRepository->searchByAgentName($query);
@@ -210,19 +229,22 @@ class AgentController extends BaseController
                 'faction' => $result->getFaction()->getName(),
             ];
         }
+
         return $this->json($list);
     }
 
     #[Route(path: '/jsonlist', name: 'json_lookup_agents', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function agentsListJson(AgentRepository $agentRepository, Request $request): JsonResponse
-    {
+    public function agentsListJson(
+        AgentRepository $agentRepository,
+        Request $request
+    ): JsonResponse {
         $page = $request->query->get('page', 1);
         $paginatorOptions = [
-            'page' => $page,
+            'page'     => $page,
             'criteria' => [
-                'nickname' => $request->query->get('nickname', '')
-            ]
+                'nickname' => $request->query->get('nickname', ''),
+            ],
         ];
         $modRequest = clone $request;
         $modRequest->query->set('paginatorOptions', $paginatorOptions);
@@ -237,9 +259,9 @@ class AgentController extends BaseController
 
         foreach ($agents as $agent) {
             $list[] = [
-                'id'    => $agent->getId(),
-                'nickname'    => $agent->getNickname(),
-                'realName'    => $agent->getRealName(),
+                'id'       => $agent->getId(),
+                'nickname' => $agent->getNickname(),
+                'realName' => $agent->getRealName(),
             ];
         }
 
@@ -249,7 +271,8 @@ class AgentController extends BaseController
 
         $view = new \stdClass();
         $view->{'hydra:previous'} = ($page > 1) ? 'X' : null;
-        $view->{'hydra:next'} = ($page < $paginatorOptions->getMaxPages()) ? 'X' : null;
+        $view->{'hydra:next'} = ($page < $paginatorOptions->getMaxPages()) ? 'X'
+            : null;
         $view->{'hydra:last'} = $paginatorOptions->getMaxPages();
 
         $response->{'hydra:view'} = $view;

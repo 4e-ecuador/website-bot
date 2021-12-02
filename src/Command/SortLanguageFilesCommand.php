@@ -15,8 +15,11 @@ use Symfony\Component\Yaml\Yaml;
 )]
 class SortLanguageFilesCommand extends Command
 {
-    public function __construct(private string $rootDir, private string $locale, private array $locales)
-    {
+    public function __construct(
+        private string $rootDir,
+        private string $locale,
+        private array $locales
+    ) {
         parent::__construct();
     }
 

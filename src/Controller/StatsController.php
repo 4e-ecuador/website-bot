@@ -34,8 +34,12 @@ class StatsController extends BaseController
      * @throws NonUniqueResultException
      */
     #[Route(path: '/agent/{id}', name: 'agent_stats')]
-    public function agentStats(Agent $agent, AgentStatRepository $statRepository, UserRepository $userRepository, MedalChecker $medalChecker): Response
-    {
+    public function agentStats(
+        Agent $agent,
+        AgentStatRepository $statRepository,
+        UserRepository $userRepository,
+        MedalChecker $medalChecker
+    ): Response {
         $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
         if ($latest) {
@@ -55,6 +59,7 @@ class StatsController extends BaseController
         } catch (JsonException) {
             $customMedals = '';
         }
+
         return $this->render(
             'stats/agent-stats.html.twig',
             [
@@ -70,13 +75,18 @@ class StatsController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
     #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data')]
-    public function agentStatsJson(Agent $agent, string $startDate, string $endDate, AgentStatRepository $statRepository): JsonResponse
-    {
+    public function agentStatsJson(
+        Agent $agent,
+        string $startDate,
+        string $endDate,
+        AgentStatRepository $statRepository
+    ): JsonResponse {
         $data = new stdClass();
         $data->ap = [];
         $data->hacker = [];
@@ -95,14 +105,18 @@ class StatsController extends BaseController
                 $data->hacker[] = [$date, $entry->getHacker()];
             }
         }
+
         return new JsonResponse($data);
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/leaderboard', name: 'stats_leaderboard')]
-    public function leaderBoard(UserRepository $userRepository, LeaderBoardService $leaderBoardService): Response
-    {
+    public function leaderBoard(
+        UserRepository $userRepository,
+        LeaderBoardService $leaderBoardService
+    ): Response {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
@@ -114,18 +128,24 @@ class StatsController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail')]
-    public function leaderBoardDetail(AgentStatRepository $statRepository, UserRepository $userRepository, LeaderBoardService $leaderBoardService, Request $request): Response
-    {
+    public function leaderBoardDetail(
+        AgentStatRepository $statRepository,
+        UserRepository $userRepository,
+        LeaderBoardService $leaderBoardService,
+        Request $request
+    ): Response {
         $item = $request->request->get('item', 'ap');
         $entries = $this->getBoardEntries(
             $userRepository,
             $leaderBoardService,
             $item
         );
+
         return $this->render(
             'stats/_stat_entry.html.twig',
             [
@@ -137,6 +157,7 @@ class StatsController extends BaseController
             ]
         );
     }
+
     private function getBoardEntries(
         UserRepository $userRepository,
         LeaderBoardService $leaderBoardService,
@@ -146,13 +167,17 @@ class StatsController extends BaseController
 
         return $leaderBoardService->getBoard($users, $typeOnly);
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      * @throws Exception
      */
     #[Route(path: '/by-date', name: 'stats_by_date')]
-    public function byDate(Request $request, AgentStatRepository $statRepository, MedalChecker $medalChecker): Response
-    {
+    public function byDate(
+        Request $request,
+        AgentStatRepository $statRepository,
+        MedalChecker $medalChecker
+    ): Response {
         $startDate = $request->get('start_date');
         $endDate = $request->get('end_date');
         $stats = [];
@@ -216,6 +241,7 @@ class StatsController extends BaseController
             );
             $medalsGained1[$name] = $a;
         }
+
         return $this->render(
             'stats/by_date.html.twig',
             [
@@ -227,13 +253,22 @@ class StatsController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
-    #[Route(path: '/stat-import', name: 'stat_import', methods: ['POST', 'GET'])]
-    public function statImport(Request $request, Security $security, TranslatorInterface $translator, StatsImporter $statsImporter, string $appEnv): Response
-    {
+    #[Route(path: '/stat-import', name: 'stat_import', methods: [
+        'POST',
+        'GET',
+    ])]
+    public function statImport(
+        Request $request,
+        Security $security,
+        TranslatorInterface $translator,
+        StatsImporter $statsImporter,
+        string $appEnv
+    ): Response {
         /* @type User $user */
         $user = $security->getUser();
         if (!$user) {
@@ -273,7 +308,12 @@ class StatsController extends BaseController
                     $statsImporter
                         ->sendResultMessages($result, $statEntry, $user);
                 } catch (\Exception $exception) {
-                    $this->addFlash('warning', $translator->trans('Sorry but the message has not been sent :('));
+                    $this->addFlash(
+                        'warning',
+                        $translator->trans(
+                            'Sorry but the message has not been sent :('
+                        )
+                    );
                     if ('dev' === $appEnv) {
                         throw $exception;
                     }
@@ -306,6 +346,7 @@ class StatsController extends BaseController
                 $this->addFlash('danger', $exception->getMessage());
             }
         }
+
         return $this->render('import/agent_stats.html.twig');
     }
 }

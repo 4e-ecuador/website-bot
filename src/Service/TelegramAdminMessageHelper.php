@@ -14,8 +14,13 @@ use TelegramBot\Api\Types\Message;
 
 class TelegramAdminMessageHelper
 {
-    public function __construct(private TelegramBotHelper $telegramBotHelper, private string $announceAdminCc, private NewUserMessage $newUserMessage, private NicknameMismatchMessage $nicknameMismatchMessage, private SmurfAlertMessage $smurfAlertMessage)
-    {
+    public function __construct(
+        private TelegramBotHelper $telegramBotHelper,
+        private string $announceAdminCc,
+        private NewUserMessage $newUserMessage,
+        private NicknameMismatchMessage $nicknameMismatchMessage,
+        private SmurfAlertMessage $smurfAlertMessage
+    ) {
     }
 
     /**

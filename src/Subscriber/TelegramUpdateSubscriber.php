@@ -18,6 +18,7 @@ use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
     use LoggerAwareTrait;
+
     private bool $isAllowedChat = false;
 
     public function __construct(

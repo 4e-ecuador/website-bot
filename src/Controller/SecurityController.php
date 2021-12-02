@@ -12,8 +12,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, Request $request, UserInterface $user = null): Response
-    {
+    public function login(
+        AuthenticationUtils $authenticationUtils,
+        Request $request,
+        UserInterface $user = null
+    ): Response {
         $referer = $request->headers->get('referer');
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -23,6 +26,7 @@ class SecurityController extends AbstractController
             // User is already logged in
             return $this->redirectToRoute('default');
         }
+
         return $this->render(
             'security/login.html.twig',
             [

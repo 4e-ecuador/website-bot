@@ -28,6 +28,7 @@ class ChallengeController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -44,6 +45,7 @@ class ChallengeController extends BaseController
 
             return $this->redirectToRoute('challenge_index');
         }
+
         return $this->render(
             'challenge/new.html.twig',
             [
@@ -52,16 +54,21 @@ class ChallengeController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/{id}', name: 'challenge_show', methods: ['GET'])]
-    public function show(Challenge $challenge, AgentStatRepository $statRepository, ChallengeHelper $challengeHelper): Response
-    {
+    public function show(
+        Challenge $challenge,
+        AgentStatRepository $statRepository,
+        ChallengeHelper $challengeHelper
+    ): Response {
         $entries = $statRepository->findByDate(
             $challenge->getDateStart(),
             $challenge->getDateEnd()
         );
+
         return $this->render(
             'challenge/show.html.twig',
             [
@@ -70,10 +77,14 @@ class ChallengeController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    #[Route(path: '/{id}/edit', name: 'challenge_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'challenge_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     public function edit(Request $request, Challenge $challenge): Response
     {
         $form = $this->createForm(ChallengeType::class, $challenge);
@@ -83,6 +94,7 @@ class ChallengeController extends BaseController
 
             return $this->redirectToRoute('challenge_index');
         }
+
         return $this->render(
             'challenge/edit.html.twig',
             [
@@ -91,6 +103,7 @@ class ChallengeController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -106,6 +119,7 @@ class ChallengeController extends BaseController
             $entityManager->remove($challenge);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('challenge_index');
     }
 }

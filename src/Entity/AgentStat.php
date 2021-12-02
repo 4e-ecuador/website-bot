@@ -12,10 +12,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class AgentStat implements ArrayAccess
 {
-    public const API_GET_CONTEXT =[
-        'security'=> ['name' => 'api_key'],
+    public const API_GET_CONTEXT
+        = [
+            'security' => ['name' => 'api_key'],
 
-    ];
+        ];
     public const API_POST_CSV_CONTEXT
         = [
             'summary'     => 'Create a AgentStat resource from CSV (actually TSV...)',
@@ -24,7 +25,7 @@ class AgentStat implements ArrayAccess
                 .'## hahaha'
                 ."\n"
                 .'![A great rabbit](https://rabbit.org/graphics/fun/netbunnies/jellybean1-brennan1.jpg)',
-            'security'=> ['name' => 'api_key'],
+            'security'    => ['name' => 'api_key'],
             'responses'   => [
                 '201' => [
                     'description' => 'Stats upload successful.',
@@ -901,8 +902,8 @@ JSON,
         return $this->kineticCapsulesCompleted;
     }
 
-    public function setKineticCapsulesCompleted(?int $kineticCapsulesCompleted): self
-    {
+    public function setKineticCapsulesCompleted(?int $kineticCapsulesCompleted
+    ): self {
         $this->kineticCapsulesCompleted = $kineticCapsulesCompleted;
 
         return $this;

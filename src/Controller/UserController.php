@@ -16,6 +16,7 @@ use function count;
 class UserController extends BaseController
 {
     use PaginatorTrait;
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -25,12 +26,15 @@ class UserController extends BaseController
         // This is a Vue View ;)
         return $this->render('user/index.html.twig');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/old', name: 'user_index_old', methods: ['GET', 'POST'])]
-    public function indexOLD(UserRepository $userRepository, Request $request): Response
-    {
+    public function indexOLD(
+        UserRepository $userRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
         $users = $userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
@@ -41,6 +45,7 @@ class UserController extends BaseController
             'ROLE_USER'  => 'User',
             'ROLE_AGENT' => 'Agent',
         ];
+
         return $this->render(
             'user/index_old.html.twig',
             [
@@ -50,6 +55,7 @@ class UserController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -66,6 +72,7 @@ class UserController extends BaseController
 
             return $this->redirectToRoute('user_index');
         }
+
         return $this->render(
             'user/new.html.twig',
             [
@@ -74,6 +81,7 @@ class UserController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -82,6 +90,7 @@ class UserController extends BaseController
     {
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -104,6 +113,7 @@ class UserController extends BaseController
                 ]
             );
         }
+
         return $this->render(
             'user/edit.html.twig',
             [
@@ -112,6 +122,7 @@ class UserController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -127,6 +138,7 @@ class UserController extends BaseController
             $entityManager->remove($user);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('user_index');
     }
 }

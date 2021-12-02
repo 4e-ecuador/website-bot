@@ -25,14 +25,17 @@ class AppExtension extends AbstractExtension
 {
     public array $roleFilters
         = [
-            'ROLE_AGENT'       => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR'      => 'Editor',
-            'ROLE_ADMIN'       => 'Admin',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
-    public function __construct(private MedalChecker $medalChecker, private MarkdownHelper $markdownHelper, private IntlDateHelper $intlDateHelper)
-    {
+    public function __construct(
+        private MedalChecker $medalChecker,
+        private MarkdownHelper $markdownHelper,
+        private IntlDateHelper $intlDateHelper
+    ) {
     }
 
     /**
@@ -217,17 +220,13 @@ class AppExtension extends AbstractExtension
             case 'Event':
                 if ('AvenirShard' === $badge) {
                     $code = 'UniqueBadge_AvenirShardChallenge';
-                }
-                elseif ('Paragon' === $badge) {
+                } elseif ('Paragon' === $badge) {
                     $code = 'UniqueBadge_Paragon';
-                }
-                elseif ('KnightTessellation' === $badge) {
+                } elseif ('KnightTessellation' === $badge) {
                     $code = 'Badge_'.$badge.'_'.$value;
-                }
-                elseif ('KineticChallenge' === $badge) {
+                } elseif ('KineticChallenge' === $badge) {
                     $code = 'Badge_'.$badge.'_'.$value;
-                }
-                elseif ('CourierChallenge' === $badge) {
+                } elseif ('CourierChallenge' === $badge) {
                     $code = 'Badge_'.$badge.'_'.$value;
                 } else {
                     $code = 'EventBadge_'.$badge.'_'.$value;
@@ -257,6 +256,7 @@ class AppExtension extends AbstractExtension
     public function escapeBytecode($string)
     {
         $a = str_replace('%', "\\x", $string);
+
         // $a = str_replace("\\", "\\/\\\\\\", $string);
 
         return $a;

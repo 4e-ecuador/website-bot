@@ -38,8 +38,11 @@ class MapController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/map_json', name: 'map-json')]
-    public function mapJson(AgentRepository $agentRepository, MapGroupRepository $mapGroupRepository, Request $request): JsonResponse
-    {
+    public function mapJson(
+        AgentRepository $agentRepository,
+        MapGroupRepository $mapGroupRepository,
+        Request $request
+    ): JsonResponse {
         $mapGroup = $mapGroupRepository->findOneBy(
             ['name' => $request->get('group', '4E')]
         );
@@ -58,6 +61,7 @@ class MapController extends AbstractController
 
             $array[] = $a;
         }
+
         return $this->json($array);
     }
 
@@ -65,8 +69,11 @@ class MapController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/map/agent-info/{id}', name: 'agent-info')]
-    public function mapAgentInfo(Agent $agent, Packages $assetsManager, UserRepository $userRepository): Response
-    {
+    public function mapAgentInfo(
+        Agent $agent,
+        Packages $assetsManager,
+        UserRepository $userRepository
+    ): Response {
         $response = [];
         $statsLink = $imgPath = '';
         switch ($agent->getFaction()->getName()) {
@@ -112,6 +119,7 @@ class MapController extends AbstractController
             // $response[] = '';
             // $response[] = 'More ADMIN info... TBD';
         }
+
         return new Response(implode('<br>', $response));
     }
 }

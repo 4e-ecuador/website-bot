@@ -14,8 +14,9 @@ class TestLevelUpMessageCommand extends Command
 {
     protected static $defaultName = 'bot:test:levelUpMessage';
 
-    public function __construct(private TelegramMessageHelper $telegramMessageHelper)
-    {
+    public function __construct(
+        private TelegramMessageHelper $telegramMessageHelper
+    ) {
         parent::__construct();
     }
 

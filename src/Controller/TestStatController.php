@@ -26,6 +26,7 @@ class TestStatController extends BaseController
             ]
         );
     }
+
     #[Route(path: '/new', name: 'test_stat_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -39,6 +40,7 @@ class TestStatController extends BaseController
 
             return $this->redirectToRoute('test_stat_index');
         }
+
         return $this->render(
             'test_stat/new.html.twig',
             [
@@ -47,6 +49,7 @@ class TestStatController extends BaseController
             ]
         );
     }
+
     #[Route(path: '/{id}', name: 'test_stat_show', methods: ['GET'])]
     public function show(TestStat $testStat): Response
     {
@@ -57,7 +60,11 @@ class TestStatController extends BaseController
             ]
         );
     }
-    #[Route(path: '/{id}/edit', name: 'test_stat_edit', methods: ['GET', 'POST'])]
+
+    #[Route(path: '/{id}/edit', name: 'test_stat_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     public function edit(Request $request, TestStat $testStat): Response
     {
         $form = $this->createForm(TestStatType::class, $testStat);
@@ -67,6 +74,7 @@ class TestStatController extends BaseController
 
             return $this->redirectToRoute('test_stat_index');
         }
+
         return $this->render(
             'test_stat/edit.html.twig',
             [
@@ -75,6 +83,7 @@ class TestStatController extends BaseController
             ]
         );
     }
+
     #[Route(path: '/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
     public function delete(Request $request, TestStat $testStat): Response
     {
@@ -87,6 +96,7 @@ class TestStatController extends BaseController
             $entityManager->remove($testStat);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('test_stat_index');
     }
 }

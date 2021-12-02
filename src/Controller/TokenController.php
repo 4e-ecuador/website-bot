@@ -21,8 +21,11 @@ class TokenController extends AbstractController
      * obtained from a Google OAuth request.
      */
     #[Route(path: '/connect/google/api-token', name: 'connect_google_api_token', methods: ['GET'])]
-    public function getApiToken(Request $request, GoogleApiClient $client, UserRepository $userRepository): ?JsonResponse
-    {
+    public function getApiToken(
+        Request $request,
+        GoogleApiClient $client,
+        UserRepository $userRepository
+    ): ?JsonResponse {
         if ('https' !== $request->getScheme()) {
             // WTF!!!
             // return $this->json(['error' => 'Scheme not allowed - please use SSL!'.$request->getScheme()], 200);

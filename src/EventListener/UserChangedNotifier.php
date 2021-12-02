@@ -9,8 +9,11 @@ use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier
 {
-    public function __construct(private Security $security, private TelegramBotHelper $telegramBotHelper, private string $appEnv)
-    {
+    public function __construct(
+        private Security $security,
+        private TelegramBotHelper $telegramBotHelper,
+        private string $appEnv
+    ) {
     }
 
     public function postUpdate(User $user, LifecycleEventArgs $event): void

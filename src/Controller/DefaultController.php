@@ -25,8 +25,17 @@ class DefaultController extends AbstractController
      * @throws Exception
      */
     #[Route(path: '/', name: 'default')]
-    public function index(AgentRepository $agentRepository, CommentRepository $commentRepository, EventRepository $eventRepository, IngressEventRepository $ingressEventRepository, ChallengeRepository $challengeRepository, DateTimeHelper $dateTimeHelper, MarkdownHelper $markdownHelper, string $defaultTimeZone, CiteService $citeService): Response
-    {
+    public function index(
+        AgentRepository $agentRepository,
+        CommentRepository $commentRepository,
+        EventRepository $eventRepository,
+        IngressEventRepository $ingressEventRepository,
+        ChallengeRepository $challengeRepository,
+        DateTimeHelper $dateTimeHelper,
+        MarkdownHelper $markdownHelper,
+        string $defaultTimeZone,
+        CiteService $citeService
+    ): Response {
         $comments = [];
         $currentEvents = [];
         $pastEvents = [];
@@ -70,6 +79,7 @@ class DefaultController extends AbstractController
             $ingressMD = $ingressEventRepository->findFutureMD();
             $challenges = $challengeRepository->findCurrent();
         }
+
         return $this->render(
             'default/index.html.twig',
             [
@@ -93,8 +103,10 @@ class DefaultController extends AbstractController
      * @IsGranted("ROLE_AGENT")
      */
     #[Route(path: '/events', name: 'default_events')]
-    public function events(EventHelper $eventHelper, IngressEventRepository $ingressEventRepository): Response
-    {
+    public function events(
+        EventHelper $eventHelper,
+        IngressEventRepository $ingressEventRepository
+    ): Response {
         return $this->render(
             'default/events.html.twig',
             [

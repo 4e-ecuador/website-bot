@@ -15,7 +15,7 @@ class GoogleApiClient
     {
         $this->apiClient = new Google_Client(
             [
-                'client_id'     => $clientId,
+                'client_id' => $clientId,
                 'client_secret' => $clientSecret,
             ]
         );

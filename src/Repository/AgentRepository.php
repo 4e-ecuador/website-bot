@@ -151,7 +151,8 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @return Agent[]
      */
-    public function searchByIds(array $ids): array {
+    public function searchByIds(array $ids): array
+    {
         return $this->createQueryBuilder('a')
             ->andWhere('a.id IN (:val)')
             ->setParameter('val', $ids)

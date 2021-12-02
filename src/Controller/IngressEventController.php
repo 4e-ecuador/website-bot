@@ -28,17 +28,21 @@ use function count;
 class IngressEventController extends BaseController
 {
     use PaginatorTrait;
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/', name: 'ingress_event_index', methods: ['GET', 'POST'])]
-    public function index(IngressEventRepository $ingressEventRepository, Request $request): Response
-    {
+    public function index(
+        IngressEventRepository $ingressEventRepository,
+        Request $request
+    ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
         $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             ceil(count($events) / $paginatorOptions->getLimit())
         );
+
         return $this->render(
             'ingress_event/index.html.twig',
             [
@@ -47,6 +51,7 @@ class IngressEventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -66,6 +71,7 @@ class IngressEventController extends BaseController
 
             return $this->redirectToRoute('ingress_event_index');
         }
+
         return $this->render(
             'ingress_event/new.html.twig',
             [
@@ -74,6 +80,7 @@ class IngressEventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -87,10 +94,14 @@ class IngressEventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    #[Route(path: '/{id}/edit', name: 'ingress_event_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'ingress_event_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     public function edit(Request $request, IngressEvent $ingressEvent): Response
     {
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
@@ -100,6 +111,7 @@ class IngressEventController extends BaseController
 
             return $this->redirectToRoute('ingress_event_index');
         }
+
         return $this->render(
             'ingress_event/edit.html.twig',
             [
@@ -108,12 +120,15 @@ class IngressEventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/{id}', name: 'ingress_event_delete', methods: ['DELETE'])]
-    public function delete(Request $request, IngressEvent $ingressEvent): Response
-    {
+    public function delete(
+        Request $request,
+        IngressEvent $ingressEvent
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$ingressEvent->getId(),
             $request->request->get('_token')
@@ -123,14 +138,19 @@ class IngressEventController extends BaseController
             $entityManager->remove($ingressEvent);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('ingress_event_index');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/announce', name: 'ingress_event_announce', methods: ['GET'])]
-    public function announceTg(TelegramBotHelper $telegramBotHelper, AgentRepository $agentRepository, NotifyEventsMessage $notifyEventsMessage): RedirectResponse
-    {
+    public function announceTg(
+        TelegramBotHelper $telegramBotHelper,
+        AgentRepository $agentRepository,
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse {
         $message = $notifyEventsMessage
             ->setFirstAnnounce(true)
             ->getText();
@@ -166,14 +186,18 @@ class IngressEventController extends BaseController
                 sprintf('Announcements sent to %d agents!', $count)
             );
         }
+
         return $this->redirectToRoute('ingress_event_index');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/announce-fbm', name: 'ingress_event_announce_fbm', methods: ['GET'])]
-    public function announceFbm(FcmHelper $fbmHelper, NotifyEventsMessage $notifyEventsMessage): RedirectResponse
-    {
+    public function announceFbm(
+        FcmHelper $fbmHelper,
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse {
         try {
             $message = $notifyEventsMessage
                 ->setFirstAnnounce(true)
@@ -190,14 +214,19 @@ class IngressEventController extends BaseController
         } catch (Exception $exception) {
             $this->addFlash('danger', 'Error: '.$exception->getMessage());
         }
+
         return $this->redirectToRoute('ingress_event_index');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/announce-fbm-token', name: 'ingress_event_announce_fbm_token', methods: ['GET'])]
-    public function announceFbmToken(FcmHelper $fbmHelper, UserRepository $userRepository, NotifyEventsMessage $notifyEventsMessage): RedirectResponse
-    {
+    public function announceFbmToken(
+        FcmHelper $fbmHelper,
+        UserRepository $userRepository,
+        NotifyEventsMessage $notifyEventsMessage
+    ): RedirectResponse {
         try {
             $message = $notifyEventsMessage
                 ->setFirstAnnounce(true)
@@ -240,19 +269,22 @@ class IngressEventController extends BaseController
         } catch (Exception $exception) {
             $this->addFlash('danger', 'Error: '.$exception->getMessage());
         }
+
         return $this->redirectToRoute('ingress_event_index');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/overview', name: 'ingress_event_overview', methods: ['GET'])]
-    public function overview(IngressEventRepository $ingressEventRepository): Response
-    {
+    public function overview(IngressEventRepository $ingressEventRepository
+    ): Response {
         $events = $ingressEventRepository->findFutureFS();
         $eventIds = [];
         foreach ($events as $event) {
             $eventIds[] = $event->getId();
         }
+
         return $this->render(
             'ingress_event/overview.html.twig',
             [
@@ -261,6 +293,7 @@ class IngressEventController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -297,6 +330,7 @@ class IngressEventController extends BaseController
                 $i++;
             }
         );
+
         return $this->json($info);
     }
 }

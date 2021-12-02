@@ -7,8 +7,11 @@ use App\Entity\User;
 
 class BoardEntry
 {
-    public function __construct(private Agent $agent, private User $user, private float $value)
-    {
+    public function __construct(
+        private Agent $agent,
+        private User $user,
+        private float $value
+    ) {
     }
 
     public function getAgent(): Agent

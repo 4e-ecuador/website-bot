@@ -12,8 +12,10 @@ class FcmHelper
     public array $tokens = [];
     public string $type = '';
 
-    public function __construct(private string $fcmKey, private string $channelId)
-    {
+    public function __construct(
+        private string $fcmKey,
+        private string $channelId
+    ) {
     }
 
     public function sendMessage(

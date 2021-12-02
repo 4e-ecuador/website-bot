@@ -39,8 +39,8 @@ class NewMedalMessage extends AbstractCustomMessage
             $message[] = $this->translator->trans(
                 'new.medal.text.2',
                 [
-                    'medal'  => $medal,
-                    'level'  => $this->medalChecker
+                    'medal' => $medal,
+                    'level' => $this->medalChecker
                         ->translateMedalLevel($level),
                     'double' => '',
                 ]

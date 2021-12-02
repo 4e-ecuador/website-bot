@@ -40,7 +40,10 @@ class TestNotifyEventsMessageCommand extends Command
 
         $chatId = $this->telegramBotHelper->getGroupId('test');
 
-        $this->telegramMessageHelper->sendNotifyEventsMessage($chatId, $firstAnnounce);
+        $this->telegramMessageHelper->sendNotifyEventsMessage(
+            $chatId,
+            $firstAnnounce
+        );
 
         $io->success('Message has been sent!');
 

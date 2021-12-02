@@ -175,7 +175,9 @@ class TelegramBotHelper
         $text = 'hello test';
         $buttons = [];
 
-        $buttons[] = ['text' => 'Hello TEST', 'callback_data' => '/post_'.$prev];
+        $buttons[] = ['text'          => 'Hello TEST',
+                      'callback_data' => '/post_'.$prev,
+        ];
 
         return $this->api->sendMessage(
             $this->getGroupId($groupName),

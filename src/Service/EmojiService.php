@@ -63,13 +63,13 @@ final class EmojiService
                 'native'      => '📊',
             ],
             // 💡
-            'light-bulb' => [
+            'light-bulb'  => [
                 'description' => 'electric light bulb',
                 'unicode'     => 'U+1F4A1',
                 'bytecode'    => "\xF0\x9F\x92\xA1",
                 'native'      => '💡',
             ],
-            'silhouette' => [
+            'silhouette'  => [
                 'description' => 'bust in silhouette',
                 'unicode'     => 'U+1F464',
                 'bytecode'    => "\xF0\x9F\x91\xA4",

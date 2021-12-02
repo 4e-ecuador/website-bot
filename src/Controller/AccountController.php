@@ -22,8 +22,12 @@ class AccountController extends BaseController
      * @throws JsonException
      */
     #[Route(path: '/account', name: 'app_account')]
-    public function account(Request $request, TranslatorInterface $translator, MedalChecker $medalChecker, TelegramBotHelper $telegramBotHelper): Response
-    {
+    public function account(
+        Request $request,
+        TranslatorInterface $translator,
+        MedalChecker $medalChecker,
+        TelegramBotHelper $telegramBotHelper
+    ): Response {
         $user = $this->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');
@@ -62,6 +66,7 @@ class AccountController extends BaseController
 
             return $this->redirectToRoute('default');
         }
+
         return $this->render(
             'account/index.html.twig',
             [
@@ -94,6 +99,7 @@ class AccountController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $em->persist($agent);
         $em->flush();
+
         return $this->redirectToRoute('app_account');
     }
 
@@ -101,12 +107,13 @@ class AccountController extends BaseController
      * @IsGranted("ROLE_INTRO_AGENT")
      */
     #[Route(path: '/account/tg-connect', name: 'tg_connect')]
-    public function telegramConnect(TelegramBotHelper $telegramBotHelper): RedirectResponse
-    {
+    public function telegramConnect(TelegramBotHelper $telegramBotHelper
+    ): RedirectResponse {
         $agent = $this->getUser()->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
+
         return $this->redirect($telegramBotHelper->getConnectLink($agent));
     }
 }

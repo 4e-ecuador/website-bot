@@ -19,8 +19,11 @@ class ImportController extends BaseController
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/import', name: 'import')]
-    public function index(Request $request, FactionRepository $factionRepository, AgentRepository $agentRepository): RedirectResponse|\Symfony\Component\HttpFoundation\Response
-    {
+    public function index(
+        Request $request,
+        FactionRepository $factionRepository,
+        AgentRepository $agentRepository
+    ): RedirectResponse|\Symfony\Component\HttpFoundation\Response {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,6 +57,7 @@ class ImportController extends BaseController
 
             return $this->redirectToRoute('default');
         }
+
         return $this->render(
             'import/index.html.twig',
             [

@@ -29,6 +29,7 @@ class CommentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -45,6 +46,7 @@ class CommentController extends BaseController
 
             return $this->redirectToRoute('comment_index');
         }
+
         return $this->render(
             'comment/new.html.twig',
             [
@@ -53,12 +55,16 @@ class CommentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/fetch', name: 'comment_fetch', methods: ['GET', 'POST'])]
-    public function getSingle(Request $request, CommentRepository $commentRepository, MarkdownHelper $markdownHelper): JsonResponse
-    {
+    public function getSingle(
+        Request $request,
+        CommentRepository $commentRepository,
+        MarkdownHelper $markdownHelper
+    ): JsonResponse {
         $commentId = $request->request->get('comment_id');
         $comment = $commentRepository->findOneBy(['id' => $commentId]);
         if (!$comment) {
@@ -71,8 +77,10 @@ class CommentController extends BaseController
                 'comment' => $comment,
             ]
         );
+
         return $this->json(['comment' => $html]);
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -86,6 +94,7 @@ class CommentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -99,6 +108,7 @@ class CommentController extends BaseController
 
             return $this->redirectToRoute('comment_index');
         }
+
         return $this->render(
             'comment/edit.html.twig',
             [
@@ -107,6 +117,7 @@ class CommentController extends BaseController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
@@ -122,15 +133,20 @@ class CommentController extends BaseController
             $entityManager->remove($comment);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('comment_index');
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/deleteinline/{id}', name: 'comment_delete_inline', methods: ['DELETE'])]
-    public function deleteInline(Request $request, Comment $comment): JsonResponse
-    {
+    public function deleteInline(
+        Request $request,
+        Comment $comment
+    ): JsonResponse {
         $response = ['status' => 'ok'];
+
         return $this->json($response);
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
@@ -141,14 +157,19 @@ class CommentController extends BaseController
             $entityManager->remove($comment);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('comment_index');
     }
+
     /**
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/getagentids', name: 'comment_agent_ids')]
-    public function getAgentCommentIds(Request $request, AgentRepository $agentRepository, MarkdownHelper $markdownHelper): JsonResponse
-    {
+    public function getAgentCommentIds(
+        Request $request,
+        AgentRepository $agentRepository,
+        MarkdownHelper $markdownHelper
+    ): JsonResponse {
         $html = '';
         $agentId = $request->request->get('agent_id');
         $agent = $agentRepository->findOneBy(['id' => $agentId]);
@@ -162,6 +183,7 @@ class CommentController extends BaseController
                 ]
             );
         }
+
         return $this->json(['comments' => $html]);
     }
 }

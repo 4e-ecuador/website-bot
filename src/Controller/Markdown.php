@@ -18,9 +18,12 @@ class Markdown extends AbstractController
      * @IsGranted("ROLE_EDITOR")
      */
     #[Route(path: '/preview', name: 'markdown_preview')]
-    public function preview(Request $request, MarkdownHelper $markdownHelper): JsonResponse
-    {
+    public function preview(
+        Request $request,
+        MarkdownHelper $markdownHelper
+    ): JsonResponse {
         $text = $request->request->get('text');
+
         return $this->json(
             ['data' => $text ? $markdownHelper->parse($text) : ':(']
         );

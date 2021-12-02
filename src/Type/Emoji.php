@@ -4,8 +4,13 @@ namespace App\Type;
 
 class Emoji
 {
-    public function __construct(private string $name, private string $description, private string $unicode, private string $bytecode, private string $native = 'x')
-    {
+    public function __construct(
+        private string $name,
+        private string $description,
+        private string $unicode,
+        private string $bytecode,
+        private string $native = 'x'
+    ) {
     }
 
     public function getName(): string

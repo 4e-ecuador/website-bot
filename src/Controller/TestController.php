@@ -42,6 +42,7 @@ class TestController extends AbstractController
         );
         $output = new BufferedOutput();
         $application->run($input, $output);
+
         return $this->render(
             'test/index.html.twig',
             [
@@ -50,6 +51,7 @@ class TestController extends AbstractController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      *
@@ -57,8 +59,10 @@ class TestController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route(path: '/bot', name: 'test_bot')]
-    public function botTest(Request $request, TelegramBotHelper $telegramBotHelper): Response
-    {
+    public function botTest(
+        Request $request,
+        TelegramBotHelper $telegramBotHelper
+    ): Response {
         $testText = $request->get('testtext');
         if ($testText) {
             $groupId = $telegramBotHelper->getGroupId($request->get('group'));
@@ -67,6 +71,7 @@ class TestController extends AbstractController
 
             $this->addFlash('success', 'Message has been sent.');
         }
+
         return $this->render(
             'test/bottest.html.twig',
             [
@@ -74,17 +79,21 @@ class TestController extends AbstractController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      * @throws TransportExceptionInterface
      */
     #[Route(path: '/mail', name: 'test_mail')]
-    public function mailTest(Request $request, MailerHelper $mailerHelper): Response
-    {
+    public function mailTest(
+        Request $request,
+        MailerHelper $mailerHelper
+    ): Response {
         $testtext = $request->get('testtext');
         if ($testtext) {
             $mailerHelper->sendTestMail('elkuku.n7@gmail.com');
         }
+
         return $this->render(
             'test/mailtest.html.twig',
             [
@@ -92,6 +101,7 @@ class TestController extends AbstractController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      * @throws EmojiNotFoundException
@@ -106,6 +116,7 @@ class TestController extends AbstractController
             ]
         );
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
@@ -114,12 +125,15 @@ class TestController extends AbstractController
     {
         return $this->render('test/modify-stats.html.twig');
     }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      */
     #[Route(path: '/modify-stats/input', name: 'test_modify_stats_input')]
-    public function modifyStatsInput(Request $request, CsvParser $csvParser): Response
-    {
+    public function modifyStatsInput(
+        Request $request,
+        CsvParser $csvParser
+    ): Response {
         try {
             $csv = $request->query->get('q');
 
@@ -141,7 +155,9 @@ class TestController extends AbstractController
             $values = explode("\t", trim($lines[1]));
 
             if (count($keys) !== count($values)) {
-                throw new \UnexpectedValueException('Key/Value count mismatch!');
+                throw new \UnexpectedValueException(
+                    'Key/Value count mismatch!'
+                );
             }
 
             $data = [];
@@ -150,7 +166,7 @@ class TestController extends AbstractController
             }
 
             return $this->render(
-                'test/_modify-stats-fields.html.twig',[
+                'test/_modify-stats-fields.html.twig', [
                     'data' => $data,
                 ]
             );

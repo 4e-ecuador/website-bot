@@ -36,7 +36,7 @@ class UploadStatsReminder extends Command
         $count = 0;
 
         foreach ($agents as $agent) {
-            if ($agent->getHasNotifyUploadStats()&&$agent->getTelegramId()) {
+            if ($agent->getHasNotifyUploadStats() && $agent->getTelegramId()) {
                 try {
                     $this->telegramMessageHelper->sendNotifyUploadReminderMessage(
                         $agent->getTelegramId()

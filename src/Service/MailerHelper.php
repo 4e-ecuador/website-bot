@@ -12,8 +12,11 @@ use Symfony\Component\Mime\Email;
 
 class MailerHelper
 {
-    public function __construct(private string $email, private string $emailName, private MailerInterface $mailer)
-    {
+    public function __construct(
+        private string $email,
+        private string $emailName,
+        private MailerInterface $mailer
+    ) {
     }
 
     public function sendConfirmationMail(User $user, string $subject): string

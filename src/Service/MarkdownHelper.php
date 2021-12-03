@@ -3,13 +3,13 @@
 namespace App\Service;
 
 use Michelf\MarkdownInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class MarkdownHelper
 {
     public function __construct(
-        private AdapterInterface $cache,
+        private CacheItemPoolInterface $cache,
         private MarkdownInterface $markdown
     ) {
     }

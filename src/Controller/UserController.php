@@ -17,20 +17,16 @@ class UserController extends BaseController
 {
     use PaginatorTrait;
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/', name: 'user_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
         // This is a Vue View ;)
         return $this->render('user/index.html.twig');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/old', name: 'user_index_old', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function indexOLD(
         UserRepository $userRepository,
         Request $request
@@ -56,10 +52,8 @@ class UserController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'user_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $user = new User();
@@ -82,19 +76,15 @@ class UserController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'user_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -123,10 +113,8 @@ class UserController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'user_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid(

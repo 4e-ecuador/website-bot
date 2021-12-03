@@ -13,10 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/map/group')]
 class MapGroupController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/', name: 'map_group_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(MapGroupRepository $mapGroupRepository): Response
     {
         return $this->render(
@@ -27,10 +25,8 @@ class MapGroupController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'map_group_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $mapGroup = new MapGroup();
@@ -53,13 +49,11 @@ class MapGroupController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'map_group_edit', methods: [
         'GET',
         'POST',
     ])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, MapGroup $mapGroup): Response
     {
         $form = $this->createForm(MapGroupType::class, $mapGroup);
@@ -79,10 +73,8 @@ class MapGroupController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'map_group_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, MapGroup $mapGroup): Response
     {
         if ($this->isCsrfTokenValid(

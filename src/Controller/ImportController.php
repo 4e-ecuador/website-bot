@@ -14,10 +14,8 @@ use UnexpectedValueException;
 
 class ImportController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/import', name: 'import')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(
         Request $request,
         FactionRepository $factionRepository,

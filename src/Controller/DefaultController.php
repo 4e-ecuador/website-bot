@@ -13,7 +13,6 @@ use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use DateTime;
 use DateTimeZone;
-use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @throws Exception
-     */
     #[Route(path: '/', name: 'default')]
     public function index(
         AgentRepository $agentRepository,
@@ -99,10 +95,8 @@ class DefaultController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/events', name: 'default_events')]
+    #[IsGranted('ROLE_AGENT')]
     public function events(
         EventHelper $eventHelper,
         IngressEventRepository $ingressEventRepository

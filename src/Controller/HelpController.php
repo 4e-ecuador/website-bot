@@ -14,10 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/help')]
 class HelpController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/', name: 'help_index', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function index(HelpRepository $helpRepository): Response
     {
         return $this->render(
@@ -28,10 +26,8 @@ class HelpController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/new', name: 'help_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function new(Request $request): Response
     {
         $help = new Help();
@@ -55,10 +51,8 @@ class HelpController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/{id}', name: 'help_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show(Help $help): Response
     {
         return $this->render(
@@ -69,10 +63,8 @@ class HelpController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/page/{slug}', name: 'help_show2', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show2(
         string $slug,
         HelpRepository $helpRepository
@@ -85,10 +77,8 @@ class HelpController extends BaseController
         return $this->render('help/show.html.twig', ['help' => $help,]);
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}/edit', name: 'help_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function edit(Request $request, Help $help): Response
     {
         $form = $this->createForm(HelpType::class, $help);
@@ -110,10 +100,8 @@ class HelpController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}', name: 'help_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function delete(Request $request, Help $help): Response
     {
         if ($this->isCsrfTokenValid(

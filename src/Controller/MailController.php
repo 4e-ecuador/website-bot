@@ -13,10 +13,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/mailer')]
 class MailController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/send-confirmation-mail/{id}', name: 'user_send_confirmation_mail', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function sendConfirmationMail(
         User $user,
         MailerHelper $mailerHelper,

@@ -15,10 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/challenge')]
 class ChallengeController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/', name: 'challenge_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(ChallengeRepository $challengeRepository): Response
     {
         return $this->render(
@@ -29,10 +27,8 @@ class ChallengeController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'challenge_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $challenge = new Challenge();
@@ -55,10 +51,8 @@ class ChallengeController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/{id}', name: 'challenge_show', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show(
         Challenge $challenge,
         AgentStatRepository $statRepository,
@@ -78,13 +72,11 @@ class ChallengeController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'challenge_edit', methods: [
         'GET',
         'POST',
     ])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Challenge $challenge): Response
     {
         $form = $this->createForm(ChallengeType::class, $challenge);
@@ -104,10 +96,8 @@ class ChallengeController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'challenge_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Challenge $challenge): Response
     {
         if ($this->isCsrfTokenValid(

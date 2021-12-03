@@ -30,10 +30,10 @@ use UnexpectedValueException;
 class StatsController extends BaseController
 {
     /**
-     * @IsGranted("ROLE_AGENT")
      * @throws NonUniqueResultException
      */
     #[Route(path: '/agent/{id}', name: 'agent_stats')]
+    #[IsGranted('ROLE_AGENT')]
     public function agentStats(
         Agent $agent,
         AgentStatRepository $statRepository,
@@ -77,10 +77,10 @@ class StatsController extends BaseController
     }
 
     /**
-     * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
     #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data')]
+    #[IsGranted('ROLE_INTRO_AGENT')]
     public function agentStatsJson(
         Agent $agent,
         string $startDate,
@@ -109,10 +109,8 @@ class StatsController extends BaseController
         return new JsonResponse($data);
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/leaderboard', name: 'stats_leaderboard')]
+    #[IsGranted('ROLE_AGENT')]
     public function leaderBoard(
         UserRepository $userRepository,
         LeaderBoardService $leaderBoardService
@@ -129,10 +127,8 @@ class StatsController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail')]
+    #[IsGranted('ROLE_AGENT')]
     public function leaderBoardDetail(
         AgentStatRepository $statRepository,
         UserRepository $userRepository,
@@ -169,10 +165,10 @@ class StatsController extends BaseController
     }
 
     /**
-     * @IsGranted("ROLE_AGENT")
      * @throws Exception
      */
     #[Route(path: '/by-date', name: 'stats_by_date')]
+    #[IsGranted('ROLE_AGENT')]
     public function byDate(
         Request $request,
         AgentStatRepository $statRepository,
@@ -255,13 +251,13 @@ class StatsController extends BaseController
     }
 
     /**
-     * @IsGranted("ROLE_INTRO_AGENT")
      * @throws Exception
      */
     #[Route(path: '/stat-import', name: 'stat_import', methods: [
         'POST',
         'GET',
     ])]
+    #[IsGranted('ROLE_INTRO_AGENT')]
     public function statImport(
         Request $request,
         Security $security,

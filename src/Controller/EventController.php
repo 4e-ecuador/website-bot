@@ -16,10 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/event')]
 class EventController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/', name: 'event_index', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render(
@@ -30,10 +28,8 @@ class EventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $event = new Event();
@@ -56,10 +52,8 @@ class EventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/{id}', name: 'event_show', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show(
         Event $event,
         AgentStatRepository $statRepository,
@@ -89,10 +83,8 @@ class EventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Event $event): Response
     {
         $form = $this->createForm(EventType::class, $event);
@@ -112,10 +104,8 @@ class EventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'event_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Event $event): Response
     {
         if ($this->isCsrfTokenValid(

@@ -18,10 +18,8 @@ class AgentStatController extends BaseController
 {
     use PaginatorTrait;
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/', name: 'agent_stat_index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_AGENT')]
     public function index(
         AgentStatRepository $agentStatRepository,
         AgentRepository $agentRepository,
@@ -48,10 +46,8 @@ class AgentStatController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'agent_stat_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $agentStat = new AgentStat();
@@ -74,10 +70,8 @@ class AgentStatController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/{id}', name: 'agent_stat_show', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show(AgentStat $agentStat): Response
     {
         return $this->render(
@@ -88,13 +82,11 @@ class AgentStatController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'agent_stat_edit', methods: [
         'GET',
         'POST',
     ])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, AgentStat $agentStat): Response
     {
         $form = $this->createForm(AgentStatType::class, $agentStat);
@@ -114,10 +106,8 @@ class AgentStatController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, AgentStat $agentStat): Response
     {
         if ($this->isCsrfTokenValid(

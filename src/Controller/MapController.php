@@ -17,10 +17,8 @@ use UnexpectedValueException;
 
 class MapController extends AbstractController
 {
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/map', name: 'agent-map')]
+    #[IsGranted('ROLE_AGENT')]
     public function map(MapGroupRepository $mapGroupRepository): Response
     {
         return $this->render(
@@ -34,10 +32,8 @@ class MapController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/map_json', name: 'map-json')]
+    #[IsGranted('ROLE_AGENT')]
     public function mapJson(
         AgentRepository $agentRepository,
         MapGroupRepository $mapGroupRepository,
@@ -65,10 +61,8 @@ class MapController extends AbstractController
         return $this->json($array);
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/map/agent-info/{id}', name: 'agent-info')]
+    #[IsGranted('ROLE_AGENT')]
     public function mapAgentInfo(
         Agent $agent,
         Packages $assetsManager,

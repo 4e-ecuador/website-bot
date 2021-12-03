@@ -16,10 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/comment')]
 class CommentController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/', name: 'comment_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render(
@@ -30,10 +28,8 @@ class CommentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/new', name: 'comment_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function new(Request $request): Response
     {
         $comment = new Comment();
@@ -56,10 +52,8 @@ class CommentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/fetch', name: 'comment_fetch', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function getSingle(
         Request $request,
         CommentRepository $commentRepository,
@@ -81,10 +75,8 @@ class CommentController extends BaseController
         return $this->json(['comment' => $html]);
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}', name: 'comment_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function show(Comment $comment): Response
     {
         return $this->render(
@@ -95,10 +87,8 @@ class CommentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function edit(Request $request, Comment $comment): Response
     {
         $form = $this->createForm(CommentType::class, $comment);
@@ -118,10 +108,8 @@ class CommentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}', name: 'comment_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function delete(Request $request, Comment $comment): Response
     {
         if ($this->isCsrfTokenValid(
@@ -137,10 +125,8 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/deleteinline/{id}', name: 'comment_delete_inline', methods: ['DELETE'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function deleteInline(
         Request $request,
         Comment $comment
@@ -161,10 +147,8 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/getagentids', name: 'comment_agent_ids')]
+    #[IsGranted('ROLE_EDITOR')]
     public function getAgentCommentIds(
         Request $request,
         AgentRepository $agentRepository,

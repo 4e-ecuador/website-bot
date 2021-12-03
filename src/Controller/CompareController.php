@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_AGENT")
- */
+#[IsGranted('ROLE_AGENT')]
 class CompareController extends AbstractController
 {
     #[Route('/compare', name: 'compare', methods: ['GET'])]

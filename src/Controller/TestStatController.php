@@ -10,10 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- */
 #[Route(path: '/test/stat')]
+#[IsGranted('ROLE_ADMIN')]
 class TestStatController extends BaseController
 {
     #[Route(path: '/', name: 'test_stat_index', methods: ['GET'])]

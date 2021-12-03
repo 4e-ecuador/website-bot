@@ -20,17 +20,15 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use TelegramBot\Api\InvalidArgumentException;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- */
 #[Route(path: '/test')]
+#[IsGranted('ROLE_ADMIN')]
 class TestController extends AbstractController
 {
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @throws Exception
      */
     #[Route(path: '/', name: 'test')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(KernelInterface $kernel): Response
     {
         $application = new Application($kernel);
@@ -53,12 +51,12 @@ class TestController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      *
      * @throws \TelegramBot\Api\Exception
      * @throws InvalidArgumentException
      */
     #[Route(path: '/bot', name: 'test_bot')]
+    #[IsGranted('ROLE_ADMIN')]
     public function botTest(
         Request $request,
         TelegramBotHelper $telegramBotHelper
@@ -81,10 +79,10 @@ class TestController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @throws TransportExceptionInterface
      */
     #[Route(path: '/mail', name: 'test_mail')]
+    #[IsGranted('ROLE_ADMIN')]
     public function mailTest(
         Request $request,
         MailerHelper $mailerHelper
@@ -103,10 +101,10 @@ class TestController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @throws EmojiNotFoundException
      */
     #[Route(path: '/emojis✨', name: 'test_emojis')]
+    #[IsGranted('ROLE_ADMIN')]
     public function testEmojis(EmojiService $emojiService): Response
     {
         return $this->render(
@@ -117,19 +115,15 @@ class TestController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/modify-stats', name: 'test_modify_stats')]
+    #[IsGranted('ROLE_ADMIN')]
     public function modifyStats(): Response
     {
         return $this->render('test/modify-stats.html.twig');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/modify-stats/input', name: 'test_modify_stats_input')]
+    #[IsGranted('ROLE_ADMIN')]
     public function modifyStatsInput(
         Request $request,
         CsvParser $csvParser

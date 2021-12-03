@@ -25,20 +25,16 @@ class AgentController extends BaseController
 {
     use PaginatorTrait;
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/', name: 'agent_index', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function index(): Response
     {
         // This is s Vue View ;)
         return $this->render('agent/index.html.twig');
     }
 
-    /**
-     * @IsGranted("ROLE_AGENT")
-     */
     #[Route(path: '/old', name: 'agent_index_old', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_AGENT')]
     public function indexOLD(
         AgentRepository $agentRepository,
         FactionRepository $factionRepository,
@@ -66,10 +62,10 @@ class AgentController extends BaseController
     }
 
     /**
-     * @IsGranted("ROLE_EDITOR")
      * @throws Exception
      */
     #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function new(Request $request): Response
     {
         $agent = new Agent();
@@ -98,10 +94,10 @@ class AgentController extends BaseController
     }
 
     /**
-     * @IsGranted("ROLE_AGENT")
      * @throws NonUniqueResultException
      */
     #[Route(path: '/{id}', name: 'agent_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
     public function show(Agent $agent, UserRepository $userRepository): Response
     {
         return $this->render(
@@ -113,10 +109,8 @@ class AgentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}/edit', name: 'agent_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function edit(Request $request, Agent $agent): Response
     {
         $form = $this->createForm(AgentType::class, $agent);
@@ -141,10 +135,8 @@ class AgentController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}', name: 'agent_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function delete(Request $request, Agent $agent): Response
     {
         if ($this->isCsrfTokenValid(
@@ -160,10 +152,8 @@ class AgentController extends BaseController
         return $this->redirectToRoute('agent_index');
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/{id}/add_comment', name: 'agent_add_comment', methods: ['POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function addComment(
         Request $request,
         Agent $agent,
@@ -212,10 +202,8 @@ class AgentController extends BaseController
         return $this->json(['error' => 'error']);
     }
 
-    /**
-     * @IsGranted("ROLE_EDITOR")
-     */
     #[Route(path: '/lookup', name: 'agent_lookup', methods: ['POST'])]
+    #[IsGranted('ROLE_EDITOR')]
     public function lookup(
         AgentRepository $agentRepository,
         Request $request

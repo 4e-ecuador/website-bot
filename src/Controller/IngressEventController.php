@@ -28,10 +28,8 @@ class IngressEventController extends BaseController
 {
     use PaginatorTrait;
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/', name: 'ingress_event_index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(
         IngressEventRepository $ingressEventRepository,
         Request $request
@@ -51,10 +49,8 @@ class IngressEventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/new', name: 'ingress_event_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request): Response
     {
         $ingressEvent = new IngressEvent();
@@ -80,10 +76,8 @@ class IngressEventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'ingress_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(IngressEvent $ingressEvent): Response
     {
         return $this->render(
@@ -94,13 +88,11 @@ class IngressEventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}/edit', name: 'ingress_event_edit', methods: [
         'GET',
         'POST',
     ])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, IngressEvent $ingressEvent): Response
     {
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
@@ -120,10 +112,8 @@ class IngressEventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/{id}', name: 'ingress_event_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
         IngressEvent $ingressEvent
@@ -141,10 +131,8 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/announce', name: 'ingress_event_announce', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function announceTg(
         TelegramBotHelper $telegramBotHelper,
         AgentRepository $agentRepository,
@@ -189,10 +177,8 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/announce-fbm', name: 'ingress_event_announce_fbm', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function announceFbm(
         FcmHelper $fbmHelper,
         NotifyEventsMessage $notifyEventsMessage
@@ -217,10 +203,8 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/announce-fbm-token', name: 'ingress_event_announce_fbm_token', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function announceFbmToken(
         FcmHelper $fbmHelper,
         UserRepository $userRepository,
@@ -272,10 +256,8 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/overview', name: 'ingress_event_overview', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function overview(IngressEventRepository $ingressEventRepository
     ): Response {
         $events = $ingressEventRepository->findFutureFS();
@@ -293,10 +275,8 @@ class IngressEventController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     */
     #[Route(path: '/fetch-overview/{id}', name: 'ingress_event_overview_fetch', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function fetchOverview(IngressEvent $event): JsonResponse
     {
         if (!$event->getLink()) {

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\AgentAccountType;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
-use JsonException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +15,8 @@ use UnexpectedValueException;
 
 class AccountController extends BaseController
 {
-    /**
-     * @IsGranted("ROLE_USER")
-     * @throws JsonException
-     */
     #[Route(path: '/account', name: 'app_account')]
+    #[IsGranted('ROLE_USER')]
     public function account(
         Request $request,
         TranslatorInterface $translator,
@@ -84,10 +80,8 @@ class AccountController extends BaseController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_INTRO_AGENT")
-     */
     #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect')]
+    #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramDisconnect(): RedirectResponse
     {
         $agent = $this->getUser()->getAgent();
@@ -102,10 +96,8 @@ class AccountController extends BaseController
         return $this->redirectToRoute('app_account');
     }
 
-    /**
-     * @IsGranted("ROLE_INTRO_AGENT")
-     */
     #[Route(path: '/account/tg-connect', name: 'tg_connect')]
+    #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramConnect(TelegramBotHelper $telegramBotHelper
     ): RedirectResponse {
         $agent = $this->getUser()->getAgent();

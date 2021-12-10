@@ -1,6 +1,7 @@
 {
     "devDependencies": {
         "@forevolve/bootstrap-dark": "^1.0.0-alpha.1091",
+        "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^2.1.0",
         "@symfony/webpack-encore": "^1.0.0",
         "autoprefixer": "^9.8.5",
@@ -24,7 +25,6 @@
         "regenerator-runtime": "^0.13.2",
         "sass": "^1.32.13",
         "sass-loader": "^11.0.0",
-        "@hotwired/stimulus": "^3.0.0",
         "stimulus-clipboard": "^1.0.0",
         "stimulus-use": "^0.23.0",
         "tributejs": "^5.1.3",

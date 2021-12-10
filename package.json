@@ -24,7 +24,7 @@
         "regenerator-runtime": "^0.13.2",
         "sass": "^1.32.13",
         "sass-loader": "^11.0.0",
-        "stimulus": "^2.0.0",
+        "@hotwired/stimulus": "^3.0.0",
         "stimulus-clipboard": "^1.0.0",
         "stimulus-use": "^0.23.0",
         "tributejs": "^5.1.3",

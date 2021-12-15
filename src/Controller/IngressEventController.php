@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\FcmHelper;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Goutte\Client;
 use RuntimeException;
@@ -51,7 +52,7 @@ class IngressEventController extends BaseController
 
     #[Route(path: '/new', name: 'ingress_event_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $ingressEvent = new IngressEvent();
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
@@ -60,7 +61,6 @@ class IngressEventController extends BaseController
             if ($ingressEvent->getDateEnd() < $ingressEvent->getDateStart()) {
                 $ingressEvent->setDateEnd($ingressEvent->getDateStart());
             }
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ingressEvent);
             $entityManager->flush();
 
@@ -93,12 +93,12 @@ class IngressEventController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, IngressEvent $ingressEvent): Response
+    public function edit(Request $request, IngressEvent $ingressEvent, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('ingress_event_index');
         }
@@ -116,14 +116,14 @@ class IngressEventController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        IngressEvent $ingressEvent
+        IngressEvent $ingressEvent,
+        EntityManagerInterface $entityManager
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$ingressEvent->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ingressEvent);
             $entityManager->flush();
         }

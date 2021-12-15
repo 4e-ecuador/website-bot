@@ -7,6 +7,7 @@ use App\Form\ChallengeType;
 use App\Repository\AgentStatRepository;
 use App\Repository\ChallengeRepository;
 use App\Service\ChallengeHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,13 +30,12 @@ class ChallengeController extends BaseController
 
     #[Route(path: '/new', name: 'challenge_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $challenge = new Challenge();
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($challenge);
             $entityManager->flush();
 
@@ -77,12 +77,12 @@ class ChallengeController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, Challenge $challenge): Response
+    public function edit(Request $request, Challenge $challenge, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('challenge_index');
         }
@@ -98,14 +98,13 @@ class ChallengeController extends BaseController
 
     #[Route(path: '/{id}', name: 'challenge_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, Challenge $challenge): Response
+    public function delete(Request $request, Challenge $challenge, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$challenge->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($challenge);
             $entityManager->flush();
         }

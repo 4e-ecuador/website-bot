@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\MapGroup;
 use App\Form\MapGroupType;
 use App\Repository\MapGroupRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,13 +28,12 @@ class MapGroupController extends BaseController
 
     #[Route(path: '/new', name: 'map_group_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $mapGroup = new MapGroup();
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($mapGroup);
             $entityManager->flush();
 
@@ -54,12 +54,12 @@ class MapGroupController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, MapGroup $mapGroup): Response
+    public function edit(Request $request, MapGroup $mapGroup, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('map_group_index');
         }
@@ -75,14 +75,13 @@ class MapGroupController extends BaseController
 
     #[Route(path: '/{id}', name: 'map_group_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, MapGroup $mapGroup): Response
+    public function delete(Request $request, MapGroup $mapGroup, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$mapGroup->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($mapGroup);
             $entityManager->flush();
         }

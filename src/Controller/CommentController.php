@@ -7,6 +7,7 @@ use App\Form\CommentType;
 use App\Repository\AgentRepository;
 use App\Repository\CommentRepository;
 use App\Service\MarkdownHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,13 +31,12 @@ class CommentController extends BaseController
 
     #[Route(path: '/new', name: 'comment_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
 
@@ -89,12 +89,12 @@ class CommentController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Comment $comment): Response
+    public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('comment_index');
         }
@@ -110,14 +110,13 @@ class CommentController extends BaseController
 
     #[Route(path: '/{id}', name: 'comment_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Comment $comment): Response
+    public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
         }
@@ -129,7 +128,8 @@ class CommentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function deleteInline(
         Request $request,
-        Comment $comment
+        Comment $comment,
+        EntityManagerInterface $entityManager
     ): JsonResponse {
         $response = ['status' => 'ok'];
 
@@ -139,7 +139,6 @@ class CommentController extends BaseController
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
         }

@@ -11,6 +11,7 @@ use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerHelper;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -61,12 +62,9 @@ class AgentController extends BaseController
         );
     }
 
-    /**
-     * @throws Exception
-     */
     #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agent = new Agent();
         $agent->setLat($this->getParameter('app.default_lat'));
@@ -77,7 +75,6 @@ class AgentController extends BaseController
             $secret = bin2hex(random_bytes(24));
             $agent->setTelegramConnectionSecret($secret);
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($agent);
             $entityManager->flush();
 
@@ -111,12 +108,12 @@ class AgentController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'agent_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Agent $agent): Response
+    public function edit(Request $request, Agent $agent, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute(
                 'agent_index',
@@ -137,14 +134,13 @@ class AgentController extends BaseController
 
     #[Route(path: '/{id}', name: 'agent_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Agent $agent): Response
+    public function delete(Request $request, Agent $agent, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$agent->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($agent);
             $entityManager->flush();
         }
@@ -158,6 +154,7 @@ class AgentController extends BaseController
         Request $request,
         Agent $agent,
         UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
         MailerHelper $mailerHelper
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
@@ -165,8 +162,6 @@ class AgentController extends BaseController
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
-
             $commenter = $userRepository->findOneBy(
                 ['id' => (int)$request->request->get('commenter')]
             );

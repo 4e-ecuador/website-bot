@@ -13,6 +13,7 @@ use App\Service\MedalChecker;
 use App\Service\StatsImporter;
 use DateInterval;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use JsonException;
@@ -263,6 +264,7 @@ class StatsController extends BaseController
         Security $security,
         TranslatorInterface $translator,
         StatsImporter $statsImporter,
+        EntityManagerInterface $entityManager,
         string $appEnv
     ): Response {
         /* @type User $user */
@@ -279,8 +281,6 @@ class StatsController extends BaseController
         $csv = $request->get('csv');
         if ($csv) {
             try {
-                $entityManager = $this->getDoctrine()->getManager();
-
                 $statEntry = $statsImporter
                     ->createEntryFromCsv($agent, $csv);
 

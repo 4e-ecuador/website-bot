@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TestStat;
 use App\Form\TestStatType;
 use App\Repository\TestStatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +27,12 @@ class TestStatController extends BaseController
     }
 
     #[Route(path: '/new', name: 'test_stat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $testStat = new TestStat();
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($testStat);
             $entityManager->flush();
 
@@ -63,12 +63,12 @@ class TestStatController extends BaseController
         'GET',
         'POST',
     ])]
-    public function edit(Request $request, TestStat $testStat): Response
+    public function edit(Request $request, TestStat $testStat, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('test_stat_index');
         }
@@ -83,14 +83,13 @@ class TestStatController extends BaseController
     }
 
     #[Route(path: '/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
-    public function delete(Request $request, TestStat $testStat): Response
+    public function delete(Request $request, TestStat $testStat, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$testStat->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($testStat);
             $entityManager->flush();
         }

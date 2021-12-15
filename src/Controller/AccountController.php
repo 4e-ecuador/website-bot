@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\AgentAccountType;
 use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ class AccountController extends BaseController
         Request $request,
         TranslatorInterface $translator,
         MedalChecker $medalChecker,
-        TelegramBotHelper $telegramBotHelper
+        TelegramBotHelper $telegramBotHelper,
+        EntityManagerInterface $entityManager,
     ): Response {
         $user = $this->getUser();
         if (!$user) {
@@ -53,7 +55,7 @@ class AccountController extends BaseController
         $form = $this->createForm(AgentAccountType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash(
                 'success',
                 $translator->trans('Your profile has been updated.')
@@ -82,16 +84,15 @@ class AccountController extends BaseController
 
     #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect')]
     #[IsGranted('ROLE_INTRO_AGENT')]
-    public function telegramDisconnect(): RedirectResponse
+    public function telegramDisconnect(EntityManagerInterface $entityManager): RedirectResponse
     {
         $agent = $this->getUser()->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
         $agent->setTelegramId(null);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($agent);
-        $em->flush();
+        $entityManager->persist($agent);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_account');
     }

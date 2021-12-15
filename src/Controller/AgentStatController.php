@@ -7,6 +7,7 @@ use App\Form\AgentStatType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\AgentStatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,13 +49,12 @@ class AgentStatController extends BaseController
 
     #[Route(path: '/new', name: 'agent_stat_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agentStat = new AgentStat();
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($agentStat);
             $entityManager->flush();
 
@@ -87,12 +87,12 @@ class AgentStatController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, AgentStat $agentStat): Response
+    public function edit(Request $request, AgentStat $agentStat, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('agent_stat_index');
         }
@@ -108,14 +108,13 @@ class AgentStatController extends BaseController
 
     #[Route(path: '/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, AgentStat $agentStat): Response
+    public function delete(Request $request, AgentStat $agentStat, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$agentStat->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($agentStat);
             $entityManager->flush();
         }

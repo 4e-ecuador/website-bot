@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Form\ImportFormType;
 use App\Repository\AgentRepository;
 use App\Repository\FactionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +67,8 @@ class ImportController extends BaseController
     private function importJSON(
         string $agentsJSON,
         FactionRepository $factionRepository,
-        AgentRepository $agentRepository
+        AgentRepository $agentRepository,
+        EntityManagerInterface $entityManager
     ): int {
         $jsonData = json_decode($agentsJSON);
         $importCount = 0;
@@ -75,12 +77,9 @@ class ImportController extends BaseController
             throw new UnexpectedValueException('Invalid JSON data received');
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
-
         // @todo faction select
         $faction = $factionRepository->findOneBy(['name' => 'ENL']);
 
-        //        $factions = $factionRepository->findAll();
         foreach ($jsonData as $entry) {
             $agent = new Agent();
 

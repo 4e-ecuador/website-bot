@@ -6,6 +6,7 @@ use App\Entity\Help;
 use App\Form\HelpType;
 use App\Repository\HelpRepository;
 use App\Util\Slugger;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,14 +29,13 @@ class HelpController extends BaseController
 
     #[Route(path: '/new', name: 'help_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $help = new Help();
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($help);
             $entityManager->flush();
 
@@ -79,14 +79,14 @@ class HelpController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'help_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Help $help): Response
+    public function edit(Request $request, Help $help, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
 
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('help_index');
         }
@@ -102,14 +102,13 @@ class HelpController extends BaseController
 
     #[Route(path: '/{id}', name: 'help_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Help $help): Response
+    public function delete(Request $request, Help $help, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$help->getId(),
             $request->request->get('_token')
         )
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($help);
             $entityManager->flush();
         }

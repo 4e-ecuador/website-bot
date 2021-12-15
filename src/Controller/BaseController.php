@@ -12,12 +12,4 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class BaseController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
-
-    protected function getDoctrine(): ManagerRegistry
-    {
-        return $this->entityManager;
-    }
 }

@@ -26,7 +26,7 @@ class AgentController extends BaseController
 {
     use PaginatorTrait;
 
-    #[Route(path: '/', name: 'agent_index', methods: ['GET'])]
+    #[Route(path: '/', name: 'agent_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function index(): Response
     {

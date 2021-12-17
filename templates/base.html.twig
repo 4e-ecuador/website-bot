@@ -5,8 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="google-site-verification" content="-4UrMVPqAe_WzBr6cx84rLQXqzrsTSjsayhJybpN1Lk"/>
-
     <meta property="og:title" content="4E - Enlightened Elite Echelon of Ecuador"/>
     <meta property="og:description" content="{% block og_description %}{% endblock %}"/>
     <meta property="og:image" content="/build/images/logos/4E Global black RGB.png"/>
@@ -24,17 +22,6 @@
     {{ encore_entry_link_tags('app') }}
 
     {% block stylesheets %}{% endblock %}
-
-    {% if 'prod' == app.environment %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171814386-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-171814386-1');
-    </script>
-    {% endif %}
 </head>
 <body class="bootstrap-dark">
 {% include('_menu.html.twig') %}

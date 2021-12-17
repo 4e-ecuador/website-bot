@@ -251,13 +251,14 @@ class MedalChecker
                 ],
             'Annual'  =>
                 [
-                    'Resonance'  => [],
-                    'Resurgence' => [],
-                    'Ouroboros'  => [],
-                    'Sage'       => [],
-                    'Luminary'   => [],
-                    'Vanguard'   => [],
-                    'Innovator'  => [],
+                    'Persistence' => [],
+                    'Resonance'   => [],
+                    'Resurgence'  => [],
+                    'Ouroboros'   => [],
+                    'Sage'        => [],
+                    'Luminary'    => [],
+                    'Vanguard'    => [],
+                    'Innovator'   => [],
                 ],
             'Event'   =>
                 [

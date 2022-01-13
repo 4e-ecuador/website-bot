@@ -46,9 +46,7 @@ final class CiteService
             }
 
             $cites = $values['cites'];
-        } catch (ParseException $exception) {
-            $cites = [$exception->getMessage()];
-        } catch (UnexpectedValueException $exception) {
+        } catch (ParseException|UnexpectedValueException $exception) {
             $cites = [$exception->getMessage()];
         }
 

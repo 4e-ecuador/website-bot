@@ -29,6 +29,9 @@ class Event
     #[Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $event_type = null;
 
+    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $recurring = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +81,18 @@ class Event
     public function setEventType(?string $Event_type): self
     {
         $this->event_type = $Event_type;
+
+        return $this;
+    }
+
+    public function getRecurring(): ?string
+    {
+        return $this->recurring;
+    }
+
+    public function setRecurring(?string $recurring): self
+    {
+        $this->recurring = $recurring;
 
         return $this;
     }

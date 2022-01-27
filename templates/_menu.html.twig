@@ -28,7 +28,7 @@
                     <li class="nav-item{% if page == 'agent-map' %} active{% endif %}" title="{{ 'Map'|trans }}">
                         <a class="nav-link" href="{{ path('agent-map') }}"><span class="oi oi-globe"></span></a>
                     </li>
-                    <li class="nav-item{% if page == 'agent-map' %} active{% endif %}" title="{{ 'Compare'|trans }}">
+                    <li class="nav-item{% if page == 'compare' %} active{% endif %}" title="{{ 'Compare'|trans }}">
                         <a class="nav-link" href="{{ path('compare') }}"><span class="oi oi-fullscreen-exit"></span></a>
                     </li>
                     <li class="nav-item" title="{{ 'Events'|trans }}">
@@ -36,6 +36,9 @@
                            href={{ path('default_events') }}>
                             <span class="oi oi-flag"></span>
                         </a>
+                    </li>
+                    <li class="nav-item{% if page == 'calendar' %} active{% endif %}" title="{{ 'Calendar'|trans }}">
+                        <a class="nav-link" href="{{ path('event_calendar') }}"><span class="oi oi-calendar"></span></a>
                     </li>
                     <li class="nav-item{% if page == 'help_index' %} active{% endif %}" title="{{ 'Help'|trans }}">
                         <a class="nav-link" href={{ path('help_index') }}><span class="oi oi-info"></span></a>

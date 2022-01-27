@@ -76,6 +76,17 @@ class IngressEventController extends BaseController
         );
     }
 
+    #[Route(path: '/show/{id}', name: 'ingress_event_public_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function publicShow(IngressEvent $ingressEvent): Response
+    {
+        return $this->render(
+            'ingress_event/public_show.html.twig',
+            [
+                'ingress_event' => $ingressEvent,
+            ]
+        );
+    }
+
     #[Route(path: '/{id}', name: 'ingress_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(IngressEvent $ingressEvent): Response

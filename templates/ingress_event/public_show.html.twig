@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ ingress_event.name }}
+{% endblock %}
+
+{% block body %}
+<h1>{{ ingress_event.name }}</h1>
+    {{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i') : '' }}
+     -
+       {{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}
+
+    <p>
+        {{ ingress_event.description }}
+    </p>
+
+    <a href="{{ ingress_event.link }}">Read more...</a>
+
+{% endblock %}
+
+

@@ -7,6 +7,7 @@ use App\Repository\ChallengeRepository;
 use App\Repository\CommentRepository;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
+use App\Service\CalendarHelper;
 use App\Service\CiteService;
 use App\Service\DateTimeHelper;
 use App\Service\EventHelper;
@@ -30,8 +31,10 @@ class DefaultController extends AbstractController
         DateTimeHelper $dateTimeHelper,
         MarkdownHelper $markdownHelper,
         string $defaultTimeZone,
-        CiteService $citeService
+        CiteService $citeService,
+        CalendarHelper $calendarHelper,
     ): Response {
+        $calendarHelper->getEvents();
         $comments = [];
         $currentEvents = [];
         $pastEvents = [];
@@ -93,6 +96,12 @@ class DefaultController extends AbstractController
                 'cite'           => $citeService->getRandomCite(),
             ]
         );
+    }
+
+    #[Route(path: '/calendar', name: 'event_calendar', methods: ['GET'])]
+    public function calendar(): Response
+    {
+        return $this->render('event/calendar.html.twig');
     }
 
     #[Route(path: '/events', name: 'default_events')]

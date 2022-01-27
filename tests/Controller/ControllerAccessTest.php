@@ -23,6 +23,9 @@ class ControllerAccessTest extends WebTestCase
             'connect_google_api_token' => [
                 'statusCode' => 200,
             ],
+            'event_calendar'           => [
+                'statusCode' => 200,
+            ],
         ];
 
     /**

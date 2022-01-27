@@ -33,6 +33,8 @@ Encore
     .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 
+    .addEntry('calendar', './assets/js/calendar/index.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

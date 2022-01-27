@@ -90,4 +90,22 @@ class IngressEventRepository extends ServiceEntityRepository
             $options->getLimit()
         );
     }
+
+    /**
+     * @return IngressEvent[]
+     */
+    public function findBetween(
+        \DateTimeInterface $start,
+        \DateTimeInterface $end
+    ) {
+        return $this
+            ->createQueryBuilder('event')
+            ->where(
+                'event.date_start BETWEEN :start and :end OR event.date_end BETWEEN :start and :end'
+            )
+            ->setParameter('start', $start->format('Y-m-d H:i:s'))
+            ->setParameter('end', $end->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult();
+    }
 }

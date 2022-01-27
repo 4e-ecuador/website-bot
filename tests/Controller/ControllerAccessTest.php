@@ -14,16 +14,19 @@ class ControllerAccessTest extends WebTestCase
 
     private array $exceptions
         = [
-            'default'                  => [
+            'default'                   => [
                 'statusCode' => 200,
             ],
-            'app_login'                => [
+            'app_login'                 => [
                 'statusCode' => 200,
             ],
-            'connect_google_api_token' => [
+            'connect_google_api_token'  => [
                 'statusCode' => 200,
             ],
-            'event_calendar'           => [
+            'event_calendar'            => [
+                'statusCode' => 200,
+            ],
+            'ingress_event_public_show' => [
                 'statusCode' => 200,
             ],
         ];

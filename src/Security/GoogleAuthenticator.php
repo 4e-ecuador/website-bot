@@ -21,9 +21,9 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 
 class GoogleAuthenticator extends AbstractAuthenticator
 {
@@ -76,7 +76,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
     /**
      * @throws IdentityProviderException
      */
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         $token = $this->getGoogleClient()->getAccessToken();
 

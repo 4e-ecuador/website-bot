@@ -35,7 +35,7 @@ class AccountController extends BaseController
                 $translator->trans('user.not.verified.2')
             );
         }
-        $agentAccount = $request->request->get('agent_account');
+        $agentAccount = $request->request->all('agent_account');
         $customMedals = json_decode(
             $agent->getCustomMedals(),
             true,
@@ -43,7 +43,7 @@ class AccountController extends BaseController
             JSON_THROW_ON_ERROR
         );
         if ($agentAccount) {
-            $customMedals = $request->request->get('customMedals');
+            $customMedals = $request->request->all('customMedals');
 
             $agentAccount['customMedals'] = json_encode(
                 $customMedals,

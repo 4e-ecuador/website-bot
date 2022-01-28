@@ -189,3 +189,4 @@ Remove: __Remove
 'No results found :(': '__No results found :('
 'Select another agent': '__Select another agent'
 page.counter: 'Seite {page} von {maxPages}'
+Calendar: Kalender

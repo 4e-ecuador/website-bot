@@ -38,7 +38,7 @@ class CalendarHelper
         $ddd = $date2 == $sgThisMonth;
 
         // dump($date, $date2, $fsThisMonth, $ssThisMonth, $sgThisMonth, $ddd);
-        dump($date2, $sgThisMonth, $ddd);
+        // dump($date2, $sgThisMonth, $ddd);
 
         $events = [];
 

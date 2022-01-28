@@ -34,7 +34,8 @@ class AppExtension extends AbstractExtension
     public function __construct(
         private MedalChecker $medalChecker,
         private MarkdownHelper $markdownHelper,
-        private IntlDateHelper $intlDateHelper
+        private IntlDateHelper $intlDateHelper,
+        private string $defaultTimeZone
     ) {
     }
 
@@ -82,15 +83,14 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
             new TwigFunction('php_version', [$this, 'getPhpVersion']),
             new TwigFunction('intlDate', [$this, 'intlDate']),
+            new TwigFunction('defaultTimeZone', [$this, 'getDefaultTimeZone']),
         ];
     }
 
     /**
      * Convert object to array for Twig usage..
-     *
-     * @param object $classObject
      */
-    public function objectFilter($classObject): array
+    public function objectFilter(object $classObject): array
     {
         $array = (array)$classObject;
         $response = [];
@@ -193,7 +193,7 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getChallengePath($medal, $level);
     }
 
-    public function formatIntlDate(DateTime $date)
+    public function formatIntlDate(DateTime $date): bool|string
     {
         return $this->intlDateHelper->format($date);
     }
@@ -243,22 +243,23 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getBadgeData($code);
     }
 
-    public function getPhpVersion()
+    public function getPhpVersion(): string
     {
         return PHP_VERSION;
     }
 
-    public function stripGmail(string $string)
+    public function stripGmail(string $string): string
     {
         return str_replace('@gmail.com', '', $string);
     }
 
-    public function escapeBytecode($string)
+    public function escapeBytecode($string): string
     {
-        $a = str_replace('%', "\\x", $string);
+        return str_replace('%', "\\x", $string);
+    }
 
-        // $a = str_replace("\\", "\\/\\\\\\", $string);
-
-        return $a;
+    public function getDefaultTimeZone(): string
+    {
+        return $this->defaultTimeZone;
     }
 }

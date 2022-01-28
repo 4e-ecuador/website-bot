@@ -15,9 +15,18 @@
 {% endblock %}
 
 {% block body %}
+    Timezone:
+    <select id="time-zone-selector">
+        <option value="local" selected>local</option>
+        <option value="UTC">UTC</option>
+{#        <option value="FOOOO">FOOO</option>#}
+{#        <option value="America/Guayaquil">America/Guayaquil</option>#}
+{#        <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires</option>#}
+    </select>
     <div
         id="calendar-holder"
         data-events-url="{{ path('fc_load_events') }}"
+        data-time-zone="{{ defaultTimeZone() }}"
     ></div>
 {% endblock %}
 

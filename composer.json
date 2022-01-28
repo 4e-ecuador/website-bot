@@ -121,9 +121,9 @@
       "@translate-all"
     ],
     "translate-all": {
-      "en": "./bin/console translation:update --output-format=yaml --force en --domain=messages",
-      "es": "./bin/console translation:update --output-format=yaml --force es --domain=messages",
-      "de": "./bin/console translation:update --output-format=yaml --force de --domain=messages"
+      "en": "./bin/console translation:extract --format=yaml --force en --domain=messages",
+      "es": "./bin/console translation:extract --format=yaml --force es --domain=messages",
+      "de": "./bin/console translation:extract --format=yaml --force de --domain=messages"
     }
   },
   "conflict": {

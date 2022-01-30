@@ -70,11 +70,6 @@ services:
             $email: '%app.email%'
             $emailName: '%app.email.name%'
 
-    App\Security\GoogleApiClient:
-        arguments:
-            $clientId: '%env(OAUTH_GOOGLE_ID_WEB)%'
-            $clientSecret: '%env(OAUTH_GOOGLE_SECRET_WEB)%'
-
     App\EventListener\UserChangedNotifier:
         tags:
             - # these are the basic options that define the entity listener

@@ -21,7 +21,6 @@
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
     "fabpot/goutte": "^4.0",
-    "google/apiclient": "^2.5",
     "knplabs/knp-markdown-bundle": "^1.9",
     "knpuniversity/oauth2-client-bundle": "^2.0",
     "league/oauth2-google": "^4.0",

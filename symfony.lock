@@ -119,32 +119,11 @@
     "fakerphp/faker": {
         "version": "v1.18.0"
     },
-    "firebase/php-jwt": {
-        "version": "v5.5.1"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
     "fzaninotto/faker": {
         "version": "v1.9.1"
-    },
-    "google/apiclient": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "49c5d7a66d863d28513979bf0666dc77599100c0"
-        },
-        "files": [
-            "config/packages/google_apiclient.yaml"
-        ]
-    },
-    "google/apiclient-services": {
-        "version": "v0.231.1"
-    },
-    "google/auth": {
-        "version": "v1.18.0"
     },
     "guzzlehttp/guzzle": {
         "version": "7.4.1"
@@ -239,9 +218,6 @@
     "ocramius/proxy-manager": {
         "version": "2.8.0"
     },
-    "paragonie/constant_time_encoding": {
-        "version": "v2.5.0"
-    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
@@ -259,9 +235,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.6.0"
-    },
-    "phpseclib/phpseclib": {
-        "version": "3.0.12"
     },
     "phpspec/prophecy": {
         "version": "v1.15.0"

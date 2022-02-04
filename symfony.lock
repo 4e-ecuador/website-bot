@@ -783,9 +783,6 @@
     "twig/inky-extra": {
         "version": "v3.3.5"
     },
-    "twig/markdown-extra": {
-        "version": "v3.3.5"
-    },
     "twig/string-extra": {
         "version": "v3.3.5"
     },

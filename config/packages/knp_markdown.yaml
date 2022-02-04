@@ -1,3 +1,0 @@
-knp_markdown:
-  parser:
-    service: App\Service\MarkdownParser

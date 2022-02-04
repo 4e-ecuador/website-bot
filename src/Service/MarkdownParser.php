@@ -5,9 +5,10 @@ namespace App\Service;
 use App\Repository\AgentRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use DOMDocument;
+use Michelf\MarkdownExtra;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class MarkdownParser extends \Knp\Bundle\MarkdownBundle\Parser\MarkdownParser
+class MarkdownParser  extends MarkdownExtra
 {
     public function __construct(
         private AgentRepository $agentRepository,

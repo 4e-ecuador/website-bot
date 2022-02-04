@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Michelf\MarkdownInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 
@@ -10,7 +9,7 @@ class MarkdownHelper
 {
     public function __construct(
         private CacheItemPoolInterface $cache,
-        private MarkdownInterface $markdown
+        private MarkdownParser $markdown
     ) {
     }
 

@@ -120,6 +120,10 @@ class MedalChecker
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
+            'second-sunday'          => [
+                'desc'   => 'Second Sunday Events',
+                'levels' => [1, 6, 12, 24, 36],
+            ],
             'scout'                  => [
                 'desc'   => 'Scan portals',
                 'levels' => [50, 250, 1000, 3000, 6000],
@@ -144,43 +148,46 @@ class MedalChecker
 
     private array $primeHeaders
         = [
-            'Time Span'                     => '',
-            'Agent Name'                    => 'nickname',
-            'Agent Faction'                 => 'faction',
-            'Date (yyyy-mm-dd)'             => '',
-            'Time (hh:mm:ss)'               => '',
-            'Lifetime AP'                   => 'ap',
-            'Current AP'                    => '',
-            'Unique Portals Visited'        => 'explorer',
-            'Portals Discovered'            => 'portals-discovered',
-            'Seer Points'                   => 'seer',
-            'XM Collected'                  => '',
-            'OPR Agreements'                => 'recon',
-            'Distance Walked'               => 'trekker',
-            'Resonators Deployed'           => 'builder',
-            'Links Created'                 => 'connector',
-            'Control Fields Created'        => 'mind-controller',
-            'Mind Units Captured'           => 'illuminator',
-            'Longest Link Ever Created'     => 'longestLink',
-            'Largest Control Field'         => 'largestField',
-            'XM Recharged'                  => 'recharger',
-            'Portals Captured'              => 'liberator',
-            'Unique Portals Captured'       => 'pioneer',
-            'Mods Deployed'                 => 'engineer',
-            'Resonators Destroyed'          => 'purifier',
-            'Portals Neutralized'           => '',
-            'Enemy Links Destroyed'         => '',
-            'Enemy Fields Destroyed'        => '',
-            'Max Time Portal Held'          => '',
-            'Max Time Link Maintained'      => '',
-            'Max Link Length x Days'        => '',
-            'Max Time Field Held'           => '',
-            'Largest Field MUs x Days'      => '',
-            'Unique Missions Completed'     => 'specops',
-            'Hacks'                         => 'hacker',
-            'Glyph Hack Points'             => 'translator',
-            'Longest Hacking Streak'        => 'sojourner',
-            'Longest Sojourner Streak'      => 'sojourner',
+            'Time Span'                 => '',
+            'Agent Name'                => 'nickname',
+            'Agent Faction'             => 'faction',
+            'Date (yyyy-mm-dd)'         => '',
+            'Time (hh:mm:ss)'           => '',
+            'Lifetime AP'               => 'ap',
+            'Current AP'                => '',
+            'Unique Portals Visited'    => 'explorer',
+            'Portals Discovered'        => 'portals-discovered',
+            'Seer Points'               => 'seer',
+            'XM Collected'              => '',
+            'OPR Agreements'            => 'recon',
+            'Distance Walked'           => 'trekker',
+            'Resonators Deployed'       => 'builder',
+            'Links Created'             => 'connector',
+            'Control Fields Created'    => 'mind-controller',
+            'Mind Units Captured'       => 'illuminator',
+            'Longest Link Ever Created' => 'longestLink',
+            'Largest Control Field'     => 'largestField',
+            'XM Recharged'              => 'recharger',
+            'Portals Captured'          => 'liberator',
+            'Unique Portals Captured'   => 'pioneer',
+            'Mods Deployed'             => 'engineer',
+            'Resonators Destroyed'      => 'purifier',
+            'Portals Neutralized'       => '',
+            'Enemy Links Destroyed'     => '',
+            'Enemy Fields Destroyed'    => '',
+            'Max Time Portal Held'      => '',
+            'Max Time Link Maintained'  => '',
+            'Max Link Length x Days'    => '',
+            'Max Time Field Held'       => '',
+            'Largest Field MUs x Days'  => '',
+            'Unique Missions Completed' => 'specops',
+            'Hacks'                     => 'hacker',
+            'Glyph Hack Points'         => 'translator',
+            'Longest Hacking Streak'    => 'sojourner',
+            'Longest Sojourner Streak'  => 'sojourner',
+
+            'Battle Beacon Combatant'       => '',
+            'Kureze Effect'                 => '',
 
             // Sojourner 2.0
             'Completed Hackstreaks'         => 'epoch-hackstreaks',
@@ -193,6 +200,7 @@ class MedalChecker
             'Mission Day(s) Attended'    => 'missionday',
             'NL-1331 Meetup(s) Attended' => 'nl-1331-meetups',
             'First Saturday Events'      => 'ifs',
+            'Second Sunday Events'       => 'second-sunday',
 
             'Portal Scans Uploaded'              => 'scout',
 
@@ -359,7 +367,8 @@ class MedalChecker
 
     public function __construct(
         TranslatorInterface $translator,
-        private string $rootDir
+        private string $rootDir,
+        private string $appEnv,
     ) {
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
@@ -398,10 +407,13 @@ class MedalChecker
     public function translatePrimeHeader($name): string
     {
         if (false === array_key_exists($name, $this->primeHeaders)) {
+            if ('dev' === $this->appEnv) {
+                throw new UnexpectedValueException(
+                    sprintf('Prime header not found: "%s"', $name)
+                );
+            }
+
             return '';
-            throw new UnexpectedValueException(
-                sprintf('Prime header not found: "%s"', $name)
-            );
         }
 
         return $this->primeHeaders[$name] ?? '';
@@ -553,6 +565,7 @@ class MedalChecker
             'Nl1331Meetups'    => 'NL1331',
             'Ifs'              => 'FS',
             'Scout-controller' => 'ScoutController',
+            'Second-sunday' => 'SecondSunday',
         ];
         if (array_key_exists($medal, $replacements)) {
             $medal = $replacements[$medal];

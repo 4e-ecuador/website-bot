@@ -147,6 +147,9 @@ class AgentStat implements ArrayAccess
     #[Column(type: Types::INTEGER, nullable: true)]
     private ?int $dronesReturned = null;
 
+    #[Column(type: Types::INTEGER, nullable: true)]
+    private ?int $secondSunday = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -771,6 +774,18 @@ class AgentStat implements ArrayAccess
     public function setDronesReturned(?int $dronesReturned): self
     {
         $this->dronesReturned = $dronesReturned;
+
+        return $this;
+    }
+
+    public function getSecondSunday(): ?int
+    {
+        return $this->secondSunday;
+    }
+
+    public function setSecondSunday(?int $secondSunday): self
+    {
+        $this->secondSunday = $secondSunday;
 
         return $this;
     }

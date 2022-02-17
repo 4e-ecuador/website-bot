@@ -120,9 +120,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
-    },
     "guzzlehttp/guzzle": {
         "version": "7.4.1"
     },
@@ -205,20 +202,11 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
-    "ocramius/package-versions": {
-        "version": "1.9.0"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.8.0"
-    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "php": {
-        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -777,16 +765,7 @@
     "twig/twig": {
         "version": "v3.3.7"
     },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
-    },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.3.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }

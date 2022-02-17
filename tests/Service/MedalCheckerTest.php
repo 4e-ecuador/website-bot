@@ -16,7 +16,7 @@ class MedalCheckerTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $this->medalChecker = new MedalChecker(
-            self::getContainer()->get('translator'),  $kernel->getProjectDir()
+            self::getContainer()->get('translator'),  $kernel->getProjectDir(), 'test'
         );
     }
 

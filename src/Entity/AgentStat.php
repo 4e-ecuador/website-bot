@@ -494,7 +494,7 @@ class AgentStat implements ArrayAccess
      * @return mixed Can return all value types.
      * @since 5.0.0
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         $offset = lcfirst(
             implode('', array_map('ucfirst', explode('-', $offset)))

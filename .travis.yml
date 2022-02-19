@@ -17,15 +17,26 @@ services:
   - postgresql
 
 before_script:
+  - cp .env.travis .env
   - psql -c 'create database travis_ci_test;' -U postgres
   - composer install
   - nvm install 12
   - yarn install
   - yarn dev
+  - bin/console doctrine:database:create -n --env=test
+  - bin/console doctrine:migrations:migrate -n --env=test
+  - bin/console doctrine:fixtures:load -n --env=test
 
 script:
   - SYMFONY_DEPRECATIONS_HELPER=disabled ./bin/phpunit $PHPUNIT_FLAGS
-  - cat ./var/log/test.log
 
 after_script:
-  - ./bin/console app:TravisFinishedNotification
+  - cat ./var/log/test.log
+#  - ./bin/console app:TravisFinishedNotification
+
+#script:
+#  - SYMFONY_DEPRECATIONS_HELPER=disabled ./bin/phpunit $PHPUNIT_FLAGS
+#  - cat ./var/log/test.log
+#
+#after_script:
+#  - ./bin/console app:TravisFinishedNotification

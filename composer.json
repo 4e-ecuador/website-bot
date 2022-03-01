@@ -123,7 +123,10 @@
       "en": "./bin/console translation:extract --format=yaml --force en --domain=messages",
       "es": "./bin/console translation:extract --format=yaml --force es --domain=messages",
       "de": "./bin/console translation:extract --format=yaml --force de --domain=messages"
-    }
+    },
+    "test-phpunit": ["make tests"],
+    "test-phpstan": ["vendor/bin/phpstan analyse"],
+    "ci": ["@test-phpunit", "@test-phpstan"]
   },
   "conflict": {
     "symfony/symfony": "*"

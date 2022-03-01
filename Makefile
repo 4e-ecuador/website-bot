@@ -6,5 +6,5 @@ tests:
 	symfony console doctrine:database:create
 	symfony console doctrine:migrations:migrate -n
 	symfony console doctrine:fixtures:load -n
-	symfony php bin/phpunit $@
+	symfony php bin/phpunit --testdox $@
 .PHONY: tests

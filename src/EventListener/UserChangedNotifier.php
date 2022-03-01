@@ -23,7 +23,7 @@ class UserChangedNotifier
         }
 
         /**
-         * @var User $adminUser
+         * @var User|null $adminUser
          */
         $adminUser = $this->security->getUser();
 

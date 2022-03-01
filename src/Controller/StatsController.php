@@ -266,7 +266,7 @@ class StatsController extends BaseController
         EntityManagerInterface $entityManager,
         string $appEnv
     ): Response {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $security->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');

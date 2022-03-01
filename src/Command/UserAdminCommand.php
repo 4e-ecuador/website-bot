@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,6 +53,9 @@ class UserAdminCommand extends Command
             sprintf('There are %d users in the database.', count($users))
         );
 
+        /**
+         * @var QuestionHelper $helper
+         */
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
             'Please select an option (defaults to exit)',

@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Offset mixed does not exist on array\\{\\}\\.$#"
+			count: 1
+			path: src/Controller/IngressEventController.php
+
+		-
+			message: "#^Argument of an invalid type App\\\\Entity\\\\AgentStat supplied for foreach, only iterables are supported\\.$#"
+			count: 2
+			path: src/Entity/AgentStat.php
+

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\IngressEventRepository;
 use Doctrine\ORM\Mapping\Column;
@@ -24,10 +24,10 @@ class IngressEvent
     private ?string $type = '';
 
     #[Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $date_start = null;
+    private ?DateTime $date_start = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $date_end = null;
+    private ?DateTime $date_end = null;
 
     #[Column(type: Types::TEXT, nullable: true)]
     private ?string $description = '';
@@ -64,24 +64,24 @@ class IngressEvent
         return $this;
     }
 
-    public function getDateStart(): ?DateTimeInterface
+    public function getDateStart(): ?DateTime
     {
         return $this->date_start;
     }
 
-    public function setDateStart(DateTimeInterface $date_start): self
+    public function setDateStart(DateTime $date_start): self
     {
         $this->date_start = $date_start;
 
         return $this;
     }
 
-    public function getDateEnd(): ?DateTimeInterface
+    public function getDateEnd(): ?DateTime
     {
         return $this->date_end;
     }
 
-    public function setDateEnd(DateTimeInterface $date_end): self
+    public function setDateEnd(DateTime $date_end): self
     {
         $this->date_end = $date_end;
 

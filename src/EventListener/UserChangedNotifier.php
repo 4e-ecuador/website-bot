@@ -22,6 +22,9 @@ class UserChangedNotifier
             return;
         }
 
+        /**
+         * @var User $adminUser
+         */
         $adminUser = $this->security->getUser();
 
         if (!$adminUser) {

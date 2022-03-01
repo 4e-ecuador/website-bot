@@ -50,12 +50,12 @@ class Comment
         return $this;
     }
 
-    public function getAgent(): ?agent
+    public function getAgent(): ?Agent
     {
         return $this->agent;
     }
 
-    public function setAgent(?agent $agent): self
+    public function setAgent(?Agent $agent): self
     {
         $this->agent = $agent;
 
@@ -74,12 +74,12 @@ class Comment
         return $this;
     }
 
-    public function getCommenter(): ?user
+    public function getCommenter(): ?User
     {
         return $this->commenter;
     }
 
-    public function setCommenter(?user $commenter): self
+    public function setCommenter(?User $commenter): self
     {
         $this->commenter = $commenter;
 

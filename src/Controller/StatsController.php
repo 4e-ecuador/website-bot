@@ -101,7 +101,7 @@ class StatsController extends BaseController
             foreach ($entries as $entry) {
                 // Get the correct datetime format for highcharts
                 // See: https://stackoverflow.com/a/29234143/1906767
-                $date = $entry->getDatetime()->format('U') * 1000;
+                $date = $entry->getDatetime()?->format('U') * 1000;
                 $data->ap[] = [$date, $entry->getAp()];
                 $data->hacker[] = [$date, $entry->getHacker()];
             }
@@ -267,7 +267,7 @@ class StatsController extends BaseController
         EntityManagerInterface $entityManager,
         string $appEnv
     ): Response {
-        /* @type User $user */
+        /** @var User $user */
         $user = $security->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');

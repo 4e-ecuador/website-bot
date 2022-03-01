@@ -17,7 +17,7 @@ class LocaleListener
 
     public function __invoke(RequestEvent $event): void
     {
-        /* @type User $user */
+        /** @var User $user */
         $user = $this->security->getUser();
 
         if (!$user) {

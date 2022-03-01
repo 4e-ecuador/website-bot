@@ -17,6 +17,8 @@ class LeaderBoardService
         array $users,
         string $typeOnly = 'all'
     ) {
+        $boardEntries = [];
+
         foreach ($users as $user) {
             if ($user instanceof User) {
                 $agent = $user->getAgent();

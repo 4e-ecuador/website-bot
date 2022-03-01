@@ -6,6 +6,7 @@ use App\Repository\IngressEventRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
+use DateTime;
 use DateTimeZone;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,12 +32,15 @@ class CalendarSubscriber implements EventSubscriberInterface
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
 
+        /**
+         * @var DateTime $next
+         */
         $next = clone $start;
         foreach (range(0, 2) as $x) {
             $calendar->addEvent(
                 new Event(
                     'First Saturday',
-                    new \DateTime('first saturday of '.$next->format('M Y'). ' 12:00:00'),
+                    new DateTime('first saturday of '.$next->format('M Y'). ' 12:00:00'),
                     options: [
                         'backgroundColor' => 'green',
                         'borderColor'     => 'green',
@@ -46,7 +50,7 @@ class CalendarSubscriber implements EventSubscriberInterface
             $calendar->addEvent(
                 new Event(
                     'Second Sunday',
-                    new \DateTime('second sunday of '.$next->format('M Y'). ' 12:00:00'),
+                    new DateTime('second sunday of '.$next->format('M Y'). ' 12:00:00'),
                     options: [
                         'backgroundColor' => 'green',
                         'borderColor'     => 'green',

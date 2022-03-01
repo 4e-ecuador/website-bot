@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -50,17 +49,22 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             new UserBadge($credentials['email'] ?? ''),
             [
                 new CsrfTokenBadge('login', $credentials['csrf_token'] ?? ''),
-                new RememberMeBadge()
+                new RememberMeBadge(),
             ]
         );
     }
 
-    #[ArrayShape(['email' => "string", 'csrf_token' => "string"])]
+    /**
+     * @return array {
+     *   email: string,
+     *   csrf_token: string
+     * }
+     */
     public function getCredentials(
         Request $request
     ): array {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'email'      => $request->request->get('email'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
 

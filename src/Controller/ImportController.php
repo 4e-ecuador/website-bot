@@ -20,7 +20,8 @@ class ImportController extends BaseController
     public function index(
         Request $request,
         FactionRepository $factionRepository,
-        AgentRepository $agentRepository
+        AgentRepository $agentRepository,
+        EntityManagerInterface $entityManager,
     ): RedirectResponse|\Symfony\Component\HttpFoundation\Response {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
@@ -33,7 +34,8 @@ class ImportController extends BaseController
                     $count += $this->importJSON(
                         $data['agentsJSON'],
                         $factionRepository,
-                        $agentRepository
+                        $agentRepository,
+                        $entityManager,
                     );
                 } catch (UnexpectedValueException $exception) {
                     $this->addFlash('danger', $exception->getMessage());

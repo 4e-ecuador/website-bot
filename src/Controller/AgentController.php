@@ -9,11 +9,9 @@ use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
-use App\Service\MailerHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -155,7 +153,6 @@ class AgentController extends BaseController
         Agent $agent,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        MailerHelper $mailerHelper
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),

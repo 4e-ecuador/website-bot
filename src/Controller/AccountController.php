@@ -86,7 +86,7 @@ class AccountController extends BaseController
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramDisconnect(EntityManagerInterface $entityManager): RedirectResponse
     {
-        $agent = $this->getUser()->getAgent();
+        $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
@@ -101,7 +101,7 @@ class AccountController extends BaseController
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramConnect(TelegramBotHelper $telegramBotHelper
     ): RedirectResponse {
-        $agent = $this->getUser()->getAgent();
+        $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }

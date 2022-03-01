@@ -96,12 +96,11 @@ class StatsController extends BaseController
             new DateTime($endDate),
             $agent
         );
-        $latest = null;
         if ($entries) {
             foreach ($entries as $entry) {
                 // Get the correct datetime format for highcharts
                 // See: https://stackoverflow.com/a/29234143/1906767
-                $date = $entry->getDatetime()?->format('U') * 1000;
+                $date = (int)($entry->getDatetime()?->format('U')) * 1000;
                 $data->ap[] = [$date, $entry->getAp()];
                 $data->hacker[] = [$date, $entry->getHacker()];
             }

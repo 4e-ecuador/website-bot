@@ -27,7 +27,7 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Agent[]
+     * @return Paginator<Agent>
      */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {

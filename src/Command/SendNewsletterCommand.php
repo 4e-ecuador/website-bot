@@ -157,13 +157,19 @@ class SendNewsletterCommand extends Command
                     ['id' => $event->getId()],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
+
+                /**
+                 * @var DateTime $date
+                 */
+                $date =  $event->getDateEnd();
+
                 $message[] = sprintf(
                     '- [%s](%s) (tipo: *%s*) termina el dia %s',
                     $event->getName(),
                     $link,
                     $event->getEventType(),
                     $formatterDateFull->format(
-                        $event->getDateEnd()->setTimezone($timeZone)
+                        $date->setTimezone($timeZone)
                     )
                 );
             }

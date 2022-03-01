@@ -5,19 +5,23 @@ namespace App\EventListener;
 use App\Entity\User;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocaleListener
 {
     public function __construct(
         private readonly Security $security,
+        /**
+         * @var Translator $translator
+         */
         private readonly TranslatorInterface $translator
     ) {
     }
 
     public function __invoke(RequestEvent $event): void
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->security->getUser();
 
         if (!$user) {

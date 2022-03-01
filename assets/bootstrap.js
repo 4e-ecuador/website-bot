@@ -5,7 +5,7 @@ import Clipboard from 'stimulus-clipboard'
 export const app = startStimulusApp(require.context(
     '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
     true,
-    /\.(j|t)sx?$/
-))
+    /\.[jt]sx?$/
+));
 
 app.register('clipboard', Clipboard)

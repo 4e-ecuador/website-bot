@@ -119,7 +119,7 @@ class FcmHelper
 
         if (!$this->tokens) {
             if ($this->type === 'bigtext') {
-                $message['data'] = [
+                $data = [
                     'title'      => $title,
                     'message'    => $message,
                     'not_type'   => 'bigtext',

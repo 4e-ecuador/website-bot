@@ -46,7 +46,7 @@ class UserChangedNotifier
         $text[] = sprintf(
             'A user account has been changed by %s'
             ,
-            $adminUser->getUsername()
+            $adminUser->getUserAgentName()
         );
         $text[] = '';
         $text[] = 'ID: '.$user->getId();

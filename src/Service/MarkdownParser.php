@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class MarkdownParser  extends MarkdownExtra
 {
     public function __construct(
-        private AgentRepository $agentRepository,
-        private UrlGeneratorInterface $urlGenerator
+        private readonly AgentRepository $agentRepository,
+        private readonly UrlGeneratorInterface $urlGenerator
     ) {
         parent::__construct();
     }

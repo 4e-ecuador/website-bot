@@ -13,8 +13,8 @@ class FcmHelper
     public string $type = '';
 
     public function __construct(
-        private string $fcmKey,
-        private string $channelId
+        private readonly string $fcmKey,
+        private readonly string $channelId
     ) {
     }
 

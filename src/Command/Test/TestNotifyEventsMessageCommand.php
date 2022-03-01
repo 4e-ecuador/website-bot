@@ -16,8 +16,8 @@ class TestNotifyEventsMessageCommand extends Command
     protected static $defaultName = 'bot:test:NotifyEventsMessage';
 
     public function __construct(
-        private TelegramBotHelper $telegramBotHelper,
-        private TelegramMessageHelper $telegramMessageHelper
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly TelegramMessageHelper $telegramMessageHelper
     ) {
         parent::__construct();
     }

@@ -20,9 +20,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class NotifyEventsCommand extends Command
 {
     public function __construct(
-        private NotifyEventsMessage $notifyEventsMessage,
-        private AgentRepository $agentRepository,
-        private TelegramBotHelper $telegramBotHelper
+        private readonly NotifyEventsMessage $notifyEventsMessage,
+        private readonly AgentRepository $agentRepository,
+        private readonly TelegramBotHelper $telegramBotHelper
     ) {
         parent::__construct();
     }

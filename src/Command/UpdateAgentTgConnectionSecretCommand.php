@@ -18,8 +18,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class UpdateAgentTgConnectionSecretCommand extends Command
 {
     public function __construct(
-        private AgentRepository $agentRepository,
-        private EntityManagerInterface $entityManager
+        private readonly AgentRepository $agentRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
     }

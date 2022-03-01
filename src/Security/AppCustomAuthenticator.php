@@ -21,8 +21,8 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private string $appEnv
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly string $appEnv
     ) {
     }
 

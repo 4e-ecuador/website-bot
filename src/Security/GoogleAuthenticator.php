@@ -30,12 +30,12 @@ class GoogleAuthenticator extends AbstractAuthenticator
     use TargetPathTrait;
 
     public function __construct(
-        private ClientRegistry $clientRegistry,
-        private EntityManagerInterface $entityManager,
-        private UserRepository $userRepository,
-        private UrlGeneratorInterface $urlGenerator,
-        private TelegramBotHelper $telegramBotHelper,
-        private TelegramAdminMessageHelper $telegramAdminMessageHelper,
+        private readonly ClientRegistry $clientRegistry,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserRepository $userRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper,
     ) {
     }
 

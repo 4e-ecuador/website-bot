@@ -9,7 +9,7 @@ use UnexpectedValueException;
 
 final class CiteService
 {
-    public function __construct(private string $rootDir)
+    public function __construct(private readonly string $rootDir)
     {
     }
 

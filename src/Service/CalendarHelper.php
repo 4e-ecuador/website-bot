@@ -7,7 +7,7 @@ use DateTimeZone;
 
 class CalendarHelper
 {
-    private DateTimeZone $timezone;
+    private readonly DateTimeZone $timezone;
 
     public function __construct(
         string $defaultTimeZone,

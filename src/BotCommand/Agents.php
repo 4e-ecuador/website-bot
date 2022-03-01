@@ -12,7 +12,7 @@ use TelegramBot\Api\Types\Update;
 
 class Agents extends AbstractCommand implements PublicCommandInterface
 {
-    public function __construct(private AgentRepository $repository)
+    public function __construct(private readonly AgentRepository $repository)
     {
     }
 
@@ -44,11 +44,11 @@ class Agents extends AbstractCommand implements PublicCommandInterface
 
         if (preg_match(
             self::REGEXP,
-            $update->getMessage()->getText(),
+            (string) $update->getMessage()->getText(),
             $matches
         )
         ) {
-            $parts = explode(' ', $matches[3]);
+            $parts = explode(' ', (string) $matches[3]);
             if (2 !== count($parts)) {
                 $response[] = sprintf(
                     'We have %d agents in the database',
@@ -68,7 +68,7 @@ class Agents extends AbstractCommand implements PublicCommandInterface
                         $response[] = '';
                         $agentsLike = [];
                         foreach ($agents as $agent) {
-                            if (str_contains($agent->getNickname(), $parts[1])
+                            if (str_contains((string) $agent->getNickname(), (string) $parts[1])
                             ) {
                                 $agentsLike[] = ' `'.$agent->getNickname()
                                     .'` - '.$agent->getRealName();

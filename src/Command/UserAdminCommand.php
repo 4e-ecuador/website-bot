@@ -22,7 +22,7 @@ use UnexpectedValueException;
 )]
 class UserAdminCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct();
     }

@@ -22,10 +22,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SendStatusCommand extends Command
 {
     public function __construct(
-        private TelegramBotHelper $telegramBotHelper,
-        private AgentStatRepository $agentStatRepository,
-        private EmojiService $emojiService,
-        private string $defaultTimeZone
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly AgentStatRepository $agentStatRepository,
+        private readonly EmojiService $emojiService,
+        private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

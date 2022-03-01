@@ -32,10 +32,10 @@ class AppExtension extends AbstractExtension
         ];
 
     public function __construct(
-        private MedalChecker $medalChecker,
-        private MarkdownHelper $markdownHelper,
-        private IntlDateHelper $intlDateHelper,
-        private string $defaultTimeZone
+        private readonly MedalChecker $medalChecker,
+        private readonly MarkdownHelper $markdownHelper,
+        private readonly IntlDateHelper $intlDateHelper,
+        private readonly string $defaultTimeZone
     ) {
     }
 

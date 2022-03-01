@@ -12,11 +12,11 @@ use UnexpectedValueException;
 
 class EventHelper
 {
-    private DateTimeZone $timezone;
+    private readonly DateTimeZone $timezone;
 
     public function __construct(
-        private EventRepository $eventRepository,
-        private ChallengeRepository $challengeRepository,
+        private readonly EventRepository $eventRepository,
+        private readonly ChallengeRepository $challengeRepository,
         string $defaultTimeZone
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);

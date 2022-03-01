@@ -15,8 +15,8 @@ use TelegramBot\Api\Types\Update;
 class Cite extends AbstractCommand implements PublicCommandInterface
 {
     public function __construct(
-        private CiteService $citeService,
-        private EmojiService $emojiService
+        private readonly CiteService $citeService,
+        private readonly EmojiService $emojiService
     ) {
     }
 

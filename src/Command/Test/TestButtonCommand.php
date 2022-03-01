@@ -16,7 +16,7 @@ class TestButtonCommand extends Command
 {
     protected static $defaultName = 'bot:test:button';
 
-    public function __construct(private TelegramBotHelper $telegramBotHelper)
+    public function __construct(private readonly TelegramBotHelper $telegramBotHelper)
     {
         parent::__construct();
     }

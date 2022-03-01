@@ -23,10 +23,10 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
     public function __construct(
         LoggerInterface $logger,
-        private BotApi $botApi,
-        private AgentRepository $agentRepository,
-        private Templater $templater,
-        private TelegramBotHelper $telegramBotHelper
+        private readonly BotApi $botApi,
+        private readonly AgentRepository $agentRepository,
+        private readonly Templater $templater,
+        private readonly TelegramBotHelper $telegramBotHelper
     ) {
         $this->setLogger($logger);
     }

@@ -8,7 +8,7 @@ use UnexpectedValueException;
 
 class CsvParser
 {
-    public function __construct(private MedalChecker $medalChecker)
+    public function __construct(private readonly MedalChecker $medalChecker)
     {
     }
 

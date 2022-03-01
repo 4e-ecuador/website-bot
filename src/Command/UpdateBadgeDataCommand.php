@@ -23,12 +23,12 @@ use function Symfony\Component\String\u;
 )]
 class UpdateBadgeDataCommand extends Command
 {
-    private string $badgeRoot;
-    private string $scrapeSite;
-    private string $assetRoot;
-    private array $sizes;
+    private readonly string $badgeRoot;
+    private readonly string $scrapeSite;
+    private readonly string $assetRoot;
+    private readonly array $sizes;
 
-    public function __construct(private string $rootDir)
+    public function __construct(private readonly string $rootDir)
     {
         $this->assetRoot = $rootDir.'/assets';
         $this->badgeRoot = $rootDir.'/assets/images/badges';
@@ -131,7 +131,7 @@ class UpdateBadgeDataCommand extends Command
                     $element->getAttribute('data-original')
                 )->slice(
                     0,
-                    strlen($element->getAttribute('data-original')) - 4
+                    strlen((string) $element->getAttribute('data-original')) - 4
                 );
             }
 
@@ -146,7 +146,7 @@ class UpdateBadgeDataCommand extends Command
                 // $badgeInfo->x = $element->nodeValue;
                 // $temp = str_replace($badgeInfo->title, '', $element->nodeValue);
                 $temp = u($element->nodeValue)->slice(
-                    strlen($badgeInfo->title)
+                    strlen((string) $badgeInfo->title)
                 );
                 $badgeInfo->description = $temp;//$element->nodeValue;
             }

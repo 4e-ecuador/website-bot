@@ -16,8 +16,8 @@ class TestMedalMessageCommand extends Command
     protected static $defaultName = 'bot:test:medalMessage';
 
     public function __construct(
-        private TelegramMessageHelper $telegramMessageHelper,
-        private AgentRepository $agentRepository
+        private readonly TelegramMessageHelper $telegramMessageHelper,
+        private readonly AgentRepository $agentRepository
     ) {
         parent::__construct();
     }

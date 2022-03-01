@@ -10,8 +10,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LocaleListener
 {
     public function __construct(
-        private Security $security,
-        private TranslatorInterface $translator
+        private readonly Security $security,
+        private readonly TranslatorInterface $translator
     ) {
     }
 

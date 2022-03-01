@@ -12,12 +12,12 @@ use UnexpectedValueException;
 
 class TelegramBotHelper
 {
-    private array $groupIds;
+    private readonly array $groupIds;
 
     public function __construct(
-        private BotApi $api,
+        private readonly BotApi $api,
 
-        private string $botName,
+        private readonly string $botName,
         string $groupIdDefault,
         string $groupIdAdmin,
         string $groupIdIntro,

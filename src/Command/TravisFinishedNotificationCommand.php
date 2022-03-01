@@ -20,8 +20,8 @@ use TelegramBot\Api\InvalidArgumentException;
 class TravisFinishedNotificationCommand extends Command
 {
     public function __construct(
-        private TelegramBotHelper $telegramBotHelper,
-        private EmojiService $emojiService
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly EmojiService $emojiService
     ) {
         parent::__construct();
     }

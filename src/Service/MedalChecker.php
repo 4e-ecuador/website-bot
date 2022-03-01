@@ -367,8 +367,8 @@ class MedalChecker
 
     public function __construct(
         TranslatorInterface $translator,
-        private string $rootDir,
-        private string $appEnv,
+        private readonly string $rootDir,
+        private readonly string $appEnv,
     ) {
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');

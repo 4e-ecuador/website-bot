@@ -8,9 +8,9 @@ use App\Entity\User;
 class BoardEntry
 {
     public function __construct(
-        private Agent $agent,
-        private User $user,
-        private float $value
+        private readonly Agent $agent,
+        private readonly User $user,
+        private readonly float $value
     ) {
     }
 

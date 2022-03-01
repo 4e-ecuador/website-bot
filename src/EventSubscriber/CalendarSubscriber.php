@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface $router,
-        private IngressEventRepository $ingressEventRepository,
-        private string $defaultTimeZone
+        private readonly UrlGeneratorInterface $router,
+        private readonly IngressEventRepository $ingressEventRepository,
+        private readonly string $defaultTimeZone
     ) {
     }
 

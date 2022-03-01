@@ -24,12 +24,12 @@ use UnexpectedValueException;
 class SendEventUpdateCommand extends Command
 {
     public function __construct(
-        private string $rootDir,
-        private TelegramBotHelper $telegramBotHelper,
-        private EventHelper $eventHelper,
-        private EventRepository $eventRepository,
-        private AgentStatRepository $statRepository,
-        private string $defaultTimeZone
+        private readonly string $rootDir,
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly EventHelper $eventHelper,
+        private readonly EventRepository $eventRepository,
+        private readonly AgentStatRepository $statRepository,
+        private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

@@ -15,7 +15,7 @@ class TestMessageCommand extends Command
 {
     protected static $defaultName = 'bot:test:message';
 
-    public function __construct(private TelegramBotHelper $telegramBotHelper)
+    public function __construct(private readonly TelegramBotHelper $telegramBotHelper)
     {
         parent::__construct();
     }

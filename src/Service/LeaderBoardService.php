@@ -9,7 +9,7 @@ use App\Type\BoardEntry;
 class LeaderBoardService
 {
     public function __construct(
-        private AgentStatRepository $statRepository,
+        private readonly AgentStatRepository $statRepository,
     ) {
     }
 

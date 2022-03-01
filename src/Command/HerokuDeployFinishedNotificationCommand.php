@@ -21,9 +21,9 @@ class HerokuDeployFinishedNotificationCommand extends Command
 {
 
     public function __construct(
-        private TelegramBotHelper $telegramBotHelper,
-        private EmojiService $emojiService,
-        private string $pageBaseUrl
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly EmojiService $emojiService,
+        private readonly string $pageBaseUrl
     ) {
         parent::__construct();
     }

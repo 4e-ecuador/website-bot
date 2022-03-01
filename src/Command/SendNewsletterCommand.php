@@ -27,12 +27,12 @@ class SendNewsletterCommand extends Command
 {
 
     public function __construct(
-        private TelegramBotHelper $telegramBotHelper,
-        private EventRepository $eventRepository,
-        private IngressEventRepository $ingressEventRepository,
-        private UrlGeneratorInterface $router,
-        private string $defaultTimeZone,
-        private string $pageBaseUrl
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly EventRepository $eventRepository,
+        private readonly IngressEventRepository $ingressEventRepository,
+        private readonly UrlGeneratorInterface $router,
+        private readonly string $defaultTimeZone,
+        private readonly string $pageBaseUrl
     ) {
         parent::__construct();
     }

@@ -8,8 +8,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class Templater
 {
     public function __construct(
-        private string $rootDir,
-        private Filesystem $filesystem
+        private readonly string $rootDir,
+        private readonly Filesystem $filesystem
     ) {
     }
 

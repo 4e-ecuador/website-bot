@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class AndroidNotificationCommand extends Command
 {
-    public function __construct(private string $fcmKey)
+    public function __construct(private readonly string $fcmKey)
     {
         parent::__construct();
     }

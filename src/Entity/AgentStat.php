@@ -475,7 +475,7 @@ class AgentStat implements ArrayAccess
     {
         if (strpos($offset, '-')) {
             $offset = lcfirst(
-                implode('', array_map('ucfirst', explode('-', $offset)))
+                implode('', array_map('ucfirst', explode('-', (string) $offset)))
             );
         }
 
@@ -497,7 +497,7 @@ class AgentStat implements ArrayAccess
     public function offsetGet(mixed $offset): mixed
     {
         $offset = lcfirst(
-            implode('', array_map('ucfirst', explode('-', $offset)))
+            implode('', array_map('ucfirst', explode('-', (string) $offset)))
         );
 
         return $this->$offset;

@@ -20,12 +20,12 @@ class TestNotifyUploadReminderMessageCommand extends Command
     protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';
 
     public function __construct(
-        private TelegramMessageHelper $telegramMessageHelper,
-        private TelegramBotHelper $telegramBotHelper,
-        private TranslatorInterface $translator,
-        private AgentRepository $agentRepository,
-        private EmojiService $emojiService,
-        private MedalChecker $medalChecker,
+        private readonly TelegramMessageHelper $telegramMessageHelper,
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly TranslatorInterface $translator,
+        private readonly AgentRepository $agentRepository,
+        private readonly EmojiService $emojiService,
+        private readonly MedalChecker $medalChecker,
     ) {
         parent::__construct();
     }

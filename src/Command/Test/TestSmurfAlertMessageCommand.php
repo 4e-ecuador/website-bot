@@ -17,7 +17,7 @@ class TestSmurfAlertMessageCommand extends Command
     protected static $defaultName = 'bot:test:SmurfAlertMessage';
 
     public function __construct(
-        private TelegramAdminMessageHelper $telegramAdminMessageHelper
+        private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper
     ) {
         parent::__construct();
     }

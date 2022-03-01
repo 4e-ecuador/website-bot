@@ -8,8 +8,8 @@ use Psr\Cache\InvalidArgumentException;
 class MarkdownHelper
 {
     public function __construct(
-        private CacheItemPoolInterface $cache,
-        private MarkdownParser $markdown
+        private readonly CacheItemPoolInterface $cache,
+        private readonly MarkdownParser $markdown
     ) {
     }
 

@@ -8,10 +8,10 @@ use Twig\Environment;
 
 class TwigListener
 {
-    private string $locale;
+    private readonly string $locale;
 
     public function __construct(
-        private Environment $twig,
+        private readonly Environment $twig,
         TranslatorInterface $translator
     ) {
         $this->locale = $translator->getLocale();

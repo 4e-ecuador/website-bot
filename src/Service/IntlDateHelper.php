@@ -9,11 +9,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IntlDateHelper
 {
-    private DateTimeZone $defaultTimezone;
-    private IntlDateFormatter $formatterLong;
-    private IntlDateFormatter $formatterShort;
-    private string $locale;
-    private string $timeZone;
+    private readonly DateTimeZone $defaultTimezone;
+    private readonly IntlDateFormatter $formatterLong;
+    private readonly IntlDateFormatter $formatterShort;
+    private readonly string $locale;
+    private readonly string $timeZone;
 
     public function __construct(
         string $defaultTimeZone,

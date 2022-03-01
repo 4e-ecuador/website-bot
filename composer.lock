@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d7c8ca1ec052522cd8d83f0d63f4b63",
+    "content-hash": "9b8e3c8ac8f9b9da1a6f4bfce0529148",
     "packages": [
         {
             "name": "boshurik/telegram-bot-bundle",

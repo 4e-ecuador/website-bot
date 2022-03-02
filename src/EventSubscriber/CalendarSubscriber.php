@@ -16,7 +16,6 @@ class CalendarSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly UrlGeneratorInterface $router,
         private readonly IngressEventRepository $ingressEventRepository,
-        private readonly string $defaultTimeZone
     ) {
     }
 

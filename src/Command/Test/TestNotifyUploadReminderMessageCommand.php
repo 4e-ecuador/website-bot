@@ -2,16 +2,12 @@
 
 namespace App\Command\Test;
 
-use App\Repository\AgentRepository;
-use App\Service\EmojiService;
-use App\Service\MedalChecker;
 use App\Service\TelegramBotHelper;
 use App\Service\TelegramMessageHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
@@ -22,10 +18,6 @@ class TestNotifyUploadReminderMessageCommand extends Command
     public function __construct(
         private readonly TelegramMessageHelper $telegramMessageHelper,
         private readonly TelegramBotHelper $telegramBotHelper,
-        private readonly TranslatorInterface $translator,
-        private readonly AgentRepository $agentRepository,
-        private readonly EmojiService $emojiService,
-        private readonly MedalChecker $medalChecker,
     ) {
         parent::__construct();
     }

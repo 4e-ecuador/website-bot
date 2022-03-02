@@ -27,7 +27,7 @@ class TestController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route(path: '/', name: 'test')]
+    #[Route(path: '/', name: 'test', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(KernelInterface $kernel): Response
     {
@@ -55,7 +55,7 @@ class TestController extends AbstractController
      * @throws \TelegramBot\Api\Exception
      * @throws InvalidArgumentException
      */
-    #[Route(path: '/bot', name: 'test_bot')]
+    #[Route(path: '/bot', name: 'test_bot', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function botTest(
         Request $request,
@@ -81,7 +81,7 @@ class TestController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route(path: '/mail', name: 'test_mail')]
+    #[Route(path: '/mail', name: 'test_mail', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function mailTest(
         Request $request,
@@ -103,7 +103,7 @@ class TestController extends AbstractController
     /**
      * @throws EmojiNotFoundException
      */
-    #[Route(path: '/emojis✨', name: 'test_emojis')]
+    #[Route(path: '/emojis✨', name: 'test_emojis', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function testEmojis(EmojiService $emojiService): Response
     {
@@ -115,14 +115,14 @@ class TestController extends AbstractController
         );
     }
 
-    #[Route(path: '/modify-stats', name: 'test_modify_stats')]
+    #[Route(path: '/modify-stats', name: 'test_modify_stats', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function modifyStats(): Response
     {
         return $this->render('test/modify-stats.html.twig');
     }
 
-    #[Route(path: '/modify-stats/input', name: 'test_modify_stats_input')]
+    #[Route(path: '/modify-stats/input', name: 'test_modify_stats_input', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function modifyStatsInput(
         Request $request,

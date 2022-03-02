@@ -15,7 +15,7 @@ class Markdown extends AbstractController
     /**
      * Converts a markdown string to HTML.
      */
-    #[Route(path: '/preview', name: 'markdown_preview')]
+    #[Route(path: '/preview', name: 'markdown_preview', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function preview(
         Request $request,

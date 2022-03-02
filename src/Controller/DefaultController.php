@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route(path: '/', name: 'default')]
+    #[Route(path: '/', name: 'default', methods: ['GET'])]
     public function index(
         AgentRepository $agentRepository,
         CommentRepository $commentRepository,
@@ -104,7 +104,7 @@ class DefaultController extends AbstractController
         return $this->render('event/calendar.html.twig');
     }
 
-    #[Route(path: '/events', name: 'default_events')]
+    #[Route(path: '/events', name: 'default_events', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function events(
         EventHelper $eventHelper,

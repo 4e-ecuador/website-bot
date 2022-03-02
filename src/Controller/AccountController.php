@@ -16,7 +16,7 @@ use UnexpectedValueException;
 
 class AccountController extends BaseController
 {
-    #[Route(path: '/account', name: 'app_account')]
+    #[Route(path: '/account', name: 'app_account', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function account(
         Request $request,
@@ -82,7 +82,7 @@ class AccountController extends BaseController
         );
     }
 
-    #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect')]
+    #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramDisconnect(EntityManagerInterface $entityManager): RedirectResponse
     {
@@ -97,7 +97,7 @@ class AccountController extends BaseController
         return $this->redirectToRoute('app_account');
     }
 
-    #[Route(path: '/account/tg-connect', name: 'tg_connect')]
+    #[Route(path: '/account/tg-connect', name: 'tg_connect', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function telegramConnect(TelegramBotHelper $telegramBotHelper
     ): RedirectResponse {

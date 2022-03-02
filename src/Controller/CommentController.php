@@ -146,7 +146,7 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    #[Route(path: '/getagentids', name: 'comment_agent_ids')]
+    #[Route(path: '/getagentids', name: 'comment_agent_ids', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function getAgentCommentIds(
         Request $request,

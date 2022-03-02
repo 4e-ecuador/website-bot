@@ -33,7 +33,7 @@ class StatsController extends BaseController
     /**
      * @throws NonUniqueResultException
      */
-    #[Route(path: '/agent/{id}', name: 'agent_stats')]
+    #[Route(path: '/agent/{id}', name: 'agent_stats', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentStats(
         Agent $agent,
@@ -80,7 +80,7 @@ class StatsController extends BaseController
     /**
      * @throws Exception
      */
-    #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data')]
+    #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function agentStatsJson(
         Agent $agent,
@@ -109,7 +109,7 @@ class StatsController extends BaseController
         return new JsonResponse($data);
     }
 
-    #[Route(path: '/leaderboard', name: 'stats_leaderboard')]
+    #[Route(path: '/leaderboard', name: 'stats_leaderboard', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function leaderBoard(
         UserRepository $userRepository,
@@ -127,7 +127,7 @@ class StatsController extends BaseController
         );
     }
 
-    #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail')]
+    #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function leaderBoardDetail(
         AgentStatRepository $statRepository,
@@ -167,7 +167,7 @@ class StatsController extends BaseController
     /**
      * @throws Exception
      */
-    #[Route(path: '/by-date', name: 'stats_by_date')]
+    #[Route(path: '/by-date', name: 'stats_by_date', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function byDate(
         Request $request,

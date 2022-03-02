@@ -9,6 +9,7 @@ use App\Helper\Paginator\PaginatorRepoTrait;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -17,6 +18,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  * @method AgentStat|null findOneBy(array $criteria, array $orderBy = null)
  * @method AgentStat[]    findAll()
  * @method AgentStat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<AgentStatRepository>
  */
 class AgentStatRepository extends ServiceEntityRepository
 {
@@ -27,6 +30,9 @@ class AgentStatRepository extends ServiceEntityRepository
         parent::__construct($registry, AgentStat::class);
     }
 
+    /**
+     * @return AgentStat[]
+     */
     public function has(AgentStat $statEntry)
     {
         return $this->createQueryBuilder('a')
@@ -126,6 +132,9 @@ class AgentStatRepository extends ServiceEntityRepository
         return null;
     }
 
+    /**
+     * @return Paginator<Query>
+     */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {
         $query = $this->createQueryBuilder('a');
@@ -149,6 +158,9 @@ class AgentStatRepository extends ServiceEntityRepository
         );
     }
 
+    /**
+     * @return AgentStat[]
+     */
     public function findTodays()
     {
         $startDatetime = DateTime::createFromFormat(
@@ -169,6 +181,9 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return AgentStat[]
+     */
     public function findDayly(DateTime $dateTime)
     {
         $startDatetime = $dateTime->format('Y-m-d').' 00:00:00';

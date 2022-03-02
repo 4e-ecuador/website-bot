@@ -13,20 +13,19 @@ class LeaderBoardService
     ) {
     }
 
+    /**
+     * @param array<User> $users
+     *
+     * @return array<string, array<int, BoardEntry>>|array<int, BoardEntry>
+     */
     public function getBoard(
         array $users,
         string $typeOnly = 'all'
-    ) {
+    ): array {
         $boardEntries = [];
 
         foreach ($users as $user) {
-            if ($user instanceof User) {
-                $agent = $user->getAgent();
-            } else {
-                throw new \UnexpectedValueException(
-                    'Unsupported user type:'.$user::class
-                );
-            }
+            $agent = $user->getAgent();
 
             if (!$agent) {
                 continue;

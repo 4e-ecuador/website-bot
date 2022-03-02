@@ -38,6 +38,9 @@ class Agent implements Stringable
     #[JoinColumn(nullable: false)]
     private ?Faction $faction = null;
 
+    /**
+     * @var Collection<int, Comment>
+     */
     #[OneToMany(mappedBy: 'agent', targetEntity: Comment::class)]
     private Collection $comments;
 
@@ -149,7 +152,7 @@ class Agent implements Stringable
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Collection<int, Comment>|Comment[]
      */
     public function getComments(): Collection
     {

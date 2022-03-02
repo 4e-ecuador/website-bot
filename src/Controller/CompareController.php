@@ -106,7 +106,7 @@ class CompareController extends AbstractController
      * @return int[]
      * @throws \JsonException
      */
-    private function getIdsFromRequest(Request $request, $key = 'agents'): array
+    private function getIdsFromRequest(Request $request, string $key = 'agents'): array
     {
         $ids = json_decode(
             $request->query->get($key),

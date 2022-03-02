@@ -17,6 +17,9 @@ use App\Type\Emoji;
  */
 final class EmojiService
 {
+    /**
+     * @var array<string, array<string, string>>
+     */
     private array $emojies
         = [
             'tadaa'       => [
@@ -99,6 +102,9 @@ final class EmojiService
         throw new EmojiNotFoundException('No such emoji ;(');
     }
 
+    /**
+     * @return array<string>
+     */
     public function getKeys(): array
     {
         return array_keys($this->emojies);

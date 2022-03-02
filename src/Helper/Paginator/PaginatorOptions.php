@@ -21,6 +21,9 @@ class PaginatorOptions
     private int $limit = 10;
     private string $order = 'id';
     private string $orderDir = 'ASC';
+    /**
+     * @var array<string>
+     */
     private array $criteria = [];
 
     public function setPage(int $page): PaginatorOptions
@@ -68,6 +71,9 @@ class PaginatorOptions
         return $this->orderDir;
     }
 
+    /**
+     * @param array<string> $criteria
+     */
     public function setCriteria(array $criteria): PaginatorOptions
     {
         $this->criteria = $criteria;
@@ -75,6 +81,9 @@ class PaginatorOptions
         return $this;
     }
 
+    /**
+     * @return string[]
+     */
     public function getCriteria(): array
     {
         return $this->criteria;

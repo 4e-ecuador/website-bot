@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\AgentStat;
+use App\Entity\Challenge;
 use App\Entity\Event;
 use App\Repository\ChallengeRepository;
 use App\Repository\EventRepository;
@@ -40,13 +42,18 @@ class EventHelper
         return ($dateNow > $fsThisMonth) ? $fsNextMonth : $fsThisMonth;
     }
 
+    /**
+     * @param iterable<AgentStat> $entries
+     *
+     * @return array<string, int>
+     */
     public function calculateResults(Event $event, iterable $entries): array
     {
         $previousEntries = [];
         $currentEntries = [];
 
         foreach ($entries as $entry) {
-            $agentName = $entry->getAgent()->getNickname();
+            $agentName = $entry->getAgent()?->getNickname();
 
             if (false === isset($previousEntries[$agentName])) {
                 $previousEntries[$agentName] = $entry;
@@ -85,6 +92,7 @@ class EventHelper
     }
 
     /**
+     * @return array<Event>
      * @throws Exception
      */
     public function getEventsInSpan(string $span): ?array
@@ -131,6 +139,7 @@ class EventHelper
     }
 
     /**
+     * @return array<Challenge>|null
      * @throws Exception
      */
     public function getChallengesInSpan(string $span): ?array

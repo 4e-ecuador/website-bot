@@ -109,6 +109,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "elkuku/symfony-utils": {
+        "version": "dev-master"
+    },
     "fabpot/goutte": {
         "version": "v4.0.2"
     },

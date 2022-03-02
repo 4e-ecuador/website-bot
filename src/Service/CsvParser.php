@@ -15,6 +15,7 @@ class CsvParser
     /**
      * @throws StatsNotAllException
      * @throws InvalidCsvException
+     * @return array<string, array<string, string>>
      */
     public function parse(string $csvString, string $type = 'prime'): array
     {
@@ -28,6 +29,7 @@ class CsvParser
     /**
      * @throws StatsNotAllException
      * @throws InvalidCsvException
+     * @return array<string, array<string, string>>
      */
     private function parsePrimeCsv(string $csvString): array
     {
@@ -88,6 +90,7 @@ class CsvParser
     }
 
     /**
+     * @return array<string, array<string, string>>
      * @throws InvalidCsvException
      */
     private function parseAgentStatsCsv(string $csvString): array

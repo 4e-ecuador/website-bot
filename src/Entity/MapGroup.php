@@ -22,6 +22,9 @@ class MapGroup
     #[Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Agent>
+     */
     #[OneToMany(mappedBy: 'map_group', targetEntity: Agent::class)]
     private Collection $agents;
 
@@ -48,7 +51,7 @@ class MapGroup
     }
 
     /**
-     * @return Collection|Agent[]
+     * @return Collection<int, Agent>
      */
     public function getAgents(): Collection
     {

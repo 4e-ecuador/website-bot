@@ -8,6 +8,7 @@ use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Agent|null findOneBy(array $criteria, array $orderBy = null)
  * @method Agent[]    findAll()
  * @method Agent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<AgentRepository>
  */
 class AgentRepository extends ServiceEntityRepository
 {
@@ -27,7 +30,7 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Paginator<Agent>
+     * @return Paginator<Query>
      */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {
@@ -69,7 +72,9 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Agent[]
+     * @param array<int> $excludes
+     *
+     * @return array<Agent>
      */
     public function searchByAgentName(
         string $agentName,
@@ -93,7 +98,7 @@ class AgentRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function findOneByNickName($value): ?Agent
+    public function findOneByNickName(string $value): ?Agent
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.nickname = :val')
@@ -149,7 +154,9 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Agent[]
+     * @param  array<int> $ids
+     *
+     * @return array<Agent>
      */
     public function searchByIds(array $ids): array
     {

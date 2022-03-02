@@ -230,6 +230,9 @@ class AgentController extends BaseController
         $modRequest->query->set('paginatorOptions', $paginatorOptions);
 
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
+        /**
+         * @var Agent[] $agents
+         */
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($agents) / $paginatorOptions->getLimit())
@@ -256,7 +259,7 @@ class AgentController extends BaseController
         $view->{'hydra:last'} = $paginatorOptions->getMaxPages();
 
         $response->{'hydra:view'} = $view;
-        $response->{'hydra:totalItems'} = $agents->count();
+        $response->{'hydra:totalItems'} = count($agents);
 
         return $this->json($response);
     }

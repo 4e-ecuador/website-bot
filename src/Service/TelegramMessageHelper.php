@@ -87,6 +87,8 @@ class TelegramMessageHelper
     }
 
     /**
+     * @param array<string, int> $medalUps
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      */
@@ -116,6 +118,8 @@ class TelegramMessageHelper
     }
 
     /**
+     * @param array<string, int> $medalDoubles
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      */

@@ -33,9 +33,9 @@ class MarkdownParser  extends MarkdownExtra
     /**
      * @throws NonUniqueResultException
      */
-    private function replaceAgentName($text): string
+    private function replaceAgentName(string $text): string
     {
-        $text = preg_replace_callback(
+        return preg_replace_callback(
             '/@([a-zA-Z0-9]+)/',
             function ($agentName) {
                 $agent = $this->agentRepository->findOneByNickName(
@@ -66,8 +66,6 @@ class MarkdownParser  extends MarkdownExtra
             },
             $text
         );
-
-        return $text;
     }
 
     private function makeImagesResponsive(string $text): string

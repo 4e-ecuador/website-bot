@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use App\Repository\AgentStatRepository;
 use ReflectionClass;
 
+/**
+ * @implements ArrayAccess<int, int>
+ */
 #[Entity(repositoryClass: AgentStatRepository::class)]
 class AgentStat implements ArrayAccess
 {
@@ -444,6 +447,9 @@ class AgentStat implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function findProperties(): array
     {
         $properties = [];
@@ -543,6 +549,9 @@ class AgentStat implements ArrayAccess
         // TODO: Implement offsetUnset() method.
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function computeDiff(AgentStat $previous): array
     {
         $diff = [];

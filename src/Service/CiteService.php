@@ -26,6 +26,9 @@ final class CiteService
         return $cites[$i];
     }
 
+    /**
+     * @return array<string>
+     */
     private function fetchCites()
     {
         static $cites;

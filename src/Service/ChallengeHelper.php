@@ -6,6 +6,11 @@ use App\Entity\AgentStat;
 
 class ChallengeHelper
 {
+    /**
+     * @param array<AgentStat> $entries
+     *
+     * @return array<string, int>
+     */
     public function getResults(array $entries): array
     {
         $results = [];

@@ -13,7 +13,7 @@ class Templater
     ) {
     }
 
-    public function getTemplate(string $templateName)
+    public function getTemplate(string $templateName): string
     {
         $path = $this->rootDir.'/text-files/'.$templateName;
 
@@ -24,7 +24,7 @@ class Templater
         return 'File not found';
     }
 
-    public function replaceAgentTemplate(string $templateName, Agent $agent)
+    public function replaceAgentTemplate(string $templateName, Agent $agent): string
     {
         $template = $this->getTemplate($templateName);
 

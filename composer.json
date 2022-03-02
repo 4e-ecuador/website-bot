@@ -61,6 +61,7 @@
     "twig/twig": "^2.12|^3.0"
   },
   "require-dev": {
+    "elkuku/symfony-utils": "dev-master",
     "hautelook/alice-bundle": "^2.7",
     "phpstan/extension-installer": "^1.1",
     "phpstan/phpstan": "^1.4",

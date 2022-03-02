@@ -46,19 +46,16 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         $credentials = $this->getCredentials($request);
 
         return new SelfValidatingPassport(
-            new UserBadge($credentials['email'] ?? ''),
+            new UserBadge($credentials['email']),
             [
-                new CsrfTokenBadge('login', $credentials['csrf_token'] ?? ''),
+                new CsrfTokenBadge('login', $credentials['csrf_token']),
                 new RememberMeBadge(),
             ]
         );
     }
 
     /**
-     * @return array {
-     *   email: string,
-     *   csrf_token: string
-     * }
+     * @return array{ email: string, csrf_token: string }
      */
     public function getCredentials(
         Request $request
@@ -79,7 +76,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
-        $firewallName
+        string $firewallName
     ): RedirectResponse {
         $targetPath = $this->getTargetPath(
             $request->getSession(),

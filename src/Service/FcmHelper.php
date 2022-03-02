@@ -9,6 +9,9 @@ use RuntimeException;
  */
 class FcmHelper
 {
+    /**
+     * @var array<string>
+     */
     public array $tokens = [];
     public string $type = '';
 
@@ -21,8 +24,8 @@ class FcmHelper
     public function sendMessage(
         string $title,
         string $message,
-        $to = '/topics/allDevices'
-    ) {
+        string $to = '/topics/allDevices'
+    ): bool {
         $data = [
             'to'   => $to,
             'data' => [
@@ -36,7 +39,10 @@ class FcmHelper
         return $this->send($data);
     }
 
-    public function sendMessageWithTokens(string $title, string $message, $to)
+    /**
+     * @param string|array<string> $to
+     */
+    public function sendMessageWithTokens(string $title, string $message, string|array $to): bool
     {
         if (is_array($to)) {
             $data = [
@@ -78,7 +84,10 @@ class FcmHelper
         return $this->send($data);
     }
 
-    private function send(array $dataArray)
+    /**
+     * @param array<string, array<string, string>|string> $dataArray
+     */
+    private function send(array $dataArray): bool
     {
         $data = json_encode($dataArray);
 
@@ -105,13 +114,13 @@ class FcmHelper
             throw new RuntimeException('Something went wrong with FCM :(');
         }
 
-        return $result;
+        return (bool)$result;
     }
 
     /**
      * @todo dummy
      */
-    public function sendX(string $title, string $message)
+    public function sendX(string $title, string $message): void
     {
         // $message = [
         //     'to' => '/topics/allDevices',

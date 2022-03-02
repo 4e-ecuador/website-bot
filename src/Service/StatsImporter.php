@@ -34,7 +34,7 @@ class StatsImporter
      * @throws StatsAlreadyAddedException
      * @throws StatsNotAllException
      */
-    public function createEntryFromCsv(Agent $agent, $csv): AgentStat
+    public function createEntryFromCsv(Agent $agent, string $csv): AgentStat
     {
         return $this->updateEntryFromCsv(new AgentStat(), $agent, $csv);
     }

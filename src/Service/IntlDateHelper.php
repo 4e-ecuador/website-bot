@@ -43,12 +43,12 @@ class IntlDateHelper
         $this->timeZone = $defaultTimeZone;
     }
 
-    public function format(DateTime $date)
+    public function format(DateTime $date): string
     {
         return $this->formatterLong->format($date);
     }
 
-    public function formatShort(DateTime $date)
+    public function formatShort(DateTime $date): string
     {
         return $this->formatterShort->format($date);
     }
@@ -58,7 +58,7 @@ class IntlDateHelper
         return $this->defaultTimezone;
     }
 
-    public function formatCustom($date, $format)
+    public function formatCustom(DateTime $date, string $format): string
     {
         $fmt = new IntlDateFormatter(
             $this->locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL,

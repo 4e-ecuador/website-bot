@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Faction|null findOneBy(array $criteria, array $orderBy = null)
  * @method Faction[]    findAll()
  * @method Faction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<FactionRepository>
  */
 class FactionRepository extends ServiceEntityRepository
 {

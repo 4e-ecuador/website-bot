@@ -10,6 +10,9 @@ use UnexpectedValueException;
 
 class MedalChecker
 {
+    /**
+     * @var array<string, array<string, array<int, int|null>|string>>
+     */
     private array $medalLevels
         = [
             'explorer'               => [
@@ -146,6 +149,9 @@ class MedalChecker
             ],
         ];
 
+    /**
+     * @var array<string, string>
+     */
     private array $primeHeaders
         = [
             'Time Span'                 => '',
@@ -231,6 +237,9 @@ class MedalChecker
             'Matryoshka Links Created'               => '',
         ];
 
+    /**
+     * @var array<string, array<int|string, array<int, string>|string>>
+     */
     private array $customMedals
         = [
             'Anomaly' =>
@@ -352,8 +361,14 @@ class MedalChecker
 
         ];
 
+    /**
+     * @var array<string>
+     */
     private array $discontinuedMedals = ['recruiter', 'seer'];
 
+    /**
+     * @var array<int, string>
+     */
     private array $levelNames
         = [
             1 => 'Bronze',
@@ -363,6 +378,9 @@ class MedalChecker
             5 => 'Black',
         ];
 
+    /**
+     * @var array<int, string>
+     */
     private array $translatedLevels = [];
 
     public function __construct(
@@ -377,6 +395,9 @@ class MedalChecker
         $this->translatedLevels[5] = $translator->trans('medal.level.onyx');
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function checkLevels(AgentStat $agentStat): array
     {
         $levels = [];
@@ -404,7 +425,7 @@ class MedalChecker
         return $this->levelNames[$level] ?? '';
     }
 
-    public function translatePrimeHeader($name): string
+    public function translatePrimeHeader(string $name): string
     {
         if (false === array_key_exists($name, $this->primeHeaders)) {
             if ('dev' === $this->appEnv) {
@@ -424,6 +445,9 @@ class MedalChecker
         return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getUpgrades(
         AgentStat $previousEntry,
         AgentStat $currentEntry
@@ -444,6 +468,9 @@ class MedalChecker
         return $upgrades;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getDoubles(
         AgentStat $previousEntry,
         AgentStat $currentEntry
@@ -531,7 +558,7 @@ class MedalChecker
         return $medalLevel;
     }
 
-    public function translateMedalLevel(int $level): string
+    public function translateMedalLevel(int $level): string|int
     {
         return $this->translatedLevels[$level] ?? $level;
     }
@@ -541,7 +568,7 @@ class MedalChecker
         $doubleValue = 0;
 
         if (5 === $this->getMedalLevel($medal, $value)) {
-            $base = $this->medalLevels[$medal]['levels'][4];
+            $base = (int)$this->medalLevels[$medal]['levels'][4];
 
             $doubleValue = (int)($value / $base);
         }
@@ -582,17 +609,23 @@ class MedalChecker
         return 'EventBadge_'.$medal.'_'.$this->getLevelName($level);
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     public function getCustomMedalGroups(): array
     {
         return $this->customMedals;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getMedalLevelNames(): array
     {
         return $this->levelNames;
     }
 
-    public function getMedalLevelName(int $level)
+    public function getMedalLevelName(int $level): string
     {
         return array_key_exists($level, $this->levelNames)
             ? $this->levelNames[$level] : '??';

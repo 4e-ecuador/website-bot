@@ -9,7 +9,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
 {
     private bool $firstAnnounce;
 
-    public function getMessage($useLinks = true): array
+    public function getMessage(bool $useLinks = true): array
     {
         $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
 

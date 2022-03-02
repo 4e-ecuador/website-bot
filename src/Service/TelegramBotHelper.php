@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Agent;
+use CURLFile;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -12,11 +13,13 @@ use UnexpectedValueException;
 
 class TelegramBotHelper
 {
+    /**
+     * @var string[]
+     */
     private readonly array $groupIds;
 
     public function __construct(
         private readonly BotApi $api,
-
         private readonly string $botName,
         string $groupIdDefault,
         string $groupIdAdmin,
@@ -50,7 +53,7 @@ class TelegramBotHelper
         return (int)$id;
     }
 
-    public function checkChatId($chatId): bool
+    public function checkChatId(string $chatId): bool
     {
         $allowedIdString = getenv('ALLOWED_TELEGRAM_CHATS');
 
@@ -122,7 +125,7 @@ class TelegramBotHelper
         );
     }
 
-    public function getConnectLink2($agent): string
+    public function getConnectLink2(Agent $agent): string
     {
         return sprintf(
             'http://www.telegram.me/%s?start=%s',
@@ -152,7 +155,7 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendPhoto($chatId, $photo, $caption): Message
+    public function sendPhoto(int|string $chatId, CURLFile|string $photo, string $caption): Message
     {
         return $this->api->sendPhoto(
             $chatId,

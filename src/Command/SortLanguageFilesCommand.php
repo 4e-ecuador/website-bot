@@ -18,6 +18,9 @@ class SortLanguageFilesCommand extends Command
     public function __construct(
         private readonly string $rootDir,
         private readonly string $locale,
+        /**
+         * @var array<string>
+         */
         private readonly array $locales
     ) {
         parent::__construct();

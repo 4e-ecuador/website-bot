@@ -21,6 +21,9 @@ abstract class AbstractCustomMessage
     ) {
     }
 
+    /**
+     * @return array<int, string>
+     */
     abstract public function getMessage(): array;
 
     public function getText(): string
@@ -38,6 +41,9 @@ abstract class AbstractCustomMessage
         );
     }
 
+    /**
+     * @return array<int, string>
+     */
     protected function getAgentUserData(Agent $agent, User $user): array
     {
         $message = [];

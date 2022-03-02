@@ -22,6 +22,9 @@ class User implements UserInterface, \Stringable
     #[Column(type: Types::INTEGER)]
     private ?int $id = null;
 
+    /**
+     * @var array<string>
+     */
     #[Column(type: Types::JSON)]
     private array $roles = [];
 
@@ -72,11 +75,17 @@ class User implements UserInterface, \Stringable
         return array_unique($roles);
     }
 
+    /**
+     * @return array<string>
+     */
     public function hasRole(): array
     {
         return $this->getRoles();
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

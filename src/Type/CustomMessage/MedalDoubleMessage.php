@@ -9,6 +9,9 @@ use App\Type\AbstractCustomMessage;
 class MedalDoubleMessage extends AbstractCustomMessage
 {
     private Agent $agent;
+    /**
+     * @var array<string, int>
+     */
     private array $medalDoubles;
 
     /**
@@ -76,6 +79,9 @@ class MedalDoubleMessage extends AbstractCustomMessage
         return $this;
     }
 
+    /**
+     * @param array<string, int> $medalDoubles
+     */
     public function setMedalDoubles(array $medalDoubles): self
     {
         $this->medalDoubles = $medalDoubles;

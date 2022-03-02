@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Challenge|null findOneBy(array $criteria, array $orderBy = null)
  * @method Challenge[]    findAll()
  * @method Challenge[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<ChallengeRepository>
  */
 class ChallengeRepository extends ServiceEntityRepository
 {
@@ -20,7 +22,10 @@ class ChallengeRepository extends ServiceEntityRepository
         parent::__construct($registry, Challenge::class);
     }
 
-    public function findCurrent()
+    /**
+     * @return array<Challenge>
+     */
+    public function findCurrent(): array
     {
         $now = new DateTime();
 

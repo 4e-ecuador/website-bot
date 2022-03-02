@@ -26,6 +26,9 @@ class UpdateBadgeDataCommand extends Command
     private readonly string $badgeRoot;
     private readonly string $scrapeSite;
     private readonly string $assetRoot;
+    /**
+     * @var int[]
+     */
     private readonly array $sizes;
 
     public function __construct(private readonly string $rootDir)
@@ -329,7 +332,7 @@ class UpdateBadgeDataCommand extends Command
         return $this;
     }
 
-    private function execCommand($command): bool|string
+    private function execCommand(string $command): bool|string
     {
         $lastLine = system($command, $status);
         if ($status) {

@@ -23,6 +23,9 @@ use UnexpectedValueException;
  */
 class AppExtension extends AbstractExtension
 {
+    /**
+     * @var array<string, string>
+     */
     public array $roleFilters
         = [
             'ROLE_AGENT' => 'Agent',
@@ -89,6 +92,8 @@ class AppExtension extends AbstractExtension
 
     /**
      * Convert object to array for Twig usage..
+     *
+     * @return array<string, string|int>
      */
     public function objectFilter(object $classObject): array
     {
@@ -109,11 +114,14 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getLevelName($level);
     }
 
-    public function medalDescFilter($medal): string
+    public function medalDescFilter(string $medal): string
     {
         return $this->medalChecker->getDescription($medal);
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function displayRolesFilter(array $roles): string
     {
         $roles = array_diff($roles, ['ROLE_USER']);
@@ -159,6 +167,9 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getMedalLevelName($level);
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getMedalLevelNames(): array
     {
         return $this->medalChecker->getMedalLevelNames();
@@ -203,7 +214,7 @@ class AppExtension extends AbstractExtension
         return $this->intlDateHelper->formatShort($dateTime);
     }
 
-    public function intlDate($date, $format): string
+    public function intlDate(DateTime $date, string $format): string
     {
         return $this->intlDateHelper->formatCustom($date, $format);
     }
@@ -211,7 +222,7 @@ class AppExtension extends AbstractExtension
     public function getBadgeData(
         string $group,
         string $badge,
-        $value
+        int $value
     ): BadgeData {
         switch ($group) {
             case 'Anomaly':
@@ -253,7 +264,7 @@ class AppExtension extends AbstractExtension
         return str_replace('@gmail.com', '', $string);
     }
 
-    public function escapeBytecode($string): string
+    public function escapeBytecode(string $string): string
     {
         return str_replace('%', "\\x", $string);
     }

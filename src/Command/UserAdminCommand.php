@@ -122,6 +122,9 @@ class UserAdminCommand extends Command
         }
     }
 
+    /**
+     * @param array<User> $users
+     */
     private function renderUsersTable(
         OutputInterface $output,
         array $users
@@ -143,6 +146,9 @@ class UserAdminCommand extends Command
         $table->render();
     }
 
+    /**
+     * @param array<string>  $roles
+     */
     private function createUser(string $email, array $roles): void
     {
         $user = (new User())

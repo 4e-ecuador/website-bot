@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\Set\SymfonyLevelSetList;
 use RectorPrefix20220126\Symplify\SymfonyPhpConfig\ValueObjectInliner;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +41,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // $containerConfigurator->import(NetteSetList::ANNOTATIONS_TO_ATTRIBUTES);
 
-    $containerConfigurator->import(SetList::PHP_80);
+    $containerConfigurator->import(SetList::PHP_81);
+
+    // $containerConfigurator->import(LevelSetList::UP_TO_PHP_81);
+    // $containerConfigurator->import(SymfonyLevelSetList::UP_TO_SYMFONY_60);
 
 
     // $services = $containerConfigurator->services();

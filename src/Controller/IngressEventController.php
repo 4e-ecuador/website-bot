@@ -313,7 +313,13 @@ class IngressEventController extends BaseController
                     $string
                 );
 
+                /**
+                 * @var array<int, string> $atendees
+                 */
                 $atendees = explode('<br>', trim($string));
+                /**
+                 * @var array<int, string> $factions
+                 */
                 $factions = array_keys($info->poc);
 
                 $info->atendees[$factions[$i]] = $atendees;

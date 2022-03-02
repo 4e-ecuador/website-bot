@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use App\Repository\AgentStatRepository;
+use ReflectionClass;
 
 #[Entity(repositoryClass: AgentStatRepository::class)]
 class AgentStat implements ArrayAccess
@@ -445,15 +446,19 @@ class AgentStat implements ArrayAccess
 
     public function findProperties(): array
     {
-        $props = [];
+        $properties = [];
 
-        foreach ($this as $index => $value) {
-            if (false === in_array($index, ['id', Types::DATETIME_MUTABLE, 'agent'])) {
-                $props[] = $index;
+        $class = new ReflectionClass(self::class);
+
+        foreach ($class->getProperties() as $property) {
+            if (in_array($property->getName(), ['id', 'datetime', 'agent'])) {
+                    continue;
             }
+
+            $properties[] = $property->getName();
         }
 
-        return $props;
+        return $properties;
     }
 
     /**
@@ -542,20 +547,17 @@ class AgentStat implements ArrayAccess
     {
         $diff = [];
 
-        foreach ($this as $index => $value) {
-            if ($this->$index > $previous->$index
-                && (false === in_array(
-                        $index,
-                        [
-                            'id',
-                            Types::DATETIME_MUTABLE,
-                            'agent',
-                            'faction',
-                            'nickname',
-                        ]
-                    ))
+        foreach ($this->findProperties() as $property) {
+            if ($this->$property > $previous->$property
+                && (false === in_array($property, [
+                        'id',
+                        Types::DATETIME_MUTABLE,
+                        'agent',
+                        'faction',
+                        'nickname',
+                    ], true))
             ) {
-                $diff[$index] = $this->$index - $previous->$index;
+                $diff[$property] = $this->$property - $previous->$property;
             }
         }
 

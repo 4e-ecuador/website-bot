@@ -2,100 +2,43 @@
 
 namespace App\Tests\Controller;
 
-use DirectoryIterator;
-use Exception;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Elkuku\SymfonyUtils\Test\ControllerBaseTest;
 
-class ControllerAccessTest extends WebTestCase
+class ControllerAccessTest extends ControllerBaseTest
 {
-    use RecreateDatabaseTrait;
 
-    private array $exceptions
+    protected string $controllerRoot = __DIR__.'/../../src/Controller';
+
+    /**
+     * @var array<int, string>
+     */
+    protected array $ignoredFiles
         = [
-            'default'                   => [
-                'statusCode' => 200,
-            ],
-            'app_login'                 => [
-                'statusCode' => 200,
-            ],
-            'connect_google_api_token'  => [
-                'statusCode' => 200,
-            ],
-            'event_calendar'            => [
-                'statusCode' => 200,
-            ],
-            'ingress_event_public_show' => [
-                'statusCode' => 200,
-            ],
+            '.gitignore',
+            'GoogleController.php',
         ];
 
     /**
-     * @throws Exception
+     * @var array<string, array<string, array<string, int>>>
      */
+    protected array $exceptions
+        = [
+            'default' => [
+                'statusCodes' => ['GET' => 200],
+            ],
+            'app_login'   => [
+                'statusCodes' => ['GET' => 200],
+            ],
+            'event_calendar'   => [
+                'statusCodes' => ['GET' => 200],
+            ],
+            'ingress_event_public_show'   => [
+                'statusCodes' => ['GET' => 200],
+            ],
+        ];
+
     public function testRoutes(): void
     {
-        $client = static::createClient();
-        $routeLoader = static::bootKernel()->getContainer()
-            ->get('routing.loader');
-
-        foreach (
-            new DirectoryIterator(__DIR__.'/../../src/Controller') as $item
-        ) {
-            if (
-                $item->isDot()
-                || $item->isDir()
-                || in_array(
-                    $item->getBasename(),
-                    ['.gitignore', 'GoogleController.php']
-                )
-            ) {
-                continue;
-            }
-
-            $routerClass = 'App\Controller\\'.basename(
-                    $item->getBasename(),
-                    '.php'
-                );
-            $routes = $routeLoader->load($routerClass)->all();
-
-            $this->processRoutes($routes, $client);
-        }
-    }
-
-    private function processRoutes(array $routes, KernelBrowser $browser): void
-    {
-        foreach ($routes as $routeName => $route) {
-            $defaultId = 1;
-            $expectedStatusCode = 302;
-            if (array_key_exists($routeName, $this->exceptions)) {
-                if (array_key_exists(
-                    'statusCode',
-                    $this->exceptions[$routeName]
-                )
-                ) {
-                    $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
-                }
-                if (array_key_exists('params', $this->exceptions[$routeName])) {
-                    $params = $this->exceptions[$routeName]['params'];
-                    if (array_key_exists('id', $params)) {
-                        $defaultId = $params['id'];
-                    }
-                }
-            }
-
-            $methods = $route->getMethods() ?: ['GET'];
-            $path = str_replace('{id}', $defaultId, $route->getPath());
-            foreach ($methods as $method) {
-                // echo "Testing: $method - $path".PHP_EOL;
-                $browser->request($method, $path);
-                $this->assertEquals(
-                    $expectedStatusCode,
-                    $browser->getResponse()->getStatusCode(),
-                    sprintf('failed: %s (%s)', $routeName, $path)
-                );
-            }
-        }
+        $this->runTests(static::createClient());
     }
 }

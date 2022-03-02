@@ -164,7 +164,7 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getMedalLevelNames();
     }
 
-    public function translateMedalLevelFilter(string $level): string
+    public function translateMedalLevelFilter(int $level): string
     {
         return $this->medalChecker->translateMedalLevel($level);
     }

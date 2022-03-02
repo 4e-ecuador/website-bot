@@ -42,7 +42,7 @@ class AgentController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($request);
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            ceil(count($agents) / $paginatorOptions->getLimit())
+            (int)ceil(count($agents) / $paginatorOptions->getLimit())
         );
         $factions = $factionRepository->findAll();
         $factionList = [];
@@ -219,7 +219,7 @@ class AgentController extends BaseController
         AgentRepository $agentRepository,
         Request $request
     ): JsonResponse {
-        $page = $request->query->get('page', 1);
+        $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
             'page'     => $page,
             'criteria' => [
@@ -232,7 +232,7 @@ class AgentController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
         $agents = $agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            ceil(count($agents) / $paginatorOptions->getLimit())
+            (int)ceil(count($agents) / $paginatorOptions->getLimit())
         );
 
         $list = [];

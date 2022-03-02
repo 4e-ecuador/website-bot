@@ -29,7 +29,7 @@ class AgentStatController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($request);
         $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            ceil(count($stats) / $paginatorOptions->getLimit())
+            (int)ceil(count($stats) / $paginatorOptions->getLimit())
         );
         $agents = [];
         $agents[0] = '';

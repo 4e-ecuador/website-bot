@@ -38,7 +38,7 @@ class IngressEventController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($request);
         $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            ceil(count($events) / $paginatorOptions->getLimit())
+            (int)ceil(count($events) / $paginatorOptions->getLimit())
         );
 
         return $this->render(
@@ -205,7 +205,7 @@ class IngressEventController extends BaseController
 
             $title = 'Nuevos Eventos Ingress!';
 
-            $fbmHelper->sendMessage($title, implode("\n", $message));
+            $fbmHelper->sendMessage($title, $message);
             $this->addFlash('success', 'Announcement has been sent.');
         } catch (Exception $exception) {
             $this->addFlash('danger', 'Error: '.$exception->getMessage());

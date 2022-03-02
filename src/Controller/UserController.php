@@ -35,7 +35,7 @@ class UserController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($request);
         $users = $userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            ceil(count($users) / $paginatorOptions->getLimit())
+            (int)ceil(count($users) / $paginatorOptions->getLimit())
         );
         $rolesList = [
             0            => '',

@@ -531,7 +531,7 @@ class MedalChecker
         return $medalLevel;
     }
 
-    public function translateMedalLevel(string $level): string
+    public function translateMedalLevel(int $level): string
     {
         return $this->translatedLevels[$level] ?? $level;
     }

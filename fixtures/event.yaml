@@ -1,5 +1,0 @@
-App\Entity\Event:
-    event1:
-        name: testEvent
-        date_start: <(new \DateTime('2112-12-21'))>
-        date_end: <(new \DateTime('2112-12-21'))>

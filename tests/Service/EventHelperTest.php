@@ -14,8 +14,6 @@ use UnexpectedValueException;
 
 class EventHelperTest extends KernelTestCase
 {
-    use RecreateDatabaseTrait;
-
     private EventHelper $eventHelper;
 
     public function setUp(): void

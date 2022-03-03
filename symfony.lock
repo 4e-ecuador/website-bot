@@ -115,9 +115,6 @@
     "fabpot/goutte": {
         "version": "v4.0.2"
     },
-    "fakerphp/faker": {
-        "version": "v1.18.0"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -129,19 +126,6 @@
     },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
-    },
-    "hautelook/alice-bundle": {
-        "version": "2.10",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.2",
-            "ref": "c84e4f2b9d7f436d7d52e8369230b393367607ec"
-        },
-        "files": [
-            "config/packages/hautelook_alice.yaml",
-            "fixtures/.gitignore"
-        ]
     },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
@@ -175,18 +159,6 @@
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
-    },
-    "nelmio/alice": {
-        "version": "3.10",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "42b52d2065dc3fde27912d502c18ca1926e35ae2"
-        },
-        "files": [
-            "config/packages/nelmio_alice.yaml"
-        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -744,15 +716,6 @@
     },
     "telegram-bot/api": {
         "version": "v2.3.24"
-    },
-    "theofidry/alice-data-fixtures": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
-        }
     },
     "theseer/tokenizer": {
         "version": "1.2.1"

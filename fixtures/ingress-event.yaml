@@ -1,6 +1,0 @@
-App\Entity\IngressEvent:
-    ingressEvent1:
-        name: testEvent
-        type: test
-        dateStart: <(new \DateTime('2112-12-21'))>
-        dateEnd: <(new \DateTime('2112-12-21'))>

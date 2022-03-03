@@ -13,8 +13,6 @@ use UnexpectedValueException;
 
 class EventHelperSpanTest extends KernelTestCase
 {
-    use RecreateDatabaseTrait;
-
     private EventHelper $eventHelper;
 
     public function setUp(): void
@@ -75,7 +73,7 @@ class EventHelperSpanTest extends KernelTestCase
         $result = $this->eventHelper->getEventsInSpan('present');
 
         self::assertIsArray($result);
-        self::assertCount(1, $result);
+        self::assertCount(2, $result);
     }
 
     /**
@@ -86,6 +84,6 @@ class EventHelperSpanTest extends KernelTestCase
         $result = $this->eventHelper->getEventsInSpan('future');
 
         self::assertIsArray($result);
-        self::assertCount(1, $result);
+        self::assertCount(0, $result);
     }
 }

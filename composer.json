@@ -62,7 +62,6 @@
   },
   "require-dev": {
     "elkuku/symfony-utils": "dev-master",
-    "hautelook/alice-bundle": "^2.7",
     "phpstan/extension-installer": "^1.1",
     "phpstan/phpstan": "^1.4",
     "phpstan/phpstan-doctrine": "^1.2",

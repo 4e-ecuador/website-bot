@@ -1,5 +1,0 @@
-App\Entity\Help:
-    help1:
-        title: testTitle
-        slug: testSlug
-        text: testText

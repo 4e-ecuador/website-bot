@@ -46,7 +46,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         $credentials = $this->getCredentials($request);
 
         return new SelfValidatingPassport(
-            new UserBadge($credentials['email']),
+            new UserBadge((string)$credentials['email']),
             [
                 new CsrfTokenBadge('login', $credentials['csrf_token']),
                 new RememberMeBadge(),

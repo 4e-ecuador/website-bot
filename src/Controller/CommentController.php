@@ -147,7 +147,7 @@ class CommentController extends BaseController
     }
 
     #[Route(path: '/getagentids', name: 'comment_agent_ids', methods: ['POST'])]
-    #[IsGranted('ROLE_EDITOR')]
+    #[IsGranted('ROLE_AGENT')]
     public function getAgentCommentIds(
         Request $request,
         AgentRepository $agentRepository,

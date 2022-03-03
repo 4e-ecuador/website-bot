@@ -29,7 +29,7 @@ trait PaginatorTrait
             )
             ->setLimit(
                 isset($options['limit']) && $options['limit']
-                    ? (int)$options['limit'] : getenv('list_limit')
+                    ? (int)$options['limit'] : (int)getenv('list_limit')
             )
             ->setOrder(
                 isset($options['order']) && $options['order']

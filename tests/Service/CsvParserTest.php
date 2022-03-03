@@ -92,7 +92,7 @@ class CsvParserTest extends KernelTestCase
             if (array_key_exists($key, $replacements)) {
                 $csv = str_replace('{'.$key.'}', $replacements[$key], $csv);
             } else {
-                $csv = str_replace('{'.$key.'}', $var, $csv);
+                $csv = str_replace('{'.$key.'}', (string)$var, $csv);
             }
         }
 

@@ -132,7 +132,7 @@ class IngressEventController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$ingressEvent->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($ingressEvent);

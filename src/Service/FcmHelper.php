@@ -89,7 +89,7 @@ class FcmHelper
      */
     private function send(array $dataArray): bool
     {
-        $data = json_encode($dataArray);
+        $data = json_encode($dataArray, JSON_THROW_ON_ERROR);
 
         $header = array(
             'Content-Type:application/json',
@@ -97,6 +97,10 @@ class FcmHelper
             'Authorization: key='.$this->fcmKey,
         );
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
+
+        if (!$ch) {
+            throw new \UnexpectedValueException('Can not init Curl.');
+        }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -108,7 +112,16 @@ class FcmHelper
 
         curl_close($ch);
 
-        $decoded = json_decode($result, false);
+        if (!$result) {
+            throw new \UnexpectedValueException('Curl operation failed.');
+        }
+
+        $decoded = json_decode(
+            (string)$result,
+            false,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         if (!$decoded) {
             throw new RuntimeException('Something went wrong with FCM :(');

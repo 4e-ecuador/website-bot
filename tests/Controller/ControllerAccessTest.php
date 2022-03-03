@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use DirectoryIterator;
 use Exception;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Route;
@@ -83,7 +82,7 @@ class ControllerAccessTest extends WebTestCase
                     $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
                 }
                 if (array_key_exists('params', $this->exceptions[$routeName])) {
-                    $params = $this->exceptions[$routeName]['params'];
+                    $params = (array)$this->exceptions[$routeName]['params'];
                     if (array_key_exists('id', $params)) {
                         $defaultId = $params['id'];
                     }

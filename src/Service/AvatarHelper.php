@@ -14,19 +14,39 @@ class AvatarHelper
     public function updateAvatar(User $user): self
     {
         $curl = curl_init($user->getAvatar());
+
+        if (!$curl) {
+            throw new \UnexpectedValueException('Can not init Curl.');
+        }
+
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $returnValue = curl_exec($curl);
 
-        // TODO: error checking!!!
+        if (!$returnValue) {
+            throw new \RuntimeException('Failed fetching image');
+        }
+
         curl_close($curl);
 
-        $image = imagecreatefromstring($returnValue);
+        $image = imagecreatefromstring((string)$returnValue);
+
+        if (!$image) {
+            throw new \RuntimeException('Can not create image from string');
+        }
 
         $imgResized = imagescale($image, 100, 100);
+
+        if (!$imgResized) {
+            throw new \UnexpectedValueException('Can not resize image');
+        }
 
         ob_start();
         imagejpeg($imgResized);
         $contents = ob_get_clean();
+
+        if (!$contents) {
+            throw new \UnexpectedValueException('Failed obtaining avatar');
+        }
 
         $imageData = chunk_split(base64_encode($contents));
 

@@ -60,7 +60,7 @@ class AgentStatRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return AgentStat[]
+     * @return array<AgentStat>
      */
     public function findByDate(
         DateTimeInterface $startDate,

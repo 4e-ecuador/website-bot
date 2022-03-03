@@ -81,7 +81,7 @@ class UpdateBadgeDataCommand extends Command
 
         $io->write('Querying site...');
 
-        $html = file_get_contents($this->scrapeSite);
+        $html = (string)file_get_contents($this->scrapeSite);
 
         $io->writeln('ok');
 

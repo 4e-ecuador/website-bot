@@ -47,6 +47,10 @@ class AndroidNotificationCommand extends Command
             'Authorization: key='.$this->fcmKey,
         ];
 
+        if (!$ch) {
+            throw new \UnexpectedValueException('Can not init Curl.');
+        }
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POST, 1);

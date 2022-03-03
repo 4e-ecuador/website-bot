@@ -87,7 +87,7 @@ class TestStatController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$testStat->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($testStat);

@@ -21,7 +21,7 @@ class Markdown extends AbstractController
         Request $request,
         MarkdownHelper $markdownHelper
     ): JsonResponse {
-        $text = $request->request->get('text');
+        $text = (string)$request->request->get('text');
 
         return $this->json(
             ['data' => $text ? $markdownHelper->parse($text) : ':(']

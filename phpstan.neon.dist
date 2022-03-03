@@ -1,8 +1,12 @@
 parameters:
-	level: 6
+	level: 7
 	paths:
 		- src
 		- tests
+	symfony:
+		containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+	scanDirectories:
+		- var/cache/dev/Symfony/Config
 	editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 includes:
 	- phpstan-baseline.neon

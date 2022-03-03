@@ -122,6 +122,10 @@ class SendEventUpdateCommand extends Command
     {
         $my_img = imagecreate(230, 140);
 
+        if (!$my_img) {
+            throw new \RuntimeException('Can not create image');
+        }
+
         $medal1 = imagecreatefrompng(
             $this->rootDir.'/assets/images/medals/1st-place-medal_36.png'
         );
@@ -132,12 +136,16 @@ class SendEventUpdateCommand extends Command
             $this->rootDir.'/assets/images/medals/3rd-place-medal_36.png'
         );
 
+        if (!$medal1 || !$medal2 || !$medal3) {
+            throw new UnexpectedValueException('Can not create image');
+        }
+
         $background = imagecolorallocate($my_img, 255, 255, 255);
         // $text_colour = imagecolorallocate( $my_img, 0, 0, 0 );
         // $line_colour = imagecolorallocate( $my_img, 128, 255, 0 );
 
         // $grey = imagecolorallocate($my_img, 128, 128, 128);
-        $black = imagecolorallocate($my_img, 0, 0, 0);
+        $black = (int)imagecolorallocate($my_img, 0, 0, 0);
 
         // imagestring( $my_img, 5, 40, 20, "AlexinhoTreSant", $text_colour );
         // imagestring( $my_img, 5, 40, 61, "crispin14cpw", $text_colour );

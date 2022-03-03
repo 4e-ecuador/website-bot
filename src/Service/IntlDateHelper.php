@@ -45,12 +45,12 @@ class IntlDateHelper
 
     public function format(DateTime $date): string
     {
-        return $this->formatterLong->format($date);
+        return (string)$this->formatterLong->format($date);
     }
 
     public function formatShort(DateTime $date): string
     {
-        return $this->formatterShort->format($date);
+        return (string)$this->formatterShort->format($date);
     }
 
     public function getDefaultTimezone(): DateTimeZone
@@ -65,6 +65,6 @@ class IntlDateHelper
             $this->timeZone, IntlDateFormatter::GREGORIAN, $format
         );
 
-        return $fmt->format($date);
+        return (string)$fmt->format($date);
     }
 }

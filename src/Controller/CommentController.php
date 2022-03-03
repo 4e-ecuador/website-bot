@@ -114,7 +114,7 @@ class CommentController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($comment);

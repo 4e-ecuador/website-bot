@@ -79,7 +79,7 @@ class MapGroupController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$mapGroup->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($mapGroup);

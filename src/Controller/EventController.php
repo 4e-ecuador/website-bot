@@ -110,7 +110,7 @@ class EventController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$event->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($event);

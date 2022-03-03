@@ -118,7 +118,7 @@ class UserController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$user->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($user);

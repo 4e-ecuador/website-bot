@@ -18,7 +18,7 @@ class Templater
         $path = $this->rootDir.'/text-files/'.$templateName;
 
         if ($this->filesystem->exists($path)) {
-            return file_get_contents($path);
+            return (string)file_get_contents($path);
         }
 
         return 'File not found';
@@ -54,7 +54,7 @@ class Templater
         ];
 
         foreach ($replacements as $search => $replacement) {
-            $template = str_replace($search, $replacement, $template);
+            $template = str_replace($search, (string)$replacement, $template);
         }
 
         return $template;

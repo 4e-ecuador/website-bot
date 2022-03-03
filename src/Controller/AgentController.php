@@ -136,7 +136,7 @@ class AgentController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$agent->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($agent);
@@ -156,7 +156,7 @@ class AgentController extends BaseController
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $commenter = $userRepository->findOneBy(
@@ -167,7 +167,7 @@ class AgentController extends BaseController
                 return $this->json(['error' => 'invalid commenter']);
             }
 
-            $text = $request->request->get('comment');
+            $text = (string)$request->request->get('comment');
 
             if (!$text) {
                 return $this->json(['error' => 'no comment...']);

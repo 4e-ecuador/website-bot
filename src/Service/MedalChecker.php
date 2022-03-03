@@ -503,6 +503,7 @@ class MedalChecker
     public function getDescription(string $medal): string
     {
         return array_key_exists($medal, $this->medalLevels)
+        && is_string($this->medalLevels[$medal]['desc'])
             ? $this->medalLevels[$medal]['desc'] : '';
     }
 
@@ -522,9 +523,9 @@ class MedalChecker
             array_key_exists($medal, $this->medalLevels)
             && array_key_exists(
                 $level - 1,
-                $this->medalLevels[$medal]['levels']
+                (array)$this->medalLevels[$medal]['levels']
             )
-                ? $this->medalLevels[$medal]['levels'][$level - 1]
+                ? (int)$this->medalLevels[$medal]['levels'][$level - 1]
                 : 0;
     }
 
@@ -558,9 +559,9 @@ class MedalChecker
         return $medalLevel;
     }
 
-    public function translateMedalLevel(int $level): string|int
+    public function translateMedalLevel(int $level): string
     {
-        return $this->translatedLevels[$level] ?? $level;
+        return $this->translatedLevels[$level] ?? (string)$level;
     }
 
     public function getDoubleValue(string $medal, int $value): int
@@ -610,7 +611,7 @@ class MedalChecker
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return array<string, array<int|string, array<int, string>|string>>
      */
     public function getCustomMedalGroups(): array
     {
@@ -640,7 +641,7 @@ class MedalChecker
 
         if (!$badgeData) {
             $badgeData = json_decode(
-                file_get_contents(
+                (string)file_get_contents(
                     $this->rootDir.'/text-files/badgeinfos.json'
                 ),
                 true,

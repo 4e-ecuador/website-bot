@@ -106,7 +106,7 @@ class HelpController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$help->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($help);

@@ -18,7 +18,8 @@ final class CiteService
         $cites = $this->fetchCites();
 
         try {
-            $i = random_int(0, count($cites) - 1);
+            $count = count($cites);
+            $i = ($count > 2) ? random_int(0, $count - 1) : 0;
         } catch (Exception) {
             $i = 0;
         }
@@ -29,7 +30,7 @@ final class CiteService
     /**
      * @return array<string>
      */
-    private function fetchCites()
+    private function fetchCites(): array
     {
         static $cites;
 

@@ -58,7 +58,7 @@ class ChallengeController extends BaseController
         AgentStatRepository $statRepository,
         ChallengeHelper $challengeHelper
     ): Response {
-        $entries = $statRepository->findByDate(
+        $entries = (array)$statRepository->findByDate(
             $challenge->getDateStart(),
             $challenge->getDateEnd()
         );
@@ -102,7 +102,7 @@ class ChallengeController extends BaseController
     {
         if ($this->isCsrfTokenValid(
             'delete'.$challenge->getId(),
-            $request->request->get('_token')
+            (string)$request->request->get('_token')
         )
         ) {
             $entityManager->remove($challenge);

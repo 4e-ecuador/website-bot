@@ -102,8 +102,8 @@ class TelegramMessageHelper
             ->setMedalUps($medalUps)
             ->getText();
 
-        $firstValue = reset($medalUps);
-        $firstMedal = key($medalUps);
+        $firstValue = (int)reset($medalUps);
+        $firstMedal = (string)key($medalUps);
 
         $photo = new CURLFile(
             $this->rootDir.'/assets/images/badges/'

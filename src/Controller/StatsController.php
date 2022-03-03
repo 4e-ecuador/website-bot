@@ -136,7 +136,7 @@ class StatsController extends BaseController
         LeaderBoardService $leaderBoardService,
         Request $request
     ): Response {
-        $item = $request->request->get('item', 'ap');
+        $item = (string)$request->request->get('item', 'ap');
         $entries = $this->getBoardEntries(
             $userRepository,
             $leaderBoardService,
@@ -156,7 +156,7 @@ class StatsController extends BaseController
     }
 
     /**
-     * @return BoardEntry[]
+     * @return array<string, array<int, BoardEntry>>|array<int, BoardEntry>
      */
     private function getBoardEntries(
         UserRepository $userRepository,

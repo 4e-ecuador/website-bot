@@ -222,7 +222,7 @@ class AppExtension extends AbstractExtension
     public function getBadgeData(
         string $group,
         string $badge,
-        int $value
+        int|string $value
     ): BadgeData {
         switch ($group) {
             case 'Anomaly':
@@ -244,7 +244,7 @@ class AppExtension extends AbstractExtension
                 }
                 break;
             case 'Annual':
-                $tier = $this->getMedalLevelName($value);
+                $tier = $this->getMedalLevelName((int)$value);
                 $code = 'Badge_'.$badge.'_'.$tier;
                 break;
             default:

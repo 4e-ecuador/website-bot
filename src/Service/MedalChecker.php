@@ -147,6 +147,10 @@ class MedalChecker
                 'desc'   => 'Didact Field Challenge',
                 'levels' => [100, 300, 800, null, null],
             ],
+            'CSans' => [
+                'desc'   => 'C. Sans Challenge',
+                'levels' => [4, 41, 401, null, null],
+            ],
         ];
 
     /**
@@ -280,6 +284,12 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'CSans' =>
+                        [
+                            'Bronze',
+                            'Silver',
+                            'Gold',
+                        ],
                     'CourierChallenge'     =>
                         [
                             'Bronze',

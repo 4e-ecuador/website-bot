@@ -16,7 +16,7 @@ use UnexpectedValueException;
 
 class AccountController extends BaseController
 {
-    #[Route(path: '/account', name: 'app_account', methods: ['GET'])]
+    #[Route(path: '/account', name: 'app_account', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function account(
         Request $request,

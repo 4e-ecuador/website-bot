@@ -248,6 +248,7 @@ class MedalChecker
         = [
             'Anomaly' =>
                 [
+                    'Kythera',
                     'KurezeEffect',
                     'Requiem',
                     'Umbra',

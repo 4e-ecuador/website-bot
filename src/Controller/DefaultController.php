@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route(path: '/', name: 'default', methods: ['GET'])]
+    #[Route(path: '/', name: 'default', methods: ['GET'], schemes: ['https'])]
     public function index(
         AgentRepository $agentRepository,
         CommentRepository $commentRepository,

@@ -37,7 +37,7 @@ class ControllerAccessTest extends WebTestCase
      */
     public function testRoutes(): void
     {
-        $client = static::createClient();
+        $client = static::createClient([], ['HTTPS' => true]);
         $routeLoader = static::bootKernel()->getContainer()
             ->get('routing.loader');
 

@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: ChallengeRepository::class)]
 class Challenge
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $name = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]
@@ -26,7 +25,7 @@ class Challenge
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $date_end = null;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $code_name = null;
 
     public function getId(): ?int

@@ -18,14 +18,13 @@ use App\Repository\AgentRepository;
 #[Entity(repositoryClass: AgentRepository::class)]
 class Agent implements Stringable
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
+    #[Column, Id, GeneratedValue]
     protected ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     protected ?string $nickname = '';
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $realName = '';
 
     #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
@@ -34,7 +33,7 @@ class Agent implements Stringable
     #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
     private ?float $lon = 0;
 
-    #[ManyToOne(targetEntity: Faction::class)]
+    #[ManyToOne]
     #[JoinColumn(nullable: false)]
     private ?Faction $faction = null;
 
@@ -50,25 +49,25 @@ class Agent implements Stringable
     #[ManyToOne(targetEntity: MapGroup::class, inversedBy: 'agents')]
     private ?MapGroup $map_group = null;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $telegram_name = '';
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $telegram_id;
 
-    #[Column(type: Types::STRING, length: 48, nullable: true)]
+    #[Column(length: 48, nullable: true)]
     private ?string $telegram_connection_secret;
 
-    #[Column(type: Types::BOOLEAN, nullable: true)]
+    #[Column(nullable: true)]
     private ?bool $hasNotifyUploadStats;
 
-    #[Column(type: Types::BOOLEAN, nullable: true)]
+    #[Column(nullable: true)]
     private ?bool $hasNotifyEvents;
 
-    #[Column(type: Types::BOOLEAN, nullable: true)]
+    #[Column(nullable: true)]
     private ?bool $hasNotifyStatsResult;
 
-    #[Column(type: Types::STRING, length: 2, nullable: true)]
+    #[Column(length: 2, nullable: true)]
     private ?string $locale = '';
 
     public function __construct()
@@ -98,9 +97,9 @@ class Agent implements Stringable
         return $this->realName;
     }
 
-    public function setRealName(?string $real_name): self
+    public function setRealName(?string $realName): self
     {
-        $this->realName = $real_name;
+        $this->realName = $realName;
 
         return $this;
     }

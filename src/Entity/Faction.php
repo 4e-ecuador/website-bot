@@ -12,11 +12,10 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: FactionRepository::class)]
 class Faction
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $name;
 
     public function getId(): ?int

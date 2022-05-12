@@ -20,138 +20,137 @@ use ReflectionClass;
 #[Entity(repositoryClass: AgentStatRepository::class)]
 class AgentStat implements ArrayAccess
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
+    #[Column, Id, GeneratedValue]
     private ?int $id = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $datetime = null;
 
-    #[ManyToOne(targetEntity: Agent::class)]
+    #[ManyToOne]
     #[JoinColumn(nullable: false)]
     private ?Agent $agent = null;
 
-    #[Column(type: Types::INTEGER)]
+    #[Column]
     private ?int $ap = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $explorer = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $recon = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $seer = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $trekker = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $builder = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $connector = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $mindController = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $illuminator = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $recharger = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $liberator = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $pioneer = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $engineer = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $purifier = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $specops = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $hacker = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $translator = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $sojourner = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $recruiter = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $missionday = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $nl1331Meetups = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $ifs = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $currentChallenge = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $level = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $scout = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $scoutController = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $longestLink = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $largestField = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $recursions = null;
 
-    #[Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Column(length: 50, nullable: true)]
     private ?string $faction = '';
 
-    #[Column(type: Types::STRING, length: 150, nullable: true)]
+    #[Column(length: 150, nullable: true)]
     private ?string $nickname = '';
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $droneFlightDistance = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $maverick = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $dronePortalsVisited = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $droneForcedRecalls = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $kineticCapsulesCompleted = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $monthsSubscribed = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $epoch = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $portalsDiscovered = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $dronesReturned = null;
 
-    #[Column(type: Types::INTEGER, nullable: true)]
+    #[Column(nullable: true)]
     private ?int $secondSunday = null;
 
     public function getId(): ?int

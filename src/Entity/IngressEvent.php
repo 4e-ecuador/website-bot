@@ -13,14 +13,13 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: IngressEventRepository::class)]
 class IngressEvent
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $name = '';
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $type = '';
 
     #[Column(type: Types::DATETIME_MUTABLE)]
@@ -32,7 +31,7 @@ class IngressEvent
     #[Column(type: Types::TEXT, nullable: true)]
     private ?string $description = '';
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $link = '';
 
     public function getId(): ?int

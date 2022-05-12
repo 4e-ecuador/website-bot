@@ -13,11 +13,10 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: EventRepository::class)]
 class Event
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $name = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]
@@ -26,10 +25,10 @@ class Event
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $date_end = null;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $event_type = null;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $recurring = null;
 
     public function getId(): ?int

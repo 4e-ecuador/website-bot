@@ -15,21 +15,20 @@ use Doctrine\ORM\Mapping\ManyToOne;
 #[Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
     private ?string $text = '';
 
-    #[ManyToOne(targetEntity: Agent::class, inversedBy: 'comments')]
+    #[ManyToOne(inversedBy: 'comments')]
     #[JoinColumn(nullable: false)]
     private ?Agent $agent = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $datetime = null;
 
-    #[ManyToOne(targetEntity: User::class)]
+    #[ManyToOne]
     #[JoinColumn(nullable: false)]
     private ?User $commenter = null;
 

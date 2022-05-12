@@ -12,17 +12,16 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: HelpRepository::class)]
 class Help
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
     private ?string $text = '';
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $slug = '';
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $title = '';
 
     public function getId(): ?int

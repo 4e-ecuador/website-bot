@@ -12,9 +12,8 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: TestStatRepository::class)]
 class TestStat
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
     private ?string $csv = null;

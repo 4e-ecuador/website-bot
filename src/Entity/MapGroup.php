@@ -15,11 +15,10 @@ use App\Repository\MapGroupRepository;
 #[Entity(repositoryClass: MapGroupRepository::class)]
 class MapGroup
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
-    private ?int $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[Column(type: Types::STRING, length: 255)]
+    #[Column]
     private ?string $name = null;
 
     /**

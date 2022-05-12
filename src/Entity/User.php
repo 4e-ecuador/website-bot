@@ -18,8 +18,7 @@ use App\Repository\UserRepository;
 #[UniqueEntity(fields: 'identifier', message: 'This identifier is already in use')]
 class User implements UserInterface, \Stringable
 {
-    #[Id, GeneratedValue(strategy: 'AUTO')]
-    #[Column(type: Types::INTEGER)]
+    #[Column, Id, GeneratedValue]
     private ?int $id = null;
 
     /**
@@ -28,29 +27,26 @@ class User implements UserInterface, \Stringable
     #[Column(type: Types::JSON)]
     private array $roles = [];
 
-    #[Column(type: Types::STRING, length: 255, unique: true)]
+    #[Column(unique: true)]
     private ?string $email = '';
 
-    #[OneToOne(targetEntity: Agent::class, cascade: [
-        'persist',
-        'remove',
-    ])]
+    #[OneToOne(cascade: ['persist', 'remove'])]
     private ?Agent $agent = null;
 
-    #[Column(type: Types::STRING, length: 100, nullable: true)]
-    private ?string $googleId = '';
+    #[Column(length: 100, nullable: true)]
+    private ?string $googleId = null;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $fireBaseToken = '';
+    #[Column(nullable: true)]
+    private ?string $fireBaseToken = null;
 
-    #[Column(type: Types::STRING, nullable: true)]
+    #[Column(nullable: true)]
     private ?string $apiToken = '';
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $avatar = '';
+    #[Column(nullable: true)]
+    private ?string $avatar = null;
 
     #[Column(type: Types::TEXT, nullable: true)]
-    private ?string $avatarEncoded = '';
+    private ?string $avatarEncoded = null;
 
     public function __toString(): string
     {

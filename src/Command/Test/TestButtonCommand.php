@@ -3,6 +3,7 @@
 namespace App\Command\Test;
 
 use App\Service\TelegramBotHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,30 +13,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
+#[AsCommand(name: 'bot:test:button')]
 class TestButtonCommand extends Command
 {
-    protected static $defaultName = 'bot:test:button';
-
     public function __construct(private readonly TelegramBotHelper $telegramBotHelper)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument(
-                'arg1',
-                InputArgument::OPTIONAL,
-                'Argument description'
-            )
-            ->addOption(
-                'option1',
-                null,
-                InputOption::VALUE_NONE,
-                'Option description'
-            );
     }
 
     /**

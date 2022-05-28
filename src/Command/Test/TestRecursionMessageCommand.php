@@ -5,6 +5,7 @@ namespace App\Command\Test;
 use App\Repository\AgentRepository;
 use App\Service\TelegramMessageHelper;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,21 +13,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
+#[AsCommand(name: 'bot:test:RecursionMessage')]
 class TestRecursionMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:RecursionMessage';
-
     public function __construct(
         private readonly TelegramMessageHelper $telegramMessageHelper,
         private readonly AgentRepository $agentRepository
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Add a short description for your command');
     }
 
     /**

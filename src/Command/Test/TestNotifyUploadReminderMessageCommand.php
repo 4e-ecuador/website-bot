@@ -4,6 +4,7 @@ namespace App\Command\Test;
 
 use App\Service\TelegramBotHelper;
 use App\Service\TelegramMessageHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
+#[AsCommand(name: 'bot:test:NotifyUploadReminderMessage')]
 class TestNotifyUploadReminderMessageCommand extends Command
 {
     protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';
@@ -20,11 +22,6 @@ class TestNotifyUploadReminderMessageCommand extends Command
         private readonly TelegramBotHelper $telegramBotHelper,
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription('Bot Test');
     }
 
     /**

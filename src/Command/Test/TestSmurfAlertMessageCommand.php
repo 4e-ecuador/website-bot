@@ -6,25 +6,20 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Service\TelegramAdminMessageHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
+#[AsCommand(name: 'bot:test:SmurfAlertMessage')]
 class TestSmurfAlertMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:SmurfAlertMessage';
-
     public function __construct(
         private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->setDescription('Test the smurf alert');
     }
 
     /**

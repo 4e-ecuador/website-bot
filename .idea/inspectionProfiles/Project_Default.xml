@@ -69,7 +69,7 @@
       <option name="migratedIntoUserSpace" value="true" />
     </inspection_tool>
     <inspection_tool class="PhpDocSignatureInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
-    <inspection_tool class="PhpStanGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpStanGlobal" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="level" value="7" />
       <option name="config" value="$PROJECT_DIR$/phpstan.neon" />
     </inspection_tool>

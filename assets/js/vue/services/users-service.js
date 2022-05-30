@@ -18,7 +18,7 @@ export function fetchUsers(searchTerm, pageNum) {
     // TODO fixed faction
     params.faction = 1
 
-    return axios.get('/api/users', {
+    return axios.get('/user/jsonlist', {
         params,
     });
 }

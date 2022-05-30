@@ -45,7 +45,7 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item dropdown" title="{{ 'Admin'|trans }}">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
                                 <span class="oi oi-wrench text-warning"></span>
                             </a>
                             <div class="dropdown-menu">
@@ -129,7 +129,7 @@
             {% if is_granted('ROLE_USER') %}
                 {% if app.user.agent %}
                     <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
                         {% if app.user.avatarEncoded %}
                             <img src="{{ app.user.avatarEncoded }}" height="24" alt="Avatar">
                         {% else %}

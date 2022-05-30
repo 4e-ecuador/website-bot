@@ -1,9 +1,15 @@
-require('../css/app.css')
+const $ = require('jquery'); // @todo remove jquery :(
+
+// @todo workaround for bootstrap-select and Bootstrap 5
+import { Dropdown } from 'bootstrap'
+window.Dropdown = Dropdown
+
 require('bootstrap')
 require('bootstrap-select')
 
 require('open-iconic/font/css/open-iconic-bootstrap.css')
 
+require('../css/app.css')
 require ("@forevolve/bootstrap-dark/dist/css/bootstrap-dark.css")
 require('@forevolve/bootstrap-dark/dist/css/toggle-bootstrap.css')
 require('@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark.css')
@@ -16,8 +22,6 @@ import "../css/medals_events_50.css";
 
 // start the Stimulus application
 import '../bootstrap';
-
-const $ = require('jquery');
 
 let darkmode = localStorage.getItem('4e-darkmode')
 checkDarkMode(darkmode)

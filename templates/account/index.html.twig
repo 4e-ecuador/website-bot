@@ -61,7 +61,7 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% for group, medals in customMedals %}
             <li class="nav-item">
-                <a class="nav-link {{ group == 'Anomaly' ? 'active' : '' }}" id="{{ group }}-tab" data-toggle="tab"
+                <a class="nav-link {{ group == 'Anomaly' ? 'active' : '' }}" id="{{ group }}-tab" data-bs-toggle="tab"
                    href="#{{ group }}" role="tab" aria-controls="home" aria-selected="true">{{ group }}</a>
             </li>
         {% endfor %}

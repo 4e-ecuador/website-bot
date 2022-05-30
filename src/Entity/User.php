@@ -15,7 +15,7 @@ use App\Repository\UserRepository;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'agent_user')]
-#[UniqueEntity(fields: 'identifier', message: 'This identifier is already in use')]
+#[UniqueEntity(fields: 'email', message: 'This email is already in use')]
 class User implements UserInterface, \Stringable
 {
     #[Column, Id, GeneratedValue]

@@ -1,5 +1,6 @@
 const $ = require('jquery')
 const Highcharts = require('highcharts')
+import { Modal } from 'bootstrap'
 
 require('highcharts/css/themes/dark-unica.css')
 require('../../../css/traditional/stats/agent-stats.css')
@@ -80,9 +81,11 @@ $('.medal-item').on('click', function (e) {
     const modal = $('#medalModal')
     updateModal(modal, $(this))
     const level = $(this).data('medal-level')
-    let i
-    for (i = 1; i < 6; i++) {
+    for (let i = 1; i < 6; i++) {
         let img = '<span class="medal24-badges medal-' + $(this).data('badge-name-' + i) + '"></span>'
+
+        // @todo find a way to gray out superior medals
+
         // if (i > level) {
         //     let img = '<span class="medal24 medal-'+$(this).data('badge-name-' + i)+'" style="background: #5C97FF;">a</span>'
         //     // img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px; opacity: 0.3;">'
@@ -90,11 +93,13 @@ $('.medal-item').on('click', function (e) {
 
         modal.find('div.medal-value-' + i).html(img + $(this).data('medal-value-' + i))
     }
-    modal.modal()
+
+    const bsModal = new Modal('#medalModal')
+    bsModal.show()
 })
 
 $('.medal-item2').on('click', function (e) {
-    const modal = $('#medalModal2')
-    updateModal(modal, $(this))
-    modal.modal()
+    updateModal($('#medalModal2'), $(this))
+    const bsModal = new Modal('#medalModal2')
+    bsModal.show()
 })

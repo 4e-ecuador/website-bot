@@ -1,4 +1,5 @@
 const $ = require('jquery')
+import { Modal } from 'bootstrap'
 
 require('../../../css/traditional/stats/leaderboard.css')
 
@@ -12,7 +13,9 @@ $('.showAll')
                 const modal = $('#detailsModal')
                 modal.find('.modal-body')
                     .html(data)
-                modal.modal()
+                const bsModal = new Modal('#detailsModal')
+                bsModal.show()
+
                 e.html(old)
             })
     })

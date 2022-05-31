@@ -161,7 +161,7 @@ class SendNewsletterCommand extends Command
                 /**
                  * @var DateTime $date
                  */
-                $date =  $event->getDateEnd();
+                $date = $event->getDateEnd();
 
                 $message[] = sprintf(
                     '- [%s](%s) (tipo: *%s*) termina el dia %s',

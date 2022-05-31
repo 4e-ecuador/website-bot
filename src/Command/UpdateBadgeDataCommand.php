@@ -134,7 +134,7 @@ class UpdateBadgeDataCommand extends Command
                     $element->getAttribute('data-original')
                 )->slice(
                     0,
-                    strlen((string) $element->getAttribute('data-original')) - 4
+                    strlen((string)$element->getAttribute('data-original')) - 4
                 );
             }
 
@@ -149,7 +149,7 @@ class UpdateBadgeDataCommand extends Command
                 // $badgeInfo->x = $element->nodeValue;
                 // $temp = str_replace($badgeInfo->title, '', $element->nodeValue);
                 $temp = u($element->nodeValue)->slice(
-                    strlen((string) $badgeInfo->title)
+                    strlen((string)$badgeInfo->title)
                 );
                 $badgeInfo->description = $temp;//$element->nodeValue;
             }

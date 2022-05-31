@@ -23,8 +23,8 @@ class IngressEventType extends AbstractType
                 [
                     'choices' => [
                         'IFS' => 'fs',
-                        'MD'  => 'md',
-                        'EVENT'  => 'event',
+                        'MD' => 'md',
+                        'EVENT' => 'event',
                     ],
                 ]
             )

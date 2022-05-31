@@ -31,8 +31,10 @@ class EventController extends BaseController
 
     #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -85,8 +87,11 @@ class EventController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Event $event,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -106,8 +111,11 @@ class EventController extends BaseController
 
     #[Route(path: '/{id}', name: 'event_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Event $event,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$event->getId(),
             (string)$request->request->get('_token')

@@ -28,8 +28,10 @@ class MapGroupController extends BaseController
 
     #[Route(path: '/new', name: 'map_group_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $mapGroup = new MapGroup();
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
@@ -54,8 +56,11 @@ class MapGroupController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, MapGroup $mapGroup, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        MapGroup $mapGroup,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,8 +80,11 @@ class MapGroupController extends BaseController
 
     #[Route(path: '/{id}', name: 'map_group_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, MapGroup $mapGroup, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        MapGroup $mapGroup,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$mapGroup->getId(),
             (string)$request->request->get('_token')

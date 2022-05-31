@@ -15,8 +15,9 @@ use UnexpectedValueException;
 #[AsCommand(name: 'bot:test:message')]
 class TestMessageCommand extends Command
 {
-    public function __construct(private readonly TelegramBotHelper $telegramBotHelper)
-    {
+    public function __construct(
+        private readonly TelegramBotHelper $telegramBotHelper
+    ) {
         parent::__construct();
     }
 

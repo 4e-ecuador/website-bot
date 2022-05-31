@@ -8,7 +8,7 @@ use DOMDocument;
 use Michelf\MarkdownExtra;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class MarkdownParser  extends MarkdownExtra
+class MarkdownParser extends MarkdownExtra
 {
     public function __construct(
         private readonly AgentRepository $agentRepository,

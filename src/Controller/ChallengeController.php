@@ -30,8 +30,10 @@ class ChallengeController extends BaseController
 
     #[Route(path: '/new', name: 'challenge_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $challenge = new Challenge();
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
@@ -77,8 +79,11 @@ class ChallengeController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, Challenge $challenge, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Challenge $challenge,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,8 +103,11 @@ class ChallengeController extends BaseController
 
     #[Route(path: '/{id}', name: 'challenge_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, Challenge $challenge, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Challenge $challenge,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$challenge->getId(),
             (string)$request->request->get('_token')

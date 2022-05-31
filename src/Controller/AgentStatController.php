@@ -49,8 +49,10 @@ class AgentStatController extends BaseController
 
     #[Route(path: '/new', name: 'agent_stat_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $agentStat = new AgentStat();
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
@@ -87,8 +89,11 @@ class AgentStatController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, AgentStat $agentStat, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        AgentStat $agentStat,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -108,8 +113,11 @@ class AgentStatController extends BaseController
 
     #[Route(path: '/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, AgentStat $agentStat, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        AgentStat $agentStat,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agentStat->getId(),
             (string)$request->request->get('_token')

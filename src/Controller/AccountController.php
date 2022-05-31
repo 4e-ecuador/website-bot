@@ -84,8 +84,8 @@ class AccountController extends BaseController
 
     #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
-    public function telegramDisconnect(EntityManagerInterface $entityManager): RedirectResponse
-    {
+    public function telegramDisconnect(EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');

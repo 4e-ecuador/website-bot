@@ -27,8 +27,10 @@ class TestStatController extends BaseController
     }
 
     #[Route(path: '/new', name: 'test_stat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $testStat = new TestStat();
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
@@ -63,8 +65,11 @@ class TestStatController extends BaseController
         'GET',
         'POST',
     ])]
-    public function edit(Request $request, TestStat $testStat, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        TestStat $testStat,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,8 +88,11 @@ class TestStatController extends BaseController
     }
 
     #[Route(path: '/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
-    public function delete(Request $request, TestStat $testStat, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        TestStat $testStat,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$testStat->getId(),
             (string)$request->request->get('_token')

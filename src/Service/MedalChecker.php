@@ -147,7 +147,7 @@ class MedalChecker
                 'desc'   => 'Didact Field Challenge',
                 'levels' => [100, 300, 800, null, null],
             ],
-            'CSans' => [
+            'CSans'                  => [
                 'desc'   => 'C. Sans Challenge',
                 'levels' => [4, 41, 401, null, null],
             ],
@@ -285,7 +285,7 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
-                    'CSans' =>
+                    'CSans'                =>
                         [
                             'Bronze',
                             'Silver',
@@ -604,7 +604,7 @@ class MedalChecker
             'Nl1331Meetups'    => 'NL1331',
             'Ifs'              => 'FS',
             'Scout-controller' => 'ScoutController',
-            'Second-sunday' => 'SecondSunday',
+            'Second-sunday'    => 'SecondSunday',
         ];
         if (array_key_exists($medal, $replacements)) {
             $medal = $replacements[$medal];

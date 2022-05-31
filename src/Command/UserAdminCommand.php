@@ -23,8 +23,9 @@ use UnexpectedValueException;
 )]
 class UserAdminCommand extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 
@@ -147,7 +148,7 @@ class UserAdminCommand extends Command
     }
 
     /**
-     * @param array<string>  $roles
+     * @param array<string> $roles
      */
     private function createUser(string $email, array $roles): void
     {

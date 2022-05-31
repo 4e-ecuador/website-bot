@@ -24,8 +24,10 @@ class Templater
         return 'File not found';
     }
 
-    public function replaceAgentTemplate(string $templateName, Agent $agent): string
-    {
+    public function replaceAgentTemplate(
+        string $templateName,
+        Agent $agent
+    ): string {
         $template = $this->getTemplate($templateName);
 
         $replacements = [

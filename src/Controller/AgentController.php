@@ -62,8 +62,10 @@ class AgentController extends BaseController
 
     #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $agent = new Agent();
         $agent->setLat($this->getParameter('app.default_lat'));
         $agent->setLon($this->getParameter('app.default_lon'));
@@ -106,8 +108,11 @@ class AgentController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'agent_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Agent $agent, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Agent $agent,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,8 +137,11 @@ class AgentController extends BaseController
 
     #[Route(path: '/{id}', name: 'agent_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Agent $agent, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Agent $agent,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agent->getId(),
             (string)$request->request->get('_token')

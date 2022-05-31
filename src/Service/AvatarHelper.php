@@ -7,8 +7,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AvatarHelper
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public function updateAvatar(User $user): self

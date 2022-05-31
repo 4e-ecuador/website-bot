@@ -13,8 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    public function __construct(private readonly AgentRepository $agentRepository)
-    {
+    public function __construct(
+        private readonly AgentRepository $agentRepository
+    ) {
     }
 
     public function buildForm(

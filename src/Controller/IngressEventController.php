@@ -52,8 +52,10 @@ class IngressEventController extends BaseController
 
     #[Route(path: '/new', name: 'ingress_event_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $ingressEvent = new IngressEvent();
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
         $form->handleRequest($request);
@@ -104,8 +106,11 @@ class IngressEventController extends BaseController
         'POST',
     ])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, IngressEvent $ingressEvent, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        IngressEvent $ingressEvent,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

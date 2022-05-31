@@ -29,8 +29,10 @@ class HelpController extends BaseController
 
     #[Route(path: '/new', name: 'help_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $help = new Help();
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
@@ -79,8 +81,11 @@ class HelpController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'help_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Help $help, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Help $help,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -102,8 +107,11 @@ class HelpController extends BaseController
 
     #[Route(path: '/{id}', name: 'help_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Help $help, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Help $help,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$help->getId(),
             (string)$request->request->get('_token')

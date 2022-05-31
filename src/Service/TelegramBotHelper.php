@@ -155,8 +155,11 @@ class TelegramBotHelper
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function sendPhoto(int|string $chatId, CURLFile|string $photo, string $caption): Message
-    {
+    public function sendPhoto(
+        int|string $chatId,
+        CURLFile|string $photo,
+        string $caption
+    ): Message {
         return $this->api->sendPhoto(
             $chatId,
             $photo,
@@ -178,8 +181,9 @@ class TelegramBotHelper
         $text = 'hello test';
         $buttons = [];
 
-        $buttons[] = ['text'          => 'Hello TEST',
-                      'callback_data' => '/post_'.$prev,
+        $buttons[] = [
+            'text' => 'Hello TEST',
+            'callback_data' => '/post_'.$prev,
         ];
 
         return $this->api->sendMessage(

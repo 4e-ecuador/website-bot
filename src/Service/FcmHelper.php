@@ -42,8 +42,11 @@ class FcmHelper
     /**
      * @param string|array<string> $to
      */
-    public function sendMessageWithTokens(string $title, string $message, string|array $to): bool
-    {
+    public function sendMessageWithTokens(
+        string $title,
+        string $message,
+        string|array $to
+    ): bool {
         if (is_array($to)) {
             $data = [
                 'registration_ids' => $to,

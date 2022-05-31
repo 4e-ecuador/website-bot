@@ -31,8 +31,10 @@ class CommentController extends BaseController
 
     #[Route(path: '/new', name: 'comment_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -89,8 +91,11 @@ class CommentController extends BaseController
 
     #[Route(path: '/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Comment $comment,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,8 +115,11 @@ class CommentController extends BaseController
 
     #[Route(path: '/{id}', name: 'comment_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
-    public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Comment $comment,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
             (string)$request->request->get('_token')

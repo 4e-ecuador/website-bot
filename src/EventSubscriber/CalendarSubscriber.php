@@ -39,7 +39,9 @@ class CalendarSubscriber implements EventSubscriberInterface
             $calendar->addEvent(
                 new Event(
                     'First Saturday',
-                    new DateTime('first saturday of '.$next->format('M Y'). ' 12:00:00'),
+                    new DateTime(
+                        'first saturday of '.$next->format('M Y').' 12:00:00'
+                    ),
                     options: [
                         'backgroundColor' => 'green',
                         'borderColor'     => 'green',
@@ -49,7 +51,9 @@ class CalendarSubscriber implements EventSubscriberInterface
             $calendar->addEvent(
                 new Event(
                     'Second Sunday',
-                    new DateTime('second sunday of '.$next->format('M Y'). ' 12:00:00'),
+                    new DateTime(
+                        'second sunday of '.$next->format('M Y').' 12:00:00'
+                    ),
                     options: [
                         'backgroundColor' => 'green',
                         'borderColor'     => 'green',
@@ -69,7 +73,9 @@ class CalendarSubscriber implements EventSubscriberInterface
             $calendar->addEvent(
                 new Event(
                     $event->getName(),
-                    $event->getDateStart()->setTimezone(new DateTimeZone('UTC')),
+                    $event->getDateStart()->setTimezone(
+                        new DateTimeZone('UTC')
+                    ),
                     $event->getDateEnd()->setTimezone(new DateTimeZone('UTC')),
                     options: [
                         'backgroundColor' => 'red',

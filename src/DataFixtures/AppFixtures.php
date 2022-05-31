@@ -28,45 +28,43 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $factionEnl = (new Faction())
-        ->setName('ENL');
+            ->setName('ENL');
 
         $manager->persist($factionEnl);
 
         $agent = (new Agent())
-        ->setFaction($factionEnl)
-        ->setNickname('testAgent');
-
+            ->setFaction($factionEnl)
+            ->setNickname('testAgent');
 
         $manager->persist($agent);
 
         $event = (new Event())
-        ->setName('test')
-        ->setDateStart(new \DateTime())
-        ->setDateEnd(new \DateTime());
+            ->setName('test')
+            ->setDateStart(new \DateTime())
+            ->setDateEnd(new \DateTime());
 
         $manager->persist($event);
 
         $mapGroup = (new MapGroup())
-        ->setName('test');
+            ->setName('test');
 
         $manager->persist($mapGroup);
 
         $testStat = (new TestStat())
-        ->setCsv('csvString');
+            ->setCsv('csvString');
 
         $manager->persist($testStat);
 
         $agentStat = (new AgentStat())
             ->setDatetime(new \DateTime())
-        ->setAgent($agent)
-        ->setAp(123);
+            ->setAgent($agent)
+            ->setAp(123);
 
         $manager->persist($agentStat);
 
         $ingressEvent = (new IngressEvent())
             ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime())
-        ;
+            ->setDateEnd(new \DateTime());
 
         $manager->persist($ingressEvent);
 
@@ -85,10 +83,10 @@ class AppFixtures extends Fixture
         $manager->persist($challenge);
 
         $comment = (new Comment())
-        ->setText('test')
-        ->setAgent($agent)
-        ->setCommenter($user)
-        ->setDatetime(new \DateTime());
+            ->setText('test')
+            ->setAgent($agent)
+            ->setCommenter($user)
+            ->setDatetime(new \DateTime());
 
         $manager->persist($comment);
 

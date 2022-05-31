@@ -16,8 +16,9 @@ use TelegramBot\Api\InvalidArgumentException;
 #[AsCommand(name: 'bot:test:button')]
 class TestButtonCommand extends Command
 {
-    public function __construct(private readonly TelegramBotHelper $telegramBotHelper)
-    {
+    public function __construct(
+        private readonly TelegramBotHelper $telegramBotHelper
+    ) {
         parent::__construct();
     }
 

@@ -154,7 +154,7 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param  array<int> $ids
+     * @param array<int> $ids
      *
      * @return array<Agent>
      */

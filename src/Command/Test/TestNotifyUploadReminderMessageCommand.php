@@ -15,8 +15,6 @@ use TelegramBot\Api\InvalidArgumentException;
 #[AsCommand(name: 'bot:test:NotifyUploadReminderMessage')]
 class TestNotifyUploadReminderMessageCommand extends Command
 {
-    protected static $defaultName = 'bot:test:NotifyUploadReminderMessage';
-
     public function __construct(
         private readonly TelegramMessageHelper $telegramMessageHelper,
         private readonly TelegramBotHelper $telegramBotHelper,

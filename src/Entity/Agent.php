@@ -46,7 +46,7 @@ class Agent implements Stringable
     #[Column(type: Types::TEXT, nullable: true)]
     private ?string $custom_medals = '';
 
-    #[ManyToOne(targetEntity: MapGroup::class, inversedBy: 'agents')]
+    #[ManyToOne(inversedBy: 'agents')]
     private ?MapGroup $map_group = null;
 
     #[Column(nullable: true)]

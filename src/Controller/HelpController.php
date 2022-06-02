@@ -44,11 +44,11 @@ class HelpController extends BaseController
             return $this->redirectToRoute('help_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'help/new.html.twig',
             [
                 'help' => $help,
-                'form' => $form->createView(),
+                'form' => $form,
             ]
         );
     }
@@ -96,11 +96,11 @@ class HelpController extends BaseController
             return $this->redirectToRoute('help_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'help/edit.html.twig',
             [
                 'help' => $help,
-                'form' => $form->createView(),
+                'form' => $form,
             ]
         );
     }

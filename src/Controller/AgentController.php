@@ -81,11 +81,11 @@ class AgentController extends BaseController
             return $this->redirectToRoute('agent_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'agent/new.html.twig',
             [
                 'agent' => $agent,
-                'form'  => $form->createView(),
+                'form'  => $form,
             ]
         );
     }
@@ -126,11 +126,11 @@ class AgentController extends BaseController
             );
         }
 
-        return $this->render(
+        return $this->renderForm(
             'agent/edit.html.twig',
             [
                 'agent' => $agent,
-                'form'  => $form->createView(),
+                'form'  => $form,
             ]
         );
     }

@@ -44,11 +44,11 @@ class ChallengeController extends BaseController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'challenge/new.html.twig',
             [
                 'challenge' => $challenge,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }
@@ -92,11 +92,11 @@ class ChallengeController extends BaseController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'challenge/edit.html.twig',
             [
                 'challenge' => $challenge,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }

@@ -41,11 +41,11 @@ class TestStatController extends BaseController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'test_stat/new.html.twig',
             [
                 'test_stat' => $testStat,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }
@@ -78,11 +78,11 @@ class TestStatController extends BaseController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'test_stat/edit.html.twig',
             [
                 'test_stat' => $testStat,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }

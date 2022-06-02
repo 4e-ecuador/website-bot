@@ -132,11 +132,11 @@ class UserController extends BaseController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'user/new.html.twig',
             [
                 'user' => $user,
-                'form' => $form->createView(),
+                'form' => $form,
             ]
         );
     }
@@ -171,11 +171,11 @@ class UserController extends BaseController
             );
         }
 
-        return $this->render(
+        return $this->renderForm(
             'user/edit.html.twig',
             [
                 'user' => $user,
-                'form' => $form->createView(),
+                'form' => $form,
             ]
         );
     }

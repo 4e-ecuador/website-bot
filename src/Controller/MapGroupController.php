@@ -42,11 +42,11 @@ class MapGroupController extends BaseController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'map_group/new.html.twig',
             [
                 'map_group' => $mapGroup,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }
@@ -69,11 +69,11 @@ class MapGroupController extends BaseController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'map_group/edit.html.twig',
             [
                 'map_group' => $mapGroup,
-                'form'      => $form->createView(),
+                'form'      => $form,
             ]
         );
     }

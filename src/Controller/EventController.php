@@ -45,11 +45,11 @@ class EventController extends BaseController
             return $this->redirectToRoute('event_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'event/new.html.twig',
             [
                 'event' => $event,
-                'form'  => $form->createView(),
+                'form'  => $form,
             ]
         );
     }
@@ -100,11 +100,11 @@ class EventController extends BaseController
             return $this->redirectToRoute('event_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'event/edit.html.twig',
             [
                 'event' => $event,
-                'form'  => $form->createView(),
+                'form'  => $form,
             ]
         );
     }

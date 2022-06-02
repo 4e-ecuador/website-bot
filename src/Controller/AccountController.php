@@ -64,19 +64,16 @@ class AccountController extends BaseController
             return $this->redirectToRoute('default');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'account/index.html.twig',
             [
                 'agent'                => $agent,
                 'agentCustomMedals'    => $customMedals,
-                'form'                 => $form->createView(),
-                'message'              => '',
-                'telegramConnectLink'  => $telegramBotHelper->getConnectLink(
-                    $agent
-                ),
-                'telegramConnectLink2' => $telegramBotHelper->getConnectLink2(
-                    $agent
-                ),
+                'form'                 => $form,
+                'telegramConnectLink'  => $telegramBotHelper
+                    ->getConnectLink($agent),
+                'telegramConnectLink2' => $telegramBotHelper
+                    ->getConnectLink2($agent),
                 'customMedals'         => $medalChecker->getCustomMedalGroups(),
             ]
         );

@@ -45,11 +45,11 @@ class CommentController extends BaseController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'comment/new.html.twig',
             [
                 'comment' => $comment,
-                'form'    => $form->createView(),
+                'form'    => $form,
             ]
         );
     }
@@ -104,11 +104,11 @@ class CommentController extends BaseController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->render(
+        return $this->renderForm(
             'comment/edit.html.twig',
             [
                 'comment' => $comment,
-                'form'    => $form->createView(),
+                'form'    => $form,
             ]
         );
     }

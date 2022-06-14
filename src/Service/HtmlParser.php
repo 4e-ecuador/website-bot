@@ -18,7 +18,7 @@ class HtmlParser
         $crawler = $client->request('GET', $event->getLink());
         $crawler->filterXPath('//table/tbody/tr/td/a')->each(
             static function ($node) use ($info) {
-                $info->poc[$node->attr('class')] = $node->html();
+                $info->poc[(string)$node->attr('class')] = (string)$node->html();
             }
         );
         $crawler->filterXPath('//table/tbody/tr/td/div')->each(
@@ -40,7 +40,7 @@ class HtmlParser
                  */
                 $factions = array_keys($info->poc);
 
-                $info->attendees[$factions[$i]] = $attendees;
+                $info->attendees[(string)$factions[$i]] = $attendees;
                 $i++;
             }
         );

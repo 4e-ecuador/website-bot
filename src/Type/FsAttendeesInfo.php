@@ -6,12 +6,12 @@ class FsAttendeesInfo
 {
     public function __construct(
         /**
-         * @var array<int, string> $poc
+         * @var array<string, string> $poc
          */
         public array $poc = [],
 
         /**
-         * @var array<int, string> $attendees
+         * @var array<string, array<int, string>> $attendees
          */
         public array $attendees = [],
     ) {

@@ -31,13 +31,12 @@ class IngressEventRepository extends ServiceEntityRepository
     /**
      * @return IngressEvent[]
      */
-    public function findFutureEvents()
+    public function findFutureEvents(): array
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
             ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
@@ -53,7 +52,6 @@ class IngressEventRepository extends ServiceEntityRepository
             ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->setParameter('type', 'fs')
             ->orderBy('i.name', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
@@ -69,7 +67,6 @@ class IngressEventRepository extends ServiceEntityRepository
             ->setParameter('val', (new DateTime())->format('Y-m-d)'))
             ->setParameter('type', 'md')
             ->orderBy('i.name', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

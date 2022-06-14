@@ -9,14 +9,13 @@ use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
 use App\Repository\UserRepository;
 use App\Service\FcmHelper;
+use App\Service\HtmlParser;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Goutte\Client;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -293,45 +292,12 @@ class IngressEventController extends BaseController
 
     #[Route(path: '/fetch-overview/{id}', name: 'ingress_event_overview_fetch', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function fetchOverview(IngressEvent $event): JsonResponse
+    public function fetchOverview(IngressEvent $event, HtmlParser $htmlParser): JsonResponse
     {
         if (!$event->getLink()) {
             return $this->json(['error' => 'no link provided']);
         }
-        $client = new Client();
-        $info = new stdClass();
-        $info->poc = [];
-        $info->atendees = [];
-        $crawler = $client->request('GET', $event->getLink());
-        $crawler->filterXPath('//table/tbody/tr/td/a')->each(
-            static function ($node) use ($info) {
-                $info->poc[$node->attr('class')] = $node->html();
-            }
-        );
-        $crawler->filterXPath('//table/tbody/tr/td/div')->each(
-            static function ($node) use ($info) {
-                static $i = 0;
-                $string = $node->html();
-                $string = preg_replace(
-                    '#<h4>[\s()\w]+</h4>#m',
-                    '',
-                    $string
-                );
 
-                /**
-                 * @var array<int, string> $atendees
-                 */
-                $atendees = explode('<br>', trim($string));
-                /**
-                 * @var array<int, string> $factions
-                 */
-                $factions = array_keys($info->poc);
-
-                $info->atendees[$factions[$i]] = $atendees;
-                $i++;
-            }
-        );
-
-        return $this->json($info);
+        return $this->json($htmlParser->getFsAssistants($event));
     }
 }

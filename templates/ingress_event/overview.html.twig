@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-<span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
+    <span id="js-data" data-event-ids="[{{ eventIds|join(', ') }}]"></span>
     <h1>
         Ingress FS overview
         <img src="{{ asset('/build/images/logos/ENL.svg') }}" style="height: 32px" alt="logo">
@@ -30,6 +30,11 @@
                 <div class="card-body" id="event-{{ event.id }}">
                 </div>
             </div>
+        {% else %}
+            <div class="col-sm-4 card">
+                No events found :(
+            </div>
+
         {% endfor %}
     </div>
 
@@ -37,11 +42,11 @@
 <div class="row">
   <div class="col">
       <img src="{{ asset('/build/images/logos/ENL.svg') }}" style="height: 32px" alt="logo"/>
-      <span class="counter faction-enl"><%:#data.atendees.enl.length+1%></span>
+      <span class="counter faction-enl"><%:#data.attendees.enl.length+1%></span>
   </div>
   <div class="col">
       <img src="{{ asset('/build/images/logos/RES.svg') }}" style="height: 32px" alt="logo"/>
-      <span class="counter faction-res"><%:#data.atendees.res.length+1%></span>
+      <span class="counter faction-res"><%:#data.attendees.res.length+1%></span>
   </div>
 </div>
 
@@ -57,18 +62,19 @@
 <div class="row">
     <div class="col">
         <ul class="list-unstyled">
-        <%for atendees.enl%>
+        <%for attendees.enl%>
           <li class="faction-enl"><%:%></li>
         <%/for%>
         </ul>
     </div>
     <div class="col">
         <ul class="list-unstyled">
-        <%for atendees.res%>
+        <%for attendees.res%>
           <li class="faction-res"><%:%></li>
         <%/for%>
         </ul>
     </div>
 </div>
+
     </script>
 {% endblock %}

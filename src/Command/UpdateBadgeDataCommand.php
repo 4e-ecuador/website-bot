@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * dedo1911 • Dario Emerson, [17.06.22 12:38]
+ * https://dedo1911.xyz/Badges/Badges.json
+ * Website is generated with this json
+ * You can rely on the json 😏 it’s more stable and won’t change anytime soon
+ * Yes you have to merge group name
+ * There might also be level to concat
+ */
+
 namespace App\Command;
 
 use App\Exception\NothingHasChangedException;

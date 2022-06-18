@@ -233,13 +233,14 @@ class AppExtension extends AbstractExtension
                     $code = 'UniqueBadge_AvenirShardChallenge';
                 } elseif ('Paragon' === $badge) {
                     $code = 'UniqueBadge_Paragon';
-                } elseif ('KnightTessellation' === $badge) {
-                    $code = 'Badge_'.$badge.'_'.$value;
-                } elseif ('KineticChallenge' === $badge) {
-                    $code = 'Badge_'.$badge.'_'.$value;
-                } elseif ('CourierChallenge' === $badge) {
-                    $code = 'Badge_'.$badge.'_'.$value;
-                } elseif ('CSans' === $badge) {
+                } elseif (in_array($badge, [
+                    'KnightTessellation',
+                    'KineticChallenge',
+                    'CourierChallenge',
+                    'CSans',
+                    'EOSImprint',
+                ])
+                ) {
                     $code = 'Badge_'.$badge.'_'.$value;
                 } else {
                     $code = 'EventBadge_'.$badge.'_'.$value;

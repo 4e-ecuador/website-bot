@@ -180,7 +180,11 @@ class UpdateBadgeDataCommand extends Command
     ): UpdateBadgeDataCommand {
         $io = new SymfonyStyle($input, $output);
 
+        $io->writeln('');
         $io->writeln('Resizing...');
+
+        $progressBar = new ProgressBar($output);
+        $progressBar->start();
 
         foreach ($this->sizes as $size) {
             $destDir = $this->badgeRoot.'/'.$size;
@@ -194,11 +198,10 @@ class UpdateBadgeDataCommand extends Command
                     continue;
                 }
                 $srcPath = $item->getRealPath();
-                $io->writeln($item->getRealPath());
-                if (strpos($srcPath, '_'.$size.'.png')) {
+                $destPath = $destDir.'/'.$item->getFilename();
+                if (file_exists($destPath)) {
                     continue;
                 }
-                $destPath = $destDir.'/'.$item->getFilename();
                 $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
                     .$destPath;
                 ob_start();
@@ -209,7 +212,9 @@ class UpdateBadgeDataCommand extends Command
                     $io->writeln('');
                     $io->error($result);
                 }
+                $progressBar->advance();
             }
+            $progressBar->finish();
         }
 
         $io->writeln('OK');
@@ -226,8 +231,8 @@ class UpdateBadgeDataCommand extends Command
         $io->writeln('Generating sprite image and CSS...');
 
         $groups = [
-            'badges' => ['Badge'],
-            'events' => [
+            'badges' => [
+                'Badge',
                 'Anomaly',
                 'EventBadge',
                 'UniqueBadge_AvenirShardChallenge',
@@ -251,19 +256,17 @@ class UpdateBadgeDataCommand extends Command
 
         $imagesPerRow = 15;
         $flags = ['-verbose'];
-        foreach ($groups as $groupName => $groupItems) {
+        foreach ($groups as $groupItems) {
             foreach ($this->sizes as $size) {
                 $imageWidth = $size;
                 $imageHeight = $size;
-                $resultImageName = 'medals_'.$groupName.'_'.$size.'.png';
-                $resultImageFile = $this->assetRoot.'/images/sprites/'
-                    .$resultImageName;
-                $resultCssFile = $this->assetRoot.'/css/medals_'.$groupName.'_'
-                    .$size.'.css';
+                $resultImageName = 'medals_'.$size.'.png';
+                $resultImageFile = $this->assetRoot.'/images/sprites/'.$resultImageName;
+                $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
                 $fileNames = [];
 
                 $cssLines = [
-                    '.medal'.$size.'-'.$groupName.' {',
+                    '.medal'.$size.' {',
                     '	width: '.$imageWidth.'px;',
                     '	height: '.$imageHeight.'px;',
                     '	display: inline-block;',
@@ -310,7 +313,7 @@ class UpdateBadgeDataCommand extends Command
                         : '0';
                     $name = str_replace('.png', '', $item->getBasename());
                     $cssLines[] = sprintf(
-                        '.medal'.$size.'-'.$groupName
+                        '.medal'.$size
                         .'.medal-%s {background-position: %s %s}',
                         $name,
                         $xPos,

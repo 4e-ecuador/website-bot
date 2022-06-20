@@ -82,7 +82,7 @@ $('.medal-item').on('click', function (e) {
     updateModal(modal, $(this))
     const level = $(this).data('medal-level')
     for (let i = 1; i < 6; i++) {
-        let img = '<span class="medal24-badges medal-' + $(this).data('badge-name-' + i) + '"></span>'
+        let img = '<span class="medal24 medal-' + $(this).data('badge-name-' + i) + '"></span>'
 
         // @todo find a way to gray out superior medals
 

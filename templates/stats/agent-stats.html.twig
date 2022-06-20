@@ -28,13 +28,13 @@
         {% if latest %}
             <span class="agent-level">{{ latest.level }}</span>
             {% if latest.recursions %}
-                <span class="medal50-events medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                <span class="medal50 medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
                 {% if latest.recursions > 1 %}
                     <span class="doubleCount">X {{ latest.recursions }}</span>
                 {% endif %}
             {% endif %}
             {% if latest.monthsSubscribed %}
-                <span class="medal50-events medal-UniqueBadge_CORE" title="CORE subscriptions"></span>
+                <span class="medal50 medal-UniqueBadge_CORE" title="CORE subscriptions"></span>
                 {{ latest.monthsSubscribed }}
             {% endif %}
         {% endif %}
@@ -53,26 +53,13 @@
                         >
                             <span class="medal-image">
                             {% if 'Anomaly' == group %}
-                                <span class="medal50-events medal-Anomaly_{{ medal }}"
+                                <span class="medal50 medal-Anomaly_{{ medal }}"
                                       title="{{ badgeData.title }}"></span>
                             {% elseif 'Event' == group %}
-                                {% if 'AvenirShard' == medal %}
-                                    <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
-                                          title="{{ badgeData.title }}"></span>
-                                {% elseif 'Paragon' == medal %}
-                                    <span class="medal50-events medal-UniqueBadge_Paragon"
-                                          title="{{ badgeData.title }}"></span>
-                                {% elseif medal in [
-                                    'CourierChallenge', 'KineticChallenge', 'KnightTessellation', 'CSans', 'EOSImprint'
-                                ] %}
-                                    <span class="medal50-badges medal-Badge_{{ medal }}_{{ value }}"
-                                          title="{{ badgeData.title }}"></span>
-                                {% else %}
-                                    <span class="medal50-events medal-EventBadge_{{ medal }}_{{ value }}"
-                                          title="{{ badgeData.title }}"></span>
-                                {% endif %}
+                                <span class="medal50 medal-{{ getBadgeName(group, medal, value) }}"
+                                      title="{{ badgeData.title }}"></span>
                             {% else %}
-                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ value|medalLevelName }}"
+                                <span class="medal50 medal-Badge_{{ medal }}_{{ value|medalLevelName }}"
                                       title="{{ badgeData.title }}"></span>
                             {% endif %}
                         </span>
@@ -103,7 +90,7 @@
             >
             <span class="medal-image">
             {% if level %}
-                <span class="medal50-badges medal-{{ getBadgePath(name, level, 0, '') }}"></span>
+                <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"></span>
                 {% set doubleCount = medalDoubleValue(name, latest[name]) %}
 
                 {% if doubleCount > 1 %}

@@ -77,7 +77,7 @@
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal~i }}" class="medalsLabel">
-                                        <span class="medal50-badges medal-{{ getBadgePath(medal, i, 0, '') }}"
+                                        <span class="medal50 medal-{{ getBadgePath(medal, i, 0, '') }}"
                                               title="{{ medal~' - '~i|translateMedalLevel }}"></span>
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
@@ -89,7 +89,7 @@
                                 {% if 'Anomaly' == group %}
                                     {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
-                                        <span class="medal50-events medal-Anomaly_{{ tiers }}"
+                                        <span class="medal50 medal-Anomaly_{{ tiers }}"
                                               title="{{ tiers }}"></span>
                                         <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
                                     </label>
@@ -98,36 +98,11 @@
                                            value="1" class="hiddenCheckBox"
                                             {{ checked }}>
                                 {% elseif 'Event' == group %}
-
                                     {% for tier in tiers %}
-                                        {% set name = '' == tier ? '' : '_'~tier %}
                                         {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~tier }}" class="medalsLabel">
-                                            {% if 'AvenirShard' == medal %}
-                                                <span class="medal50-events medal-UniqueBadge_AvenirShardChallenge"
-                                                      title="Avenir Shard Challenge"></span>
-                                            {% elseif 'Paragon' == medal %}
-                                                <span class="medal50-events medal-UniqueBadge_Paragon"
-                                                      title="Paragon Challenge"></span>
-                                            {% elseif 'KnightTessellation' == medal %}
-                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% elseif 'KineticChallenge' == medal %}
-                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% elseif 'CourierChallenge' == medal %}
-                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% elseif 'CSans' == medal %}
-                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% elseif 'EOSImprint' == medal %}
-                                                <span class="medal50-badges medal-Badge_{{ medal }}_{{ tier }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% else %}
-                                                <span class="medal50-events medal-EventBadge_{{ medal~name }}"
-                                                      title="{{ medal~' '~tier }}"></span>
-                                            {% endif %}
+                                            <span class="medal50 medal-{{ getBadgeName(group, medal, tier) }}"
+                                                  title="{{ medal~' '~tier }}"></span>
                                         </label>
                                         <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
                                                id="{{ 'medal-'~group~medal~tier }}"

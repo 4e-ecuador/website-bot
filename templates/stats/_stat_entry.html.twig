@@ -16,7 +16,7 @@
                     {% else %}
                         {% set level = medalLevel(type, entry.value) %}
                         {% if level %}
-                            <span class="medal24-badges medal-{{ getBadgePath(type, level, 0, '') }}"
+                            <span class="medal24 medal-{{ getBadgePath(type, level, 0, '') }}"
                                   title="{{ type }} - {{ level|translateMedalLevel }}"></span>
                             {% set doubleCount = medalDoubleValue(type, entry.value) %}
                             {% if doubleCount > 1 %}

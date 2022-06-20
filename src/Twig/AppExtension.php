@@ -28,10 +28,10 @@ class AppExtension extends AbstractExtension
      */
     public array $roleFilters
         = [
-            'ROLE_AGENT'       => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR'      => 'Editor',
-            'ROLE_ADMIN'       => 'Admin',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
     public function __construct(
@@ -84,6 +84,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
             new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
             new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
+            new TwigFunction('getBadgeName', [$this, 'getBadgeName']),
             new TwigFunction('php_version', [$this, 'getPhpVersion']),
             new TwigFunction('intlDate', [$this, 'intlDate']),
             new TwigFunction('defaultTimeZone', [$this, 'getDefaultTimeZone']),
@@ -219,20 +220,20 @@ class AppExtension extends AbstractExtension
         return $this->intlDateHelper->formatCustom($date, $format);
     }
 
-    public function getBadgeData(
+    public function getBadgeName(
         string $group,
         string $badge,
         int|string $value
-    ): BadgeData {
+    ): string {
         switch ($group) {
             case 'Anomaly':
-                $code = 'Anomaly_'.$badge;
+                $name = 'Anomaly_'.$badge;
                 break;
             case 'Event':
                 if ('AvenirShard' === $badge) {
-                    $code = 'UniqueBadge_AvenirShardChallenge';
+                    $name = 'UniqueBadge_AvenirShardChallenge';
                 } elseif ('Paragon' === $badge) {
-                    $code = 'UniqueBadge_Paragon';
+                    $name = 'UniqueBadge_Paragon';
                 } elseif (in_array($badge, [
                     'KnightTessellation',
                     'KineticChallenge',
@@ -241,20 +242,30 @@ class AppExtension extends AbstractExtension
                     'EOSImprint',
                 ])
                 ) {
-                    $code = 'Badge_'.$badge.'_'.$value;
+                    $name = 'Badge_'.$badge.'_'.$value;
                 } else {
-                    $code = 'EventBadge_'.$badge.'_'.$value;
+                    $name = 'EventBadge_'.$badge.'_'.$value;
                 }
                 break;
             case 'Annual':
                 $tier = $this->getMedalLevelName((int)$value);
-                $code = 'Badge_'.$badge.'_'.$tier;
+                $name = 'Badge_'.$badge.'_'.$tier;
                 break;
             default:
                 throw new UnexpectedValueException('Unknown group: '.$group);
         }
 
-        return $this->medalChecker->getBadgeData($code);
+        return $name;
+    }
+
+    public function getBadgeData(
+        string $group,
+        string $badge,
+        int|string $value
+    ): BadgeData {
+        return $this->medalChecker->getBadgeData(
+            $this->getBadgeName($group, $badge, $value)
+        );
     }
 
     public function getPhpVersion(): string

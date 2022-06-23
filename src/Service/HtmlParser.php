@@ -16,7 +16,7 @@ class HtmlParser
         $info->poc = [];
         $info->attendees = [];
         $crawler = $client->request('GET', $event->getLink());
-        $crawler->filterXPath('//table/tbody/tr/td/a')->each(
+        $crawler->filterXPath('//table[@style="width: 500px; border-collapse: collapse; border-style: none;"]/tbody/tr/td/a')->each(
             static function ($node) use ($info) {
                 $info->poc[(string)$node->attr('class')] = (string)$node->html();
             }
@@ -35,6 +35,7 @@ class HtmlParser
                  * @var array<int, string> $attendees
                  */
                 $attendees = explode('<br>', trim($string));
+                $attendees = array_map('trim', $attendees);
                 /**
                  * @var array<int, string> $factions
                  */

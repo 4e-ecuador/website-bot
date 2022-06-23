@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\FsData;
 use App\Entity\IngressEvent;
 use App\Repository\AgentRepository;
 use App\Service\HtmlParser;
 use App\Type\AgentFsInfo;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -26,6 +28,7 @@ final class CheckFsCommand extends Command
     public function __construct(
         private readonly HtmlParser $htmlParser,
         private readonly AgentRepository $agentRepository,
+        private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
     }
@@ -35,6 +38,7 @@ final class CheckFsCommand extends Command
         OutputInterface $output
     ): int {
         $url = 'https://fevgames.net/ifs/events';
+        $events = [];
         $agents = [];
 
         $io = new SymfonyStyle($input, $output);
@@ -65,50 +69,59 @@ final class CheckFsCommand extends Command
             $a = $node->filter('a');
 
             $location = $a->text();
-            $link = $a->attr('href');
+            $link = (string)$a->attr('href');
 
             $eventId = (int)preg_replace('/\D/', '', $link);
 
-            $event = (new IngressEvent)->setLink($url.'/'.$link);
-            $info = $this->htmlParser->getFsAssistants($event);
+            $event = (new IngressEvent)
+                ->setLink($url.'/'.$link)
+                ->setName($location);
 
-            foreach ($info->poc as $faction => $agentNick) {
-                if (array_key_exists($agentNick, $agents)) {
-                    // throw new \UnexpectedValueException(
-                    //     'Agent reg twice: '.$agentNick
-                    // );
+            $events[] = $event;
+
+            try {
+                $info = $this->htmlParser->getFsAssistants($event);
+
+                foreach ($info->poc as $faction => $agentNick) {
+                    if (array_key_exists($agentNick, $agents)) {
+                        // throw new \UnexpectedValueException(
+                        //     'Agent reg twice: '.$agentNick
+                        // );
+                    }
+                    $agent = new AgentFsInfo(
+                        nickname: $agentNick,
+                        faction: $faction,
+                        role: 'poc',
+                        location: $location,
+                        eventId: $eventId,
+                    );
+
+                    $agents[$agentNick] = $agent;
                 }
-                $agent = new AgentFsInfo(
-                    nickname: $agentNick,
-                    faction: $faction,
-                    role: 'poc',
-                    location: $location,
-                    eventId: $eventId,
-                );
 
-                $agents[$agentNick] = $agent;
-            }
+                foreach ($info->attendees as $faction => $attendees) {
+                    foreach ($attendees as $attendee) {
+                        if ($attendee) {
+                            if (array_key_exists($attendee, $agents)) {
+                                //     throw new \UnexpectedValueException(
+                                //         'Agent reg twice: '.$attendee
+                                //     );
+                            }
 
-            foreach ($info->attendees as $faction => $attendees) {
-                foreach ($attendees as $attendee) {
-                    if ($attendee) {
-                        if (array_key_exists($attendee, $agents)) {
-                            //     throw new \UnexpectedValueException(
-                            //         'Agent reg twice: '.$attendee
-                            //     );
+                            $agent = new AgentFsInfo(
+                                nickname: $attendee,
+                                faction: $faction,
+                                role: 'attendee',
+                                location: $location,
+                                eventId: $eventId,
+                            );
+
+                            $agents[$attendee] = $agent;
                         }
-
-                        $agent = new AgentFsInfo(
-                            nickname: $attendee,
-                            faction: $faction,
-                            role: 'attendee',
-                            location: $location,
-                            eventId: $eventId,
-                        );
-
-                        $agents[$attendee] = $agent;
                     }
                 }
+            } catch (\Exception $exception) {
+                $io->error($exception->getMessage().$event->getLink());
             }
 
             $progressBar->advance();
@@ -129,21 +142,21 @@ final class CheckFsCommand extends Command
         $io->text('');
         $io->text('');
 
-        $table = new Table($output);
-        $table->setHeaders(['Nickname', 'Faction', 'Role', 'Location']);
+        // $table = new Table($output);
+        // $table->setHeaders(['Nickname', 'Faction', 'Role', 'Location']);
+        //
+        // foreach ($agents as $agent) {
+        //     $table->addRow([
+        //         $agent->nickname,
+        //         $agent->faction,
+        //         $agent->role,
+        //         $agent->location,
+        //     ]);
+        // }
+        //
+        // $table->render();
 
-        foreach ($agents as $agent) {
-            $table->addRow([
-                $agent->nickname,
-                $agent->faction,
-                $agent->role,
-                $agent->location,
-            ]);
-        }
-
-        $table->render();
-
-        $io->text(sprintf('Found %d agents', count($agents)));
+        $io->text(sprintf('Found %d agents worldwide.', count($agents)));
 
         $table = new Table($output);
         $table->setHeaders(['Nickname', 'Faction', 'Role', 'Location']);
@@ -158,6 +171,18 @@ final class CheckFsCommand extends Command
         }
 
         $table->render();
+
+        $fsInfo = new \stdClass();
+
+        $fsInfo->events = $events;
+        $fsInfo->agents = $agents;
+
+        $fsData = (new FsData())
+            ->setAttendeesCount(count($agents))
+            ->setData(json_encode($fsInfo));
+
+        $this->entityManager->persist($fsData);
+        $this->entityManager->flush();
 
         return self::SUCCESS;
     }

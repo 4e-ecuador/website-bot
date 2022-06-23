@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use JsonSerializable;
 
 #[Entity(repositoryClass: IngressEventRepository::class)]
-class IngressEvent
+class IngressEvent implements JsonSerializable
 {
     #[Column, Id, GeneratedValue]
     private ?int $id = null;
@@ -33,6 +34,14 @@ class IngressEvent
 
     #[Column(nullable: true)]
     private ?string $link = '';
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'link' => $this->link,
+        ];
+    }
 
     public function getId(): ?int
     {

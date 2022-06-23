@@ -1,7 +1,8 @@
 <div class="card" id="comment-{{ comment.id }}">
     <div class="card-header">
-        {{ comment.datetime|date('Y-m-d') }}
         {{ comment.commenter.agent ? comment.commenter.agent.nickname : comment.commenter }}
+        -
+        {{ comment.datetime|ago }}
     </div>
     <div class="card-body">
         {{ comment.text|raw }}

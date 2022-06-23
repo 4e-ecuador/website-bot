@@ -35,6 +35,9 @@ class IngressEvent implements JsonSerializable
     #[Column(nullable: true)]
     private ?string $link = '';
 
+    /**
+     * @return array<string, string|null>
+     */
     public function jsonSerialize(): array
     {
         return [

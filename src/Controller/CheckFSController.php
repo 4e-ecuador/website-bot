@@ -10,9 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckFSController extends AbstractController
 {
-    #[Route('/check/fs', name: 'app_check_fs')]
+    //#[Route('/check/fs', name: 'app_check_fs')]
     public function index(AgentRepository $agentRepository, FsDataRepository $fsDataRepository): Response
     {
+        /*
         $latest = $fsDataRepository->findLatest();
 
         $a = $latest[0];
@@ -39,8 +40,8 @@ class CheckFSController extends AbstractController
             $ff = $agent;
             // if ($agent->)
 }
+        */
         return $this->render('check_fs/index.html.twig', [
-            'controller_name' => 'CheckFSController',
         ]);
     }
 }

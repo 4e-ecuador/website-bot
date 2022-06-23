@@ -179,7 +179,7 @@ final class CheckFsCommand extends Command
 
         $fsData = (new FsData())
             ->setAttendeesCount(count($agents))
-            ->setData(json_encode($fsInfo));
+            ->setData((string)json_encode($fsInfo));
 
         $this->entityManager->persist($fsData);
         $this->entityManager->flush();

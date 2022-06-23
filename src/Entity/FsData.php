@@ -3,24 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\FsDataRepository;
-use Doctrine\ORM\Mapping as ORM;
+use DateTimeInterface;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
-#[ORM\Entity(repositoryClass: FsDataRepository::class)]
+#[Entity(repositoryClass: FsDataRepository::class)]
 class FsData
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[Column, Id, GeneratedValue]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $attendeesCount;
+    #[Column(type: 'integer')]
+    private ?int $attendeesCount = null;
 
-    #[ORM\Column(type: 'json')]
-    private $data = [];
+    #[Column(type: 'json')]
+    private ?string $data = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    #[Column(type: 'datetime_immutable')]
+    private ?DateTimeInterface $createdAt = null;
 
     public function __construct() {
         $this->setCreatedAt(new \DateTimeImmutable());
@@ -43,19 +45,19 @@ class FsData
         return $this;
     }
 
-    public function getData()
+    public function getData(): ?string
     {
         return $this->data;
     }
 
-    public function setData($data): self
+    public function setData(string $data): self
     {
         $this->data = $data;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }

@@ -285,7 +285,7 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
-                    'EOSImprint'                =>
+                    'EOSImprint'           =>
                         [
                             'Bronze',
                             'Silver',

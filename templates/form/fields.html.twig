@@ -18,3 +18,23 @@
         <div class="tab-pane" id="previewId"></div>
     </div>
 {% endblock %}
+{% block _ingress_event_editor_widget %}
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#writeId" data-bs-toggle="tab" title="{{ 'label.write'|trans }}">
+                <span class="oi oi-pencil"></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#previewId" data-bs-toggle="tab" title="{{ 'label.preview'|trans }}">
+                <span class="oi oi-eye"></span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="writeId">
+            {{ block('textarea_widget') }}
+        </div>
+        <div class="tab-pane" id="previewId"></div>
+    </div>
+{% endblock %}

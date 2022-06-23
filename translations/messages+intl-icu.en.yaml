@@ -190,3 +190,4 @@ Remove: __Remove
 'Select another agent': '__Select another agent'
 page.counter: 'Page {page} of {maxPages}'
 Calendar: Calendar
+'Starts {when}': 'Starts {when}'

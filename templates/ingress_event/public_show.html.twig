@@ -6,15 +6,18 @@
 
 {% block body %}
 <h1>{{ ingress_event.name }}</h1>
+    <h4>{{ 'Starts {when}'|trans({'when': ingress_event.dateStart|ago}) }}</h4>
     {{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i') : '' }}
      -
        {{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}
 
     <p>
-        {{ ingress_event.description }}
+        {{ ingress_event.description|md2html }}
     </p>
 
-    <a href="{{ ingress_event.link }}">Read more...</a>
+    {% if ingress_event.link %}
+        <a href="{{ ingress_event.link }}">Read more...</a>
+    {% endif %}
 
 {% endblock %}
 

@@ -183,10 +183,11 @@ paginate.next.page: 'Siguiente pagina'
 Compare: Comparar
 'Kinetic capsules completed': 'Capsulas Kineticas completadas'
 'No kinetic capsules completed yet': 'Aun no tiene Capsulas Kineticas completadas'
-'Compare statistics': 'Comparar estadisticas'
+'Compare statistics': 'Comparar estadísticas'
 'Search for agents to compare with...': 'Buscar agentes para comparar...'
 Remove: Remover
 'No results found :(': 'No se encontraron resultados :('
 'Select another agent': 'Seleccione otro agente'
 page.counter: 'Página {page} de {maxPages}'
 Calendar: Calendario
+'Starts {when}': 'Empieza {when}'

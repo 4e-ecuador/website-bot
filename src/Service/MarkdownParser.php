@@ -74,10 +74,7 @@ class MarkdownParser extends MarkdownExtra
         $testString = str_replace('<br>', '<br/>', $testString);
 
         $doc = new DOMDocument('1.0', 'UTF-8');
-        // $doc->strictErrorChecking = true;
-        // $doc->standalone = true;
         $doc->xmlStandalone = true;
-        // $doc->formatOutput = true;
         $doc->loadXML($testString, LIBXML_NOWARNING | LIBXML_NOERROR);
 
         $sNode = $doc->getElementsByTagName('img');

@@ -43,7 +43,14 @@ class IngressEventType extends AbstractType
                     'widget' => 'single_text',
                 ]
             )
-            ->add('description');
+            ->add('description',
+                null,
+                [
+                    'attr'       => ['rows' => 10],
+                    'label'      => 'label.content',
+                    'block_name' => 'editor',
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

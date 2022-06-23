@@ -8,7 +8,7 @@ const previewUrl = jsData.data('preview-url')
 const editorField = jsData.data('editor-field')
 const previewField = jsData.data('preview-field')
 
-$('a[data-toggle="tab"]').on('click', function (e) {
+$('a[data-bs-toggle="tab"]').on('click', function (e) {
     let selected = $(e.target).attr('href')
     if (!selected) {
         selected = $(e.target).parent().attr('href')

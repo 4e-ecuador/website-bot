@@ -22,6 +22,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Symfony\Component\String\u;
@@ -48,6 +49,18 @@ class UpdateBadgeDataCommand extends Command
         $this->sizes = [50, 24];
 
         parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption(
+                'force',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Force update?',
+                false
+            );
     }
 
     protected function execute(
@@ -127,7 +140,7 @@ class UpdateBadgeDataCommand extends Command
 
         $progressBar->finish();
 
-        if ($nothingHasChanged) {
+        if ($nothingHasChanged && false === $input->getOption('force')) {
             throw new NothingHasChangedException();
         }
 
@@ -252,6 +265,7 @@ class UpdateBadgeDataCommand extends Command
             'Badge_Guardian_',
             'Badge_OperationClearField_',
             'Badge_IntelOps',
+            'Badge_UrbanOps',
         ];
 
         $imagesPerRow = 15;
@@ -261,7 +275,8 @@ class UpdateBadgeDataCommand extends Command
                 $imageWidth = $size;
                 $imageHeight = $size;
                 $resultImageName = 'medals_'.$size.'.png';
-                $resultImageFile = $this->assetRoot.'/images/sprites/'.$resultImageName;
+                $resultImageFile = $this->assetRoot.'/images/sprites/'
+                    .$resultImageName;
                 $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
                 $fileNames = [];
 

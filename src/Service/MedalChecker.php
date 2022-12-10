@@ -248,6 +248,7 @@ class MedalChecker
         = [
             'Anomaly' =>
                 [
+                    'EpiphanyDawn',
                     'Superposition',
                     'Kythera',
                     'KurezeEffect',
@@ -275,6 +276,7 @@ class MedalChecker
                 ],
             'Annual'  =>
                 [
+                    'Pathfinder' => [],
                     'Persistence' => [],
                     'Resonance'   => [],
                     'Resurgence'  => [],
@@ -286,6 +288,8 @@ class MedalChecker
                 ],
             'Event'   =>
                 [
+                    'PeaceDay_2022' =>
+                        [''],
                     'EOSImprint'           =>
                         [
                             'Bronze',

@@ -230,7 +230,9 @@ class AppExtension extends AbstractExtension
                 $name = 'Anomaly_'.$badge;
                 break;
             case 'Event':
-                if ('AvenirShard' === $badge) {
+                if ('PeaceDay_2022' === $badge) {
+                    $name = 'UniqueBadge_PeaceDay_2022';
+                } elseif ('AvenirShard' === $badge) {
                     $name = 'UniqueBadge_AvenirShardChallenge';
                 } elseif ('Paragon' === $badge) {
                     $name = 'UniqueBadge_Paragon';

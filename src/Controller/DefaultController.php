@@ -14,10 +14,10 @@ use App\Service\EventHelper;
 use App\Service\MarkdownHelper;
 use DateTime;
 use DateTimeZone;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DefaultController extends AbstractController
 {

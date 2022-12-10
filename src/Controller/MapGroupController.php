@@ -6,10 +6,10 @@ use App\Entity\MapGroup;
 use App\Form\MapGroupType;
 use App\Repository\MapGroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/map/group')]
 class MapGroupController extends BaseController

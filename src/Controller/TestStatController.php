@@ -6,10 +6,10 @@ use App\Entity\TestStat;
 use App\Form\TestStatType;
 use App\Repository\TestStatRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/test/stat')]
 #[IsGranted('ROLE_ADMIN')]

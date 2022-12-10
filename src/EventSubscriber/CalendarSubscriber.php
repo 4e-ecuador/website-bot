@@ -61,7 +61,7 @@ class CalendarSubscriber implements EventSubscriberInterface
                 )
             );
 
-            $next->modify('first day of next month');;
+            $next->modify('first day of next month');
         }
 
         $ingressEvents = $this->ingressEventRepository->findBetween(

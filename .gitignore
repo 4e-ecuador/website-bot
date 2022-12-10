@@ -35,3 +35,4 @@ yarn-error.log
 
 /bin/.phpunit
 phpstan.neon
+pws.txt

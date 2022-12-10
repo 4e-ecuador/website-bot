@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Migrate Data{% endblock %}
+
+{% block body %}
+    <h1>Migrate data</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Export</h2>
+            <p>
+                Export your data to a CSV file.
+            </p>
+            <a
+                    href="{{ path('app_migrate_get_csv') }}"
+                    class="btn btn-outline-success">
+                Export CSV
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <h2>Import</h2>
+            <form action="{{ path('app_migrate_upload') }}" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" name="token" value="{{ csrf_token('app_migrate_upload') }}" />
+
+                <div>
+                    <label for="csvfile">CSV file to upload:</label>
+                    <input type="file" name="csvfile" id="csvfile" required>
+                </div>
+
+                <button type="submit" class="btn btn-outline-success">Import</button>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

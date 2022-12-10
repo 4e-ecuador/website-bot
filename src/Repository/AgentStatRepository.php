@@ -111,6 +111,21 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+      /**
+     * @return AgentStat[]
+     */
+    public function getAgentStatsForCsv(
+        Agent $agent,
+        string $order = 'DESC'
+    ): iterable {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.agent = :agent')
+            ->setParameter('agent', $agent)
+            ->orderBy('a.datetime', $order)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
     /**
      * @return AgentStat
      */

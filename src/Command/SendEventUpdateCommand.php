@@ -80,7 +80,7 @@ class SendEventUpdateCommand extends Command
             }
         }
 
-        var_dump(count($currentEvents));
+        // var_dump(count($currentEvents));
 
         foreach ($currentEvents as $event) {
             $entries = $this->statRepository->findByDate(
@@ -90,7 +90,7 @@ class SendEventUpdateCommand extends Command
 
             $results = $this->eventHelper->calculateResults($event, $entries);
 
-            var_dump($results);
+            // var_dump($results);
         }
 
         $image = $this->createImage();

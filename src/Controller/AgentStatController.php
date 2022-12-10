@@ -63,7 +63,7 @@ class AgentStatController extends BaseController
             return $this->redirectToRoute('agent_stat_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'agent_stat/new.html.twig',
             [
                 'agent_stat' => $agentStat,
@@ -102,7 +102,7 @@ class AgentStatController extends BaseController
             return $this->redirectToRoute('agent_stat_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'agent_stat/edit.html.twig',
             [
                 'agent_stat' => $agentStat,

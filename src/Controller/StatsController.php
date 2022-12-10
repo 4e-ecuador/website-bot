@@ -162,7 +162,7 @@ class StatsController extends BaseController
         UserRepository $userRepository,
         LeaderBoardService $leaderBoardService,
         string $typeOnly = 'all'
-    ) {
+    ): array {
         $users = $userRepository->findAll();
 
         return $leaderBoardService->getBoard($users, $typeOnly);

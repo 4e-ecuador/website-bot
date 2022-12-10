@@ -44,7 +44,7 @@ class HelpController extends BaseController
             return $this->redirectToRoute('help_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'help/new.html.twig',
             [
                 'help' => $help,
@@ -96,7 +96,7 @@ class HelpController extends BaseController
             return $this->redirectToRoute('help_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'help/edit.html.twig',
             [
                 'help' => $help,

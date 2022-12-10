@@ -64,7 +64,7 @@ class AccountController extends BaseController
             return $this->redirectToRoute('default');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'account/index.html.twig',
             [
                 'agent'                => $agent,

@@ -45,7 +45,7 @@ class CommentController extends BaseController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'comment/new.html.twig',
             [
                 'comment' => $comment,
@@ -104,7 +104,7 @@ class CommentController extends BaseController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'comment/edit.html.twig',
             [
                 'comment' => $comment,

@@ -41,7 +41,7 @@ class TestStatController extends BaseController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'test_stat/new.html.twig',
             [
                 'test_stat' => $testStat,
@@ -78,7 +78,7 @@ class TestStatController extends BaseController
             return $this->redirectToRoute('test_stat_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'test_stat/edit.html.twig',
             [
                 'test_stat' => $testStat,

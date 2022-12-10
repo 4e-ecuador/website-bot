@@ -42,7 +42,7 @@ class MapGroupController extends BaseController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'map_group/new.html.twig',
             [
                 'map_group' => $mapGroup,
@@ -69,7 +69,7 @@ class MapGroupController extends BaseController
             return $this->redirectToRoute('map_group_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'map_group/edit.html.twig',
             [
                 'map_group' => $mapGroup,

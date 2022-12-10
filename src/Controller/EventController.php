@@ -45,7 +45,7 @@ class EventController extends BaseController
             return $this->redirectToRoute('event_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'event/new.html.twig',
             [
                 'event' => $event,
@@ -100,7 +100,7 @@ class EventController extends BaseController
             return $this->redirectToRoute('event_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'event/edit.html.twig',
             [
                 'event' => $event,

@@ -44,7 +44,7 @@ class ChallengeController extends BaseController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'challenge/new.html.twig',
             [
                 'challenge' => $challenge,
@@ -92,7 +92,7 @@ class ChallengeController extends BaseController
             return $this->redirectToRoute('challenge_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'challenge/edit.html.twig',
             [
                 'challenge' => $challenge,

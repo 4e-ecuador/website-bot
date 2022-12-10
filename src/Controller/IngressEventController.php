@@ -68,7 +68,7 @@ class IngressEventController extends BaseController
             return $this->redirectToRoute('ingress_event_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'ingress_event/new.html.twig',
             [
                 'ingress_event' => $ingressEvent,
@@ -118,7 +118,7 @@ class IngressEventController extends BaseController
             return $this->redirectToRoute('ingress_event_index');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'ingress_event/edit.html.twig',
             [
                 'ingress_event' => $ingressEvent,

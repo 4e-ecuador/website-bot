@@ -33,7 +33,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function has(AgentStat $statEntry)
+    public function has(AgentStat $statEntry): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime = :datetime')
@@ -176,7 +176,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findTodays()
+    public function findTodays(): array
     {
         $startDatetime = DateTime::createFromFormat(
             'Y-m-d H:i:s',
@@ -199,7 +199,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findDayly(DateTime $dateTime)
+    public function findDayly(DateTime $dateTime): array
     {
         $startDatetime = $dateTime->format('Y-m-d').' 00:00:00';
         $endDatetime = $dateTime->format('Y-m-d').' 23:59:59';
@@ -216,7 +216,7 @@ class AgentStatRepository extends ServiceEntityRepository
     /**
      * @return AgentStat[]
      */
-    public function findAllDateDesc()
+    public function findAllDateDesc(): array
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.datetime', 'DESC')

@@ -74,7 +74,7 @@ class IngressEventRepository extends ServiceEntityRepository
     /**
      * @return IngressEvent[]
      */
-    public function findAllByDate()
+    public function findAllByDate(): array
     {
         return $this->createQueryBuilder('i')
             ->orderBy('i.date_start', 'DESC')
@@ -106,7 +106,7 @@ class IngressEventRepository extends ServiceEntityRepository
     public function findBetween(
         \DateTimeInterface $start,
         \DateTimeInterface $end
-    ) {
+    ): array {
         return $this
             ->createQueryBuilder('event')
             ->where(

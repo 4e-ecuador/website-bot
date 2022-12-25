@@ -28,4 +28,19 @@
         <img src="{{ asset('build/images/login-buttons/btn_google_signin_dark_normal_web.png') }}"
              alt="{{ 'Google Login'|trans }}">
     </a>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+         data-client_id="{{ oauthGoogleId }}"
+         data-login_uri="{{ url('connect_google_verify') }}"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
 {% endblock %}

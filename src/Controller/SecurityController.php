@@ -15,7 +15,8 @@ class SecurityController extends AbstractController
     public function login(
         AuthenticationUtils $authenticationUtils,
         Request $request,
-        UserInterface $user = null
+        UserInterface $user = null,
+        string $oauthGoogleId,
     ): Response {
         $referer = $request->headers->get('referer');
         // get the login error if there is one
@@ -33,6 +34,7 @@ class SecurityController extends AbstractController
                 'last_username' => $lastUsername,
                 'error'         => $error,
                 'referer'       => $referer,
+                'oauthGoogleId' => $oauthGoogleId,
             ]
         );
     }

@@ -18,6 +18,7 @@ security:
             custom_authenticators:
                 - App\Security\AppCustomAuthenticator
                 - App\Security\GoogleAuthenticator
+                - App\Security\GoogleIdentityAuthenticator
 
             form_login:
                 use_referer: true

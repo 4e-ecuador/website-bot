@@ -30,6 +30,9 @@ class ControllerAccessTest extends WebTestCase
             'ingress_event_public_show' => [
                 'statusCode' => 200,
             ],
+            'app_privacy' => [
+                'statusCode' => 200,
+            ],
         ];
 
     /**

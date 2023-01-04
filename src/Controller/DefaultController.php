@@ -130,4 +130,10 @@ class DefaultController extends AbstractController
             ]
         );
     }
+
+    #[Route(path: '/privacy', name: 'app_privacy', methods: ['GET'])]
+    public function privacy(): Response
+    {
+        return $this->render('default/privacy.html.twig');
+    }
 }

@@ -92,6 +92,7 @@ class HelpController extends BaseController
             $help->setSlug(Slugger::slugify($help->getTitle()));
 
             $entityManager->flush();
+            $this->addFlash('success', 'Item has been updated');
 
             return $this->redirectToRoute('help_index');
         }
@@ -105,7 +106,7 @@ class HelpController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'help_delete', methods: ['DELETE'])]
+    #[Route(path: '/{id}/', name: 'help_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
@@ -119,6 +120,8 @@ class HelpController extends BaseController
         ) {
             $entityManager->remove($help);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Item has been removed');
         }
 
         return $this->redirectToRoute('help_index');

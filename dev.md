@@ -7,36 +7,8 @@ Setup Heroku env vars according to the `.env` file.
 
 BoShurikTelegramBotBundle:
   resource: "@BoShurikTelegramBotBundle/Resources/config/routing.yml"
-  prefix: '_telegram/%telegram_web_hook_secret%'
+  prefix: '_telegram/%telegram_route_secret%'
 ```
-
-### Webpack
-
-add nodejs
-
-    heroku buildpacks:add heroku/nodejs
-
-## Heroku
-
-### Add DB
-    heroku addons:create heroku-postgresql:hobby-dev
-    heroku run php bin/console doctrine:migrations:migrate
-
-### Reset DB
-
-    heroku pg:reset DATABASE_URL
-
-### Postgres import
-
-    heroku pg:psql --app APP_NAME < dump.sql
-
-### Backup
-    heroku pg:backups:capture
-    heroku pg:backups:download
-    pg_restore latest.dump > latest.sql
-    
-### Migrations
-     heroku run php bin/console doctrine:migrations:migrate --remote heroku-prod
 
 ### Restore docker database
 

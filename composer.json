@@ -77,7 +77,8 @@
     "symfony/maker-bundle": "^1.0",
     "symfony/phpunit-bridge": "6.*",
     "symfony/stopwatch": "6.*",
-    "symfony/web-profiler-bundle": "6.*"
+    "symfony/web-profiler-bundle": "6.*",
+    "tomasvotruba/cognitive-complexity": "^0.0.5"
   },
   "config": {
     "optimize-autoloader": true,

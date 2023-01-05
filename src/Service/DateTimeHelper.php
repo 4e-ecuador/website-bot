@@ -5,12 +5,13 @@ namespace App\Service;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class DateTimeHelper
 {
     private readonly DateTimeZone $timezone;
 
-    public function __construct(string $defaultTimeZone)
+    public function __construct(#[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone)
     {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

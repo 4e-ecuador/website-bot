@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use TelegramBot\Api\InvalidArgumentException;
 use UnexpectedValueException;
@@ -31,8 +32,8 @@ class SendNewsletterCommand extends Command
         private readonly EventRepository $eventRepository,
         private readonly IngressEventRepository $ingressEventRepository,
         private readonly UrlGeneratorInterface $router,
-        private readonly string $defaultTimeZone,
-        private readonly string $pageBaseUrl
+        #[Autowire('%env(PAGE_BASE_URL)%')] private readonly string $pageBaseUrl,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone,
     ) {
         parent::__construct();
     }

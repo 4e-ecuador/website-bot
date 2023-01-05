@@ -4,13 +4,14 @@ namespace App\Service;
 
 use DateTime;
 use DateTimeZone;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class CalendarHelper
 {
     private readonly DateTimeZone $timezone;
 
     public function __construct(
-        string $defaultTimeZone,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

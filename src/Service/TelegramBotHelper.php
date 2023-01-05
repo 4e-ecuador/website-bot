@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Agent;
 use CURLFile;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
@@ -20,11 +21,11 @@ class TelegramBotHelper
 
     public function __construct(
         private readonly BotApi $api,
-        private readonly string $botName,
-        string $groupIdDefault,
-        string $groupIdAdmin,
-        string $groupIdIntro,
-        string $groupIdTest
+        #[Autowire('%env(TELEGRAM_BOT_NAME)%')] private readonly string $botName,
+        #[Autowire('%env(ANNOUNCE_GROUP_ID_1)%')] string $groupIdDefault,
+        #[Autowire('%env(ANNOUNCE_GROUP_ID_ADMIN)%')] string $groupIdAdmin,
+        #[Autowire('%env(ANNOUNCE_GROUP_ID_INTRO)%')] string $groupIdIntro,
+        #[Autowire('%env(ANNOUNCE_GROUP_ID_TEST)%')] string $groupIdTest
     ) {
         $this->groupIds = [
             'default' => $groupIdDefault,

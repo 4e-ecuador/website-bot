@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Comment;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -13,9 +14,9 @@ use Symfony\Component\Mime\Email;
 class MailerHelper
 {
     public function __construct(
-        private readonly string $email,
-        private readonly string $emailName,
-        private readonly MailerInterface $mailer
+        private readonly MailerInterface $mailer,
+        #[Autowire('%env(APP_EMAIL)%')] private readonly string $email,
+        #[Autowire('%env(APP_EMAIL_NAME)%')] private readonly string $emailName,
     ) {
     }
 

@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\AgentStat;
 use App\Util\BadgeData;
 use JsonException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
@@ -407,8 +408,8 @@ class MedalChecker
 
     public function __construct(
         TranslatorInterface $translator,
-        private readonly string $rootDir,
-        private readonly string $appEnv,
+        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
+        #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv,
     ) {
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');

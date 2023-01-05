@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
@@ -23,7 +24,7 @@ class HerokuDeployFinishedNotificationCommand extends Command
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly EmojiService $emojiService,
-        private readonly string $pageBaseUrl
+        #[Autowire('%env(PAGE_BASE_URL)%')] private readonly string $pageBaseUrl
     ) {
         parent::__construct();
     }

@@ -4,9 +4,13 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\TelegramAdminMessageHelper;
+use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Google\Client;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -25,10 +29,12 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
     use TargetPathTrait;
 
     public function __construct(
-        private readonly string $oauthGoogleId,
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper,
+        #[Autowire('%env(OAUTH_GOOGLE_ID)%')] private readonly string $oauthGoogleId,
     ) {
     }
 
@@ -91,7 +97,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
         $session = $request->getSession();
         $session->getFlashBag()->add('danger', $message);
 
-        return new RedirectResponse($this->urlGenerator->generate('login'));
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
 
     private function getUser(GoogleUser $googleUser): User

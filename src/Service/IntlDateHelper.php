@@ -5,6 +5,7 @@ namespace App\Service;
 use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IntlDateHelper
@@ -16,7 +17,7 @@ class IntlDateHelper
     private readonly string $timeZone;
 
     public function __construct(
-        string $defaultTimeZone,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
         TranslatorInterface $translator
     ) {
         $locale = $translator->getLocale();

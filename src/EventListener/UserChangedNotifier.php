@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier
@@ -12,7 +13,7 @@ class UserChangedNotifier
     public function __construct(
         private readonly Security $security,
         private readonly TelegramBotHelper $telegramBotHelper,
-        private readonly string $appEnv
+        #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv
     ) {
     }
 

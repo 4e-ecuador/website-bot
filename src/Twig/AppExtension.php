@@ -13,6 +13,7 @@ use App\Service\MarkdownHelper;
 use App\Service\MedalChecker;
 use App\Util\BadgeData;
 use DateTime;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -38,7 +39,7 @@ class AppExtension extends AbstractExtension
         private readonly MedalChecker $medalChecker,
         private readonly MarkdownHelper $markdownHelper,
         private readonly IntlDateHelper $intlDateHelper,
-        private readonly string $defaultTimeZone
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone
     ) {
     }
 

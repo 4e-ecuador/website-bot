@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use RuntimeException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * FireBase Messaging helper
@@ -16,8 +17,8 @@ class FcmHelper
     public string $type = '';
 
     public function __construct(
-        private readonly string $fcmKey,
-        private readonly string $channelId
+        #[Autowire('%env(FCM_KEY)%')] private readonly string $fcmKey,
+        #[Autowire('%env(FCM_CHANNEL_ID)%')] private readonly string $channelId
     ) {
     }
 

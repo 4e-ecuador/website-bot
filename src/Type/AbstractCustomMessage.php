@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\IngressEventRepository;
 use App\Service\EmojiService;
 use App\Service\MedalChecker;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractCustomMessage
@@ -16,8 +17,8 @@ abstract class AbstractCustomMessage
         protected TranslatorInterface $translator,
         protected MedalChecker $medalChecker,
         protected IngressEventRepository $ingressEventRepository,
-        protected string $pageBaseUrl,
-        protected string $announceAdminCc
+        #[Autowire('%env(ANNOUNCE_ADMIN_CC)%')] protected string $announceAdminCc,
+        #[Autowire('%env(PAGE_BASE_URL)%')] protected string $pageBaseUrl,
     ) {
     }
 

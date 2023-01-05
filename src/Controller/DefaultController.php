@@ -15,6 +15,7 @@ use App\Service\MarkdownHelper;
 use DateTime;
 use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -30,9 +31,9 @@ class DefaultController extends AbstractController
         ChallengeRepository $challengeRepository,
         DateTimeHelper $dateTimeHelper,
         MarkdownHelper $markdownHelper,
-        string $defaultTimeZone,
         CiteService $citeService,
         CalendarHelper $calendarHelper,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
     ): Response {
         $calendarHelper->getEvents();
         $comments = [];

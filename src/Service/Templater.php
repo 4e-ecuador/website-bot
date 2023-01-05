@@ -3,12 +3,13 @@
 namespace App\Service;
 
 use App\Entity\Agent;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Templater
 {
     public function __construct(
-        private readonly string $rootDir,
+        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
         private readonly Filesystem $filesystem
     ) {
     }

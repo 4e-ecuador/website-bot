@@ -10,6 +10,7 @@ use App\Type\CustomMessage\NotifyEventsMessage;
 use App\Type\CustomMessage\NotifyUploadReminder;
 use App\Type\CustomMessage\RecursionMessage;
 use CURLFile;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 use TelegramBot\Api\Types\Message;
@@ -20,7 +21,7 @@ class TelegramMessageHelper
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly MedalChecker $medalChecker,
-        private readonly string $rootDir,
+        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
         private readonly NewMedalMessage $newMedalMessage,
         private readonly MedalDoubleMessage $medalDoubleMessage,
         private readonly LevelUpMessage $levelUpMessage,

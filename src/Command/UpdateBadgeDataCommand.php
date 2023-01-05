@@ -25,6 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use function Symfony\Component\String\u;
 
 #[AsCommand(
@@ -41,7 +42,7 @@ class UpdateBadgeDataCommand extends Command
      */
     private readonly array $sizes;
 
-    public function __construct(private readonly string $rootDir)
+    public function __construct(#[Autowire('%kernel.project_dir%')] private readonly string $rootDir)
     {
         $this->assetRoot = $rootDir.'/assets';
         $this->badgeRoot = $rootDir.'/assets/images/badges';

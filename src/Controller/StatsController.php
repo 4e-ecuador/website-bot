@@ -19,6 +19,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use JsonException;
 use stdClass;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -268,7 +269,7 @@ class StatsController extends BaseController
         TranslatorInterface $translator,
         StatsImporter $statsImporter,
         EntityManagerInterface $entityManager,
-        string $appEnv
+        #[Autowire('%env(APP_ENV)%')] string $appEnv
     ): Response {
         /** @var User|null $user */
         $user = $security->getUser();

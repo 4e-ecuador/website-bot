@@ -3,13 +3,14 @@
 namespace App\Service;
 
 use Exception;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use UnexpectedValueException;
 
 final class CiteService
 {
-    public function __construct(private readonly string $rootDir)
+    public function __construct(#[Autowire('%kernel.project_dir%')] private readonly string $rootDir)
     {
     }
 

@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
     name: 'sendStatus',
@@ -25,7 +26,7 @@ class SendStatusCommand extends Command
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly AgentStatRepository $agentStatRepository,
         private readonly EmojiService $emojiService,
-        private readonly string $defaultTimeZone
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

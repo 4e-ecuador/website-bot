@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Yaml\Yaml;
 
 #[AsCommand(
@@ -16,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class SortLanguageFilesCommand extends Command
 {
     public function __construct(
-        private readonly string $rootDir,
+        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
         private readonly string $locale,
         /**
          * @var array<string>

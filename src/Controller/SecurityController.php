@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,17 +17,18 @@ class SecurityController extends AbstractController
         AuthenticationUtils $authenticationUtils,
         Request $request,
         UserInterface $user = null,
-        string $oauthGoogleId,
+        #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
     ): Response {
+        if ($user) {
+            // User is already logged in
+            return $this->redirectToRoute('default');
+        }
+
         $referer = $request->headers->get('referer');
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        if ($user) {
-            // User is already logged in
-            return $this->redirectToRoute('default');
-        }
 
         return $this->render(
             'security/login.html.twig',

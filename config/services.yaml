@@ -6,11 +6,11 @@
 parameters:
     locale: es
     locales: [es, en, de]
-    telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
-    app.email: '%env(APP_EMAIL)%'
-    app.email.name: '%env(APP_EMAIL_NAME)%'
-    app.default_lat: -1.262326
-    app.default_lon: -79.09357
+#    app.email: '%env(APP_EMAIL)%'
+#    app.email.name: '%env(APP_EMAIL_NAME)%'
+#    app.default_lat: -1.262326
+#    app.default_lon: -79.09357
+#    telegram_web_hook_secret: '%env(TELEGRAM_WEB_HOOK_SECRET)%'
     telegram_route_secret: '%env(TELEGRAM_WEBHOOK_SECRET)%'
 
 services:
@@ -18,13 +18,13 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $rootDir: '%kernel.project_dir%'
-            $appEnv: '%env(APP_ENV)%'
-            $defaultTimeZone: '%env(DEFAULT_TIMEZONE)%'
-            $pageBaseUrl: '%env(PAGE_BASE_URL)%'
-            $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
-            $oauthGoogleId: '%env(OAUTH_GOOGLE_ID)%'
+#        bind:
+#            $rootir: '%kernel.project_dir%'
+#            $appEnv: '%env(APP_ENV)%'
+#            $defaultTimeZone: '%env(DEFAULT_TIMEZONE)%'
+#            $pageBaseUrl: '%env(PAGE_BASE_URL)%'
+#            $announceAdminCc: '%env(ANNOUNCE_ADMIN_CC)%'
+#            $oauthGoogleId: '%env(OAUTH_GOOGLE_ID)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -34,15 +34,14 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Tests/'
 
     App\EventListener\:
         resource: ../src/EventListener/*
         tags: [kernel.event_listener]
 
-    App\Command\AndroidNotificationCommand:
-        arguments:
-            $fcmKey: '%env(FCM_KEY)%'
+#    App\Command\AndroidNotificationCommand:
+#        arguments:
+#            $fcmKey: '%env(FCM_KEY)%'
 
     App\Command\SortLanguageFilesCommand:
         arguments:
@@ -53,23 +52,23 @@ services:
         arguments:
             $locales: '%locales%'
 
-    App\Service\TelegramBotHelper:
-        arguments:
-            $botName: '%env(TELEGRAM_BOT_NAME)%'
-            $groupIdDefault: '%env(ANNOUNCE_GROUP_ID_1)%'
-            $groupIdAdmin: '%env(ANNOUNCE_GROUP_ID_ADMIN)%'
-            $groupIdIntro: '%env(ANNOUNCE_GROUP_ID_INTRO)%'
-            $groupIdTest: '%env(ANNOUNCE_GROUP_ID_TEST)%'
+#    App\Service\TelegramBotHelper:
+#        arguments:
+#            $botName: '%env(TELEGRAM_BOT_NAME)%'
+#            $groupIdDefault: '%env(ANNOUNCE_GROUP_ID_1)%'
+#            $groupIdAdmin: '%env(ANNOUNCE_GROUP_ID_ADMIN)%'
+#            $groupIdIntro: '%env(ANNOUNCE_GROUP_ID_INTRO)%'
+#            $groupIdTest: '%env(ANNOUNCE_GROUP_ID_TEST)%'
 
-    App\Service\FcmHelper:
-        arguments:
-            $fcmKey: '%env(FCM_KEY)%'
-            $channelId: '%env(FCM_CHANNEL_ID)%'
+#    App\Service\FcmHelper:
+#        arguments:
+#            $fcmKey: '%env(FCM_KEY)%'
+#            $channelId: '%env(FCM_CHANNEL_ID)%'
 
-    App\Service\MailerHelper:
-        arguments:
-            $email: '%app.email%'
-            $emailName: '%app.email.name%'
+#    App\Service\MailerHelper:
+#        arguments:
+#            $email: '%app.email%'
+#            $emailName: '%app.email.name%'
 
     App\EventListener\UserChangedNotifier:
         tags:

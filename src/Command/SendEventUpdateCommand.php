@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use UnexpectedValueException;
 
 #[AsCommand(
@@ -24,12 +25,12 @@ use UnexpectedValueException;
 class SendEventUpdateCommand extends Command
 {
     public function __construct(
-        private readonly string $rootDir,
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly EventHelper $eventHelper,
         private readonly EventRepository $eventRepository,
         private readonly AgentStatRepository $statRepository,
-        private readonly string $defaultTimeZone
+        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

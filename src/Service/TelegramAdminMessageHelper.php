@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Type\CustomMessage\NewUserMessage;
 use App\Type\CustomMessage\NicknameMismatchMessage;
 use App\Type\CustomMessage\SmurfAlertMessage;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 use TelegramBot\Api\Types\Message;
@@ -16,7 +17,7 @@ class TelegramAdminMessageHelper
 {
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
-        private readonly string $announceAdminCc,
+        #[Autowire('%env(ANNOUNCE_ADMIN_CC)%')] private readonly string $announceAdminCc,
         private readonly NewUserMessage $newUserMessage,
         private readonly NicknameMismatchMessage $nicknameMismatchMessage,
         private readonly SmurfAlertMessage $smurfAlertMessage

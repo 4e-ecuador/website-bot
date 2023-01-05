@@ -10,6 +10,7 @@ use App\Repository\EventRepository;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use UnexpectedValueException;
 
 class EventHelper
@@ -19,7 +20,7 @@ class EventHelper
     public function __construct(
         private readonly EventRepository $eventRepository,
         private readonly ChallengeRepository $challengeRepository,
-        string $defaultTimeZone
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,11 +65,13 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
     ): Response {
-        $agent = new Agent();
-        $agent->setLat($this->getParameter('app.default_lat'));
-        $agent->setLon($this->getParameter('app.default_lon'));
+        $agent = (new Agent())
+            ->setLat($defaultLat)
+            ->setLon($defaultLon);
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

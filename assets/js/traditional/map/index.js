@@ -3,10 +3,9 @@ import Map from '@/helper/Map'
 
 import '../../../css/traditional/map/index.css'
 
-let lat = -1.262326
-let lon = -79.09357
+const mapData = document.getElementById('map').dataset
 
-const map = new Map(lat, lon)
+const map = new Map(mapData.lat, mapData.lon)
 
-map.addLegend($('#jsData').data('mapgroups'))
+map.addLegend(JSON.parse(mapData.groups))
 map.loadMarkers($('#groupSelect').val())

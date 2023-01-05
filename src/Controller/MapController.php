@@ -8,6 +8,7 @@ use App\Repository\MapGroupRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Asset\Packages;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,11 @@ class MapController extends AbstractController
 {
     #[Route(path: '/map', name: 'agent-map', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function map(MapGroupRepository $mapGroupRepository): Response
+    public function map(
+        MapGroupRepository $mapGroupRepository,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
+    ): Response
     {
         return $this->render(
             'map/index.html.twig',
@@ -28,6 +33,8 @@ class MapController extends AbstractController
                     $mapGroupRepository->getNames(),
                     'name'
                 ),
+                'defaultLat' => $defaultLat,
+                'defaultLon' => $defaultLon,
             ]
         );
     }

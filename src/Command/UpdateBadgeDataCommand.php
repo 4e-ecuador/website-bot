@@ -252,6 +252,7 @@ class UpdateBadgeDataCommand extends Command
                 'UniqueBadge_AvenirShardChallenge',
                 'UniqueBadge_Simulacrum',
                 'UniqueBadge_CORE',
+                'UniqueBadge_DualCORE',
                 'UniqueBadge_Paragon',
                 'UniqueBadge_PeaceDay_2022',
             ],

@@ -24,6 +24,11 @@ class ImportResult
      */
     public ?array $medalDoubles = [];
 
+    /**
+     * @var array<string>|null
+     */
+    public ?array $coreSubscribed = [];
+
     public ?int $newLevel = 0;
     public ?int $recursions = 0;
 }

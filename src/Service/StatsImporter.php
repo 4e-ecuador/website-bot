@@ -116,6 +116,19 @@ class StatsImporter
             }
         }
 
+        $monthsSubscribed = $statEntry->getMonthsSubscribed();
+        if ($monthsSubscribed) {
+            $previousMonthsSubscribed = $previousEntry->getMonthsSubscribed();
+            if (!$previousMonthsSubscribed) {
+                $importResult->coreSubscribed[] = 'CORE';
+            }
+            if ($monthsSubscribed >= 24
+                && $monthsSubscribed !== $previousMonthsSubscribed
+            ) {
+                $importResult->coreSubscribed[] = 'DualCORE';
+            }
+        }
+
         return $importResult;
     }
 
@@ -199,6 +212,15 @@ class StatsImporter
                 $result->recursions
             );
         }
+
+        // CORE Subscription
+        // if ($result->coreSubscribed) {
+        //     $this->telegramMessageHelper->sendNewMedalMessage(
+        //         $groupName,
+        //         $agent,
+        //         $result->medalUps
+        //     );
+        // }
     }
 
     private function getMethodName(string $vName): string

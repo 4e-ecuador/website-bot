@@ -35,6 +35,9 @@
             {% endif %}
             {% if latest.monthsSubscribed %}
                 <span class="medal50 medal-UniqueBadge_CORE" title="CORE subscriptions"></span>
+                {% if latest.monthsSubscribed >= 12 %}
+                    <span class="medal50 medal-UniqueBadge_DualCORE" title="Dual CORE subscriptions (24 month)"></span>
+                {% endif %}
                 {{ latest.monthsSubscribed }}
             {% endif %}
         {% endif %}

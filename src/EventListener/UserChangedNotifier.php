@@ -5,8 +5,8 @@ namespace App\EventListener;
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Security\Core\Security;
 
 class UserChangedNotifier
 {

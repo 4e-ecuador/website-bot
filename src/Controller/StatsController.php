@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
@@ -132,7 +131,6 @@ class StatsController extends BaseController
     #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function leaderBoardDetail(
-        AgentStatRepository $statRepository,
         UserRepository $userRepository,
         LeaderBoardService $leaderBoardService,
         Request $request
@@ -189,10 +187,11 @@ class StatsController extends BaseController
                 new DateTime($startDate),
                 new DateTime($endDate.' 23:59:59')
             );
+
             $previous = [];
 
             foreach ($entries as $entry) {
-                $agentName = $entry->getAgent()->getNickname();
+                $agentName = $entry->getAgent()?->getNickname();
 
                 if (false === isset($previous[$agentName])) {
                     $previousEntry = $statRepository->getPrevious($entry);
@@ -204,7 +203,7 @@ class StatsController extends BaseController
                 }
 
                 $levels = $medalChecker->checkLevels($entry);
-                $dateString = $entry->getDatetime()->format('Y-m-d');
+                $dateString = $entry->getDatetime()?->format('Y-m-d');
 
                 foreach ($levels as $name => $level) {
                     if (!$level) {
@@ -255,6 +254,60 @@ class StatsController extends BaseController
         );
     }
 
+    #[Route(path: '/in-between', name: 'stats_in_between', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
+    public function inBetween(
+        Request $request,
+        AgentStatRepository $statRepository,
+    ): Response {
+        $agent = $this->getUser()?->getAgent();
+        if (!$agent) {
+            throw $this->createAccessDeniedException('Not an agent...');
+        }
+
+        $stats = $statRepository->getAgentStats($agent);
+        $dates = [];
+        foreach ($stats as $stat) {
+            $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
+            [$year, $month, $day, $time] = explode(' ', $dateString);
+            // $time = $stat->getDatetime()->format('H:i');
+            $dates[$year][$month][$day][] = $time;
+        }
+
+        return $this->render('stats/in-between.html.twig', [
+            'dates' => $dates,
+        ]);
+    }
+
+    #[Route(path: '/in-between-result', name: 'stats_in_between_result', methods: [
+        'POST',
+        'GET',
+    ])]
+    #[IsGranted('ROLE_AGENT')]
+    public function inBetweenResult(
+        Request $request,
+        AgentStatRepository $repository,
+        StatsImporter $statsImporter,
+    ): Response {
+        $dateStart = $request->query->get('dateStart');
+        $dateEnd = $request->query->get('dateEnd');
+
+        $startEntry = $repository->findOneBy([
+            'datetime' => new DateTime($dateStart),
+        ]);
+        $endEntry = $repository->findOneBy([
+            'datetime' => new DateTime($dateEnd),
+        ]);
+
+        $diff = $endEntry->computeDiff($startEntry);
+        $result = $statsImporter->getImportResult($endEntry, $startEntry);
+
+        return $this->render('import/_result.html.twig', [
+            'statEntry' => $endEntry,
+            'result'    => $result,
+        ]);
+    }
+
     /**
      * @throws Exception
      */
@@ -265,14 +318,13 @@ class StatsController extends BaseController
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function statImport(
         Request $request,
-        Security $security,
         TranslatorInterface $translator,
         StatsImporter $statsImporter,
         EntityManagerInterface $entityManager,
         #[Autowire('%env(APP_ENV)%')] string $appEnv
     ): Response {
         /** @var User|null $user */
-        $user = $security->getUser();
+        $user = $this->getUser();
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
@@ -331,12 +383,9 @@ class StatsController extends BaseController
                     'import/result.html.twig',
                     [
                         'statEntry'  => $statEntry,
-                        'diff'       => $result->diff,
-                        'medalUps'   => $result->medalUps,
-                        'newLevel'   => $result->newLevel,
-                        'recursions' => $result->recursions,
-                        'currents'   => $result->currents,
+                        'result'     => $result,
                     ]
+
                 );
             } catch (
             StatsNotAllException

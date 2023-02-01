@@ -215,6 +215,9 @@ class MedalChecker
 
             'Portal Scans Uploaded'              => 'scout',
 
+            'OPR Live Events'              => '',
+            'Epiphany Dawn'              => '',
+
             // Old
             'Scout Controller on Unique Portals' => 'scout-controller',
             // New
@@ -541,6 +544,9 @@ class MedalChecker
         if ('scoutController' === $medal) {
             $medal = 'scout-controller';
         }
+        if ('secondSunday' === $medal) {
+            $medal = 'second-sunday';
+        }
 
         return
             array_key_exists($medal, $this->medalLevels)
@@ -560,6 +566,13 @@ class MedalChecker
         if ('mindController' === $medal) {
             $medal = 'mind-controller';
         }
+        if ('scoutController' === $medal) {
+            $medal = 'scout-controller';
+        }
+        if ('secondSunday' === $medal) {
+            $medal = 'second-sunday';
+        }
+
         if (false === array_key_exists($medal, $this->medalLevels)) {
             return 0;
         }

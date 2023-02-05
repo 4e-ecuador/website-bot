@@ -299,7 +299,6 @@ class StatsController extends BaseController
             'datetime' => new DateTime($dateEnd),
         ]);
 
-        $diff = $endEntry->computeDiff($startEntry);
         $result = $statsImporter->getImportResult($endEntry, $startEntry);
 
         return $this->render('import/_result.html.twig', [

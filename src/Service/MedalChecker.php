@@ -252,6 +252,8 @@ class MedalChecker
         = [
             'Anomaly' =>
                 [
+                    'Echo',
+                    'MZFPK',
                     'EpiphanyDawn',
                     'Superposition',
                     'Kythera',

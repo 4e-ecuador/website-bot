@@ -48,6 +48,7 @@ class StatsController extends BaseController
             $medals = $medalChecker->checkLevels($latest);
             arsort($medals);
             $medalGroups = $medals;
+            //dd($medalGroups);
         }
         $dateEnd = new DateTime();
         $dateStart = (new DateTime())->sub(new DateInterval('P30D'));

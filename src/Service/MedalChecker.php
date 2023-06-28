@@ -140,6 +140,10 @@ class MedalChecker
                 'desc'   => 'Drone hack portals',
                 'levels' => [250, 1000, 2000, 5000, 10000],
             ],
+            'reclaimer'               => [
+                'desc'   => 'Reclaim portals from Machina ingression',
+                'levels' => [100, 1000, 5000, 15000, 40000],
+            ],
             'Umbra Deploy Challenge' => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
@@ -216,7 +220,11 @@ class MedalChecker
             'Portal Scans Uploaded'              => 'scout',
 
             'OPR Live Events'              => '',
+            'Clear Fields Events' => '',
+
+            // Anomalies
             'Epiphany Dawn'              => '',
+            'Echo'              => '',
 
             // Old
             'Scout Controller on Unique Portals' => 'scout-controller',
@@ -243,6 +251,11 @@ class MedalChecker
             'Unique Event Portals Hacked'            => '',
             // Event 4/2021
             'Matryoshka Links Created'               => '',
+
+            'Machina Links Destroyed' => '',
+            'Machina Resonators Destroyed' => '',
+            'Machina Portals Neutralized' => '',
+            'Machina Portals Reclaimed' => 'reclaimer',
         ];
 
     /**

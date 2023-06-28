@@ -153,6 +153,9 @@ class AgentStat implements ArrayAccess
     #[Column(nullable: true)]
     private ?int $secondSunday = null;
 
+    #[Column(nullable: true)]
+    private ?int $reclaimer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -796,6 +799,18 @@ class AgentStat implements ArrayAccess
     public function setSecondSunday(?int $secondSunday): self
     {
         $this->secondSunday = $secondSunday;
+
+        return $this;
+    }
+
+    public function getReclaimer(): ?int
+    {
+        return $this->reclaimer;
+    }
+
+    public function setReclaimer(?int $reclaimer): self
+    {
+        $this->reclaimer = $reclaimer;
 
         return $this;
     }

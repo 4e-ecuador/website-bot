@@ -55,14 +55,14 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% for group, medals in customMedals %}
             <li class="nav-item">
-                <a class="nav-link {{ group == 'Anomaly' ? 'active' : '' }}" id="{{ group }}-tab" data-bs-toggle="tab"
+                <a class="nav-link {{ group == 'anomaly' ? 'active' : '' }}" id="{{ group }}-tab" data-bs-toggle="tab"
                    href="#{{ group }}" role="tab" aria-controls="home" aria-selected="true">{{ group }}</a>
             </li>
         {% endfor %}
     </ul>
     <div class="tab-content" id="myTabContent">
         {% for group, medals in customMedals %}
-            <div class="tab-pane fade {{ group == 'Anomaly' ? 'show active' : '' }}" id="{{ group }}" role="tabpanel"
+            <div class="tab-pane fade {{ group == 'anomaly' ? 'show active' : '' }}" id="{{ group }}" role="tabpanel"
                  aria-labelledby="{{ group }}-tab">
                 <div class="row">
                     {% for medal, tiers in medals %}
@@ -86,10 +86,10 @@
                                             {{ checked }}>
                                 {% endfor %}
                             {% else %}
-                                {% if 'Anomaly' == group %}
-                                    {% set checked = agentCustomMedals['Anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
+                                {% if 'anomaly' == group %}
+                                    {% set checked = agentCustomMedals['anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
-                                        <span class="medal50 medal-Anomaly_{{ tiers }}"
+                                        <span class="medal50 medal-anomaly_{{ tiers }}"
                                               title="{{ tiers }}"></span>
                                         <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
                                     </label>
@@ -97,9 +97,9 @@
                                            id="{{ 'medal-'~group~medal }}"
                                            value="1" class="hiddenCheckBox"
                                             {{ checked }}>
-                                {% elseif 'Event' == group %}
+                                {% elseif 'event' == group %}
                                     {% for tier in tiers %}
-                                        {% set checked = agentCustomMedals['Event'][medal] is defined and tier == agentCustomMedals['Event'][medal] ? ' checked="checked"' : '' %}
+                                        {% set checked = agentCustomMedals['event'][medal] is defined and tier == agentCustomMedals['event'][medal] ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~tier }}" class="medalsLabel">
                                             <span class="medal50 medal-{{ getBadgeName(group, medal, tier) }}"
                                                   title="{{ medal~' '~tier }}"></span>

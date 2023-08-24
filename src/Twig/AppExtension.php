@@ -227,32 +227,32 @@ class AppExtension extends AbstractExtension
         int|string $value
     ): string {
         switch ($group) {
-            case 'Anomaly':
-                $name = 'Anomaly_'.$badge;
+            case 'anomaly':
+                $name = 'anomaly_'.$badge;
                 break;
-            case 'Event':
-                if ('PeaceDay_2022' === $badge) {
-                    $name = 'UniqueBadge_PeaceDay_2022';
-                } elseif ('AvenirShard' === $badge) {
-                    $name = 'UniqueBadge_AvenirShardChallenge';
-                } elseif ('Paragon' === $badge) {
-                    $name = 'UniqueBadge_Paragon';
+            case 'event':
+                if ('peace_day_2022' === $badge) {
+                    $name = 'unique_badge_peace_day_2022';
+                } elseif ('avenir_shard' === $badge) {
+                    $name = 'unique_badge_avenir_shard_challenge';
+                } elseif ('paragon' === $badge) {
+                    $name = 'unique_badge_paragon';
                 } elseif (in_array($badge, [
-                    'KnightTessellation',
-                    'KineticChallenge',
-                    'CourierChallenge',
-                    'CSans',
-                    'EOSImprint',
+                    'knight_tessellation',
+                    'kinetic_challenge',
+                    'courier_challenge',
+                    'csans',
+                    'eosimprint',
                 ])
                 ) {
-                    $name = 'Badge_'.$badge.'_'.$value;
+                    $name = 'badge_'.$badge.'_'.$value;
                 } else {
-                    $name = 'EventBadge_'.$badge.'_'.$value;
+                    $name = 'event_badge_'.$badge.'_'.$value;
                 }
                 break;
-            case 'Annual':
+            case 'annual':
                 $tier = $this->getMedalLevelName((int)$value);
-                $name = 'Badge_'.$badge.'_'.$tier;
+                $name = 'badge_'.$badge.'_'.$tier;
                 break;
             default:
                 throw new UnexpectedValueException('Unknown group: '.$group);

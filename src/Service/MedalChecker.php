@@ -263,140 +263,140 @@ class MedalChecker
      */
     private array $customMedals
         = [
-            'Anomaly' =>
+            'anomaly' =>
                 [
-                    'Echo',
-                    'MZFPK',
-                    'EpiphanyDawn',
-                    'Superposition',
-                    'Kythera',
-                    'KurezeEffect',
-                    'Requiem',
-                    'Umbra',
-                    'NemesisMyriad',
-                    'AbaddonPrime',
-                    'DarsanaPrime',
-                    'RecursionPrime',
-                    'CassandraPrime',
-                    'EXO5',
-                    '13MAGNUSReawakens',
-                    'ViaNoir',
-                    'ViaLux',
-                    'AegisNova',
-                    'Obsidian',
-                    'Abaddon',
-                    'Persepolis',
-                    'Shonin',
-                    'Darsana',
-                    'Helios',
-                    'Initio',
-                    'Interitus',
-                    'Recursion',
+                    'ctrl',
+                    'echo',
+                    'mzfpk',
+                    'epiphany_dawn',
+                    'superposition',
+                    'kythera',
+                    'kureze_effect',
+                    'umbra',
+                    'nemesis_myriad',
+                    'abaddon_prime',
+                    'darsana_prime',
+                    'recursion_prime',
+                    'cassandra_prime',
+                    'exo5',
+                    '13_magnusreawakens',
+                    'via_noir',
+                    'via_lux',
+                    'aegis_nova',
+                    'obsidian',
+                    'abaddon',
+                    'persepolis',
+                    'shonin',
+                    'darsana',
+                    'helios',
+                    'initio',
+                    'interitus',
+                    'recursion',
                 ],
-            'Annual'  =>
+            'annual'  =>
                 [
-                    'Pathfinder' => [],
-                    'Persistence' => [],
-                    'Resonance'   => [],
-                    'Resurgence'  => [],
-                    'Ouroboros'   => [],
-                    'Sage'        => [],
-                    'Luminary'    => [],
-                    'Vanguard'    => [],
-                    'Innovator'   => [],
+                    'pathfinder' => [],
+                    'persistence' => [],
+                    'resonance'   => [],
+                    'resurgence'  => [],
+                    'ouroboros'   => [],
+                    'sage'        => [],
+                    'luminary'    => [],
+                    'vanguard'    => [],
+                    'innovator'   => [],
                 ],
-            'Event'   =>
+            'event'   =>
                 [
-                    'PeaceDay_2022' =>
+                    'peace_day_2022' =>
                         [''],
-                    'EOSImprint'           =>
+                    'eosimprint'           =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'CSans'                =>
+                    'csans'                =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'CourierChallenge'     =>
+                    'courier_challenge'     =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'KineticChallenge'     =>
+                    'kinetic_challenge'     =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'KnightTessellation'   =>
+                    'knight_tessellation'   =>
                         [
-                            'Silver',
-                            'Gold',
+                            'silver',
+                            'gold',
                         ],
-                    'Paragon'              =>
-                        [
-                            '',
-                        ],
-                    'DidactField'          =>
-                        [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
-                        ],
-                    'UmbraDeploy'          =>
-                        [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
-                        ],
-                    'AvenirShard'          =>
+                    'paragon'              =>
                         [
                             '',
                         ],
-                    'AuroraGlyph'          =>
+                    'didact_field'          =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'MyriadHack'           =>
+                    'umbra_deploy'          =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'DarkXM'               =>
+                    'avenir_shard'          =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            '',
                         ],
-                    'CassandraNeutralizer' =>
+                    'aurora_glyph'          =>
                         [
-                            'Bronze',
-                            'Silver',
-                            'Gold',
+                            'bronze',
+                            'silver',
+                            'gold',
                         ],
-                    'EXO5'                 =>
+                    'myriad_hack'           =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
+                    'dark_xm'               =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
+                    'cassandra_neutralizer' =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
+                    'exo5'                 =>
                         [
                             '100',
                             '500',
                             '2000',
                         ],
-                    'MagnusBuilder'        =>
+                    'magnus_builder'        =>
                         [
-                            'Builder',
-                            'Architect',
+                            'builder',
+                            'architect',
                         ],
-                    'LuxAdventure'         =>
+                    'lux_adventure'         =>
                         [
-                            'Explorer',
-                            'Odyssey',
+                            'explorer',
+                            'odyssey',
                         ],
                 ],
 
@@ -412,11 +412,11 @@ class MedalChecker
      */
     private array $levelNames
         = [
-            1 => 'Bronze',
-            2 => 'Silver',
-            3 => 'Gold',
-            4 => 'Platinum',
-            5 => 'Black',
+            1 => 'bronze',
+            2 => 'silver',
+            3 => 'gold',
+            4 => 'platinum',
+            5 => 'black',
         ];
 
     /**
@@ -634,17 +634,19 @@ class MedalChecker
         int $size = 0,
         string $postFix = '.png'
     ): string {
-        $medal = ucfirst($medal);
         $replacements = [
-            'Mind-controller'  => 'MindController',
-            'Recon'            => 'OPR',
-            'Specops'          => 'SpecOps',
-            'Missionday'       => 'MissionDayPrime',
-            'Nl-1331-meetups'  => 'NL1331',
-            'Nl1331Meetups'    => 'NL1331',
-            'Ifs'              => 'FS',
-            'Scout-controller' => 'ScoutController',
-            'Second-sunday'    => 'SecondSunday',
+            'mind-controller'  => 'mind_controller',
+            'mindController'   => 'mind_controller',
+            'recon'            => 'opr',
+            'specops'          => 'spec_ops',
+            'missionday'       => 'mission_day_prime',
+            'nl-1331-meetups'  => 'nl1331',
+            'nl1331Meetups'    => 'nl1331',
+            'ifs'              => 'fs',
+            'scout-controller' => 'scout_controller',
+            'scoutController'  => 'scout_controller',
+            'second-sunday'    => 'second_sunday',
+            'secondSunday'     => 'second_sunday',
         ];
         if (array_key_exists($medal, $replacements)) {
             $medal = $replacements[$medal];
@@ -652,7 +654,7 @@ class MedalChecker
 
         $sizeString = $size ? '_'.$size : '';
 
-        return 'Badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
+        return 'badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
             .$postFix;
     }
 

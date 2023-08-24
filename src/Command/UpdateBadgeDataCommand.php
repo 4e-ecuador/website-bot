@@ -29,7 +29,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use function Symfony\Component\String\u;
 
 #[AsCommand(
-    name: 'app:update:badgedata',
+    name: 'app:update:badgedata-old',
     description: 'Scrape an ingress fan site for medal images'
 )]
 class UpdateBadgeDataCommand extends Command

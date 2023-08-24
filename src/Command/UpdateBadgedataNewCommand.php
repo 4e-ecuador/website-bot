@@ -3,12 +3,14 @@
 namespace App\Command;
 
 use App\Exception\NothingHasChangedException;
+use DirectoryIterator;
 use Doctrine\Instantiator\Exception\UnexpectedValueException;
+use Exception;
+use RuntimeException;
 use stdClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +19,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpClient\HttpClient;
 
 #[AsCommand(
-    name: 'app:update:badgedata2',
+    name: 'app:update:badgedata',
     description: 'Scrape an ingress fan site for medal images',
 )]
 class UpdateBadgedataNewCommand extends Command
@@ -29,6 +31,7 @@ class UpdateBadgedataNewCommand extends Command
     private readonly string $badgeRoot;
     private readonly string $scrapeSite;
     private readonly string $assetRoot;
+
     /**
      * @var int[]
      */
@@ -40,15 +43,17 @@ class UpdateBadgedataNewCommand extends Command
             'NL-1331',
             'Corporation Medals',
             'Festive Medals',
+            'Urban Ops',
+            'Stealth Ops',
+            'OPR Live',
+            'Intel Ops',
+            'Prime Challenge',
+            'Operation Clear Field',
+            'Field Test: Hexathlon',
             'Unused/Replaced',
             'Active Giveaways',
             'Fan created - Single',
             'Fan created - Tiered',
-        ];
-
-    private array $skipBadges
-        = [
-
         ];
 
     private array $pickBadges
@@ -68,7 +73,7 @@ class UpdateBadgedataNewCommand extends Command
         #[Autowire('%kernel.project_dir%')] private readonly string $rootDir
     ) {
         $this->assetRoot = $rootDir.'/assets';
-        $this->badgeRoot = $rootDir.'/assets/images/badges2';
+        $this->badgeRoot = $rootDir.'/assets/images/badges';
         $this->scrapeSite = 'https://ingress.dedo1911.xyz/api';
 
         parent::__construct();
@@ -103,7 +108,7 @@ class UpdateBadgedataNewCommand extends Command
             $this->io->success('Nothing has changed.');
 
             return Command::SUCCESS;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->io->error($e->getMessage());
 
             return Command::FAILURE;
@@ -153,10 +158,14 @@ class UpdateBadgedataNewCommand extends Command
 
             $category = $item->expand->category->title;
 
-            $this->io->note($category);
+            if ($this->output->isVerbose()) {
+                $this->io->note('Cat.:'.$category);
+            }
 
             foreach ($item->image as $image) {
-                $this->io->writeln($image);
+                if ($this->output->isVerbose()) {
+                    $this->io->writeln($image);
+                }
 
                 $imageName = $this->cutHash($image);
 
@@ -175,7 +184,7 @@ class UpdateBadgedataNewCommand extends Command
 
                 $badgeInfo = new stdClass();
 
-                $badgeInfo->code = $this->getCode($item);
+                $badgeInfo->code = str_replace('.png', '', $imageName);
                 $badgeInfo->title = $item->title;
                 $badgeInfo->description = $item->description;
 
@@ -192,7 +201,7 @@ class UpdateBadgedataNewCommand extends Command
         }
 
         file_put_contents(
-            $this->rootDir.'/text-files/badgeinfos2.json',
+            $this->rootDir.'/text-files/badgeinfos.json',
             json_encode($badgeInfos, JSON_THROW_ON_ERROR)
         );
 
@@ -201,68 +210,138 @@ class UpdateBadgedataNewCommand extends Command
 
     private function resizeBadges(): self
     {
-        $this->io->write('Querying site...');
+        $this->io->writeln('');
+        $this->io->writeln('Resizing...');
 
-        $this->io->writeln('ok');
+        $progressBar = new ProgressBar($this->output);
+        $progressBar->start();
+
+        foreach ($this->sizes as $size) {
+            $destDir = $this->badgeRoot.'/'.$size;
+            if (!is_dir($destDir) && !mkdir($destDir) && !is_dir($destDir)) {
+                throw new RuntimeException(
+                    sprintf('Directory "%s" was not created', $destDir)
+                );
+            }
+            foreach (new DirectoryIterator($this->badgeRoot) as $item) {
+                if ($item->isDot() || $item->isDir()) {
+                    continue;
+                }
+                $srcPath = $item->getRealPath();
+                $destPath = $destDir.'/'.$item->getFilename();
+                if (file_exists($destPath)) {
+                    continue;
+                }
+                $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
+                    .$destPath;
+                ob_start();
+                system($command);
+                $result = ob_get_clean();
+
+                if ($result) {
+                    $this->io->writeln('');
+                    $this->io->error($result);
+                }
+                $progressBar->advance();
+            }
+            $progressBar->finish();
+        }
+
+        $this->io->writeln('OK');
 
         return $this;
     }
 
     private function makeCssSprite(): self
     {
-        $this->io->write('Querying site...');
+        $this->io->writeln('Generating sprite image and CSS...');
 
-        $this->io->writeln('ok');
+        $imagesPerRow = 15;
+        $flags = ['-verbose'];
+
+        foreach ($this->sizes as $size) {
+            $imageWidth = $size;
+            $imageHeight = $size;
+            $resultImageName = 'medals_'.$size.'.png';
+            $resultImageFile = $this->assetRoot.'/images/sprites/'
+                .$resultImageName;
+            $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
+            $fileNames = [];
+
+            $cssLines = [
+                '.medal'.$size.' {',
+                '	width: '.$imageWidth.'px;',
+                '	height: '.$imageHeight.'px;',
+                '	display: inline-block;',
+                '	background:url(../images/sprites/'.$resultImageName
+                .') no-repeat',
+                '}',
+            ];
+
+            $colCount = 0;
+            $rowCount = 0;
+
+            foreach (
+                new DirectoryIterator(
+                    $this->badgeRoot.'/'.$size
+                ) as $item
+            ) {
+                if ($item->isDot()) {
+                    continue;
+                }
+
+                $fileNames[] = $item->getRealPath();
+
+                $xPos = $colCount ? '-'.$colCount * $imageWidth.'px' : '0';
+                $yPos = $rowCount ? '-'.$rowCount * $imageHeight.'px' : '0';
+                $name = str_replace('.png', '', $item->getBasename());
+                $cssLines[] = sprintf(
+                    '.medal'.$size
+                    .'.medal-%s {background-position: %s %s}',
+                    $name,
+                    $xPos,
+                    $yPos
+                );
+                $colCount++;
+                if ($colCount >= $imagesPerRow) {
+                    $colCount = 0;
+                    $rowCount++;
+                }
+            }
+
+            $command = sprintf(
+                'montage %s -background none -tile %sx -geometry +0+0 %s %s',
+                implode(' ', $fileNames),
+                $imagesPerRow,
+                implode(' ', $flags),
+                $resultImageFile
+            );
+
+            $this->execCommand($command);
+            file_put_contents($resultCssFile, implode("\n", $cssLines));
+        }
+
+        $this->io->writeln('OK');
 
         return $this;
-    }
-
-    private function getCode($item): string
-    {
-        $cat = $item->expand->category->title;
-
-        return match ($cat) {
-            'XM Anomaly' => 'Anomaly_'.$item->title,
-            'Unique Medals' => 'UniqueBadge_'.$item->title,
-            default => $cat,
-        };
     }
 
     private function skipItem($item): bool
     {
         if (false === property_exists($item, 'expand')) {
-            if ($this->output->isVerbose()) {
+            if ($this->output->isVeryVerbose()) {
                 dump($item);
             }
 
             return true;
         }
+
         $category = $item->expand->category->title;
 
         if (in_array($category, $this->skipCategories, true)) {
-            if ($this->output->isVerbose()) {
+            if ($this->output->isVeryVerbose()) {
                 $this->io->warning(
                     sprintf('Category %s has been skipped', $category)
-                );
-            }
-
-            return true;
-        }
-
-        if (array_key_exists($category, $this->skipBadges)
-            && in_array(
-                $item->title,
-                $this->skipBadges[$category],
-                true
-            )
-        ) {
-            if ($this->output->isVerbose()) {
-                $this->io->warning(
-                    sprintf(
-                        'badge %s/%s has been skipped',
-                        $category,
-                        $item->title
-                    )
                 );
             }
 
@@ -276,7 +355,7 @@ class UpdateBadgedataNewCommand extends Command
                 true
             )
         ) {
-            if ($this->output->isVerbose()) {
+            if ($this->output->isVeryVerbose()) {
                 $this->io->warning(
                     sprintf(
                         'badge %s/%s has not been picked',
@@ -294,11 +373,25 @@ class UpdateBadgedataNewCommand extends Command
 
     private function cutHash(string $fileName): string
     {
-        // cut off extension
-        $fileName = substr($fileName, 0, -4);
+        $fileName = basename($fileName, '.png');
         $fileName = substr($fileName, 0, strrpos($fileName, '_'));
-        $fileName = $fileName.'.png';
+        $fileName .= '.png';
 
         return $fileName;
+    }
+
+    private function execCommand(string $command): bool|string
+    {
+        $lastLine = system($command, $status);
+        if ($status) {
+            // Command exited with a status != 0
+            if ($lastLine) {
+                throw new RuntimeException($lastLine);
+            }
+
+            throw new RuntimeException('An unknown error occurred');
+        }
+
+        return $lastLine;
     }
 }

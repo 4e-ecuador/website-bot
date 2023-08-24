@@ -28,15 +28,15 @@
         {% if latest %}
             <span class="agent-level">{{ latest.level }}</span>
             {% if latest.recursions %}
-                <span class="medal50 medal-UniqueBadge_Simulacrum" title="Simulacrum"></span>
+                <span class="medal50 medal-unique_badge_simulacrum" title="Simulacrum"></span>
                 {% if latest.recursions > 1 %}
                     <span class="doubleCount">X {{ latest.recursions }}</span>
                 {% endif %}
             {% endif %}
             {% if latest.monthsSubscribed %}
-                <span class="medal50 medal-UniqueBadge_CORE" title="CORE subscriptions"></span>
+                <span class="medal50 medal-unique_badge_core" title="CORE subscriptions"></span>
                 {% if latest.monthsSubscribed >= 12 %}
-                    <span class="medal50 medal-UniqueBadge_DualCORE" title="Dual CORE subscriptions (24 month)"></span>
+                    <span class="medal50 medal-unique_badge_dual_core" title="Dual CORE subscriptions (24 month)"></span>
                 {% endif %}
                 {{ latest.monthsSubscribed }}
             {% endif %}
@@ -55,14 +55,14 @@
                               data-medal-desc="{{ badgeData.description }}"
                         >
                             <span class="medal-image">
-                            {% if 'Anomaly' == group %}
-                                <span class="medal50 medal-Anomaly_{{ medal }}"
+                            {% if 'anomaly' == group %}
+                                <span class="medal50 medal-anomaly_{{ medal }}"
                                       title="{{ badgeData.title }}"></span>
-                            {% elseif 'Event' == group %}
+                            {% elseif 'event' == group %}
                                 <span class="medal50 medal-{{ getBadgeName(group, medal, value) }}"
                                       title="{{ badgeData.title }}"></span>
                             {% else %}
-                                <span class="medal50 medal-Badge_{{ medal }}_{{ value|medalLevelName }}"
+                                <span class="medal50 medal-badge_{{ medal }}_{{ value|medalLevelName }}"
                                       title="{{ badgeData.title }}"></span>
                             {% endif %}
                         </span>

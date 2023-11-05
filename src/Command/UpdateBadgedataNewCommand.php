@@ -32,14 +32,19 @@ class UpdateBadgedataNewCommand extends Command
     private readonly string $scrapeSite;
     private readonly string $assetRoot;
 
-    /**
-     * @var int[]
-     */
-    private array $sizes = [50, 24];
-
     private array $skipCategories
         = [
             'Characters',
+            'Characters - 2015',
+            'Characters - 2016',
+            'Characters - 2017',
+            'Characters - 2018',
+            'Characters - 2019',
+            'Characters - 2020',
+            'Characters - 2022',
+            'Characters - Ingress X Series (2022)',
+            'Characters - 2023',
+            'Characters - Ingress Origins (2023)',
             'NL-1331',
             'Corporation Medals',
             'Festive Medals',
@@ -55,6 +60,20 @@ class UpdateBadgedataNewCommand extends Command
             'Fan created - Single',
             'Fan created - Tiered',
         ];
+
+    /**
+     * @var int[]
+     */
+    private array $sizes = [50, 24];
+
+    private array $uglyDudes = [
+        'img_0229.png'=>'anomaly_discoverie.png',
+        'badge_paragon_bronze_lq.png'=>'badge_paragon_bronze.png',
+        'badge_paragon_silver_lq.png'=>'badge_paragon_silver.png',
+        'badge_paragon_gold_lq.png'=>'badge_paragon_gold.png',
+        'badge_paragon_platinum_lq.png'=>'badge_paragon_platinum.png',
+        'badge_paragon_onyx_lq.png'=>'badge_paragon_black.png',
+    ];
 
     private array $pickBadges
         = [
@@ -101,6 +120,7 @@ class UpdateBadgedataNewCommand extends Command
 
         try {
             $this->scrapeBadges()
+                ->renameSomeUglyDudes()
                 ->resizeBadges()
                 ->makeCssSprite();
         } catch (NothingHasChangedException) {
@@ -131,6 +151,9 @@ class UpdateBadgedataNewCommand extends Command
 
         $client = HttpClient::create();
         $response = $client->request('GET', $uri);
+
+       // $c = $response->getContent();
+       // file_put_contents('ccc.json', $c);
 
         $result = json_decode(
             $response->getContent(),
@@ -369,6 +392,18 @@ class UpdateBadgedataNewCommand extends Command
         }
 
         return false;
+    }
+
+    private function renameSomeUglyDudes():self
+    {
+        foreach ($this->uglyDudes as $uglyDude => $cleanDude) {
+            rename(
+                $this->badgeRoot.'/'.$uglyDude,
+                $this->badgeRoot.'/'.$cleanDude
+            );
+        }
+
+        return $this;
     }
 
     private function cutHash(string $fileName): string

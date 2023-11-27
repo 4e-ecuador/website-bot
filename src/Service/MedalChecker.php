@@ -265,6 +265,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'discoverie',
                     'ctrl',
                     'echo',
                     'mzfpk',
@@ -295,6 +296,7 @@ class MedalChecker
                 ],
             'annual'  =>
                 [
+                    'paragon' => [],
                     'pathfinder' => [],
                     'persistence' => [],
                     'resonance'   => [],

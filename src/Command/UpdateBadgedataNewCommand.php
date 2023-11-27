@@ -68,11 +68,7 @@ class UpdateBadgedataNewCommand extends Command
 
     private array $uglyDudes = [
         'img_0229.png'=>'anomaly_discoverie.png',
-        'badge_paragon_bronze_lq.png'=>'badge_paragon_bronze.png',
-        'badge_paragon_silver_lq.png'=>'badge_paragon_silver.png',
-        'badge_paragon_gold_lq.png'=>'badge_paragon_gold.png',
-        'badge_paragon_platinum_lq.png'=>'badge_paragon_platinum.png',
-        'badge_paragon_onyx_lq.png'=>'badge_paragon_black.png',
+        'badge_paragon_onyx.png'=>'badge_paragon_black.png',
     ];
 
     private array $pickBadges
@@ -120,7 +116,6 @@ class UpdateBadgedataNewCommand extends Command
 
         try {
             $this->scrapeBadges()
-                ->renameSomeUglyDudes()
                 ->resizeBadges()
                 ->makeCssSprite();
         } catch (NothingHasChangedException) {
@@ -191,6 +186,10 @@ class UpdateBadgedataNewCommand extends Command
                 }
 
                 $imageName = $this->cutHash($image);
+
+                if (array_key_exists($imageName, $this->uglyDudes)) {
+                    $imageName = $this->uglyDudes[$imageName];
+                }
 
                 $imageUrl = $item->collectionId.'/'.$item->id.'/'.$image;
                 $imgPath = $this->badgeRoot.'/'.$imageName;
@@ -394,19 +393,7 @@ class UpdateBadgedataNewCommand extends Command
         return false;
     }
 
-    private function renameSomeUglyDudes():self
-    {
-        foreach ($this->uglyDudes as $uglyDude => $cleanDude) {
-            rename(
-                $this->badgeRoot.'/'.$uglyDude,
-                $this->badgeRoot.'/'.$cleanDude
-            );
-        }
-
-        return $this;
-    }
-
-    private function cutHash(string $fileName): string
+     private function cutHash(string $fileName): string
     {
         $fileName = basename($fileName, '.png');
         $fileName = substr($fileName, 0, strrpos($fileName, '_'));

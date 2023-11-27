@@ -16,7 +16,6 @@
     <div class="row">
         <div class="col-sm-2">
             <img src="{{ app.user.avatarEncoded }}" height="100" alt="Avatar"><br>
-            <div class="btn btn-sm btn-outline-warning" onclick="alert('Not yet...')">Update Avatar</div>
         </div>
         <div class="col-sm-10">
             <h1>{{ 'My Profile'|trans }}</h1>
@@ -73,7 +72,6 @@
                             {% endif %}
                             {% if tiers is empty %}
                                 {# Annual #}
-                                {{ medal }}<br>
                                 {% for i in 1..5 %}
                                     {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                     <label data-for="{{ 'medal-'~group~medal~i }}" class="medalsLabel">
@@ -91,7 +89,6 @@
                                     <label data-for="{{ 'medal-'~group~medal }}" class="medalLabel">
                                         <span class="medal50 medal-anomaly_{{ tiers }}"
                                               title="{{ tiers }}"></span>
-                                        <br>{{ tiers|u.snake|replace({'_': ' '})|title }}
                                     </label>
                                     <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
                                            id="{{ 'medal-'~group~medal }}"
@@ -109,8 +106,6 @@
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
-                                    <br>
-                                    {{ medal|u.snake|replace({'_': ' '})|title }}
                                 {% else %}
                                     @TODO {{ group }}
                                 {% endif %}

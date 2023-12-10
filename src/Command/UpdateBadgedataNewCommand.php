@@ -69,6 +69,8 @@ class UpdateBadgedataNewCommand extends Command
     private array $uglyDudes = [
         'img_0229.png'=>'anomaly_discoverie.png',
         'badge_paragon_onyx.png'=>'badge_paragon_black.png',
+        'chronos_basic.png'=>'event_badge_chronos_bronze.png',
+        'chronos_advanced.png'=>'event_badge_chronos_silver.png',
     ];
 
     private array $pickBadges

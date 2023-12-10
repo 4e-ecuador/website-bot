@@ -38,7 +38,9 @@ class AgentStatType extends AbstractType
             ->add('nl1331Meetups')
             ->add('ifs')
             ->add('scout')
-            ->add('agent');
+            ->add('currentChallenge')
+            ->add('agent')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

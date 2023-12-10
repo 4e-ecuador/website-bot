@@ -27,8 +27,8 @@ e.g.: `docker exec -it website-bot_database_1 psql -U main -d main -f /dump.sql`
 
 ## Credits
 
+* Ingress badges: https://ingress.plus/
 * Ingress Logos: http://cr0ybot.github.io/ingress-logos/
-* Ingress badges: https://dedo1911.xyz/Badges
 
 Devs: [dev.md](dev.md)
 

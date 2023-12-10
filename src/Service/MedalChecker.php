@@ -156,6 +156,10 @@ class MedalChecker
                 'desc'   => 'C. Sans Challenge',
                 'levels' => [4, 41, 401, null, null],
             ],
+            '2023 - Operation Chronos'                  => [
+                'desc'   => '2023 - Operation Chronos Challenge',
+                'levels' => [500, 5000, null, null, null],
+            ],
         ];
 
     /**
@@ -217,7 +221,7 @@ class MedalChecker
             'First Saturday Events'      => 'ifs',
             'Second Sunday Events'       => 'second-sunday',
 
-            'Portal Scans Uploaded'              => 'scout',
+            'Portal Scans Uploaded' => 'scout',
 
             'OPR Live Events'              => '',
             'Clear Fields Events' => '',
@@ -244,13 +248,16 @@ class MedalChecker
 
             'Months Subscribed' => 'monthsSubscribed',
 
+            // Events recorded by the app
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
             'Didact Fields Created'                  => 'currentChallenge',
+            'Operation Chronos Points' => 'currentChallenge',
 
-            // Event 4/2021
+            // Events not recorded
             'Unique Event Portals Hacked'            => '',
-            // Event 4/2021
             'Matryoshka Links Created'               => '',
+            'Discoverie: Kinetic Capsules'           => '',
+            'Discoverie: Machina Reclaims'           => '',
 
             'Machina Links Destroyed' => '',
             'Machina Resonators Destroyed' => '',
@@ -309,6 +316,11 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'chronos'=>
+                    [
+                        'bronze',
+                        'silver'
+                    ],
                     'peace_day_2022' =>
                         [''],
                     'eosimprint'           =>
@@ -601,7 +613,7 @@ class MedalChecker
             $medalLevel = 5;
         } elseif (null !== $level[3] && $value >= $level[3]) {
             $medalLevel = 4;
-        } elseif ($value >= $level[2]) {
+        } elseif (null !== $level[2] && $value >= $level[2]) {
             $medalLevel = 3;
         } elseif ($value >= $level[1]) {
             $medalLevel = 2;
@@ -662,7 +674,7 @@ class MedalChecker
 
     public function getChallengePath(string $medal, int $level): string
     {
-        return 'EventBadge_'.$medal.'_'.$this->getLevelName($level);
+        return 'event_badge_'.$medal.'_'.$this->getLevelName($level);
     }
 
     /**

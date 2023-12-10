@@ -49,6 +49,7 @@
     "symfony/runtime": "6.*",
     "symfony/security-bundle": "6.*",
     "symfony/serializer": "6.*",
+    "symfony/stimulus-bundle": "*",
     "symfony/translation": "6.*",
     "symfony/twig-bundle": "6.*",
     "symfony/validator": "6.*",

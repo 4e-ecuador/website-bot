@@ -22,9 +22,6 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTimeInterface $start
-     * @param \DateTimeInterface $end
-     *
      * @return array<Event>
      */
     public function findBetween(

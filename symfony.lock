@@ -112,9 +112,6 @@
     "elkuku/symfony-utils": {
         "version": "dev-master"
     },
-    "fabpot/goutte": {
-        "version": "v4.0.2"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },

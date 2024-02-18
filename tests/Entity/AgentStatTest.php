@@ -13,6 +13,6 @@ class AgentStatTest extends TestCase
 
         $properties = $entity->findProperties();
 
-        self::assertCount(41, $properties);
+        self::assertCount(42, $properties);
     }
 }

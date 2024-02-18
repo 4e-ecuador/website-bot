@@ -33,11 +33,11 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetLevelName(): void
     {
         $levels = [
-            1 => 'Bronze',
-            2 => 'Silver',
-            3 => 'Gold',
-            4 => 'Platinum',
-            5 => 'Black',
+            1 => 'bronze',
+            2 => 'silver',
+            3 => 'gold',
+            4 => 'platinum',
+            5 => 'black',
         ];
         foreach ($levels as $i => $level) {
             $result = $this->medalChecker->getLevelName($i);
@@ -121,9 +121,9 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetBadgePath(): void
     {
         $badges = [
-            'explorer'        => 'Badge_Explorer_Bronze.png',
-            'Mind-controller' => 'Badge_MindController_Bronze.png',
-            'Recon'           => 'Badge_OPR_Bronze.png',
+            'explorer'        => 'badge_explorer_bronze.png',
+            'mind-controller' => 'badge_mind_controller_bronze.png',
+            'Recon'           => 'badge_Recon_bronze.png',
         ];
         foreach ($badges as $badge => $image) {
             $result = $this->medalChecker->getBadgePath($badge, 1);
@@ -134,13 +134,13 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetBadgePath2(): void
     {
         $result = $this->medalChecker->getBadgePath('explorer', 1, 666, '.xxx');
-        self::assertSame('Badge_Explorer_Bronze_666.xxx', $result);
+        self::assertSame('badge_explorer_bronze_666.xxx', $result);
     }
 
     public function testGetChallengePath(): void
     {
         $result = $this->medalChecker->getChallengePath('explorer', 1);
-        self::assertSame('EventBadge_explorer_Bronze', $result);
+        self::assertSame('event_badge_explorer_bronze', $result);
     }
 
     public function testGetCustomMedalGroups(): void
@@ -158,12 +158,12 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetMedalLevelName(): void
     {
         $result = $this->medalChecker->getMedalLevelName(1);
-        self::assertSame('Bronze', $result);
+        self::assertSame('bronze', $result);
     }
 
     public function testGetBadgeData(): void
     {
-        $result = $this->medalChecker->getBadgeData('Anomaly_KurezeEffect');
+        $result = $this->medalChecker->getBadgeData('anomaly_kureze_effect');
         self::assertInstanceOf(BadgeData::class, $result);
         self::assertSame('Kureze Effect', $result->title);
         self::assertSame('In recognition of contributions during Kureze Effect.', $result->description);

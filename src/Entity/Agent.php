@@ -28,10 +28,10 @@ class Agent implements Stringable
     private ?string $realName = '';
 
     #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
-    private ?float $lat = 0;
+    private ?string $lat = null;
 
     #[Column(type: 'decimal', precision: 10, scale: 6, nullable: true)]
-    private ?float $lon = 0;
+    private ?string $lon = null;
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
@@ -104,24 +104,24 @@ class Agent implements Stringable
         return $this;
     }
 
-    public function getLat(): ?float
+    public function getLat(): ?string
     {
         return $this->lat;
     }
 
-    public function setLat(float $lat): self
+    public function setLat(string $lat): self
     {
         $this->lat = $lat;
 
         return $this;
     }
 
-    public function getLon(): ?float
+    public function getLon(): ?string
     {
         return $this->lon;
     }
 
-    public function setLon(float $lon): self
+    public function setLon(string $lon): self
     {
         $this->lon = $lon;
 

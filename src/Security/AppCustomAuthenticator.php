@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
@@ -61,17 +60,10 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     public function getCredentials(
         Request $request
     ): array {
-        $credentials = [
+        return [
             'email'      => (string)$request->request->get('email'),
             'csrf_token' => (string)$request->request->get('_csrf_token'),
         ];
-
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['email']
-        );
-
-        return $credentials;
     }
 
     public function onAuthenticationSuccess(

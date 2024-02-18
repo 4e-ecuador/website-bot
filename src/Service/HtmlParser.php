@@ -4,14 +4,13 @@ namespace App\Service;
 
 use App\Entity\IngressEvent;
 use App\Type\FsAttendeesInfo;
-use Goutte\Client;
-use stdClass;
+use Symfony\Component\BrowserKit\HttpBrowser;
 
 class HtmlParser
 {
     public function getFsAssistants(IngressEvent $event): FsAttendeesInfo
     {
-        $client = new Client();
+        $client = new HttpBrowser();
         $info = new FsAttendeesInfo();
         $info->poc = [];
         $info->attendees = [];
@@ -41,7 +40,7 @@ class HtmlParser
                  */
                 $factions = array_keys($info->poc);
 
-                $info->attendees[(string)$factions[$i]] = $attendees;
+                $info->attendees[$factions[$i]] = $attendees;
                 $i++;
             }
         );

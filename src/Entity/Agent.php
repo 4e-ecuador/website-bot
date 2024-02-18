@@ -147,7 +147,7 @@ class Agent implements Stringable
 
     public function __sleep(): array
     {
-        return ['id', 'nickname'];
+        return ['id'];
     }
 
     /**

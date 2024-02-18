@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Exception\NothingHasChangedException;
-use DirectoryIterator;
 use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use Exception;
 use RuntimeException;
@@ -42,6 +41,9 @@ class UpdateBadgedataCommand extends Command
      */
     private array $sizes = [50, 24];
 
+    /**
+     * @var array|string[]
+     */
     private array $uglyDudes
         = [
             'img_0229.png'                   => 'anomaly_discoverie.png',
@@ -50,8 +52,12 @@ class UpdateBadgedataCommand extends Command
             'chronos_advanced.png'           => 'event_badge_chronos_silver.png',
             'cryptic_memories_op_bronze.png' => 'event_badge_cryptic_memories_bronze.png',
             'cryptic_memories_op_silver.png' => 'event_badge_cryptic_memories_silver.png',
+            'unique_core_year3.png'          => 'unique_badge_core_year3.png',
         ];
 
+    /**
+     * @var array|string[]
+     */
     private array $skipCategories
         = [
             'Characters',
@@ -83,6 +89,9 @@ class UpdateBadgedataCommand extends Command
             'Unused/Replaced - Single',
         ];
 
+    /**
+     * @var array<string, array<int, string>>
+     */
     private array $pickBadges
         = [
             'Unique Medals' => [
@@ -93,6 +102,7 @@ class UpdateBadgedataCommand extends Command
                 'Solstice Recharge Challenge',
                 'Peace Day 2022',
                 'Dual-Core',
+                'Core³',
             ],
         ];
 
@@ -215,7 +225,7 @@ class UpdateBadgedataCommand extends Command
 
                 $badgeInfo = new stdClass();
 
-                $badgeInfo->code = str_replace('.png', '', (string) $imageName);
+                $badgeInfo->code = str_replace('.png', '', (string)$imageName);
                 $badgeInfo->title = $item->title;
                 $badgeInfo->description = $item->description;
 
@@ -325,8 +335,10 @@ class UpdateBadgedataCommand extends Command
             foreach ($files as $file) {
                 $fileNames[] = $file->getRealPath();
 
-                $xPos = $colCount !== 0 ? '-'.$colCount * $imageWidth.'px' : '0';
-                $yPos = $rowCount !== 0 ? '-'.$rowCount * $imageHeight.'px' : '0';
+                $xPos = $colCount !== 0 ? '-'.$colCount * $imageWidth.'px'
+                    : '0';
+                $yPos = $rowCount !== 0 ? '-'.$rowCount * $imageHeight.'px'
+                    : '0';
                 $name = str_replace('.png', '', $file->getBasename());
                 $cssLines[] = sprintf(
                     '.medal'.$size.'.medal-%s {background-position: %s %s}',
@@ -358,7 +370,7 @@ class UpdateBadgedataCommand extends Command
         return $this;
     }
 
-    private function skipItem($item): bool
+    private function skipItem(object $item): bool
     {
         if (false === property_exists($item, 'expand')) {
             if ($this->output->isVeryVerbose()) {
@@ -406,9 +418,9 @@ class UpdateBadgedataCommand extends Command
     private function cutHash(string $fileName): string
     {
         $fileName = basename($fileName, '.png');
-        $fileName = substr($fileName, 0, strrpos($fileName, '_'));
+        $fileName = substr($fileName, 0, (int)strrpos($fileName, '_'));
 
-        return $fileName . '.png';
+        return $fileName.'.png';
     }
 
     private function execCommand(string $command): bool|string

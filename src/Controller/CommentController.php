@@ -132,28 +132,6 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    #[Route(path: '/deleteinline/{id}', name: 'comment_delete_inline', methods: ['DELETE'])]
-    #[IsGranted('ROLE_EDITOR')]
-    public function deleteInline(
-        Request $request,
-        Comment $comment,
-        EntityManagerInterface $entityManager
-    ): JsonResponse {
-        $response = ['status' => 'ok'];
-
-        return $this->json($response);
-        if ($this->isCsrfTokenValid(
-            'delete'.$comment->getId(),
-            $request->request->get('_token')
-        )
-        ) {
-            $entityManager->remove($comment);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('comment_index');
-    }
-
     #[Route(path: '/getagentids', name: 'comment_agent_ids', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function getAgentCommentIds(

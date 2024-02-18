@@ -23,7 +23,7 @@ class UserType extends AbstractType
         array $options
     ): void {
         $builder
-            ->add('email', null, array('disabled' => true))
+            ->add('email', null, ['disabled' => true])
             ->add(
                 'agent',
                 EntityType::class,

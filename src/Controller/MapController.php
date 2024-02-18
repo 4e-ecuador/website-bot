@@ -52,6 +52,7 @@ class MapController extends AbstractController
         if (!$mapGroup) {
             throw new UnexpectedValueException('Map group not found!');
         }
+
         $agents = $agentRepository->findMapAgents($mapGroup);
         $array = [];
         foreach ($agents as $agent) {
@@ -76,7 +77,8 @@ class MapController extends AbstractController
         UserRepository $userRepository
     ): Response {
         $response = [];
-        $statsLink = $imgPath = '';
+        $statsLink = '';
+        $imgPath = '';
         switch ($agent->getFaction()->getName()) {
             case 'ENL':
                 $statsLink = $this->generateUrl(
@@ -95,6 +97,7 @@ class MapController extends AbstractController
             default:
                 throw new UnexpectedValueException('Unknown faction');
         }
+
         $user = $userRepository->findByAgent($agent);
         $userPic = $user && $user->getAvatarEncoded()
             ? sprintf(
@@ -113,9 +116,11 @@ class MapController extends AbstractController
         if ($agent->getRealName()) {
             $response[] = $agent->getRealName();
         }
-        if ($statsLink) {
+
+        if ($statsLink !== '' && $statsLink !== '0') {
             $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
         }
+
         if ($this->isGranted('ROLE_ADMIN')) {
             // $response[] = '';
             // $response[] = 'More ADMIN info... TBD';

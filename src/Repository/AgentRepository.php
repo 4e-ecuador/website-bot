@@ -38,7 +38,7 @@ class AgentRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('nickname')) {
+        if ($options->searchCriteria('nickname') !== '' && $options->searchCriteria('nickname') !== '0') {
             $query->andWhere('LOWER(a.nickname) LIKE LOWER(:nickname)')
                 ->setParameter(
                     'nickname',
@@ -46,7 +46,7 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('realName')) {
+        if ($options->searchCriteria('realName') !== '' && $options->searchCriteria('realName') !== '0') {
             $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
                 ->setParameter(
                     'realName',
@@ -54,7 +54,7 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('faction')) {
+        if ($options->searchCriteria('faction') !== '' && $options->searchCriteria('faction') !== '0') {
             $query->andWhere('a.faction = :faction')
                 ->setParameter(
                     'faction',
@@ -86,7 +86,7 @@ class AgentRepository extends ServiceEntityRepository
             ->orderBy('a.nickname', 'ASC')
             ->setMaxResults(10);
 
-        if ($excludes) {
+        if ($excludes !== []) {
             $query->andWhere('a.id NOT IN (:excludes)')
                 ->setParameter('excludes', $excludes);
         }

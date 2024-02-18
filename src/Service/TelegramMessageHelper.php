@@ -55,7 +55,7 @@ class TelegramMessageHelper
             ->setFirstAnnounce($firstAnnounce)
             ->getText();
 
-        if (!$message) {
+        if ($message === '' || $message === '0') {
             throw new UnexpectedValueException('No events :(');
         }
 

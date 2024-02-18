@@ -24,7 +24,7 @@ class Markdown extends AbstractController
         $text = (string)$request->request->get('text');
 
         return $this->json(
-            ['data' => $text ? $markdownHelper->parse($text) : ':(']
+            ['data' => $text !== '' && $text !== '0' ? $markdownHelper->parse($text) : ':(']
         );
     }
 }

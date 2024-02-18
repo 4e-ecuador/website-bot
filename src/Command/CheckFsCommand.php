@@ -50,9 +50,7 @@ final class CheckFsCommand extends Command
         $crawler = new Crawler($html);
 
         $nodeValues = $crawler->filter('table tbody tr td#city')->each(
-            function (Crawler $node, $i) {
-                return $node;
-            }
+            static fn(Crawler $node, $i) => $node
         );
 
         $io->text(sprintf('Found %d locations', count($nodeValues)));
@@ -88,6 +86,7 @@ final class CheckFsCommand extends Command
                         //     'Agent reg twice: '.$agentNick
                         // );
                     }
+
                     $agent = new AgentFsInfo(
                         nickname: $agentNick,
                         faction: $faction,

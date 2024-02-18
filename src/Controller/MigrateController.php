@@ -74,21 +74,15 @@ class MigrateController extends BaseController
                     );
                 }
 
-                switch ($index) {
-                    case 'datetime':
-                        $stat->setDatetime(new \DateTime($item[$index]));
-                        break;
-                    default:
-                        $stat->$method($item[$index]);
-                }
+                match ($index) {
+                    'datetime' => $stat->setDatetime(new \DateTime($item[$index])),
+                    default => $stat->$method($item[$index]),
+                };
             }
         }
 
         return new Response("File uploaded",  Response::HTTP_OK,
             ['content-type' => 'text/plain']);
-
-
-        return $this->render('migrate/index.html.twig');
     }
 
     #[Route('/csv', name: 'app_migrate_get_csv')]
@@ -116,9 +110,11 @@ class MigrateController extends BaseController
                     if (null === $v) {
                         $v = 0;
                     }
+
                     $s[$k] = $v;
                 }
             }
+
             $data[] = $s;
         }
 

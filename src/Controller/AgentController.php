@@ -180,7 +180,7 @@ class AgentController extends BaseController
 
             $text = (string)$request->request->get('comment');
 
-            if (!$text) {
+            if ($text === '' || $text === '0') {
                 return $this->json(['error' => 'no comment...']);
             }
 

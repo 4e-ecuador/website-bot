@@ -156,7 +156,7 @@ class AgentStatRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('agent')) {
+        if ($options->searchCriteria('agent') !== '' && $options->searchCriteria('agent') !== '0') {
             $query->andWhere('a.agent = :agent')
                 ->setParameter(
                     'agent',

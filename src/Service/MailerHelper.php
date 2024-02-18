@@ -32,8 +32,8 @@ class MailerHelper
             $this->mailer->send($message);
 
             $response = 'Confirmation mail has been sent to '.$user->getEmail();
-        } catch (TransportExceptionInterface $exception) {
-            $response = $exception->getMessage();
+        } catch (TransportExceptionInterface $transportException) {
+            $response = $transportException->getMessage();
         }
 
         return $response;
@@ -51,8 +51,8 @@ class MailerHelper
             $this->mailer->send($message);
 
             $response = 'Confirmation mail has been sent to '.$this->email;
-        } catch (TransportExceptionInterface $exception) {
-            $response = $exception->getMessage();
+        } catch (TransportExceptionInterface $transportException) {
+            $response = $transportException->getMessage();
         }
 
         return $response;
@@ -70,8 +70,8 @@ class MailerHelper
             $this->mailer->send($message);
 
             $response = 'Mail has been sent to '.$this->email;
-        } catch (TransportExceptionInterface $exception) {
-            $response = $exception->getMessage();
+        } catch (TransportExceptionInterface $transportException) {
+            $response = $transportException->getMessage();
         }
 
         return $response;

@@ -41,7 +41,7 @@ class HtmlParser
                 $factions = array_keys($info->poc);
 
                 $info->attendees[$factions[$i]] = $attendees;
-                $i++;
+                ++$i;
             }
         );
 

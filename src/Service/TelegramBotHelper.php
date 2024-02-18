@@ -45,7 +45,7 @@ class TelegramBotHelper
             );
         }
 
-        if (!$id) {
+        if ($id === '' || $id === '0') {
             throw new UnexpectedValueException(
                 'Required TG bot env var has not been set up: '.$name
             );

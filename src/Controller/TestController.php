@@ -33,6 +33,7 @@ class TestController extends AbstractController
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
+
         $input = new ArrayInput(
             [
                 'command' => 'about',

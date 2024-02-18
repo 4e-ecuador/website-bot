@@ -17,9 +17,9 @@ class FileUploader
     {
         try {
             return $file->move($uploadDir, $filename);
-        } catch (FileException $e){
+        } catch (FileException $fileException){
 
-            $this->logger->error('failed to upload image: ' . $e->getMessage());
+            $this->logger->error('failed to upload image: ' . $fileException->getMessage());
             throw new FileException('Failed to upload file');
         }
     }

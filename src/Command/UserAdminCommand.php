@@ -35,7 +35,7 @@ class UserAdminCommand extends Command
     ): int {
         $io = new SymfonyStyle($input, $output);
 
-        $io->title('KuKu\'s User Admin');
+        $io->title("KuKu's User Admin");
 
         $this->showMenu($input, $output);
 
@@ -144,6 +144,7 @@ class UserAdminCommand extends Command
                 ]
             );
         }
+
         $table->render();
     }
 

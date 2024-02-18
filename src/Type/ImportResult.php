@@ -30,5 +30,6 @@ class ImportResult
     public ?array $coreSubscribed = [];
 
     public ?int $newLevel = 0;
+
     public ?int $recursions = 0;
 }

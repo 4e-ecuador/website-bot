@@ -16,7 +16,7 @@ class Faction
     private ?int $id = null;
 
     #[Column]
-    private ?string $name;
+    private ?string $name = null;
 
     public function getId(): ?int
     {

@@ -36,17 +36,23 @@ class UploadStatsReminder extends Command
         $count = 0;
 
         foreach ($agents as $agent) {
-            if ($agent->getHasNotifyUploadStats() && $agent->getTelegramId()) {
-                try {
-                    $this->telegramMessageHelper->sendNotifyUploadReminderMessage(
-                        $agent->getTelegramId()
-                    );
-                    $count++;
-                } catch (Exception $exception) {
-                    $io->warning(
-                        $exception->getMessage().' - '.$agent->getNickname()
-                    );
-                }
+            if (!$agent->getHasNotifyUploadStats()) {
+                continue;
+            }
+
+            if (!$agent->getTelegramId()) {
+                continue;
+            }
+
+            try {
+                $this->telegramMessageHelper->sendNotifyUploadReminderMessage(
+                    $agent->getTelegramId()
+                );
+                ++$count;
+            } catch (Exception $exception) {
+                $io->warning(
+                    $exception->getMessage().' - '.$agent->getNickname()
+                );
             }
         }
 

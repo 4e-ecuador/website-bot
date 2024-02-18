@@ -66,6 +66,7 @@ class CommentController extends BaseController
         if (!$comment) {
             throw $this->createNotFoundException();
         }
+
         $comment->setText($markdownHelper->parse($comment->getText()));
         $html = $this->renderView(
             'comment/commentBox.html.twig',

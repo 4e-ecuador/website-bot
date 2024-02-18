@@ -14,6 +14,7 @@ class FcmHelper
      * @var array<string>
      */
     public array $tokens = [];
+
     public string $type = '';
 
     public function __construct(
@@ -65,6 +66,7 @@ class FcmHelper
                 ],
             ];
         }
+
         // $data = [
         //     'to'   => $to,
         //     'data' => [
@@ -95,11 +97,7 @@ class FcmHelper
     {
         $data = json_encode($dataArray, JSON_THROW_ON_ERROR);
 
-        $header = array(
-            'Content-Type:application/json',
-            'accept:application/json',
-            'Authorization: key='.$this->fcmKey,
-        );
+        $header = ['Content-Type:application/json', 'accept:application/json', 'Authorization: key='.$this->fcmKey];
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
 
         if (!$ch) {
@@ -149,9 +147,10 @@ class FcmHelper
                     'title'      => $title,
                     'message'    => $message,
                     'not_type'   => 'bigtext',
-                    'extra_data' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book',
+                    'extra_data' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
                 ];
             }
+
             if ($this->type === 'bigimage') {
                 $data = json_encode(
                     [
@@ -165,6 +164,7 @@ class FcmHelper
                     ]
                 );
             }
+
             if ($this->type === 'bigimage_withoutsideicon') {
                 $data = json_encode(
                     [
@@ -178,6 +178,7 @@ class FcmHelper
                     ]
                 );
             }
+
             if ($this->type === 'inbox_style') {
                 $array_message = [
                     'Rahul : Hi How Are You?',
@@ -198,6 +199,7 @@ class FcmHelper
                     ]
                 );
             }
+
             if ($this->type === 'message_style') {
                 $data = json_encode(
                     [
@@ -206,33 +208,31 @@ class FcmHelper
                             'title'      => $_REQUEST['title'],
                             'message'    => $_REQUEST['message'],
                             'not_type'   => 'message_style',
-                            'extra_data' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
+                            'extra_data' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
                         ],
                     ]
                 );
             }
+        } elseif (is_array($this->tokens)) {
+            $data = json_encode(
+                [
+                    'registation_ids' => [$this->tokens],
+                    'data'            => [
+                        'title'   => $_REQUEST['title'],
+                        'message' => $_REQUEST['message'],
+                    ],
+                ]
+            );
         } else {
-            if (is_array($this->tokens)) {
-                $data = json_encode(
-                    [
-                        'registation_ids' => [$this->tokens],
-                        'data'            => [
-                            'title'   => $_REQUEST['title'],
-                            'message' => $_REQUEST['message'],
-                        ],
-                    ]
-                );
-            } else {
-                $data = json_encode(
-                    [
-                        'to'   => $this->tokens,
-                        'data' => [
-                            'title'   => $title,
-                            'message' => $message,
-                        ],
-                    ]
-                );
-            }
+            $data = json_encode(
+                [
+                    'to'   => $this->tokens,
+                    'data' => [
+                        'title'   => $title,
+                        'message' => $message,
+                    ],
+                ]
+            );
         }
 
         //now let's see data message

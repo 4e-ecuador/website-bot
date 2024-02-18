@@ -53,19 +53,19 @@ class Agent implements Stringable
     private ?string $telegram_name = '';
 
     #[Column(nullable: true)]
-    private ?int $telegram_id;
+    private ?int $telegram_id = null;
 
     #[Column(length: 48, nullable: true)]
-    private ?string $telegram_connection_secret;
+    private ?string $telegram_connection_secret = null;
 
     #[Column(nullable: true)]
-    private ?bool $hasNotifyUploadStats;
+    private ?bool $hasNotifyUploadStats = null;
 
     #[Column(nullable: true)]
-    private ?bool $hasNotifyEvents;
+    private ?bool $hasNotifyEvents = null;
 
     #[Column(nullable: true)]
-    private ?bool $hasNotifyStatsResult;
+    private ?bool $hasNotifyStatsResult = null;
 
     #[Column(length: 2, nullable: true)]
     private ?string $locale = '';

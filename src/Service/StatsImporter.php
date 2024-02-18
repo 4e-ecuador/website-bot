@@ -87,7 +87,7 @@ class StatsImporter
         $importResult = new ImportResult();
         $previousEntry = $previousEntry ?: $this->agentStatRepository->getPrevious($statEntry);
 
-        if (!$previousEntry) {
+        if (!$previousEntry instanceof \App\Entity\AgentStat) {
             // First import
             $importResult->currents = $this->medalChecker
                 ->checkLevels($statEntry);
@@ -122,6 +122,7 @@ class StatsImporter
             if (!$previousMonthsSubscribed) {
                 $importResult->coreSubscribed[] = 'CORE';
             }
+
             if ($monthsSubscribed >= 24
                 && $monthsSubscribed !== $previousMonthsSubscribed
             ) {
@@ -142,7 +143,7 @@ class StatsImporter
         User $user
     ): void {
         $agent = $user->getAgent();
-        if (null === $agent) {
+        if (!$agent instanceof \App\Entity\Agent) {
             throw new UnexpectedValueException('Agent not found');
         }
 

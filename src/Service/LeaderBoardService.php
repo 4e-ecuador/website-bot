@@ -33,7 +33,7 @@ class LeaderBoardService
 
             $agentEntry = $this->statRepository->getAgentLatest($agent);
 
-            if (!$agentEntry) {
+            if (!$agentEntry instanceof \App\Entity\AgentStat) {
                 continue;
             }
 
@@ -69,16 +69,10 @@ class LeaderBoardService
             );
         }
 
-        foreach ($boardEntries as $type => $entries) {
+        foreach (array_keys($boardEntries) as $type) {
             usort(
                 $boardEntries[$type],
-                static function ($a, $b) {
-                    if ($a->getValue() === $b->getValue()) {
-                        return 0;
-                    }
-
-                    return ($a->getValue() > $b->getValue()) ? -1 : 1;
-                }
+                static fn($a, $b) => $b->getValue() <=> $a->getValue()
             );
         }
 

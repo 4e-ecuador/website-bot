@@ -8,9 +8,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use UnexpectedValueException;
 
-final class CiteService
+final readonly class CiteService
 {
-    public function __construct(#[Autowire('%kernel.project_dir%')] private readonly string $rootDir)
+    public function __construct(#[Autowire('%kernel.project_dir%')]private string $rootDir)
     {
     }
 
@@ -46,7 +46,7 @@ final class CiteService
 
             if (!array_key_exists('cites', $values)) {
                 throw new UnexpectedValueException(
-                    'Cites file must contain an array with a key \'cites\'.'
+                    "Cites file must contain an array with a key 'cites'."
                 );
             }
 

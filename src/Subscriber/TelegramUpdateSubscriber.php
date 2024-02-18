@@ -34,23 +34,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     public function check(UpdateEvent $event): void
     {
         $this->isAllowedChat = true;
-
-        return;
-        $message = $event->getUpdate()->getMessage();
-
-        if ($message) {
-            $this->isAllowedChat = $this->telegramBotHelper->checkChatId(
-                $message->getChat()->getId()
-            );
-        } else {
-            $inlineQuery = $event->getUpdate()->getInlineQuery();
-
-            if ($inlineQuery) {
-                $this->isAllowedChat = $this->telegramBotHelper->checkUserId(
-                    $inlineQuery->getFrom()->getId()
-                );
-            }
-        }
     }
 
     public static function getSubscribedEvents(): array
@@ -70,8 +53,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      */
     public function processUpdate(UpdateEvent $event): void
     {
-        $this->respondWelcome($event)
-            ->respondInlineQuery($event);
+        $this->respondWelcome($event)->respondInlineQuery();
     }
 
     public function writeLog(UpdateEvent $event): void
@@ -133,11 +115,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
 
             // DISABLED!
             return $this;
-
-            $text = sprintf(
-                'Hello @%s welcome on board =;)',
-                $newChatMember[0]->getUsername()
-            );
         }
 
         $this->botApi->sendMessage(
@@ -151,73 +128,9 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     /**
      * @throws Exception
      */
-    private function respondInlineQuery(UpdateEvent $event
-    ): TelegramUpdateSubscriber {
+    private function respondInlineQuery(): TelegramUpdateSubscriber
+    {
         // Disabled
-        return $this;
-
-        $inlineQuery = $event->getUpdate()->getInlineQuery();
-
-        if (!$inlineQuery) {
-            return $this;
-        }
-
-        if (!$this->isAllowedChat) {
-            $text = "You are not allowed to use this bot.\n\nYou may ask an admin to add your ID: "
-                .$inlineQuery->getFrom()->getId();
-            $contact = new Contact(
-                1,
-                666,
-                'You are not allowed to use this bot.'
-            );
-            $contact->setInputMessageContent(
-                new InputMessageContent\Text($text, 'markdown', true)
-            );
-
-            $this->botApi->answerInlineQuery(
-                $inlineQuery->getId(),
-                [$contact]
-
-            );
-
-            return $this;
-        }
-
-        $search = $inlineQuery->getQuery();
-
-        if (!$search) {
-            // Empty query
-        }
-
-        // Keep only the first 8 chars
-        $search = substr($search, 0, 8);
-
-        // @todo sanitize more?
-
-        $agents = $this->agentRepository->searchByAgentName($search);
-
-        $results = [];
-
-        foreach ($agents as $agent) {
-            $c = new Contact($agent->getId(), 0, $agent->getNickname());
-
-            $text = $this->templater->replaceAgentTemplate(
-                'agent-info.md',
-                $agent
-            );
-
-            $c->setInputMessageContent(
-                new InputMessageContent\Text($text, 'markdown', true)
-            );
-
-            $results[] = $c;
-        }
-
-        $this->botApi->answerInlineQuery(
-            $inlineQuery->getId(),
-            $results
-        );
-
         return $this;
     }
 }

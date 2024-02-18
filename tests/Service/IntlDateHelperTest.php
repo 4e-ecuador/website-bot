@@ -10,7 +10,7 @@ class IntlDateHelperTest extends KernelTestCase
 {
     private IntlDateHelper $intlDateHelper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
 

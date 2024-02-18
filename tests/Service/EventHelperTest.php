@@ -16,7 +16,7 @@ class EventHelperTest extends KernelTestCase
 {
     private EventHelper $eventHelper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
         $em = self::getContainer()->get('doctrine.orm.entity_manager');

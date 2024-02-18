@@ -73,16 +73,21 @@ class CsvParser
 
             foreach ($headVars as $i1 => $headVar) {
                 $vName = $this->medalChecker->translatePrimeHeader($headVar);
-
-                if ($vName) {
-                    $c[$vName] = $vars[$i1];
+                if ($vName === '') {
+                    continue;
                 }
+
+                if ($vName === '0') {
+                    continue;
+                }
+
+                $c[$vName] = $vars[$i1];
             }
 
             $csv[$dateTime] = $c;
         }
 
-        if (!$csv) {
+        if ($csv === []) {
             throw new InvalidCsvException('Invalid CSV');
         }
 
@@ -121,7 +126,7 @@ class CsvParser
             $csv[$dateTime] = $c;
         }
 
-        if (!$csv) {
+        if ($csv === []) {
             throw new InvalidCsvException('Invalid CSV');
         }
 

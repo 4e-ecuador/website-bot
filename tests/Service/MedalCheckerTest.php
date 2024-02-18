@@ -12,7 +12,7 @@ class MedalCheckerTest extends KernelTestCase
 {
     private MedalChecker $medalChecker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
         $this->medalChecker = new MedalChecker(
@@ -87,6 +87,7 @@ class MedalCheckerTest extends KernelTestCase
 
             self::assertSame(1, $result);
         }
+
         $result = $this->medalChecker->getMedalLevel('XXX', 0);
 
         self::assertSame(0, $result);

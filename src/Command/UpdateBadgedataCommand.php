@@ -26,11 +26,15 @@ use Symfony\Component\HttpClient\HttpClient;
 class UpdateBadgedataCommand extends Command
 {
     private InputInterface $input;
+
     private OutputInterface $output;
+
     private SymfonyStyle $io;
 
     private readonly string $badgeRoot;
+
     private readonly string $scrapeSite;
+
     private readonly string $assetRoot;
 
     /**
@@ -211,7 +215,7 @@ class UpdateBadgedataCommand extends Command
 
                 $badgeInfo = new stdClass();
 
-                $badgeInfo->code = str_replace('.png', '', $imageName);
+                $badgeInfo->code = str_replace('.png', '', (string) $imageName);
                 $badgeInfo->title = $item->title;
                 $badgeInfo->description = $item->description;
 
@@ -261,6 +265,7 @@ class UpdateBadgedataCommand extends Command
                 if (file_exists($destPath)) {
                     continue;
                 }
+
                 $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
                     .$destPath;
                 ob_start();
@@ -271,8 +276,10 @@ class UpdateBadgedataCommand extends Command
                     $this->io->writeln('');
                     $this->io->error($result);
                 }
+
                 $progressBar->advance();
             }
+
             $progressBar->finish();
         }
 
@@ -318,8 +325,8 @@ class UpdateBadgedataCommand extends Command
             foreach ($files as $file) {
                 $fileNames[] = $file->getRealPath();
 
-                $xPos = $colCount ? '-'.$colCount * $imageWidth.'px' : '0';
-                $yPos = $rowCount ? '-'.$rowCount * $imageHeight.'px' : '0';
+                $xPos = $colCount !== 0 ? '-'.$colCount * $imageWidth.'px' : '0';
+                $yPos = $rowCount !== 0 ? '-'.$rowCount * $imageHeight.'px' : '0';
                 $name = str_replace('.png', '', $file->getBasename());
                 $cssLines[] = sprintf(
                     '.medal'.$size.'.medal-%s {background-position: %s %s}',
@@ -327,10 +334,10 @@ class UpdateBadgedataCommand extends Command
                     $xPos,
                     $yPos
                 );
-                $colCount++;
+                ++$colCount;
                 if ($colCount >= $imagesPerRow) {
                     $colCount = 0;
-                    $rowCount++;
+                    ++$rowCount;
                 }
             }
 
@@ -400,9 +407,8 @@ class UpdateBadgedataCommand extends Command
     {
         $fileName = basename($fileName, '.png');
         $fileName = substr($fileName, 0, strrpos($fileName, '_'));
-        $fileName .= '.png';
 
-        return $fileName;
+        return $fileName . '.png';
     }
 
     private function execCommand(string $command): bool|string

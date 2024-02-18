@@ -36,8 +36,8 @@ class CompareController extends AbstractController
         $searchTerm = $request->query->get('q');
         try {
             $excludes = $this->getIdsFromRequest($request, 'excludes');
-        } catch (\JsonException $e) {
-            return new Response($e->getMessage());
+        } catch (\JsonException $jsonException) {
+            return new Response($jsonException->getMessage());
         }
 
         return $this->render(
@@ -84,11 +84,12 @@ class CompareController extends AbstractController
                 $agent = $agentRepository->find($id);
                 if ($agent) {
                     $user = $userRepository->findByAgent($agent);
-                    if ($user) {
+                    if ($user instanceof \App\Entity\User) {
                         $users[] = $user;
                     }
                 }
             }
+
             $board = $leaderBoardService->getBoard($users);
         } catch (\Exception $exception) {
             return new Response($exception->getMessage());

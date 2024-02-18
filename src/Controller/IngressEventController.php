@@ -62,6 +62,7 @@ class IngressEventController extends BaseController
             if ($ingressEvent->getDateEnd() < $ingressEvent->getDateStart()) {
                 $ingressEvent->setDateEnd($ingressEvent->getDateStart());
             }
+
             $entityManager->persist($ingressEvent);
             $entityManager->flush();
 
@@ -156,11 +157,12 @@ class IngressEventController extends BaseController
         $message = $notifyEventsMessage
             ->setFirstAnnounce(true)
             ->getText();
-        if (!$message) {
+        if ($message === '' || $message === '0') {
             $this->addFlash('warning', 'No events to announce ;(');
 
             return $this->redirectToRoute('ingress_event_index');
         }
+
         $agents = $agentRepository->findNotifyAgents();
         $count = 0;
         foreach ($agents as $agent) {
@@ -172,7 +174,7 @@ class IngressEventController extends BaseController
                         true
                     );
 
-                    $count++;
+                    ++$count;
                 } catch (Exception $exception) {
                     $this->addFlash(
                         'warning',
@@ -182,7 +184,8 @@ class IngressEventController extends BaseController
                 }
             }
         }
-        if ($count) {
+
+        if ($count !== 0) {
             $this->addFlash(
                 'success',
                 sprintf('Announcements sent to %d agents!', $count)
@@ -203,7 +206,7 @@ class IngressEventController extends BaseController
                 ->setFirstAnnounce(true)
                 ->getText();
 
-            if (!$message) {
+            if ($message === '' || $message === '0') {
                 throw new RuntimeException('No events to announce ;(');
             }
 
@@ -230,7 +233,7 @@ class IngressEventController extends BaseController
                 ->setFirstAnnounce(true)
                 ->getText();
 
-            if (!$message) {
+            if ($message === '' || $message === '0') {
                 throw new RuntimeException('No events to announce ;(');
             }
 
@@ -241,7 +244,7 @@ class IngressEventController extends BaseController
 
             foreach ($users as $user) {
                 $tokens[] = $user->getFireBaseToken();
-                $count++;
+                ++$count;
             }
 
             if (!$fbmHelper->sendMessageWithTokens(
@@ -256,7 +259,7 @@ class IngressEventController extends BaseController
                 );
             }
 
-            if ($count) {
+            if ($count !== 0) {
                 $this->addFlash(
                     'success',
                     sprintf('Announcements sent to %d agents!', $count)

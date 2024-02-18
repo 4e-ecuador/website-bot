@@ -44,17 +44,18 @@ class StatsController extends BaseController
     ): Response {
         $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
-        if ($latest) {
+        if ($latest instanceof \App\Entity\AgentStat) {
             $medals = $medalChecker->checkLevels($latest);
             arsort($medals);
             $medalGroups = $medals;
             //dd($medalGroups);
         }
+
         $dateEnd = new DateTime();
         $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
         try {
             $customMedals = json_decode(
-                $agent->getCustomMedals(),
+                (string) $agent->getCustomMedals(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR | JSON_ERROR_NONE
@@ -197,7 +198,7 @@ class StatsController extends BaseController
                 if (false === isset($previous[$agentName])) {
                     $previousEntry = $statRepository->getPrevious($entry);
 
-                    $previous[$agentName] = $previousEntry
+                    $previous[$agentName] = $previousEntry instanceof \App\Entity\AgentStat
                         ? $medalChecker->checkLevels(
                             $previousEntry
                         ) : $medalChecker->checkLevels($entry);
@@ -210,6 +211,7 @@ class StatsController extends BaseController
                     if (!$level) {
                         continue;
                     }
+
                     if (false === isset($previous[$agentName][$name])) {
                         $medalsGained[$dateString][$agentName][$name] = $level;
                         $medalsGained1[$name][] = [
@@ -228,17 +230,12 @@ class StatsController extends BaseController
                 }
             }
         }
+
         foreach ($medalsGained1 as $name => $items) {
             $a = $items;
             usort(
                 $a,
-                static function ($a, $b) {
-                    if ($a['level'] === $b['level']) {
-                        return 0;
-                    }
-
-                    return ($a['level'] > $b['level']) ? -1 : 1;
-                }
+                static fn($a, $b) => $b['level'] <=> $a['level']
             );
             $medalsGained1[$name] = $a;
         }
@@ -258,7 +255,6 @@ class StatsController extends BaseController
     #[Route(path: '/in-between', name: 'stats_in_between', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function inBetween(
-        Request $request,
         AgentStatRepository $statRepository,
     ): Response {
         $agent = $this->getUser()?->getAgent();
@@ -270,7 +266,7 @@ class StatsController extends BaseController
         $dates = [];
         foreach ($stats as $stat) {
             $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
-            [$year, $month, $day, $time] = explode(' ', $dateString);
+            [$year, $month, $day, $time] = explode(' ', (string) $dateString);
             // $time = $stat->getDatetime()->format('H:i');
             $dates[$year][$month][$day][] = $time;
         }
@@ -328,12 +324,14 @@ class StatsController extends BaseController
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
+
         $agent = $user->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException(
                 $translator->trans('user.not.verified.2')
             );
         }
+
         $csv = $request->get('csv');
         if ($csv) {
             try {

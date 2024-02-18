@@ -48,7 +48,7 @@ class NotifyEventsCommand extends Command
             ->setFirstAnnounce($firstAnnounce)
             ->getText();
 
-        if (!$message) {
+        if ($message === '' || $message === '0') {
             // No message - no events :(
             return Command::SUCCESS;
         }

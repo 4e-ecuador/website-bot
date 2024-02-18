@@ -53,7 +53,7 @@ class UserChangedNotifier
         $text[] = 'ID: '.$user->getId();
         $text[] = 'Email: '.$user->getEmail();
         $text[] = 'Username: '.$user->getUserAgentName();
-        $text[] = 'Agent: '.($user->getAgent() ? $user->getAgent()
+        $text[] = 'Agent: '.($user->getAgent() instanceof \App\Entity\Agent ? $user->getAgent()
                 ->getNickname() : '');
         $text[] = str_replace(
             '_',

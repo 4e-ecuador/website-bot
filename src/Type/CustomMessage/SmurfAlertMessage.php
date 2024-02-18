@@ -11,7 +11,9 @@ use App\Type\AbstractCustomMessage;
 class SmurfAlertMessage extends AbstractCustomMessage
 {
     private User $user;
+
     private Agent $agent;
+
     private AgentStat $statEntry;
 
     /**

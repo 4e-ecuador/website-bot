@@ -88,7 +88,7 @@ class SendNewsletterCommand extends Command
             IntlDateFormatter::FULL,
             $this->defaultTimeZone,
             IntlDateFormatter::GREGORIAN,
-            'd \'de\' MMMM \'de\' y'
+            "d 'de' MMMM 'de' y"
         );
 
         $formatterDateFull = new IntlDateFormatter(
@@ -105,7 +105,7 @@ class SendNewsletterCommand extends Command
         $futureEvents = [];
 
         $ingressFS = $this->ingressEventRepository->findFutureFS();
-        $ingressMD = $this->ingressEventRepository->findFutureMD();
+        $this->ingressEventRepository->findFutureMD();
 
         $fsStrings = [];
 
@@ -149,7 +149,7 @@ class SendNewsletterCommand extends Command
         $message[] = '';
         $message[] = '*Eventos 4E*';
 
-        if ($currentEvents) {
+        if ($currentEvents !== []) {
             $message[] = '';
             $message[] = 'Eventos actuales:';
             foreach ($currentEvents as $event) {
@@ -178,7 +178,7 @@ class SendNewsletterCommand extends Command
             $message[] = 'Actualmente no hay eventos :(';
         }
 
-        if ($futureEvents) {
+        if ($futureEvents !== []) {
             $message[] = '';
             $message[] = 'Eventos futuros:';
             foreach ($futureEvents as $event) {

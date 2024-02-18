@@ -9,6 +9,7 @@ use App\Type\AbstractCustomMessage;
 class MedalDoubleMessage extends AbstractCustomMessage
 {
     private Agent $agent;
+
     /**
      * @var array<string, int>
      */

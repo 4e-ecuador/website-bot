@@ -25,9 +25,8 @@ class MarkdownParser extends MarkdownExtra
         $text = parent::transform($text);
 
         $text = $this->replaceAgentName($text);
-        $text = $this->makeImagesResponsive($text);
 
-        return $text;
+        return $this->makeImagesResponsive($text);
     }
 
     /**
@@ -42,13 +41,13 @@ class MarkdownParser extends MarkdownExtra
                     $agentName[1]
                 );
 
-                if (!$agent) {
+                if (!$agent instanceof \App\Entity\Agent) {
                     return '<code>'.$agentName[0].'</code>';
                 }
 
                 $url = $this->urlGenerator->generate(
                     'agent_show',
-                    array('id' => $agent->getId())
+                    ['id' => $agent->getId()]
                 );
 
                 $linkText = sprintf(
@@ -70,7 +69,7 @@ class MarkdownParser extends MarkdownExtra
 
     private function makeImagesResponsive(string $text): string
     {
-        $testString = "<div>$text</div>";
+        $testString = sprintf('<div>%s</div>', $text);
         $testString = str_replace('<br>', '<br/>', $testString);
 
         $doc = new DOMDocument('1.0', 'UTF-8');

@@ -71,7 +71,7 @@ class EventHelper
                     - $previousEntries[$agentName]->getMindController();
                 $links = $currentEntries[$agentName]->getConnector()
                     - $previousEntries[$agentName]->getConnector();
-                $values[$agentName] = $links ? $fields / $links : 0;
+                $values[$agentName] = $links !== 0 ? $fields / $links : 0;
             } else {
                 $methodName = 'get'.$event->getEventType();
 
@@ -82,6 +82,7 @@ class EventHelper
                         'Unknown event type: '.$event->getEventType()
                     );
                 }
+
                 $values[$agentName] = $currentEntries[$agentName]->$methodName()
                     - $previousEntries[$agentName]->$methodName();
             }

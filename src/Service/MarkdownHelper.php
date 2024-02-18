@@ -23,8 +23,8 @@ class MarkdownHelper
             }
 
             return $item->get();
-        } catch (InvalidArgumentException $e) {
-            return $e->getMessage();
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return $invalidArgumentException->getMessage();
         }
     }
 }

@@ -51,7 +51,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
 
             if (!preg_match(
                 self::REGEXP,
-                $update->getMessage()->getText(),
+                (string) $update->getMessage()->getText(),
                 $matches
             )
             ) {
@@ -77,8 +77,8 @@ class Start extends AbstractCommand implements PublicCommandInterface
 
             $response = $this->translator
                 ->trans('bot.message.agent.verified');
-        } catch (UnexpectedValueException $exception) {
-            $response = $exception->getMessage();
+        } catch (UnexpectedValueException $unexpectedValueException) {
+            $response = $unexpectedValueException->getMessage();
         }
 
         $api->sendMessage(

@@ -17,10 +17,15 @@ use function in_array;
 class PaginatorOptions
 {
     private int $page = 0;
+
     private int $maxPages = 0;
+
     private int $limit = 10;
+
     private string $order = 'id';
+
     private string $orderDir = 'ASC';
+
     /**
      * @var array<string>
      */

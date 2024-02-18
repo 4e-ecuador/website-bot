@@ -462,7 +462,7 @@ class MedalChecker
     public function checkLevels(AgentStat $agentStat): array
     {
         $levels = [];
-        foreach ($this->medalLevels as $name => $level) {
+        foreach (array_keys($this->medalLevels) as $name) {
             $methodName = $this->getGetterMethodName($name);
             if (method_exists($agentStat, $methodName)) {
                 $levels[$name] = $this->getMedalLevel(
@@ -573,12 +573,15 @@ class MedalChecker
         if ('nl1331Meetups' === $medal) {
             $medal = 'nl-1331-meetups';
         }
+
         if ('mindController' === $medal) {
             $medal = 'mind-controller';
         }
+
         if ('scoutController' === $medal) {
             $medal = 'scout-controller';
         }
+
         if ('secondSunday' === $medal) {
             $medal = 'second-sunday';
         }
@@ -598,12 +601,15 @@ class MedalChecker
         if ('nl1331Meetups' === $medal) {
             $medal = 'nl-1331-meetups';
         }
+
         if ('mindController' === $medal) {
             $medal = 'mind-controller';
         }
+
         if ('scoutController' === $medal) {
             $medal = 'scout-controller';
         }
+
         if ('secondSunday' === $medal) {
             $medal = 'second-sunday';
         }
@@ -672,7 +678,7 @@ class MedalChecker
             $medal = $replacements[$medal];
         }
 
-        $sizeString = $size ? '_'.$size : '';
+        $sizeString = $size !== 0 ? '_'.$size : '';
 
         return 'badge_'.$medal.'_'.$this->getLevelName($level).$sizeString
             .$postFix;

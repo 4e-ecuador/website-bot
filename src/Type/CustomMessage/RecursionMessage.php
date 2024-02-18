@@ -9,6 +9,7 @@ use App\Type\AbstractCustomMessage;
 class RecursionMessage extends AbstractCustomMessage
 {
     private Agent $agent;
+
     private int $recursions;
 
     /**

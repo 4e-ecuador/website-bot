@@ -141,7 +141,6 @@ class SendEventUpdateCommand extends Command
             throw new UnexpectedValueException('Can not create image');
         }
 
-        $background = imagecolorallocate($my_img, 255, 255, 255);
         // $text_colour = imagecolorallocate( $my_img, 0, 0, 0 );
         // $line_colour = imagecolorallocate( $my_img, 128, 255, 0 );
 

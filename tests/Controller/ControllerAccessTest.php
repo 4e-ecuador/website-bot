@@ -47,14 +47,18 @@ class ControllerAccessTest extends WebTestCase
         foreach (
             new DirectoryIterator(__DIR__.'/../../src/Controller') as $item
         ) {
-            if (
-                $item->isDot()
-                || $item->isDir()
-                || in_array(
-                    $item->getBasename(),
-                    ['.gitignore', 'GoogleController.php']
-                )
-            ) {
+            if ($item->isDot()) {
+                continue;
+            }
+
+            if ($item->isDir()) {
+                continue;
+            }
+
+            if (in_array(
+                $item->getBasename(),
+                ['.gitignore', 'GoogleController.php']
+            )) {
                 continue;
             }
 
@@ -84,6 +88,7 @@ class ControllerAccessTest extends WebTestCase
                 ) {
                     $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
                 }
+
                 if (array_key_exists('params', $this->exceptions[$routeName])) {
                     $params = (array)$this->exceptions[$routeName]['params'];
                     if (array_key_exists('id', $params)) {
@@ -97,7 +102,7 @@ class ControllerAccessTest extends WebTestCase
             foreach ($methods as $method) {
                 $code = is_array($expectedStatusCode)
                     ? $expectedStatusCode[$method] : $expectedStatusCode;
-                echo "Testing: $method - $path ($code)".PHP_EOL;
+                echo sprintf('Testing: %s - %s (%d)', $method, $path, $code).PHP_EOL;
                 $browser->request($method, $path);
                 $this->assertEquals(
                     $code,

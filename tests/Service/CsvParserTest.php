@@ -14,7 +14,7 @@ class CsvParserTest extends KernelTestCase
 {
     private CsvParser $csvParser;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
         $medalChecker = new MedalChecker(

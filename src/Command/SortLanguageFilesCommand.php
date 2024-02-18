@@ -66,11 +66,7 @@ class SortLanguageFilesCommand extends Command
             $newValues = [];
 
             foreach ($origStrings as $key => $value) {
-                if (array_key_exists($key, $strings)) {
-                    $newValues[$key] = $strings[$key];
-                } else {
-                    $newValues[$key] = '____'.$key;
-                }
+                $newValues[$key] = array_key_exists($key, $strings) ? $strings[$key] : '____'.$key;
             }
 
             file_put_contents(

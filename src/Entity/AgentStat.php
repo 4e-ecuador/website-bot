@@ -484,9 +484,9 @@ class AgentStat implements ArrayAccess
      * The return value will be casted to boolean if non-boolean was returned.
      * @since 5.0.0
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
-        if (strpos($offset, '-')) {
+        if (strpos((string) $offset, '-')) {
             $offset = lcfirst(
                 implode('', array_map('ucfirst', explode('-', (string)$offset)))
             );
@@ -530,7 +530,7 @@ class AgentStat implements ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         // TODO: Implement offsetSet() method.
     }
@@ -546,7 +546,7 @@ class AgentStat implements ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         // TODO: Implement offsetUnset() method.
     }
@@ -559,17 +559,21 @@ class AgentStat implements ArrayAccess
         $diff = [];
 
         foreach ($this->findProperties() as $property) {
-            if ($this->$property > $previous->$property
-                && (false === in_array($property, [
-                        'id',
-                        Types::DATETIME_MUTABLE,
-                        'agent',
-                        'faction',
-                        'nickname',
-                    ], true))
-            ) {
-                $diff[$property] = $this->$property - $previous->$property;
+            if ($this->$property <= $previous->$property) {
+                continue;
             }
+
+            if (in_array($property, [
+                    'id',
+                    Types::DATETIME_MUTABLE,
+                    'agent',
+                    'faction',
+                    'nickname',
+                ], true)) {
+                continue;
+            }
+
+            $diff[$property] = $this->$property - $previous->$property;
         }
 
         return $diff;

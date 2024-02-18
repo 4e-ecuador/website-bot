@@ -94,7 +94,7 @@ class AgentAccountType extends AbstractType
                         $name = ucfirst($name);
                         $localName = ucfirst($localName);
 
-                        return $name ? "$value - $localName ($name)" : $value;
+                        return $name !== '' && $name !== '0' ? sprintf('%s - %s (%s)', $value, $localName, $name) : $value;
                     },
                     'attr'         => [
                         'class'      => 'selectpicker',

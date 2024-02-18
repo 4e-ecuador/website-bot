@@ -11,7 +11,9 @@ use App\Type\AbstractCustomMessage;
 class NicknameMismatchMessage extends AbstractCustomMessage
 {
     private User $user;
+
     private Agent $agent;
+
     private AgentStat $statEntry;
 
     /**

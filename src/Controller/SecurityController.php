@@ -16,10 +16,10 @@ class SecurityController extends AbstractController
     public function login(
         AuthenticationUtils $authenticationUtils,
         Request $request,
-        UserInterface $user = null,
         #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
+        UserInterface $user = null,
     ): Response {
-        if ($user) {
+        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             // User is already logged in
             return $this->redirectToRoute('default');
         }

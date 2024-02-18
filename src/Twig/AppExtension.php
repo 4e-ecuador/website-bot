@@ -49,46 +49,40 @@ class AppExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('cast_to_array', [$this, 'objectFilter']),
-            new TwigFilter('medalLevel', [$this, 'medalLevelFilter']),
-            new TwigFilter('medalLevelName', [$this, 'getMedalLevelName']),
+            new TwigFilter('cast_to_array', $this->objectFilter(...)),
+            new TwigFilter('medalLevel', $this->medalLevelFilter(...)),
+            new TwigFilter('medalLevelName', $this->getMedalLevelName(...)),
             new TwigFilter(
-                'translateMedalLevel', [
-                    $this,
-                    'translateMedalLevelFilter',
-                ]
+                'translateMedalLevel', $this->translateMedalLevelFilter(...)
             ),
-            new TwigFilter('medalDesc', [$this, 'medalDescFilter']),
-            new TwigFilter('stripGmail', [$this, 'stripGmail']),
-            new TwigFilter('displayRoles', [$this, 'displayRolesFilter']),
-            new TwigFilter('ucfirst', [$this, 'displayUcFirst']),
-            new TwigFilter('formatIntlDate', [$this, 'formatIntlDate']),
-            new TwigFilter('intDateShort', [$this, 'intlDateShort']),
+            new TwigFilter('medalDesc', $this->medalDescFilter(...)),
+            new TwigFilter('stripGmail', $this->stripGmail(...)),
+            new TwigFilter('displayRoles', $this->displayRolesFilter(...)),
+            new TwigFilter('ucfirst', $this->displayUcFirst(...)),
+            new TwigFilter('formatIntlDate', $this->formatIntlDate(...)),
+            new TwigFilter('intDateShort', $this->intlDateShort(...)),
             new TwigFilter(
-                'md2html', [
-                $this,
-                'markdownToHtml',
-            ], ['is_safe' => ['html']]
+                'md2html', $this->markdownToHtml(...), ['is_safe' => ['html']]
             ),
-            new TwigFilter('stripTitle', [$this, 'medalDescFilter']),
-            new TwigFilter('escape_bytecode', [$this, 'escapeBytecode']),
+            new TwigFilter('stripTitle', $this->medalDescFilter(...)),
+            new TwigFilter('escape_bytecode', $this->escapeBytecode(...)),
         ];
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('medalValue', [$this, 'getMedalValue']),
-            new TwigFunction('medalLevel', [$this, 'getMedalLevel']),
-            new TwigFunction('medalLevelNames', [$this, 'getMedalLevelNames']),
-            new TwigFunction('medalDoubleValue', [$this, 'medalDoubleValue']),
-            new TwigFunction('getBadgePath', [$this, 'getBadgePath']),
-            new TwigFunction('getChallengePath', [$this, 'getChallengePath']),
-            new TwigFunction('getBadgeData', [$this, 'getBadgeData']),
-            new TwigFunction('getBadgeName', [$this, 'getBadgeName']),
-            new TwigFunction('php_version', [$this, 'getPhpVersion']),
-            new TwigFunction('intlDate', [$this, 'intlDate']),
-            new TwigFunction('defaultTimeZone', [$this, 'getDefaultTimeZone']),
+            new TwigFunction('medalValue', $this->getMedalValue(...)),
+            new TwigFunction('medalLevel', $this->getMedalLevel(...)),
+            new TwigFunction('medalLevelNames', $this->getMedalLevelNames(...)),
+            new TwigFunction('medalDoubleValue', $this->medalDoubleValue(...)),
+            new TwigFunction('getBadgePath', $this->getBadgePath(...)),
+            new TwigFunction('getChallengePath', $this->getChallengePath(...)),
+            new TwigFunction('getBadgeData', $this->getBadgeData(...)),
+            new TwigFunction('getBadgeName', $this->getBadgeName(...)),
+            new TwigFunction('php_version', $this->getPhpVersion(...)),
+            new TwigFunction('intlDate', $this->intlDate(...)),
+            new TwigFunction('defaultTimeZone', $this->getDefaultTimeZone(...)),
         ];
     }
 
@@ -131,11 +125,7 @@ class AppExtension extends AbstractExtension
         $displayRoles = [];
 
         foreach ($roles as $role) {
-            if (array_key_exists($role, $this->roleFilters)) {
-                $displayRoles[] = $this->roleFilters[$role];
-            } else {
-                $displayRoles[] = $role;
-            }
+            $displayRoles[] = array_key_exists($role, $this->roleFilters) ? $this->roleFilters[$role] : $role;
         }
 
         return implode(', ', $displayRoles);
@@ -249,6 +239,7 @@ class AppExtension extends AbstractExtension
                 } else {
                     $name = 'event_badge_'.$badge.'_'.$value;
                 }
+
                 break;
             case 'annual':
                 $tier = $this->getMedalLevelName((int)$value);

@@ -21,25 +21,23 @@ class CalendarHelper
      */
     public function getEvents(DateTime $date = null): array
     {
-        $date = $date ?: new DateTime('midnight', $this->timezone);
-        $date2 = new DateTime('midnight', $this->timezone);
+        $date ?: new DateTime('midnight', $this->timezone);
+        new DateTime('midnight', $this->timezone);
 
-        $fsThisMonth = new DateTime(
+        new DateTime(
             'first saturday of this month',
             $this->timezone
         );
 
-        $ssThisMonth = new DateTime(
+        new DateTime(
             'second sunday of this month',
             $this->timezone
         );
 
-        $sgThisMonth = new DateTime(
+        new DateTime(
             'second thursday of this month',
             $this->timezone
         );
-
-        $ddd = $date2 == $sgThisMonth;
 
         // dump($date, $date2, $fsThisMonth, $ssThisMonth, $sgThisMonth, $ddd);
         // dump($date2, $sgThisMonth, $ddd);

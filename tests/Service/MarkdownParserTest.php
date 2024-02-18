@@ -10,7 +10,7 @@ class MarkdownParserTest extends KernelTestCase
 {
     private MarkdownParser $markdownParser;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
@@ -54,9 +54,9 @@ class MarkdownParserTest extends KernelTestCase
     {
         $result = $this->markdownParser->transform('foo ![image](https://example.com/image.jpg) baz');
 
-        $expected = '<div><p>foo '
-            .'<img src="https://example.com/image.jpg" alt="image" class="img-fluid">'
-            ." baz</p>\n</div>\n";
+        $expected = '<div><p>foo <img src="https://example.com/image.jpg" alt="image" class="img-fluid"> baz</p>
+</div>
+';
 
         self::assertEquals($expected, $result);
     }

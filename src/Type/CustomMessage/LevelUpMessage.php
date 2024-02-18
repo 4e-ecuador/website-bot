@@ -9,7 +9,9 @@ use App\Type\AbstractCustomMessage;
 class LevelUpMessage extends AbstractCustomMessage
 {
     private Agent $agent;
+
     private int $level;
+
     private int $recursions;
 
     /**
@@ -36,7 +38,7 @@ class LevelUpMessage extends AbstractCustomMessage
 
         $message[] = '';
 
-        if ($this->recursions) {
+        if ($this->recursions !== 0) {
             $message[] = str_repeat('16+', $this->recursions);
         }
 

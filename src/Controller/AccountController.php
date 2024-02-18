@@ -29,20 +29,22 @@ class AccountController extends BaseController
         if (!$user) {
             throw new UnexpectedValueException('User not found');
         }
+
         $agent = $user->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException(
                 $translator->trans('user.not.verified.2')
             );
         }
+
         $agentAccount = $request->request->all('agent_account');
         $customMedals = json_decode(
-            $agent->getCustomMedals(),
+            (string) $agent->getCustomMedals(),
             true,
             512,
             JSON_THROW_ON_ERROR
         );
-        if ($agentAccount) {
+        if ($agentAccount !== []) {
             $customMedals = $request->request->all('customMedals');
 
             $agentAccount['customMedals'] = json_encode(
@@ -52,6 +54,7 @@ class AccountController extends BaseController
 
             $request->request->set('agent_account', $agentAccount);
         }
+
         $form = $this->createForm(AgentAccountType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -87,6 +90,7 @@ class AccountController extends BaseController
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
+
         $agent->setTelegramId(null);
         $entityManager->persist($agent);
         $entityManager->flush();

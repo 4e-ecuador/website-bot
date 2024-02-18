@@ -272,6 +272,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'cryptic_memories',
                     'discoverie',
                     'ctrl',
                     'echo',
@@ -316,6 +317,11 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'cryptic_memories'=>
+                    [
+                        'bronze',
+                        'silver'
+                    ],
                     'chronos'=>
                     [
                         'bronze',

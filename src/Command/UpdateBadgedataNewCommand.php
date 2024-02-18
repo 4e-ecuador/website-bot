@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpClient\HttpClient;
 
 #[AsCommand(
@@ -32,6 +33,21 @@ class UpdateBadgedataNewCommand extends Command
     private readonly string $scrapeSite;
     private readonly string $assetRoot;
 
+    /**
+     * @var int[]
+     */
+    private array $sizes = [50, 24];
+
+    private array $uglyDudes
+        = [
+            'img_0229.png'                   => 'anomaly_discoverie.png',
+            'badge_paragon_onyx.png'         => 'badge_paragon_black.png',
+            'chronos_basic.png'              => 'event_badge_chronos_bronze.png',
+            'chronos_advanced.png'           => 'event_badge_chronos_silver.png',
+            'cryptic_memories_op_bronze.png' => 'event_badge_cryptic_memories_bronze.png',
+            'cryptic_memories_op_silver.png' => 'event_badge_cryptic_memories_silver.png',
+        ];
+
     private array $skipCategories
         = [
             'Characters',
@@ -45,6 +61,7 @@ class UpdateBadgedataNewCommand extends Command
             'Characters - Ingress X Series (2022)',
             'Characters - 2023',
             'Characters - Ingress Origins (2023)',
+            'Characters - 2024',
             'NL-1331',
             'Corporation Medals',
             'Festive Medals',
@@ -59,19 +76,8 @@ class UpdateBadgedataNewCommand extends Command
             'Active Giveaways',
             'Fan created - Single',
             'Fan created - Tiered',
+            'Unused/Replaced - Single',
         ];
-
-    /**
-     * @var int[]
-     */
-    private array $sizes = [50, 24];
-
-    private array $uglyDudes = [
-        'img_0229.png'=>'anomaly_discoverie.png',
-        'badge_paragon_onyx.png'=>'badge_paragon_black.png',
-        'chronos_basic.png'=>'event_badge_chronos_bronze.png',
-        'chronos_advanced.png'=>'event_badge_chronos_silver.png',
-    ];
 
     private array $pickBadges
         = [
@@ -148,9 +154,6 @@ class UpdateBadgedataNewCommand extends Command
 
         $client = HttpClient::create();
         $response = $client->request('GET', $uri);
-
-       // $c = $response->getContent();
-       // file_put_contents('ccc.json', $c);
 
         $result = json_decode(
             $response->getContent(),
@@ -305,23 +308,19 @@ class UpdateBadgedataNewCommand extends Command
             $colCount = 0;
             $rowCount = 0;
 
-            foreach (
-                new DirectoryIterator(
-                    $this->badgeRoot.'/'.$size
-                ) as $item
-            ) {
-                if ($item->isDot()) {
-                    continue;
-                }
+            $files = (new Finder())
+                ->files()
+                ->in($this->badgeRoot.'/'.$size)
+                ->sortByName();
 
-                $fileNames[] = $item->getRealPath();
+            foreach ($files as $file) {
+                $fileNames[] = $file->getRealPath();
 
                 $xPos = $colCount ? '-'.$colCount * $imageWidth.'px' : '0';
                 $yPos = $rowCount ? '-'.$rowCount * $imageHeight.'px' : '0';
-                $name = str_replace('.png', '', $item->getBasename());
+                $name = str_replace('.png', '', $file->getBasename());
                 $cssLines[] = sprintf(
-                    '.medal'.$size
-                    .'.medal-%s {background-position: %s %s}',
+                    '.medal'.$size.'.medal-%s {background-position: %s %s}',
                     $name,
                     $xPos,
                     $yPos
@@ -395,7 +394,7 @@ class UpdateBadgedataNewCommand extends Command
         return false;
     }
 
-     private function cutHash(string $fileName): string
+    private function cutHash(string $fileName): string
     {
         $fileName = basename($fileName, '.png');
         $fileName = substr($fileName, 0, strrpos($fileName, '_'));

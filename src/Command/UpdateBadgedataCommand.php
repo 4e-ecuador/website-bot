@@ -23,7 +23,7 @@ use Symfony\Component\HttpClient\HttpClient;
     name: 'app:update:badgedata',
     description: 'Scrape an ingress fan site for medal images',
 )]
-class UpdateBadgedataNewCommand extends Command
+class UpdateBadgedataCommand extends Command
 {
     private InputInterface $input;
     private OutputInterface $output;
@@ -250,12 +250,14 @@ class UpdateBadgedataNewCommand extends Command
                     sprintf('Directory "%s" was not created', $destDir)
                 );
             }
-            foreach (new DirectoryIterator($this->badgeRoot) as $item) {
-                if ($item->isDot() || $item->isDir()) {
-                    continue;
-                }
-                $srcPath = $item->getRealPath();
-                $destPath = $destDir.'/'.$item->getFilename();
+
+            $files = (new Finder())
+                ->files()
+                ->in($this->badgeRoot);
+
+            foreach ($files as $file) {
+                $srcPath = $file->getRealPath();
+                $destPath = $destDir.'/'.$file->getFilename();
                 if (file_exists($destPath)) {
                     continue;
                 }

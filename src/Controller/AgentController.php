@@ -66,8 +66,8 @@ class AgentController extends BaseController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
-        #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
-        #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
     ): Response {
         $agent = (new Agent())
             ->setLat($defaultLat)

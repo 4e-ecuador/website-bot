@@ -2,9 +2,6 @@
 
 namespace App\Subscriber;
 
-use App\Repository\AgentRepository;
-use App\Service\TelegramBotHelper;
-use App\Service\Templater;
 use BoShurik\TelegramBotBundle\Event\UpdateEvent;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -12,8 +9,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
-use TelegramBot\Api\Types\Inline\InputMessageContent;
-use TelegramBot\Api\Types\Inline\QueryResult\Contact;
 
 class TelegramUpdateSubscriber implements EventSubscriberInterface
 {
@@ -24,9 +19,6 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
     public function __construct(
         LoggerInterface $logger,
         private readonly BotApi $botApi,
-        private readonly AgentRepository $agentRepository,
-        private readonly Templater $templater,
-        private readonly TelegramBotHelper $telegramBotHelper
     ) {
         $this->setLogger($logger);
     }

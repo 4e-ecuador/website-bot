@@ -132,6 +132,7 @@
     },
     "test-phpunit": ["make tests"],
     "test-phpstan": ["vendor/bin/phpstan analyse"],
+    "test-phpstan-baseline": ["vendor/bin/phpstan analyse --generate-baseline"],
     "ci": ["@test-phpunit", "@test-phpstan"]
   },
   "conflict": {

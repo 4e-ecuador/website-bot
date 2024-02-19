@@ -225,7 +225,7 @@ class UpdateBadgedataCommand extends Command
 
                 $badgeInfo = new stdClass();
 
-                $badgeInfo->code = str_replace('.png', '', (string)$imageName);
+                $badgeInfo->code = str_replace('.png', '', $imageName);
                 $badgeInfo->title = $item->title;
                 $badgeInfo->description = $item->description;
 

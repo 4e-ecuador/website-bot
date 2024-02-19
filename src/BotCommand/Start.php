@@ -70,7 +70,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
             }
 
             $agent->setTelegramName($tgUser->getUsername())
-                ->setTelegramId($tgUser->getId());
+                ->setTelegramId((int)$tgUser->getId());
 
             $this->entityManager->persist($agent);
             $this->entityManager->flush();

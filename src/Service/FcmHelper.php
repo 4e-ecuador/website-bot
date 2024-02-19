@@ -213,23 +213,13 @@ class FcmHelper
                     ]
                 );
             }
-        } elseif (is_array($this->tokens)) {
+        } else {
             $data = json_encode(
                 [
                     'registation_ids' => [$this->tokens],
                     'data'            => [
                         'title'   => $_REQUEST['title'],
                         'message' => $_REQUEST['message'],
-                    ],
-                ]
-            );
-        } else {
-            $data = json_encode(
-                [
-                    'to'   => $this->tokens,
-                    'data' => [
-                        'title'   => $title,
-                        'message' => $message,
                     ],
                 ]
             );

@@ -24,9 +24,6 @@ Encore
     .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
     .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')
 
-    // Vue
-    .addEntry('vue/users', './assets/js/vue/users.js')
-
     // Helper
     .addEntry('helper/editor', './assets/js/helper/editor.js')
     .addEntry('helper/events', './assets/js/helper/events.js')
@@ -75,10 +72,10 @@ Encore
     })
 
     // enables Sass/SCSS support
-    .enableSassLoader()
+    //.enableSassLoader()
     // .enablePostCssLoader()
 
-    .enableVueLoader()
+    //.enableVueLoader()
 
     .copyFiles({
         from: './assets/images',

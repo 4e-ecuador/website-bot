@@ -2,29 +2,58 @@
 
 {% block title %}User index{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        window.translations = {
-            "searchbar.placeholder": "{{ 'searchbar.placeholder.email'|trans }}",
-            "search.result.0": '{{ 'search.result.user.0'|trans }}',
-            "search.result.1": '{{ 'search.result.user.1'|trans }}',
-            "search.result.other": '{{ 'search.result.user.other'|trans }}',
-            "no.search.result.criteria": '{{ 'no.users.found.search.criteria'|trans }}',
-            "paginate.previous.page": '{{ 'paginate.previous.page'|trans }}',
-            "paginate.next.page": '{{ 'paginate.next.page'|trans }}',
-        }
-    </script>
-    {{ encore_entry_script_tags('vue/users') }}
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('vue/users') }}
-{% endblock %}
-
 {% block body %}
     <h1>User index</h1>
+    <div {{ stimulus_controller('agent-list', {
+        url: path('app_agent_list')
+    }) }}>
+        <div class="row">
+            <div class="col-sm-3">
+                <div {{ stimulus_target('agent-list', 'searchResultCount') }}></div>
+                <div {{ stimulus_target('agent-list', 'pageCounter') }}></div>
+            </div>
+            <div class="col-2 btn-group">
+                <button
+                        {{ stimulus_target('agent-list', 'btnPageDown') }}
+                        {{ stimulus_action('agent-list', 'togglePage', null, {'value':-1}) }}
+                        class="btn btn-outline-secondary"
+                        title="{{ 'paginate.previous.page'|trans }}"
+                >
+                    <span class="oi oi-arrow-thick-left"></span>
+                </button>
+            </div>
+            <div class="col-2 btn-group">
+                <button
+                        {{ stimulus_target('agent-list', 'btnPageUp') }}
+                        {{ stimulus_action('agent-list', 'togglePage', null, {'value':1}) }}
+                        class="btn btn-outline-secondary"
+                        title="{{ 'paginate.next.page'|trans }}"
+                >
+                    <span class="oi oi-arrow-thick-right"></span>
+                </button>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <input
+                            type="search"
+                            placeholder="{{ 'searchbar.placeholder.email'|trans }}"
+                            class="form-control"
+                            {{ stimulus_action('agent-list', 'onSearchInput') }}
+                    />
+                </div>
+            </div>
+        </div>
 
-    <div id="app"></div>
+        <table class="table table-sm table-hover">
+            <thead>
+            <tr>
+                <th>e-mail</th>
+                <th>agent</th>
+                <th>roles</th>
+            </tr>
+            </thead>
+            <tbody {{ stimulus_target('agent-list', 'result') }}>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

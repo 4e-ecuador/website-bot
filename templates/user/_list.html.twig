@@ -1,0 +1,29 @@
+{% for user in users %}
+    <tr>
+        <td>
+            <a href="{{ path('user_show', {id:user.id}) }}" title="Show User">
+                {{ user.email }}
+            </a>
+            &nbsp;
+            <a href="{{ path('user_edit', {id:user.id}) }}" title="Edit User">
+                <span class="oi oi-pencil text-warning"></span>
+            </a>
+        </td>
+        <td>
+            {% if user.agent %}
+                <a href="{{ path('agent_show', {id:user.agent.id}) }}" title="Edit Agent">
+                    {{ user.agent.nickname }}
+                </a>
+                &nbsp;
+                <a href="{{ path('agent_edit',  {id:user.agent.id}) }}" title="Edit Agent">
+                    <span class="oi oi-pencil text-warning"></span>
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </td>
+        <td :class="roleClass">
+            {{ user.roles|displayRoles }}
+        </td>
+    </tr>
+{% endfor %}

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 
 #[Route(path: '/user')]
@@ -23,8 +24,62 @@ class UserController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
-        // This is a Vue View ;)
         return $this->render('user/index.html.twig');
+    }
+
+    #[Route(path: '/list', name: 'app_agent_list', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
+    public function agentsList(
+        UserRepository $userRepository,
+        Request $request,
+        TranslatorInterface $translator
+    ): JsonResponse {
+        $page = $request->query->getInt('page', 1);
+        $paginatorOptions = [
+            'page'     => $page,
+            'criteria' => [
+                'email' => $request->query->get('q', ''),
+            ],
+        ];
+        $modRequest = clone $request;
+        $modRequest->query->set('paginatorOptions', $paginatorOptions);
+
+        $paginatorOptions = $this->getPaginatorOptions($modRequest);
+        /**
+         * @var User[] $users
+         */
+        $users = $userRepository->getPaginatedList($paginatorOptions);
+        $paginatorOptions->setMaxPages(
+            (int)ceil(count($users) / $paginatorOptions->getLimit())
+        );
+
+        return $this->json(
+            [
+                'msgSearchResultCount' => $translator->trans(
+                    'search.result.user',
+                    ['count' => count($users)]
+                ),
+                'msgPageCounter'       => $translator->trans('page.counter', [
+                    'page'     => $page,
+                    'maxPages' => $paginatorOptions->getMaxPages(),
+                ]),
+
+                'totalItems' => count($users),
+                'previous'   => ($page > 1)
+                    ? 'X'
+                    : null,
+                'next'       => $page < $paginatorOptions->getMaxPages()
+                    ? 'X'
+                    : null,
+                'last'       => $paginatorOptions->getMaxPages(),
+                'list'       => $this->renderView(
+                    'user/_list.html.twig',
+                    [
+                        'users' => $users,
+                    ]
+                ),
+            ]
+        );
     }
 
     #[Route(path: '/jsonlist', name: 'user_index_json', methods: ['GET'])]
@@ -89,33 +144,6 @@ class UserController extends BaseController
         return $this->json($response);
     }
 
-    #[Route(path: '/old', name: 'user_index_old', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function indexOLD(
-        UserRepository $userRepository,
-        Request $request
-    ): Response {
-        $paginatorOptions = $this->getPaginatorOptions($request);
-        $users = $userRepository->getPaginatedList($paginatorOptions);
-        $paginatorOptions->setMaxPages(
-            (int)ceil(count($users) / $paginatorOptions->getLimit())
-        );
-        $rolesList = [
-            0            => '',
-            'ROLE_USER'  => 'User',
-            'ROLE_AGENT' => 'Agent',
-        ];
-
-        return $this->render(
-            'user/index_old.html.twig',
-            [
-                'users'            => $users,
-                'rolesList'        => $rolesList,
-                'paginatorOptions' => $paginatorOptions,
-            ]
-        );
-    }
-
     #[Route(path: '/new', name: 'user_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
@@ -148,7 +176,7 @@ class UserController extends BaseController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,

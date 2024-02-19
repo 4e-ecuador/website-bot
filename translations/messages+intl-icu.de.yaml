@@ -191,3 +191,7 @@ Remove: __Remove
 page.counter: 'Seite {page} von {maxPages}'
 Calendar: Kalender
 'Starts {when}': 'Beginnt {when}'
+'CORE Subscription': '__CORE Subscription'
+Info: __Info
+Migrate: __Migrate
+search.result.agent: __search.result.agent

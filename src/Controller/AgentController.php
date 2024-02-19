@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 
 #[Route(path: '/agent')]
@@ -29,36 +30,7 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_AGENT')]
     public function index(): Response
     {
-        // This is s Vue View ;)
         return $this->render('agent/index.html.twig');
-    }
-
-    #[Route(path: '/old', name: 'agent_index_old', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_AGENT')]
-    public function indexOLD(
-        AgentRepository $agentRepository,
-        FactionRepository $factionRepository,
-        Request $request
-    ): Response {
-        $paginatorOptions = $this->getPaginatorOptions($request);
-        $agents = $agentRepository->getPaginatedList($paginatorOptions);
-        $paginatorOptions->setMaxPages(
-            (int)ceil(count($agents) / $paginatorOptions->getLimit())
-        );
-        $factions = $factionRepository->findAll();
-        $factionList = [];
-        foreach ($factions as $faction) {
-            $factionList[$faction->getId()] = $faction->getName();
-        }
-
-        return $this->render(
-            'agent/index_old.html.twig',
-            [
-                'agents'           => $agents,
-                'paginatorOptions' => $paginatorOptions,
-                'factions'         => $factionList,
-            ]
-        );
     }
 
     #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
@@ -222,6 +194,61 @@ class AgentController extends BaseController
         }
 
         return $this->json($list);
+    }
+
+    #[Route(path: '/list', name: 'app_agent_list', methods: ['GET'])]
+    #[IsGranted('ROLE_AGENT')]
+    public function agentsList(
+        AgentRepository $agentRepository,
+        Request $request,
+        TranslatorInterface $translator
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $paginatorOptions = [
+            'page'     => $page,
+            'criteria' => [
+                'nickname' => $request->query->get('q', ''),
+            ],
+        ];
+        $modRequest = clone $request;
+        $modRequest->query->set('paginatorOptions', $paginatorOptions);
+
+        $paginatorOptions = $this->getPaginatorOptions($modRequest);
+        /**
+         * @var Agent[] $agents
+         */
+        $agents = $agentRepository->getPaginatedList($paginatorOptions);
+        $paginatorOptions->setMaxPages(
+            (int)ceil(count($agents) / $paginatorOptions->getLimit())
+        );
+
+        return $this->json(
+            [
+                'msgSearchResultCount' => $translator->trans(
+                    'search.result.agent',
+                    ['count' => count($agents)]
+                ),
+                'msgPageCounter'       => $translator->trans('page.counter', [
+                    'page'     => $page,
+                    'maxPages' => $paginatorOptions->getMaxPages(),
+                ]),
+
+                'totalItems' => count($agents),
+                'previous'   => ($page > 1)
+                    ? 'X'
+                    : null,
+                'next'       => $page < $paginatorOptions->getMaxPages()
+                    ? 'X'
+                    : null,
+                'last'       => $paginatorOptions->getMaxPages(),
+                'list'       => $this->renderView(
+                    'agent/_list.html.twig',
+                    [
+                        'agents' => $agents,
+                    ]
+                ),
+            ]
+        );
     }
 
     #[Route(path: '/jsonlist', name: 'json_lookup_agents', methods: ['GET'])]

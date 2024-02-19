@@ -1,0 +1,17 @@
+{% for agent in agents %}
+    <tr>
+        <td>
+            <a href="{{ path('agent_show', {id:agent.id}) }}">{{ agent.nickname }}</a>
+        </td>
+        <td>{{ agent.realName }}</td>
+        <td>
+            <a href="{{ path('agent_stats', {id:agent.id}) }}"><span class="oi oi-graph"></span></a>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <th colspan="3" class="text-warning">
+            {{ 'no.agents.found.search.criteria'|trans }}
+        </th>
+    </tr>
+{% endfor %}

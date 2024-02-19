@@ -163,8 +163,8 @@ select.locale: Idioma
 'View Profile': 'Ver Perfil'
 'Please activate Javascript': 'Por favor active Javascript'
 'Latest comments': 'Últimos comentarios'
-date.format.long: 'd ''de'' MMMM ''de'' y'
-date.format.short: 'd ''de'' MMMM'
+date.format.long: "d 'de' MMMM 'de' y"
+date.format.short: "d 'de' MMMM"
 no.agents.found.search.criteria: 'No se encontraron agentes con el criterio de busqueda!'
 no.users.found.search.criteria: 'No se encontraron usuarios con el criterio de busqueda!'
 searchbar.placeholder.email: 'Buscar e-mail...'
@@ -191,3 +191,12 @@ Remove: Remover
 page.counter: 'Página {page} de {maxPages}'
 Calendar: Calendario
 'Starts {when}': 'Empieza {when}'
+'CORE Subscription': '__CORE Subscription'
+Info: __Info
+Migrate: __Migrate
+search.result.agent:  >-
+    {count, plural,
+        =0    {Ningun agente encontrado}
+        =1    {Un agente encontrado}
+        other {# agentes encontrados}
+    }

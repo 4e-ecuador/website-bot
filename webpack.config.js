@@ -25,7 +25,6 @@ Encore
     .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')
 
     // Vue
-    .addEntry('vue/agents', './assets/js/vue/agents.js')
     .addEntry('vue/users', './assets/js/vue/users.js')
 
     // Helper

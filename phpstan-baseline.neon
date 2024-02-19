@@ -1,57 +1,116 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Property App\\\\BotCommand\\\\Agents\\:\\:\\$repository is never read, only written\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\CheckFsCommand\\:\\:execute\\(\\)\" is 24, keep it under 8$#"
 			count: 1
-			path: src/BotCommand/Agents.php
+			path: src/Command/CheckFsCommand.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\SendEventUpdateCommand\\:\\:execute\\(\\)\" is 11, keep it under 8$#"
 			count: 1
-			path: src/BotCommand/Agents.php
+			path: src/Command/SendEventUpdateCommand.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\SendNewsletterCommand\\:\\:execute\\(\\)\" is 17, keep it under 8$#"
+			count: 1
+			path: src/Command/SendNewsletterCommand.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$title\\.$#"
 			count: 2
-			path: src/BotCommand/Start.php
+			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Argument of an invalid type DOMNodeList\\<DOMNode\\>\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 2
-			path: src/Command/UpdateBadgeDataCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, DOMNodeList\\<DOMNode\\>\\|false given\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:resizeBadges\\(\\)\" is 10, keep it under 8$#"
 			count: 1
-			path: src/Command/UpdateBadgeDataCommand.php
+			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:scrapeBadges\\(\\)\" is 13, keep it under 8$#"
 			count: 1
-			path: src/Controller/CommentController.php
+			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 2
-			path: src/Subscriber/TelegramUpdateSubscriber.php
-
-		-
-			message: "#^Property App\\\\Subscriber\\\\TelegramUpdateSubscriber\\:\\:\\$agentRepository is never read, only written\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:skipItem\\(\\)\" is 10, keep it under 8$#"
 			count: 1
-			path: src/Subscriber/TelegramUpdateSubscriber.php
+			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Property App\\\\Subscriber\\\\TelegramUpdateSubscriber\\:\\:\\$telegramBotHelper is never read, only written\\.$#"
+			message: "#^Cognitive complexity for \"App\\\\Controller\\\\DefaultController\\:\\:index\\(\\)\" is 9, keep it under 8$#"
 			count: 1
-			path: src/Subscriber/TelegramUpdateSubscriber.php
+			path: src/Controller/DefaultController.php
 
 		-
-			message: "#^Property App\\\\Subscriber\\\\TelegramUpdateSubscriber\\:\\:\\$templater is never read, only written\\.$#"
+			message: "#^Argument of an invalid type App\\\\Entity\\\\AgentStat supplied for foreach, only iterables are supported\\.$#"
 			count: 1
-			path: src/Subscriber/TelegramUpdateSubscriber.php
+			path: src/Controller/MigrateController.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 3
-			path: src/Subscriber/TelegramUpdateSubscriber.php
+			message: "#^Cognitive complexity for \"App\\\\Controller\\\\MigrateController\\:\\:getCsv\\(\\)\" is 13, keep it under 8$#"
+			count: 1
+			path: src/Controller/MigrateController.php
 
+		-
+			message: "#^Cognitive complexity for \"App\\\\Controller\\\\MigrateController\\:\\:upload\\(\\)\" is 9, keep it under 8$#"
+			count: 1
+			path: src/Controller/MigrateController.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Controller\\\\StatsController\\:\\:byDate\\(\\)\" is 19, keep it under 8$#"
+			count: 1
+			path: src/Controller/StatsController.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Controller\\\\StatsController\\:\\:statImport\\(\\)\" is 11, keep it under 8$#"
+			count: 1
+			path: src/Controller/StatsController.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\CsvParser\\:\\:parsePrimeCsv\\(\\)\" is 12, keep it under 8$#"
+			count: 1
+			path: src/Service/CsvParser.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\EventHelper\\:\\:calculateResults\\(\\)\" is 14, keep it under 8$#"
+			count: 1
+			path: src/Service/EventHelper.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\EventHelper\\:\\:getChallengesInSpan\\(\\)\" is 9, keep it under 8$#"
+			count: 1
+			path: src/Service/EventHelper.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\LeaderBoardService\\:\\:getBoard\\(\\)\" is 14, keep it under 8$#"
+			count: 1
+			path: src/Service/LeaderBoardService.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\MedalChecker\\:\\:getMedalLevel\\(\\)\" is 13, keep it under 8$#"
+			count: 1
+			path: src/Service/MedalChecker.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:getImportResult\\(\\)\" is 12, keep it under 8$#"
+			count: 1
+			path: src/Service/StatsImporter.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:sendResultMessages\\(\\)\" is 10, keep it under 8$#"
+			count: 1
+			path: src/Service/StatsImporter.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:updateEntryFromCsv\\(\\)\" is 9, keep it under 8$#"
+			count: 1
+			path: src/Service/StatsImporter.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Type\\\\CustomMessage\\\\NotifyEventsMessage\\:\\:getMessage\\(\\)\" is 16, keep it under 8$#"
+			count: 1
+			path: src/Type/CustomMessage/NotifyEventsMessage.php
+
+		-
+			message: "#^Cognitive complexity for \"App\\\\Tests\\\\Controller\\\\ControllerAccessTest\\:\\:processRoutes\\(\\)\" is 16, keep it under 8$#"
+			count: 1
+			path: tests/Controller/ControllerAccessTest.php

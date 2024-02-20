@@ -21,7 +21,6 @@ Encore
     .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
     .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
     .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
-    .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')
 
     // Vue
     .addEntry('vue/agents', './assets/js/vue/agents.js')

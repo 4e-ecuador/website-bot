@@ -19,7 +19,6 @@ Encore
     .addEntry('traditional/agent/show', './assets/js/traditional/agent/show.js')
     .addEntry('traditional/agent/edit', './assets/js/traditional/agent/edit.js')
     .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
-    .addEntry('traditional/map/index', './assets/js/traditional/map/index.js')
     .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
     .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
     .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')

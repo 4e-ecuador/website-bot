@@ -3,6 +3,7 @@ import Map from '@/helper/Map'
 
 import '../css/map/main.css'
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {
         defaultLat: Number,

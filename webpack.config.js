@@ -31,8 +31,6 @@ Encore
     .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 
-    .addEntry('calendar', './assets/js/calendar/index.js')
-
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

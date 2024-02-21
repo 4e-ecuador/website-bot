@@ -6,15 +6,8 @@
 
 {% block title %}{{ 'Agent'|trans }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('traditional/agent/show') }}
-    {{ encore_entry_link_tags('helper/editor') }}
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('traditional/agent/show') }}
     {{ encore_entry_script_tags('helper/editor') }}
 {% endblock %}
 

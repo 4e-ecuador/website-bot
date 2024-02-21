@@ -17,7 +17,7 @@ export default class extends Controller {
     }
 
     static targets = [
-        'commentArea', 'commentStatus', 'commentMessage', 'commentForm', 'commentText'
+        'commentArea', 'commentStatus', 'commentMessage', 'commentForm', 'commentText', 'preview'
     ]
 
     connect() {
@@ -86,5 +86,20 @@ export default class extends Controller {
 
         this.commentStatusTarget.innerText = ''
         this.commentTextTarget.innerText = ''
+    }
+
+    async preview() {
+        this.previewTarget.innerText = 'Loading...'
+
+        const formData = new FormData()
+        formData.append('text', this.commentTextTarget.value)
+
+        const response = await fetch(this.previewUrlValue, {
+            method: 'POST',
+            body: formData,
+        })
+
+        const data = await response.json()
+        this.previewTarget.innerHTML = data.data
     }
 }

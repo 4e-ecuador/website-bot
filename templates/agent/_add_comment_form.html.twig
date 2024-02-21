@@ -10,7 +10,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#previewId" data-bs-toggle="tab" title="{{ 'label.preview'|trans }}">
+            <a class="nav-link"
+               href="#previewId" data-bs-toggle="tab"
+               title="{{ 'label.preview'|trans }}"
+                    {{ stimulus_action('agent--show', 'preview') }}
+            >
                 <span class="oi oi-eye"></span>
             </a>
         </li>
@@ -21,7 +25,7 @@
             {{ stimulus_target('agent--show', 'commentText') }}
             ></textarea>
         </div>
-        <div class="tab-pane" id="previewId"></div>
+        <div class="tab-pane" id="previewId" {{ stimulus_target('agent--show', 'preview') }}></div>
     </div>
 
     <div {{ stimulus_target('agent--show', 'commentMessage') }}></div>

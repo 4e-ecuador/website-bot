@@ -1,28 +1,34 @@
 {% import '_/buttons.html.twig' as buttons %}
-{{ form_start(form) }}
-<div class="row">
-    <div class="col-sm">
-        {{ form_row(form.nickname) }}
+<div {{ stimulus_controller('agent-edit', {
+    'defaultLat':defaultLat,
+    'defaultLon':defaultLon,
+}) }}>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(form.nickname) }}
+        </div>
+        <div class="col-sm">
+            {{ form_row(form.real_name) }}
+        </div>
     </div>
-    <div class="col-sm">
-        {{ form_row(form.real_name) }}
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(form.faction) }}
+        </div>
+        <div class="col-sm">
+            {{ form_row(form.mapGroup) }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm">
-        {{ form_row(form.faction) }}
-    </div>
-    <div class="col-sm">
-        {{ form_row(form.mapGroup) }}
-    </div>
-</div>
-<div id="map"></div>
-<hr>
-{{ buttons.ok(button_label|default('Save'|trans)) }}
+    <div id="map"></div>
+    <hr>
+    {{ buttons.ok(button_label|default('Save'|trans)) }}
 
-    {{ form_widget(form.lat, { 'attr':{'style':'visibility: hidden;'} }) }}
-    {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} }) }}
+    {{ form_widget(form.lat, { 'attr': {'style':'visibility: hidden;'} + stimulus_target('agent-edit', 'lat').toArray() }) }}
+    {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} + stimulus_target('agent-edit', 'lon').toArray() }) }}
     {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
+    {{ form_widget(form.locale, { 'attr':{'style':'visibility: hidden;'} }) }}
 
     {{ form_rest(form) }}
-{{ form_end(form) }}
+    {{ form_end(form) }}
+</div>

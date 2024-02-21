@@ -3,16 +3,6 @@
 
 {% block title %}{{ 'Edit Agent'|trans }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('traditional/agent/show') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('traditional/agent/edit') }}
-{% endblock %}
-
 {% block body %}
     <div class="float-right">
         {{ buttons.back(path('agent_index')) }}
@@ -21,5 +11,4 @@
     <h1>{{ 'Edit Agent'|trans }}</h1>
 
     {{ include('agent/_form.html.twig', {'button_label': 'Actualizar'}) }}
-
 {% endblock %}

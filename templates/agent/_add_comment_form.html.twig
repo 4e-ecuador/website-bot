@@ -1,6 +1,8 @@
 {% import '_/buttons.html.twig' as buttons %}
 
-<form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}">
+<form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}"
+        {{ stimulus_target('agent--show', 'commentForm') }}
+>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#writeId" data-bs-toggle="tab" title="{{ 'label.write'|trans }}">
@@ -15,12 +17,14 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="writeId">
-            <textarea name="comment" id="comment_text" cols="30" rows="5" class="mentionable form-control"></textarea>
+            <textarea name="comment" id="comment_text" cols="30" rows="5" class="mentionable form-control"
+            {{ stimulus_target('agent--show', 'commentText') }}
+            ></textarea>
         </div>
         <div class="tab-pane" id="previewId"></div>
     </div>
 
-    <div id="commentMessage"></div>
+    <div {{ stimulus_target('agent--show', 'commentMessage') }}></div>
 
     <input type="hidden" name="commenter" value="{{ app.user.id }}">
     <input type="hidden" name="_method" value="POST">

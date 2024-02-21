@@ -19,84 +19,86 @@
 {% endblock %}
 
 {% block body %}
-    <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
-    <span id="js-data"
-          data-lookup-url="{{ path('agent_lookup') }}"
-          data-preview-url="{{ path('markdown_preview') }}"
-          data-preview-field="#previewId"
-          data-editor-field="#comment_text"
-    >
-    </span>
-
-    {% if user and user.avatarEncoded %}
-    <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
-    {% endif %}
-    <div class="btn-group float-right" role="group">
-        {{ buttons.back(path('agent_index')) }}
-        {% if is_granted('ROLE_EDITOR') %}
-            {{ buttons.edit(path('agent_edit', {'id': agent.id})) }}
-            {{ include('agent/_delete_form.html.twig') }}
+    <div {{ stimulus_controller('agent--show', {
+        'agentId': agent.id,
+        'lat': agent.lat,
+        'lon': agent.lon,
+        'commentLookupUrl': path('comment_fetch'),
+        'commentsLookupUrl': path('comments_by_agent'),
+        'agentLookupUrl': path('agent_lookup'),
+        'previewUrl': path('markdown_preview'),
+    }) }}>
+        {% if user and user.avatarEncoded %}
+            <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
         {% endif %}
-        <a title="{{ 'Statistics'|trans }}" class="btn btn-outline-success"
-           href="{{ path('agent_stats', {'id': agent.id}) }}"><span class="oi oi-graph"></span></a>
-    </div>
+        <div class="btn-group float-right" role="group">
+            {{ buttons.back(path('agent_index')) }}
+            {% if is_granted('ROLE_EDITOR') %}
+                {{ buttons.edit(path('agent_edit', {'id': agent.id})) }}
+                {{ include('agent/_delete_form.html.twig') }}
+            {% endif %}
+            <a title="{{ 'Statistics'|trans }}" class="btn btn-outline-success"
+               href="{{ path('agent_stats', {'id': agent.id}) }}"
+            ><span class="oi oi-graph"></span></a>
+        </div>
 
-    <h1>{{ 'Agent'|trans }}
-    <img src="{{ asset('build/images/logos/'~agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
-    <code>{{ agent.nickname }}</code>
-    </h1>
+        <h1>{{ 'Agent'|trans }}
+            <img src="{{ asset('build/images/logos/'~agent.faction.name~'.svg') }}" style="height: 32px" alt="logo">
+            <code>{{ agent.nickname }}</code>
+        </h1>
 
-    <table class="table">
-        <tbody>
-        {% if agent.realName %}
+        <table class="table">
+            <tbody>
+            {% if agent.realName %}
+                <tr>
+                    <th>{{ 'Real name'|trans }}</th>
+                    <td>{{ agent.realName }}</td>
+                </tr>
+            {% endif %}
+            {% if agent.telegramId %}
+                <tr>
+                    <th>{{ 'Telegram contact'|trans }}</th>
+                    <td>
+                        <a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a>
+                        {% if is_granted('ROLE_EDITOR') %}
+                            Notifications:
+                            <code title="Events" class="helpIndicator">{{ agent.hasNotifyEvents ? 1 : 0 }}</code>
+                            <code title="StatsResults" class="helpIndicator"
+                            >{{ agent.hasNotifyStatsResult ? 1 : 0 }}</code>
+                            <code title="Upload Reminder"
+                                  class="helpIndicator"
+                            >{{ agent.hasNotifyUploadStats ? 1 : 0 }}</code>
+                        {% endif %}
+
+                    </td>
+                </tr>
+            {% endif %}
             <tr>
-                <th>{{ 'Real name'|trans }}</th>
-                <td>{{ agent.realName }}</td>
-            </tr>
-        {% endif %}
-        {% if agent.telegramId %}
-            <tr>
-                <th>{{ 'Telegram contact'|trans }}</th>
-                <td>
-                    <a href="https://t.me/{{ agent.telegramName }}">@{{ agent.telegramName }}</a>
-                    {% if is_granted('ROLE_EDITOR') %}
-                        Notifications:
-                        <code title="Events" class="helpIndicator">{{ agent.hasNotifyEvents ? 1 : 0 }}</code>
-                        <code title="StatsResults" class="helpIndicator">{{ agent.hasNotifyStatsResult ? 1 : 0 }}</code>
-                        <code title="Upload Reminder"
-                              class="helpIndicator">{{ agent.hasNotifyUploadStats ? 1 : 0 }}</code>
+                <td colspan="2">
+                    {{ 'Position'|trans }}
+                    {% if agent.lat and agent.lon %}
+                        <div id="map"></div>
+                    {% else %}
+                        {{ 'Unknown'|trans }}
                     {% endif %}
-
                 </td>
             </tr>
-        {% endif %}
-        <tr>
-            <td colspan="2">
-                {{ 'Position'|trans }}
-                <span class="js-agent-coords" data-lat="{{ agent.lat }}" data-lon="{{ agent.lon }}"></span>
-                {% if agent.lat and agent.lon %}
-                    <div id="map"></div>
-                {% else %}
-                    {{ 'Unknown'|trans }}
-                {% endif %}
-            </td>
-        </tr>
+            {% if is_granted('ROLE_EDITOR') %}
+                <tr>
+                    <th>{{ 'Comments'|trans }}</th>
+                    <td>
+                        <div id="commentArea" {{ stimulus_target('agent--show', 'commentArea') }}></div>
+                        <div id="commentStatus" {{ stimulus_target('agent--show', 'commentStatus') }}></div>
+                    </td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+
         {% if is_granted('ROLE_EDITOR') %}
-            <tr>
-                <th>{{ 'Comments'|trans }}</th>
-                <td>
-                    <div id="commentArea"></div>
-                    <div id="commentStatus"></div>
-                </td>
-            </tr>
+            <h3>{{ 'Add Comment'|trans }}</h3>
+            {{ include('agent/_add_comment_form.html.twig') }}
         {% endif %}
-
-        </tbody>
-    </table>
-
-    {% if is_granted('ROLE_EDITOR') %}
-        <h3>{{ 'Add Comment'|trans }}</h3>
-        {{ include('agent/_add_comment_form.html.twig') }}
-    {% endif %}
-
+    </div>
 {% endblock %}

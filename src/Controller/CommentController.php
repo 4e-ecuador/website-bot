@@ -154,7 +154,7 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    #[Route(path: '/getagentids', name: 'comment_agent_ids', methods: ['POST'])]
+    #[Route(path: '/get-comments-by-agent', name: 'comments_by_agent', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function getAgentCommentIds(
         Request $request,
@@ -164,6 +164,10 @@ class CommentController extends BaseController
         $html = '';
         $agentId = $request->request->get('agent_id');
         $agent = $agentRepository->findOneBy(['id' => $agentId]);
+        if (!$agent) {
+            return $this->json(['comments' => $html]);
+        }
+
         foreach ($agent->getComments() as $comment) {
             $comment->setText($markdownHelper->parse($comment->getText()));
 

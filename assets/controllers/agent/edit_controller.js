@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
-import Map from '../js/helper/Map.js'
+import Map from '../../js/helper/Map.js'
 
-import '../css/map/edit-map.css'
+import '../../css/map/edit-map.css'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {

@@ -1,5 +1,5 @@
 {% import '_/buttons.html.twig' as buttons %}
-<div {{ stimulus_controller('agent-edit', {
+<div {{ stimulus_controller('agent--edit', {
     'defaultLat':defaultLat,
     'defaultLon':defaultLon,
 }) }}>
@@ -24,8 +24,8 @@
     <hr>
     {{ buttons.ok(button_label|default('Save'|trans)) }}
 
-    {{ form_widget(form.lat, { 'attr': {'style':'visibility: hidden;'} + stimulus_target('agent-edit', 'lat').toArray() }) }}
-    {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} + stimulus_target('agent-edit', 'lon').toArray() }) }}
+    {{ form_widget(form.lat, { 'attr': {'style':'visibility: hidden;'} + stimulus_target('agent--edit', 'lat').toArray() }) }}
+    {{ form_widget(form.lon, { 'attr':{'style':'visibility: hidden;'} + stimulus_target('agent--edit', 'lon').toArray() }) }}
     {{ form_widget(form.customMedals, { 'attr':{'style':'visibility: hidden;'} }) }}
     {{ form_widget(form.locale, { 'attr':{'style':'visibility: hidden;'} }) }}
 

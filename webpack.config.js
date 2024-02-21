@@ -18,14 +18,12 @@ Encore
     .addEntry('traditional/account/index', './assets/js/traditional/account/index.js')
     .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
     .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
-    .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
 
     // Vue
     .addEntry('vue/agents', './assets/js/vue/agents.js')
     .addEntry('vue/users', './assets/js/vue/users.js')
 
     // Helper
-    .addEntry('helper/editor', './assets/js/helper/editor.js')
     .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 

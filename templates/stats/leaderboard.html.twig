@@ -2,39 +2,35 @@
 
 {% block title %}Leaderboard{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('traditional/stats/leaderboard') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('traditional/stats/leaderboard') }}
-{% endblock %}
-
 {% block body %}
     <h1>{{ 'Leaderboard'|trans }}</h1>
 
     {% set maxCount = 4 %}
 
-    <div class="row">
-        {% for type, entries in board %}
-            {% include 'stats/_stat_entry.html.twig' %}
-        {% endfor %}
-    </div>
+    <div {{ stimulus_controller('stats--leaderboard') }}>
 
-    <!-- Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#detailsModal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailsModal">{{ 'Close'|trans }}</button>
+
+        <div class="row">
+            {% for type, entries in board %}
+                {% include 'stats/_stat_entry.html.twig' %}
+            {% endfor %}
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-body" {{ stimulus_target('stats--leaderboard', 'modalBody') }}>
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#detailsModal"
+                        >{{ 'Close'|trans }}</button>
+                    </div>
                 </div>
             </div>
         </div>

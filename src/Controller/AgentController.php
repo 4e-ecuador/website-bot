@@ -86,26 +86,25 @@ class AgentController extends BaseController
     public function edit(
         Request $request,
         Agent $agent,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
+
     ): Response {
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute(
-                'agent_index',
-                [
-                    'id' => $agent->getId(),
-                ]
-            );
+            return $this->redirectToRoute('agent_index');
         }
 
         return $this->render(
             'agent/edit.html.twig',
             [
-                'agent' => $agent,
-                'form'  => $form,
+                'form'       => $form,
+                'defaultLat' => $defaultLat,
+                'defaultLon' => $defaultLon,
             ]
         );
     }

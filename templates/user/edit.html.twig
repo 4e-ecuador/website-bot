@@ -3,22 +3,23 @@
 
 {% block title %}{{ 'Edit User'|trans }}{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('traditional/user/edit') }}
-{% endblock %}
-
 {% block body %}
-    <div class="btn-group float-right" role="group">
-        {{ buttons.back(path('user_index')) }}
-        <div class="btn btn-outline-info sendMail" data-userid="{{ user.id }}"
-             title="{{ 'Send confirmation mail'|trans }}">
-            <span class="oi oi-envelope-closed"></span>
+    <div {{ stimulus_controller('user-edit', {'sendMailUrl': path('user_send_confirmation_mail', {id:user.id})}) }}>
+        <div class="btn-group float-right" role="group">
+            {{ buttons.back(path('user_index')) }}
+            <button class="btn btn-outline-info"
+                    title="{{ 'Send confirmation mail'|trans }}"
+                    {{ stimulus_action('user-edit', 'sendMail') }}
+            >
+                <span class="oi oi-envelope-closed"></span>
+            </button>
+            {{ include('user/_delete_form.html.twig') }}
         </div>
-        {{ include('user/_delete_form.html.twig') }}
+        <h1>{{ 'Edit User'|trans }}</h1>
+        <div class="float-right"
+                {{ stimulus_target('user-edit', 'resultContainer') }}
+        ></div>
     </div>
-    <h1>{{ 'Edit User'|trans }}</h1>
-    <div class="float-right" id="mailResult"></div>
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'|trans}) }}
 

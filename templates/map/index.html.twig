@@ -2,21 +2,13 @@
 
 {% block title %}{{ 'Agents Map'|trans }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('traditional/map/index') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('traditional/map/index') }}
-{% endblock %}
-
 {% block body %}
     <div
             id="map"
-            data-lat="{{ defaultLat }}"
-            data-lon="{{ defaultLon }}"
-            data-groups="{{ mapGroups|json_encode }}"
+            {{ stimulus_controller('map', {
+                'defaultLat': defaultLat,
+                'defaultLon': defaultLon,
+                'mapGroups': mapGroups,
+            }) }}
     ></div>
 {% endblock %}

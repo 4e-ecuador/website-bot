@@ -40,7 +40,9 @@
                 </div>
             </div>
         {% elseif count == maxCount %}
-            <div class="btn btn-outline-secondary btn-sm showAll" data-item="{{ type }}">{{ 'Show all'|trans }}</div>
+            <button class="btn btn-outline-secondary btn-sm showAll" data-item="{{ type }}"
+            {{ stimulus_action('stats--leaderboard', 'showAll', 'click', {'url': path('stats_leaderboard_detail'), 'item':type }) }}
+            >{{ 'Show all'|trans }}</button>
         {% else %}
             {# Do noting... #}
         {% endif %}

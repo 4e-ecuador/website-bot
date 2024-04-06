@@ -4,29 +4,17 @@
     Calendar
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('calendar') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('calendar') }}
-{% endblock %}
-
 {% block body %}
-    Timezone:
-    <select id="time-zone-selector">
-        <option value="local" selected>local</option>
-        <option value="UTC">UTC</option>
-{#        <option value="FOOOO">FOOO</option>#}
-{#        <option value="America/Guayaquil">America/Guayaquil</option>#}
-{#        <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires</option>#}
-    </select>
-    <div
-        id="calendar-holder"
-        data-events-url="{{ path('fc_load_events') }}"
-        data-time-zone="{{ defaultTimeZone() }}"
-    ></div>
-{% endblock %}
+    <div {{ stimulus_controller('calendar', {
+        'eventsUrl':path('fc_load_events'),
+        'defaultTimeZone':defaultTimeZone(),
+    }) }}>
 
+        <label for="time-zone-selector">Timezone:</label>
+        <select id="time-zone-selector" {{ stimulus_target('calendar','timeZoneSelector') }}>
+            <option value="local" selected>local</option>
+            <option value="UTC">UTC</option>
+        </select>
+        <div {{ stimulus_target('calendar', 'frame') }}></div>
+    </div>
+{% endblock %}

@@ -16,20 +16,12 @@ Encore
     .addEntry('app', './assets/js/app.js')
 
     .addEntry('traditional/account/index', './assets/js/traditional/account/index.js')
-    .addEntry('traditional/agent/show', './assets/js/traditional/agent/show.js')
-    .addEntry('traditional/agent/edit', './assets/js/traditional/agent/edit.js')
     .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
-    .addEntry('traditional/map/index', './assets/js/traditional/map/index.js')
     .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
-    .addEntry('traditional/stats/leaderboard', './assets/js/traditional/stats/leaderboard.js')
-    .addEntry('traditional/user/edit', './assets/js/traditional/user/edit.js')
 
     // Helper
-    .addEntry('helper/editor', './assets/js/helper/editor.js')
     .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
-
-    .addEntry('calendar', './assets/js/calendar/index.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

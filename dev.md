@@ -22,6 +22,9 @@ BoShurikTelegramBotBundle:
 or better...
 `cat backup.sql | docker exec -i 4e-website-bot_database_1 psql -U main`
 
+and using pg_restore
+`cat backup_dbdump | docker exec -i 4e-website-bot-database-1 pg_restore -U main -d main`
+
 ## Google OAuth
 
 https://hugo-soltys.com/blog/easily-implement-google-login-with-symfony-4

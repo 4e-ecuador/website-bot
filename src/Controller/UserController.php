@@ -27,7 +27,7 @@ class UserController extends BaseController
         return $this->render('user/index.html.twig');
     }
 
-    #[Route(path: '/list', name: 'app_agent_list', methods: ['GET'])]
+    #[Route(path: '/list', name: 'app_user_list', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentsList(
         UserRepository $userRepository,

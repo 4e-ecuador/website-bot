@@ -61,6 +61,8 @@ class AgentController extends BaseController
             [
                 'agent' => $agent,
                 'form'  => $form,
+                'defaultLat' => $defaultLat,
+                'defaultLon' => $defaultLon,
             ]
         );
     }

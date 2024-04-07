@@ -6,11 +6,6 @@
 
 {% block title %}{{ 'Agent'|trans }}{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('helper/editor') }}
-{% endblock %}
-
 {% block body %}
     <div {{ stimulus_controller('agent--show', {
         'agentId': agent.id,

@@ -20,12 +20,6 @@ final class Version20200604142347 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql(
             'ALTER TABLE agent ADD has_notify_upload_stats BOOLEAN DEFAULT NULL'
         );
@@ -40,12 +34,6 @@ final class Version20200604142347 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE agent DROP has_notify_upload_stats');
         $this->addSql('ALTER TABLE agent DROP has_notify_events');

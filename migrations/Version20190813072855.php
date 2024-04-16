@@ -20,12 +20,6 @@ final class Version20190813072855 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('ALTER TABLE comment ADD commenter_id INT NOT NULL');
         $this->addSql(
             'ALTER TABLE comment ADD CONSTRAINT FK_9474526CB4D5A9E2 FOREIGN KEY (commenter_id) REFERENCES agent_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE'
@@ -38,12 +32,6 @@ final class Version20190813072855 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('CREATE SCHEMA public');
         $this->addSql(
             'ALTER TABLE comment DROP CONSTRAINT FK_9474526CB4D5A9E2'

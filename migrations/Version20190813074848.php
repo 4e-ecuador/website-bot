@@ -20,12 +20,6 @@ final class Version20190813074848 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql(
             'ALTER TABLE comment DROP CONSTRAINT FK_9474526C3414710B'
         );
@@ -37,12 +31,6 @@ final class Version20190813074848 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('CREATE SCHEMA public');
         $this->addSql(
             'ALTER TABLE comment DROP CONSTRAINT fk_9474526c3414710b'

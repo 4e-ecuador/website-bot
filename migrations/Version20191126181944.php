@@ -26,12 +26,6 @@ final class Version20191126181944 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('CREATE SCHEMA public');
     }
 }

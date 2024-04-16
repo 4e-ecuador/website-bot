@@ -20,12 +20,6 @@ final class Version20200412150235 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql(
             'ALTER TABLE agent_stat ADD longest_link INT DEFAULT NULL'
         );
@@ -37,12 +31,6 @@ final class Version20200412150235 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName()
-            !== 'postgresql',
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE agent_stat DROP longest_link');
         $this->addSql('ALTER TABLE agent_stat DROP largest_field');

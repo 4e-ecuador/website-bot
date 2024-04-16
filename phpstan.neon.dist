@@ -10,5 +10,8 @@ parameters:
 	scanDirectories:
 		- var/cache/dev/Symfony/Config
 	editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+	cognitive_complexity:
+		class: 50
+		function: 8
 includes:
 	- phpstan-baseline.neon

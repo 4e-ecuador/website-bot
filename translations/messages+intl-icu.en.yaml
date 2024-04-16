@@ -196,3 +196,4 @@ Info: __Info
 Migrate: __Migrate
 search.result.agent: __search.result.agent
 search.result.user: __search.result.user
+'C.O.R.E {monthsSubscribed} months': 'C.O.R.E: {monthsSubscribed} months'

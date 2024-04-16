@@ -196,3 +196,4 @@ Info: __Info
 Migrate: __Migrate
 search.result.agent: "{count, plural,\n    =0    {Ningun agente encontrado}\n    =1    {Un agente encontrado}\n    other {# agentes encontrados}\n}"
 search.result.user: "{count, plural,\n    =0    {Ningun usuario encontrado}\n    =1    {Un usuario encontrado}\n    other {# usuarios encontrados}\n}"
+'C.O.R.E {monthsSubscribed} months': 'C.O.R.E: {monthsSubscribed} meses'

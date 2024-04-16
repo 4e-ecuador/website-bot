@@ -34,11 +34,18 @@
                 {% endif %}
             {% endif %}
             {% if latest.monthsSubscribed %}
+                <br>
                 <span class="medal50 medal-unique_badge_core" title="CORE subscriptions"></span>
-                {% if latest.monthsSubscribed >= 12 %}
-                    <span class="medal50 medal-unique_badge_dual_core" title="Dual CORE subscriptions (24 month)"></span>
+                <b>
+                {{ 'C.O.R.E {monthsSubscribed} months'|trans({'monthsSubscribed':latest.monthsSubscribed}) }}
+                </b>
+                {% if latest.monthsSubscribed >= 24 %}
+                    <span class="medal50 medal-unique_badge_dual_core" title="CORE subscriptions (24 month)"></span>
                 {% endif %}
-                {{ latest.monthsSubscribed }}
+                {% if latest.monthsSubscribed >= 36 %}
+                    <span class="medal50 medal-unique_badge_core_year3" title="CORE subscriptions (36 month)"></span>
+                {% endif %}
+
             {% endif %}
         {% endif %}
     </p>

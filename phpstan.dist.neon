@@ -1,8 +1,11 @@
 parameters:
 	level: 7
 	paths:
-		- src
-		- tests
+		- bin/
+		- config/
+		- public/
+		- src/
+		- tests/
 	symfony:
 		container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
 #	doctrine:

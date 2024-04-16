@@ -38,3 +38,7 @@ phpstan.neon
 pws.txt
 
 backups
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

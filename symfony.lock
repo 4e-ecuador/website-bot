@@ -21,9 +21,6 @@
     "doctrine/collections": {
         "version": "1.6.8"
     },
-    "doctrine/common": {
-        "version": "3.2.1"
-    },
     "doctrine/data-fixtures": {
         "version": "1.5.2"
     },

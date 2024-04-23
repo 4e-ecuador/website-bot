@@ -18,7 +18,7 @@
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
     "doctrine/doctrine-migrations-bundle": "^3.1",
-    "doctrine/orm": "^2.9",
+    "doctrine/orm": "^3",
     "google/apiclient": "^2.13",
     "knplabs/knp-time-bundle": "^2.0",
     "knpuniversity/oauth2-client-bundle": "^2.0",

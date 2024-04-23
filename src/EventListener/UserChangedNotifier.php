@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Common\EventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -17,7 +17,7 @@ class UserChangedNotifier
     ) {
     }
 
-    public function postUpdate(User $user, LifecycleEventArgs $event): void
+    public function postUpdate(User $user, EventArgs $event): void
     {
         if ('dev' === $this->appEnv) {
             return;

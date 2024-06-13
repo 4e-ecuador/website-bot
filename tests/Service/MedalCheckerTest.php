@@ -108,7 +108,7 @@ class MedalCheckerTest extends KernelTestCase
     public function testTranslateMedalLevel(): void
     {
         $result = $this->medalChecker->translateMedalLevel(1);
-        self::assertSame('__medal.level.bronce', $result);
+        self::assertSame('bronce', $result);
     }
 
     public function testGetDoubleValue(): void

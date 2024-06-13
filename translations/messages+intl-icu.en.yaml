@@ -4,7 +4,7 @@ agents.in.database: "{count, plural,\n  =0 {The database is empty :(}\n  one {Th
 'Use the export function from {agentstats}': 'Use the export function from {agentstats}'
 'Use the copy stats button {img} from your ingress profile and paste it here.': 'Use the copy stats button {img} from your ingress profile and paste it here.'
 announce.header: '*A N N O U N C E M E N T*'
-new.medal.text.1: "{medals, plural,\n    =0    {No medals...}\n    one   {¡The agent @{agent} obtained new medal!}\n    other {¡The agent @{agent} obtained # new medals!}\n}"
+new.medal.text.1: "{medals, plural,\n    =0    {No medals...}\n    one   {¡Agent @{agent} obtained a new medal!}\n    other {¡Agent @{agent} obtained # new medals!}\n}"
 new.medal.text.2: 'Medal {medal} {level} {double}'
 new.medal.text.3: '[Admire at this profile!]({link})'
 new.medal.text.4: 'Congratulations! {tadaa}'
@@ -79,7 +79,7 @@ Search: Search
 'Please sign in': 'Please sign in'
 'Google Login': 'Google Login'
 medal.level.bronce: __medal.level.bronce
-medal.level.silver: __medal.level.silver
+medal.level.silver: Silver
 medal.level.gold: __medal.level.gold
 medal.level.platinum: __medal.level.platinum
 medal.level.onyx: __medal.level.onyx

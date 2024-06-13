@@ -258,11 +258,17 @@ class MedalChecker
             'Matryoshka Links Created'               => '',
             'Discoverie: Kinetic Capsules'           => '',
             'Discoverie: Machina Reclaims'           => '',
+            'Buried Memories Global Op Points'=>'',
 
             'Machina Links Destroyed' => '',
             'Machina Resonators Destroyed' => '',
             'Machina Portals Neutralized' => '',
             'Machina Portals Reclaimed' => 'reclaimer',
+
+            'Overclock Hack Points' => '',
+
+            'Research Bounties Completed'=>'',
+            'Research Days Completed'=>'',
         ];
 
     /**
@@ -272,6 +278,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'buried_memories',
                     'cryptic_memories',
                     'discoverie',
                     'ctrl',
@@ -317,6 +324,11 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'buried_memories'=>
+                    [
+                        'bronze',
+                        'silver'
+                    ],
                     'cryptic_memories'=>
                     [
                         'bronze',
@@ -449,6 +461,7 @@ class MedalChecker
         #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
         #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv,
     ) {
+        $translator->setLocale('es');
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');

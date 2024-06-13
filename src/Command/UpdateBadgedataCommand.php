@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -53,6 +54,9 @@ class UpdateBadgedataCommand extends Command
             'cryptic_memories_op_bronze.png' => 'event_badge_cryptic_memories_bronze.png',
             'cryptic_memories_op_silver.png' => 'event_badge_cryptic_memories_silver.png',
             'unique_core_year3.png'          => 'unique_badge_core_year3.png',
+            'buried_memories.png'            => 'anomaly_buried_memories.png',
+            'buried_memories_op_bronze.png'  => 'event_badge_buried_memories_bronze.png',
+            'buried_memories_op_silver.png'  => 'event_badge_buried_memories_silver.png',
         ];
 
     /**
@@ -122,9 +126,8 @@ class UpdateBadgedataCommand extends Command
             ->addOption(
                 'force',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Force update?',
-                false
             );
     }
 
@@ -257,12 +260,21 @@ class UpdateBadgedataCommand extends Command
         $progressBar = new ProgressBar($this->output);
         $progressBar->start();
 
+        $filesystem = new Filesystem();
+
+        if ($this->input->getOption('force')) {
+            foreach ($this->sizes as $size) {
+                $destDir = $this->badgeRoot.'/'.$size;
+                $filesystem->remove($destDir);
+
+            }
+        }
+
         foreach ($this->sizes as $size) {
             $destDir = $this->badgeRoot.'/'.$size;
-            if (!is_dir($destDir) && !mkdir($destDir) && !is_dir($destDir)) {
-                throw new RuntimeException(
-                    sprintf('Directory "%s" was not created', $destDir)
-                );
+
+            if (false === $filesystem->exists($destDir)) {
+                $filesystem->mkdir($destDir);
             }
 
             $files = (new Finder())
@@ -276,7 +288,7 @@ class UpdateBadgedataCommand extends Command
                     continue;
                 }
 
-                $command = 'convert '.$srcPath.' -resize '.$size.'x'.$size.'\> '
+                $command = 'magick '.$srcPath.' -resize '.$size.'x'.$size.'\> '
                     .$destPath;
                 ob_start();
                 system($command);
@@ -377,6 +389,10 @@ class UpdateBadgedataCommand extends Command
                 dump($item);
             }
 
+            return true;
+        }
+
+        if (str_starts_with((string) $item->image[0], 'shared_memories_placeholder')) {
             return true;
         }
 

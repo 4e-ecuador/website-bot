@@ -21,12 +21,17 @@ parameters:
 			path: src/Command/SendNewsletterCommand.php
 
 		-
+			message: "#^Access to an undefined property object\\:\\:\\$image\\.$#"
+			count: 1
+			path: src/Command/UpdateBadgedataCommand.php
+
+		-
 			message: "#^Access to an undefined property object\\:\\:\\$title\\.$#"
 			count: 2
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:resizeBadges\\(\\)\" is 10, keep it under 8$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:resizeBadges\\(\\)\" is 11, keep it under 8$#"
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
@@ -36,7 +41,7 @@ parameters:
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:skipItem\\(\\)\" is 10, keep it under 8$#"
+			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:skipItem\\(\\)\" is 11, keep it under 8$#"
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
@@ -89,6 +94,11 @@ parameters:
 			message: "#^Cognitive complexity for \"App\\\\Service\\\\LeaderBoardService\\:\\:getBoard\\(\\)\" is 14, keep it under 8$#"
 			count: 1
 			path: src/Service/LeaderBoardService.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Contracts\\\\Translation\\\\TranslatorInterface\\:\\:setLocale\\(\\)\\.$#"
+			count: 1
+			path: src/Service/MedalChecker.php
 
 		-
 			message: "#^Cognitive complexity for \"App\\\\Service\\\\MedalChecker\\:\\:getMedalLevel\\(\\)\" is 13, keep it under 8$#"

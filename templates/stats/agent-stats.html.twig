@@ -3,8 +3,6 @@
 {% block title %}{{ agent.nickname }} {{ 'Statistics'|trans }}{% endblock %}
 
 {% block body %}
-    <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
-
     {% if user and user.avatarEncoded %}
         <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
     {% endif %}

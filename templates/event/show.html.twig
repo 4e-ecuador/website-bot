@@ -2,39 +2,34 @@
 
 {% block title %}4E Events - {{ event.name }}{% endblock %}
 {% block og_description %}4E Events - {{ event.name }}{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('helper/events') }}
-{% endblock %}
 
 {% block body %}
 
-<h1>{{ event.name }}</h1>
+    <h1>{{ event.name }}</h1>
 
-{{ 'Event type: {type}'|trans({'type': event.eventType}) }}
+    {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
-<h4>
-    <span class="oi oi-media-play"></span> {{ event.dateStart ? event.dateStart|date('Y-m-d H:i') : '' }}<br>
-    <span class="oi oi-media-stop"></span> {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i') : '' }}
-</h4>
-
-{% if 'past' == status %}
-<h4>{{ 'Final results'|trans }}</h4>
-{% else %}
-
+    <h4>
+        <span class="oi oi-media-play"></span> {{ event.dateStart ? event.dateStart|date('Y-m-d H:i') : '' }}<br>
+        <span class="oi oi-media-stop"></span> {{ event.dateEnd ? event.dateEnd|date('Y-m-d H:i') : '' }}
+    </h4>
+    {% if 'past' == status %}
+        <h4>{{ 'Final results'|trans }}</h4>
+    {% else %}
+        <div class="text-center alert alert-warning"
+                {{ stimulus_controller('clock-counter', {
+                    deadline: 'current' == status ? event.dateEnd|date('Y-m-d H:i') : event.dateStart|date('Y-m-d H:i', false)
+                }) }}>
             {% if 'current' == status %}
-<div class="clock-counter text-center alert alert-warning" data-deadline="{{ event.dateEnd|date('Y-m-d H:i') }}">
-    <b>{{ 'The event ends in'|trans }}</b>
-    {% elseif 'future' == status %}
-    <div class="clock-counter text-center alert alert-success" data-deadline="{{ event.dateStart|date('Y-m-d H:i') }}">
-        <b>{{ 'The event starts in'|trans }}</b>
-        {% endif %}
-
-        {{ 'Days:'|trans }} <b class="days"></b>
-        {{ 'Hours:'|trans }} <b class="hours"></b>
-        {{ 'Minutes:'|trans }} <b class="minutes"></b>
-        {{ 'Seconds:'|trans }} <b class="seconds"></b>
-    </div>
+                <b>{{ 'The event ends in'|trans }}</b>
+            {% else %}
+                <b>{{ 'The event starts in'|trans }}</b>
+            {% endif %}
+            {{ 'Days:'|trans }} <b data-clock-counter-target="days"></b><br>
+            {{ 'Hours:'|trans }} <b data-clock-counter-target="hours"></b>
+            {{ 'Minutes:'|trans }} <b data-clock-counter-target="minutes"></b>
+            {{ 'Seconds:'|trans }} <b data-clock-counter-target="seconds"></b>
+        </div>
     {% endif %}
 
     {% if values %}
@@ -69,4 +64,4 @@
             No hay estadisticas para este evento :(
         {% endif %}
     {% endif %}
-    {% endblock %}
+{% endblock %}

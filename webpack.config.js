@@ -15,10 +15,7 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
 
-    .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
-
     // Helper
-    .addEntry('helper/events', './assets/js/helper/events.js')
     .addEntry('helper/paginator', './assets/js/helper/paginator.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

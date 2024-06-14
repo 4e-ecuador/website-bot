@@ -27,11 +27,13 @@
                 <a href="{{ path('event_show', {'id': event.id}) }}">{{ event.name }}</a>
             </h4>
 
-            <div class="clock-counter text-center alert alert-warning"
-                 data-deadline="{{ event.dateEnd|date('Y-m-d H:i', false) }}">
+            <div class="text-center alert alert-warning" {{ stimulus_controller('clock-counter', {
+                deadline: event.dateEnd|date('Y-m-d H:i', false)
+            }) }}>
                 <b>{{ 'Ends in'|trans }}</b> -
-                {{ 'Days:'|trans }} <b class="days"></b>
-                {{ 'Hours:'|trans }} <b class="hours"></b>:<b class="minutes"></b>:<b class="seconds"></b>
+                {{ 'Days:'|trans }} <b data-clock-counter-target="days"></b>
+                {{ 'Hours:'|trans }} <b data-clock-counter-target="hours"></b>:<b data-clock-counter-target="minutes"
+                ></b>:<b data-clock-counter-target="seconds"></b>
             </div>
 
         </div>
@@ -45,11 +47,13 @@
                 <a href="{{ path('challenge_show', {'id': challenge.id}) }}">{{ challenge.name }}</a>
             </h4>
 
-            <div class="clock-counter text-center alert alert-warning"
-                 data-deadline="{{ challenge.dateEnd|date('Y-m-d H:i', false) }}">
+            <div class="text-center alert alert-warning" {{ stimulus_controller('clock-counter', {
+                deadline: challenge.dateEnd|date('Y-m-d H:i', false)
+            }) }}>
                 <b>{{ 'Ends in'|trans }}</b> -
-                {{ 'Days:'|trans }} <b class="days"></b>
-                {{ 'Hours:'|trans }} <b class="hours"></b>:<b class="minutes"></b>:<b class="seconds"></b>
+                {{ 'Days:'|trans }} <b data-clock-counter-target="days"></b>
+                {{ 'Hours:'|trans }} <b data-clock-counter-target="hours"></b>:<b data-clock-counter-target="minutes"
+                ></b>:<b data-clock-counter-target="seconds"></b>
             </div>
 
         </div>
@@ -65,13 +69,14 @@
 
             {{ 'Event type: {type}'|trans({'type': event.eventType}) }}
 
-            <div class="clock-counter"
-                 data-deadline="{{ event.dateStart|date('Y-m-d H:i', false) }}">
+            <div {{ stimulus_controller('clock-counter', {
+                deadline: event.dateStart|date('Y-m-d H:i', false)
+            }) }}>
                 <b>{{ 'The event starts in'|trans }}</b>
-                {{ 'Days:'|trans }} <b class="days"></b>
-                {{ 'Hours:'|trans }} <b class="hours"></b>
-                {{ 'Minutes:'|trans }} <b class="minutes"></b>
-                {{ 'Seconds:'|trans }} <b class="seconds"></b>
+                {{ 'Days:'|trans }} <b data-clock-counter-target="days"></b><br>
+                {{ 'Hours:'|trans }} <b data-clock-counter-target="hours"></b>
+                {{ 'Minutes:'|trans }} <b data-clock-counter-target="minutes"></b>
+                {{ 'Seconds:'|trans }} <b data-clock-counter-target="seconds"></b>
             </div>
 
         </div>

@@ -2,16 +2,6 @@
 
 {% block title %}{{ agent.nickname }} {{ 'Statistics'|trans }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('traditional/stats/agent-stats') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('traditional/stats/agent-stats') }}
-{% endblock %}
-
 {% block body %}
     <span id="js-agent-id" data-js-agent-id="{{ agent.id }}"></span>
 
@@ -19,7 +9,8 @@
         <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
     {% endif %}
     <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-right btn btn-outline-success"
-       title="{{ 'View Profile'|trans }}">
+       title="{{ 'View Profile'|trans }}"
+    >
         <span class="oi oi-person"></span>
     </a>
     <h1>{{ 'Statistics'|trans }}</h1>
@@ -37,7 +28,7 @@
                 <br>
                 <span class="medal50 medal-unique_badge_core" title="CORE subscriptions"></span>
                 <b>
-                {{ 'C.O.R.E {monthsSubscribed} months'|trans({'monthsSubscribed':latest.monthsSubscribed}) }}
+                    {{ 'C.O.R.E {monthsSubscribed} months'|trans({'monthsSubscribed':latest.monthsSubscribed}) }}
                 </b>
                 {% if latest.monthsSubscribed >= 24 %}
                     <span class="medal50 medal-unique_badge_dual_core" title="CORE subscriptions (24 month)"></span>
@@ -52,52 +43,65 @@
     {% if latest %}
         <h4>AP: {{ latest.ap|number_format }}</h4>
 
-        {% if agentCustomMedals %}
-            {% for group, medals in agentCustomMedals %}
-                <div>
-                    {% for medal, value in medals %}
-                        {% set badgeData = getBadgeData(group, medal, value) %}
-                        <span class="medal-item2"
-                              data-medal-name="{{ badgeData.title }}"
-                              data-medal-desc="{{ badgeData.description }}"
+        <div {{ stimulus_controller('stats--agent-stats-medals') }}>
+            <hr>
+            {% if agentCustomMedals %}
+                {% for group, medals in agentCustomMedals %}
+                    <div>
+                        {% for medal, value in medals %}
+                            {% set badgeData = getBadgeData(group, medal, value) %}
+                            <span
+                              {{ stimulus_action('stats--agent-stats-medals', 'showCustomModal', 'click', {
+                                  name: badgeData.title,
+                                  desc: badgeData.description
+                              }) }}
                         >
                             <span class="medal-image">
                             {% if 'anomaly' == group %}
                                 <span class="medal50 medal-anomaly_{{ medal }}"
-                                      title="{{ badgeData.title }}"></span>
+                                      title="{{ badgeData.title }}"
+                                ></span>
                             {% elseif 'event' == group %}
                                 <span class="medal50 medal-{{ getBadgeName(group, medal, value) }}"
-                                      title="{{ badgeData.title }}"></span>
+                                      title="{{ badgeData.title }}"
+                                ></span>
                             {% else %}
                                 <span class="medal50 medal-badge_{{ medal }}_{{ value|medalLevelName }}"
-                                      title="{{ badgeData.title }}"></span>
+                                      title="{{ badgeData.title }}"
+                                ></span>
                             {% endif %}
                         </span>
                         </span>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-        {% for name, level in medalGroups %}
-            <span class="medal-item" style="text-align: center"
-                  title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name]|number_format ~ ')' }}"
-                  data-medal-name="{{ name|ucfirst }}"
-                  data-medal-desc="{{ name|medalDesc }}"
-                  data-medal-level="{{ level }}"
-                  data-medal-value="{{ latest[name]|number_format }}"
-                  data-medal-value-1="{{ medalValue(name, 1)|number_format }}"
-                  data-medal-value-2="{{ medalValue(name, 2)|number_format }}"
-                  data-medal-value-3="{{ medalValue(name, 3)|number_format }}"
-                  data-medal-value-4="{{ medalValue(name, 4)|number_format }}"
-                  data-medal-value-5="{{ medalValue(name, 5)|number_format }}"
-
-                  data-badge-name-1="{{ getBadgePath(name, 1, 0, '') }}"
-                  data-badge-name-2="{{ getBadgePath(name, 2, 0, '') }}"
-                  data-badge-name-3="{{ getBadgePath(name, 3, 0, '') }}"
-                  data-badge-name-4="{{ getBadgePath(name, 4, 0, '') }}"
-                  data-badge-name-5="{{ getBadgePath(name, 5, 0, '') }}"
-            >
+            {% for name, level in medalGroups %}
+                <span
+                        {{ stimulus_action('stats--agent-stats-medals', 'showModal', 'click', {
+                            name: name|ucfirst,
+                            desc: name|medalDesc,
+                            level: level,
+                            value: latest[name]|number_format,
+                            values:[
+                                medalValue(name, 1)|number_format,
+                                medalValue(name, 2)|number_format,
+                                medalValue(name, 3)|number_format,
+                                medalValue(name, 4)|number_format,
+                                medalValue(name, 5)|number_format,
+                            ],
+                            badgenames: [
+                                getBadgePath(name, 1, 0, ''),
+                                getBadgePath(name, 2, 0, ''),
+                                getBadgePath(name, 3, 0, ''),
+                                getBadgePath(name, 4, 0, ''),
+                                getBadgePath(name, 5, 0, '')
+                            ]
+                        }) }}
+                        style="text-align: center"
+                        title="{{ name ~ ': ' ~ level|translateMedalLevel ~ ' (' ~ latest[name]|number_format ~ ')' }}"
+                >
             <span class="medal-image">
             {% if level %}
                 <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"></span>
@@ -108,11 +112,14 @@
             {% endif %}
             {% else %}
                 <img src="{{ asset('build/images/ico/padlock.png') }}" alt="locked"
-                     style="width: 50px;">
+                     style="width: 50px;"
+                >
             {% endif %}
             </span>
         </span>
-        {% endfor %}
+            {% endfor %}
+
+        </div>
 
         <hr>
 
@@ -141,20 +148,29 @@
         <hr>
 
         <!-- Stats container -->
-        <h1>Stats</h1>
-        <label for="dateStart" title="{{ 'Start Date'|trans }}"><span class="oi oi-media-play"></span></label>
-        <input type="date" id="dateStart" class="statsSelect" value="{{ dateStart|date('Y-m-d') }}">
-        <label for="dateEnd" title="{{ 'End Date'|trans }}"><span class="oi oi-media-stop"></span></label>
-        <input type="date" id="dateEnd" class="statsSelect" value="{{ dateEnd|date('Y-m-d') }}">
 
-        <div id="agentChart" class="agent-chart"></div>
+        <h1>{{ 'Statistics'|trans }}</h1>
+        <div {{ stimulus_controller('stats--agent-stats', {
+            userId: agent.id,
+            dateStartAll: first.datetime|date('Y-m-d'),
+            dateEndAll: latest.datetime|date('Y-m-d')
+        }) }}>
+            <label for="dateStart" title="{{ 'Start Date'|trans }}"><span class="oi oi-media-play"></span></label>
+            <input type="date" id="dateStart" class="statsSelect" value="{{ dateStart|date('Y-m-d') }}"
+                   data-stats--agent-stats-target="dateStart"
+                   data-action="stats--agent-stats#redrawChart"
+            >
+            <label for="dateEnd" title="{{ 'End Date'|trans }}"><span class="oi oi-media-stop"></span></label>
+            <input type="date" id="dateEnd" class="statsSelect" value="{{ dateEnd|date('Y-m-d') }}"
+                   data-stats--agent-stats-target="dateEnd"
+                   data-action="stats--agent-stats#redrawChart"
+            >
 
-        <h4>{{ 'All time stats'|trans }}</h4>
-        <div id="agentChartAll" class="agent-chart"></div>
+            <div id="agentChart" class="agent-chart"></div>
 
-        <input id="dateStartAll" type="hidden" value="{{ first.datetime|date('Y-m-d') }}">
-        <input id="dateEndAll" type="hidden" value="{{ latest.datetime|date('Y-m-d') }}">
-
+            <h4>{{ 'All time stats'|trans }}</h4>
+            <div id="agentChartAll" class="agent-chart"></div>
+        </div>
         <hr>
         {{ 'First import: {date}'|trans({'date': first.datetime|date('Y-m-d')}) }}
         &nbsp;-&nbsp;
@@ -171,7 +187,8 @@
 
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal">&times;</button>
+                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal">&times;
+                    </button>
                 </div>
                 <div class="modal-header-desc"></div>
 
@@ -195,10 +212,10 @@
     <div class="modal fade text-center" id="medalModal2">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal2">&times;</button>
+                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal2">&times;
+                    </button>
                 </div>
                 <div class="modal-header-desc"></div>
 

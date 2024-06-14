@@ -16,7 +16,6 @@ Encore
     .addEntry('app', './assets/js/app.js')
 
     .addEntry('traditional/ingress_event/overview', './assets/js/traditional/ingress_event/overview.js')
-    .addEntry('traditional/stats/agent-stats', './assets/js/traditional/stats/agent-stats.js')
 
     // Helper
     .addEntry('helper/events', './assets/js/helper/events.js')

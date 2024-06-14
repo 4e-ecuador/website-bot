@@ -273,34 +273,4 @@ class IngressEventController extends BaseController
 
         return $this->redirectToRoute('ingress_event_index');
     }
-
-    #[Route(path: '/overview', name: 'ingress_event_overview', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function overview(IngressEventRepository $ingressEventRepository
-    ): Response {
-        $events = $ingressEventRepository->findFutureFS();
-        $eventIds = [];
-        foreach ($events as $event) {
-            $eventIds[] = $event->getId();
-        }
-
-        return $this->render(
-            'ingress_event/overview.html.twig',
-            [
-                'events'   => $events,
-                'eventIds' => $eventIds,
-            ]
-        );
-    }
-
-    #[Route(path: '/fetch-overview/{id}', name: 'ingress_event_overview_fetch', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function fetchOverview(IngressEvent $event, HtmlParser $htmlParser): JsonResponse
-    {
-        if (!$event->getLink()) {
-            return $this->json(['error' => 'no link provided']);
-        }
-
-        return $this->json($htmlParser->getFsAssistants($event));
-    }
 }

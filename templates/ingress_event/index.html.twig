@@ -11,13 +11,18 @@
 
 {% block body %}
     <div class="float-right btn-group">
-        <a class="btn btn-outline-success" href="{{ path('ingress_event_new') }}" title="{{ 'Create new'|trans }}"><span
-                    class="oi oi-plus"></span></a>
-        <a class="btn btn-outline-info" href="{{ path('ingress_event_announce') }}"><span class="oi oi-bullhorn"> TG</a>
-        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm') }}"><span class="oi oi-bullhorn"> FCM</a>
-        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm_token') }}"><span
-                    class="oi oi-bullhorn"> FCM Token</a>
-        <a class="btn btn-outline-info" href="{{ path('ingress_event_overview') }}" title="Overview"><span class="oi oi-eye"></a>
+        <a class="btn btn-outline-success" href="{{ path('ingress_event_new') }}" title="{{ 'Create new'|trans }}">
+            <span class="oi oi-plus"></span>
+        </a>
+        <a class="btn btn-outline-info" href="{{ path('ingress_event_announce') }}">
+            <span class="oi oi-bullhorn"></span> TG
+        </a>
+        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm') }}">
+            <span class="oi oi-bullhorn"></span> FCM
+        </a>
+        <a class="btn btn-outline-warning" href="{{ path('ingress_event_announce_fbm_token') }}">
+            <span class="oi oi-bullhorn"></span> FCM Token
+        </a>
     </div>
 
     <h1>Ingress Events</h1>

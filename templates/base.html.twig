@@ -22,6 +22,9 @@
     {{ encore_entry_link_tags('app') }}
 
     {% block stylesheets %}{% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 </head>
 <body class="bootstrap-dark">
 {% include('_menu.html.twig') %}
@@ -34,8 +37,5 @@
 
 {% include ('_footer.html.twig') %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock %}
 </body>
 </html>

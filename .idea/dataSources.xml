@@ -5,7 +5,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:32768/main</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:32775/main</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="main_test@localhost" uuid="206fc8f4-0e66-46a1-bd2c-e9639346940f">
       <driver-ref>postgresql</driver-ref>

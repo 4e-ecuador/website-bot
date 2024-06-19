@@ -15,9 +15,6 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
 
-    // Helper
-    .addEntry('helper/paginator', './assets/js/helper/paginator.js')
-
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -27,12 +24,6 @@ Encore
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
-
-    // This is our alias to the root vue components dir
-    .addAliases({
-        '@': path.resolve(__dirname, 'assets', 'js'),
-        styles: path.resolve(__dirname, 'assets', 'scss'),
-    })
 
     /*
      * FEATURE CONFIG

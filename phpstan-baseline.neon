@@ -6,11 +6,6 @@ parameters:
 			path: config/bootstrap.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\CheckFsCommand\\:\\:execute\\(\\)\" is 24, keep it under 8$#"
-			count: 1
-			path: src/Command/CheckFsCommand.php
-
-		-
 			message: "#^Cognitive complexity for \"App\\\\Command\\\\SendEventUpdateCommand\\:\\:execute\\(\\)\" is 11, keep it under 8$#"
 			count: 1
 			path: src/Command/SendEventUpdateCommand.php

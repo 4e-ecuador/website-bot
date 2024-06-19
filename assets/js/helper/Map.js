@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -40,49 +38,46 @@ class Map {
         marker.on('drag', onDrag)
     }
 
-    loadMarkers(group) {
+    async loadMarkers(group) {
         this.markers.clearLayers()
 
-        const icon = this.icon
-        const markers = this.markers
-        const map = this.map
+        const response = await fetch('map_json?group='+group)
+        const data = await response.json()
 
-        $.get('/map_json', { 'group': group }, function (data) {
-            $(data)
-                .each(function () {
-                    let marker =
-                        new L.Marker(
-                            new L.LatLng(this.lat, this.lng),
-                            {
-                                wp_id: this.id,
-                                icon: icon
-                            }
-                        )
+        for (const point of data) {
+            let marker =
+                new L.Marker(
+                    new L.LatLng(point.lat, point.lng),
+                    {
+                        wp_id: point.id,
+                        icon: this.icon
+                    }
+                )
 
-                    marker.bindPopup('Loading...')
+            marker.bindPopup('Loading...')
 
-                    marker.on('click', function (e) {
-                        let popup = e.target.getPopup()
-                        $.get('/map/agent-info/' + e.target.options.wp_id)
-                            .done(function (data) {
-                                popup.setContent(data)
-                                popup.update()
-                            })
-                    })
+            marker.on('click', async function (e) {
+                let popup = e.target.getPopup()
+                const response = await fetch('/map/agent-info/'+e.target.options.wp_id)
+                const data = await response.text()
+                popup.setContent(data)
+                popup.update()
+            })
 
-                    markers.addLayer(marker)
-                    map.addLayer(markers)
-                })
-        }, 'json')
+            this.markers.addLayer(marker)
+        }
+
+        this.map.addLayer(this.markers)
     }
 
     addLegend(groups) {
         let legend = L.control({ position: 'topleft' })
         legend.onAdd = function () {
             let div = L.DomUtil.create('div', 'info legend')
+            // @todo Bootstrap selectpicker does not work :(
             div.innerHTML =
                 '<a class="btn btn-sm btn-outline-secondary" href="/">Home</a><br>'
-                + '<select id="groupSelect" class="selectpicker" data-style="btn-success" data-width="fit">'
+                + '<select data-action="map#changeGroup" class="selectpickerXXX" data-style="btn-success" data-width="fit">'
                 + '<option>' + groups.join('</option><option>') + '</option>'
                 + '</select>'
             div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation
@@ -91,13 +86,6 @@ class Map {
         }
 
         legend.addTo(this.map)
-
-        const self = this
-        $('#groupSelect')
-            .on('change', function () {
-                self.loadMarkers($(this)
-                    .val())
-            })
     }
 
     _initMap() {

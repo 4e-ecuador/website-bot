@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import Map from '@/helper/Map'
+import Map from '../js/helper/Map'
 
 import '../css/map/main.css'
 
@@ -11,10 +11,17 @@ export default class extends Controller {
         mapGroups: Array,
     }
 
-    connect() {
-        const map = new Map(this.defaultLatValue, this.defaultLonValue)
+    map=null
 
-        map.addLegend(this.mapGroupsValue)
-        map.loadMarkers(this.mapGroupsValue[0])
+    connect() {
+        this.map = new Map(this.defaultLatValue, this.defaultLonValue)
+
+        this.map.addLegend(this.mapGroupsValue)
+        this.map.loadMarkers(this.mapGroupsValue[0])
+    }
+
+    changeGroup(e) {
+        this.map.loadMarkers(e.target.value)
+
     }
 }

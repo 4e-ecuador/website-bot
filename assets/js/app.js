@@ -1,5 +1,3 @@
-const $ = require('jquery'); // @todo remove jquery :(
-
 // @todo workaround for bootstrap-select and Bootstrap 5
 import { Dropdown } from 'bootstrap'
 window.Dropdown = Dropdown
@@ -24,18 +22,17 @@ import '../bootstrap';
 let darkmode = localStorage.getItem('4e-darkmode')
 checkDarkMode(darkmode)
 
-$('#darkmode-toggle').click(function() {
+document.getElementById('darkmode-toggle').addEventListener('click', () => {
     let darkmode = ('active' === localStorage.getItem('4e-darkmode')) ? 0 : 'active'
-    localStorage.setItem("4e-darkmode", darkmode);
+    localStorage.setItem("4e-darkmode", darkmode)
     checkDarkMode(darkmode)
-});
+})
 
 function checkDarkMode(darkmode) {
-    let body = $('body')
-    body.removeClass('bootstrap-dark bootstrap')
+    document.body.classList.remove('bootstrap-dark','bootstrap')
     if ('active' === darkmode) {
-        body.addClass('bootstrap-dark')
+        document.body.classList.add('bootstrap-dark')
     } else {
-        body.addClass('bootstrap')
+        document.body.classList.add('bootstrap')
     }
 }

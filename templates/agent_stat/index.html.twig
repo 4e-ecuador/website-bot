@@ -4,15 +4,10 @@
 
 {% block title %}AgentStat index{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('helper/paginator') }}
-{% endblock %}
-
 {% block body %}
     <h1>AgentStat index</h1>
 
-    <form method="post">
+    <form method="post" {{ stimulus_controller('paginator') }}>
 
         <div class="row">
             <div class="col-xs-2">{{ paginator.listLimit(paginatorOptions) }}</div>

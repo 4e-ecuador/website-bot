@@ -10,10 +10,6 @@ export default class extends Controller {
         urlInput: String,
     }
 
-    connect() {
-        console.log('modify stats')
-    }
-
     async processInput(event) {
         const params = new URLSearchParams({
             q: this.inputTarget.value,

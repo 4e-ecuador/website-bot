@@ -1,8 +1,19 @@
-{# {{ now|date('Y-m-d H:i:s e', false) }} #}
-{# {{ now2|date('Y-m-d H:i:s e', false) }} #}
 {% if ingressMD %}
-    <h3>{{ 'Ingress Mission Day'|trans }}</h3>
-    <a href="{{ fs.link }}">{{ fs.name }}</a>
+    {% for md in ingressMD %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ 'Ingress Mission Day'|trans }}</h3>
+                <h4><a href="{{ path('ingress_event_public_show', { 'id':md.id }) }}">{{ md.name }}</a></h4>
+                {{ md.dateStart|ago }}
+            </div>
+            <div class="card-body">
+                {{ md.description }}
+            </div>
+            <div class="card-footer">
+                <a href="{{ md.link }}">Info</a>
+            </div>
+        </div>
+    {% endfor %}
 {% endif %}
 
 {% if ingressFS %}

@@ -1,29 +1,39 @@
-<span id="js-data"
-      data-preview-url="{{ path('markdown_preview') }}"
-      data-preview-field="#previewId"
-      data-editor-field="#ingress_event_description"
->
-    </span>
-
-{{ form_start(form) }}
+{{ form_start(form, {'attr':
+    stimulus_controller('editor', {'preview-url': path('markdown_preview')}).toArray()
+}) }}
+<div class="row">
+    <div class="col-2">
+        {{ form_row(form.type) }}
+    </div>
+    <div class="col-10">
+        {{ form_row(form.name) }}
+    </div>
+</div>
 <div class="row">
     <div class="col">
         {{ form_row(form.date_start) }}
     </div>
     <div class="col">
         {{ form_row(form.date_end) }}
-
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        {{ form_row(form.type) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.name) }}
 
-    </div>
-</div>
+{{ form_row(form.link) }}
+
+{{ form_label(form.description) }}
+<div id="tinymde_commandbar"></div>
+{{ form_widget(form.description) }}
+
 {{ form_widget(form) }}
+<hr>
 <button class="btn btn-outline-success" title="{{ 'Save'|trans }}"><span class="oi oi-check"></span></button>
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" {{ stimulus_target('editor','preview') }}></div>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}

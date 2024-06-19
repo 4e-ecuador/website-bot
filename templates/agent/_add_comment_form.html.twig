@@ -3,30 +3,9 @@
 <form id="commentForm" method="post" action="{{ path('agent_add_comment', {'id': agent.id}) }}"
         {{ stimulus_target('agent--show', 'commentForm') }}
 >
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" href="#writeId" data-bs-toggle="tab" title="{{ 'label.write'|trans }}">
-                <span class="oi oi-pencil"></span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link"
-               href="#previewId" data-bs-toggle="tab"
-               title="{{ 'label.preview'|trans }}"
-                    {{ stimulus_action('agent--show', 'preview') }}
-            >
-                <span class="oi oi-eye"></span>
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="writeId">
-            <textarea name="comment" id="comment_text" cols="30" rows="5" class="mentionable form-control"
-            {{ stimulus_target('agent--show', 'commentText') }}
-            ></textarea>
-        </div>
-        <div class="tab-pane" id="previewId" {{ stimulus_target('agent--show', 'preview') }}></div>
-    </div>
+
+    <div id="tinymde_commandbar"></div>
+    <textarea name="comment" id="comment_text" cols="30" rows="5" class="mentionable form-control"></textarea>
 
     <div {{ stimulus_target('agent--show', 'commentMessage') }}></div>
 
@@ -35,3 +14,14 @@
     <input type="hidden" name="_token" value="{{ csrf_token('addcomment' ~ agent.id) }}">
     {{ buttons.ok() }}
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" data-agent--show-target="preview">
+                ...
+            </div>
+        </div>
+    </div>
+</div>

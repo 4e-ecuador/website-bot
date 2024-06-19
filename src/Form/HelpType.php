@@ -21,7 +21,6 @@ class HelpType extends AbstractType
                 [
                     'attr'       => ['rows' => 10],
                     'label'      => 'label.content',
-                    'block_name' => 'editor',
                 ]
             );
     }

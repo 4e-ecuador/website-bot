@@ -13,8 +13,8 @@
         'lon': agent.lon,
         'commentLookupUrl': path('comment_fetch'),
         'commentsLookupUrl': path('comments_by_agent'),
-        'agentLookupUrl': path('agent_lookup'),
         'previewUrl': path('markdown_preview'),
+        'tributeLookupUrl': path('agent_lookup'),
     }) }}>
         {% if user and user.avatarEncoded %}
             <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">

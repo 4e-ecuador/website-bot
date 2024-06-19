@@ -184,7 +184,7 @@ class AgentController extends BaseController
         AgentRepository $agentRepository,
         Request $request
     ): JsonResponse {
-        $query = $request->query->get('query');
+        $query = $request->request->get('query');
         $list = [];
         $results = $agentRepository->searchByAgentName($query);
         foreach ($results as $result) {

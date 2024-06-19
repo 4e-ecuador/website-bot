@@ -2,16 +2,6 @@
 
 {% block title %}New IngressEvent{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('helper/editor') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('helper/editor') }}
-{% endblock %}
-
 {% block body %}
     <a class="float-right btn btn-outline-secondary"
        href="{{ path('ingress_event_index') }}">{{ 'Back to list'|trans }}</a>

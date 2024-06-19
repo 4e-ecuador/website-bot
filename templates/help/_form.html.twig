@@ -1,13 +1,37 @@
-<span id="js-data"
-      data-preview-url="{{ path('markdown_preview') }}"
-      data-preview-field="#previewId"
-      data-editor-field="#help_text"
->
-    </span>
+{#
+{{ form_start(form, {'attr':{
+    'data-controller': 'editor',
+    'data-editor-preview-url-value': path('markdown_preview'),
+}}) }}
+    @todo choose....
+#}
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+{{ form_start(form, {'attr':
+    stimulus_controller('editor',
+        {'preview-url': path('markdown_preview')}
+    ).toArray()
+}) }}
+
+{{ form_row(form.title) }}
+
+<div id="tinymde_commandbar"></div>
+{{ form_widget(form.text) }}
+
+{{ form_rest(form) }}
+
 <button class="btn btn-outline-success" title="{{ button_label|default('Save'|trans) }}">
     <span class="oi oi-check"></span>
 </button>
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" data-editor-target="preview">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
 {{ form_end(form) }}

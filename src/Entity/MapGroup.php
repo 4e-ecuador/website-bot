@@ -15,7 +15,7 @@ use App\Repository\MapGroupRepository;
 #[Entity(repositoryClass: MapGroupRepository::class)]
 class MapGroup
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column]

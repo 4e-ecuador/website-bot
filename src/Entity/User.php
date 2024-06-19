@@ -18,7 +18,7 @@ use App\Repository\UserRepository;
 #[UniqueEntity(fields: 'email', message: 'This email is already in use')]
 class User implements UserInterface, \Stringable
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     /**

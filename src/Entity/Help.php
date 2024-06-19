@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: HelpRepository::class)]
 class Help
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column(type: Types::TEXT)]

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 #[Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column(type: Types::TEXT)]

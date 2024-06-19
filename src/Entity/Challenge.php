@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: ChallengeRepository::class)]
 class Challenge
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column]

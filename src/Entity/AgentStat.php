@@ -20,7 +20,7 @@ use ReflectionClass;
 #[Entity(repositoryClass: AgentStatRepository::class)]
 class AgentStat implements ArrayAccess
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column(type: Types::DATETIME_MUTABLE)]

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity(repositoryClass: EventRepository::class)]
 class Event
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column]

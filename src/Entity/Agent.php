@@ -18,7 +18,7 @@ use App\Repository\AgentRepository;
 #[Entity(repositoryClass: AgentRepository::class)]
 class Agent implements Stringable
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     protected ?int $id = null;
 
     #[Column]

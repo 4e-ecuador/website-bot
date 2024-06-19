@@ -14,7 +14,7 @@ use JsonSerializable;
 #[Entity(repositoryClass: IngressEventRepository::class)]
 class IngressEvent implements JsonSerializable
 {
-    #[Column, Id, GeneratedValue]
+    #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
     #[Column]

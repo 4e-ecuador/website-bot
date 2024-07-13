@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ ingress_event.name }}</h1>
+    <h1>{{ ingress_event.name }}</h1>
     <h4>{{ 'Starts {when}'|trans({'when': ingress_event.dateStart|ago}) }}</h4>
     {{ ingress_event.dateStart ? ingress_event.dateStart|date('Y-m-d H:i') : '' }}
-     -
-       {{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}
-
+    -
+    {{ ingress_event.dateEnd ? ingress_event.dateEnd|date('Y-m-d H:i') : '' }}
+    <div class="text-center alert alert-warning"
+            {{ stimulus_controller('clock-counter', {
+                deadline: ingress_event.dateStart|date('Y-m-d H:i', false)
+            }) }}>
+        <b>{{ 'The event starts in'|trans }}</b>
+        {{ 'Days:'|trans }} <b data-clock-counter-target="days"></b><br>
+        {{ 'Hours:'|trans }} <b data-clock-counter-target="hours"></b>
+        {{ 'Minutes:'|trans }} <b data-clock-counter-target="minutes"></b>
+        {{ 'Seconds:'|trans }} <b data-clock-counter-target="seconds"></b>
+    </div>
     <p>
         {{ ingress_event.description|md2html }}
     </p>

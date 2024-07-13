@@ -1,6 +1,0 @@
-{
-  "name":"4E!",
-  "scripts": {
-    "postdeploy": "./bin/console HerokuDeployFinishedNofitication"
-  }
-}

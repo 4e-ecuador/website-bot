@@ -1,53 +1,40 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ dump(dates) }}
-    <div {{ stimulus_controller('stat-between', {url:path('stats_in_between_result')}) }}>
+    <h1>Stats between two dates</h1>
+    <p>
+        First Import: {{ firstDate }} - {{ firstDate|ago }}
+    </p>
+    <p>
+        Last Import: {{ lastDate }} - {{ lastDate|ago }}
+    </p>
+    <div {{ stimulus_controller(
+        'stat-between',
+        {
+            url:path('stats_in_between_result'),
+            dates:dates,
+            lastDate: lastDate,
+        }
+    ) }}>
         <div class="row">
-            <div class="col"
-                    {{ stimulus_controller('stat-date-selector', {item:'start',dates:dates|json_encode|raw}) }}
-                 data-action="stat-date-selector:dateChanged->stat-between#dateChanged"
-            >
-                <select name="year" id="selYear"
-                        {{ stimulus_target('stat-date-selector', 'year') }}
-                        {{ stimulus_action('stat-date-selector', 'setMonth') }}
-                ></select>
-                <select name="month" id="selMonth"
-                        {{ stimulus_target('stat-date-selector', 'month') }}
-                        {{ stimulus_action('stat-date-selector', 'setDay') }}
-                ></select>
-                <select name="day" id="selDay"
-                        {{ stimulus_target('stat-date-selector', 'day') }}
-                        {{ stimulus_action('stat-date-selector', 'setTime') }}
-                ></select>
-                <select name="time" id="selTime"
-                        {{ stimulus_target('stat-date-selector', 'time') }}
-                        {{ stimulus_action('stat-date-selector', 'dateChanged') }}
-                ></select>
-            </div>
-            <div class="col"
-                    {{ stimulus_controller('stat-date-selector', {item:'end',dates:dates|json_encode|raw}) }}
-                 data-action="stat-date-selector:dateChanged->stat-between#dateChanged"
-            >
-                <select name="year" id="selYear"
-                        {{ stimulus_target('stat-date-selector', 'year') }}
-                        {{ stimulus_action('stat-date-selector', 'setMonth') }}
-                ></select>
-                <select name="month" id="selMonth" {{ stimulus_target('stat-date-selector', 'month') }}
-                        {{ stimulus_action('stat-date-selector', 'setDay') }}
-                ></select>
-                <select name="day" id="selDay" {{ stimulus_target('stat-date-selector', 'day') }}
-                        {{ stimulus_action('stat-date-selector', 'setTime') }}
-                ></select>
-                <select name="time" id="selTime" {{ stimulus_target('stat-date-selector', 'time') }}
-                        {{ stimulus_action('stat-date-selector', 'dateChanged') }}
-                ></select>
-            </div>
+            <div class="col">Start Date</div>
+            <div class="col">End Date</div>
         </div>
-        <hr>
         <div class="row">
-            <div class="col"><input type="text" {{ stimulus_target('stat-between', 'newDateStart') }}></div>
-            <div class="col"></div>
+            <div class="col">
+                <input type="text" {{ stimulus_target('stat-between', 'startDate') }}>
+                <select
+                        {{ stimulus_target('stat-between', 'startTime') }}
+                        {{ stimulus_action('stat-between', 'timeChanged') }}
+                ></select>
+            </div>
+            <div class="col">
+                <input type="text" {{ stimulus_target('stat-between', 'endDate') }}>
+                <select
+                        {{ stimulus_target('stat-between', 'endTime') }}
+                        {{ stimulus_action('stat-between', 'timeChanged') }}
+                ></select>
+            </div>
         </div>
         <div class="row">
             <div class="col" {{ stimulus_target('stat-between', 'result') }}></div>
@@ -55,8 +42,3 @@
     </div>
 
 {% endblock %}
-
-{% block title %}
-
-{% endblock %}
-

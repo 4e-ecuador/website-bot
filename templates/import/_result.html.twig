@@ -1,3 +1,6 @@
+{% if error %}
+{{ error}}
+{% endif %}
 {% if result.newLevel %}
     <div class="alert alert-success">
         <h3>{{ 'New Level: {level}'|trans({'level': result.newLevel}) }}</h3>

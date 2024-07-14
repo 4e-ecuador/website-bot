@@ -12,6 +12,7 @@ use App\Service\LeaderBoardService;
 use App\Service\MedalChecker;
 use App\Service\StatsImporter;
 use App\Type\BoardEntry;
+use App\Type\ImportResult;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -266,12 +267,13 @@ class StatsController extends BaseController
         foreach ($stats as $stat) {
             $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
             [$year, $month, $day, $time] = explode(' ', (string) $dateString);
-            // $time = $stat->getDatetime()->format('H:i');
             $dates[$year][$month][$day][] = $time;
         }
 
         return $this->render('stats/in-between.html.twig', [
             'dates' => $dates,
+            'firstDate' => $stats[count($stats)-1]->getDatetime()?->format('Y-n-j H:i:s'),
+            'lastDate' => $stats[0]->getDatetime()?->format('Y-n-j H:i:s'),
         ]);
     }
 
@@ -295,11 +297,19 @@ class StatsController extends BaseController
             'datetime' => new DateTime($dateEnd),
         ]);
 
-        $result = $statsImporter->getImportResult($endEntry, $startEntry);
+        if (!$startEntry || !$endEntry) {
+            $error = 'Invalid entries';
+            $result = new ImportResult();
+        }else{
+            $error = '';
+            $result = $statsImporter->getImportResult($endEntry, $startEntry);
+        }
+
 
         return $this->render('import/_result.html.twig', [
             'statEntry' => $endEntry,
             'result'    => $result,
+            'error' => $error,
         ]);
     }
 

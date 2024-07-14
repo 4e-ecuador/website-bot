@@ -609,7 +609,7 @@ class MedalChecker
                 : 0;
     }
 
-    public function getMedalLevel(string $medal, int $value): int
+    public function getMedalLevel(string $medal, ?int $value): int
     {
         if ('nl1331Meetups' === $medal) {
             $medal = 'nl-1331-meetups';
@@ -654,7 +654,7 @@ class MedalChecker
         return $this->translatedLevels[$level] ?? (string)$level;
     }
 
-    public function getDoubleValue(string $medal, int $value): int
+    public function getDoubleValue(string $medal, ?int $value): int
     {
         $doubleValue = 0;
 

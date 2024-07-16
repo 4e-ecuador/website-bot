@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="{{ locale }}">
 <head>
+    <script src="{{ asset('js/twbs/color-modes.js') }}"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta property="og:title" content="4E - Enlightened Elite Echelon of Ecuador"/>
     <meta property="og:description" content="{% block og_description %}{% endblock %}"/>
-    <meta property="og:image" content="/build/images/logos/4E Global black RGB.png"/>
+    <meta property="og:image" content="/images/logos/4E Global black RGB.png"/>
 
     <title>{% block title %}4E{% endblock %}</title>
 
@@ -19,11 +20,10 @@
     {%- endif -%}
     "/>
 
-    {{ encore_entry_link_tags('app') }}
 
     {% block stylesheets %}{% endblock %}
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
 <body class="bootstrap-dark">

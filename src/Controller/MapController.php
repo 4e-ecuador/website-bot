@@ -86,12 +86,12 @@ class MapController extends AbstractController
                     ['id' => $agent->getId()]
                 );
                 $imgPath = $assetsManager->getUrl(
-                    'build/images/logos/ENL.svg'
+                    'images/logos/ENL.svg'
                 );
                 break;
             case 'RES':
                 $imgPath = $assetsManager->getUrl(
-                    'build/images/logos/RES.svg'
+                    'images/logos/RES.svg'
                 );
                 break;
             default:

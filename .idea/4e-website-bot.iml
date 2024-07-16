@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/public/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/var" />
@@ -124,7 +125,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/web-link" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/web-profiler-bundle" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webpack-encore-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/telegram-bot/api" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/theofidry/alice-data-fixtures" />
@@ -198,6 +198,7 @@
       <excludeFolder url="file://$MODULE_DIR$/bin/.phpunit/phpunit/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/bin/.phpunit/phpunit/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/public/build" />
+      <excludeFolder url="file://$MODULE_DIR$/public/assets" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

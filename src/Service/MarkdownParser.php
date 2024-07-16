@@ -51,7 +51,7 @@ class MarkdownParser extends MarkdownExtra
                 );
 
                 $linkText = sprintf(
-                    '<img src="/build/images/logos/%s.svg" style="height: 32px" alt="logo"/> %s',
+                    '<img src="/images/logos/%s.svg" style="height: 32px" alt="logo"/> %s',
                     $agent->getFaction()->getName(),
                     $agentName[0]
                 );

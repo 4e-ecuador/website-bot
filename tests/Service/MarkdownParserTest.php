@@ -44,7 +44,7 @@ class MarkdownParserTest extends KernelTestCase
         $result = $this->markdownParser->transform('foo @testAgent baz');
 
         $expected = '<div><p>foo <a href="/agent/1" class="ENL">'
-            .'<img src="/build/images/logos/ENL.svg" style="height: 32px" alt="logo" class="img-fluid"> @testAgent</a>'
+            .'<img src="/images/logos/ENL.svg" style="height: 32px" alt="logo" class="img-fluid"> @testAgent</a>'
             ." baz</p>\n</div>\n";
 
         self::assertEquals($expected, $result);

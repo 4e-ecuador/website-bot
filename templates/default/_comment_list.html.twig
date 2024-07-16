@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">
-                <img src="{{ asset('build/images/logos/'~comment.agent.faction.name~'.svg') }}"
+                <img src="{{ asset('images/logos/'~comment.agent.faction.name~'.svg') }}"
                      style="height: 32px" alt="logo">
                 <a class="{{ comment.agent.faction.name }}"
                    href="{{ path('agent_show', {'id':comment.agent.id}) }}">{{ comment.agent.nickname }}</a>

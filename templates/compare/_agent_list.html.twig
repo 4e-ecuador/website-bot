@@ -1,13 +1,13 @@
 <h5>
     {% for agent in agents %}
-        <span class="badge badge-pill badge-success agent-item">
+        <span class="badge text-bg-success agent-item">
             {{ agent.nickname }}&nbsp;
             <a
                     href="#"
                     title="{{ 'Remove'|trans }}"
-                    class="badge badge-danger"
+                    class="badge text-bg-danger"
                     data-id="{{ agent.id }}"
-                    data-action="click->compare-search#removeItem"
+                    data-action="compare-search#removeItem"
             >X</a>
         </span>
     {% endfor %}

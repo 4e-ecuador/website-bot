@@ -1,4 +1,5 @@
 // @todo workaround for bootstrap-select and Bootstrap 5
+/*
 import { Dropdown } from 'bootstrap'
 window.Dropdown = Dropdown
 
@@ -36,3 +37,4 @@ function checkDarkMode(darkmode) {
         document.body.classList.add('bootstrap')
     }
 }
+*/

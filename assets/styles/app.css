@@ -1,3 +1,142 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
-    background-color: lightgray;
+    padding-top: 75px;
+    padding-bottom: 40px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.faction-enl {
+    color: #1ab60d;
+}
+
+.faction-res {
+    color: #0000cc;
+}
+
+a {
+    color: #00bb00;
+}
+
+a:hover {
+    color: #3adb76;
+}
+
+a.RES {
+    color: #0000cc;
+}
+
+a.RES:hover {
+    color: #7474ff;
+}
+
+.marker-cluster span {
+    color: #0a0a0a;
+}
+
+[data-bs-theme=dark] .card-body {
+    color: #808d93;
+}
+
+.bootstrap .card-body {
+    color: #517d9a;
+}
+
+.page-item.active .page-link {
+    background-color: #00bb00;
+    border-color: #00bb00;
+}
+
+.page-link {
+    color: #1ab60d;
+}
+
+.page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(135, 246, 164, 0.25);
+}
+
+.col {
+    min-width: 90px;
+}
+
+.form-control:focus {
+    border-color: #1ab60d;
+    box-shadow: 0 0 0 0.2rem rgba(135, 246, 164, 0.25);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #00bb00;
+}
+
+[data-bs-theme=dark] .popover-header {
+    background-color: #0b2e13;
+}
+
+[data-bs-theme=dark] textarea {
+    background-color: #41444e;
+    color: #daffc9;
+}
+
+.helpIndicator {
+    cursor: help;
+}
+
+.bootstrap-select .no-results {
+    background-color: #f8d267;
+    color: black;
+}
+
+.btn.focus {
+    box-shadow: 0 0 0 0.1rem #28a745;
+}
+
+[data-bs-theme=dark] pre {
+    color: lime;
+}
+
+[data-bs-theme=dark]k .dropdown-item, [data-bs-theme=dark] .dropdown-menu, [data-bs-theme=dark] .dropdown-divider {
+    background-color: #1d1d1d;
+}
+
+::-webkit-calendar-picker-indicator {
+    background-color: #686868;
+    cursor: pointer;
+}
+
+/* External links */
+a[href*="//"]:not([href*="4e-ecuador.elkuku.dev"]):after {
+    content: " " url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=);
+}
+
+div.cite {
+    margin-bottom: 20px;
+}
+div.cite-body {
+    font-style: italic;
+}
+
+.search-preview {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    top: 44px;
+}
+.search-preview img {
+    width: 50px;
+}
+
+.agent-item {
+    transition: opacity 500ms;
+}
+
+.agent-item.removing {
+    opacity: 0.5;
 }

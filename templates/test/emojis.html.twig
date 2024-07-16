@@ -2,9 +2,9 @@
 
 {% block body %}
     <h2>
-        <img src="{{ asset('build/images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
+        <img src="{{ asset('images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
         Emojis
-        <img src="{{ asset('build/images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
+        <img src="{{ asset('images/tg-emojis/smiling-face-with-hearts.png') }}" alt="LOVE" height="24px">
     </h2>
 <table class="table table-condensed table-hover">
     <thead>
@@ -20,7 +20,7 @@
     <tbody>
     {% for emoji in emojis %}
     <tr>
-        <td><img src="{{ asset('build/images/tg-emojis/'~emoji.name~'.png') }}" alt="" height="24px"></td>
+        <td><img src="{{ asset('images/tg-emojis/'~emoji.name~'.png') }}" alt="" height="24px"></td>
         <td>{{ emoji.native }}</td>
         <td><code>{{ emoji.name }}</code></td>
         <td>{{ emoji.description }}</td>

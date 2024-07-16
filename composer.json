@@ -29,6 +29,7 @@
     "phpdocumentor/reflection-docblock": "^5.2",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "7.*",
+    "symfony/asset-mapper": "7.*",
     "symfony/console": "7.*",
     "symfony/dotenv": "7.*",
     "symfony/expression-language": "7.*",
@@ -52,7 +53,6 @@
     "symfony/twig-bundle": "7.*",
     "symfony/validator": "7.*",
     "symfony/web-link": "7.*",
-    "symfony/webpack-encore-bundle": "^2",
     "symfony/yaml": "7.*",
     "tattali/calendar-bundle": "^1.2",
     "twig/cssinliner-extra": "^3.0",
@@ -114,7 +114,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "importmap:install": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"

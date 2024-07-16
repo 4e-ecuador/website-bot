@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
-const TinyMDE = require('tiny-markdown-editor')
+import TinyMDE from 'tiny-markdown-editor'
 import '../styles/tiny-mde.css'
 
 import { Modal } from 'bootstrap'

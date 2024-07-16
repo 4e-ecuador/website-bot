@@ -1,6 +1,6 @@
 <h1>{{ 'Welcome!'|trans }}
     {% if is_granted('ROLE_AGENT') %}
-        <img src="{{ asset('build/images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
+        <img src="{{ asset('images/logos/ENL.svg') }}" style="height: 64px" alt="ENL logo">
     {% else %}
         ✅
     {% endif %}
@@ -32,6 +32,6 @@
 {# check for APP @todo ugly! #}
 {% if '4emanager' != app.request.headers.get('User-Agent') %}
     <a href="https://play.google.com/store/apps/details?id=org.elkuku.a4emanager">
-        <img src="{{ asset('build/images/ico/google-play-badge/128x128.png') }}" alt="4E App on Play Store">
+        <img src="{{ asset('images/ico/google-play-badge/128x128.png') }}" alt="4E App on Play Store">
     </a>
 {% endif %}

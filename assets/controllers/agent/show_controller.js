@@ -4,7 +4,7 @@ import Map from '../../js/helper/Map.js'
 
 import '../../css/map/edit-map.css'
 
-const TinyMDE = require('tiny-markdown-editor')
+import TinyMDE from 'tiny-markdown-editor'
 import '../../styles/tiny-mde.css'
 
 import Tribute from 'tributejs'
@@ -63,7 +63,7 @@ export default class extends Controller {
             lookup: 'name',
             fillAttr: 'name',
             menuItemTemplate: function (item) {
-                return '<img src="/build/images/logos/' + item.original.faction + '.svg" style="width: 24px"> ' + item.string
+                return '<img src="/images/logos/' + item.original.faction + '.svg" style="width: 24px"> ' + item.string
             }
         })
 

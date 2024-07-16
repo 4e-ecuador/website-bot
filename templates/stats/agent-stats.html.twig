@@ -109,7 +109,7 @@
                 <span class="doubleCount">X {{ doubleCount }}</span>
             {% endif %}
             {% else %}
-                <img src="{{ asset('build/images/ico/padlock.png') }}" alt="locked"
+                <img src="{{ asset('images/ico/padlock.png') }}" alt="locked"
                      style="width: 50px;"
                 >
             {% endif %}
@@ -122,7 +122,7 @@
         <hr>
 
         <h4>
-            <img src="{{ asset('build/images/ico/drone.jpg') }}" alt="Drone">
+            <img src="{{ asset('images/ico/drone.jpg') }}" alt="Drone">
             Dronenet
         </h4>
 
@@ -134,7 +134,7 @@
         <hr>
 
         <h4>
-            <img src="{{ asset('build/images/ico/kinetic-capsule.jpg') }}" alt="Kinetic Capsule">
+            <img src="{{ asset('images/ico/kinetic-capsule.jpg') }}" alt="Kinetic Capsule">
             Kinetics
         </h4>
         {% if latest.kineticCapsulesCompleted %}
@@ -185,8 +185,7 @@
 
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal">&times;
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-header-desc"></div>
 
@@ -212,8 +211,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-bs-toggle="modal" data-bs-target="#medalModal2">&times;
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-header-desc"></div>
 

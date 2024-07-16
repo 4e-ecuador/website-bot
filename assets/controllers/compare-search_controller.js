@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { useClickOutside, useDebounce, useDispatch } from 'stimulus-use'
+import { useClickOutside } from 'stimulus-use'
 
 export default class extends Controller {
     static values = {
@@ -9,15 +9,11 @@ export default class extends Controller {
 
     static targets = ['input', 'resultItem', 'result', 'agentList']
 
-    static debounces = ['_search']
-
     agentsIds = []
     currentSelection = 0
 
     connect() {
         useClickOutside(this)
-        useDebounce(this)
-        useDispatch(this);
         this.inputTarget.focus()
     }
 
@@ -80,12 +76,12 @@ export default class extends Controller {
         this.resultTarget.innerHTML = await response.text()
     }
 
-    addItem(event){
+    addItem(event) {
         this._addItem(event.currentTarget.dataset.id)
     }
 
     removeItem(event) {
-        event.currentTarget.parentNode.classList.add('removing');
+        event.currentTarget.parentNode.classList.add('removing')
 
         this._removeItem(event.currentTarget.dataset.id)
     }
@@ -102,7 +98,7 @@ export default class extends Controller {
         this._updateResult()
     }
 
-    async _updateResult(){
+    async _updateResult() {
         const params = new URLSearchParams({
             agents: JSON.stringify(this.agentsIds),
         })
@@ -111,7 +107,7 @@ export default class extends Controller {
 
         const ids = this.agentsIds
         this.dispatch('update:view', {
-            ids,
+            detail: { ids }
         })
 
         const response = await fetch(`${this.urlAgentListValue}?${params.toString()}`)

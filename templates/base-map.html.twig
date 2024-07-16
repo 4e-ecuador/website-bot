@@ -15,14 +15,12 @@
     {%- endif -%}
     "/>
 
-    {{ encore_entry_link_tags('app') }}
-
     {% block stylesheets %}{% endblock %}
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body id="app-layout" class="bootstrap-dark">
+<body>
 
 <noscript><h1 class="alert alert-danger">{{ 'Please activate Javascript'|trans }}</h1></noscript>
 

@@ -8,6 +8,8 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet-fullscreen'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
+import '../../css/map/main.css'
+
 class Map {
     constructor(centerLat, centerLon, zoom = 7) {
         this.map = new L.Map('map', { fullscreenControl: true })
@@ -15,7 +17,7 @@ class Map {
         this.markers = L.markerClusterGroup({ disableClusteringAtZoom: 16 })
 
         this.icon = L.icon({
-            iconUrl: '/build/images/ico/my-icon.png',
+            iconUrl: '/images/ico/my-icon.png',
             iconSize: [22, 36],
             iconAnchor: [11, 36],
             popupAnchor: [0, -18],
@@ -98,7 +100,7 @@ class Map {
         L.Control.Watermark = L.Control.extend({
             onAdd: function () {
                 let img = L.DomUtil.create('img')
-                img.src = '/build/images/logos/4E Global black RGB.png'
+                img.src = '/images/logos/4E Global black RGB.png'
                 img.style.width = '100px'
 
                 return img

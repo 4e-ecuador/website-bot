@@ -1,7 +1,10 @@
 import { Controller } from '@hotwired/stimulus'
 import { Modal } from 'bootstrap'
 
-require('../../css/stats/leaderboard.css')
+import "../../css/medals_24.css";
+import "../../css/medals_50.css";
+
+import '../../css/stats/leaderboard.css'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {

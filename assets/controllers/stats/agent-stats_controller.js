@@ -1,7 +1,10 @@
 import { Controller } from '@hotwired/stimulus'
 
 import Highcharts from 'highcharts'
-require('highcharts/css/themes/dark-unica.css')
+import 'highcharts/css/themes/dark-unica.css'
+
+import "../../css/medals_24.css";
+import "../../css/medals_50.css";
 
 import '../../css/stats/agent-stats.css'
 

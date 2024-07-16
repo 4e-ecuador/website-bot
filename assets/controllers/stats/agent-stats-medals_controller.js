@@ -19,7 +19,7 @@ export default class extends Controller {
 
             // if (i > level) {
             //     let img = '<span class="medal24 medal-'+$(this).data('badge-name-' + i)+'" style="background: #5C97FF;">a</span>'
-            //     // img = '<img src="/build/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px; opacity: 0.3;">'
+            //     // img = '<img src="/images/badges/' + $(this).data('badge-name-' + i) + '" style="height: 24px; opacity: 0.3;">'
             // }
             modal.querySelector('.medal-value-' + i).innerHTML = img + e.params.values[i - 1]
         }

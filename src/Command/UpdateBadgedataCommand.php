@@ -57,6 +57,8 @@ class UpdateBadgedataCommand extends Command
             'buried_memories.png'            => 'anomaly_buried_memories.png',
             'buried_memories_op_bronze.png'  => 'event_badge_buried_memories_bronze.png',
             'buried_memories_op_silver.png'  => 'event_badge_buried_memories_silver.png',
+            'shared_memories_op_bronze.png'  => 'event_badge_shared_memories_bronze.png',
+            'shared_memories_op_silver.png'  => 'event_badge_shared_memories_silver.png',
         ];
 
     /**
@@ -64,6 +66,7 @@ class UpdateBadgedataCommand extends Command
      */
     private array $skipCategories
         = [
+            'Active Giveaways',
             'Characters',
             'Characters - 2015',
             'Characters - 2016',
@@ -76,20 +79,20 @@ class UpdateBadgedataCommand extends Command
             'Characters - 2023',
             'Characters - Ingress Origins (2023)',
             'Characters - 2024',
-            'NL-1331',
             'Corporation Medals',
-            'Festive Medals',
-            'Urban Ops',
-            'Stealth Ops',
-            'OPR Live',
-            'Intel Ops',
-            'Prime Challenge',
-            'Operation Clear Field',
-            'Field Test: Hexathlon',
-            'Unused/Replaced',
-            'Active Giveaways',
             'Fan created - Single',
             'Fan created - Tiered',
+            'Festive Medals',
+            'Field Test: Hexathlon',
+            'Intel Ops',
+            'NL-1331',
+            'Operation Clear Field',
+            'OPR Live',
+            'Prime Challenge',
+            'Stealth Ops',
+            'Supporter Medals',
+            'Urban Ops',
+            'Unused/Replaced',
             'Unused/Replaced - Single',
         ];
 
@@ -392,7 +395,8 @@ class UpdateBadgedataCommand extends Command
             return true;
         }
 
-        if (str_starts_with((string) $item->image[0], 'shared_memories_placeholder')) {
+        if (str_starts_with((string) $item->image[0], 'shared_memories_placeholder')
+        || str_starts_with((string) $item->image[0], 'unnamed')) {
             return true;
         }
 

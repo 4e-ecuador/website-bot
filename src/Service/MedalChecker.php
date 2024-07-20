@@ -16,147 +16,147 @@ class MedalChecker
      */
     private array $medalLevels
         = [
-            'explorer'               => [
+            'explorer'                 => [
                 'desc'   => 'Unique Portals Visited',
                 'levels' => [100, 1000, 2000, 10000, 30000],
             ],
-            'seer'                   => [
+            'seer'                     => [
                 'desc'   => 'Seer Points',
                 'levels' => [10, 50, 200, 500, 5000],
             ],
-            'recon'                  => [
+            'recon'                    => [
                 'desc'   => 'OPR Agreements',
                 'levels' => [100, 750, 2500, 5000, 10000],
             ],
-            'trekker'                => [
+            'trekker'                  => [
                 'desc'   => 'Distance Walked',
                 'levels' => [10, 100, 300, 1000, 2500],
             ],
-            'builder'                => [
+            'builder'                  => [
                 'desc'   => 'Resonators Deployed',
                 'levels' => [2000, 10000, 30000, 100000, 200000],
             ],
-            'connector'              => [
+            'connector'                => [
                 'desc'   => 'Links Created',
                 'levels' => [50, 1000, 5000, 25000, 100000],
             ],
-            'mind-controller'        => [
+            'mind-controller'          => [
                 'desc'   => 'Control Fields Created',
                 'levels' => [100, 500, 2000, 10000, 40000],
             ],
-            'engineer'               => [
+            'engineer'                 => [
                 'desc'   => 'Mods Deployed',
                 'levels' => [150, 1500, 5000, 20000, 50000],
             ],
-            'illuminator'            => [
+            'illuminator'              => [
                 'desc'   => 'Mind Units Captured',
                 'levels' => [5000, 50000, 250000, 1000000, 4000000],
             ],
-            'recharger'              => [
+            'recharger'                => [
                 'desc'   => 'XM Recharged',
                 'levels' => [100000, 1000000, 3000000, 10000000, 25000000],
             ],
-            'liberator'              => [
+            'liberator'                => [
                 'desc'   => 'Portals Captured',
                 'levels' => [100, 1000, 5000, 15000, 40000],
             ],
-            'pioneer'                => [
+            'pioneer'                  => [
                 'desc'   => 'Unique Portals Captured',
                 'levels' => [20, 200, 1000, 5000, 20000],
             ],
-            'purifier'               => [
+            'purifier'                 => [
                 'desc'   => 'Resonators Destroyed',
                 'levels' => [2000, 10000, 30000, 100000, 300000],
             ],
-            'specops'                => [
+            'specops'                  => [
                 'desc'   => 'Unique Missions Completed',
                 'levels' => [5, 25, 100, 200, 500],
             ],
-            'missionday'             => [
+            'missionday'               => [
                 'desc'   => 'Mission Day(s) Attended',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'nl-1331-meetups'        => [
+            'nl-1331-meetups'          => [
                 'desc'   => 'NL-1331 Meetup(s) Attended',
                 'levels' => [1, 5, 10, 25, 50],
             ],
-            'hacker'                 => [
+            'hacker'                   => [
                 'desc'   => 'Hacks',
                 'levels' => [2000, 10000, 30000, 100000, 200000],
             ],
-            'translator'             => [
+            'translator'               => [
                 'desc'   => 'Glyph Hack Points',
                 'levels' => [200, 2000, 6000, 20000, 50000],
             ],
-            'sojourner'              => [
+            'sojourner'                => [
                 'desc'   => 'Longest Hacking Streak',
                 'levels' => [15, 30, 60, 180, 360],
             ],
-            'epoch'                  => [
+            'epoch'                    => [
                 'desc'   => 'Complete Hacking Streak',
                 'levels' => [2, 4, 8, 30, 60],
             ],
-            'recruiter'              => [
+            'recruiter'                => [
                 'desc'   => 'Agents successfully recruited',
                 'levels' => [2, 10, 25, 50, 100],
             ],
-            'prime_challenge'        => [
+            'prime_challenge'          => [
                 'desc'   => 'Prime Challenges',
                 'levels' => [1, 2, 3, 4, 0],
             ],
-            'stealth_ops'            => [
+            'stealth_ops'              => [
                 'desc'   => 'Stealth Ops Missions',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'opr_live'               => [
+            'opr_live'                 => [
                 'desc'   => 'OPR Live Events',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'ocf'                    => [
+            'ocf'                      => [
                 'desc'   => 'Clear Fields Events',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'intel_ops'              => [
+            'intel_ops'                => [
                 'desc'   => 'Intel Ops Missions',
                 'levels' => [1, 3, 6, 10, 20],
             ],
-            'ifs'                    => [
+            'ifs'                      => [
                 'desc'   => 'First Saturday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
-            'second-sunday'          => [
+            'second-sunday'            => [
                 'desc'   => 'Second Sunday Events',
                 'levels' => [1, 6, 12, 24, 36],
             ],
-            'scout'                  => [
+            'scout'                    => [
                 'desc'   => 'Scan portals',
                 'levels' => [50, 250, 1000, 3000, 6000],
             ],
-            'scout-controller'       => [
+            'scout-controller'         => [
                 'desc'   => 'Scan unique portals',
                 'levels' => [100, 500, 1000, 5000, 15000],
             ],
-            'maverick'               => [
+            'maverick'                 => [
                 'desc'   => 'Drone hack portals',
                 'levels' => [250, 1000, 2000, 5000, 10000],
             ],
-            'reclaimer'               => [
+            'reclaimer'                => [
                 'desc'   => 'Reclaim portals from Machina ingression',
                 'levels' => [100, 1000, 5000, 15000, 40000],
             ],
-            'Umbra Deploy Challenge' => [
+            'Umbra Deploy Challenge'   => [
                 'desc'   => 'Umbra Deploy Challenge',
                 'levels' => [120, 600, 1440, null, null],
             ],
-            'Didact Field Challenge' => [
+            'Didact Field Challenge'   => [
                 'desc'   => 'Didact Field Challenge',
                 'levels' => [100, 300, 800, null, null],
             ],
-            'CSans'                  => [
+            'CSans'                    => [
                 'desc'   => 'C. Sans Challenge',
                 'levels' => [4, 41, 401, null, null],
             ],
-            '2023 - Operation Chronos'                  => [
+            '2023 - Operation Chronos' => [
                 'desc'   => '2023 - Operation Chronos Challenge',
                 'levels' => [500, 5000, null, null, null],
             ],
@@ -223,12 +223,12 @@ class MedalChecker
 
             'Portal Scans Uploaded' => 'scout',
 
-            'OPR Live Events'              => '',
-            'Clear Fields Events' => '',
+            'OPR Live Events'                    => '',
+            'Clear Fields Events'                => '',
 
             // Anomalies
-            'Epiphany Dawn'              => '',
-            'Echo'              => '',
+            'Epiphany Dawn'                      => '',
+            'Echo'                               => '',
 
             // Old
             'Scout Controller on Unique Portals' => 'scout-controller',
@@ -246,29 +246,29 @@ class MedalChecker
 
             'Kinetic Capsules Completed' => 'kinetic-capsules-completed',
 
-            'Months Subscribed' => 'monthsSubscribed',
+            'Months Subscribed'                      => 'monthsSubscribed',
 
             // Events recorded by the app
             'Umbra: Unique Resonator Slots Deployed' => 'currentChallenge',
             'Didact Fields Created'                  => 'currentChallenge',
-            'Operation Chronos Points' => 'currentChallenge',
+            'Operation Chronos Points'               => 'currentChallenge',
 
             // Events not recorded
             'Unique Event Portals Hacked'            => '',
             'Matryoshka Links Created'               => '',
             'Discoverie: Kinetic Capsules'           => '',
             'Discoverie: Machina Reclaims'           => '',
-            'Buried Memories Global Op Points'=>'',
+            'Buried Memories Global Op Points'       => '',
 
-            'Machina Links Destroyed' => '',
+            'Machina Links Destroyed'      => '',
             'Machina Resonators Destroyed' => '',
-            'Machina Portals Neutralized' => '',
-            'Machina Portals Reclaimed' => 'reclaimer',
+            'Machina Portals Neutralized'  => '',
+            'Machina Portals Reclaimed'    => 'reclaimer',
 
             'Overclock Hack Points' => '',
 
-            'Research Bounties Completed'=>'',
-            'Research Days Completed'=>'',
+            'Research Bounties Completed' => '',
+            'Research Days Completed'     => '',
         ];
 
     /**
@@ -311,8 +311,8 @@ class MedalChecker
                 ],
             'annual'  =>
                 [
-                    'paragon' => [],
-                    'pathfinder' => [],
+                    'paragon'     => [],
+                    'pathfinder'  => [],
                     'persistence' => [],
                     'resonance'   => [],
                     'resurgence'  => [],
@@ -324,30 +324,35 @@ class MedalChecker
                 ],
             'event'   =>
                 [
-                    'buried_memories'=>
-                    [
-                        'bronze',
-                        'silver'
-                    ],
-                    'cryptic_memories'=>
-                    [
-                        'bronze',
-                        'silver'
-                    ],
-                    'chronos'=>
-                    [
-                        'bronze',
-                        'silver'
-                    ],
-                    'peace_day_2022' =>
+                    'shared_memories'       =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'buried_memories'       =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'cryptic_memories'      =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'chronos'               =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'peace_day_2022'        =>
                         [''],
-                    'eosimprint'           =>
+                    'eosimprint'            =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'csans'                =>
+                    'csans'                 =>
                         [
                             'bronze',
                             'silver',
@@ -370,7 +375,7 @@ class MedalChecker
                             'silver',
                             'gold',
                         ],
-                    'paragon'              =>
+                    'paragon'               =>
                         [
                             '',
                         ],
@@ -414,7 +419,7 @@ class MedalChecker
                             'silver',
                             'gold',
                         ],
-                    'exo5'                 =>
+                    'exo5'                  =>
                         [
                             '100',
                             '500',

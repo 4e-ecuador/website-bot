@@ -31,13 +31,7 @@ class UserType extends AbstractType
                     'class'       => Agent::class,
                     'placeholder' => '',
                     'required'    => false,
-                    'choices'     => $this->agentRepository->findAllAlphabetical(
-                    ),
-                    'attr'        => [
-                        'class'            => 'selectpicker',
-                        'data-style'       => 'btn-success',
-                        'data-live-search' => 'true',
-                    ],
+                    'choices'     => $this->agentRepository->findAllAlphabetical(),
                 ]
             )
             ->add(
@@ -52,10 +46,6 @@ class UserType extends AbstractType
                         'User'        => 'ROLE_USER',
                     ],
                     'multiple' => true,
-                    'attr'     => [
-                        'class'      => 'selectpicker',
-                        'data-style' => 'btn-success',
-                    ],
                 ]
             );
     }

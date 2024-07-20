@@ -76,10 +76,9 @@ class Map {
         let legend = L.control({ position: 'topleft' })
         legend.onAdd = function () {
             let div = L.DomUtil.create('div', 'info legend')
-            // @todo Bootstrap selectpicker does not work :(
             div.innerHTML =
                 '<a class="btn btn-sm btn-outline-secondary" href="/">Home</a><br>'
-                + '<select data-action="map#changeGroup" class="selectpickerXXX" data-style="btn-success" data-width="fit">'
+                + '<select data-action="map#changeGroup" class="form-select" data-style="btn-success" data-width="fit">'
                 + '<option>' + groups.join('</option><option>') + '</option>'
                 + '</select>'
             div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation

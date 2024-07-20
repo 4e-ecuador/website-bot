@@ -62,8 +62,7 @@
 {% endmacro %}
 
 {% macro listLimit(paginatorOptions) %}
-    <select name="paginatorOptions[limit]" class="selectpicker" data-style="btn-success"
-            data-width="fit" data-header="{{ 'Items per page'|trans }}"
+    <select name="paginatorOptions[limit]"
             data-action="paginator#resetAndSubmit"
     >
         {% for num in [5, 10, 20, 50, 100] %}
@@ -119,9 +118,9 @@
 {% endmacro %}
 
 {% macro select(name, options, paginatorOptions) %}
-    {% set css = paginatorOptions.searchCriteria(name) ? ' btn-outline-success' : '' %}
-    <select name="paginatorOptions[criteria][{{ name }}]" class="selectpicker{{ css }}"
-            data-style="btn-success" data-width="fit" data-header="{{ 'Agent'|trans }}"
+    {% set css = paginatorOptions.searchCriteria(name) ? ' btn-success' : '' %}
+    <select name="paginatorOptions[criteria][{{ name }}]" class="{{ css }}"
+            data-header="{{ 'Agent'|trans }}"
             data-action="paginator#resetAndSubmit"
     >
         {% for id,option in options %}

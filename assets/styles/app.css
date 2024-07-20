@@ -140,3 +140,40 @@ div.cite-body {
 .agent-item.removing {
     opacity: 0.5;
 }
+
+[data-bs-theme=dark] .ss-main,  [data-bs-theme=dark] .ss-content,  [data-bs-theme=dark] .ss-option {
+    background-color: #2e2e2e;
+    color: #fff;
+}
+
+[data-bs-theme=dark] .ss-content .ss-list .ss-option {
+    color: #fff;
+}
+
+[data-bs-theme=dark]  .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+    background-color: #00bb00;
+    color: #000;
+}
+[data-bs-theme=dark]  .ss-content .ss-list .ss-option:not(.ss-disabled).ss-highlighted {
+    background-color: #00bb00;
+    color: #000;
+}
+
+[data-bs-theme=dark] .ss-content .ss-list .ss-option:hover {
+    background-color: #00bb00;
+    color: #000;
+}
+
+[data-bs-theme=dark] .ss-main .ss-values .ss-value {
+    background-color: #00bb00;
+}
+
+[data-bs-theme=dark] .ss-main .ss-values .ss-value .ss-value-text {
+    color: #000;
+}
+
+
+[data-bs-theme=dark] .ss-content .ss-search input {
+    background-color: #2e2e2e;
+    color: #fff;
+}

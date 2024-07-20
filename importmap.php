@@ -123,4 +123,11 @@ return [
         'version' => '1.9.4',
         'type' => 'css',
     ],
+    'slim-select' => [
+        'version' => '2.8.2',
+    ],
+    'slim-select/dist/slimselect.min.css' => [
+        'version' => '2.8.2',
+        'type' => 'css',
+    ],
 ];

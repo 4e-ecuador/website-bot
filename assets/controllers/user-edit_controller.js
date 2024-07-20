@@ -1,5 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 
+import SlimSelect from 'slim-select'
+import 'slim-select/dist/slimselect.min.css'
+
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {
@@ -7,6 +10,16 @@ export default class extends Controller {
     }
 
     static targets = ['resultContainer']
+
+    connect() {
+        new SlimSelect({
+            select: '#user_agent'
+        })
+
+        new SlimSelect({
+            select: '#user_roles'
+        })
+    }
 
     async sendMail() {
         this.resultContainerTarget.innerText = 'Sending email...'

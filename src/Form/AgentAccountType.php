@@ -96,10 +96,6 @@ class AgentAccountType extends AbstractType
 
                         return $name !== '' && $name !== '0' ? sprintf('%s - %s (%s)', $value, $localName, $name) : $value;
                     },
-                    'attr'         => [
-                        'class'      => 'selectpicker',
-                        'data-style' => 'btn-success',
-                    ],
                 ]
             );
     }

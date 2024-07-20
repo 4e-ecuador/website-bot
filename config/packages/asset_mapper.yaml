@@ -3,3 +3,4 @@ framework:
         # The paths to make available to the asset mapper.
         paths:
             - assets/
+        importmap_polyfill: false

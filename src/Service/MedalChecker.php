@@ -324,6 +324,11 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'field_test_dispatch'   =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
                     'shared_memories'       =>
                         [
                             'bronze',

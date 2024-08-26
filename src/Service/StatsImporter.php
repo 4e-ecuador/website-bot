@@ -120,13 +120,19 @@ class StatsImporter
         if ($monthsSubscribed) {
             $previousMonthsSubscribed = $previousEntry->getMonthsSubscribed();
             if (!$previousMonthsSubscribed) {
-                $importResult->coreSubscribed[] = 'CORE';
+                $importResult->coreSubscribed[] = 'core';
             }
 
             if ($monthsSubscribed >= 24
                 && $monthsSubscribed !== $previousMonthsSubscribed
             ) {
-                $importResult->coreSubscribed[] = 'DualCORE';
+                $importResult->coreSubscribed[] = 'dual_core';
+            }
+
+            if ($monthsSubscribed >= 36
+                && $monthsSubscribed !== $previousMonthsSubscribed
+            ) {
+                $importResult->coreSubscribed[] = 'core_year3';
             }
         }
 

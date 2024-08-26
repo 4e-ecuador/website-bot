@@ -2,7 +2,6 @@ import { Controller } from '@hotwired/stimulus'
 import { Modal } from 'bootstrap'
 
 import "../../css/medals_24.css";
-import "../../css/medals_50.css";
 
 import '../../css/stats/leaderboard.css'
 

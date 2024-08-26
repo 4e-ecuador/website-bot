@@ -259,6 +259,8 @@ class MedalChecker
             'Discoverie: Kinetic Capsules'           => '',
             'Discoverie: Machina Reclaims'           => '',
             'Buried Memories Global Op Points'       => '',
+            'Shared Memories Global Op Points'       => '',
+            'Field Test Dispatch'                    => '',
 
             'Machina Links Destroyed'      => '',
             'Machina Resonators Destroyed' => '',

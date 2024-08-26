@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
@@ -45,7 +46,7 @@ class StatsController extends BaseController
     ): Response {
         $medalGroups = [];
         $latest = $statRepository->getAgentLatest($agent);
-        if ($latest instanceof \App\Entity\AgentStat) {
+        if ($latest instanceof AgentStat) {
             $medals = $medalChecker->checkLevels($latest);
             arsort($medals);
             $medalGroups = $medals;
@@ -55,7 +56,7 @@ class StatsController extends BaseController
         $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
         try {
             $customMedals = json_decode(
-                (string) $agent->getCustomMedals(),
+                (string)$agent->getCustomMedals(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR | JSON_ERROR_NONE
@@ -198,7 +199,7 @@ class StatsController extends BaseController
                 if (false === isset($previous[$agentName])) {
                     $previousEntry = $statRepository->getPrevious($entry);
 
-                    $previous[$agentName] = $previousEntry instanceof \App\Entity\AgentStat
+                    $previous[$agentName] = $previousEntry instanceof AgentStat
                         ? $medalChecker->checkLevels(
                             $previousEntry
                         ) : $medalChecker->checkLevels($entry);
@@ -266,14 +267,16 @@ class StatsController extends BaseController
         $dates = [];
         foreach ($stats as $stat) {
             $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
-            [$year, $month, $day, $time] = explode(' ', (string) $dateString);
+            [$year, $month, $day, $time] = explode(' ', (string)$dateString);
             $dates[$year][$month][$day][] = $time;
         }
 
         return $this->render('stats/in-between.html.twig', [
-            'dates' => $dates,
-            'firstDate' => $stats[count($stats)-1]->getDatetime()?->format('Y-n-j H:i:s'),
-            'lastDate' => $stats[0]->getDatetime()?->format('Y-n-j H:i:s'),
+            'dates'     => $dates,
+            'firstDate' => $stats[count($stats) - 1]->getDatetime()?->format(
+                'Y-n-j H:i:s'
+            ),
+            'lastDate'  => $stats[0]->getDatetime()?->format('Y-n-j H:i:s'),
         ]);
     }
 
@@ -300,16 +303,15 @@ class StatsController extends BaseController
         if (!$startEntry || !$endEntry) {
             $error = 'Invalid entries';
             $result = new ImportResult();
-        }else{
+        } else {
             $error = '';
             $result = $statsImporter->getImportResult($endEntry, $startEntry);
         }
 
-
         return $this->render('import/_result.html.twig', [
             'statEntry' => $endEntry,
             'result'    => $result,
-            'error' => $error,
+            'error'     => $error,
         ]);
     }
 
@@ -389,8 +391,9 @@ class StatsController extends BaseController
                 return $this->render(
                     'import/result.html.twig',
                     [
-                        'statEntry'  => $statEntry,
-                        'result'     => $result,
+                        'statEntry' => $statEntry,
+                        'result'    => $result,
+                        'error'     => '',
                     ]
 
                 );

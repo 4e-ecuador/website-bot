@@ -22,7 +22,7 @@
     <div class="alert alert-success">
         <h3>{{ 'CORE Subscription'|trans }}</h3>
         {% for name in result.coreSubscribed %}
-            <span class="medal50 medal-UniqueBadge_{{ name }}"
+            <span class="medal50 medal-unique_badge_{{ name }}"
                   title="{{ name }}"
             ></span>
         {% endfor %}
@@ -34,7 +34,7 @@
         <div class="row">
             {% if 'ap' == name %}
                 <div class="col">
-                    <h5>AP: <span class="badge badge-success">+ {{ value|number_format }}</span></h5>
+                    <h5>AP: <span class="badge text-bg-success">+ {{ value|number_format }}</span></h5>
                 </div>
             {% else %}
                 <div class="col-6">
@@ -50,7 +50,7 @@
                     {% else %}
                         {{ name }}
                     {% endif %}
-                    <span class="badge badge-success">+ {{ value|number_format }}</span>
+                    <span class="badge text-bg-success">+ {{ value|number_format }}</span>
                 </div>
                 <div class="col-6">
                     {% if name starts with 'drone' or name in[
@@ -63,13 +63,13 @@
                             <span class="medal50 medal-{{ getBadgePath(name, level+1, 0, '') }}"
                                   title="{{ name }} - {{ (level+1)|translateMedalLevel }}"
                             ></span>
-                            <span class="badge badge-secondary">- {{ (medalValue(name,level + 1)-statEntry[name])|number_format }}</span>
+                            <span class="badge text-bg-secondary">- {{ (medalValue(name,level + 1)-statEntry[name])|number_format }}</span>
                         {% else %}
                             <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"
                                   title="{{ name }} - {{ (level)|translateMedalLevel }}"
                             ></span>
                             <span class="text-warning">X {{ doubleCount + 1 }}</span>
-                            <span class="badge badge-secondary">- {{ (((doubleCount + 1) * medalValue(name,level)) - statEntry[name])|number_format }}</span>
+                            <span class="badge text-bg-secondary">- {{ (((doubleCount + 1) * medalValue(name,level)) - statEntry[name])|number_format }}</span>
                         {% endif %}
                     {% endif %}
                 </div>

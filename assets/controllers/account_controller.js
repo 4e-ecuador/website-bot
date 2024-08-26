@@ -2,8 +2,6 @@ import { Controller } from '@hotwired/stimulus'
 
 import Map from '../js/helper/Map.js'
 
-import "../css/medals_50.css";
-
 import '../css/map/edit-map.css'
 import '../css/account.css'
 

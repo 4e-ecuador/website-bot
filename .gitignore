@@ -26,10 +26,6 @@
 ###< phpunit/phpunit ###
 
 /bin/.phpunit
-phpstan.neon
-pws.txt
-
-backups
 
 ###> phpstan/phpstan ###
 phpstan.neon

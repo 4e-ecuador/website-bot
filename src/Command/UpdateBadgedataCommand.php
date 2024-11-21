@@ -47,20 +47,24 @@ class UpdateBadgedataCommand extends Command
      */
     private array $uglyDudes
         = [
-            'img_0229.png'                     => 'anomaly_discoverie.png',
-            'badge_paragon_onyx.png'           => 'badge_paragon_black.png',
-            'chronos_basic.png'                => 'event_badge_chronos_bronze.png',
-            'chronos_advanced.png'             => 'event_badge_chronos_silver.png',
-            'cryptic_memories_op_bronze.png'   => 'event_badge_cryptic_memories_bronze.png',
-            'cryptic_memories_op_silver.png'   => 'event_badge_cryptic_memories_silver.png',
-            'unique_core_year3.png'            => 'unique_badge_core_year3.png',
-            'buried_memories.png'              => 'anomaly_buried_memories.png',
-            'buried_memories_op_bronze.png'    => 'event_badge_buried_memories_bronze.png',
-            'buried_memories_op_silver.png'    => 'event_badge_buried_memories_silver.png',
-            'shared_memories_op_bronze.png'    => 'event_badge_shared_memories_bronze.png',
-            'shared_memories_op_silver.png'    => 'event_badge_shared_memories_silver.png',
-            'field_test_dispatch_basic.png'    => 'event_badge_field_test_dispatch_bronze.png',
-            'field_test_dispatch_advanced.png' => 'event_badge_field_test_dispatch_silver.png',
+            'img_0229.png'                               => 'anomaly_discoverie.png',
+            'badge_paragon_onyx.png'                     => 'badge_paragon_black.png',
+            'chronos_basic.png'                          => 'event_badge_chronos_bronze.png',
+            'chronos_advanced.png'                       => 'event_badge_chronos_silver.png',
+            'cryptic_memories_op_bronze.png'             => 'event_badge_cryptic_memories_bronze.png',
+            'cryptic_memories_op_silver.png'             => 'event_badge_cryptic_memories_silver.png',
+            'unique_core_year3.png'                      => 'unique_badge_core_year3.png',
+            'buried_memories.png'                        => 'anomaly_buried_memories.png',
+            'buried_memories_op_bronze.png'              => 'event_badge_buried_memories_bronze.png',
+            'buried_memories_op_silver.png'              => 'event_badge_buried_memories_silver.png',
+            'shared_memories_op_bronze.png'              => 'event_badge_shared_memories_bronze.png',
+            'shared_memories_op_silver.png'              => 'event_badge_shared_memories_silver.png',
+            'field_test_dispatch_basic.png'              => 'event_badge_field_test_dispatch_bronze.png',
+            'field_test_dispatch_advanced.png'           => 'event_badge_field_test_dispatch_silver.png',
+            'badge_catalyst_onyx.png'                    => 'badge_catalyst_black.png',
+            'erased_anomaly_ph.png'                      => 'anomaly_erased_memories.png',
+            'event_erased_memories_global_op_bronze.png' => 'event_badge_erased_memories_bronze.png',
+            'event_erased_memories_global_op_silver.png' => 'event_badge_erased_memories_silver.png',
         ];
 
     /**
@@ -96,6 +100,18 @@ class UpdateBadgedataCommand extends Command
             'Urban Ops',
             'Unused/Replaced',
             'Unused/Replaced - Single',
+        ];
+
+    /**
+     * @var array|string[]
+     */
+    private array $skipBadges
+        = [
+            'badge_intel_ops',
+            'badge_operation_clear_field',
+            'badge_oprlive',
+            'badge_urban_ops',
+            'badge_stealth_ops',
         ];
 
     /**
@@ -394,6 +410,12 @@ class UpdateBadgedataCommand extends Command
             }
 
             return true;
+        }
+
+        foreach ($this->skipBadges as $skipBadge) {
+            if (str_starts_with((string)$item->image[0], $skipBadge)) {
+                return true;
+            }
         }
 
         if (str_starts_with(

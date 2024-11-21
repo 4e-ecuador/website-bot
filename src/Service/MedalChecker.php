@@ -280,6 +280,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'erased_memories',
                     'buried_memories',
                     'cryptic_memories',
                     'discoverie',
@@ -313,6 +314,7 @@ class MedalChecker
                 ],
             'annual'  =>
                 [
+                    'catalyst'    => [],
                     'paragon'     => [],
                     'pathfinder'  => [],
                     'persistence' => [],
@@ -326,6 +328,11 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'erased_memories'   =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
                     'field_test_dispatch'   =>
                         [
                             'bronze',

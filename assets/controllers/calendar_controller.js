@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
+import 'fullcalendar'; //this is needed.
 import { Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 

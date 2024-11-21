@@ -16,11 +16,11 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
+    ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
     ],
     'bootstrap' => [
         'version' => '5.3.3',
@@ -36,18 +36,21 @@ return [
         'version' => '0.52.2',
     ],
     'js-datepicker' => [
-        'version' => '5.18.2',
+        'version' => '5.18.3',
     ],
     'js-datepicker/dist/datepicker.min.css' => [
-        'version' => '5.18.2',
+        'version' => '5.18.3',
         'type' => 'css',
     ],
     'open-iconic/font/css/open-iconic-bootstrap.css' => [
         'version' => '1.1.1',
         'type' => 'css',
     ],
+    'fullcalendar' => [
+        'version' => '5.11.5',
+    ],
     '@fullcalendar/core' => [
-        'version' => '6.1.15',
+        'version' => '5.11.5',
     ],
     'preact' => [
         'version' => '10.12.1',
@@ -59,16 +62,10 @@ return [
         'version' => '10.12.1',
     ],
     '@fullcalendar/daygrid' => [
-        'version' => '6.1.15',
+        'version' => '5.11.5',
     ],
-    '@fullcalendar/core/index.js' => [
-        'version' => '6.1.15',
-    ],
-    '@fullcalendar/core/internal.js' => [
-        'version' => '6.1.15',
-    ],
-    '@fullcalendar/core/preact.js' => [
-        'version' => '6.1.15',
+    '@fullcalendar/common' => [
+        'version' => '5.11.5',
     ],
     'tributejs' => [
         'version' => '5.1.3',
@@ -99,16 +96,16 @@ return [
         'type' => 'css',
     ],
     'tiny-markdown-editor' => [
-        'version' => '0.1.21',
+        'version' => '0.1.23',
     ],
     'core-js/modules/es.regexp.flags.js' => [
-        'version' => '3.37.1',
+        'version' => '3.38.1',
     ],
     'highcharts' => [
-        'version' => '11.4.6',
+        'version' => '11.4.8',
     ],
     'highcharts/css/themes/dark-unica.css' => [
-        'version' => '11.4.6',
+        'version' => '11.4.8',
         'type' => 'css',
     ],
     'leaflet.markercluster/dist/MarkerCluster.Default.css' => [
@@ -124,10 +121,40 @@ return [
         'type' => 'css',
     ],
     'slim-select' => [
-        'version' => '2.8.2',
+        'version' => '2.9.0',
     ],
     'slim-select/dist/slimselect.min.css' => [
-        'version' => '2.8.2',
+        'version' => '2.9.0',
         'type' => 'css',
+    ],
+    '@fullcalendar/core/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/interaction/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/daygrid/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/timegrid/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/list/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/multimonth/index.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/core/internal.js' => [
+        'version' => '6.1.15',
+    ],
+    '@fullcalendar/core/preact.js' => [
+        'version' => '6.1.15',
+    ],
+    'tslib' => [
+        'version' => '2.7.0',
+    ],
+    '@fullcalendar/daygrid/internal.js' => [
+        'version' => '6.1.15',
     ],
 ];

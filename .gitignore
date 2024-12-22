@@ -19,6 +19,7 @@
 ## LOCAL
 /testdata/
 .idea/workspace.xml
+.env.blub
 
 ###> phpunit/phpunit ###
 /phpunit.xml

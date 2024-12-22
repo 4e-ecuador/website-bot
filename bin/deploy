@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Deploy script
+#
+# License: WTFPL
+# Author: Nikolai Plath
+#
+
+#PHP="/opt/plesk/php/8.3/bin/php"
+#COMPOSER="/usr/lib/plesk-9.0/composer.phar"
+PHP=php
+COMPOSER=composer
+
+echo ">>>============================================================================="
+date
+
+echo "**** Installing composer dependencies..."
+$PHP $COMPOSER install --no-dev --optimize-autoloader
+
+echo "**** Creating prod env file..."
+$PHP $COMPOSER dump-env prod
+
+echo "**** Installing assets..."
+$PHP bin/console asset-map:compile
+
+echo "**** Executing db migrations..."
+$PHP bin/console doctrine:migrations:migrate -n
+
+echo "<<<============================================================================="

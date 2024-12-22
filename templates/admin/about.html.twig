@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About{% endblock %}
+
+{% block body %}
+    <h1>System Info</h1>
+
+    <h4>{{ project_dir }}</h4>
+
+    <pre>{{ systemInfo }}</pre>
+{% endblock %}

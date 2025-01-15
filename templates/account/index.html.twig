@@ -14,7 +14,9 @@
             </h3>
         </div>
     </div>
-    <div {{ stimulus_controller('account') }}>
+    <div {{ stimulus_controller('account') }}
+            data-action="account-map:update->account#update"
+    >
 
         {{ form_start(form) }}
         {{ form_errors(form) }}
@@ -29,7 +31,7 @@
             {{ 'Please move the marker to your meeting point location'|trans }}
         </div>
 
-        <div id="map"></div>
+        {{ ux_map(map, {'data-controller': 'account-map', style: 'height: 250px;' }) }}
 
         {% if agent.mapGroup %}
             <div class="alert alert-success">

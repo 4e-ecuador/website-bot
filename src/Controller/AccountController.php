@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\UX\Map\Bridge\Leaflet\LeafletOptions;
+use Symfony\UX\Map\Bridge\Leaflet\Option\TileLayer;
+use Symfony\UX\Map\Map;
+use Symfony\UX\Map\Point;
 use UnexpectedValueException;
 
 class AccountController extends BaseController
@@ -39,7 +43,7 @@ class AccountController extends BaseController
 
         $agentAccount = $request->request->all('agent_account');
         $customMedals = json_decode(
-            (string) $agent->getCustomMedals(),
+            (string)$agent->getCustomMedals(),
             true,
             512,
             JSON_THROW_ON_ERROR
@@ -67,6 +71,35 @@ class AccountController extends BaseController
             return $this->redirectToRoute('default');
         }
 
+        $lat = $agent->getLat() ?: -1.262326;
+        $lon = $agent->getLon() ?: -79.09357;
+        $zoom = $agent->getLat() ? 12 : 5;
+
+        $map = (new Map('default'))
+            ->center(new Point($lat, $lon))
+            ->zoom($zoom)
+                /*
+            ->addMarker(
+                new Marker(
+                    position: new Point($lat, $lon),
+                    title: 'Lyon',
+                    infoWindow: new InfoWindow(
+                        content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
+                    )
+                )
+            )
+            */
+            ->options(
+                (new LeafletOptions())
+                    ->tileLayer(
+                        new TileLayer(
+                            url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            options: ['maxZoom' => 19]
+                        )
+                    )
+            );
+
         return $this->render(
             'account/index.html.twig',
             [
@@ -78,6 +111,7 @@ class AccountController extends BaseController
                 'telegramConnectLink2' => $telegramBotHelper
                     ->getConnectLink2($agent),
                 'customMedals'         => $medalChecker->getCustomMedalGroups(),
+                'map'                  => $map,
             ]
         );
     }

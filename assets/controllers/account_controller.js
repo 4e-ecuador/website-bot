@@ -1,33 +1,24 @@
 import { Controller } from '@hotwired/stimulus'
 
-import Map from '../js/helper/Map.js'
-
-import '../css/map/edit-map.css'
 import '../css/account.css'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['lat', 'lon']
 
-    connect() {
-        let lat = parseFloat(this.latTarget.value.replace(',', '.'))
-        let lon = parseFloat(this.lonTarget.value.replace(',', '.'))
-        let zoom = 12
-
-        if (isNaN(lat) || isNaN(lon)) {
-            lat = -1.262326
-            lon = -79.09357
-            zoom = 5
-        }
-
-        const map = new Map(lat, lon, zoom)
-
-        map.addDraggableMarker(lat, lon, function (e) {
-            this.latTarget.value = e.latlng.lat
-            this.lonTarget.value = e.latlng.lng
-        }.bind(this))
+    /**
+     * This will receive the detail from the account-map:update event and update the
+     * form field values accordingly.
+     */
+    update({ detail: { center } }) {
+        this.latTarget.value = center.lat
+        this.lonTarget.value = center.lng
     }
 
+    /**
+     * This will update a set of CSS classes for images according to the state of
+     * some input option form fields.
+     */
     updateMedals(e) {
         let element
 

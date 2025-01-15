@@ -157,4 +157,7 @@ return [
     '@fullcalendar/daygrid/internal.js' => [
         'version' => '6.1.15',
     ],
+    '@symfony/ux-leaflet-map' => [
+        'path' => './vendor/symfony/ux-leaflet-map/assets/dist/map_controller.js',
+    ],
 ];

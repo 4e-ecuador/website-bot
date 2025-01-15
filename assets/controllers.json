@@ -1,4 +1,11 @@
 {
-    "controllers": [],
+    "controllers": {
+        "@symfony/ux-leaflet-map": {
+            "map": {
+                "enabled": true,
+                "fetch": "lazy"
+            }
+        }
+    },
     "entrypoints": []
 }

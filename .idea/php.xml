@@ -243,6 +243,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/type-info" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset-mapper" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/vendor/staabm/side-effects-detector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ux-map" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ux-leaflet-map" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

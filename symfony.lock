@@ -123,6 +123,9 @@
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
+    "jawira/doctrine-diagram-bundle": {
+        "version": "dev-main"
+    },
     "knplabs/knp-time-bundle": {
         "version": "v1.19.0"
     },

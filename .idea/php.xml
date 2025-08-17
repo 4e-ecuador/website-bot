@@ -243,6 +243,15 @@
       <path value="$PROJECT_DIR$/vendor/symfony/type-info" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset-mapper" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/vendor/jawira/db-draw" />
+      <path value="$PROJECT_DIR$/vendor/jawira/entity-draw" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-client" />
+      <path value="$PROJECT_DIR$/vendor/jawira/doctrine-diagram-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jawira/doctrine-diagram-contracts" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-to-image" />
+      <path value="$PROJECT_DIR$/vendor/jawira/plantuml-encoding" />
+      <path value="$PROJECT_DIR$/vendor/jawira/the-lost-functions" />
+      <path value="$PROJECT_DIR$/vendor/staabm/side-effects-detector" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

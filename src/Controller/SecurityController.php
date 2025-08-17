@@ -17,7 +17,7 @@ class SecurityController extends AbstractController
         AuthenticationUtils $authenticationUtils,
         Request $request,
         #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
-        UserInterface $user = null,
+        ?UserInterface $user = null,
     ): Response {
         if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             // User is already logged in

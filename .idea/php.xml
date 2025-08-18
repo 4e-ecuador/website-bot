@@ -252,6 +252,8 @@
       <path value="$PROJECT_DIR$/vendor/jawira/plantuml-encoding" />
       <path value="$PROJECT_DIR$/vendor/jawira/the-lost-functions" />
       <path value="$PROJECT_DIR$/vendor/staabm/side-effects-detector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ux-map" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ux-leaflet-map" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

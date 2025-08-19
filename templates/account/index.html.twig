@@ -65,8 +65,7 @@
                                 {% if agentCustomMedals[group][medal] is defined %}
                                     {% set selectedValue = agentCustomMedals[group][medal] %}
                                 {% endif %}
-                                {% if tiers is empty %}
-                                    {# Annual #}
+                                {% if group == 'annual' %}
                                     {% for i in 1..5 %}
                                         {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~i }}"
@@ -82,40 +81,41 @@
                                                value="{{ i }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
-                                {% else %}
-                                    {% if 'anomaly' == group %}
-                                        {% set checked = agentCustomMedals['anomaly'][tiers] is defined ? ' checked="checked"' : '' %}
-                                        <label data-for="{{ 'medal-'~group~medal }}"
+                                {% elseif 'anomaly' == group %}
+                                    {% for tier in tiers %}
+                                        {% set checked = agentCustomMedals['anomaly'][medal] is defined and tier == agentCustomMedals['anomaly'][medal] ? ' checked="checked"' : '' %}
+                                        <label data-for="{{ 'medal-'~group~medal~tier }}"
                                                class="medalLabel{{ checked ? ' medalSelected' : '' }}"
                                                 {{ stimulus_action('account', 'updateMedals', 'click') }}
                                         >
-                                        <span class="medal50 medal-anomaly_{{ tiers }}"
-                                              title="{{ tiers }}"
+                                        <span class="medal50 medal-anomaly_{{ medal~(tier?'_'~tier:'') }}"
+                                              title="{{ medal~' '~tier }}"
                                         ></span>
                                         </label>
-                                        <input type="radio" name="customMedals[{{ group }}][{{ tiers }}]"
-                                               id="{{ 'medal-'~group~medal }}"
-                                               value="1" class="hiddenCheckBox"
+                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                               id="{{ 'medal-'~group~medal~tier }}"
+                                               value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
-                                    {% elseif 'event' == group %}
-                                        {% for tier in tiers %}
-                                            {% set checked = agentCustomMedals['event'][medal] is defined and tier == agentCustomMedals['event'][medal] ? ' checked="checked"' : '' %}
-                                            <label data-for="{{ 'medal-'~group~medal~tier }}"
-                                                   class="medalsLabel{{ checked ? ' medalSelected' : '' }}"
-                                                    {{ stimulus_action('account', 'updateMedals', 'click') }}
-                                            >
+                                    {% endfor %}
+
+                                {% elseif 'event' == group %}
+                                    {% for tier in tiers %}
+                                        {% set checked = agentCustomMedals['event'][medal] is defined and tier == agentCustomMedals['event'][medal] ? ' checked="checked"' : '' %}
+                                        <label data-for="{{ 'medal-'~group~medal~tier }}"
+                                               class="medalsLabel{{ checked ? ' medalSelected' : '' }}"
+                                                {{ stimulus_action('account', 'updateMedals', 'click') }}
+                                        >
                                             <span class="medal50 medal-{{ getBadgeName(group, medal, tier) }}"
                                                   title="{{ medal~' '~tier }}"
                                             ></span>
-                                            </label>
-                                            <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
-                                                   id="{{ 'medal-'~group~medal~tier }}"
-                                                   value="{{ tier }}" class="hiddenCheckBox"
-                                                    {{ checked }}>
-                                        {% endfor %}
-                                    {% else %}
-                                        @TODO {{ group }}
-                                    {% endif %}
+                                        </label>
+                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                               id="{{ 'medal-'~group~medal~tier }}"
+                                               value="{{ tier }}" class="hiddenCheckBox"
+                                                {{ checked }}>
+                                    {% endfor %}
+                                {% else %}
+                                    @TODO {{ group }}
                                 {% endif %}
                             </div>
                         {% endfor %}

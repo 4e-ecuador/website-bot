@@ -280,37 +280,40 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
-                    'erased_memories',
-                    'buried_memories',
-                    'cryptic_memories',
-                    'discoverie',
-                    'ctrl',
-                    'echo',
-                    'mzfpk',
-                    'epiphany_dawn',
-                    'superposition',
-                    'kythera',
-                    'kureze_effect',
-                    'umbra',
-                    'nemesis_myriad',
-                    'abaddon_prime',
-                    'darsana_prime',
-                    'recursion_prime',
-                    'cassandra_prime',
-                    'exo5',
-                    '13_magnusreawakens',
-                    'via_noir',
-                    'via_lux',
-                    'aegis_nova',
-                    'obsidian',
-                    'abaddon',
-                    'persepolis',
-                    'shonin',
-                    'darsana',
-                    'helios',
-                    'initio',
-                    'interitus',
-                    'recursion',
+                    'plus_delta'         => ['bronze', 'silver', 'gold'],
+                    'plus_theta'         => ['bronze', 'silver', 'gold'],
+                    'plus_alpha'         => [''],
+                    'erased_memories'    => [''],
+                    'buried_memories'    => [''],
+                    'cryptic_memories'   => [''],
+                    'discoverie'         => [''],
+                    'ctrl'               => [''],
+                    'echo'               => [''],
+                    'mzfpk'              => [''],
+                    'epiphany_dawn'      => [''],
+                    'superposition'      => [''],
+                    'kythera'            => [''],
+                    'kureze_effect'      => [''],
+                    'umbra'              => [''],
+                    'nemesis_myriad'     => [''],
+                    'abaddon_prime'      => [''],
+                    'darsana_prime'      => [''],
+                    'recursion_prime'    => [''],
+                    'cassandra_prime'    => [''],
+                    'exo5'               => [''],
+                    '13_magnusreawakens' => [''],
+                    'via_noir'           => [''],
+                    'via_lux'            => [''],
+                    'aegis_nova'         => [''],
+                    'obsidian'           => [''],
+                    'abaddon'            => [''],
+                    'persepolis'         => [''],
+                    'shonin'             => [''],
+                    'darsana'            => [''],
+                    'helios'             => [''],
+                    'initio'             => [''],
+                    'interitus'          => [''],
+                    'recursion'          => [''],
                 ],
             'annual'  =>
                 [
@@ -328,7 +331,12 @@ class MedalChecker
                 ],
             'event'   =>
                 [
-                    'erased_memories'   =>
+                    'plus_alpha'            =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'erased_memories'       =>
                         [
                             'bronze',
                             'silver',
@@ -359,6 +367,8 @@ class MedalChecker
                             'silver',
                         ],
                     'peace_day_2022'        =>
+                        [''],
+                    'solstice_recharge'     =>
                         [''],
                     'eosimprint'            =>
                         [

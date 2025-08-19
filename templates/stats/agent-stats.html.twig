@@ -34,6 +34,9 @@
                 {% if latest.monthsSubscribed >= 36 %}
                     <span class="medal50 medal-unique_badge_core_year3" title="CORE subscriptions (36 month)"></span>
                 {% endif %}
+                {% if latest.monthsSubscribed >= 48 %}
+                    <span class="medal50 medal-unique_badge_quad_core" title="CORE subscriptions (48 month)"></span>
+                {% endif %}
 
             {% endif %}
         {% endif %}
@@ -56,7 +59,7 @@
                         >
                             <span class="medal-image">
                             {% if 'anomaly' == group %}
-                                <span class="medal50 medal-anomaly_{{ medal }}"
+                                <span class="medal50 medal-anomaly_{{ medal~(value?'_'~value:'') }}"
                                       title="{{ badgeData.title }}"
                                 ></span>
                             {% elseif 'event' == group %}

@@ -29,10 +29,10 @@ class AppExtension extends AbstractExtension
      */
     public array $roleFilters
         = [
-            'ROLE_AGENT' => 'Agent',
+            'ROLE_AGENT'       => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR' => 'Editor',
-            'ROLE_ADMIN' => 'Admin',
+            'ROLE_EDITOR'      => 'Editor',
+            'ROLE_ADMIN'       => 'Admin',
         ];
 
     public function __construct(
@@ -125,7 +125,8 @@ class AppExtension extends AbstractExtension
         $displayRoles = [];
 
         foreach ($roles as $role) {
-            $displayRoles[] = array_key_exists($role, $this->roleFilters) ? $this->roleFilters[$role] : $role;
+            $displayRoles[] = array_key_exists($role, $this->roleFilters)
+                ? $this->roleFilters[$role] : $role;
         }
 
         return implode(', ', $displayRoles);
@@ -218,7 +219,7 @@ class AppExtension extends AbstractExtension
     ): string {
         switch ($group) {
             case 'anomaly':
-                $name = 'anomaly_'.$badge;
+                $name = 'anomaly_'.$badge.($value ? '_'.$value : '');
                 break;
             case 'event':
                 if ('peace_day_2022' === $badge) {
@@ -237,7 +238,7 @@ class AppExtension extends AbstractExtension
                 ) {
                     $name = 'badge_'.$badge.'_'.$value;
                 } else {
-                    $name = 'event_badge_'.$badge.'_'.$value;
+                    $name = 'event_badge_'.$badge.($value ? '_'.$value : '');
                 }
 
                 break;

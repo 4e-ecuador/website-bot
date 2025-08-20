@@ -80,7 +80,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getChallengePath', $this->getChallengePath(...)),
             new TwigFunction('getBadgeData', $this->getBadgeData(...)),
             new TwigFunction('getBadgeName', $this->getBadgeName(...)),
-            new TwigFunction('php_version', $this->getPhpVersion(...)),
             new TwigFunction('intlDate', $this->intlDate(...)),
             new TwigFunction('defaultTimeZone', $this->getDefaultTimeZone(...)),
         ];
@@ -261,11 +260,6 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getBadgeData(
             $this->getBadgeName($group, $badge, $value)
         );
-    }
-
-    public function getPhpVersion(): string
-    {
-        return PHP_VERSION;
     }
 
     public function stripGmail(string $string): string

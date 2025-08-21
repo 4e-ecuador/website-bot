@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Entity\Comment;
 use App\Form\AgentType;
+use App\Helper\Map\MapTrait;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
 use App\Repository\FactionRepository;
@@ -24,7 +25,7 @@ use function count;
 #[Route(path: '/agent')]
 class AgentController extends BaseController
 {
-    use PaginatorTrait;
+    use PaginatorTrait, MapTrait;
 
     #[Route(path: '/', name: 'agent_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_AGENT')]
@@ -74,11 +75,13 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_AGENT')]
     public function show(Agent $agent, UserRepository $userRepository): Response
     {
+        $map = $agent->getLat()?$this->getAgentLocationMap($agent, true):null;
         return $this->render(
             'agent/show.html.twig',
             [
                 'agent' => $agent,
                 'user'  => $userRepository->findByAgent($agent),
+                'map'   => $map,
             ]
         );
     }

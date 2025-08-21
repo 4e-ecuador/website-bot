@@ -1,7 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
 
-import Map from '../../js/helper/Map.js'
-
 import '../../css/map/edit-map.css'
 
 import TinyMDE from 'tiny-markdown-editor'
@@ -32,8 +30,8 @@ export default class extends Controller {
     editor = null
 
     connect() {
-        const map = new Map(this.latValue, this.lonValue, 15)
-        map.addMarker(this.latValue, this.lonValue)
+        //const map = new Map(this.latValue, this.lonValue, 15)
+        //map.addMarker(this.latValue, this.lonValue)
 
         if (this.agentIdValue) {
             this.getComments()

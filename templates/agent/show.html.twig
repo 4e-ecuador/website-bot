@@ -64,8 +64,8 @@
             <tr>
                 <td colspan="2">
                     {{ 'Position'|trans }}
-                    {% if agent.lat and agent.lon %}
-                        <div id="map"></div>
+                    {% if map %}
+                        {{ ux_map(map, {'data-controller': 'agent-map', style: 'height: 250px;' }) }}
                     {% else %}
                         {{ 'Unknown'|trans }}
                     {% endif %}

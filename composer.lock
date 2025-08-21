@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b15b7bbe2fd1044e0a555cd7b13ce0cf",
+    "content-hash": "cabbb8c3aef9f73a25d37fd3c2e2046b",
     "packages": [
         {
             "name": "boshurik/telegram-bot-bundle",
-            "version": "5.0.2",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoShurik/TelegramBotBundle.git",
-                "reference": "d2a8f0579c5d45c592c9d188c22a54e5aafc1f8c"
+                "reference": "7a06457c4dfdaa6450afd498927cda2941ec0e67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoShurik/TelegramBotBundle/zipball/d2a8f0579c5d45c592c9d188c22a54e5aafc1f8c",
-                "reference": "d2a8f0579c5d45c592c9d188c22a54e5aafc1f8c",
+                "url": "https://api.github.com/repos/BoShurik/TelegramBotBundle/zipball/7a06457c4dfdaa6450afd498927cda2941ec0e67",
+                "reference": "7a06457c4dfdaa6450afd498927cda2941ec0e67",
                 "shasum": ""
             },
             "require": {
@@ -27,25 +27,27 @@
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
                 "symfony/event-dispatcher": "^5.4 || ^6.0 || ^7.0",
                 "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0",
-                "symfony/yaml": "^5.4 || ^6.0 || ^7.0",
                 "telegram-bot/api": "^2.3.14"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "psalm/plugin-symfony": "^3.0",
+                "friendsofphp/php-cs-fixer": "~3.23.0",
+                "psalm/plugin-symfony": "^4.0",
+                "symfony/http-client": "^5.4 || ^6.0 || ^7.0",
                 "symfony/messenger": "^5.4 || ^6.0 || ^7.0",
-                "symfony/phpunit-bridge": "^6.0 || ^7.0",
+                "symfony/phpunit-bridge": "^7.0.1",
                 "symfony/security-http": "^5.4 || ^6.0 || ^7.0",
-                "vimeo/psalm": "^3.10 || ^4.0"
+                "symfony/yaml": "^5.4 || ^6.0 || ^7.0",
+                "vimeo/psalm": "~4.30.0"
             },
             "suggest": {
+                "symfony/http-client": "Required to use third party http client",
                 "symfony/messenger": "Required to handle messages with queues",
                 "symfony/security-guard": "Required to implement user authentication through Telegram"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.0.x-dev"
+                    "dev-master": "6.0.x-dev"
                 }
             },
             "autoload": {
@@ -70,9 +72,9 @@
             "description": "Telegram bot bundle",
             "support": {
                 "issues": "https://github.com/BoShurik/TelegramBotBundle/issues",
-                "source": "https://github.com/BoShurik/TelegramBotBundle/tree/5.0.2"
+                "source": "https://github.com/BoShurik/TelegramBotBundle/tree/6.0.1"
             },
-            "time": "2023-12-22T12:45:44+00:00"
+            "time": "2025-07-10T10:10:37+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",

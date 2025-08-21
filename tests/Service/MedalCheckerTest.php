@@ -85,7 +85,7 @@ class MedalCheckerTest extends KernelTestCase
         foreach ($medals as $medal => $value) {
             $result = $this->medalChecker->getMedalLevel($medal, $value);
 
-            self::assertSame(1, $result);
+            self::assertSame(1, $result, sprintf('Failed for %s -  %s', $medal, $value));
         }
 
         $result = $this->medalChecker->getMedalLevel('XXX', 0);

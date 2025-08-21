@@ -35,7 +35,6 @@
       <path value="$PROJECT_DIR$/vendor/league/oauth2-google" />
       <path value="$PROJECT_DIR$/vendor/league/oauth2-client" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
@@ -101,7 +100,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/monolog-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-eventmanager" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
@@ -247,7 +245,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/stimulus-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/type-info" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset-mapper" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/jawira/db-draw" />
       <path value="$PROJECT_DIR$/vendor/jawira/entity-draw" />
       <path value="$PROJECT_DIR$/vendor/jawira/plantuml-client" />
@@ -259,13 +256,13 @@
       <path value="$PROJECT_DIR$/vendor/staabm/side-effects-detector" />
       <path value="$PROJECT_DIR$/vendor/symfony/ux-map" />
       <path value="$PROJECT_DIR$/vendor/symfony/ux-leaflet-map" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php84" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
   <component name="PhpStan">
     <PhpStan_settings>
       <PhpStanConfiguration tool_path="$PROJECT_DIR$/vendor/bin/phpstan" timeout="60000" />
-      <PhpStanConfiguration asDefaultInterpreter="true" tool_path="$PROJECT_DIR$/vendor/bin/phpstan" timeout="60000" />
     </PhpStan_settings>
   </component>
   <component name="PhpStanOptionsConfiguration">

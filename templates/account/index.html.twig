@@ -58,14 +58,20 @@
                      role="tabpanel"
                      aria-labelledby="{{ group }}-tab"
                 >
-                    <div class="row">
-                        {% for medal, tiers in medals %}
-                            <div class="col">
+                    {% for medal, tiers in medals %}
+                        <div class="row">
+                            {% if agentCustomMedals[group][medal] is defined %}
+                                {% set selectedValue = agentCustomMedals[group][medal] %}
+                            {% else %}
                                 {% set selectedValue = 0 %}
-                                {% if agentCustomMedals[group][medal] is defined %}
-                                    {% set selectedValue = agentCustomMedals[group][medal] %}
-                                {% endif %}
-                                {% if group == 'annual' %}
+                            {% endif %}
+                            {% if group == 'annual' %}
+                                {% set badgeData = getBadgeData(group, medal, 1) %}
+                                <div class="col">
+                                    <h4>{{ badgeData.title }}</h4>
+                                    {{ badgeData.description }}
+                                </div>
+                                <div class="col">
                                     {% for i in 1..5 %}
                                         {% set checked = i == selectedValue ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~i }}"
@@ -81,7 +87,14 @@
                                                value="{{ i }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
-                                {% elseif 'anomaly' == group %}
+                                </div>
+                            {% elseif 'anomaly' == group %}
+                                {% set badgeData = getBadgeData(group, medal, tiers[0]) %}
+                                <div class="col">
+                                    <h4>{{ badgeData.title }}</h4>
+                                    {{ badgeData.description }}
+                                </div>
+                                <div class="col">
                                     {% for tier in tiers %}
                                         {% set checked = agentCustomMedals['anomaly'][medal] is defined and tier == agentCustomMedals['anomaly'][medal] ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~tier }}"
@@ -97,8 +110,15 @@
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
+                                </div>
 
-                                {% elseif 'event' == group %}
+                            {% elseif 'event' == group %}
+                                {% set badgeData = getBadgeData(group, medal, tiers[0]) %}
+                                <div class="col">
+                                    <h4>{{ badgeData.title }}</h4>
+                                    {{ badgeData.description }}
+                                </div>
+                                <div class="col">
                                     {% for tier in tiers %}
                                         {% set checked = agentCustomMedals['event'][medal] is defined and tier == agentCustomMedals['event'][medal] ? ' checked="checked"' : '' %}
                                         <label data-for="{{ 'medal-'~group~medal~tier }}"
@@ -114,15 +134,17 @@
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
-                                {% else %}
-                                    @TODO {{ group }}
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
+                                </div>
+                            {% else %}
+                                @TODO {{ group }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
             {% endfor %}
         </div>
+
+        <hr>
 
         <h4><a id="telegram"></a>Telegram</h4>
         {% if agent.telegramId %}

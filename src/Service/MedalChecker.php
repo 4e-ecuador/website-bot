@@ -612,21 +612,7 @@ class MedalChecker
 
     public function getLevelValue(string $medal, int $level): int
     {
-        if ('nl1331Meetups' === $medal) {
-            $medal = 'nl-1331-meetups';
-        }
-
-        if ('mindController' === $medal) {
-            $medal = 'mind-controller';
-        }
-
-        if ('scoutController' === $medal) {
-            $medal = 'scout-controller';
-        }
-
-        if ('secondSunday' === $medal) {
-            $medal = 'second-sunday';
-        }
+        $medal = $this->getCleanName($medal);
 
         return
             array_key_exists($medal, $this->medalLevels)
@@ -640,21 +626,7 @@ class MedalChecker
 
     public function getMedalLevel(string $medal, ?int $value): int
     {
-        if ('nl1331Meetups' === $medal) {
-            $medal = 'nl-1331-meetups';
-        }
-
-        if ('mindController' === $medal) {
-            $medal = 'mind-controller';
-        }
-
-        if ('scoutController' === $medal) {
-            $medal = 'scout-controller';
-        }
-
-        if ('secondSunday' === $medal) {
-            $medal = 'second-sunday';
-        }
+        $medal = $this->getCleanName($medal);
 
         if (false === array_key_exists($medal, $this->medalLevels)) {
             return 0;
@@ -685,6 +657,8 @@ class MedalChecker
 
     public function getDoubleValue(string $medal, ?int $value): int
     {
+        $medal = $this->getCleanName($medal);
+
         $doubleValue = 0;
 
         if (5 === $this->getMedalLevel($medal, $value)) {
@@ -778,5 +752,16 @@ class MedalChecker
         }
 
         throw new UnexpectedValueException('No data for code: '.$code);
+    }
+
+    public function getCleanName(string $name): string
+    {
+        return match ($name) {
+            'nl1331Meetups' => 'nl-1331-meetups',
+            'mind-controller' => 'mind-controller',
+            'scoutController' => 'scout-controller',
+            'secondSunday' => 'second-sunday',
+            default => $name,
+        };
     }
 }

@@ -31,24 +31,7 @@ class TestController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function index(KernelInterface $kernel): Response
     {
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
-
-        $input = new ArrayInput(
-            [
-                'command' => 'about',
-            ]
-        );
-        $output = new BufferedOutput();
-        $application->run($input, $output);
-
-        return $this->render(
-            'test/index.html.twig',
-            [
-                'controller_name' => 'TestController',
-                'sysInfo'         => $output->fetch(),
-            ]
-        );
+        return $this->render('test/index.html.twig');
     }
 
     /**

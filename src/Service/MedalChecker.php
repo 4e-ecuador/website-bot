@@ -331,130 +331,130 @@ class MedalChecker
                 ],
             'event'   =>
                 [
-                    'plus_alpha'            =>
+                    'plus_alpha'             =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'erased_memories'       =>
+                    'erased_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'field_test_dispatch'   =>
+                    'field_test_dispatch'    =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'shared_memories'       =>
+                    'shared_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'buried_memories'       =>
+                    'buried_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'cryptic_memories'      =>
+                    'cryptic_memories'       =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'chronos'               =>
+                    'chronos'                =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'peace_day_2022'        =>
+                    'peace_day_2022'         =>
                         [''],
-                    'solstice_recharge'     =>
+                    'solstice_recharge'      =>
                         [''],
-                    'eosimprint'            =>
+                    'eosimprint'             =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'csans'                 =>
+                    'csans'                  =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'courier_challenge'     =>
+                    'courier_challenge'      =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'kinetic_challenge'     =>
+                    'kinetic_challenge'      =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'knight_tessellation'   =>
+                    'knight_tessellation'    =>
                         [
                             'silver',
                             'gold',
                         ],
-                    'paragon'               =>
+                    'paragon'                =>
                         [
                             '',
                         ],
-                    'didact_field'          =>
+                    'didact_field'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'umbra_deploy'          =>
+                    'umbra_deploy'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'avenir_shard'          =>
+                    'avenir_shard_challenge' =>
                         [
                             '',
                         ],
-                    'aurora_glyph'          =>
+                    'aurora_glyph'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'myriad_hack'           =>
+                    'myriad_hack'            =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'dark_xm'               =>
+                    'dark_xm'                =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'cassandra_neutralizer' =>
+                    'cassandra_neutralizer'  =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'exo5'                  =>
+                    'exo5'                   =>
                         [
                             '100',
                             '500',
                             '2000',
                         ],
-                    'magnus_builder'        =>
+                    'magnus_builder'         =>
                         [
                             'builder',
                             'architect',
                         ],
-                    'lux_adventure'         =>
+                    'lux_adventure'          =>
                         [
                             'explorer',
                             'odyssey',

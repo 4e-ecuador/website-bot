@@ -49,22 +49,23 @@ class UpdateBadgedataCommand extends Command
         = [
             // previous adjustments...
             'unique_badge_solstice_recharge.png'         => 'event_badge_solstice_recharge.png',
-
-            /**
-             * if ('peace_day_2022' === $badge) {
-             * $name = 'unique_badge_peace_day_2022';
-             * } elseif ('avenir_shard' === $badge) {
-             * $name = 'unique_badge_avenir_shard_challenge';
-             * } elseif ('paragon' === $badge) {
-             * $name = 'unique_badge_paragon';
-             * } elseif (in_array($badge, [
-             * 'knight_tessellation',
-             * 'kinetic_challenge',
-             * 'courier_challenge',
-             * 'csans',
-             * 'eosimprint',
-             * ])
-             */
+            'unique_badge_avenir_shard_challenge.png'    => 'event_badge_avenir_shard_challenge.png',
+            'unique_badge_peace_day_2022.png'            => 'event_badge_peace_day_2022.png',
+            'unique_badge_paragon.png'                   => 'event_badge_paragon.png',
+            'badge_knight_tessellation_gold.png'         => 'event_badge_knight_tessellation_gold.png',
+            'badge_knight_tessellation_silver.png'       => 'event_badge_knight_tessellation_silver.png',
+            'badge_kinetic_challenge_bronze.png'         => 'event_badge_kinetic_challenge_bronze.png',
+            'badge_kinetic_challenge_silver.png'         => 'event_badge_kinetic_challenge_silver.png',
+            'badge_kinetic_challenge_gold.png'           => 'event_badge_kinetic_challenge_gold.png',
+            'badge_courier_challenge_bronze.png'         => 'event_badge_courier_challenge_bronze.png',
+            'badge_courier_challenge_silver.png'         => 'event_badge_courier_challenge_silver.png',
+            'badge_courier_challenge_gold.png'           => 'event_badge_courier_challenge_gold.png',
+            'badge_csans_bronze.png'                     => 'event_badge_csans_bronze.png',
+            'badge_csans_silver.png'                     => 'event_badge_csans_silver.png',
+            'badge_csans_gold.png'                       => 'event_badge_csans_gold.png',
+            'badge_eosimprint_bronze.png'                => 'event_badge_eosimprint_bronze.png',
+            'badge_eosimprint_silver.png'                => 'event_badge_eosimprint_silver.png',
+            'badge_eosimprint_gold.png'                  => 'event_badge_eosimprint_gold.png',
 
             // New ugly names :(
             'img_0229.png'                               => 'anomaly_discoverie.png',
@@ -132,7 +133,7 @@ class UpdateBadgedataCommand extends Command
             'Urban Ops',
             'Unused/Replaced',
             'Unused/Replaced - Single',
-            'Ingress.Plus badges'
+            'Ingress.Plus badges',
         ];
 
     /**
@@ -288,7 +289,7 @@ class UpdateBadgedataCommand extends Command
                     if ($this->output->isVerbose()) {
                         $this->io->writeln(' is NEW');
                     }
-                }else{
+                } else {
                     if ($this->output->isVerbose()) {
                         $this->io->writeln(' exists');
                     }
@@ -463,9 +464,11 @@ class UpdateBadgedataCommand extends Command
         foreach ($this->skipBadges as $skipBadge) {
             if (str_starts_with((string)$item->image[0], $skipBadge)) {
                 if ($this->output->isVeryVerbose()) {
-                    $this->io->info(sprintf('Item "%s" has been skipped',$skipBadge));
-                    //dump($item);
+                    $this->io->info(
+                        sprintf('Item "%s" has been skipped', $skipBadge)
+                    );
                 }
+
                 return true;
             }
         }

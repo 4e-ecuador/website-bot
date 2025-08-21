@@ -29,10 +29,10 @@ class AppExtension extends AbstractExtension
      */
     public array $roleFilters
         = [
-            'ROLE_AGENT'       => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR'      => 'Editor',
-            'ROLE_ADMIN'       => 'Admin',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
     public function __construct(
@@ -216,40 +216,16 @@ class AppExtension extends AbstractExtension
         string $badge,
         int|string $value
     ): string {
-        switch ($group) {
-            case 'anomaly':
-                $name = 'anomaly_'.$badge.($value ? '_'.$value : '');
-                break;
-            case 'event':
-                if ('peace_day_2022' === $badge) {
-                    $name = 'unique_badge_peace_day_2022';
-                } elseif ('avenir_shard' === $badge) {
-                    $name = 'unique_badge_avenir_shard_challenge';
-                } elseif ('paragon' === $badge) {
-                    $name = 'unique_badge_paragon';
-                } elseif (in_array($badge, [
-                    'knight_tessellation',
-                    'kinetic_challenge',
-                    'courier_challenge',
-                    'csans',
-                    'eosimprint',
-                ])
-                ) {
-                    $name = 'badge_'.$badge.'_'.$value;
-                } else {
-                    $name = 'event_badge_'.$badge.($value ? '_'.$value : '');
-                }
-
-                break;
-            case 'annual':
-                $tier = $this->getMedalLevelName((int)$value);
-                $name = 'badge_'.$badge.'_'.$tier;
-                break;
-            default:
-                throw new UnexpectedValueException('Unknown group: '.$group);
-        }
-
-        return $name;
+        return match ($group) {
+            'anomaly' => 'anomaly_'.$badge.($value ? '_'.$value : ''),
+            'event' => 'event_badge_'.$badge.($value ? '_'.$value : ''),
+            'annual' => 'badge_'.$badge.'_'.$this->getMedalLevelName(
+                    (int)$value
+                ),
+            default => throw new UnexpectedValueException(
+                'Unknown group: '.$group
+            ),
+        };
     }
 
     public function getBadgeData(

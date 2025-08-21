@@ -758,7 +758,7 @@ class MedalChecker
     {
         return match ($name) {
             'nl1331Meetups' => 'nl-1331-meetups',
-            'mind-controller' => 'mind-controller',
+            'mindController' => 'mind-controller',
             'scoutController' => 'scout-controller',
             'secondSunday' => 'second-sunday',
             default => $name,

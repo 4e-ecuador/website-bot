@@ -80,7 +80,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getChallengePath', $this->getChallengePath(...)),
             new TwigFunction('getBadgeData', $this->getBadgeData(...)),
             new TwigFunction('getBadgeName', $this->getBadgeName(...)),
-            new TwigFunction('php_version', $this->getPhpVersion(...)),
             new TwigFunction('intlDate', $this->intlDate(...)),
             new TwigFunction('defaultTimeZone', $this->getDefaultTimeZone(...)),
         ];
@@ -125,7 +124,8 @@ class AppExtension extends AbstractExtension
         $displayRoles = [];
 
         foreach ($roles as $role) {
-            $displayRoles[] = array_key_exists($role, $this->roleFilters) ? $this->roleFilters[$role] : $role;
+            $displayRoles[] = array_key_exists($role, $this->roleFilters)
+                ? $this->roleFilters[$role] : $role;
         }
 
         return implode(', ', $displayRoles);
@@ -216,40 +216,16 @@ class AppExtension extends AbstractExtension
         string $badge,
         int|string $value
     ): string {
-        switch ($group) {
-            case 'anomaly':
-                $name = 'anomaly_'.$badge;
-                break;
-            case 'event':
-                if ('peace_day_2022' === $badge) {
-                    $name = 'unique_badge_peace_day_2022';
-                } elseif ('avenir_shard' === $badge) {
-                    $name = 'unique_badge_avenir_shard_challenge';
-                } elseif ('paragon' === $badge) {
-                    $name = 'unique_badge_paragon';
-                } elseif (in_array($badge, [
-                    'knight_tessellation',
-                    'kinetic_challenge',
-                    'courier_challenge',
-                    'csans',
-                    'eosimprint',
-                ])
-                ) {
-                    $name = 'badge_'.$badge.'_'.$value;
-                } else {
-                    $name = 'event_badge_'.$badge.'_'.$value;
-                }
-
-                break;
-            case 'annual':
-                $tier = $this->getMedalLevelName((int)$value);
-                $name = 'badge_'.$badge.'_'.$tier;
-                break;
-            default:
-                throw new UnexpectedValueException('Unknown group: '.$group);
-        }
-
-        return $name;
+        return match ($group) {
+            'anomaly' => 'anomaly_'.$badge.($value ? '_'.$value : ''),
+            'event' => 'event_badge_'.$badge.($value ? '_'.$value : ''),
+            'annual' => 'badge_'.$badge.'_'.$this->getMedalLevelName(
+                    (int)$value
+                ),
+            default => throw new UnexpectedValueException(
+                'Unknown group: '.$group
+            ),
+        };
     }
 
     public function getBadgeData(
@@ -260,11 +236,6 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getBadgeData(
             $this->getBadgeName($group, $badge, $value)
         );
-    }
-
-    public function getPhpVersion(): string
-    {
-        return PHP_VERSION;
     }
 
     public function stripGmail(string $string): string

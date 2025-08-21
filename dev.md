@@ -1,7 +1,5 @@
 ## Setup
 
-Setup Heroku env vars according to the `.env` file.
-
 ```yaml
 # /config/routes.yaml
 

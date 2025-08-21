@@ -47,6 +47,27 @@ class UpdateBadgedataCommand extends Command
      */
     private array $uglyDudes
         = [
+            // previous adjustments...
+            'unique_badge_solstice_recharge.png'         => 'event_badge_solstice_recharge.png',
+            'unique_badge_avenir_shard_challenge.png'    => 'event_badge_avenir_shard_challenge.png',
+            'unique_badge_peace_day_2022.png'            => 'event_badge_peace_day_2022.png',
+            'unique_badge_paragon.png'                   => 'event_badge_paragon.png',
+            'badge_knight_tessellation_gold.png'         => 'event_badge_knight_tessellation_gold.png',
+            'badge_knight_tessellation_silver.png'       => 'event_badge_knight_tessellation_silver.png',
+            'badge_kinetic_challenge_bronze.png'         => 'event_badge_kinetic_challenge_bronze.png',
+            'badge_kinetic_challenge_silver.png'         => 'event_badge_kinetic_challenge_silver.png',
+            'badge_kinetic_challenge_gold.png'           => 'event_badge_kinetic_challenge_gold.png',
+            'badge_courier_challenge_bronze.png'         => 'event_badge_courier_challenge_bronze.png',
+            'badge_courier_challenge_silver.png'         => 'event_badge_courier_challenge_silver.png',
+            'badge_courier_challenge_gold.png'           => 'event_badge_courier_challenge_gold.png',
+            'badge_csans_bronze.png'                     => 'event_badge_csans_bronze.png',
+            'badge_csans_silver.png'                     => 'event_badge_csans_silver.png',
+            'badge_csans_gold.png'                       => 'event_badge_csans_gold.png',
+            'badge_eosimprint_bronze.png'                => 'event_badge_eosimprint_bronze.png',
+            'badge_eosimprint_silver.png'                => 'event_badge_eosimprint_silver.png',
+            'badge_eosimprint_gold.png'                  => 'event_badge_eosimprint_gold.png',
+
+            // New ugly names :(
             'img_0229.png'                               => 'anomaly_discoverie.png',
             'badge_paragon_onyx.png'                     => 'badge_paragon_black.png',
             'chronos_basic.png'                          => 'event_badge_chronos_bronze.png',
@@ -65,6 +86,17 @@ class UpdateBadgedataCommand extends Command
             'erased_anomaly_ph.png'                      => 'anomaly_erased_memories.png',
             'event_erased_memories_global_op_bronze.png' => 'event_badge_erased_memories_bronze.png',
             'event_erased_memories_global_op_silver.png' => 'event_badge_erased_memories_silver.png',
+            'field_test_dispatch_bronze.png'             => 'event_badge_field_test_dispatch_bronze.png',
+            'field_test_dispatch_silver.png'             => 'event_badge_field_test_dispatch_silver.png',
+            'alpha_anomaly.png'                          => 'anomaly_plus_alpha.png',
+            '1000007362.png'                             => 'anomaly_plus_theta_gold.png',
+            '1000007363.png'                             => 'anomaly_plus_theta_silver.png',
+            '1000007364.png'                             => 'anomaly_plus_theta_bronze.png',
+            'pdelta_bronze.png'                          => 'anomaly_plus_delta_bronze.png',
+            'pdelta_silver.png'                          => 'anomaly_plus_delta_silver.png',
+            'pdelta_gold.png'                            => 'anomaly_plus_delta_gold.png',
+            'event_palpha_op_bronze.png'                 => 'event_badge_plus_alpha_bronze.png',
+            'event_palpha_op_silver.png'                 => 'event_badge_plus_alpha_silver.png',
         ];
 
     /**
@@ -85,6 +117,7 @@ class UpdateBadgedataCommand extends Command
             'Characters - 2023',
             'Characters - Ingress Origins (2023)',
             'Characters - 2024',
+            'Characters - 2025',
             'Corporation Medals',
             'Fan created - Single',
             'Fan created - Tiered',
@@ -100,6 +133,7 @@ class UpdateBadgedataCommand extends Command
             'Urban Ops',
             'Unused/Replaced',
             'Unused/Replaced - Single',
+            'Ingress.Plus badges',
         ];
 
     /**
@@ -112,6 +146,10 @@ class UpdateBadgedataCommand extends Command
             'badge_oprlive',
             'badge_urban_ops',
             'badge_stealth_ops',
+            'shared_memories_placeholder',
+            'unnamed',
+            'placeholder_',
+            'pbeta_placeholder',
         ];
 
     /**
@@ -220,18 +258,21 @@ class UpdateBadgedataCommand extends Command
             $category = $item->expand->category->title;
 
             if ($this->output->isVerbose()) {
-                $this->io->note('Cat.:'.$category);
+                $this->io->note('Cat.: '.$category);
             }
 
             foreach ($item->image as $image) {
-                if ($this->output->isVerbose()) {
-                    $this->io->writeln($image);
-                }
-
                 $imageName = $this->cutHash($image);
+
+                if ($this->output->isVerbose()) {
+                    $this->io->write($imageName.' - ');
+                }
 
                 if (array_key_exists($imageName, $this->uglyDudes)) {
                     $imageName = $this->uglyDudes[$imageName];
+                    if ($this->output->isVerbose()) {
+                        $this->io->write(' => '.$imageName);
+                    }
                 }
 
                 $imageUrl = $item->collectionId.'/'.$item->id.'/'.$image;
@@ -245,6 +286,13 @@ class UpdateBadgedataCommand extends Command
                         )
                     );
                     $nothingHasChanged = false;
+                    if ($this->output->isVerbose()) {
+                        $this->io->writeln(' is NEW');
+                    }
+                } else {
+                    if ($this->output->isVerbose()) {
+                        $this->io->writeln(' exists');
+                    }
                 }
 
                 $badgeInfo = new stdClass();
@@ -406,6 +454,7 @@ class UpdateBadgedataCommand extends Command
     {
         if (false === property_exists($item, 'expand')) {
             if ($this->output->isVeryVerbose()) {
+                $this->io->warning('Item has no Category');
                 dump($item);
             }
 
@@ -414,24 +463,21 @@ class UpdateBadgedataCommand extends Command
 
         foreach ($this->skipBadges as $skipBadge) {
             if (str_starts_with((string)$item->image[0], $skipBadge)) {
+                if ($this->output->isVeryVerbose()) {
+                    $this->io->info(
+                        sprintf('Item "%s" has been skipped', $skipBadge)
+                    );
+                }
+
                 return true;
             }
-        }
-
-        if (str_starts_with(
-                (string)$item->image[0],
-                'shared_memories_placeholder'
-            )
-            || str_starts_with((string)$item->image[0], 'unnamed')
-        ) {
-            return true;
         }
 
         $category = $item->expand->category->title;
 
         if (in_array($category, $this->skipCategories, true)) {
             if ($this->output->isVeryVerbose()) {
-                $this->io->warning(
+                $this->io->info(
                     sprintf('Category %s has been skipped', $category)
                 );
             }

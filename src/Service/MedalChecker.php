@@ -280,37 +280,40 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
-                    'erased_memories',
-                    'buried_memories',
-                    'cryptic_memories',
-                    'discoverie',
-                    'ctrl',
-                    'echo',
-                    'mzfpk',
-                    'epiphany_dawn',
-                    'superposition',
-                    'kythera',
-                    'kureze_effect',
-                    'umbra',
-                    'nemesis_myriad',
-                    'abaddon_prime',
-                    'darsana_prime',
-                    'recursion_prime',
-                    'cassandra_prime',
-                    'exo5',
-                    '13_magnusreawakens',
-                    'via_noir',
-                    'via_lux',
-                    'aegis_nova',
-                    'obsidian',
-                    'abaddon',
-                    'persepolis',
-                    'shonin',
-                    'darsana',
-                    'helios',
-                    'initio',
-                    'interitus',
-                    'recursion',
+                    'plus_delta'         => ['bronze', 'silver', 'gold'],
+                    'plus_theta'         => ['bronze', 'silver', 'gold'],
+                    'plus_alpha'         => [''],
+                    'erased_memories'    => [''],
+                    'buried_memories'    => [''],
+                    'cryptic_memories'   => [''],
+                    'discoverie'         => [''],
+                    'ctrl'               => [''],
+                    'echo'               => [''],
+                    'mzfpk'              => [''],
+                    'epiphany_dawn'      => [''],
+                    'superposition'      => [''],
+                    'kythera'            => [''],
+                    'kureze_effect'      => [''],
+                    'umbra'              => [''],
+                    'nemesis_myriad'     => [''],
+                    'abaddon_prime'      => [''],
+                    'darsana_prime'      => [''],
+                    'recursion_prime'    => [''],
+                    'cassandra_prime'    => [''],
+                    'exo5'               => [''],
+                    '13_magnusreawakens' => [''],
+                    'via_noir'           => [''],
+                    'via_lux'            => [''],
+                    'aegis_nova'         => [''],
+                    'obsidian'           => [''],
+                    'abaddon'            => [''],
+                    'persepolis'         => [''],
+                    'shonin'             => [''],
+                    'darsana'            => [''],
+                    'helios'             => [''],
+                    'initio'             => [''],
+                    'interitus'          => [''],
+                    'recursion'          => [''],
                 ],
             'annual'  =>
                 [
@@ -328,123 +331,130 @@ class MedalChecker
                 ],
             'event'   =>
                 [
-                    'erased_memories'   =>
+                    'plus_alpha'             =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'field_test_dispatch'   =>
+                    'erased_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'shared_memories'       =>
+                    'field_test_dispatch'    =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'buried_memories'       =>
+                    'shared_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'cryptic_memories'      =>
+                    'buried_memories'        =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'chronos'               =>
+                    'cryptic_memories'       =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'peace_day_2022'        =>
+                    'chronos'                =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'peace_day_2022'         =>
                         [''],
-                    'eosimprint'            =>
+                    'solstice_recharge'      =>
+                        [''],
+                    'eosimprint'             =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'csans'                 =>
+                    'csans'                  =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'courier_challenge'     =>
+                    'courier_challenge'      =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'kinetic_challenge'     =>
+                    'kinetic_challenge'      =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'knight_tessellation'   =>
+                    'knight_tessellation'    =>
                         [
                             'silver',
                             'gold',
                         ],
-                    'paragon'               =>
+                    'paragon'                =>
                         [
                             '',
                         ],
-                    'didact_field'          =>
+                    'didact_field'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'umbra_deploy'          =>
+                    'umbra_deploy'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'avenir_shard'          =>
+                    'avenir_shard_challenge' =>
                         [
                             '',
                         ],
-                    'aurora_glyph'          =>
+                    'aurora_glyph'           =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'myriad_hack'           =>
+                    'myriad_hack'            =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'dark_xm'               =>
+                    'dark_xm'                =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'cassandra_neutralizer' =>
+                    'cassandra_neutralizer'  =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    'exo5'                  =>
+                    'exo5'                   =>
                         [
                             '100',
                             '500',
                             '2000',
                         ],
-                    'magnus_builder'        =>
+                    'magnus_builder'         =>
                         [
                             'builder',
                             'architect',
                         ],
-                    'lux_adventure'         =>
+                    'lux_adventure'          =>
                         [
                             'explorer',
                             'odyssey',
@@ -602,21 +612,7 @@ class MedalChecker
 
     public function getLevelValue(string $medal, int $level): int
     {
-        if ('nl1331Meetups' === $medal) {
-            $medal = 'nl-1331-meetups';
-        }
-
-        if ('mindController' === $medal) {
-            $medal = 'mind-controller';
-        }
-
-        if ('scoutController' === $medal) {
-            $medal = 'scout-controller';
-        }
-
-        if ('secondSunday' === $medal) {
-            $medal = 'second-sunday';
-        }
+        $medal = $this->getCleanName($medal);
 
         return
             array_key_exists($medal, $this->medalLevels)
@@ -630,21 +626,7 @@ class MedalChecker
 
     public function getMedalLevel(string $medal, ?int $value): int
     {
-        if ('nl1331Meetups' === $medal) {
-            $medal = 'nl-1331-meetups';
-        }
-
-        if ('mindController' === $medal) {
-            $medal = 'mind-controller';
-        }
-
-        if ('scoutController' === $medal) {
-            $medal = 'scout-controller';
-        }
-
-        if ('secondSunday' === $medal) {
-            $medal = 'second-sunday';
-        }
+        $medal = $this->getCleanName($medal);
 
         if (false === array_key_exists($medal, $this->medalLevels)) {
             return 0;
@@ -675,6 +657,8 @@ class MedalChecker
 
     public function getDoubleValue(string $medal, ?int $value): int
     {
+        $medal = $this->getCleanName($medal);
+
         $doubleValue = 0;
 
         if (5 === $this->getMedalLevel($medal, $value)) {
@@ -768,5 +752,16 @@ class MedalChecker
         }
 
         throw new UnexpectedValueException('No data for code: '.$code);
+    }
+
+    public function getCleanName(string $name): string
+    {
+        return match ($name) {
+            'nl1331Meetups' => 'nl-1331-meetups',
+            'mind-controller' => 'mind-controller',
+            'scoutController' => 'scout-controller',
+            'secondSunday' => 'second-sunday',
+            default => $name,
+        };
     }
 }

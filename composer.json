@@ -51,8 +51,8 @@
     "symfony/stimulus-bundle": "*",
     "symfony/translation": "7.*",
     "symfony/twig-bundle": "7.*",
-    "symfony/ux-leaflet-map": "^2.22",
-    "symfony/ux-map": "^2.22",
+    "symfony/ux-leaflet-map": "^2.29",
+    "symfony/ux-map": "^2.29",
     "symfony/validator": "7.*",
     "symfony/web-link": "7.*",
     "symfony/yaml": "7.*",
@@ -65,6 +65,7 @@
   },
   "require-dev": {
     "elkuku/symfony-utils": "dev-master",
+    "jawira/doctrine-diagram-bundle": "dev-main",
     "phpstan/extension-installer": "^1.1",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-doctrine": "^1.2",

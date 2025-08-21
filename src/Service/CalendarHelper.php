@@ -19,7 +19,7 @@ class CalendarHelper
     /**
      * @return array<string>
      */
-    public function getEvents(DateTime $date = null): array
+    public function getEvents(?DateTime $date = null): array
     {
         $date ?: new DateTime('midnight', $this->timezone);
         new DateTime('midnight', $this->timezone);

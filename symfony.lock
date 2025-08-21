@@ -123,6 +123,9 @@
     "guzzlehttp/psr7": {
         "version": "2.1.0"
     },
+    "jawira/doctrine-diagram-bundle": {
+        "version": "dev-main"
+    },
     "knplabs/knp-time-bundle": {
         "version": "v1.19.0"
     },
@@ -672,7 +675,7 @@
         ]
     },
     "symfony/ux-leaflet-map": {
-        "version": "2.22",
+        "version": "2.29",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -681,7 +684,7 @@
         }
     },
     "symfony/ux-map": {
-        "version": "2.22",
+        "version": "2.29",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",

@@ -1,11 +1,11 @@
 {
     "boshurik/telegram-bot-bundle": {
-        "version": "3.1",
+        "version": "6.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.1",
-            "ref": "0e172664f2f361f8f3932f32cea845f56650dd01"
+            "branch": "main",
+            "version": "6.0",
+            "ref": "27b12e13cf10f42beb71261c3334a2db107393b4"
         },
         "files": [
             "config/packages/boshurik_telegram_bot.yaml",

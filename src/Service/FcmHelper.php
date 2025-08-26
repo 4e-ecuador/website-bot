@@ -81,7 +81,7 @@ class FcmHelper
             "priority" => "high",
             // legacy HTTP protocol (this can also be set to 10)
             "android"  => [
-                "priority" => "high" // HTTP v1 protocol
+                "priority" => "high", // HTTP v1 protocol
             ],
         ];
 
@@ -97,7 +97,11 @@ class FcmHelper
     {
         $data = json_encode($dataArray, JSON_THROW_ON_ERROR);
 
-        $header = ['Content-Type:application/json', 'accept:application/json', 'Authorization: key='.$this->fcmKey];
+        $header = [
+            'Content-Type:application/json',
+            'accept:application/json',
+            'Authorization: key='.$this->fcmKey,
+        ];
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
 
         if (!$ch) {

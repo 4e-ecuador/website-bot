@@ -22,23 +22,26 @@ class MigrateController extends BaseController
         return $this->render('migrate/index.html.twig');
     }
 
-     #[Route('/upload', name: 'app_migrate_upload')]
+    #[Route('/upload', name: 'app_migrate_upload')]
     public function upload(Request $request): Response
     {
         $token = $request->get("token");
 
-        if (!$this->isCsrfTokenValid('app_migrate_upload', $token))
-        {
-            return new Response("Operation not allowed",  Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'text/plain']);
+        if (!$this->isCsrfTokenValid('app_migrate_upload', $token)) {
+            return new Response(
+                "Operation not allowed", Response::HTTP_BAD_REQUEST,
+                ['content-type' => 'text/plain']
+            );
         }
 
         $file = $request->files->get('csvfile');
 
-        if (empty($file))
-        {
-            return new Response("No file specified",
-                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        if (empty($file)) {
+            return new Response(
+                "No file specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                ['content-type' => 'text/plain']
+            );
         }
 
         $agent = $this->getUser()?->getAgent();
@@ -75,14 +78,18 @@ class MigrateController extends BaseController
                 }
 
                 match ($index) {
-                    'datetime' => $stat->setDatetime(new \DateTime($item[$index])),
+                    'datetime' => $stat->setDatetime(
+                        new \DateTime($item[$index])
+                    ),
                     default => $stat->$method($item[$index]),
                 };
             }
         }
 
-        return new Response("File uploaded",  Response::HTTP_OK,
-            ['content-type' => 'text/plain']);
+        return new Response(
+            "File uploaded", Response::HTTP_OK,
+            ['content-type' => 'text/plain']
+        );
     }
 
     #[Route('/csv', name: 'app_migrate_get_csv')]

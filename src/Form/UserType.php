@@ -31,7 +31,8 @@ class UserType extends AbstractType
                     'class'       => Agent::class,
                     'placeholder' => '',
                     'required'    => false,
-                    'choices'     => $this->agentRepository->findAllAlphabetical(),
+                    'choices'     => $this->agentRepository->findAllAlphabetical(
+                    ),
                 ]
             )
             ->add(

@@ -43,7 +43,7 @@ class IngressEventController extends BaseController
         return $this->render(
             'ingress_event/index.html.twig',
             [
-                'ingress_events'   => $events,
+                'ingress_events' => $events,
                 'paginatorOptions' => $paginatorOptions,
             ]
         );

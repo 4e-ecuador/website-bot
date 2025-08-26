@@ -11,8 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CheckFSController extends AbstractController
 {
     //#[Route('/check/fs', name: 'app_check_fs')]
-    public function index(AgentRepository $agentRepository, FsDataRepository $fsDataRepository): Response
-    {
+    public function index(
+        AgentRepository $agentRepository,
+        FsDataRepository $fsDataRepository
+    ): Response {
         /*
         $latest = $fsDataRepository->findLatest();
 

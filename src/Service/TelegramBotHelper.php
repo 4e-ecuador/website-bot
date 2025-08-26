@@ -183,7 +183,7 @@ class TelegramBotHelper
         $buttons = [];
 
         $buttons[] = [
-            'text' => 'Hello TEST',
+            'text'          => 'Hello TEST',
             'callback_data' => '/post_'.$prev,
         ];
 

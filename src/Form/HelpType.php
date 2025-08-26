@@ -19,8 +19,8 @@ class HelpType extends AbstractType
                 'text',
                 null,
                 [
-                    'attr'       => ['rows' => 10],
-                    'label'      => 'label.content',
+                    'attr' => ['rows' => 10],
+                    'label' => 'label.content',
                 ]
             );
     }

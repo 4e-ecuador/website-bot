@@ -11,8 +11,9 @@ class DateTimeHelper
 {
     private readonly DateTimeZone $timezone;
 
-    public function __construct(#[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone)
-    {
+    public function __construct(
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone
+    ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }
 

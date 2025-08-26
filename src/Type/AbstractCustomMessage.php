@@ -37,7 +37,7 @@ abstract class AbstractCustomMessage
         return str_replace(
             '_',
             '\\_',
-            (string) ($agent->getTelegramName()
+            (string)($agent->getTelegramName()
                 ?: $agent->getNickname())
         );
     }
@@ -47,6 +47,14 @@ abstract class AbstractCustomMessage
      */
     protected function getAgentUserData(Agent $agent, User $user): array
     {
-        return ['Agent: '.$agent->getNickname(), 'ID: '.$agent->getId(), '', 'User: '.$user->getUserAgentName(), 'ID: '.$user->getId(), '', 'Please verify!'];
+        return [
+            'Agent: '.$agent->getNickname(),
+            'ID: '.$agent->getId(),
+            '',
+            'User: '.$user->getUserAgentName(),
+            'ID: '.$user->getId(),
+            '',
+            'Please verify!',
+        ];
     }
 }

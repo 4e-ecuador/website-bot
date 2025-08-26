@@ -21,7 +21,7 @@ class GoogleController extends AbstractController
             ->redirect(
                 [
                     'profile',
-                    'email' // the scopes you want to access
+                    'email', // the scopes you want to access
                 ],
                 []
             );

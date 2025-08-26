@@ -24,8 +24,7 @@ class MapController extends AbstractController
         MapGroupRepository $mapGroupRepository,
         #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
-    ): Response
-    {
+    ): Response {
         return $this->render(
             'map/index.html.twig',
             [

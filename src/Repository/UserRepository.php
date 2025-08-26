@@ -41,7 +41,9 @@ class UserRepository extends ServiceEntityRepository
             $paginatorOptions->getOrderDir()
         );
 
-        if ($paginatorOptions->searchCriteria('email') !== '' && $paginatorOptions->searchCriteria('email') !== '0') {
+        if ($paginatorOptions->searchCriteria('email') !== ''
+            && $paginatorOptions->searchCriteria('email') !== '0'
+        ) {
             $query->andWhere('LOWER(a.email) LIKE LOWER(:email)')
                 ->setParameter(
                     'email',
@@ -49,7 +51,9 @@ class UserRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($paginatorOptions->searchCriteria('roles') !== '' && $paginatorOptions->searchCriteria('roles') !== '0') {
+        if ($paginatorOptions->searchCriteria('roles') !== ''
+            && $paginatorOptions->searchCriteria('roles') !== '0'
+        ) {
             // var_dump($paginatorOptions->searchCriteria('roles'));
             $query->andWhere('a.roles LIKE :roles')
                 ->setParameter(

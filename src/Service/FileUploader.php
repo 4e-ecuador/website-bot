@@ -13,13 +13,17 @@ class FileUploader
     {
     }
 
-    public function upload(string $uploadDir, UploadedFile $file, string $filename): File
-    {
+    public function upload(
+        string $uploadDir,
+        UploadedFile $file,
+        string $filename
+    ): File {
         try {
             return $file->move($uploadDir, $filename);
-        } catch (FileException $fileException){
-
-            $this->logger->error('failed to upload image: ' . $fileException->getMessage());
+        } catch (FileException $fileException) {
+            $this->logger->error(
+                'failed to upload image: '.$fileException->getMessage()
+            );
             throw new FileException('Failed to upload file');
         }
     }

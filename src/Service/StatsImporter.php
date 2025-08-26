@@ -82,10 +82,13 @@ class StatsImporter
         return $statEntry;
     }
 
-    public function getImportResult(AgentStat $statEntry, ?AgentStat $previousEntry = null): ImportResult
-    {
+    public function getImportResult(
+        AgentStat $statEntry,
+        ?AgentStat $previousEntry = null
+    ): ImportResult {
         $importResult = new ImportResult();
-        $previousEntry = $previousEntry ?: $this->agentStatRepository->getPrevious($statEntry);
+        $previousEntry = $previousEntry
+            ?: $this->agentStatRepository->getPrevious($statEntry);
 
         if (!$previousEntry instanceof \App\Entity\AgentStat) {
             // First import

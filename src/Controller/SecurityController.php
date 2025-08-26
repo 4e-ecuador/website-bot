@@ -19,7 +19,9 @@ class SecurityController extends AbstractController
         #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
         ?UserInterface $user = null,
     ): Response {
-        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if ($user instanceof
+            \Symfony\Component\Security\Core\User\UserInterface
+        ) {
             // User is already logged in
             return $this->redirectToRoute('default');
         }

@@ -10,8 +10,9 @@ use UnexpectedValueException;
 
 final readonly class CiteService
 {
-    public function __construct(#[Autowire('%kernel.project_dir%')]private string $rootDir)
-    {
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')] private string $rootDir
+    ) {
     }
 
     public function getRandomCite(): string

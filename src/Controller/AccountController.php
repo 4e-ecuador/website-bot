@@ -78,17 +78,17 @@ class AccountController extends BaseController
         $map = (new Map('default'))
             ->center(new Point($lat, $lon))
             ->zoom($zoom)
-                /*
-            ->addMarker(
-                new Marker(
-                    position: new Point($lat, $lon),
-                    title: 'Lyon',
-                    infoWindow: new InfoWindow(
-                        content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
-                    )
+            /*
+        ->addMarker(
+            new Marker(
+                position: new Point($lat, $lon),
+                title: 'Lyon',
+                infoWindow: new InfoWindow(
+                    content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
                 )
             )
-            */
+        )
+        */
             ->options(
                 (new LeafletOptions())
                     ->tileLayer(

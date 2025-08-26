@@ -90,7 +90,6 @@ class SendEventUpdateCommand extends Command
             );
 
             $results = $this->eventHelper->calculateResults($event, $entries);
-
             // var_dump($results);
         }
 

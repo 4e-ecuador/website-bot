@@ -176,7 +176,9 @@ class UserController extends BaseController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    #[Route(path: '/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'],
+        methods: ['GET', 'POST']
+    )]
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,

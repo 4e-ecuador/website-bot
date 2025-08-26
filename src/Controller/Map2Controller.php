@@ -26,11 +26,17 @@ class Map2Controller extends AbstractController
         MapGroupRepository $mapGroupRepository,
         #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
-    ): Response
-    {
+    ): Response {
+        $mapGroups = array_column($mapGroupRepository->getNames(), 'name');
         $map = (new Map())
-            ->center(new Point(48.8566, 2.3522))
-            ->zoom(6);
+            ->center(new Point($defaultLat, $defaultLon))
+            ->zoom(6)
+            ->extra([
+                'mapGroups' => array_column(
+                    $mapGroupRepository->getNames(),
+                    'name'
+                ),
+            ]);
 
         return $this->render(
             'map2/index.html.twig',
@@ -39,9 +45,7 @@ class Map2Controller extends AbstractController
                     $mapGroupRepository->getNames(),
                     'name'
                 ),
-                'defaultLat' => $defaultLat,
-                'defaultLon' => $defaultLon,
-                'map' => $map,
+                'map'       => $map,
             ]
         );
     }

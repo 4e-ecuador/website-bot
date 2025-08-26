@@ -60,8 +60,8 @@ class AgentController extends BaseController
         return $this->render(
             'agent/new.html.twig',
             [
-                'agent' => $agent,
-                'form'  => $form,
+                'agent'      => $agent,
+                'form'       => $form,
                 'defaultLat' => $defaultLat,
                 'defaultLon' => $defaultLon,
             ]
@@ -75,7 +75,10 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_AGENT')]
     public function show(Agent $agent, UserRepository $userRepository): Response
     {
-        $map = $agent->getLat()?$this->getAgentLocationMap($agent, true):null;
+        $map = $agent->getLat()
+            ? $this->getAgentLocationMap($agent, true)
+            : null;
+
         return $this->render(
             'agent/show.html.twig',
             [

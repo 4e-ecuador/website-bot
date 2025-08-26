@@ -482,7 +482,7 @@ class AgentStat implements ArrayAccess
      */
     public function offsetExists(mixed $offset): bool
     {
-        if (strpos((string) $offset, '-')) {
+        if (strpos((string)$offset, '-')) {
             $offset = lcfirst(
                 implode('', array_map('ucfirst', explode('-', (string)$offset)))
             );
@@ -545,12 +545,13 @@ class AgentStat implements ArrayAccess
             }
 
             if (in_array($property, [
-                    'id',
-                    Types::DATETIME_MUTABLE,
-                    'agent',
-                    'faction',
-                    'nickname',
-                ], true)) {
+                'id',
+                Types::DATETIME_MUTABLE,
+                'agent',
+                'faction',
+                'nickname',
+            ], true)
+            ) {
                 continue;
             }
 

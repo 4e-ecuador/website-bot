@@ -20,11 +20,10 @@ class LogviewController extends BaseController
 {
     public function __invoke(
         #[Autowire('%kernel.project_dir%')] string $projectDir,
-        KernelInterface                            $kernel
-    ): Response
-    {
+        KernelInterface $kernel
+    ): Response {
         $filesystem = new Filesystem();
-        $filename = $projectDir . '/var/log/deploy.log';
+        $filename = $projectDir.'/var/log/deploy.log';
 
         $entries = [];
         $entry = null;
@@ -44,7 +43,9 @@ class LogviewController extends BaseController
                         if (is_null($entry)) {
                             $entry = '';
                         } else {
-                            throw new \LogicException('Entry finished string not found');
+                            throw new \LogicException(
+                                'Entry finished string not found'
+                            );
                         }
 
                         continue;
@@ -64,22 +65,19 @@ class LogviewController extends BaseController
                     if ('' === $entry) {
                         //The first line contains the dateTime string
                         $dateTime = $line;
-                        $entry = $line . "\n";
+                        $entry = $line."\n";
 
                         continue;
                     }
 
-                    $entry .= $line . "\n";
+                    $entry .= $line."\n";
                 }
-              //  dd($contents,$entries);
+                //  dd($contents,$entries);
             } else {
-
             }
-
         } catch (IOException $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
-
 
         $output = new BufferedOutput();
 
@@ -89,7 +87,7 @@ class LogviewController extends BaseController
 
         return $this->render('admin/logview.html.twig', [
             'project_dir' => $projectDir,
-            'logEntries' => array_reverse($entries),
+            'logEntries'  => array_reverse($entries),
         ]);
     }
 }

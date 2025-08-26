@@ -17,8 +17,7 @@ class AndroidNotificationCommand extends Command
 {
     public function __construct(
         #[Autowire('%env(FCM_KEY)%')] private readonly string $fcmKey
-    )
-    {
+    ) {
         parent::__construct();
     }
 

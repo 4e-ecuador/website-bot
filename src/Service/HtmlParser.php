@@ -15,9 +15,12 @@ class HtmlParser
         $info->poc = [];
         $info->attendees = [];
         $crawler = $client->request('GET', $event->getLink());
-        $crawler->filterXPath('//table[@style="width: 500px; border-collapse: collapse; border-style: none;"]/tbody/tr/td/a')->each(
+        $crawler->filterXPath(
+            '//table[@style="width: 500px; border-collapse: collapse; border-style: none;"]/tbody/tr/td/a'
+        )->each(
             static function ($node) use ($info) {
-                $info->poc[(string)$node->attr('class')] = (string)$node->html();
+                $info->poc[(string)$node->attr('class')] = (string)$node->html(
+                );
             }
         );
         $crawler->filterXPath('//table/tbody/tr/td/div')->each(

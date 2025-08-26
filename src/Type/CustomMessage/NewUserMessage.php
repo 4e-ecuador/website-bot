@@ -11,7 +11,13 @@ class NewUserMessage extends AbstractCustomMessage
 
     public function getMessage(): array
     {
-        return ['** New User **', '', 'A new user has just registered: '.$this->user->getEmail(), '', 'Please verify!'];
+        return [
+            '** New User **',
+            '',
+            'A new user has just registered: '.$this->user->getEmail(),
+            '',
+            'Please verify!',
+        ];
     }
 
     public function setUser(User $user): NewUserMessage

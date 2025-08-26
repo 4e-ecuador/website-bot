@@ -24,7 +24,8 @@ class FsData
     #[Column(type: 'datetime_immutable')]
     private ?DateTimeInterface $createdAt = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setCreatedAt(new \DateTimeImmutable());
     }
 

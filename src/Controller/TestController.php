@@ -144,7 +144,8 @@ class TestController extends AbstractController
             }
 
             return $this->render(
-                'test/_modify-stats-fields.html.twig', [
+                'test/_modify-stats-fields.html.twig',
+                [
                     'data' => $data,
                 ]
             );

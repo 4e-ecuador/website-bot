@@ -38,7 +38,9 @@ class AgentRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('nickname') !== '' && $options->searchCriteria('nickname') !== '0') {
+        if ($options->searchCriteria('nickname') !== ''
+            && $options->searchCriteria('nickname') !== '0'
+        ) {
             $query->andWhere('LOWER(a.nickname) LIKE LOWER(:nickname)')
                 ->setParameter(
                     'nickname',
@@ -46,7 +48,9 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('realName') !== '' && $options->searchCriteria('realName') !== '0') {
+        if ($options->searchCriteria('realName') !== ''
+            && $options->searchCriteria('realName') !== '0'
+        ) {
             $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
                 ->setParameter(
                     'realName',
@@ -54,7 +58,9 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('faction') !== '' && $options->searchCriteria('faction') !== '0') {
+        if ($options->searchCriteria('faction') !== ''
+            && $options->searchCriteria('faction') !== '0'
+        ) {
             $query->andWhere('a.faction = :faction')
                 ->setParameter(
                     'faction',

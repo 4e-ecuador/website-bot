@@ -51,7 +51,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
 
             if (!preg_match(
                 self::REGEXP,
-                (string) $update->getMessage()->getText(),
+                (string)$update->getMessage()->getText(),
                 $matches
             )
             ) {

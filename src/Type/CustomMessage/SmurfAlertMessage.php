@@ -62,7 +62,9 @@ class SmurfAlertMessage extends AbstractCustomMessage
         return $this;
     }
 
-    public function setAnnounceAdminCc(string $announceAdminCc): SmurfAlertMessage {
+    public function setAnnounceAdminCc(
+        string $announceAdminCc
+    ): SmurfAlertMessage {
         $this->announceAdminCc = $announceAdminCc;
 
         return $this;

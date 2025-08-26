@@ -3,13 +3,5 @@
 {% block title %}{{ 'Agents Map'|trans }}{% endblock %}
 
 {% block body %}
-    {{ ux_map(map, { style: 'height: 300px' }) }}
-    <div
-            id="map"
-            {{ stimulus_controller('map2', {
-                'defaultLat': defaultLat,
-                'defaultLon': defaultLon,
-                'mapGroups': mapGroups,
-            }) }}
-    ></div>
+    {{ ux_map(map, { 'data-controller': 'map2', id: 'map' }) }}
 {% endblock %}

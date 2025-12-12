@@ -1,5 +1,5 @@
 // start the Stimulus application
-import './bootstrap.js';
+import './stimulus_bootstrap.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';

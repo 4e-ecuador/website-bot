@@ -3,9 +3,8 @@
 namespace App\EventSubscriber;
 
 use App\Repository\IngressEventRepository;
-use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
-use CalendarBundle\Event\CalendarEvent;
+use CalendarBundle\Event\SetDataEvent;
 use DateTime;
 use DateTimeZone;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,21 +21,22 @@ class CalendarSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CalendarEvents::SET_DATA => 'onCalendarSetData',
+            SetDataEvent::class => 'onCalendarSetData',
         ];
     }
 
-    public function onCalendarSetData(CalendarEvent $calendar): void
+    public function onCalendarSetData(SetDataEvent $setDataEvent): void
     {
-        $start = $calendar->getStart();
-        $end = $calendar->getEnd();
+        $start = $setDataEvent->getStart();
+        $end = $setDataEvent->getEnd();
+        $filters = $setDataEvent->getFilters();
 
         /**
          * @var DateTime $next
          */
         $next = clone $start;
         foreach (range(0, 2) as $x) {
-            $calendar->addEvent(
+            $setDataEvent->addEvent(
                 new Event(
                     'First Saturday',
                     new DateTime(
@@ -48,7 +48,7 @@ class CalendarSubscriber implements EventSubscriberInterface
                     ]
                 )
             );
-            $calendar->addEvent(
+            $setDataEvent->addEvent(
                 new Event(
                     'Second Sunday',
                     new DateTime(
@@ -70,7 +70,7 @@ class CalendarSubscriber implements EventSubscriberInterface
         );
 
         foreach ($ingressEvents as $event) {
-            $calendar->addEvent(
+            $setDataEvent->addEvent(
                 new Event(
                     $event->getName(),
                     $event->getDateStart()->setTimezone(

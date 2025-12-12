@@ -5,6 +5,7 @@ import '../styles/tiny-mde.css'
 
 import { Modal } from 'bootstrap'
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {
         previewUrl: String

@@ -3,6 +3,7 @@ import { Controller } from '@hotwired/stimulus'
 import datepicker from 'js-datepicker'
 import 'js-datepicker/dist/datepicker.min.css'
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
 
     static values = {

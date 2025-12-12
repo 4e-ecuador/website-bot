@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { useClickOutside } from 'stimulus-use'
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {
         urlSearch: String,

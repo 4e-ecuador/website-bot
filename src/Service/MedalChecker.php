@@ -280,6 +280,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'plus_beta'          => ['bronze', 'silver', 'gold'],
                     'plus_delta'         => ['bronze', 'silver', 'gold'],
                     'plus_theta'         => ['bronze', 'silver', 'gold'],
                     'plus_alpha'         => [''],
@@ -317,6 +318,7 @@ class MedalChecker
                 ],
             'annual'  =>
                 [
+                    'voyager'     => [],
                     'catalyst'    => [],
                     'paragon'     => [],
                     'pathfinder'  => [],
@@ -331,6 +333,20 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    /*
+                    'polaris'             =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
+                    */
+                    '2025_winter_solstice'             =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'spider_web_2025' => [''],
                     'plus_alpha'             =>
                         [
                             'bronze',

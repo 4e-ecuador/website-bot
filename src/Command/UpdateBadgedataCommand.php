@@ -95,8 +95,22 @@ class UpdateBadgedataCommand extends Command
             'pdelta_bronze.png'                          => 'anomaly_plus_delta_bronze.png',
             'pdelta_silver.png'                          => 'anomaly_plus_delta_silver.png',
             'pdelta_gold.png'                            => 'anomaly_plus_delta_gold.png',
+            'beta_gold.png'                              => 'anomaly_plus_beta_gold.png',
+            'beta_silver.png'                            => 'anomaly_plus_beta_silver.png',
+            'beta_bronze.png'                            => 'anomaly_plus_beta_bronze.png',
             'event_palpha_op_bronze.png'                 => 'event_badge_plus_alpha_bronze.png',
             'event_palpha_op_silver.png'                 => 'event_badge_plus_alpha_silver.png',
+            'y13_bronze.png'                             => 'badge_voyager_bronze.png',
+            'y13_silver.png'                             => 'badge_voyager_silver.png',
+            'y13_gold.png'                               => 'badge_voyager_gold.png',
+            'y13_plat.png'                               => 'badge_voyager_platinum.png',
+            'y13_onyx.png'                               => 'badge_voyager_black.png',
+            'spider_web_2025.png'                        => 'event_badge_spider_web_2025.png',
+            'polaris_bronze.png'                         => 'event_badge_polaris_bronze.png',
+            'polaris_silver.png'                         => 'event_badge_polaris_silver.png',
+            'polaris_gold.png'                           => 'event_badge_polaris_gold.png',
+            '2025_winter_solstice_bronze.png'            => 'event_badge_2025_winter_solstice_bronze.png',
+            '2025_winter_solstice_silver.png'            => 'event_badge_2025_winter_solstice_silver.png',
         ];
 
     /**

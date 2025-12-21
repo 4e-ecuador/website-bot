@@ -6,7 +6,7 @@
 # Author: Nikolai Plath
 #
 
-PHP="/opt/plesk/php/8.3/bin/php"
+PHP="/opt/plesk/php/8.5/bin/php"
 COMPOSER="/usr/lib/plesk-9.0/composer.phar"
 
 echo ">>>============================================================================="

@@ -2,9 +2,9 @@
   "name": "4e-ecuador/website-bot",
   "description": "A web site and a bot.",
   "type": "project",
-  "license": "proprietary",
+  "license": "WTFPL",
   "require": {
-    "php": ">=8.2",
+    "php": ">=8.4",
     "ext-ctype": "*",
     "ext-curl": "*",
     "ext-dom": "*",
@@ -55,7 +55,7 @@
     "symfony/validator": "*",
     "symfony/web-link": "*",
     "symfony/yaml": "*",
-    "tattali/calendar-bundle": "^7",
+    "tattali/calendar-bundle": "^8",
     "twig/cssinliner-extra": "^3.0",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/inky-extra": "^3.0",
@@ -144,7 +144,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "7.*",
+      "require": "8.*",
       "docker": true
     }
   }

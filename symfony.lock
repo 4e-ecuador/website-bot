@@ -144,9 +144,6 @@
     "lorenzo/pinky": {
         "version": "1.0.5"
     },
-    "masterminds/html5": {
-        "version": "2.7.5"
-    },
     "michelf/php-markdown": {
         "version": "1.9.1"
     },

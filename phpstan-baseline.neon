@@ -1,126 +1,901 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$envKey of class Symfony\\\\Component\\\\Dotenv\\\\Dotenv constructor expects string, false given\\.$#"
+			message: '#^Parameter \#1 \$envKey of class Symfony\\Component\\Dotenv\\Dotenv constructor expects string, false given\.$#'
+			identifier: argument.type
 			count: 2
 			path: config/bootstrap.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\SendEventUpdateCommand\\:\\:execute\\(\\)\" is 11, keep it under 8$#"
+			message: '#^Parameter \#3 \$value of function curl_setopt expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/AndroidNotificationCommand.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Command\\SendEventUpdateCommand\:\:execute\(\)" is 11, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Command/SendEventUpdateCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\SendNewsletterCommand\\:\\:execute\\(\\)\" is 17, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Command\\SendNewsletterCommand\:\:execute\(\)" is 17, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Command/SendNewsletterCommand.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$image\\.$#"
+			message: '#^Method App\\Command\\SendNewsletterCommand\:\:getNextFS\(\) has Exception in PHPDoc @throws tag but it''s not thrown\.$#'
+			identifier: throws.unusedType
+			count: 1
+			path: src/Command/SendNewsletterCommand.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$image\.$#'
+			identifier: property.notFound
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$title\\.$#"
+			message: '#^Access to an undefined property object\:\:\$title\.$#'
+			identifier: property.notFound
 			count: 2
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:resizeBadges\\(\\)\" is 11, keep it under 8$#"
+			message: '#^Class cognitive complexity is 66, keep it under 50$#'
+			identifier: complexity.classLike
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:scrapeBadges\\(\\)\" is 13, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Command\\UpdateBadgedataCommand\:\:resizeBadges\(\)" is 11, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Command\\\\UpdateBadgedataCommand\\:\\:skipItem\\(\\)\" is 11, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Command\\UpdateBadgedataCommand\:\:scrapeBadges\(\)" is 26, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Controller\\\\DefaultController\\:\\:index\\(\\)\" is 9, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Command\\UpdateBadgedataCommand\:\:skipItem\(\)" is 16, keep it under 8$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: src/Command/UpdateBadgedataCommand.php
+
+		-
+			message: '#^Parameter \#1 \$latitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AccountController.php
+
+		-
+			message: '#^Parameter \#2 \$longitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AccountController.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Controller\\Admin\\LogviewController\:\:__invoke\(\)" is 20, keep it under 8$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: src/Controller/Admin/LogviewController.php
+
+		-
+			message: '#^Method App\\Controller\\AgentController\:\:getAgentLocationMap\(\) has parameter \$addMarker with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/AgentController.php
+
+		-
+			message: '#^PHPDoc tag @var with type array\<App\\Entity\\Agent\> is not subtype of native type Doctrine\\ORM\\Tools\\Pagination\\Paginator\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: src/Controller/AgentController.php
+
+		-
+			message: '#^Parameter \#1 \$latitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/AgentController.php
+
+		-
+			message: '#^Parameter \#2 \$longitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/AgentController.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Controller\\DefaultController\:\:index\(\)" is 9, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/DefaultController.php
 
 		-
-			message: "#^Argument of an invalid type App\\\\Entity\\\\AgentStat supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type App\\Entity\\AgentStat supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/Controller/MigrateController.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Controller\\\\MigrateController\\:\\:getCsv\\(\\)\" is 13, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:getCsv\(\)" is 13, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/MigrateController.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Controller\\\\MigrateController\\:\\:upload\\(\\)\" is 9, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:upload\(\)" is 9, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/MigrateController.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Controller\\\\StatsController\\:\\:byDate\\(\\)\" is 19, keep it under 8$#"
+			message: '#^Cannot access offset 0 on iterable\<App\\Entity\\AgentStat\>\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Controller/StatsController.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Controller\\\\StatsController\\:\\:statImport\\(\\)\" is 11, keep it under 8$#"
+			message: '#^Cannot access offset int\<\-1, max\> on iterable\<App\\Entity\\AgentStat\>\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Controller/StatsController.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\CsvParser\\:\\:parsePrimeCsv\\(\\)\" is 12, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Controller\\StatsController\:\:byDate\(\)" is 19, keep it under 8$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: src/Controller/StatsController.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Controller\\StatsController\:\:statImport\(\)" is 11, keep it under 8$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: src/Controller/StatsController.php
+
+		-
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<App\\Entity\\AgentStat\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/StatsController.php
+
+		-
+			message: '#^PHPDoc tag @var with type array\<App\\Entity\\User\> is not subtype of native type Doctrine\\ORM\\Tools\\Pagination\\Paginator\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: src/Controller/UserController.php
+
+		-
+			message: '#^Method App\\Entity\\Agent\:\:getComments\(\) return type with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Entity/Agent.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<App\\Entity\\Comment\>\|Doctrine\\Common\\Collections\\Collection\<int, App\\Entity\\Comment\> is not subtype of native type Doctrine\\Common\\Collections\\Collection\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Entity/Agent.php
+
+		-
+			message: '#^Property App\\Entity\\Agent\:\:\$faction type mapping mismatch\: property can contain App\\Entity\\Faction\|null but database expects App\\Entity\\Faction\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: src/Entity/Agent.php
+
+		-
+			message: '#^Property App\\Entity\\Agent\:\:\$nickname type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Agent.php
+
+		-
+			message: '#^Property App\\Entity\\AgentStat\:\:\$agent type mapping mismatch\: property can contain App\\Entity\\Agent\|null but database expects App\\Entity\\Agent\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: src/Entity/AgentStat.php
+
+		-
+			message: '#^Property App\\Entity\\AgentStat\:\:\$ap type mapping mismatch\: property can contain int\|null but database expects int\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/AgentStat.php
+
+		-
+			message: '#^Property App\\Entity\\AgentStat\:\:\$datetime type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/AgentStat.php
+
+		-
+			message: '#^Property App\\Entity\\Challenge\:\:\$date_end type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Challenge.php
+
+		-
+			message: '#^Property App\\Entity\\Challenge\:\:\$date_start type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Challenge.php
+
+		-
+			message: '#^Property App\\Entity\\Challenge\:\:\$name type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Challenge.php
+
+		-
+			message: '#^Property App\\Entity\\Comment\:\:\$agent type mapping mismatch\: property can contain App\\Entity\\Agent\|null but database expects App\\Entity\\Agent\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: src/Entity/Comment.php
+
+		-
+			message: '#^Property App\\Entity\\Comment\:\:\$commenter type mapping mismatch\: property can contain App\\Entity\\User\|null but database expects App\\Entity\\User\.$#'
+			identifier: doctrine.associationType
+			count: 1
+			path: src/Entity/Comment.php
+
+		-
+			message: '#^Property App\\Entity\\Comment\:\:\$datetime type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Comment.php
+
+		-
+			message: '#^Property App\\Entity\\Comment\:\:\$text type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Comment.php
+
+		-
+			message: '#^Property App\\Entity\\Event\:\:\$date_end type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Event.php
+
+		-
+			message: '#^Property App\\Entity\\Event\:\:\$date_start type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Event.php
+
+		-
+			message: '#^Property App\\Entity\\Event\:\:\$name type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Event.php
+
+		-
+			message: '#^Property App\\Entity\\Faction\:\:\$name type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Faction.php
+
+		-
+			message: '#^Property App\\Entity\\FsData\:\:\$attendeesCount type mapping mismatch\: property can contain int\|null but database expects int\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/FsData.php
+
+		-
+			message: '#^Property App\\Entity\\FsData\:\:\$createdAt type mapping mismatch\: property can contain DateTimeInterface\|null but database expects DateTimeImmutable\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/FsData.php
+
+		-
+			message: '#^Property App\\Entity\\Help\:\:\$slug type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Help.php
+
+		-
+			message: '#^Property App\\Entity\\Help\:\:\$text type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Help.php
+
+		-
+			message: '#^Property App\\Entity\\Help\:\:\$title type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/Help.php
+
+		-
+			message: '#^Property App\\Entity\\IngressEvent\:\:\$date_end type mapping mismatch\: property can contain DateTime\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/IngressEvent.php
+
+		-
+			message: '#^Property App\\Entity\\IngressEvent\:\:\$date_start type mapping mismatch\: property can contain DateTime\|null but database expects DateTimeInterface\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/IngressEvent.php
+
+		-
+			message: '#^Property App\\Entity\\IngressEvent\:\:\$name type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/IngressEvent.php
+
+		-
+			message: '#^Property App\\Entity\\IngressEvent\:\:\$type type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/IngressEvent.php
+
+		-
+			message: '#^Property App\\Entity\\MapGroup\:\:\$name type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/MapGroup.php
+
+		-
+			message: '#^Property App\\Entity\\TestStat\:\:\$csv type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/TestStat.php
+
+		-
+			message: '#^Method App\\Entity\\User\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$email type mapping mismatch\: property can contain string\|null but database expects string\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Class App\\Form\\AgentAccountType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/AgentAccountType.php
+
+		-
+			message: '#^Class App\\Form\\AgentStatType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/AgentStatType.php
+
+		-
+			message: '#^Class App\\Form\\AgentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/AgentType.php
+
+		-
+			message: '#^Class App\\Form\\ChallengeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/ChallengeType.php
+
+		-
+			message: '#^Class App\\Form\\CommentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/CommentType.php
+
+		-
+			message: '#^Class App\\Form\\EventType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/EventType.php
+
+		-
+			message: '#^Class App\\Form\\HelpType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/HelpType.php
+
+		-
+			message: '#^Class App\\Form\\ImportFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/ImportFormType.php
+
+		-
+			message: '#^Class App\\Form\\IngressEventType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/IngressEventType.php
+
+		-
+			message: '#^Class App\\Form\\MapGroupType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/MapGroupType.php
+
+		-
+			message: '#^Class App\\Form\\TestStatType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/TestStatType.php
+
+		-
+			message: '#^Class App\\Form\\UserType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Form/UserType.php
+
+		-
+			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentStatRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentStatRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Method App\\Repository\\AgentStatRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AgentStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\ChallengeRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ChallengeRepository.php
+
+		-
+			message: '#^Class App\\Repository\\ChallengeRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ChallengeRepository.php
+
+		-
+			message: '#^Class App\\Repository\\ChallengeRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ChallengeRepository.php
+
+		-
+			message: '#^Class App\\Repository\\ChallengeRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ChallengeRepository.php
+
+		-
+			message: '#^Class App\\Repository\\CommentRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/CommentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\CommentRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/CommentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\CommentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/CommentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\CommentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/CommentRepository.php
+
+		-
+			message: '#^Class App\\Repository\\EventRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\EventRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\EventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\EventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FactionRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FactionRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FactionRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FactionRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FactionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FactionRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FactionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FactionRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FsDataRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FsDataRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FsDataRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FsDataRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FsDataRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FsDataRepository.php
+
+		-
+			message: '#^Class App\\Repository\\FsDataRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/FsDataRepository.php
+
+		-
+			message: '#^Class App\\Repository\\HelpRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/HelpRepository.php
+
+		-
+			message: '#^Class App\\Repository\\HelpRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/HelpRepository.php
+
+		-
+			message: '#^Class App\\Repository\\HelpRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/HelpRepository.php
+
+		-
+			message: '#^Class App\\Repository\\HelpRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/HelpRepository.php
+
+		-
+			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Method App\\Repository\\IngressEventRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Method App\\Repository\\IngressEventRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Method App\\Repository\\IngressEventRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Class App\\Repository\\MapGroupRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/MapGroupRepository.php
+
+		-
+			message: '#^Class App\\Repository\\MapGroupRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/MapGroupRepository.php
+
+		-
+			message: '#^Class App\\Repository\\MapGroupRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/MapGroupRepository.php
+
+		-
+			message: '#^Class App\\Repository\\MapGroupRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/MapGroupRepository.php
+
+		-
+			message: '#^Class App\\Repository\\TestStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TestStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\TestStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TestStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\TestStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TestStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\TestStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TestStatRepository.php
+
+		-
+			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Service\\CsvParser\:\:parsePrimeCsv\(\)" is 12, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/CsvParser.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\EventHelper\\:\\:calculateResults\\(\\)\" is 14, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\EventHelper\:\:calculateResults\(\)" is 14, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/EventHelper.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\EventHelper\\:\\:getChallengesInSpan\\(\\)\" is 9, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\EventHelper\:\:getChallengesInSpan\(\)" is 9, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/EventHelper.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\LeaderBoardService\\:\\:getBoard\\(\\)\" is 14, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\LeaderBoardService\:\:getBoard\(\)" is 14, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/LeaderBoardService.php
 
 		-
-			message: "#^Call to an undefined method Symfony\\\\Contracts\\\\Translation\\\\TranslatorInterface\\:\\:setLocale\\(\\)\\.$#"
+			message: '#^Call to an undefined method Symfony\\Contracts\\Translation\\TranslatorInterface\:\:setLocale\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Service/MedalChecker.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\MedalChecker\\:\\:getMedalLevel\\(\\)\" is 13, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalLevel\(\)" is 9, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/MedalChecker.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:getImportResult\\(\\)\" is 12, keep it under 8$#"
+			message: '#^Offset string on non\-empty\-array\<string, string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Service/MedalChecker.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:getImportResult\(\)" is 14, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/StatsImporter.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:sendResultMessages\\(\\)\" is 10, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:sendResultMessages\(\)" is 10, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/StatsImporter.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Service\\\\StatsImporter\\:\\:updateEntryFromCsv\\(\\)\" is 9, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:updateEntryFromCsv\(\)" is 9, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/StatsImporter.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Type\\\\CustomMessage\\\\NotifyEventsMessage\\:\\:getMessage\\(\\)\" is 16, keep it under 8$#"
+			message: '#^Call to method App\\Subscriber\\TelegramUpdateSubscriber\:\:respondInlineQuery\(\) on a separate line has no effect\.$#'
+			identifier: method.resultUnused
+			count: 1
+			path: src/Subscriber/TelegramUpdateSubscriber.php
+
+		-
+			message: '#^Method App\\Subscriber\\TelegramUpdateSubscriber\:\:respondInlineQuery\(\) has TelegramBot\\Api\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
+			identifier: throws.unusedType
+			count: 1
+			path: src/Subscriber/TelegramUpdateSubscriber.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Type\\CustomMessage\\NotifyEventsMessage\:\:getMessage\(\)" is 16, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: src/Type/CustomMessage/NotifyEventsMessage.php
 
 		-
-			message: "#^Cognitive complexity for \"App\\\\Tests\\\\Controller\\\\ControllerAccessTest\\:\\:processRoutes\\(\\)\" is 16, keep it under 8$#"
+			message: '#^Cognitive complexity for "App\\Tests\\Controller\\ControllerAccessTest\:\:processRoutes\(\)" is 16, keep it under 8$#'
+			identifier: complexity.functionLike
 			count: 1
 			path: tests/Controller/ControllerAccessTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, array\<string, string\>\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Service/CsvParserTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, int\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: tests/Service/EventHelperTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<int, string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Service/MedalCheckerTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, array\<int\|string, array\<int, string\>\|string\>\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Service/MedalCheckerTest.php
+
+		-
+			message: '#^Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Dotenv\\\\Dotenv'' and ''bootEnv'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: tests/bootstrap.php

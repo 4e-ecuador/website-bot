@@ -42,12 +42,13 @@ export default class extends Controller {
     }
 
     _onConnect(event) {
-        console.log('MAP', event.detail.map)
         this.map = event.detail.map
         this.markers = L.markerClusterGroup({ disableClusteringAtZoom: 16 })
-console.log(this.mapGroups)
-        this.loadMarkers(this.mapGroups[0])
 
+        // Force recalculation after CSS is applied
+        setTimeout(() => this.map.invalidateSize(), 100)
+
+        this.loadMarkers(this.mapGroups[0])
     }
 
     async loadMarkers(group) {
@@ -77,8 +78,9 @@ console.log(this.mapGroups)
             })
 
             this.markers.addLayer(marker)
-            this.map.addLayer(this.markers)
         }
+
+        this.map.addLayer(this.markers)
     }
 
 }

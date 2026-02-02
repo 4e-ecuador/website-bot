@@ -14,6 +14,9 @@ export default class extends Controller {
     connect() {
         this.map = new Map(this.defaultLatValue, this.defaultLonValue)
 
+        // Force recalculation after CSS is applied
+        setTimeout(() => this.map.map.invalidateSize(), 100)
+
         this.map.addLegend(this.mapGroupsValue)
         this.map.loadMarkers(this.mapGroupsValue[0])
     }

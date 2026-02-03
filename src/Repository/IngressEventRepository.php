@@ -7,17 +7,11 @@ use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method IngressEvent|null find($id, $lockMode = null, $lockVersion = null)
- * @method IngressEvent|null findOneBy(array $criteria, array $orderBy = null)
- * @method IngressEvent[]    findAll()
- * @method IngressEvent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<IngressEventRepository>
+ * @extends ServiceEntityRepository<IngressEvent>
  */
 class IngressEventRepository extends ServiceEntityRepository
 {
@@ -83,7 +77,7 @@ class IngressEventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Paginator<Query>
+     * @return Paginator<IngressEvent>
      */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {

@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<IngressEvent>
+ */
 class IngressEventType extends AbstractType
 {
     public function buildForm(

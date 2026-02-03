@@ -301,158 +301,38 @@ parameters:
 			path: src/Entity/User.php
 
 		-
-			message: '#^Class App\\Form\\AgentAccountType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/AgentAccountType.php
-
-		-
-			message: '#^Class App\\Form\\AgentStatType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/AgentStatType.php
-
-		-
-			message: '#^Class App\\Form\\AgentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/AgentType.php
-
-		-
-			message: '#^Class App\\Form\\ChallengeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/ChallengeType.php
-
-		-
-			message: '#^Class App\\Form\\CommentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/CommentType.php
-
-		-
-			message: '#^Class App\\Form\\EventType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/EventType.php
-
-		-
-			message: '#^Class App\\Form\\HelpType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/HelpType.php
-
-		-
-			message: '#^Class App\\Form\\ImportFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/ImportFormType.php
-
-		-
-			message: '#^Class App\\Form\\IngressEventType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/IngressEventType.php
-
-		-
-			message: '#^Class App\\Form\\MapGroupType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/MapGroupType.php
-
-		-
-			message: '#^Class App\\Form\\TestStatType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/TestStatType.php
-
-		-
-			message: '#^Class App\\Form\\UserType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Form/UserType.php
-
-		-
-			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method App\\Repository\\AgentRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\Agent\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/AgentRepository.php
 
 		-
-			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\AgentRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Repository/AgentRepository.php
 
 		-
-			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\AgentRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
 			count: 1
 			path: src/Repository/AgentRepository.php
 
 		-
-			message: '#^Class App\\Repository\\AgentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/AgentRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/AgentRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/AgentRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/AgentRepository.php
-
-		-
-			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method App\\Repository\\AgentStatRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\AgentStat\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/AgentStatRepository.php
 
 		-
-			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\AgentStatRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Repository/AgentStatRepository.php
 
 		-
-			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/AgentStatRepository.php
-
-		-
-			message: '#^Class App\\Repository\\AgentStatRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/AgentStatRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentStatRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/AgentStatRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentStatRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/AgentStatRepository.php
-
-		-
-			message: '#^Method App\\Repository\\AgentStatRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\AgentStatRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
 			count: 1
 			path: src/Repository/AgentStatRepository.php
 
@@ -601,44 +481,20 @@ parameters:
 			path: src/Repository/HelpRepository.php
 
 		-
-			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method App\\Repository\\IngressEventRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\IngressEvent\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/IngressEventRepository.php
 
 		-
-			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\IngressEventRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Repository/IngressEventRepository.php
 
 		-
-			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/IngressEventRepository.php
-
-		-
-			message: '#^Class App\\Repository\\IngressEventRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/IngressEventRepository.php
-
-		-
-			message: '#^Method App\\Repository\\IngressEventRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/IngressEventRepository.php
-
-		-
-			message: '#^Method App\\Repository\\IngressEventRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/IngressEventRepository.php
-
-		-
-			message: '#^Method App\\Repository\\IngressEventRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\IngressEventRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
 			count: 1
 			path: src/Repository/IngressEventRepository.php
 
@@ -691,44 +547,20 @@ parameters:
 			path: src/Repository/TestStatRepository.php
 
 		-
-			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method App\\Repository\\UserRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\User\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/UserRepository.php
 
 		-
-			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\UserRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Repository/UserRepository.php
 
 		-
-			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/UserRepository.php
-
-		-
-			message: '#^Class App\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Repository/UserRepository.php
-
-		-
-			message: '#^Method App\\Repository\\UserRepository\:\:getPaginatedList\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/UserRepository.php
-
-		-
-			message: '#^Method App\\Repository\\UserRepository\:\:paginate\(\) has parameter \$dql with generic class Doctrine\\ORM\\Query but does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/Repository/UserRepository.php
-
-		-
-			message: '#^Method App\\Repository\\UserRepository\:\:paginate\(\) return type with generic class Doctrine\\ORM\\Query does not specify its types\: TKey, TResult$#'
-			identifier: missingType.generics
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\UserRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
 			count: 1
 			path: src/Repository/UserRepository.php
 

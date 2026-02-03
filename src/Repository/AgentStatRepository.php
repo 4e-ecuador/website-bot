@@ -9,17 +9,11 @@ use App\Helper\Paginator\PaginatorRepoTrait;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
- * @method AgentStat|null find($id, $lockMode = null, $lockVersion = null)
- * @method AgentStat|null findOneBy(array $criteria, array $orderBy = null)
- * @method AgentStat[]    findAll()
- * @method AgentStat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<AgentStatRepository>
+ * @extends ServiceEntityRepository<AgentStat>
  */
 class AgentStatRepository extends ServiceEntityRepository
 {
@@ -148,7 +142,7 @@ class AgentStatRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Paginator<Query>
+     * @return Paginator<AgentStat>
      */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {

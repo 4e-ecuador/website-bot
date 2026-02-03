@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<Agent>
+ */
 class AgentType extends AbstractType
 {
     public function buildForm(

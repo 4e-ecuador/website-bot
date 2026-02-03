@@ -8,17 +8,11 @@ use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Agent|null find($id, $lockMode = null, $lockVersion = null)
- * @method Agent|null findOneBy(array $criteria, array $orderBy = null)
- * @method Agent[]    findAll()
- * @method Agent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<AgentRepository>
+ * @extends ServiceEntityRepository<Agent>
  */
 class AgentRepository extends ServiceEntityRepository
 {
@@ -30,7 +24,7 @@ class AgentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Paginator<Query>
+     * @return Paginator<Agent>
      */
     public function getPaginatedList(PaginatorOptions $options): Paginator
     {

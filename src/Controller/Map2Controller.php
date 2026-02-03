@@ -58,7 +58,7 @@ class Map2Controller extends AbstractController
         Request $request
     ): JsonResponse {
         $mapGroup = $mapGroupRepository->findOneBy(
-            ['name' => $request->get('group', '4E')]
+            ['name' => $request->query->get('group', '4E')]
         );
         if (!$mapGroup) {
             throw new UnexpectedValueException('Map group not found!');

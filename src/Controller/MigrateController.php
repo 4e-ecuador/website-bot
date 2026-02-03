@@ -25,7 +25,7 @@ class MigrateController extends BaseController
     #[Route('/upload', name: 'app_migrate_upload')]
     public function upload(Request $request): Response
     {
-        $token = $request->get("token");
+        $token = $request->request->getString("token") ?: null;
 
         if (!$this->isCsrfTokenValid('app_migrate_upload', $token)) {
             return new Response(

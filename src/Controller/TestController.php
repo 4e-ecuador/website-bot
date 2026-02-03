@@ -45,9 +45,9 @@ class TestController extends AbstractController
         Request $request,
         TelegramBotHelper $telegramBotHelper
     ): Response {
-        $testText = $request->get('testtext');
+        $testText = $request->query->get('testtext');
         if ($testText) {
-            $groupId = $telegramBotHelper->getGroupId($request->get('group'));
+            $groupId = $telegramBotHelper->getGroupId($request->query->get('group'));
 
             $telegramBotHelper->sendMessage($groupId, $testText);
 
@@ -71,7 +71,7 @@ class TestController extends AbstractController
         Request $request,
         MailerHelper $mailerHelper
     ): Response {
-        $testtext = $request->get('testtext');
+        $testtext = $request->query->get('testtext');
         if ($testtext) {
             $mailerHelper->sendTestMail('elkuku.n7@gmail.com');
         }

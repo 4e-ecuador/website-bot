@@ -20,7 +20,7 @@ trait PaginatorTrait
      */
     protected function getPaginatorOptions(Request $request): PaginatorOptions
     {
-        $options = $request->get('paginatorOptions');
+        $options = $request->query->all('paginatorOptions');
 
         return (new PaginatorOptions)
             ->setPage(

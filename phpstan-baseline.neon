@@ -127,7 +127,7 @@ parameters:
 			path: src/Controller/MigrateController.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:upload\(\)" is 9, keep it under 8$#'
+			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:upload\(\)" is 10, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/MigrateController.php

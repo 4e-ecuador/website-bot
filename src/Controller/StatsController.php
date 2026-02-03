@@ -180,8 +180,8 @@ class StatsController extends BaseController
         AgentStatRepository $statRepository,
         MedalChecker $medalChecker
     ): Response {
-        $startDate = $request->get('start_date');
-        $endDate = $request->get('end_date');
+        $startDate = $request->query->get('start_date');
+        $endDate = $request->query->get('end_date');
         $stats = [];
         $medalsGained = [];
         $medalsGained1 = [];
@@ -343,8 +343,8 @@ class StatsController extends BaseController
             );
         }
 
-        $csv = $request->get('csv');
-        if ($csv) {
+        $csv = $request->request->getString('csv');
+        if ($csv !== '') {
             try {
                 $statEntry = $statsImporter
                     ->createEntryFromCsv($agent, $csv);
@@ -381,8 +381,8 @@ class StatsController extends BaseController
                 }
 
                 // @TODO temporal FireBase token store
-                $fireBaseToken = $request->get('fire_base_token');
-                if ($fireBaseToken && !$user->getFireBaseToken()) {
+                $fireBaseToken = $request->request->getString('fire_base_token');
+                if ($fireBaseToken !== '' && !$user->getFireBaseToken()) {
                     $user->setFireBaseToken($fireBaseToken);
                     $entityManager->persist($user);
                     $entityManager->flush();

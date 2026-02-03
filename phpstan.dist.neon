@@ -16,5 +16,8 @@ parameters:
 	cognitive_complexity:
 		class: 50
 		function: 8
+rules:
+	- App\PHPStan\Rules\NoRequestGetMethodRule
+
 includes:
 	- phpstan-baseline.neon

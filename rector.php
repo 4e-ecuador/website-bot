@@ -25,9 +25,8 @@ return RectorConfig::configure()
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
+    ->withComposerBased(symfony: true)
     ->withSets([
-        SymfonySetList::SYMFONY_64,
-
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])

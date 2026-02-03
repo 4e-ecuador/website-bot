@@ -153,13 +153,13 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetCustomMedalGroups(): void
     {
         $result = $this->medalChecker->getCustomMedalGroups();
-        self::assertIsArray($result);
+        self::assertNotEmpty($result);
     }
 
     public function testGetMedalLevelNames(): void
     {
         $result = $this->medalChecker->getMedalLevelNames();
-        self::assertIsArray($result);
+        self::assertNotEmpty($result);
     }
 
     public function testGetMedalLevelName(): void

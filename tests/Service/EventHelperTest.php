@@ -69,7 +69,6 @@ class EventHelperTest extends KernelTestCase
         $result = $this->eventHelper->calculateResults($event, $entries);
 
         $expected = ['testAgent' => 1];
-        self::assertIsArray($result);
         self::assertSame($expected, $result);
     }
 
@@ -91,7 +90,6 @@ class EventHelperTest extends KernelTestCase
         $result = $this->eventHelper->calculateResults($event, $entries);
 
         $expected = ['testAgent' => 1.5];
-        self::assertIsArray($result);
         self::assertSame($expected, $result);
     }
 }

@@ -66,7 +66,7 @@ class CsvParserTest extends KernelTestCase
     public function testParse(): void
     {
         $response = $this->csvParser->parse($this->switchCsv());
-        self::assertIsArray($response);
+        self::assertNotEmpty($response);
     }
 
     /**

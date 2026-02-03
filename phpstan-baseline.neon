@@ -1,18 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \#1 \$envKey of class Symfony\\Component\\Dotenv\\Dotenv constructor expects string, false given\.$#'
-			identifier: argument.type
-			count: 2
-			path: config/bootstrap.php
-
-		-
-			message: '#^Parameter \#3 \$value of function curl_setopt expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Command/AndroidNotificationCommand.php
-
-		-
 			message: '#^Cognitive complexity for "App\\Command\\SendEventUpdateCommand\:\:execute\(\)" is 11, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
@@ -21,12 +9,6 @@ parameters:
 		-
 			message: '#^Cognitive complexity for "App\\Command\\SendNewsletterCommand\:\:execute\(\)" is 17, keep it under 8$#'
 			identifier: complexity.functionLike
-			count: 1
-			path: src/Command/SendNewsletterCommand.php
-
-		-
-			message: '#^Method App\\Command\\SendNewsletterCommand\:\:getNextFS\(\) has Exception in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/Command/SendNewsletterCommand.php
 
@@ -67,44 +49,14 @@ parameters:
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: '#^Parameter \#1 \$latitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Controller/AccountController.php
-
-		-
-			message: '#^Parameter \#2 \$longitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Controller/AccountController.php
-
-		-
 			message: '#^Cognitive complexity for "App\\Controller\\Admin\\LogviewController\:\:__invoke\(\)" is 20, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/Admin/LogviewController.php
 
 		-
-			message: '#^Method App\\Controller\\AgentController\:\:getAgentLocationMap\(\) has parameter \$addMarker with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Controller/AgentController.php
-
-		-
 			message: '#^PHPDoc tag @var with type array\<App\\Entity\\Agent\> is not subtype of native type Doctrine\\ORM\\Tools\\Pagination\\Paginator\.$#'
 			identifier: varTag.nativeType
-			count: 2
-			path: src/Controller/AgentController.php
-
-		-
-			message: '#^Parameter \#1 \$latitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/Controller/AgentController.php
-
-		-
-			message: '#^Parameter \#2 \$longitude of class Symfony\\UX\\Map\\Point constructor expects float, float\|string given\.$#'
-			identifier: argument.type
 			count: 2
 			path: src/Controller/AgentController.php
 
@@ -841,18 +793,6 @@ parameters:
 			path: src/Service/StatsImporter.php
 
 		-
-			message: '#^Call to method App\\Subscriber\\TelegramUpdateSubscriber\:\:respondInlineQuery\(\) on a separate line has no effect\.$#'
-			identifier: method.resultUnused
-			count: 1
-			path: src/Subscriber/TelegramUpdateSubscriber.php
-
-		-
-			message: '#^Method App\\Subscriber\\TelegramUpdateSubscriber\:\:respondInlineQuery\(\) has TelegramBot\\Api\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/Subscriber/TelegramUpdateSubscriber.php
-
-		-
 			message: '#^Cognitive complexity for "App\\Type\\CustomMessage\\NotifyEventsMessage\:\:getMessage\(\)" is 16, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
@@ -863,33 +803,3 @@ parameters:
 			identifier: complexity.functionLike
 			count: 1
 			path: tests/Controller/ControllerAccessTest.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, array\<string, string\>\> will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/Service/CsvParserTest.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, int\> will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 2
-			path: tests/Service/EventHelperTest.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<int, string\> will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/Service/MedalCheckerTest.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array\<string, array\<int\|string, array\<int, string\>\|string\>\> will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/Service/MedalCheckerTest.php
-
-		-
-			message: '#^Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Dotenv\\\\Dotenv'' and ''bootEnv'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: tests/bootstrap.php

@@ -75,8 +75,8 @@ class AccountController extends BaseController
             return $this->redirectToRoute('default');
         }
 
-        $lat = $agent->getLat() ?: -1.262326;
-        $lon = $agent->getLon() ?: -79.09357;
+        $lat = (float) ($agent->getLat() ?: -1.262326);
+        $lon = (float) ($agent->getLon() ?: -79.09357);
         $zoom = $agent->getLat() ? 12 : 5;
 
         $map = new Map('default')

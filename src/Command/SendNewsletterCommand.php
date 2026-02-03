@@ -226,9 +226,6 @@ class SendNewsletterCommand extends Command
         return Command::SUCCESS;
     }
 
-    /**
-     * @throws Exception
-     */
     private function getNextFS(DateTimeZone $timeZone): DateTime
     {
         $dateNow = new DateTime('now');

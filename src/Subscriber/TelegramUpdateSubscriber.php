@@ -45,7 +45,8 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      */
     public function processUpdate(UpdateEvent $event): void
     {
-        $this->respondWelcome($event)->respondInlineQuery();
+        $this->respondWelcome($event);
+        $this->respondInlineQuery();
     }
 
     public function writeLog(UpdateEvent $event): void
@@ -68,18 +69,18 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    private function respondWelcome(UpdateEvent $event
-    ): TelegramUpdateSubscriber {
+    private function respondWelcome(UpdateEvent $event): void
+    {
         $message = $event->getUpdate()->getMessage();
 
         if (!$message) {
-            return $this;
+            return;
         }
 
         $newChatMember = $message->getNewChatMembers();
 
         if (!$newChatMember) {
-            return $this;
+            return;
         }
 
         if (!$this->isAllowedChat) {
@@ -89,7 +90,7 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
                     ->getChat()->getId()
             );
 
-            return $this;
+            return;
         }
 
         $me = $this->botApi->getMe();
@@ -106,23 +107,17 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
             // New chat member
 
             // DISABLED!
-            return $this;
+            return;
         }
 
         $this->botApi->sendMessage(
             $event->getUpdate()->getMessage()->getChat()->getId(),
             $text
         );
-
-        return $this;
     }
 
-    /**
-     * @throws Exception
-     */
-    private function respondInlineQuery(): TelegramUpdateSubscriber
+    private function respondInlineQuery(): void
     {
         // Disabled
-        return $this;
     }
 }

@@ -30,7 +30,7 @@ class ControllerAccessTest extends WebTestCase
             'ingress_event_public_show' => [
                 'statusCode' => 200,
             ],
-            'app_privacy' => [
+            'app_privacy'               => [
                 'statusCode' => 200,
             ],
         ];
@@ -58,7 +58,8 @@ class ControllerAccessTest extends WebTestCase
             if (in_array(
                 $item->getBasename(),
                 ['.gitignore', 'GoogleController.php']
-            )) {
+            )
+            ) {
                 continue;
             }
 
@@ -102,12 +103,18 @@ class ControllerAccessTest extends WebTestCase
             foreach ($methods as $method) {
                 $code = is_array($expectedStatusCode)
                     ? $expectedStatusCode[$method] : $expectedStatusCode;
-                echo sprintf('Testing: %s - %s (%d)', $method, $path, $code).PHP_EOL;
+                echo sprintf('Testing: %s - %s (%d)', $method, $path, $code)
+                    .PHP_EOL;
                 $browser->request($method, $path);
                 $this->assertEquals(
                     $code,
                     $browser->getResponse()->getStatusCode(),
-                    sprintf('failed: %s (%s) with method "%s"', $routeName, $path, $method)
+                    sprintf(
+                        'failed: %s (%s) with method "%s"',
+                        $routeName,
+                        $path,
+                        $method
+                    )
                 );
             }
         }

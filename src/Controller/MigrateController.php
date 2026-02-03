@@ -120,6 +120,7 @@ class MigrateController extends BaseController
 
             $data[] = $s;
         }
+
         $csv = Writer::createFromFileObject(new SplTempFileObject());
         // We insert the CSV header
         $csv->insertOne(array_keys($data[0]));

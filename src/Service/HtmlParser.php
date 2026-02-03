@@ -20,8 +20,7 @@ class HtmlParser
             '//table[@style="width: 500px; border-collapse: collapse; border-style: none;"]/tbody/tr/td/a'
         )->each(
             static function ($node) use ($info) {
-                $info->poc[(string)$node->attr('class')] = $node->html(
-                );
+                $info->poc[(string)$node->attr('class')] = $node->html();
             }
         );
         $crawler->filterXPath('//table/tbody/tr/td/div')->each(

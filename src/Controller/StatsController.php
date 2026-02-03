@@ -265,6 +265,7 @@ class StatsController extends BaseController
         if (!$agent) {
             throw $this->createAccessDeniedException('Not an agent...');
         }
+
         $stats = $this->statRepository->getAgentStats($agent);
         $dates = [];
         foreach ($stats as $stat) {

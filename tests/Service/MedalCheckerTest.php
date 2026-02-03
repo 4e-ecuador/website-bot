@@ -16,7 +16,9 @@ class MedalCheckerTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $this->medalChecker = new MedalChecker(
-            self::getContainer()->get('translator'),  $kernel->getProjectDir(), 'test'
+            self::getContainer()->get('translator'),
+            $kernel->getProjectDir(),
+            'test'
         );
     }
 
@@ -85,7 +87,11 @@ class MedalCheckerTest extends KernelTestCase
         foreach ($medals as $medal => $value) {
             $result = $this->medalChecker->getMedalLevel($medal, $value);
 
-            self::assertSame(1, $result, sprintf('Failed for %s -  %s', $medal, $value));
+            self::assertSame(
+                1,
+                $result,
+                sprintf('Failed for %s -  %s', $medal, $value)
+            );
         }
 
         $result = $this->medalChecker->getMedalLevel('XXX', 0);
@@ -167,7 +173,10 @@ class MedalCheckerTest extends KernelTestCase
         $result = $this->medalChecker->getBadgeData('anomaly_kureze_effect');
         self::assertInstanceOf(BadgeData::class, $result);
         self::assertSame('Kureze Effect', $result->title);
-        self::assertSame('In recognition of contributions during Kureze Effect.', $result->description);
+        self::assertSame(
+            'In recognition of contributions during Kureze Effect.',
+            $result->description
+        );
     }
 
     public function testGetBadgeDataException(): void

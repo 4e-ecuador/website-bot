@@ -22,7 +22,7 @@ class StatsControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_GET, '/stats/by-date', [
             'start_date' => '2024-01-01',
-            'end_date' => '2024-01-31',
+            'end_date'   => '2024-01-31',
         ]);
 
         // Should properly read query parameters without throwing errors

@@ -43,9 +43,9 @@ final class NoRequestGetMethodRule implements Rule
 
         return [
             RuleErrorBuilder::message(
-                'Call to deprecated method Request::get(). ' .
-                'Use $request->query->get() for GET parameters, ' .
-                '$request->request->get() for POST parameters, ' .
+                'Call to deprecated method Request::get(). '.
+                'Use $request->query->get() for GET parameters, '.
+                '$request->request->get() for POST parameters, '.
                 'or $request->attributes->get() for route attributes.'
             )
                 ->identifier('symfony.deprecatedRequestGet')

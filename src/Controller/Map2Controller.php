@@ -20,9 +20,14 @@ use UnexpectedValueException;
 
 class Map2Controller extends AbstractController
 {
-    public function __construct(private readonly \App\Repository\MapGroupRepository $mapGroupRepository, private readonly \App\Repository\AgentRepository $agentRepository, private readonly \Symfony\Component\Asset\Packages $assetsManager, private readonly \App\Repository\UserRepository $userRepository)
-    {
+    public function __construct(
+        private readonly MapGroupRepository $mapGroupRepository,
+        private readonly AgentRepository $agentRepository,
+        private readonly Packages $assetsManager,
+        private readonly UserRepository $userRepository
+    ) {
     }
+
     #[Route(path: '/map2', name: 'agent-map2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function map(

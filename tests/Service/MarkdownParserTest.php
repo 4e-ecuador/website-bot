@@ -52,7 +52,9 @@ class MarkdownParserTest extends KernelTestCase
 
     public function testImageResponsive(): void
     {
-        $result = $this->markdownParser->transform('foo ![image](https://example.com/image.jpg) baz');
+        $result = $this->markdownParser->transform(
+            'foo ![image](https://example.com/image.jpg) baz'
+        );
 
         $expected = '<div><p>foo <img src="https://example.com/image.jpg" alt="image" class="img-fluid"> baz</p>
 </div>

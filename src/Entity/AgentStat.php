@@ -484,7 +484,10 @@ class AgentStat implements ArrayAccess
     {
         if (strpos((string)$offset, '-')) {
             $offset = lcfirst(
-                implode('', array_map(ucfirst(...), explode('-', (string)$offset)))
+                implode(
+                    '',
+                    array_map(ucfirst(...), explode('-', (string)$offset))
+                )
             );
         }
 

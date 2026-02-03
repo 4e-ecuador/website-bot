@@ -341,12 +341,12 @@ class MedalChecker
                             'gold',
                         ],
                     */
-                    '2025_winter_solstice'             =>
+                    '2025_winter_solstice'   =>
                         [
                             'bronze',
                             'silver',
                         ],
-                    'spider_web_2025' => [''],
+                    'spider_web_2025'        => [''],
                     'plus_alpha'             =>
                         [
                             'bronze',

@@ -173,6 +173,7 @@ class IngressEventController extends BaseController
 
             return $this->redirectToRoute('ingress_event_index');
         }
+
         $agents = $this->agentRepository->findNotifyAgents();
         $count = 0;
         foreach ($agents as $agent) {
@@ -194,6 +195,7 @@ class IngressEventController extends BaseController
                 }
             }
         }
+
         if ($count !== 0) {
             $this->addFlash(
                 'success',

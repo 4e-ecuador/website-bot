@@ -26,7 +26,6 @@ class IntlDateHelperTest extends KernelTestCase
         );
 
         self::assertEquals('21 December 2112', $response);
-
     }
 
     public function testFormatShort(): void

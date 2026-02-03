@@ -40,7 +40,7 @@ class Agent implements Stringable
     /**
      * @var Collection<int, Comment>
      */
-    #[OneToMany(mappedBy: 'agent', targetEntity: Comment::class)]
+    #[OneToMany(targetEntity: Comment::class, mappedBy: 'agent')]
     private Collection $comments;
 
     #[Column(type: Types::TEXT, nullable: true)]

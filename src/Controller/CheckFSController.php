@@ -2,19 +2,14 @@
 
 namespace App\Controller;
 
-use App\Repository\AgentRepository;
-use App\Repository\FsDataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class CheckFSController extends AbstractController
 {
     //#[Route('/check/fs', name: 'app_check_fs')]
-    public function index(
-        AgentRepository $agentRepository,
-        FsDataRepository $fsDataRepository
-    ): Response {
+    public function index(): Response
+    {
         /*
         $latest = $fsDataRepository->findLatest();
 
@@ -41,7 +36,7 @@ class CheckFSController extends AbstractController
         foreach ($agents as $agent) {
             $ff = $agent;
             // if ($agent->)
-}
+        }
         */
         return $this->render('check_fs/index.html.twig', [
         ]);

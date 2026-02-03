@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\BaseController;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -18,9 +19,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class LogviewController extends BaseController
 {
+    public function __construct(private readonly KernelInterface $kernel)
+    {
+    }
+
     public function __invoke(
-        #[Autowire('%kernel.project_dir%')] string $projectDir,
-        KernelInterface $kernel
+        #[Autowire('%kernel.project_dir%')] string $projectDir
     ): Response {
         $filesystem = new Filesystem();
         $filename = $projectDir.'/var/log/deploy.log';
@@ -35,7 +39,10 @@ class LogviewController extends BaseController
                 $lines = explode("\n", $contents);
                 foreach ($lines as $line) {
                     $line = trim($line);
-                    if (empty($line)) {
+                    if ($line === '') {
+                        continue;
+                    }
+                    if ($line === '0') {
                         continue;
                     }
 
@@ -43,7 +50,7 @@ class LogviewController extends BaseController
                         if (is_null($entry)) {
                             $entry = '';
                         } else {
-                            throw new \LogicException(
+                            throw new LogicException(
                                 'Entry finished string not found'
                             );
                         }
@@ -53,7 +60,7 @@ class LogviewController extends BaseController
 
                     if (str_starts_with($line, '<<<===========')) {
                         if (is_null($entry)) {
-                            throw new \LogicException('Entry not started.');
+                            throw new LogicException('Entry not started.');
                         }
 
                         $entries[$dateTime] = $entry;
@@ -72,16 +79,14 @@ class LogviewController extends BaseController
 
                     $entry .= $line."\n";
                 }
-                //  dd($contents,$entries);
-            } else {
             }
-        } catch (IOException $exception) {
-            $this->addFlash('danger', $exception->getMessage());
+        } catch (IOException $ioException) {
+            $this->addFlash('danger', $ioException->getMessage());
         }
 
         $output = new BufferedOutput();
 
-        $application = new Application($kernel);
+        $application = new Application($this->kernel);
         $application->setAutoExit(false);
         $application->run(new ArrayInput(['command' => 'about']), $output);
 

@@ -14,26 +14,34 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use function count;
 
-#[Route(path: '/agent-stat')]
 class AgentStatController extends BaseController
 {
     use PaginatorTrait;
 
-    #[Route(path: '/', name: 'agent_stat_index', methods: ['GET', 'POST'])]
+    public function __construct(
+        private readonly AgentStatRepository $agentStatRepository,
+        private readonly AgentRepository $agentRepository
+    ) {
+    }
+
+    #[Route(path: '/agent-stat/', name: 'agent_stat_index', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_AGENT')]
     public function index(
-        AgentStatRepository $agentStatRepository,
-        AgentRepository $agentRepository,
         Request $request
     ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
-        $stats = $agentStatRepository->getPaginatedList($paginatorOptions);
+        $stats = $this->agentStatRepository->getPaginatedList(
+            $paginatorOptions
+        );
         $paginatorOptions->setMaxPages(
             (int)ceil(count($stats) / $paginatorOptions->getLimit())
         );
         $agents = [];
         $agents[0] = '';
-        foreach ($agentRepository->findAllAlphabetical() as $item) {
+        foreach ($this->agentRepository->findAllAlphabetical() as $item) {
             $agents[$item->getId()] = $item->getNickname();
         }
 
@@ -47,7 +55,10 @@ class AgentStatController extends BaseController
         );
     }
 
-    #[Route(path: '/new', name: 'agent_stat_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/agent-stat/new', name: 'agent_stat_new', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -72,7 +83,7 @@ class AgentStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'agent_stat_show', methods: ['GET'])]
+    #[Route(path: '/agent-stat/{id}', name: 'agent_stat_show', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function show(AgentStat $agentStat): Response
     {
@@ -84,7 +95,7 @@ class AgentStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'agent_stat_edit', methods: [
+    #[Route(path: '/agent-stat/{id}/edit', name: 'agent_stat_edit', methods: [
         'GET',
         'POST',
     ])]
@@ -111,7 +122,7 @@ class AgentStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
+    #[Route(path: '/agent-stat/{id}', name: 'agent_stat_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

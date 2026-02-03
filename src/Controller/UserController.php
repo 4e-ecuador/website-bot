@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,24 +16,27 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 
-#[Route(path: '/user')]
 class UserController extends BaseController
 {
     use PaginatorTrait;
 
-    #[Route(path: '/', name: 'user_index', methods: ['GET'])]
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
+    #[Route(path: '/user/', name: 'user_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
         return $this->render('user/index.html.twig');
     }
 
-    #[Route(path: '/list', name: 'app_user_list', methods: ['GET'])]
+    #[Route(path: '/user/list', name: 'app_user_list', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentsList(
-        UserRepository $userRepository,
-        Request $request,
-        TranslatorInterface $translator
+        Request $request
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
@@ -48,21 +52,24 @@ class UserController extends BaseController
         /**
          * @var User[] $users
          */
-        $users = $userRepository->getPaginatedList($paginatorOptions);
+        $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($users) / $paginatorOptions->getLimit())
         );
 
         return $this->json(
             [
-                'msgSearchResultCount' => $translator->trans(
+                'msgSearchResultCount' => $this->translator->trans(
                     'search.result.user',
                     ['count' => count($users)]
                 ),
-                'msgPageCounter'       => $translator->trans('page.counter', [
-                    'page'     => $page,
-                    'maxPages' => $paginatorOptions->getMaxPages(),
-                ]),
+                'msgPageCounter'       => $this->translator->trans(
+                    'page.counter',
+                    [
+                        'page'     => $page,
+                        'maxPages' => $paginatorOptions->getMaxPages(),
+                    ]
+                ),
 
                 'totalItems' => count($users),
                 'previous'   => ($page > 1)
@@ -82,10 +89,9 @@ class UserController extends BaseController
         );
     }
 
-    #[Route(path: '/jsonlist', name: 'user_index_json', methods: ['GET'])]
+    #[Route(path: '/user/jsonlist', name: 'user_index_json', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function indexJson(
-        UserRepository $userRepository,
         Request $request
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
@@ -103,7 +109,7 @@ class UserController extends BaseController
         /**
          * @var User[] $users
          */
-        $users = $userRepository->getPaginatedList($paginatorOptions);
+        $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($users) / $paginatorOptions->getLimit())
         );
@@ -114,7 +120,7 @@ class UserController extends BaseController
             $a = $user->getAgent();
             $ag = null;
             if ($a) {
-                $ag = new \stdClass();
+                $ag = new stdClass();
 
                 $ag->id = $a->getId();
                 $ag->nickname = $a->getNickname();
@@ -128,11 +134,11 @@ class UserController extends BaseController
             ];
         }
 
-        $response = new \stdClass();
+        $response = new stdClass();
 
         $response->{'hydra:member'} = $list;
 
-        $view = new \stdClass();
+        $view = new stdClass();
         $view->{'hydra:previous'} = ($page > 1) ? 'X' : null;
         $view->{'hydra:next'} = ($page < $paginatorOptions->getMaxPages()) ? 'X'
             : null;
@@ -144,7 +150,7 @@ class UserController extends BaseController
         return $this->json($response);
     }
 
-    #[Route(path: '/new', name: 'user_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/user/new', name: 'user_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -169,14 +175,14 @@ class UserController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'user_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/user/{id}', name: 'user_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'],
+    #[Route(path: '/user/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'],
         methods: ['GET', 'POST']
     )]
     #[IsGranted('ROLE_ADMIN')]
@@ -210,7 +216,7 @@ class UserController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'user_delete', methods: ['DELETE'])]
+    #[Route(path: '/user/{id}', name: 'user_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

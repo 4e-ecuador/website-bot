@@ -2,7 +2,6 @@
 
 namespace App\BotCommand;
 
-use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
 use TelegramBot\Api\BotApi;
@@ -12,10 +11,6 @@ use TelegramBot\Api\Types\Update;
 
 class Agents extends AbstractCommand implements PublicCommandInterface
 {
-    public function __construct()
-    {
-    }
-
     public function getName(): string
     {
         return '/agents';

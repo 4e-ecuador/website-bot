@@ -20,13 +20,17 @@ use UnexpectedValueException;
 
 class AccountController extends BaseController
 {
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly MedalChecker $medalChecker,
+        private readonly TelegramBotHelper $telegramBotHelper
+    ) {
+    }
+
     #[Route(path: '/account', name: 'app_account', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function account(
         Request $request,
-        TranslatorInterface $translator,
-        MedalChecker $medalChecker,
-        TelegramBotHelper $telegramBotHelper,
         EntityManagerInterface $entityManager,
     ): Response {
         $user = $this->getUser();
@@ -37,7 +41,7 @@ class AccountController extends BaseController
         $agent = $user->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException(
-                $translator->trans('user.not.verified.2')
+                $this->translator->trans('user.not.verified.2')
             );
         }
 
@@ -65,7 +69,7 @@ class AccountController extends BaseController
             $entityManager->flush();
             $this->addFlash(
                 'success',
-                $translator->trans('Your profile has been updated.')
+                $this->translator->trans('Your profile has been updated.')
             );
 
             return $this->redirectToRoute('default');
@@ -75,7 +79,7 @@ class AccountController extends BaseController
         $lon = $agent->getLon() ?: -79.09357;
         $zoom = $agent->getLat() ? 12 : 5;
 
-        $map = (new Map('default'))
+        $map = new Map('default')
             ->center(new Point($lat, $lon))
             ->zoom($zoom)
             /*
@@ -90,7 +94,7 @@ class AccountController extends BaseController
         )
         */
             ->options(
-                (new LeafletOptions())
+                new LeafletOptions()
                     ->tileLayer(
                         new TileLayer(
                             url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -106,11 +110,12 @@ class AccountController extends BaseController
                 'agent'                => $agent,
                 'agentCustomMedals'    => $customMedals,
                 'form'                 => $form,
-                'telegramConnectLink'  => $telegramBotHelper
-                    ->getConnectLink($agent),
-                'telegramConnectLink2' => $telegramBotHelper
-                    ->getConnectLink2($agent),
-                'customMedals'         => $medalChecker->getCustomMedalGroups(),
+                'telegramConnectLink'  =>
+                    $this->telegramBotHelper->getConnectLink($agent),
+                'telegramConnectLink2' =>
+                    $this->telegramBotHelper->getConnectLink2($agent),
+                'customMedals'         =>
+                    $this->medalChecker->getCustomMedalGroups(),
                 'map'                  => $map,
             ]
         );
@@ -134,13 +139,15 @@ class AccountController extends BaseController
 
     #[Route(path: '/account/tg-connect', name: 'tg_connect', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
-    public function telegramConnect(TelegramBotHelper $telegramBotHelper
-    ): RedirectResponse {
+    public function telegramConnect(): RedirectResponse
+    {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
 
-        return $this->redirect($telegramBotHelper->getConnectLink($agent));
+        return $this->redirect(
+            $this->telegramBotHelper->getConnectLink($agent)
+        );
     }
 }

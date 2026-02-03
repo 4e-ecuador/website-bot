@@ -28,7 +28,7 @@ class TestLevelUpMessageCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setNickname('nikp3h');
 
         $level = 6;

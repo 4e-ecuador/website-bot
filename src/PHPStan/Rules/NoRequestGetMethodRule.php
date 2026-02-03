@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @implements Rule<MethodCall>
@@ -34,7 +35,7 @@ final class NoRequestGetMethodRule implements Rule
 
         $callerType = $scope->getType($node->var);
 
-        $requestType = new ObjectType('Symfony\Component\HttpFoundation\Request');
+        $requestType = new ObjectType(Request::class);
 
         if (!$requestType->isSuperTypeOf($callerType)->yes()) {
             return [];

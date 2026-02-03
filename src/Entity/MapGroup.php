@@ -24,7 +24,7 @@ class MapGroup
     /**
      * @var Collection<int, Agent>
      */
-    #[OneToMany(mappedBy: 'map_group', targetEntity: Agent::class)]
+    #[OneToMany(targetEntity: Agent::class, mappedBy: 'map_group')]
     private Collection $agents;
 
     public function __construct()

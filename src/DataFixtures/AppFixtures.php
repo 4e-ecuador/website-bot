@@ -21,48 +21,48 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $user = (new User())
+        $user = new User()
             ->setEmail('admin@example.com')
             ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
 
-        $factionEnl = (new Faction())
+        $factionEnl = new Faction()
             ->setName('ENL');
 
         $manager->persist($factionEnl);
 
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setFaction($factionEnl)
             ->setNickname('testAgent');
 
         $manager->persist($agent);
 
-        $event = (new Event())
+        $event = new Event()
             ->setName('test')
             ->setDateStart(new \DateTime())
             ->setDateEnd(new \DateTime());
 
         $manager->persist($event);
 
-        $mapGroup = (new MapGroup())
+        $mapGroup = new MapGroup()
             ->setName('test');
 
         $manager->persist($mapGroup);
 
-        $testStat = (new TestStat())
+        $testStat = new TestStat()
             ->setCsv('csvString');
 
         $manager->persist($testStat);
 
-        $agentStat = (new AgentStat())
+        $agentStat = new AgentStat()
             ->setDatetime(new \DateTime())
             ->setAgent($agent)
             ->setAp(123);
 
         $manager->persist($agentStat);
 
-        $ingressEvent = (new IngressEvent())
+        $ingressEvent = new IngressEvent()
             ->setDateStart(new \DateTime())
             ->setDateEnd(new \DateTime());
 
@@ -70,19 +70,19 @@ class AppFixtures extends Fixture
 
         $tz = new \DateTimeZone('UTC');
 
-        $challenge = (new Challenge())
+        $challenge = new Challenge()
             ->setName('TestPast')
-            ->setDateStart((new DateTime('now', $tz))->modify('-1 day'))
-            ->setDateEnd((new DateTime('now', $tz))->modify('-1 day'));
+            ->setDateStart(new DateTime('now', $tz)->modify('-1 day'))
+            ->setDateEnd(new DateTime('now', $tz)->modify('-1 day'));
         $manager->persist($challenge);
 
-        $challenge = (new Challenge())
+        $challenge = new Challenge()
             ->setName('TestPresent')
             ->setDateStart(new DateTime('now', $tz))
             ->setDateEnd(new DateTime('now', $tz));
         $manager->persist($challenge);
 
-        $comment = (new Comment())
+        $comment = new Comment()
             ->setText('test')
             ->setAgent($agent)
             ->setCommenter($user)

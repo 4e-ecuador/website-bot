@@ -21,13 +21,13 @@ class EventHelperSpanTest extends KernelTestCase
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $tz = new \DateTimeZone('UTC');
 
-        $event = (new Event())
+        $event = new Event()
             ->setName('Test')
-            ->setDateStart((new DateTime('now', $tz))->modify('-1 day'))
-            ->setDateEnd((new DateTime('now', $tz))->modify('-1 day'));
+            ->setDateStart(new DateTime('now', $tz)->modify('-1 day'))
+            ->setDateEnd(new DateTime('now', $tz)->modify('-1 day'));
         $em->persist($event);
 
-        $event = (new Event())
+        $event = new Event()
             ->setName('Test')
             ->setDateStart(new DateTime('now', $tz))
             ->setDateEnd(new DateTime('now', $tz));

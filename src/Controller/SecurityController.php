@@ -12,25 +12,27 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    public function __construct(
+        private readonly AuthenticationUtils $authenticationUtils
+    ) {
+    }
+
     #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(
-        AuthenticationUtils $authenticationUtils,
         Request $request,
         #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
         ?UserInterface $user = null,
     ): Response {
-        if ($user instanceof
-            \Symfony\Component\Security\Core\User\UserInterface
-        ) {
+        if ($user instanceof UserInterface) {
             // User is already logged in
             return $this->redirectToRoute('default');
         }
 
         $referer = $request->headers->get('referer');
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $this->authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $lastUsername = $this->authenticationUtils->getLastUsername();
 
         return $this->render(
             'security/login.html.twig',

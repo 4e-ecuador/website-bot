@@ -303,10 +303,8 @@ class UpdateBadgedataCommand extends Command
                     if ($this->output->isVerbose()) {
                         $this->io->writeln(' is NEW');
                     }
-                } else {
-                    if ($this->output->isVerbose()) {
-                        $this->io->writeln(' exists');
-                    }
+                } elseif ($this->output->isVerbose()) {
+                    $this->io->writeln(' exists');
                 }
 
                 $badgeInfo = new stdClass();
@@ -359,7 +357,7 @@ class UpdateBadgedataCommand extends Command
                 $filesystem->mkdir($destDir);
             }
 
-            $files = (new Finder())
+            $files = new Finder()
                 ->files()
                 ->in($this->badgeRoot);
 
@@ -421,7 +419,7 @@ class UpdateBadgedataCommand extends Command
             $colCount = 0;
             $rowCount = 0;
 
-            $files = (new Finder())
+            $files = new Finder()
                 ->files()
                 ->in($this->badgeRoot.'/'.$size)
                 ->sortByName();
@@ -533,7 +531,7 @@ class UpdateBadgedataCommand extends Command
     private function execCommand(string $command): bool|string
     {
         $lastLine = system($command, $status);
-        if ($status) {
+        if ($status !== 0) {
             // Command exited with a status != 0
             if ($lastLine) {
                 throw new RuntimeException($lastLine);

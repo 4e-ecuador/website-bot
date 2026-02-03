@@ -43,7 +43,7 @@ parameters:
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: '#^Class cognitive complexity is 66, keep it under 50$#'
+			message: '#^Class cognitive complexity is 62, keep it under 50$#'
 			identifier: complexity.classLike
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
@@ -55,7 +55,7 @@ parameters:
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Command\\UpdateBadgedataCommand\:\:scrapeBadges\(\)" is 26, keep it under 8$#'
+			message: '#^Cognitive complexity for "App\\Command\\UpdateBadgedataCommand\:\:scrapeBadges\(\)" is 22, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Command/UpdateBadgedataCommand.php
@@ -117,12 +117,6 @@ parameters:
 		-
 			message: '#^Argument of an invalid type App\\Entity\\AgentStat supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
-			count: 1
-			path: src/Controller/MigrateController.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:getCsv\(\)" is 13, keep it under 8$#'
-			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/MigrateController.php
 

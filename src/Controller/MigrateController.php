@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AgentStat;
 use App\Repository\AgentStatRepository;
+use DateTime;
 use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
@@ -11,18 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use UnexpectedValueException;
 
-#[Route('/migrate')]
 #[IsGranted('ROLE_AGENT')]
 class MigrateController extends BaseController
 {
-    #[Route('/', name: 'app_migrate')]
+    public function __construct(
+        private readonly AgentStatRepository $agentStatRepository
+    ) {
+    }
+
+    #[Route('/migrate/', name: 'app_migrate')]
     public function index(): Response
     {
         return $this->render('migrate/index.html.twig');
     }
 
-    #[Route('/upload', name: 'app_migrate_upload')]
+    #[Route('/migrate/upload', name: 'app_migrate_upload')]
     public function upload(Request $request): Response
     {
         $token = $request->request->getString("token") ?: null;
@@ -47,7 +53,7 @@ class MigrateController extends BaseController
         $agent = $this->getUser()?->getAgent();
 
         if (!$agent) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'No agent found for current user'
             );
         }
@@ -72,14 +78,14 @@ class MigrateController extends BaseController
                 };
 
                 if (false === method_exists($stat, $method)) {
-                    throw new \UnexpectedValueException(
+                    throw new UnexpectedValueException(
                         'Unknown property: '.$index
                     );
                 }
 
                 match ($index) {
                     'datetime' => $stat->setDatetime(
-                        new \DateTime($item[$index])
+                        new DateTime($item[$index])
                     ),
                     default => $stat->$method($item[$index]),
                 };
@@ -92,46 +98,32 @@ class MigrateController extends BaseController
         );
     }
 
-    #[Route('/csv', name: 'app_migrate_get_csv')]
-    public function getCsv(AgentStatRepository $agentStatRepository): Response
+    #[Route('/migrate/csv', name: 'app_migrate_get_csv')]
+    public function getCsv(): Response
     {
         $agent = $this->getUser()?->getAgent();
-
         if (!$agent) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'No agent found for current user'
             );
         }
 
-        $stats = $agentStatRepository->getAgentStatsForCsv($agent);
-
+        $stats = $this->agentStatRepository->getAgentStatsForCsv($agent);
         $data = [];
-
         foreach ($stats as $stat) {
             $s = [];
             foreach ($stat as $k => $v) {
-                if ($k === 'id') {
-                } elseif ($k === 'datetime') {
+                if ($k === 'datetime') {
                     $s[$k] = $v->format('Y-m-d H:i:s');
-                } else {
-                    if (null === $v) {
-                        $v = 0;
-                    }
-
-                    $s[$k] = $v;
                 }
             }
 
             $data[] = $s;
         }
-
         $csv = Writer::createFromFileObject(new SplTempFileObject());
-
         // We insert the CSV header
         $csv->insertOne(array_keys($data[0]));
-
         $csv->insertAll($data);
-
         // Because you are providing the filename you don't have to
         // set the HTTP headers Writer::output can
         // directly set them for you

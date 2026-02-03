@@ -9,24 +9,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/markdown')]
 class Markdown extends AbstractController
 {
+    public function __construct(
+        private readonly MarkdownHelper $markdownHelper
+    ) {
+    }
+
     /**
-     * Converts a markdown string to HTML.
+     * Converts a Markdown string to HTML.
      */
-    #[Route(path: '/preview', name: 'markdown_preview', methods: ['POST'])]
+    #[Route(path: '/markdown/preview', name: 'markdown_preview', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function preview(
-        Request $request,
-        MarkdownHelper $markdownHelper
+        Request $request
     ): JsonResponse {
         $text = (string)$request->request->get('text');
 
         return $this->json(
             [
                 'data' => $text !== '' && $text !== '0'
-                    ? $markdownHelper->parse($text)
+                    ? $this->markdownHelper->parse($text)
                     : ':(',
             ]
         );

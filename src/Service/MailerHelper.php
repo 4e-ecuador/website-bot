@@ -93,13 +93,13 @@ class MailerHelper
 
     private function createNewMessage(): Email
     {
-        return (new Email())
+        return new Email()
             ->from(new Address($this->email, $this->emailName));
     }
 
     private function createNewTwigMessage(): TemplatedEmail
     {
-        return (new TemplatedEmail())
+        return new TemplatedEmail()
             ->from(new Address($this->email, $this->emailName));
     }
 }

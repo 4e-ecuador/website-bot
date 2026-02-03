@@ -9,13 +9,11 @@ use App\Repository\AgentRepository;
 use App\Repository\IngressEventRepository;
 use App\Repository\UserRepository;
 use App\Service\FcmHelper;
-use App\Service\HtmlParser;
 use App\Service\TelegramBotHelper;
 use App\Type\CustomMessage\NotifyEventsMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,19 +21,32 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use function count;
 
-#[Route(path: '/ingress/event')]
 class IngressEventController extends BaseController
 {
     use PaginatorTrait;
 
-    #[Route(path: '/', name: 'ingress_event_index', methods: ['GET', 'POST'])]
+    public function __construct(
+        private readonly IngressEventRepository $ingressEventRepository,
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly AgentRepository $agentRepository,
+        private readonly NotifyEventsMessage $notifyEventsMessage,
+        private readonly FcmHelper $fbmHelper,
+        private readonly UserRepository $userRepository
+    ) {
+    }
+
+    #[Route(path: '/ingress/event/', name: 'ingress_event_index', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(
-        IngressEventRepository $ingressEventRepository,
         Request $request
     ): Response {
         $paginatorOptions = $this->getPaginatorOptions($request);
-        $events = $ingressEventRepository->getPaginatedList($paginatorOptions);
+        $events = $this->ingressEventRepository->getPaginatedList(
+            $paginatorOptions
+        );
         $paginatorOptions->setMaxPages(
             (int)ceil(count($events) / $paginatorOptions->getLimit())
         );
@@ -49,7 +60,10 @@ class IngressEventController extends BaseController
         );
     }
 
-    #[Route(path: '/new', name: 'ingress_event_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/ingress/event/new', name: 'ingress_event_new', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -78,7 +92,7 @@ class IngressEventController extends BaseController
         );
     }
 
-    #[Route(path: '/show/{id}', name: 'ingress_event_public_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/ingress/event/show/{id}', name: 'ingress_event_public_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function publicShow(IngressEvent $ingressEvent): Response
     {
         return $this->render(
@@ -89,7 +103,7 @@ class IngressEventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'ingress_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/ingress/event/{id}', name: 'ingress_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(IngressEvent $ingressEvent): Response
     {
@@ -101,7 +115,7 @@ class IngressEventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'ingress_event_edit', methods: [
+    #[Route(path: '/ingress/event/{id}/edit', name: 'ingress_event_edit', methods: [
         'GET',
         'POST',
     ])]
@@ -128,7 +142,7 @@ class IngressEventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'ingress_event_delete', methods: ['DELETE'])]
+    #[Route(path: '/ingress/event/{id}', name: 'ingress_event_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
@@ -147,14 +161,11 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    #[Route(path: '/announce', name: 'ingress_event_announce', methods: ['GET'])]
+    #[Route(path: '/ingress/event/announce', name: 'ingress_event_announce', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function announceTg(
-        TelegramBotHelper $telegramBotHelper,
-        AgentRepository $agentRepository,
-        NotifyEventsMessage $notifyEventsMessage
-    ): RedirectResponse {
-        $message = $notifyEventsMessage
+    public function announceTg(): RedirectResponse
+    {
+        $message = $this->notifyEventsMessage
             ->setFirstAnnounce(true)
             ->getText();
         if ($message === '' || $message === '0') {
@@ -162,13 +173,12 @@ class IngressEventController extends BaseController
 
             return $this->redirectToRoute('ingress_event_index');
         }
-
-        $agents = $agentRepository->findNotifyAgents();
+        $agents = $this->agentRepository->findNotifyAgents();
         $count = 0;
         foreach ($agents as $agent) {
             if ($agent->getHasNotifyEvents()) {
                 try {
-                    $telegramBotHelper->sendMessage(
+                    $this->telegramBotHelper->sendMessage(
                         $agent->getTelegramId(),
                         $message,
                         true
@@ -184,7 +194,6 @@ class IngressEventController extends BaseController
                 }
             }
         }
-
         if ($count !== 0) {
             $this->addFlash(
                 'success',
@@ -195,14 +204,12 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    #[Route(path: '/announce-fbm', name: 'ingress_event_announce_fbm', methods: ['GET'])]
+    #[Route(path: '/ingress/event/announce-fbm', name: 'ingress_event_announce_fbm', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function announceFbm(
-        FcmHelper $fbmHelper,
-        NotifyEventsMessage $notifyEventsMessage
-    ): RedirectResponse {
+    public function announceFbm(): RedirectResponse
+    {
         try {
-            $message = $notifyEventsMessage
+            $message = $this->notifyEventsMessage
                 ->setFirstAnnounce(true)
                 ->getText();
 
@@ -212,7 +219,7 @@ class IngressEventController extends BaseController
 
             $title = 'Nuevos Eventos Ingress!';
 
-            $fbmHelper->sendMessage($title, $message);
+            $this->fbmHelper->sendMessage($title, $message);
             $this->addFlash('success', 'Announcement has been sent.');
         } catch (Exception $exception) {
             $this->addFlash('danger', 'Error: '.$exception->getMessage());
@@ -221,15 +228,12 @@ class IngressEventController extends BaseController
         return $this->redirectToRoute('ingress_event_index');
     }
 
-    #[Route(path: '/announce-fbm-token', name: 'ingress_event_announce_fbm_token', methods: ['GET'])]
+    #[Route(path: '/ingress/event/announce-fbm-token', name: 'ingress_event_announce_fbm_token', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function announceFbmToken(
-        FcmHelper $fbmHelper,
-        UserRepository $userRepository,
-        NotifyEventsMessage $notifyEventsMessage
-    ): RedirectResponse {
+    public function announceFbmToken(): RedirectResponse
+    {
         try {
-            $message = $notifyEventsMessage
+            $message = $this->notifyEventsMessage
                 ->setFirstAnnounce(true)
                 ->getText();
 
@@ -237,7 +241,7 @@ class IngressEventController extends BaseController
                 throw new RuntimeException('No events to announce ;(');
             }
 
-            $users = $userRepository->getFireBaseUsers();
+            $users = $this->userRepository->getFireBaseUsers();
             $count = 0;
             $title = 'Nuevos Eventos Ingress!';
             $tokens = [];
@@ -247,7 +251,7 @@ class IngressEventController extends BaseController
                 ++$count;
             }
 
-            if (!$fbmHelper->sendMessageWithTokens(
+            if (!$this->fbmHelper->sendMessageWithTokens(
                 'URG '.$title,
                 $message,
                 $tokens

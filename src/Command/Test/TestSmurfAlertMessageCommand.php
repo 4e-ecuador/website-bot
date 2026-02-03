@@ -30,10 +30,10 @@ class TestSmurfAlertMessageCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
-        $user = (new User())
+        $user = new User()
             ->setEmail('test@example.com');
 
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setNickname('TEST');
 
         $statEntry = new AgentStat();

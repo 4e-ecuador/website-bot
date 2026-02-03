@@ -8,11 +8,11 @@ use App\Form\AgentType;
 use App\Helper\Map\MapTrait;
 use App\Helper\Paginator\PaginatorTrait;
 use App\Repository\AgentRepository;
-use App\Repository\FactionRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use stdClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,19 +22,26 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function count;
 
-#[Route(path: '/agent')]
 class AgentController extends BaseController
 {
-    use PaginatorTrait, MapTrait;
+    use PaginatorTrait;
+    use MapTrait;
 
-    #[Route(path: '/', name: 'agent_index', methods: ['GET', 'POST'])]
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly AgentRepository $agentRepository,
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
+    #[Route(path: '/agent/', name: 'agent_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function index(): Response
     {
         return $this->render('agent/index.html.twig');
     }
 
-    #[Route(path: '/new', name: 'agent_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/agent/new', name: 'agent_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
@@ -42,7 +49,7 @@ class AgentController extends BaseController
         #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
     ): Response {
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setLat($defaultLat)
             ->setLon($defaultLon);
         $form = $this->createForm(AgentType::class, $agent);
@@ -71,9 +78,9 @@ class AgentController extends BaseController
     /**
      * @throws NonUniqueResultException
      */
-    #[Route(path: '/{id}', name: 'agent_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/agent/{id}', name: 'agent_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function show(Agent $agent, UserRepository $userRepository): Response
+    public function show(Agent $agent): Response
     {
         $map = $agent->getLat()
             ? $this->getAgentLocationMap($agent, true)
@@ -83,13 +90,16 @@ class AgentController extends BaseController
             'agent/show.html.twig',
             [
                 'agent' => $agent,
-                'user'  => $userRepository->findByAgent($agent),
+                'user'  => $this->userRepository->findByAgent($agent),
                 'map'   => $map,
             ]
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'agent_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/agent/{id}/edit', name: 'agent_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_EDITOR')]
     public function edit(
         Request $request,
@@ -117,7 +127,7 @@ class AgentController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'agent_delete', methods: ['DELETE'])]
+    #[Route(path: '/agent/{id}', name: 'agent_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
@@ -136,12 +146,11 @@ class AgentController extends BaseController
         return $this->redirectToRoute('agent_index');
     }
 
-    #[Route(path: '/{id}/add_comment', name: 'agent_add_comment', methods: ['POST'])]
+    #[Route(path: '/agent/{id}/add_comment', name: 'agent_add_comment', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function addComment(
         Request $request,
         Agent $agent,
-        UserRepository $userRepository,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
@@ -149,7 +158,7 @@ class AgentController extends BaseController
             (string)$request->request->get('_token')
         )
         ) {
-            $commenter = $userRepository->findOneBy(
+            $commenter = $this->userRepository->findOneBy(
                 ['id' => (int)$request->request->get('commenter')]
             );
 
@@ -184,15 +193,14 @@ class AgentController extends BaseController
         return $this->json(['error' => 'error']);
     }
 
-    #[Route(path: '/lookup', name: 'agent_lookup', methods: ['POST'])]
+    #[Route(path: '/agent/lookup', name: 'agent_lookup', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function lookup(
-        AgentRepository $agentRepository,
         Request $request
     ): JsonResponse {
         $query = $request->request->getString('query');
         $list = [];
-        $results = $agentRepository->searchByAgentName($query);
+        $results = $this->agentRepository->searchByAgentName($query);
         foreach ($results as $result) {
             $list[] = [
                 'name'    => $result->getNickname(),
@@ -203,12 +211,10 @@ class AgentController extends BaseController
         return $this->json($list);
     }
 
-    #[Route(path: '/list', name: 'app_agent_list', methods: ['GET'])]
+    #[Route(path: '/agent/list', name: 'app_agent_list', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentsList(
-        AgentRepository $agentRepository,
-        Request $request,
-        TranslatorInterface $translator
+        Request $request
     ): Response {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
@@ -224,21 +230,24 @@ class AgentController extends BaseController
         /**
          * @var Agent[] $agents
          */
-        $agents = $agentRepository->getPaginatedList($paginatorOptions);
+        $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($agents) / $paginatorOptions->getLimit())
         );
 
         return $this->json(
             [
-                'msgSearchResultCount' => $translator->trans(
+                'msgSearchResultCount' => $this->translator->trans(
                     'search.result.agent',
                     ['count' => count($agents)]
                 ),
-                'msgPageCounter'       => $translator->trans('page.counter', [
-                    'page'     => $page,
-                    'maxPages' => $paginatorOptions->getMaxPages(),
-                ]),
+                'msgPageCounter'       => $this->translator->trans(
+                    'page.counter',
+                    [
+                        'page'     => $page,
+                        'maxPages' => $paginatorOptions->getMaxPages(),
+                    ]
+                ),
 
                 'totalItems' => count($agents),
                 'previous'   => ($page > 1)
@@ -258,10 +267,9 @@ class AgentController extends BaseController
         );
     }
 
-    #[Route(path: '/jsonlist', name: 'json_lookup_agents', methods: ['GET'])]
+    #[Route(path: '/agent/jsonlist', name: 'json_lookup_agents', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentsListJson(
-        AgentRepository $agentRepository,
         Request $request
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
@@ -278,7 +286,7 @@ class AgentController extends BaseController
         /**
          * @var Agent[] $agents
          */
-        $agents = $agentRepository->getPaginatedList($paginatorOptions);
+        $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($agents) / $paginatorOptions->getLimit())
         );
@@ -293,11 +301,11 @@ class AgentController extends BaseController
             ];
         }
 
-        $response = new \stdClass();
+        $response = new stdClass();
 
         $response->{'hydra:member'} = $list;
 
-        $view = new \stdClass();
+        $view = new stdClass();
         $view->{'hydra:previous'} = ($page > 1) ? 'X' : null;
         $view->{'hydra:next'} = ($page < $paginatorOptions->getMaxPages()) ? 'X'
             : null;

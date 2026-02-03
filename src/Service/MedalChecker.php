@@ -561,7 +561,7 @@ class MedalChecker
 
     public function getGetterMethodName(string $vName): string
     {
-        return 'get'.implode('', array_map('ucfirst', explode('-', $vName)));
+        return 'get'.implode('', array_map(ucfirst(...), explode('-', $vName)));
     }
 
     /**

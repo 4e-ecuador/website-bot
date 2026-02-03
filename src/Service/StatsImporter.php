@@ -235,6 +235,6 @@ class StatsImporter
 
     private function getMethodName(string $vName): string
     {
-        return 'set'.implode('', array_map('ucfirst', explode('-', $vName)));
+        return 'set'.implode('', array_map(ucfirst(...), explode('-', $vName)));
     }
 }

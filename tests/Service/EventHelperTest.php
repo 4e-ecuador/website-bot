@@ -43,29 +43,25 @@ class EventHelperTest extends KernelTestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Unknown event type: test');
 
-        $agent = (new Agent())
-            ->setNickname('testAgent');
-        $event = (new Event())
-            ->setEventType('test');
+        $agent = new Agent()->setNickname('testAgent');
+        $event = new Event()->setEventType('test');
         $entries = [
-            (new AgentStat())
-                ->setAgent($agent),
-            (new AgentStat())
-                ->setAgent($agent),
+            new AgentStat()->setAgent($agent),
+            new AgentStat()->setAgent($agent),
         ];
         $this->eventHelper->calculateResults($event, $entries);
     }
 
     public function testCalculateResults(): void
     {
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setNickname('testAgent');
-        $event = (new Event())
+        $event = new Event()
             ->setEventType('explorer');
         $entries = [
-            (new AgentStat())
+            new AgentStat()
                 ->setAgent($agent),
-            (new AgentStat())
+            new AgentStat()
                 ->setAgent($agent)
                 ->setExplorer(1),
         ];
@@ -79,14 +75,14 @@ class EventHelperTest extends KernelTestCase
 
     public function testCalculateResultsFieldsLinks(): void
     {
-        $agent = (new Agent())
+        $agent = new Agent()
             ->setNickname('testAgent');
-        $event = (new Event())
+        $event = new Event()
             ->setEventType('fieldslinks');
         $entries = [
-            (new AgentStat())
+            new AgentStat()
                 ->setAgent($agent),
-            (new AgentStat())
+            new AgentStat()
                 ->setAgent($agent)
                 ->setMindController(3)
                 ->setConnector(2),

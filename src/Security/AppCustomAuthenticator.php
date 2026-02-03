@@ -26,6 +26,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): bool
     {
         return 'app_login' === $request->attributes->get('_route')

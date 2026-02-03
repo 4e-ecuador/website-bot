@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\MapGroupRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Tests that query parameters are correctly read from the request.
@@ -18,7 +19,7 @@ class MapControllerTest extends WebTestCase
         $client = static::createClient();
 
         $user = $this->getAuthenticatedUser();
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->markTestSkipped('No user found in database');
         }
 
@@ -30,7 +31,7 @@ class MapControllerTest extends WebTestCase
         $client->loginUser($user);
 
         // Test that query parameters are properly read via $request->query->get()
-        $client->request('GET', '/map_json', ['group' => $mapGroup]);
+        $client->request(Request::METHOD_GET, '/map_json', ['group' => $mapGroup]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJson($client->getResponse()->getContent() ?: '[]');
@@ -41,7 +42,7 @@ class MapControllerTest extends WebTestCase
         $client = static::createClient();
 
         $user = $this->getAuthenticatedUser();
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->markTestSkipped('No user found in database');
         }
 
@@ -53,7 +54,7 @@ class MapControllerTest extends WebTestCase
         $client->loginUser($user);
 
         // Test that query parameters are properly read via $request->query->get()
-        $client->request('GET', '/map_json2', ['group' => $mapGroup]);
+        $client->request(Request::METHOD_GET, '/map_json2', ['group' => $mapGroup]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJson($client->getResponse()->getContent() ?: '[]');

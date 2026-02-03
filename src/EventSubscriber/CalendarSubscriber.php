@@ -29,7 +29,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     {
         $start = $setDataEvent->getStart();
         $end = $setDataEvent->getEnd();
-        $filters = $setDataEvent->getFilters();
+        //$filters = $setDataEvent->getFilters();
 
         /**
          * @var DateTime $next

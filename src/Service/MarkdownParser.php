@@ -20,6 +20,7 @@ class MarkdownParser extends MarkdownExtra
     /**
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function transform($text): string
     {
         $text = parent::transform($text);

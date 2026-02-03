@@ -104,21 +104,21 @@ class EventHelper
         if (!$events) {
             $events = $this->eventRepository->findAll();
 
-            $now = (new DateTime('now', $this->timezone))
+            $now = new DateTime('now', $this->timezone)
                 ->setTime(12, 0);
 
             foreach ($events as $event) {
                 $event->setDateStart(
-                    (new DateTime(
+                    new DateTime(
                         $event->getDateStart()
                             ->format('Y-m-d H:i:s'), $this->timezone
-                    ))->setTime(12, 0)
+                    )->setTime(12, 0)
                 );
                 $event->setDateEnd(
-                    (new DateTime(
+                    new DateTime(
                         $event->getDateEnd()
                             ->format('Y-m-d H:i:s'), $this->timezone
-                    ))->setTime(12, 0)
+                    )->setTime(12, 0)
                 );
                 if ($event->getDateStart() > $now) {
                     $futureEvents[] = $event;
@@ -155,21 +155,21 @@ class EventHelper
 
             $items = $this->challengeRepository->findAll();
 
-            $now = (new DateTime('now', $this->timezone))
+            $now = new DateTime('now', $this->timezone)
                 ->setTime(12, 0);
 
             foreach ($items as $item) {
                 $item->setDateStart(
-                    (new DateTime(
+                    new DateTime(
                         $item->getDateStart()
                             ->format('Y-m-d H:i:s'), $this->timezone
-                    ))->setTime(12, 0)
+                    )->setTime(12, 0)
                 );
                 $item->setDateEnd(
-                    (new DateTime(
+                    new DateTime(
                         $item->getDateEnd()
                             ->format('Y-m-d H:i:s'), $this->timezone
-                    ))->setTime(12, 0)
+                    )->setTime(12, 0)
                 );
                 if ($item->getDateStart() > $now) {
                     $challenges['future'][] = $item;

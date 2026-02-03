@@ -11,22 +11,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/test/stat')]
 #[IsGranted('ROLE_ADMIN')]
 class TestStatController extends BaseController
 {
-    #[Route(path: '/', name: 'test_stat_index', methods: ['GET'])]
-    public function index(TestStatRepository $testStatRepository): Response
+    public function __construct(
+        private readonly TestStatRepository $testStatRepository
+    ) {
+    }
+
+    #[Route(path: '/test/stat/', name: 'test_stat_index', methods: ['GET'])]
+    public function index(): Response
     {
         return $this->render(
             'test_stat/index.html.twig',
             [
-                'test_stats' => $testStatRepository->findAll(),
+                'test_stats' => $this->testStatRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'test_stat_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/test/stat/new', name: 'test_stat_new', methods: [
+        'GET',
+        'POST',
+    ])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager
@@ -50,7 +57,7 @@ class TestStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'test_stat_show', methods: ['GET'])]
+    #[Route(path: '/test/stat/{id}', name: 'test_stat_show', methods: ['GET'])]
     public function show(TestStat $testStat): Response
     {
         return $this->render(
@@ -61,7 +68,7 @@ class TestStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'test_stat_edit', methods: [
+    #[Route(path: '/test/stat/{id}/edit', name: 'test_stat_edit', methods: [
         'GET',
         'POST',
     ])]
@@ -87,7 +94,7 @@ class TestStatController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
+    #[Route(path: '/test/stat/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
     public function delete(
         Request $request,
         TestStat $testStat,

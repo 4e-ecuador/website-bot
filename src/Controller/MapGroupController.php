@@ -11,22 +11,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/map/group')]
 class MapGroupController extends BaseController
 {
-    #[Route(path: '/', name: 'map_group_index', methods: ['GET'])]
+    public function __construct(
+        private readonly MapGroupRepository $mapGroupRepository
+    ) {
+    }
+
+    #[Route(path: '/map/group/', name: 'map_group_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(MapGroupRepository $mapGroupRepository): Response
+    public function index(): Response
     {
         return $this->render(
             'map_group/index.html.twig',
             [
-                'map_groups' => $mapGroupRepository->findAll(),
+                'map_groups' => $this->mapGroupRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'map_group_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/map/group/new', name: 'map_group_new', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -51,7 +58,7 @@ class MapGroupController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'map_group_edit', methods: [
+    #[Route(path: '/map/group/{id}/edit', name: 'map_group_edit', methods: [
         'GET',
         'POST',
     ])]
@@ -78,7 +85,7 @@ class MapGroupController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'map_group_delete', methods: ['DELETE'])]
+    #[Route(path: '/map/group/{id}', name: 'map_group_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

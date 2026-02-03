@@ -35,7 +35,7 @@ class IngressEventRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
-            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
+            ->setParameter('val', new DateTime()->format('Y-m-d)'))
             ->orderBy('i.id', 'ASC')
             ->getQuery()
             ->getResult();
@@ -49,7 +49,7 @@ class IngressEventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
             ->andWhere('i.type = :type')
-            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
+            ->setParameter('val', new DateTime()->format('Y-m-d)'))
             ->setParameter('type', 'fs')
             ->orderBy('i.name', 'ASC')
             ->getQuery()
@@ -64,7 +64,7 @@ class IngressEventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->andWhere('i.date_start >= :val')
             ->andWhere('i.type = :type')
-            ->setParameter('val', (new DateTime())->format('Y-m-d)'))
+            ->setParameter('val', new DateTime()->format('Y-m-d)'))
             ->setParameter('type', 'md')
             ->orderBy('i.name', 'ASC')
             ->getQuery()

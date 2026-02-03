@@ -13,22 +13,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/challenge')]
 class ChallengeController extends BaseController
 {
-    #[Route(path: '/', name: 'challenge_index', methods: ['GET'])]
+    public function __construct(
+        private readonly ChallengeRepository $challengeRepository,
+        private readonly AgentStatRepository $statRepository,
+        private readonly ChallengeHelper $challengeHelper
+    ) {
+    }
+
+    #[Route(path: '/challenge/', name: 'challenge_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(ChallengeRepository $challengeRepository): Response
+    public function index(): Response
     {
         return $this->render(
             'challenge/index.html.twig',
             [
-                'challenges' => $challengeRepository->findAll(),
+                'challenges' => $this->challengeRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'challenge_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/challenge/new', name: 'challenge_new', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -53,14 +62,12 @@ class ChallengeController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'challenge_show', methods: ['GET'])]
+    #[Route(path: '/challenge/{id}', name: 'challenge_show', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function show(
-        Challenge $challenge,
-        AgentStatRepository $statRepository,
-        ChallengeHelper $challengeHelper
+        Challenge $challenge
     ): Response {
-        $entries = (array)$statRepository->findByDate(
+        $entries = (array)$this->statRepository->findByDate(
             $challenge->getDateStart(),
             $challenge->getDateEnd()
         );
@@ -69,12 +76,12 @@ class ChallengeController extends BaseController
             'challenge/show.html.twig',
             [
                 'challenge' => $challenge,
-                'entries'   => $challengeHelper->getResults($entries),
+                'entries'   => $this->challengeHelper->getResults($entries),
             ]
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'challenge_edit', methods: [
+    #[Route(path: '/challenge/{id}/edit', name: 'challenge_edit', methods: [
         'GET',
         'POST',
     ])]
@@ -101,7 +108,7 @@ class ChallengeController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'challenge_delete', methods: ['DELETE'])]
+    #[Route(path: '/challenge/{id}', name: 'challenge_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

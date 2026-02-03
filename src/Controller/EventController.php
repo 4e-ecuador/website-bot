@@ -14,22 +14,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/event')]
 class EventController extends BaseController
 {
-    #[Route(path: '/', name: 'event_index', methods: ['GET'])]
+    public function __construct(
+        private readonly EventRepository $eventRepository,
+        private readonly AgentStatRepository $statRepository,
+        private readonly EventHelper $eventHelper
+    ) {
+    }
+
+    #[Route(path: '/event/', name: 'event_index', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function index(EventRepository $eventRepository): Response
+    public function index(): Response
     {
         return $this->render(
             'event/index.html.twig',
             [
-                'events' => $eventRepository->findAll(),
+                'events' => $this->eventRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/event/new', name: 'event_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
@@ -54,18 +60,15 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'event_show', methods: ['GET'])]
+    #[Route(path: '/event/{id}', name: 'event_show', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function show(
-        Event $event,
-        AgentStatRepository $statRepository,
-        EventHelper $eventHelper
-    ): Response {
-        $entries = $statRepository->findByDate(
+    public function show(Event $event): Response
+    {
+        $entries = $this->statRepository->findByDate(
             $event->getDateStart(),
             $event->getDateEnd()
         );
-        $values = $eventHelper->calculateResults($event, $entries);
+        $values = $this->eventHelper->calculateResults($event, $entries);
         $now = new DateTime();
         if ($event->getDateStart() > $now) {
             $status = 'future';
@@ -85,7 +88,10 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/event/{id}/edit', name: 'event_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
@@ -109,7 +115,7 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'event_delete', methods: ['DELETE'])]
+    #[Route(path: '/event/{id}', name: 'event_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

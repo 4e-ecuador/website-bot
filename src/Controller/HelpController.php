@@ -12,22 +12,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/help')]
 class HelpController extends BaseController
 {
-    #[Route(path: '/', name: 'help_index', methods: ['GET'])]
+    public function __construct(
+        private readonly HelpRepository $helpRepository
+    ) {
+    }
+
+    #[Route(path: '/help/', name: 'help_index', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function index(HelpRepository $helpRepository): Response
+    public function index(): Response
     {
         return $this->render(
             'help/index.html.twig',
             [
-                'helps' => $helpRepository->findAll(),
+                'helps' => $this->helpRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'help_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/help/new', name: 'help_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
@@ -53,7 +57,7 @@ class HelpController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'help_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/help/{id}', name: 'help_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function show(Help $help): Response
     {
@@ -65,13 +69,12 @@ class HelpController extends BaseController
         );
     }
 
-    #[Route(path: '/page/{slug}', name: 'help_show2', methods: ['GET'])]
+    #[Route(path: '/help/page/{slug}', name: 'help_show2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function show2(
-        string $slug,
-        HelpRepository $helpRepository
+        string $slug
     ): Response {
-        $help = $helpRepository->findOneBy(['slug' => $slug]);
+        $help = $this->helpRepository->findOneBy(['slug' => $slug]);
         if (!$help) {
             throw $this->createNotFoundException();
         }
@@ -79,7 +82,10 @@ class HelpController extends BaseController
         return $this->render('help/show.html.twig', ['help' => $help,]);
     }
 
-    #[Route(path: '/{id}/edit', name: 'help_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/help/{id}/edit', name: 'help_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_EDITOR')]
     public function edit(
         Request $request,
@@ -106,7 +112,7 @@ class HelpController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/', name: 'help_delete', methods: ['POST'])]
+    #[Route(path: '/help/{id}/', name: 'help_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,

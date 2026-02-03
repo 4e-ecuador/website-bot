@@ -14,22 +14,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route(path: '/comment')]
 class CommentController extends BaseController
 {
-    #[Route(path: '/', name: 'comment_index', methods: ['GET'])]
+    public function __construct(
+        private readonly CommentRepository $commentRepository,
+        private readonly MarkdownHelper $markdownHelper,
+        private readonly AgentRepository $agentRepository
+    ) {
+    }
+
+    #[Route(path: '/comment/', name: 'comment_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(CommentRepository $commentRepository): Response
+    public function index(): Response
     {
         return $this->render(
             'comment/index.html.twig',
             [
-                'comments' => $commentRepository->findAll(),
+                'comments' => $this->commentRepository->findAll(),
             ]
         );
     }
 
-    #[Route(path: '/new', name: 'comment_new', methods: ['GET', 'POST'])]
+    #[Route(path: '/comment/new', name: 'comment_new', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
@@ -54,20 +63,21 @@ class CommentController extends BaseController
         );
     }
 
-    #[Route(path: '/fetch', name: 'comment_fetch', methods: ['GET', 'POST'])]
+    #[Route(path: '/comment/fetch', name: 'comment_fetch', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_EDITOR')]
     public function getSingle(
-        Request $request,
-        CommentRepository $commentRepository,
-        MarkdownHelper $markdownHelper
+        Request $request
     ): JsonResponse {
         $commentId = $request->request->get('comment_id');
-        $comment = $commentRepository->findOneBy(['id' => $commentId]);
+        $comment = $this->commentRepository->findOneBy(['id' => $commentId]);
         if (!$comment) {
             throw $this->createNotFoundException();
         }
 
-        $comment->setText($markdownHelper->parse($comment->getText()));
+        $comment->setText($this->markdownHelper->parse($comment->getText()));
         $html = $this->renderView(
             'comment/commentBox.html.twig',
             [
@@ -78,7 +88,7 @@ class CommentController extends BaseController
         return $this->json(['comment' => $html]);
     }
 
-    #[Route(path: '/{id}', name: 'comment_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route(path: '/comment/{id}', name: 'comment_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_EDITOR')]
     public function show(Comment $comment): Response
     {
@@ -90,7 +100,10 @@ class CommentController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/comment/{id}/edit', name: 'comment_edit', methods: [
+        'GET',
+        'POST',
+    ])]
     #[IsGranted('ROLE_EDITOR')]
     public function edit(
         Request $request,
@@ -114,7 +127,7 @@ class CommentController extends BaseController
         );
     }
 
-    #[Route(path: '/{id}', name: 'comment_delete', methods: ['DELETE'])]
+    #[Route(path: '/comment/{id}', name: 'comment_delete', methods: ['DELETE'])]
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
@@ -133,22 +146,22 @@ class CommentController extends BaseController
         return $this->redirectToRoute('comment_index');
     }
 
-    #[Route(path: '/get-comments-by-agent', name: 'comments_by_agent', methods: ['POST'])]
+    #[Route(path: '/comment/get-comments-by-agent', name: 'comments_by_agent', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function getAgentCommentIds(
-        Request $request,
-        AgentRepository $agentRepository,
-        MarkdownHelper $markdownHelper
+        Request $request
     ): JsonResponse {
         $html = '';
         $agentId = $request->request->get('agent_id');
-        $agent = $agentRepository->findOneBy(['id' => $agentId]);
+        $agent = $this->agentRepository->findOneBy(['id' => $agentId]);
         if (!$agent) {
             return $this->json(['comments' => $html]);
         }
 
         foreach ($agent->getComments() as $comment) {
-            $comment->setText($markdownHelper->parse($comment->getText()));
+            $comment->setText(
+                $this->markdownHelper->parse($comment->getText())
+            );
 
             $html .= $this->renderView(
                 'comment/commentBox.html.twig',

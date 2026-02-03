@@ -22,7 +22,7 @@ class MedalCheckerTest extends KernelTestCase
 
     public function testCheckLevels(): void
     {
-        $statEntry = (new AgentStat())
+        $statEntry = new AgentStat()
             ->setExplorer(100);
         $result = $this->medalChecker->checkLevels($statEntry);
 
@@ -54,7 +54,7 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetUpgrades(): void
     {
         $statEntry = new AgentStat();
-        $statEntry2 = (new AgentStat())
+        $statEntry2 = new AgentStat()
             ->setExplorer(100);
         $result = $this->medalChecker->getUpgrades($statEntry, $statEntry2);
 

@@ -20,20 +20,21 @@ use UnexpectedValueException;
 
 class Map2Controller extends AbstractController
 {
+    public function __construct(private readonly \App\Repository\MapGroupRepository $mapGroupRepository, private readonly \App\Repository\AgentRepository $agentRepository, private readonly \Symfony\Component\Asset\Packages $assetsManager, private readonly \App\Repository\UserRepository $userRepository)
+    {
+    }
     #[Route(path: '/map2', name: 'agent-map2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function map(
-        MapGroupRepository $mapGroupRepository,
         #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
     ): Response {
-        $mapGroups = array_column($mapGroupRepository->getNames(), 'name');
-        $map = (new Map())
+        $map = new Map()
             ->center(new Point($defaultLat, $defaultLon))
             ->zoom(6)
             ->extra([
                 'mapGroups' => array_column(
-                    $mapGroupRepository->getNames(),
+                    $this->mapGroupRepository->getNames(),
                     'name'
                 ),
             ]);
@@ -42,7 +43,7 @@ class Map2Controller extends AbstractController
             'map2/index.html.twig',
             [
                 'mapGroups' => array_column(
-                    $mapGroupRepository->getNames(),
+                    $this->mapGroupRepository->getNames(),
                     'name'
                 ),
                 'map'       => $map,
@@ -53,18 +54,16 @@ class Map2Controller extends AbstractController
     #[Route(path: '/map_json2', name: 'map-json2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function mapJson(
-        AgentRepository $agentRepository,
-        MapGroupRepository $mapGroupRepository,
         Request $request
     ): JsonResponse {
-        $mapGroup = $mapGroupRepository->findOneBy(
+        $mapGroup = $this->mapGroupRepository->findOneBy(
             ['name' => $request->query->get('group', '4E')]
         );
         if (!$mapGroup) {
             throw new UnexpectedValueException('Map group not found!');
         }
 
-        $agents = $agentRepository->findMapAgents($mapGroup);
+        $agents = $this->agentRepository->findMapAgents($mapGroup);
         $array = [];
         foreach ($agents as $agent) {
             $a = [];
@@ -83,9 +82,7 @@ class Map2Controller extends AbstractController
     #[Route(path: '/map2/agent-info/{id}', name: 'agent-info2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function mapAgentInfo(
-        Agent $agent,
-        Packages $assetsManager,
-        UserRepository $userRepository
+        Agent $agent
     ): Response {
         $response = [];
         $statsLink = '';
@@ -96,12 +93,12 @@ class Map2Controller extends AbstractController
                     'agent_stats',
                     ['id' => $agent->getId()]
                 );
-                $imgPath = $assetsManager->getUrl(
+                $imgPath = $this->assetsManager->getUrl(
                     'images/logos/ENL.svg'
                 );
                 break;
             case 'RES':
-                $imgPath = $assetsManager->getUrl(
+                $imgPath = $this->assetsManager->getUrl(
                     'images/logos/RES.svg'
                 );
                 break;
@@ -109,7 +106,7 @@ class Map2Controller extends AbstractController
                 throw new UnexpectedValueException('Unknown faction');
         }
 
-        $user = $userRepository->findByAgent($agent);
+        $user = $this->userRepository->findByAgent($agent);
         $userPic = $user && $user->getAvatarEncoded()
             ? sprintf(
                 '<img src="%s" alt="Avatar" style="height: 32px;">',

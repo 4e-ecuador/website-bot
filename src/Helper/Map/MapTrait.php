@@ -17,7 +17,7 @@ trait MapTrait
         $lon = $agent->getLon() ?: -79.09357;
         $zoom = $agent->getLat() ? 12 : 5;
 
-        $map = (new Map('default'))
+        $map = new Map('default')
             ->center(new Point($lat, $lon))
             ->zoom($zoom)
             ->options($this->getLeafletOptions());
@@ -35,7 +35,7 @@ trait MapTrait
 
     private function getLeafletOptions(): LeafletOptions
     {
-        return (new LeafletOptions())
+        return new LeafletOptions()
             ->tileLayer(
                 new TileLayer(
                     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',

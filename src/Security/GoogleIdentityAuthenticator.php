@@ -51,7 +51,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
             throw new AuthenticationException('Missing credentials :(');
         }
 
-        $payload = (new Client(['client_id' => $this->oauthGoogleId]))
+        $payload = new Client(['client_id' => $this->oauthGoogleId])
             ->verifyIdToken($idToken);
 
         if (!$payload) {
@@ -119,7 +119,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
             $user->setGoogleId($googleUser->getId());
         } else {
             // Register new user
-            $user = (new User())
+            $user = new User()
                 ->setEmail($googleUser->getEmail())
                 ->setGoogleId($googleUser->getId());
 

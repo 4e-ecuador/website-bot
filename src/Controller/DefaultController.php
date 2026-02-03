@@ -22,20 +22,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DefaultController extends AbstractController
 {
+    public function __construct(
+        private readonly AgentRepository $agentRepository,
+        private readonly CommentRepository $commentRepository,
+        private readonly EventRepository $eventRepository,
+        private readonly IngressEventRepository $ingressEventRepository,
+        private readonly ChallengeRepository $challengeRepository,
+        private readonly DateTimeHelper $dateTimeHelper,
+        private readonly MarkdownHelper $markdownHelper,
+        private readonly CiteService $citeService,
+        private readonly CalendarHelper $calendarHelper,
+        private readonly EventHelper $eventHelper
+    ) {
+    }
+
     #[Route(path: '/', name: 'default', methods: ['GET'], schemes: ['https'])]
     public function index(
-        AgentRepository $agentRepository,
-        CommentRepository $commentRepository,
-        EventRepository $eventRepository,
-        IngressEventRepository $ingressEventRepository,
-        ChallengeRepository $challengeRepository,
-        DateTimeHelper $dateTimeHelper,
-        MarkdownHelper $markdownHelper,
-        CiteService $citeService,
-        CalendarHelper $calendarHelper,
         #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
     ): Response {
-        $calendarHelper->getEvents();
+        $this->calendarHelper->getEvents();
         $comments = [];
         $currentEvents = [];
         $pastEvents = [];
@@ -47,13 +52,15 @@ class DefaultController extends AbstractController
         $now = new DateTime('now', $tz);
         $now2 = new DateTime();
         if ($this->isGranted('ROLE_AGENT')) {
-            $comments = $commentRepository->findLatest(5);
+            $comments = $this->commentRepository->findLatest(5);
 
             foreach ($comments as $comment) {
-                $comment->setText($markdownHelper->parse($comment->getText()));
+                $comment->setText(
+                    $this->markdownHelper->parse($comment->getText())
+                );
             }
 
-            $events = $eventRepository->findAll();
+            $events = $this->eventRepository->findAll();
 
             foreach ($events as $event) {
                 $event->setDateStart(
@@ -75,9 +82,9 @@ class DefaultController extends AbstractController
                 }
             }
 
-            $ingressFS = $ingressEventRepository->findFutureFS();
-            $ingressMD = $ingressEventRepository->findFutureMD();
-            $challenges = $challengeRepository->findCurrent();
+            $ingressFS = $this->ingressEventRepository->findFutureFS();
+            $ingressMD = $this->ingressEventRepository->findFutureMD();
+            $challenges = $this->challengeRepository->findCurrent();
         }
 
         return $this->render(
@@ -85,16 +92,16 @@ class DefaultController extends AbstractController
             [
                 'now'            => $now,
                 'now2'           => $now2,
-                'agents'         => $agentRepository->findAll(),
+                'agents'         => $this->agentRepository->findAll(),
                 'latestComments' => $comments,
                 'pastEvents'     => $pastEvents,
                 'currentEvents'  => $currentEvents,
                 'futureEvents'   => $futureEvents,
                 'ingressFS'      => $ingressFS,
                 'ingressMD'      => $ingressMD,
-                'nextFs'         => $dateTimeHelper->getNextFS(),
+                'nextFs'         => $this->dateTimeHelper->getNextFS(),
                 'challenges'     => $challenges,
-                'cite'           => $citeService->getRandomCite(),
+                'cite'           => $this->citeService->getRandomCite(),
             ]
         );
     }
@@ -107,27 +114,27 @@ class DefaultController extends AbstractController
 
     #[Route(path: '/events', name: 'default_events', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function events(
-        EventHelper $eventHelper,
-        IngressEventRepository $ingressEventRepository
-    ): Response {
+    public function events(): Response
+    {
         return $this->render(
             'default/events.html.twig',
             [
-                'ingressFS'         => $ingressEventRepository->findFutureFS(),
-                'ingressMD'         => $ingressEventRepository->findFutureMD(),
-                'pastEvents'        => $eventHelper->getEventsInSpan('past'),
-                'currentEvents'     => $eventHelper->getEventsInSpan('present'),
-                'futureEvents'      => $eventHelper->getEventsInSpan('future'),
-                'pastChallenges'    => $eventHelper->getChallengesInSpan(
-                    'past'
-                ),
-                'currentChallenges' => $eventHelper->getChallengesInSpan(
-                    'present'
-                ),
-                'futureChallenges'  => $eventHelper->getChallengesInSpan(
-                    'future'
-                ),
+                'ingressFS'         =>
+                    $this->ingressEventRepository->findFutureFS(),
+                'ingressMD'         =>
+                    $this->ingressEventRepository->findFutureMD(),
+                'pastEvents'        =>
+                    $this->eventHelper->getEventsInSpan('past'),
+                'currentEvents'     =>
+                    $this->eventHelper->getEventsInSpan('present'),
+                'futureEvents'      =>
+                    $this->eventHelper->getEventsInSpan('future'),
+                'pastChallenges'    =>
+                    $this->eventHelper->getChallengesInSpan('past'),
+                'currentChallenges' =>
+                    $this->eventHelper->getChallengesInSpan('present'),
+                'futureChallenges'  =>
+                    $this->eventHelper->getChallengesInSpan('future'),
             ]
         );
     }

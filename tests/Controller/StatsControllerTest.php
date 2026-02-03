@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class StatsControllerTest extends WebTestCase
 {
@@ -13,13 +14,13 @@ class StatsControllerTest extends WebTestCase
         $client = static::createClient();
         $user = $this->getAuthenticatedUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->markTestSkipped('No user found in database');
         }
 
         $client->loginUser($user);
 
-        $client->request('GET', '/stats/by-date', [
+        $client->request(Request::METHOD_GET, '/stats/by-date', [
             'start_date' => '2024-01-01',
             'end_date' => '2024-01-31',
         ]);
@@ -33,13 +34,13 @@ class StatsControllerTest extends WebTestCase
         $client = static::createClient();
         $user = $this->getAuthenticatedUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->markTestSkipped('No user found in database');
         }
 
         $client->loginUser($user);
 
-        $client->request('GET', '/stats/by-date');
+        $client->request(Request::METHOD_GET, '/stats/by-date');
 
         // Should handle missing parameters gracefully
         $this->assertResponseIsSuccessful();

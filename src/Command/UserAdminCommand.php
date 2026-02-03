@@ -153,7 +153,7 @@ class UserAdminCommand extends Command
      */
     private function createUser(string $email, array $roles): void
     {
-        $user = (new User())
+        $user = new User()
             ->setEmail($email)
             ->setRoles($roles);
 

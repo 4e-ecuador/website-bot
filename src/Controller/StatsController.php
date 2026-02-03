@@ -30,30 +30,37 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
-#[Route(path: '/stats')]
 class StatsController extends BaseController
 {
+    public function __construct(
+        private readonly AgentStatRepository $statRepository,
+        private readonly UserRepository $userRepository,
+        private readonly MedalChecker $medalChecker,
+        private readonly LeaderBoardService $leaderBoardService,
+        private readonly AgentStatRepository $repository,
+        private readonly StatsImporter $statsImporter,
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
     /**
      * @throws NonUniqueResultException
      */
-    #[Route(path: '/agent/{id}', name: 'agent_stats', methods: ['GET'])]
+    #[Route(path: '/stats/agent/{id}', name: 'agent_stats', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function agentStats(
-        Agent $agent,
-        AgentStatRepository $statRepository,
-        UserRepository $userRepository,
-        MedalChecker $medalChecker
+        Agent $agent
     ): Response {
         $medalGroups = [];
-        $latest = $statRepository->getAgentLatest($agent);
+        $latest = $this->statRepository->getAgentLatest($agent);
         if ($latest instanceof AgentStat) {
-            $medals = $medalChecker->checkLevels($latest);
+            $medals = $this->medalChecker->checkLevels($latest);
             arsort($medals);
             $medalGroups = $medals;
         }
 
         $dateEnd = new DateTime();
-        $dateStart = (new DateTime())->sub(new DateInterval('P30D'));
+        $dateStart = new DateTime()->sub(new DateInterval('P30D'));
         try {
             $customMedals = json_decode(
                 (string)$agent->getCustomMedals(),
@@ -69,12 +76,15 @@ class StatsController extends BaseController
             'stats/agent-stats.html.twig',
             [
                 'agent'       => $agent,
-                'user'        => $userRepository->findByAgent($agent),
+                'user'        => $this->userRepository->findByAgent($agent),
                 'medalGroups' => $medalGroups,
                 'latest'      => $latest,
                 'dateStart'   => $dateStart,
                 'dateEnd'     => $dateEnd,
-                'first'       => $statRepository->getAgentLatest($agent, true),
+                'first'       => $this->statRepository->getAgentLatest(
+                    $agent,
+                    true
+                ),
 
                 'agentCustomMedals' => $customMedals,
             ]
@@ -84,18 +94,18 @@ class StatsController extends BaseController
     /**
      * @throws Exception
      */
-    #[Route(path: '/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data', methods: ['GET'])]
+    #[Route(path: '/stats/agent/data/{id}/{startDate}/{endDate}', name: 'agent_stats_data', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function agentStatsJson(
         Agent $agent,
         string $startDate,
-        string $endDate,
-        AgentStatRepository $statRepository
+        string $endDate
     ): JsonResponse {
         $data = new stdClass();
         $data->ap = [];
         $data->hacker = [];
-        $entries = $statRepository->findByDateAndAgent(
+
+        $entries = $this->statRepository->findByDateAndAgent(
             new DateTime($startDate),
             new DateTime($endDate),
             $agent
@@ -113,35 +123,31 @@ class StatsController extends BaseController
         return new JsonResponse($data);
     }
 
-    #[Route(path: '/leaderboard', name: 'stats_leaderboard', methods: ['GET'])]
+    #[Route(path: '/stats/leaderboard', name: 'stats_leaderboard', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function leaderBoard(
-        UserRepository $userRepository,
-        LeaderBoardService $leaderBoardService
-    ): Response {
+    public function leaderBoard(): Response
+    {
         return $this->render(
             'stats/leaderboard.html.twig',
             [
                 'board'    => $this->getBoardEntries(
-                    $userRepository,
-                    $leaderBoardService,
+                    $this->userRepository,
+                    $this->leaderBoardService,
                 ),
                 'cssClass' => 'col-sm-3 ',
             ]
         );
     }
 
-    #[Route(path: '/leaderboard-detail', name: 'stats_leaderboard_detail', methods: ['POST'])]
+    #[Route(path: '/stats/leaderboard-detail', name: 'stats_leaderboard_detail', methods: ['POST'])]
     #[IsGranted('ROLE_AGENT')]
     public function leaderBoardDetail(
-        UserRepository $userRepository,
-        LeaderBoardService $leaderBoardService,
         Request $request
     ): Response {
         $item = (string)$request->request->get('item', 'ap');
         $entries = $this->getBoardEntries(
-            $userRepository,
-            $leaderBoardService,
+            $this->userRepository,
+            $this->leaderBoardService,
             $item
         );
 
@@ -173,12 +179,10 @@ class StatsController extends BaseController
     /**
      * @throws Exception
      */
-    #[Route(path: '/by-date', name: 'stats_by_date', methods: ['GET'])]
+    #[Route(path: '/stats/by-date', name: 'stats_by_date', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function byDate(
-        Request $request,
-        AgentStatRepository $statRepository,
-        MedalChecker $medalChecker
+        Request $request
     ): Response {
         $startDate = $request->query->get('start_date');
         $endDate = $request->query->get('end_date');
@@ -186,7 +190,7 @@ class StatsController extends BaseController
         $medalsGained = [];
         $medalsGained1 = [];
         if ($startDate && $endDate) {
-            $entries = $statRepository->findByDate(
+            $entries = $this->statRepository->findByDate(
                 new DateTime($startDate),
                 new DateTime($endDate.' 23:59:59')
             );
@@ -197,15 +201,15 @@ class StatsController extends BaseController
                 $agentName = $entry->getAgent()?->getNickname();
 
                 if (false === isset($previous[$agentName])) {
-                    $previousEntry = $statRepository->getPrevious($entry);
+                    $previousEntry = $this->statRepository->getPrevious($entry);
 
                     $previous[$agentName] = $previousEntry instanceof AgentStat
-                        ? $medalChecker->checkLevels(
+                        ? $this->medalChecker->checkLevels(
                             $previousEntry
-                        ) : $medalChecker->checkLevels($entry);
+                        ) : $this->medalChecker->checkLevels($entry);
                 }
 
-                $levels = $medalChecker->checkLevels($entry);
+                $levels = $this->medalChecker->checkLevels($entry);
                 $dateString = $entry->getDatetime()?->format('Y-m-d');
 
                 foreach ($levels as $name => $level) {
@@ -253,17 +257,15 @@ class StatsController extends BaseController
         );
     }
 
-    #[Route(path: '/in-between', name: 'stats_in_between', methods: ['GET'])]
+    #[Route(path: '/stats/in-between', name: 'stats_in_between', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
-    public function inBetween(
-        AgentStatRepository $statRepository,
-    ): Response {
+    public function inBetween(): Response
+    {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('Not an agent...');
         }
-
-        $stats = $statRepository->getAgentStats($agent);
+        $stats = $this->statRepository->getAgentStats($agent);
         $dates = [];
         foreach ($stats as $stat) {
             $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
@@ -280,23 +282,21 @@ class StatsController extends BaseController
         ]);
     }
 
-    #[Route(path: '/in-between-result', name: 'stats_in_between_result', methods: [
+    #[Route(path: '/stats/in-between-result', name: 'stats_in_between_result', methods: [
         'POST',
         'GET',
     ])]
     #[IsGranted('ROLE_AGENT')]
     public function inBetweenResult(
         Request $request,
-        AgentStatRepository $repository,
-        StatsImporter $statsImporter,
     ): Response {
         $dateStart = $request->query->get('dateStart');
         $dateEnd = $request->query->get('dateEnd');
 
-        $startEntry = $repository->findOneBy([
+        $startEntry = $this->repository->findOneBy([
             'datetime' => new DateTime($dateStart),
         ]);
-        $endEntry = $repository->findOneBy([
+        $endEntry = $this->repository->findOneBy([
             'datetime' => new DateTime($dateEnd),
         ]);
 
@@ -305,7 +305,10 @@ class StatsController extends BaseController
             $result = new ImportResult();
         } else {
             $error = '';
-            $result = $statsImporter->getImportResult($endEntry, $startEntry);
+            $result = $this->statsImporter->getImportResult(
+                $endEntry,
+                $startEntry
+            );
         }
 
         return $this->render('import/_result.html.twig', [
@@ -318,15 +321,13 @@ class StatsController extends BaseController
     /**
      * @throws Exception
      */
-    #[Route(path: '/stat-import', name: 'stat_import', methods: [
+    #[Route(path: '/stats/stat-import', name: 'stat_import', methods: [
         'POST',
         'GET',
     ])]
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function statImport(
         Request $request,
-        TranslatorInterface $translator,
-        StatsImporter $statsImporter,
         EntityManagerInterface $entityManager,
         #[Autowire('%env(APP_ENV)%')] string $appEnv
     ): Response {
@@ -339,14 +340,14 @@ class StatsController extends BaseController
         $agent = $user->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException(
-                $translator->trans('user.not.verified.2')
+                $this->translator->trans('user.not.verified.2')
             );
         }
 
         $csv = $request->request->getString('csv');
         if ($csv !== '') {
             try {
-                $statEntry = $statsImporter
+                $statEntry = $this->statsImporter
                     ->createEntryFromCsv($agent, $csv);
 
                 $entityManager->persist($statEntry);
@@ -360,18 +361,18 @@ class StatsController extends BaseController
 
                 $this->addFlash(
                     'success',
-                    $translator->trans('Stats upload successful!')
+                    $this->translator->trans('Stats upload successful!')
                 );
 
-                $result = $statsImporter->getImportResult($statEntry);
+                $result = $this->statsImporter->getImportResult($statEntry);
 
                 try {
-                    $statsImporter
+                    $this->statsImporter
                         ->sendResultMessages($result, $statEntry, $user);
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $this->addFlash(
                         'warning',
-                        $translator->trans(
+                        $this->translator->trans(
                             'Sorry but the message has not been sent :('
                         )
                     );
@@ -381,7 +382,9 @@ class StatsController extends BaseController
                 }
 
                 // @TODO temporal FireBase token store
-                $fireBaseToken = $request->request->getString('fire_base_token');
+                $fireBaseToken = $request->request->getString(
+                    'fire_base_token'
+                );
                 if ($fireBaseToken !== '' && !$user->getFireBaseToken()) {
                     $user->setFireBaseToken($fireBaseToken);
                     $entityManager->persist($user);

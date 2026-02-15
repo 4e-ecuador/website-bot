@@ -520,7 +520,7 @@ class AgentStat implements ArrayAccess
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        // TODO: Implement offsetSet() method.
+        throw new \BadMethodCallException('AgentStat is read-only via ArrayAccess');
     }
 
     /**
@@ -532,7 +532,7 @@ class AgentStat implements ArrayAccess
      */
     public function offsetUnset(mixed $offset): void
     {
-        // TODO: Implement offsetUnset() method.
+        throw new \BadMethodCallException('AgentStat is read-only via ArrayAccess');
     }
 
     /**

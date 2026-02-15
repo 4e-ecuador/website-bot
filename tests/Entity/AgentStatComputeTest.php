@@ -95,4 +95,22 @@ class AgentStatComputeTest extends TestCase
         self::assertNotContains('datetime', $properties);
         self::assertNotContains('agent', $properties);
     }
+
+    public function testOffsetSetThrows(): void
+    {
+        $stat = new AgentStat();
+
+        $this->expectException(\BadMethodCallException::class);
+
+        $stat->offsetSet('ap', 100); // @phpstan-ignore argument.type
+    }
+
+    public function testOffsetUnsetThrows(): void
+    {
+        $stat = new AgentStat();
+
+        $this->expectException(\BadMethodCallException::class);
+
+        $stat->offsetUnset('ap'); // @phpstan-ignore argument.type
+    }
 }

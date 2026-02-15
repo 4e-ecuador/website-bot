@@ -19,6 +19,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use Psr\Log\LoggerInterface;
 use JsonException;
 use stdClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -39,7 +40,8 @@ class StatsController extends BaseController
         private readonly LeaderBoardService $leaderBoardService,
         private readonly AgentStatRepository $repository,
         private readonly StatsImporter $statsImporter,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -324,6 +326,7 @@ class StatsController extends BaseController
                     $this->statsImporter
                         ->sendResultMessages($result, $statEntry, $user);
                 } catch (Exception $exception) {
+                    $this->logger->error('Failed to send result messages: '.$exception->getMessage(), ['exception' => $exception]);
                     $this->addFlash(
                         'warning',
                         $this->translator->trans(

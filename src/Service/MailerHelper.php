@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -17,6 +18,7 @@ class MailerHelper
         private readonly MailerInterface $mailer,
         #[Autowire('%env(APP_EMAIL)%')] private readonly string $email,
         #[Autowire('%env(APP_EMAIL_NAME)%')] private readonly string $emailName,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -33,6 +35,7 @@ class MailerHelper
 
             $response = 'Confirmation mail has been sent to '.$user->getEmail();
         } catch (TransportExceptionInterface $transportException) {
+            $this->logger->error('Mail delivery failed: '.$transportException->getMessage(), ['exception' => $transportException]);
             $response = $transportException->getMessage();
         }
 
@@ -52,6 +55,7 @@ class MailerHelper
 
             $response = 'Confirmation mail has been sent to '.$this->email;
         } catch (TransportExceptionInterface $transportException) {
+            $this->logger->error('Mail delivery failed: '.$transportException->getMessage(), ['exception' => $transportException]);
             $response = $transportException->getMessage();
         }
 
@@ -71,6 +75,7 @@ class MailerHelper
 
             $response = 'Mail has been sent to '.$this->email;
         } catch (TransportExceptionInterface $transportException) {
+            $this->logger->error('Mail delivery failed: '.$transportException->getMessage(), ['exception' => $transportException]);
             $response = $transportException->getMessage();
         }
 

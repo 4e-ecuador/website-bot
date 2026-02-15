@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use App\Service\MailerHelper;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 
@@ -16,7 +17,7 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send');
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $user = new User();
         $user->setEmail('user@test.com');
@@ -31,7 +32,7 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createStub(MailerInterface::class);
         $mailer->method('send')->willThrowException(new TransportException('SMTP error'));
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $user = new User();
         $user->setEmail('user@test.com');
@@ -46,7 +47,7 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send');
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $result = $helper->sendNewCommentMail(new Comment());
 
@@ -58,7 +59,7 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send');
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $result = $helper->sendNewUserMail(new User());
 
@@ -70,11 +71,27 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createStub(MailerInterface::class);
         $mailer->method('send')->willThrowException(new TransportException('Connection refused'));
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $result = $helper->sendNewUserMail(new User());
 
         self::assertSame('Connection refused', $result);
+    }
+
+    public function testFailureLogsError(): void
+    {
+        $mailer = $this->createStub(MailerInterface::class);
+        $mailer->method('send')->willThrowException(new TransportException('SMTP error'));
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())->method('error');
+
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $logger);
+
+        $user = new User();
+        $user->setEmail('user@test.com');
+
+        $helper->sendConfirmationMail($user, 'Welcome');
     }
 
     public function testSendTestMail(): void
@@ -82,7 +99,7 @@ class MailerHelperTest extends TestCase
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send');
 
-        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin');
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
 
         $helper->sendTestMail('recipient@test.com');
     }

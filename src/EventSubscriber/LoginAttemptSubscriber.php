@@ -9,6 +9,7 @@ use App\Security\GoogleIdentityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -42,18 +43,7 @@ class LoginAttemptSubscriber implements EventSubscriberInterface
 
     public function onLoginFailure(LoginFailureEvent $event): void
     {
-        $email = null;
-        $passport = $event->getPassport();
-
-        if ($passport instanceof Passport) {
-            $email = $passport->getUser()->getUserIdentifier();
-        }
-
-        if (!$email) {
-            $requestEmail = $event->getRequest()->request->get('email')
-                ?? $event->getRequest()->request->get('_username');
-            $email = is_string($requestEmail) ? $requestEmail : null;
-        }
+        $email = $this->resolveFailedEmail($event);
 
         $loginAttempt = new LoginAttempt();
         $loginAttempt->setSuccess(false);
@@ -63,6 +53,27 @@ class LoginAttemptSubscriber implements EventSubscriberInterface
 
         $this->entityManager->persist($loginAttempt);
         $this->entityManager->flush();
+    }
+
+    private function resolveFailedEmail(LoginFailureEvent $event): ?string
+    {
+        $passport = $event->getPassport();
+
+        if ($passport instanceof Passport) {
+            try {
+                return $passport->getUser()->getUserIdentifier();
+            } catch (\Throwable) {
+                $badge = $passport->getBadge(UserBadge::class);
+                if ($badge instanceof UserBadge) {
+                    return $badge->getUserIdentifier();
+                }
+            }
+        }
+
+        $requestEmail = $event->getRequest()->request->get('email')
+            ?? $event->getRequest()->request->get('_username');
+
+        return is_string($requestEmail) ? $requestEmail : null;
     }
 
     private function resolveAuthMethod(AuthenticatorInterface $authenticator): string

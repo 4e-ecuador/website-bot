@@ -199,6 +199,24 @@ parameters:
 			path: src/Repository/AgentStatRepository.php
 
 		-
+			message: '#^Method App\\Repository\\LoginAttemptRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\LoginAttempt\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
+
+		-
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\LoginAttemptRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\LoginAttemptRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
+
+		-
 			message: '#^Method App\\Repository\\IngressEventRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\IngressEvent\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
 			identifier: return.type
 			count: 1

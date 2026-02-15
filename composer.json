@@ -26,7 +26,6 @@
     "league/oauth2-google": "^4.0",
     "michelf/php-markdown": "^2.0",
     "nelmio/cors-bundle": "^2.0",
-    "phpdocumentor/reflection-docblock": "^5.2",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "*",
     "symfony/asset-mapper": "*",

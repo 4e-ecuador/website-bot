@@ -62,8 +62,8 @@ jobs:
         env:
           DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app?serverVersion=16&charset=utf8
         run: |
-          mkdir -p build/coverage
-          php vendor/bin/phpunit --coverage-html build/coverage --coverage-text 2>&1 | tee build/phpunit-output.txt || true
+          mkdir -p build
+          php vendor/bin/phpunit --coverage-text 2>&1 | tee build/phpunit-output.txt || true
 
       - name: Run PHPStan
         run: |

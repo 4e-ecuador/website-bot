@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Generates a static HTML page for GitHub Pages with project overview,
- * test coverage, PHPStan details, and Rector configuration.
+ * test coverage summary, PHPStan details, and Rector configuration.
  */
 
 // -- Gather data --
@@ -56,7 +56,6 @@ $baselineErrors = [];
 $baselineTotal = 0;
 $baselineContent = @file_get_contents(__DIR__ . '/../../phpstan-baseline.neon');
 if ($baselineContent !== false) {
-    // Count error entries and categorize by identifier
     if (preg_match_all('/identifier:\s*(.+)$/m', $baselineContent, $matches)) {
         foreach ($matches[1] as $identifier) {
             $identifier = trim($identifier);
@@ -68,20 +67,9 @@ if ($baselineContent !== false) {
 }
 
 // Rector config summary
-$rectorSets = [
-    'deadCode',
-    'codeQuality',
-    'codingStyle',
-    'earlyReturn',
-    'symfonyConfigs',
-];
-$rectorAttributeSets = ['all'];
+$rectorSets = ['deadCode', 'codeQuality', 'codingStyle', 'earlyReturn', 'symfonyConfigs'];
 $rectorComposerBased = ['twig', 'doctrine', 'phpunit', 'symfony'];
-$rectorSymfonySets = [
-    'SYMFONY_CODE_QUALITY',
-    'SYMFONY_CONSTRUCTOR_INJECTION',
-];
-$rectorPaths = ['src/', 'tests/'];
+$rectorSymfonySets = ['SYMFONY_CODE_QUALITY', 'SYMFONY_CONSTRUCTOR_INJECTION'];
 $rectorAdditionalRules = ['AddVoidReturnTypeWhereNoReturnRector'];
 
 $rectorOutput = @file_get_contents(__DIR__ . '/../../build/rector-output.txt');
@@ -97,7 +85,7 @@ $date = date('Y-m-d H:i:s T');
 
 $baselineHtml = '';
 if ($baselineErrors !== []) {
-    $baselineHtml .= '<table class="table table-sm table-striped">';
+    $baselineHtml .= '<table class="table table-sm table-dark table-striped">';
     $baselineHtml .= '<thead><tr><th>Error Identifier</th><th class="text-end">Count</th></tr></thead><tbody>';
     foreach ($baselineErrors as $identifier => $count) {
         $baselineHtml .= sprintf(
@@ -111,7 +99,9 @@ if ($baselineErrors !== []) {
 
 $coverageHtml = '';
 if ($coverageSummary !== '') {
-    $coverageHtml = '<pre class="bg-light p-3 rounded">' . htmlspecialchars(trim($coverageSummary)) . '</pre>';
+    $coverageHtml = '<pre class="p-3 rounded" style="background-color:#1a1d21;color:#e0e0e0;">' . htmlspecialchars(trim($coverageSummary)) . '</pre>';
+} else {
+    $coverageHtml = '<p class="text-secondary">No coverage data available.</p>';
 }
 
 $rectorSetsHtml = '';
@@ -121,7 +111,7 @@ foreach ($rectorSets as $set) {
 
 $rectorComposerHtml = '';
 foreach ($rectorComposerBased as $set) {
-    $rectorComposerHtml .= sprintf('<span class="badge bg-info me-1 mb-1">%s</span>', htmlspecialchars($set));
+    $rectorComposerHtml .= sprintf('<span class="badge bg-info text-dark me-1 mb-1">%s</span>', htmlspecialchars($set));
 }
 
 $rectorSymfonySetsHtml = '';
@@ -146,16 +136,16 @@ $paths = htmlspecialchars(implode(', ', $phpstanPaths));
 
 $html = <<<HTML
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{$projectName} - Project Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
+        body { background-color: #111318; }
         .hero { background: linear-gradient(135deg, #0d6efd, #6610f2); color: white; padding: 3rem 0; }
-        .card { border: none; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075); }
+        .card { border: 1px solid #2a2d35; }
     </style>
 </head>
 <body>
@@ -175,7 +165,6 @@ $html = <<<HTML
                     <div class="card-body">
                         <h3 class="card-title">Test Coverage</h3>
                         {$coverageHtml}
-                        <a href="coverage/index.html" class="btn btn-outline-primary">View Full Coverage Report</a>
                     </div>
                 </div>
             </div>
@@ -219,7 +208,7 @@ $html = <<<HTML
                         <div class="row mt-2">
                             <div class="col-md-4">
                                 <h5>Attribute Sets</h5>
-                                <p><span class="badge bg-dark">all</span></p>
+                                <p><span class="badge bg-light text-dark">all</span></p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Additional Rules</h5>
@@ -235,7 +224,7 @@ $html = <<<HTML
             </div>
         </div>
 
-        <footer class="text-center text-muted mt-4 mb-3">
+        <footer class="text-center text-secondary mt-4 mb-3">
             <small>Generated on {$date}</small>
         </footer>
     </div>

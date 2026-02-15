@@ -246,8 +246,8 @@ class StatsController extends BaseController
         return $this->render(
             'stats/by_date.html.twig',
             [
-                'startDate'     => new DateTime($startDate),
-                'endDate'       => new DateTime($endDate),
+                'startDate'     => new DateTime($startDate ?? 'now'),
+                'endDate'       => new DateTime($endDate ?? 'now'),
                 'stats'         => $stats,
                 'medalsGained'  => $medalsGained,
                 'medalsGained1' => $medalsGained1,

@@ -21,20 +21,25 @@ $description = $composerJson['description'] ?? '';
 $license = $composerJson['license'] ?? 'Unknown';
 $phpVersion = $composerJson['require']['php'] ?? 'Unknown';
 
-// PHPUnit coverage summary
-$coverageSummary = '';
+// PHPUnit coverage summary (max 10 lines)
+$coverageLines = [];
 $phpunitOutput = @file_get_contents(__DIR__ . '/../../build/phpunit-output.txt');
 if ($phpunitOutput !== false) {
-    // Extract the summary lines (Classes, Methods, Lines percentages)
-    if (preg_match_all('/^\s*(Classes|Methods|Functions|Lines)\s*:.*$/m', $phpunitOutput, $matches)) {
-        $coverageSummary = implode("\n", $matches[0]);
+    // Test result summary line
+    if (preg_match('/^(OK|FAILURES|ERRORS).*$/m', $phpunitOutput, $match)) {
+        $coverageLines[] = trim($match[0]);
     }
 
-    // Also try to extract test result summary line
-    if (preg_match('/^(OK|FAILURES|ERRORS).*$/m', $phpunitOutput, $match)) {
-        $coverageSummary = trim($match[0]) . "\n" . $coverageSummary;
+    // Coverage summary lines (Classes, Methods, Lines percentages)
+    if (preg_match_all('/^\s*(Classes|Methods|Functions|Lines)\s*:.*$/m', $phpunitOutput, $matches)) {
+        foreach ($matches[0] as $line) {
+            $coverageLines[] = trim($line);
+        }
     }
+
+    $coverageLines = array_slice($coverageLines, 0, 10);
 }
+$coverageSummary = implode("\n", $coverageLines);
 
 // PHPStan
 $phpstanLevel = 7;
@@ -165,6 +170,7 @@ $html = <<<HTML
                     <div class="card-body">
                         <h3 class="card-title">Test Coverage</h3>
                         {$coverageHtml}
+                        <a href="coverage/index.html" class="btn btn-sm btn-outline-primary mt-2">Full Coverage Report</a>
                     </div>
                 </div>
             </div>

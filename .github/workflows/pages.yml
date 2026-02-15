@@ -1,0 +1,88 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: app_test
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: '!ChangeMe!'
+        options: >-
+          --health-cmd="pg_isready -d app_test -U app"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, intl, gd, curl, dom, iconv, ctype, json, libxml
+          coverage: pcov
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Setup database
+        env:
+          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app_test?serverVersion=16&charset=utf8
+        run: |
+          php bin/console doctrine:migrations:migrate --no-interaction --env=test
+          php bin/console doctrine:fixtures:load --no-interaction --env=test
+
+      - name: Run PHPUnit with coverage
+        env:
+          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app_test?serverVersion=16&charset=utf8
+        run: |
+          mkdir -p build/coverage
+          php vendor/bin/phpunit --coverage-html build/coverage --coverage-text 2>&1 | tee build/phpunit-output.txt || true
+
+      - name: Run PHPStan
+        run: |
+          php -d memory_limit=4G vendor/bin/phpstan analyse --error-format=json > build/phpstan-output.json 2>&1 || true
+
+      - name: Run Rector (dry-run)
+        run: |
+          vendor/bin/rector process --dry-run > build/rector-output.txt 2>&1 || true
+
+      - name: Generate Pages
+        run: php .github/scripts/generate-pages.php
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

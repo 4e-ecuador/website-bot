@@ -30,10 +30,6 @@ class CalendarSubscriber implements EventSubscriberInterface
         $start = $setDataEvent->getStart();
         $end = $setDataEvent->getEnd();
         //$filters = $setDataEvent->getFilters();
-
-        /**
-         * @var DateTime $next
-         */
         $next = clone $start;
         foreach (range(0, 2) as $x) {
             $setDataEvent->addEvent(

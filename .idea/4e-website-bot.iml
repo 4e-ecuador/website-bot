@@ -41,9 +41,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/alice" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/cors-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpseclib/phpseclib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
@@ -129,7 +126,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/markdown-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/string-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/backups" />
       <excludeFolder url="file://$MODULE_DIR$/bin/.phpunit/phpunit-8.5-0/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/bin/.phpunit/phpunit-8.5-0/vendor/doctrine/instantiator" />

@@ -283,12 +283,6 @@ parameters:
 			path: src/Service/StatsImporter.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Type\\CustomMessage\\NotifyEventsMessage\:\:getMessage\(\)" is 16, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Type/CustomMessage/NotifyEventsMessage.php
-
-		-
 			message: '#^Cognitive complexity for "App\\Tests\\Controller\\ControllerAccessTest\:\:processRoutes\(\)" is 16, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1

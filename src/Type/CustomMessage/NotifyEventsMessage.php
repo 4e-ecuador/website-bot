@@ -11,82 +11,90 @@ class NotifyEventsMessage extends AbstractCustomMessage
 
     public function getMessage(bool $useLinks = true): array
     {
-        $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
-
         $message = [];
+
         $ingressFS = $this->ingressEventRepository->findFutureFS();
-        $ingressMD = $this->ingressEventRepository->findFutureMD();
-        $sendDaysBeforeEvent = 8;
         if ($ingressFS !== []) {
-            if ($this->firstAnnounce) {
-                $message[] = $speaker.' '.$this->translator->trans(
-                        'notify.events.head.fs.first'
-                    );
-            } else {
-                $message[] = $speaker.' '.$this->translator->trans(
-                        'notify.events.head.fs'
-                    );
-            }
-
-            $links = [];
-            foreach ($ingressFS as $event) {
-                $links[] = $useLinks
-                    ? sprintf(
-                        '[%s](%s)',
-                        $event->getName(),
-                        $event->getLink()
-                    )
-                    : $event->getName();
-                $eventDate = $event->getDateStart();
-            }
-
-            if (!isset($eventDate)) {
+            $fsMessage = $this->buildFsMessage($ingressFS, $useLinks);
+            if ($fsMessage === []) {
                 return [];
             }
 
-            $daysRemaining = $eventDate->diff(new DateTime())->days;
-
-            // TODO wtf?
-            // ++$daysRemaining;
-
-            if ($daysRemaining > $sendDaysBeforeEvent
-                && !$this->firstAnnounce
-            ) {
-                return [];
-            }
-
-            $message[] = $this->translator->trans(
-                'notify.events.events.fs',
-                ['links' => implode(', ', $links)]
-            );
-            $message[] = '';
-
-            $msgExtra = $this->translator->trans(
-                'notify.events.events.fs.extra'
-            );
-
-            if ($msgExtra !== '' && $msgExtra !== '0') {
-                $message[] = $msgExtra;
-                $message[] = '';
-            }
-
-            $message[] = '*'
-                .$this->translator->trans(
-                    'notify.events.days.remaining',
-                    ['count' => $daysRemaining]
-                )
-                .'*';
+            $message = [...$message, ...$fsMessage];
         }
 
+        $ingressMD = $this->ingressEventRepository->findFutureMD();
         if ($ingressMD !== []) {
             $message[] = 'HAY MD!!! - contacte un dev =;)';
             if ($this->firstAnnounce) {
                 $message[] = 'YAY!!!';
-                // $io->success('FIRST');
             }
         }
 
         return $message;
+    }
+
+    /**
+     * @param array<\App\Entity\IngressEvent> $ingressFS
+     *
+     * @return array<int, string>
+     */
+    private function buildFsMessage(array $ingressFS, bool $useLinks): array
+    {
+        $speaker = $this->emojiService->getEmoji('loudspeaker')->getBytecode();
+        $headKey = $this->firstAnnounce
+            ? 'notify.events.head.fs.first'
+            : 'notify.events.head.fs';
+
+        $links = $this->buildEventLinks($ingressFS, $useLinks);
+        $lastEvent = $ingressFS[array_key_last($ingressFS)];
+        $eventDate = $lastEvent->getDateStart();
+        $daysRemaining = $eventDate->diff(new DateTime())->days;
+
+        if ($daysRemaining > 8 && !$this->firstAnnounce) {
+            return [];
+        }
+
+        $message = [];
+        $message[] = $speaker.' '.$this->translator->trans($headKey);
+        $message[] = $this->translator->trans(
+            'notify.events.events.fs',
+            ['links' => implode(', ', $links)]
+        );
+        $message[] = '';
+
+        $msgExtra = $this->translator->trans('notify.events.events.fs.extra');
+        if ($msgExtra !== '' && $msgExtra !== '0') {
+            $message[] = $msgExtra;
+            $message[] = '';
+        }
+
+        $message[] = '*'
+            .$this->translator->trans(
+                'notify.events.days.remaining',
+                ['count' => $daysRemaining]
+            )
+            .'*';
+
+        return $message;
+    }
+
+    /**
+     * @param array<\App\Entity\IngressEvent> $events
+     *
+     * @return array<string>
+     */
+    private function buildEventLinks(array $events, bool $useLinks): array
+    {
+        $links = [];
+
+        foreach ($events as $event) {
+            $links[] = $useLinks
+                ? sprintf('[%s](%s)', $event->getName(), $event->getLink())
+                : $event->getName();
+        }
+
+        return $links;
     }
 
     public function setFirstAnnounce(bool $firstAnnounce): NotifyEventsMessage

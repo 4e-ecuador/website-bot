@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agent;
 use App\Entity\User;
 use App\Repository\AgentRepository;
 use App\Repository\UserRepository;
@@ -88,7 +89,7 @@ class CompareController extends AbstractController
             $users = [];
             foreach ($ids as $id) {
                 $agent = $this->agentRepository->find($id);
-                if ($agent) {
+                if ($agent instanceof Agent) {
                     $user = $this->userRepository->findByAgent($agent);
                     if ($user instanceof User) {
                         $users[] = $user;

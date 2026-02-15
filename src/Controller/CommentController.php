@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agent;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\AgentRepository;
@@ -73,7 +74,7 @@ class CommentController extends BaseController
     ): JsonResponse {
         $commentId = $request->request->get('comment_id');
         $comment = $this->commentRepository->findOneBy(['id' => $commentId]);
-        if (!$comment) {
+        if (!$comment instanceof Comment) {
             throw $this->createNotFoundException();
         }
 
@@ -154,7 +155,7 @@ class CommentController extends BaseController
         $html = '';
         $agentId = $request->request->get('agent_id');
         $agent = $this->agentRepository->findOneBy(['id' => $agentId]);
-        if (!$agent) {
+        if (!$agent instanceof Agent) {
             return $this->json(['comments' => $html]);
         }
 

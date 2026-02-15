@@ -75,7 +75,7 @@ class HelpController extends BaseController
         string $slug
     ): Response {
         $help = $this->helpRepository->findOneBy(['slug' => $slug]);
-        if (!$help) {
+        if (!$help instanceof Help) {
             throw $this->createNotFoundException();
         }
 

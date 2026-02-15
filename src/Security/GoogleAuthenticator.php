@@ -94,17 +94,17 @@ class GoogleAuthenticator extends AbstractAuthenticator
     private function getUser(GoogleUser $googleUser): User
     {
         // 1) have they logged in with Google before? Easy!
-        if ($user = $this->userRepository->findOneBy(
+        if (($user = $this->userRepository->findOneBy(
             ['googleId' => $googleUser->getId()]
-        )
+        )) instanceof User
         ) {
             return $user;
         }
 
         // @todo remove: Fetch user by email
-        if ($user = $this->userRepository->findOneBy(
+        if (($user = $this->userRepository->findOneBy(
             ['email' => $googleUser->getEmail()]
-        )
+        )) instanceof User
         ) {
             // @todo remove: Update existing users google id
             $user->setGoogleId($googleUser->getId());

@@ -142,7 +142,7 @@ class Agent implements Stringable
 
     public function __toString(): string
     {
-        return (string)$this->nickname;
+        return $this->nickname;
     }
 
     public function __sleep(): array

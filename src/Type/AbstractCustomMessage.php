@@ -37,8 +37,8 @@ abstract class AbstractCustomMessage
         return str_replace(
             '_',
             '\\_',
-            (string)($agent->getTelegramName()
-                ?: $agent->getNickname())
+            $agent->getTelegramName()
+                ?: $agent->getNickname()
         );
     }
 

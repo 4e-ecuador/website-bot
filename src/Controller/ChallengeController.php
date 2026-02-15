@@ -67,7 +67,7 @@ class ChallengeController extends BaseController
     public function show(
         Challenge $challenge
     ): Response {
-        $entries = (array)$this->statRepository->findByDate(
+        $entries = $this->statRepository->findByDate(
             $challenge->getDateStart(),
             $challenge->getDateEnd()
         );

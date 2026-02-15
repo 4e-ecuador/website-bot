@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Agent;
+use App\Entity\MapGroup;
 use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
 use App\Repository\UserRepository;
@@ -53,7 +54,7 @@ class MapController extends AbstractController
         $mapGroup = $this->mapGroupRepository->findOneBy(
             ['name' => $request->query->get('group', '4E')]
         );
-        if (!$mapGroup) {
+        if (!$mapGroup instanceof MapGroup) {
             throw new UnexpectedValueException('Map group not found!');
         }
 

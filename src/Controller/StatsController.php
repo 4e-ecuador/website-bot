@@ -110,14 +110,12 @@ class StatsController extends BaseController
             new DateTime($endDate),
             $agent
         );
-        if ($entries) {
-            foreach ($entries as $entry) {
-                // Get the correct datetime format for highcharts
-                // See: https://stackoverflow.com/a/29234143/1906767
-                $date = (int)($entry->getDatetime()?->format('U')) * 1000;
-                $data->ap[] = [$date, $entry->getAp()];
-                $data->hacker[] = [$date, $entry->getHacker()];
-            }
+        foreach ($entries as $entry) {
+            // Get the correct datetime format for highcharts
+            // See: https://stackoverflow.com/a/29234143/1906767
+            $date = (int)($entry->getDatetime()?->format('U')) * 1000;
+            $data->ap[] = [$date, $entry->getAp()];
+            $data->hacker[] = [$date, $entry->getHacker()];
         }
 
         return new JsonResponse($data);

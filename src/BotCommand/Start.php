@@ -2,6 +2,7 @@
 
 namespace App\BotCommand;
 
+use App\Entity\Agent;
 use App\Repository\AgentRepository;
 use BoShurik\TelegramBotBundle\Telegram\Command\AbstractCommand;
 use BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface;
@@ -62,7 +63,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
             $agent = $this->agentRepository
                 ->findOneBy(['telegram_connection_secret' => $code]);
 
-            if (!$agent) {
+            if (!$agent instanceof Agent) {
                 throw new UnexpectedValueException(
                     $this->translator
                         ->trans('bot.message.missing.agent')

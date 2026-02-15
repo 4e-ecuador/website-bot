@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Form\AgentType;
 use App\Helper\Map\MapTrait;
 use App\Helper\Paginator\PaginatorTrait;
@@ -162,7 +163,7 @@ class AgentController extends BaseController
                 ['id' => (int)$request->request->get('commenter')]
             );
 
-            if (!$commenter) {
+            if (!$commenter instanceof User) {
                 return $this->json(['error' => 'invalid commenter']);
             }
 

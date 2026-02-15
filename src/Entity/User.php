@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UserRepository;
 
 #[Entity(repositoryClass: UserRepository::class)]
@@ -28,6 +29,8 @@ class User implements UserInterface, \Stringable
     private array $roles = [];
 
     #[Column(unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private string $email = '';
 
     #[OneToOne(cascade: ['persist', 'remove'])]

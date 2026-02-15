@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Stringable;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\AgentRepository;
 
 #[Entity(repositoryClass: AgentRepository::class)]
@@ -22,6 +23,7 @@ class Agent implements Stringable
     protected ?int $id = null;
 
     #[Column]
+    #[Assert\NotBlank]
     protected string $nickname = '';
 
     #[Column(nullable: true)]

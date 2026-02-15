@@ -193,54 +193,9 @@ class StatsController extends BaseController
                 new DateTime($endDate.' 23:59:59')
             );
 
-            $previous = [];
-
-            foreach ($entries as $entry) {
-                $agentName = $entry->getAgent()?->getNickname();
-
-                if (false === isset($previous[$agentName])) {
-                    $previousEntry = $this->statRepository->getPrevious($entry);
-
-                    $previous[$agentName] = $previousEntry instanceof AgentStat
-                        ? $this->medalChecker->checkLevels(
-                            $previousEntry
-                        ) : $this->medalChecker->checkLevels($entry);
-                }
-
-                $levels = $this->medalChecker->checkLevels($entry);
-                $dateString = $entry->getDatetime()?->format('Y-m-d');
-
-                foreach ($levels as $name => $level) {
-                    if (!$level) {
-                        continue;
-                    }
-
-                    if (false === isset($previous[$agentName][$name])) {
-                        $medalsGained[$dateString][$agentName][$name] = $level;
-                        $medalsGained1[$name][] = [
-                            'agent' => $agentName,
-                            'level' => $level,
-                        ];
-                        $previous[$name] = $level;
-                    } elseif ($previous[$agentName][$name] < $level) {
-                        $medalsGained[$dateString][$agentName][$name] = $level;
-                        $medalsGained1[$name][] = [
-                            'agent' => $agentName,
-                            'level' => $level,
-                        ];
-                        $previous[$agentName][$name] = $level;
-                    }
-                }
-            }
-        }
-
-        foreach ($medalsGained1 as $name => $items) {
-            $a = $items;
-            usort(
-                $a,
-                static fn($a, $b) => $b['level'] <=> $a['level']
-            );
-            $medalsGained1[$name] = $a;
+            $result = $this->medalChecker->getMedalsGained($entries, $this->statRepository);
+            $medalsGained = $result['byDate'];
+            $medalsGained1 = $result['byMedal'];
         }
 
         return $this->render(

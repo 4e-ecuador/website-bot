@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\AgentRepository;
 use App\Repository\ChallengeRepository;
 use App\Repository\CommentRepository;
-use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\CalendarHelper;
 use App\Service\CiteService;
@@ -25,7 +24,6 @@ class DefaultController extends AbstractController
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly CommentRepository $commentRepository,
-        private readonly EventRepository $eventRepository,
         private readonly IngressEventRepository $ingressEventRepository,
         private readonly ChallengeRepository $challengeRepository,
         private readonly DateTimeHelper $dateTimeHelper,
@@ -60,27 +58,9 @@ class DefaultController extends AbstractController
                 );
             }
 
-            $events = $this->eventRepository->findAll();
-
-            foreach ($events as $event) {
-                $event->setDateStart(
-                    new DateTime(
-                        $event->getDateStart()->format('Y-m-d H:i:s'), $tz
-                    )
-                );
-                $event->setDateEnd(
-                    new DateTime(
-                        $event->getDateEnd()->format('Y-m-d H:i:s'), $tz
-                    )
-                );
-                if ($event->getDateStart() > $now) {
-                    $futureEvents[] = $event;
-                } elseif ($event->getDateEnd() < $now) {
-                    $pastEvents[] = $event;
-                } else {
-                    $currentEvents[] = $event;
-                }
-            }
+            $pastEvents = $this->eventHelper->getEventsInSpan('past');
+            $currentEvents = $this->eventHelper->getEventsInSpan('present');
+            $futureEvents = $this->eventHelper->getEventsInSpan('future');
 
             $ingressFS = $this->ingressEventRepository->findFutureFS();
             $ingressMD = $this->ingressEventRepository->findFutureMD();

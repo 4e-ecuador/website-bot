@@ -55,12 +55,6 @@ parameters:
 			path: src/Controller/Admin/LogviewController.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Controller\\DefaultController\:\:index\(\)" is 9, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Controller/DefaultController.php
-
-		-
 			message: '#^Argument of an invalid type App\\Entity\\AgentStat supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -71,12 +65,6 @@ parameters:
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Controller/MigrateController.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Controller\\StatsController\:\:byDate\(\)" is 19, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Controller/StatsController.php
 
 		-
 			message: '#^Cognitive complexity for "App\\Controller\\StatsController\:\:statImport\(\)" is 11, keep it under 8$#'
@@ -271,10 +259,22 @@ parameters:
 			path: src/Service/EventHelper.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Service\\LeaderBoardService\:\:getBoard\(\)" is 14, keep it under 8$#'
+			message: '#^Cognitive complexity for "App\\Service\\LeaderBoardService\:\:getBoard\(\)" is 15, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/LeaderBoardService.php
+
+		-
+			message: '#^Class cognitive complexity is 55, keep it under 50$#'
+			identifier: complexity.classLike
+			count: 1
+			path: src/Service/MedalChecker.php
+
+		-
+			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalsGained\(\)" is 12, keep it under 8$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: src/Service/MedalChecker.php
 
 		-
 			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalLevel\(\)" is 9, keep it under 8$#'

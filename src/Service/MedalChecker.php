@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\AgentStat;
+use App\Repository\AgentStatRepository;
 use App\Util\BadgeData;
 use JsonException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -772,6 +773,60 @@ class MedalChecker
         }
 
         throw new UnexpectedValueException('No data for code: '.$code);
+    }
+
+    /**
+     * @param iterable<AgentStat> $entries
+     *
+     * @return array{byDate: array<string, array<string, array<string, int>>>, byMedal: array<string, array<int, array{agent: string|null, level: int}>>}
+     */
+    public function getMedalsGained(iterable $entries, AgentStatRepository $statRepository): array
+    {
+        $medalsGained = [];
+        $medalsGained1 = [];
+        $previous = [];
+
+        foreach ($entries as $entry) {
+            $agentName = $entry->getAgent()?->getNickname();
+
+            if (false === isset($previous[$agentName])) {
+                $previousEntry = $statRepository->getPrevious($entry);
+
+                $previous[$agentName] = $previousEntry instanceof AgentStat
+                    ? $this->checkLevels($previousEntry)
+                    : $this->checkLevels($entry);
+            }
+
+            $levels = $this->checkLevels($entry);
+            $dateString = $entry->getDatetime()?->format('Y-m-d');
+
+            foreach ($levels as $name => $level) {
+                if (!$level) {
+                    continue;
+                }
+
+                if (false === isset($previous[$agentName][$name])
+                    || $previous[$agentName][$name] < $level
+                ) {
+                    $medalsGained[$dateString][$agentName][$name] = $level;
+                    $medalsGained1[$name][] = [
+                        'agent' => $agentName,
+                        'level' => $level,
+                    ];
+                    $previous[$agentName][$name] = $level;
+                }
+            }
+        }
+
+        foreach ($medalsGained1 as $name => $items) {
+            usort(
+                $items,
+                static fn($a, $b) => $b['level'] <=> $a['level']
+            );
+            $medalsGained1[$name] = $items;
+        }
+
+        return ['byDate' => $medalsGained, 'byMedal' => $medalsGained1];
     }
 
     public function getCleanName(string $name): string

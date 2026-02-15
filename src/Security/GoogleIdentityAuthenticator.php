@@ -51,8 +51,12 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
             throw new AuthenticationException('Missing credentials :(');
         }
 
-        $payload = new Client(['client_id' => $this->oauthGoogleId])
-            ->verifyIdToken($idToken);
+        try {
+            $payload = new Client(['client_id' => $this->oauthGoogleId])
+                ->verifyIdToken($idToken);
+        } catch (Exception $exception) {
+            throw new AuthenticationException('Token verification failed: '.$exception->getMessage(), 0, $exception);
+        }
 
         if (!$payload) {
             throw new AuthenticationException('Invalid ID token :(');

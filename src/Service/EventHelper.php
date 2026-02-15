@@ -17,6 +17,16 @@ class EventHelper
 {
     private readonly DateTimeZone $timezone;
 
+    /**
+     * @var array<string, array<Event>>|null
+     */
+    private ?array $eventsBySpan = null;
+
+    /**
+     * @var array<string, array<Challenge>>|null
+     */
+    private ?array $challengesBySpan = null;
+
     public function __construct(
         private readonly EventRepository $eventRepository,
         private readonly ChallengeRepository $challengeRepository,
@@ -99,15 +109,13 @@ class EventHelper
      */
     public function getEventsInSpan(string $span): ?array
     {
-        static $events = [], $pastEvents = [], $currentEvents = [], $futureEvents = [];
-
-        if (!$events) {
-            $events = $this->eventRepository->findAll();
+        if ($this->eventsBySpan === null) {
+            $this->eventsBySpan = ['past' => [], 'present' => [], 'future' => []];
 
             $now = new DateTime('now', $this->timezone)
                 ->setTime(12, 0);
 
-            foreach ($events as $event) {
+            foreach ($this->eventRepository->findAll() as $event) {
                 $event->setDateStart(
                     new DateTime(
                         $event->getDateStart()
@@ -121,19 +129,19 @@ class EventHelper
                     )->setTime(12, 0)
                 );
                 if ($event->getDateStart() > $now) {
-                    $futureEvents[] = $event;
+                    $this->eventsBySpan['future'][] = $event;
                 } elseif ($event->getDateEnd() < $now) {
-                    $pastEvents[] = $event;
+                    $this->eventsBySpan['past'][] = $event;
                 } else {
-                    $currentEvents[] = $event;
+                    $this->eventsBySpan['present'][] = $event;
                 }
             }
         }
 
         return match ($span) {
-            'past' => $pastEvents,
-            'present' => $currentEvents,
-            'future' => $futureEvents,
+            'past' => $this->eventsBySpan['past'],
+            'present' => $this->eventsBySpan['present'],
+            'future' => $this->eventsBySpan['future'],
             default => throw new UnexpectedValueException(
                 'Unknown span (must be: past, present or future)'
             ),
@@ -146,19 +154,13 @@ class EventHelper
      */
     public function getChallengesInSpan(string $span): ?array
     {
-        static $items = [], $challenges = [];
-
-        if (!$items) {
-            $challenges['past'] = [];
-            $challenges['present'] = [];
-            $challenges['future'] = [];
-
-            $items = $this->challengeRepository->findAll();
+        if ($this->challengesBySpan === null) {
+            $this->challengesBySpan = ['past' => [], 'present' => [], 'future' => []];
 
             $now = new DateTime('now', $this->timezone)
                 ->setTime(12, 0);
 
-            foreach ($items as $item) {
+            foreach ($this->challengeRepository->findAll() as $item) {
                 $item->setDateStart(
                     new DateTime(
                         $item->getDateStart()
@@ -172,17 +174,17 @@ class EventHelper
                     )->setTime(12, 0)
                 );
                 if ($item->getDateStart() > $now) {
-                    $challenges['future'][] = $item;
+                    $this->challengesBySpan['future'][] = $item;
                 } elseif ($item->getDateEnd() < $now) {
-                    $challenges['past'][] = $item;
+                    $this->challengesBySpan['past'][] = $item;
                 } else {
-                    $challenges['present'][] = $item;
+                    $this->challengesBySpan['present'][] = $item;
                 }
             }
         }
 
-        if (array_key_exists($span, $challenges)) {
-            return $challenges[$span];
+        if (array_key_exists($span, $this->challengesBySpan)) {
+            return $this->challengesBySpan[$span];
         }
 
         throw new UnexpectedValueException(

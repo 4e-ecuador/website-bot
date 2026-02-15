@@ -127,15 +127,12 @@ class AgentStatRepository extends ServiceEntityRepository
         $entries = $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
-            ->orderBy('a.datetime', 'DESC')
+            ->orderBy('a.datetime', $first ? 'ASC' : 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult();
 
-        if ($entries) {
-            return $first ? $entries[count($entries) - 1] : $entries[0];
-        }
-
-        return null;
+        return $entries[0] ?? null;
     }
 
     /**

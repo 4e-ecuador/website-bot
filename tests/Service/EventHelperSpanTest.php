@@ -7,7 +7,6 @@ use App\Entity\Event;
 use App\Service\EventHelper;
 use DateTime;
 use Exception;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
 
@@ -21,14 +20,17 @@ class EventHelperSpanTest extends KernelTestCase
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $tz = new \DateTimeZone('UTC');
 
+        // Clear existing events so counts are predictable
+        $em->createQuery('DELETE FROM App\Entity\Event')->execute();
+
         $event = new Event()
-            ->setName('Test')
-            ->setDateStart(new DateTime('now', $tz)->modify('-1 day'))
-            ->setDateEnd(new DateTime('now', $tz)->modify('-1 day'));
+            ->setName('PastEvent')
+            ->setDateStart(new DateTime('now', $tz)->modify('-2 day'))
+            ->setDateEnd(new DateTime('now', $tz)->modify('-2 day'));
         $em->persist($event);
 
         $event = new Event()
-            ->setName('Test')
+            ->setName('PresentEvent')
             ->setDateStart(new DateTime('now', $tz))
             ->setDateEnd(new DateTime('now', $tz));
         $em->persist($event);
@@ -73,7 +75,7 @@ class EventHelperSpanTest extends KernelTestCase
         $result = $this->eventHelper->getEventsInSpan('present');
 
         self::assertIsArray($result);
-        self::assertCount(2, $result);
+        self::assertCount(1, $result);
     }
 
     /**

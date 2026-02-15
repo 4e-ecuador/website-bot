@@ -62,11 +62,14 @@ class LeaderBoardService
                 }
             }
 
-            $boardEntries['Fields/Links'][] = new BoardEntry(
-                $agent,
-                $user,
-                $agentEntry->getMindController() / $agentEntry->getConnector()
-            );
+            $connector = $agentEntry->getConnector();
+            if ($connector) {
+                $boardEntries['Fields/Links'][] = new BoardEntry(
+                    $agent,
+                    $user,
+                    $agentEntry->getMindController() / $connector
+                );
+            }
         }
 
         foreach (array_keys($boardEntries) as $type) {

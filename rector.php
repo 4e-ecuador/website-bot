@@ -15,17 +15,22 @@ return RectorConfig::configure()
         deadCode: true,
         codeQuality: true,
         codingStyle: true,
-        earlyReturn: true
+        earlyReturn: true,
+        symfonyConfigs: true
     )
     ->withAttributesSets(
-        symfony: true,
-        doctrine: true
+        all: true
     )
     ->withPhpSets()
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
-    ->withComposerBased(symfony: true)
+    ->withComposerBased(
+        twig: true,
+        doctrine: true,
+        phpunit: true,
+        symfony: true
+    )
     ->withSets([
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,

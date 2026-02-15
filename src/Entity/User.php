@@ -28,7 +28,7 @@ class User implements UserInterface, \Stringable
     private array $roles = [];
 
     #[Column(unique: true)]
-    private ?string $email = '';
+    private string $email = '';
 
     #[OneToOne(cascade: ['persist', 'remove'])]
     private ?Agent $agent = null;
@@ -50,7 +50,7 @@ class User implements UserInterface, \Stringable
 
     public function __toString(): string
     {
-        return (string)$this->email;
+        return $this->email;
     }
 
     public function getId(): ?int
@@ -114,12 +114,12 @@ class User implements UserInterface, \Stringable
 
     public function getUsername(): string
     {
-        return (string)$this->email;
+        return $this->email;
     }
 
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return $this->email;
     }
 
     public function getUserAgentName(): string
@@ -132,15 +132,15 @@ class User implements UserInterface, \Stringable
             );
         }
 
-        return (string)$this->email;
+        return $this->email;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 

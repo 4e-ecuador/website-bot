@@ -6,6 +6,7 @@ use App\Entity\AgentStat;
 use App\Util\BadgeData;
 use JsonException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use UnexpectedValueException;
 
@@ -506,7 +507,10 @@ class MedalChecker
         #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
         #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv,
     ) {
-        $translator->setLocale('es');
+        if ($translator instanceof LocaleAwareInterface) {
+            $translator->setLocale('es');
+        }
+
         $this->translatedLevels[1] = $translator->trans('medal.level.bronce');
         $this->translatedLevels[2] = $translator->trans('medal.level.silver');
         $this->translatedLevels[3] = $translator->trans('medal.level.gold');
@@ -556,7 +560,7 @@ class MedalChecker
             return '';
         }
 
-        return $this->primeHeaders[$name] ?? '';
+        return $this->primeHeaders[$name];
     }
 
     public function getGetterMethodName(string $vName): string

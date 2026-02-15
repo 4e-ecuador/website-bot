@@ -227,9 +227,6 @@ class AgentController extends BaseController
         $modRequest->query->set('paginatorOptions', $paginatorOptions);
 
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
-        /**
-         * @var Agent[] $agents
-         */
         $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($agents) / $paginatorOptions->getLimit())
@@ -283,9 +280,6 @@ class AgentController extends BaseController
         $modRequest->query->set('paginatorOptions', $paginatorOptions);
 
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
-        /**
-         * @var Agent[] $agents
-         */
         $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($agents) / $paginatorOptions->getLimit())

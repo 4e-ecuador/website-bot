@@ -19,7 +19,7 @@ class Comment
     private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
-    private ?string $text = '';
+    private string $text = '';
 
     #[ManyToOne(inversedBy: 'comments')]
     #[JoinColumn(nullable: false)]
@@ -37,7 +37,7 @@ class Comment
         return $this->id;
     }
 
-    public function getText(): ?string
+    public function getText(): string
     {
         return $this->text;
     }

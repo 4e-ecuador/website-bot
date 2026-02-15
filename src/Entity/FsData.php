@@ -16,13 +16,13 @@ class FsData
     private ?int $id = null;
 
     #[Column(type: 'integer')]
-    private ?int $attendeesCount = null;
+    private int $attendeesCount = 0;
 
     #[Column(type: 'json')]
     private ?string $data = null;
 
     #[Column(type: 'datetime_immutable')]
-    private ?DateTimeInterface $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct()
     {
@@ -34,7 +34,7 @@ class FsData
         return $this->id;
     }
 
-    public function getAttendeesCount(): ?int
+    public function getAttendeesCount(): int
     {
         return $this->attendeesCount;
     }
@@ -58,7 +58,7 @@ class FsData
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }

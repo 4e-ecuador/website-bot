@@ -18,10 +18,10 @@ class IngressEvent implements JsonSerializable
     private ?int $id = null;
 
     #[Column]
-    private ?string $name = '';
+    private string $name = '';
 
     #[Column]
-    private ?string $type = '';
+    private string $type = '';
 
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTime $date_start = null;
@@ -51,7 +51,7 @@ class IngressEvent implements JsonSerializable
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -63,7 +63,7 @@ class IngressEvent implements JsonSerializable
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }

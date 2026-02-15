@@ -17,7 +17,7 @@ class Event
     private ?int $id = null;
 
     #[Column]
-    private ?string $name = null;
+    private string $name = '';
 
     #[Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $date_start = null;
@@ -36,7 +36,7 @@ class Event
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

@@ -16,20 +16,20 @@ class Help
     private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
-    private ?string $text = '';
+    private string $text = '';
 
     #[Column]
-    private ?string $slug = '';
+    private string $slug = '';
 
     #[Column]
-    private ?string $title = '';
+    private string $title = '';
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getText(): ?string
+    public function getText(): string
     {
         return $this->text;
     }
@@ -41,7 +41,7 @@ class Help
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -53,7 +53,7 @@ class Help
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }

@@ -59,7 +59,7 @@ class AgentStatRepository extends ServiceEntityRepository
     public function findByDate(
         DateTimeInterface $startDate,
         DateTimeInterface $endDate
-    ): iterable {
+    ): array {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
@@ -77,7 +77,7 @@ class AgentStatRepository extends ServiceEntityRepository
         DateTime $startDate,
         DateTime $endDate,
         Agent $agent
-    ): iterable {
+    ): array {
         return $this->createQueryBuilder('a')
             ->andWhere('a.datetime >= :startDate')
             ->setParameter('startDate', $startDate)
@@ -96,7 +96,7 @@ class AgentStatRepository extends ServiceEntityRepository
     public function getAgentStats(
         Agent $agent,
         string $order = 'DESC'
-    ): iterable {
+    ): array {
         return $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
@@ -111,7 +111,7 @@ class AgentStatRepository extends ServiceEntityRepository
     public function getAgentStatsForCsv(
         Agent $agent,
         string $order = 'DESC'
-    ): iterable {
+    ): array {
         return $this->createQueryBuilder('a')
             ->andWhere('a.agent = :agent')
             ->setParameter('agent', $agent)
@@ -120,9 +120,6 @@ class AgentStatRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
-    /**
-     * @return AgentStat
-     */
     public function getAgentLatest(
         Agent $agent,
         bool $first = false

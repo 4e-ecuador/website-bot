@@ -19,7 +19,7 @@ class MapGroup
     private ?int $id = null;
 
     #[Column]
-    private ?string $name = null;
+    private string $name = '';
 
     /**
      * @var Collection<int, Agent>
@@ -37,7 +37,7 @@ class MapGroup
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

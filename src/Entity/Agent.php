@@ -22,7 +22,7 @@ class Agent implements Stringable
     protected ?int $id = null;
 
     #[Column]
-    protected ?string $nickname = '';
+    protected string $nickname = '';
 
     #[Column(nullable: true)]
     private ?string $realName = '';
@@ -80,7 +80,7 @@ class Agent implements Stringable
         return $this->id;
     }
 
-    public function getNickname(): ?string
+    public function getNickname(): string
     {
         return $this->nickname;
     }
@@ -151,7 +151,7 @@ class Agent implements Stringable
     }
 
     /**
-     * @return Collection<int, Comment>|Comment[]
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {

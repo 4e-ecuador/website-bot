@@ -16,14 +16,14 @@ class TestStat
     private ?int $id = null;
 
     #[Column(type: Types::TEXT)]
-    private ?string $csv = null;
+    private string $csv = '';
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCsv(): ?string
+    public function getCsv(): string
     {
         return $this->csv;
     }

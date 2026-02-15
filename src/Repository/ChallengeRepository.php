@@ -8,12 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Challenge|null find($id, $lockMode = null, $lockVersion = null)
- * @method Challenge|null findOneBy(array $criteria, array $orderBy = null)
- * @method Challenge[]    findAll()
- * @method Challenge[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<ChallengeRepository>
+ * @extends ServiceEntityRepository<Challenge>
  */
 class ChallengeRepository extends ServiceEntityRepository
 {

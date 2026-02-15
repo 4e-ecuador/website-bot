@@ -49,9 +49,6 @@ class UserController extends BaseController
         $modRequest->query->set('paginatorOptions', $paginatorOptions);
 
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
-        /**
-         * @var User[] $users
-         */
         $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($users) / $paginatorOptions->getLimit())
@@ -106,9 +103,6 @@ class UserController extends BaseController
 
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
 
-        /**
-         * @var User[] $users
-         */
         $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
             (int)ceil(count($users) / $paginatorOptions->getLimit())

@@ -31,7 +31,7 @@ class AgentStat implements ArrayAccess
     private ?Agent $agent = null;
 
     #[Column]
-    private ?int $ap = null;
+    private int $ap = 0;
 
     #[Column(nullable: true)]
     private ?int $explorer = null;
@@ -185,7 +185,7 @@ class AgentStat implements ArrayAccess
         return $this;
     }
 
-    public function getAp(): ?int
+    public function getAp(): int
     {
         return $this->ap;
     }

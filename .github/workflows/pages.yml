@@ -25,11 +25,11 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_DB: app_test
+          POSTGRES_DB: app
           POSTGRES_USER: app
           POSTGRES_PASSWORD: '!ChangeMe!'
         options: >-
-          --health-cmd="pg_isready -d app_test -U app"
+          --health-cmd="pg_isready -d app -U app"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -52,14 +52,15 @@ jobs:
 
       - name: Setup database
         env:
-          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app_test?serverVersion=16&charset=utf8
+          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app?serverVersion=16&charset=utf8
         run: |
+          php bin/console doctrine:database:create --env=test
           php bin/console doctrine:migrations:migrate --no-interaction --env=test
           php bin/console doctrine:fixtures:load --no-interaction --env=test
 
       - name: Run PHPUnit with coverage
         env:
-          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app_test?serverVersion=16&charset=utf8
+          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app?serverVersion=16&charset=utf8
         run: |
           mkdir -p build/coverage
           php vendor/bin/phpunit --coverage-html build/coverage --coverage-text 2>&1 | tee build/phpunit-output.txt || true

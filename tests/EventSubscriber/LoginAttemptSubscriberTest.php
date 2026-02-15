@@ -5,6 +5,7 @@ namespace App\Tests\EventSubscriber;
 use App\Entity\LoginAttempt;
 use App\EventSubscriber\LoginAttemptSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class LoginAttemptSubscriberTest extends TestCase
         $this->subscriber = new LoginAttemptSubscriber($this->entityManager);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetSubscribedEvents(): void
     {
         $events = LoginAttemptSubscriber::getSubscribedEvents();
@@ -39,14 +41,14 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginSuccess(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
         $user->method('getUserIdentifier')->willReturn('user@example.com');
 
         $request = new Request(server: ['REMOTE_ADDR' => '127.0.0.1']);
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginSuccessEvent::class);
+        $event = $this->createStub(LoginSuccessEvent::class);
         $event->method('getUser')->willReturn($user);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);
@@ -63,17 +65,17 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginFailureWithPassportUser(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
         $user->method('getUserIdentifier')->willReturn('failed@example.com');
 
-        $passport = $this->createMock(Passport::class);
+        $passport = $this->createStub(Passport::class);
         $passport->method('getUser')->willReturn($user);
 
         $request = new Request(server: ['REMOTE_ADDR' => '10.0.0.1']);
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginFailureEvent::class);
+        $event = $this->createStub(LoginFailureEvent::class);
         $event->method('getPassport')->willReturn($passport);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);
@@ -90,7 +92,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginFailureWithUserBadgeFallback(): void
     {
-        $userBadge = new UserBadge('badge@example.com', fn () => $this->createMock(UserInterface::class));
+        $userBadge = new UserBadge('badge@example.com', fn () => $this->createStub(UserInterface::class));
 
         $passport = $this->createMock(Passport::class);
         $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
@@ -101,9 +103,9 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $request = new Request(server: ['REMOTE_ADDR' => '192.168.1.1']);
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginFailureEvent::class);
+        $event = $this->createStub(LoginFailureEvent::class);
         $event->method('getPassport')->willReturn($passport);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);
@@ -117,7 +119,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginFailureWithRequestEmailFallback(): void
     {
-        $passport = $this->createMock(Passport::class);
+        $passport = $this->createStub(Passport::class);
         $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
@@ -126,9 +128,9 @@ class LoginAttemptSubscriberTest extends TestCase
             server: ['REMOTE_ADDR' => '10.10.10.10'],
         );
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginFailureEvent::class);
+        $event = $this->createStub(LoginFailureEvent::class);
         $event->method('getPassport')->willReturn($passport);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);
@@ -143,7 +145,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginFailureWithUsernameFallback(): void
     {
-        $passport = $this->createMock(Passport::class);
+        $passport = $this->createStub(Passport::class);
         $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
@@ -152,9 +154,9 @@ class LoginAttemptSubscriberTest extends TestCase
             server: ['REMOTE_ADDR' => '10.10.10.10'],
         );
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginFailureEvent::class);
+        $event = $this->createStub(LoginFailureEvent::class);
         $event->method('getPassport')->willReturn($passport);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);
@@ -168,15 +170,15 @@ class LoginAttemptSubscriberTest extends TestCase
 
     public function testOnLoginFailureWithNoEmailResolvable(): void
     {
-        $passport = $this->createMock(Passport::class);
+        $passport = $this->createStub(Passport::class);
         $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
         $request = new Request(server: ['REMOTE_ADDR' => '10.10.10.10']);
 
-        $authenticator = $this->createMock(AuthenticatorInterface::class);
+        $authenticator = $this->createStub(AuthenticatorInterface::class);
 
-        $event = $this->createMock(LoginFailureEvent::class);
+        $event = $this->createStub(LoginFailureEvent::class);
         $event->method('getPassport')->willReturn($passport);
         $event->method('getRequest')->willReturn($request);
         $event->method('getAuthenticator')->willReturn($authenticator);

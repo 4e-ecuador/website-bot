@@ -22,7 +22,6 @@ class MapGroupRepositoryTest extends KernelTestCase
         $results = $this->repository->getNames();
 
         self::assertNotEmpty($results);
-        self::assertIsArray($results);
     }
 
     public function testGetNamesContainsFixtureName(): void

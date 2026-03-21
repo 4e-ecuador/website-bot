@@ -93,7 +93,7 @@ class AgentRepositoryTest extends KernelTestCase
         // Fixture agent has no telegram_id set
         $results = $this->repository->findNotifyAgents();
 
-        self::assertIsArray($results);
+        self::assertEmpty($results);
     }
 
     public function testSearchByIdsFindsAgent(): void
@@ -124,6 +124,6 @@ class AgentRepositoryTest extends KernelTestCase
         $results = $this->repository->findMapAgents($mapGroup);
 
         // Fixture agent is not assigned to map group
-        self::assertIsArray($results);
+        self::assertEmpty($results);
     }
 }

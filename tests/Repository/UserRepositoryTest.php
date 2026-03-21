@@ -24,7 +24,7 @@ class UserRepositoryTest extends KernelTestCase
         // Fixture user has no Firebase token
         $results = $this->repository->getFireBaseUsers();
 
-        self::assertIsArray($results);
+        self::assertEmpty($results);
     }
 
     public function testGetFireBaseUsersFindsUserWithToken(): void

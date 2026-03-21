@@ -36,7 +36,7 @@ class Agent implements Stringable
     private ?string $lon = null;
 
     #[ManyToOne]
-    #[JoinColumn(nullable: false)]
+    #[JoinColumn(nullable: true)]
     private ?Faction $faction = null;
 
     /**

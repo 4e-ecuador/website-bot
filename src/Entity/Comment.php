@@ -22,14 +22,14 @@ class Comment
     private string $text = '';
 
     #[ManyToOne(inversedBy: 'comments')]
-    #[JoinColumn(nullable: false)]
+    #[JoinColumn(nullable: true)]
     private ?Agent $agent = null;
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $datetime = null;
 
     #[ManyToOne]
-    #[JoinColumn(nullable: false)]
+    #[JoinColumn(nullable: true)]
     private ?User $commenter = null;
 
     public function getId(): ?int

@@ -23,11 +23,11 @@ class AgentStat implements ArrayAccess
     #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $datetime = null;
 
     #[ManyToOne]
-    #[JoinColumn(nullable: false)]
+    #[JoinColumn(nullable: true)]
     private ?Agent $agent = null;
 
     #[Column]

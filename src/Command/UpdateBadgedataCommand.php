@@ -257,6 +257,7 @@ class UpdateBadgedataCommand extends Command
         $client = HttpClient::create();
         $response = $client->request('GET', $uri);
 
+        /** @var object{totalItems: int, perPage: int, items: list<object{image: list<string>, expand: object{category: object{title: string}}, collectionId: string, id: string, title: string, description: string}>} $result */
         $result = json_decode(
             $response->getContent(),
             false,
@@ -281,59 +282,13 @@ class UpdateBadgedataCommand extends Command
                 continue;
             }
 
-            $category = $item->expand->category->title;
+            [$changed, $badges] = $this->processItem($item);
 
-            if ($this->output->isVerbose()) {
-                $this->io->note('Cat.: '.$category);
+            if ($changed) {
+                $nothingHasChanged = false;
             }
 
-            foreach ($item->image as $image) {
-                $imageName = $this->cutHash($image);
-
-                if ($this->output->isVerbose()) {
-                    $this->io->write($imageName.' - ');
-                }
-
-                if (array_key_exists($imageName, $this->uglyDudes)) {
-                    $imageName = $this->uglyDudes[$imageName];
-                    if ($this->output->isVerbose()) {
-                        $this->io->write(' => '.$imageName);
-                    }
-                }
-
-                $imageUrl = $item->collectionId.'/'.$item->id.'/'.$image;
-                $imgPath = $this->badgeRoot.'/'.$imageName;
-
-                if (file_exists($imgPath)) {
-                    if ($this->output->isVerbose()) {
-                        $this->io->writeln(' exists');
-                    }
-                } else {
-                    if ($this->output->isVerbose()) {
-                        $this->io->writeln(' is NEW');
-                    } else {
-                        $this->io->warning('New badge: '.$imageName);
-                        $this->io->writeln('Cat.: '.$category);
-                    }
-
-                    file_put_contents(
-                        $imgPath,
-                        file_get_contents(
-                            $this->scrapeSite.'/files/'.$imageUrl
-                        )
-                    );
-                    $nothingHasChanged = false;
-                }
-
-                $badgeInfo = new stdClass();
-
-                $badgeInfo->code = str_replace('.png', '', $imageName);
-                $badgeInfo->title = $item->title;
-                $badgeInfo->description = $item->description;
-
-                $badgeInfos[] = $badgeInfo;
-            }
-
+            array_push($badgeInfos, ...$badges);
             $progressBar->advance();
         }
 
@@ -363,49 +318,54 @@ class UpdateBadgedataCommand extends Command
 
         if ($this->input->getOption('force')) {
             foreach ($this->sizes as $size) {
-                $destDir = $this->badgeRoot.'/'.$size;
-                $filesystem->remove($destDir);
+                $filesystem->remove($this->badgeRoot.'/'.$size);
             }
         }
 
         foreach ($this->sizes as $size) {
-            $destDir = $this->badgeRoot.'/'.$size;
-
-            if (false === $filesystem->exists($destDir)) {
-                $filesystem->mkdir($destDir);
-            }
-
-            $files = new Finder()
-                ->files()
-                ->in($this->badgeRoot);
-
-            foreach ($files as $file) {
-                $srcPath = $file->getRealPath();
-                $destPath = $destDir.'/'.$file->getFilename();
-                if (file_exists($destPath)) {
-                    continue;
-                }
-
-                $command = 'magick '.$srcPath.' -resize '.$size.'x'.$size.'\> '
-                    .$destPath;
-                ob_start();
-                system($command);
-                $result = ob_get_clean();
-
-                if ($result) {
-                    $this->io->writeln('');
-                    $this->io->error($result);
-                }
-
-                $progressBar->advance();
-            }
-
-            $progressBar->finish();
+            $this->resizeBadgesForSize($size, $filesystem, $progressBar);
         }
 
         $this->io->writeln('OK');
 
         return $this;
+    }
+
+    private function resizeBadgesForSize(
+        int $size,
+        Filesystem $filesystem,
+        ProgressBar $progressBar
+    ): void {
+        $destDir = $this->badgeRoot.'/'.$size;
+
+        if (false === $filesystem->exists($destDir)) {
+            $filesystem->mkdir($destDir);
+        }
+
+        $files = new Finder()->files()->in($this->badgeRoot);
+
+        foreach ($files as $file) {
+            $srcPath = $file->getRealPath();
+            $destPath = $destDir.'/'.$file->getFilename();
+
+            if (file_exists($destPath)) {
+                continue;
+            }
+
+            $command = 'magick '.$srcPath.' -resize '.$size.'x'.$size.'\> '.$destPath;
+            ob_start();
+            system($command);
+            $result = ob_get_clean();
+
+            if ($result) {
+                $this->io->writeln('');
+                $this->io->error($result);
+            }
+
+            $progressBar->advance();
+        }
+
+        $progressBar->finish();
     }
 
     private function makeCssSprite(): self
@@ -416,63 +376,7 @@ class UpdateBadgedataCommand extends Command
         $flags = ['-verbose'];
 
         foreach ($this->sizes as $size) {
-            $imageWidth = $size;
-            $imageHeight = $size;
-            $resultImageName = 'medals_'.$size.'.png';
-            $resultImageFile = $this->assetRoot.'/images/sprites/'
-                .$resultImageName;
-            $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
-            $fileNames = [];
-
-            $cssLines = [
-                '.medal'.$size.' {',
-                '	width: '.$imageWidth.'px;',
-                '	height: '.$imageHeight.'px;',
-                '	display: inline-block;',
-                '	background:url(../images/sprites/'.$resultImageName
-                .') no-repeat',
-                '}',
-            ];
-
-            $colCount = 0;
-            $rowCount = 0;
-
-            $files = new Finder()
-                ->files()
-                ->in($this->badgeRoot.'/'.$size)
-                ->sortByName();
-
-            foreach ($files as $file) {
-                $fileNames[] = $file->getRealPath();
-
-                $xPos = $colCount !== 0 ? '-'.$colCount * $imageWidth.'px'
-                    : '0';
-                $yPos = $rowCount !== 0 ? '-'.$rowCount * $imageHeight.'px'
-                    : '0';
-                $name = str_replace('.png', '', $file->getBasename());
-                $cssLines[] = sprintf(
-                    '.medal'.$size.'.medal-%s {background-position: %s %s}',
-                    $name,
-                    $xPos,
-                    $yPos
-                );
-                ++$colCount;
-                if ($colCount >= $imagesPerRow) {
-                    $colCount = 0;
-                    ++$rowCount;
-                }
-            }
-
-            $command = sprintf(
-                'montage %s -background none -tile %sx -geometry +0+0 %s %s',
-                implode(' ', $fileNames),
-                $imagesPerRow,
-                implode(' ', $flags),
-                $resultImageFile
-            );
-
-            $this->execCommand($command);
-            file_put_contents($resultCssFile, implode("\n", $cssLines));
+            $this->buildSpriteForSize($size, $imagesPerRow, $flags);
         }
 
         $this->io->writeln('OK');
@@ -480,6 +384,65 @@ class UpdateBadgedataCommand extends Command
         return $this;
     }
 
+    /**
+     * @param list<string> $flags
+     */
+    private function buildSpriteForSize(int $size, int $imagesPerRow, array $flags): void
+    {
+        $resultImageName = 'medals_'.$size.'.png';
+        $resultImageFile = $this->assetRoot.'/images/sprites/'.$resultImageName;
+        $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
+        $fileNames = [];
+
+        $cssLines = [
+            '.medal'.$size.' {',
+            '	width: '.$size.'px;',
+            '	height: '.$size.'px;',
+            '	display: inline-block;',
+            '	background:url(../images/sprites/'.$resultImageName.') no-repeat',
+            '}',
+        ];
+
+        $colCount = 0;
+        $rowCount = 0;
+
+        $files = new Finder()->files()->in($this->badgeRoot.'/'.$size)->sortByName();
+
+        foreach ($files as $file) {
+            $fileNames[] = $file->getRealPath();
+
+            $xPos = $colCount !== 0 ? '-'.$colCount * $size.'px' : '0';
+            $yPos = $rowCount !== 0 ? '-'.$rowCount * $size.'px' : '0';
+            $name = str_replace('.png', '', $file->getBasename());
+            $cssLines[] = sprintf(
+                '.medal'.$size.'.medal-%s {background-position: %s %s}',
+                $name,
+                $xPos,
+                $yPos
+            );
+            ++$colCount;
+
+            if ($colCount >= $imagesPerRow) {
+                $colCount = 0;
+                ++$rowCount;
+            }
+        }
+
+        $command = sprintf(
+            'montage %s -background none -tile %sx -geometry +0+0 %s %s',
+            implode(' ', $fileNames),
+            $imagesPerRow,
+            implode(' ', $flags),
+            $resultImageFile
+        );
+
+        $this->execCommand($command);
+        file_put_contents($resultCssFile, implode("\n", $cssLines));
+    }
+
+    /**
+     * @param object{image: list<string>, expand?: object{category: object{title: string}}, title: string} $item
+     */
     private function skipItem(object $item): bool
     {
         if (false === property_exists($item, 'expand')) {
@@ -491,20 +454,73 @@ class UpdateBadgedataCommand extends Command
             return true;
         }
 
-        foreach ($this->skipBadges as $skipBadge) {
-            if (str_starts_with((string)$item->image[0], $skipBadge)) {
-                if ($this->output->isVeryVerbose()) {
-                    $this->io->info(
-                        sprintf('Item "%s" has been skipped', $skipBadge)
-                    );
-                }
-
-                return true;
-            }
+        if ($this->isSkippedBadge($item->image[0])) {
+            return true;
         }
 
         $category = $item->expand->category->title;
 
+        return $this->isSkippedCategory($category, $item->title);
+    }
+
+    /**
+     * @param object{image: list<string>, expand: object{category: object{title: string}}, collectionId: string, id: string, title: string, description: string} $item
+     * @return array{bool, list<stdClass>}
+     */
+    private function processItem(object $item): array
+    {
+        $category = $item->expand->category->title;
+
+        if ($this->output->isVerbose()) {
+            $this->io->note('Cat.: '.$category);
+        }
+
+        $changed = false;
+        $badges = [];
+
+        foreach ($item->image as $image) {
+            $imageName = $this->resolveImageName($this->cutHash($image));
+            $imageUrl = $item->collectionId.'/'.$item->id.'/'.$image;
+
+            if ($this->downloadBadgeImage(
+                $this->badgeRoot.'/'.$imageName,
+                $imageUrl,
+                $imageName,
+                $category
+            )) {
+                $changed = true;
+            }
+
+            $badgeInfo = new stdClass();
+            $badgeInfo->code = str_replace('.png', '', $imageName);
+            $badgeInfo->title = $item->title;
+            $badgeInfo->description = $item->description;
+
+            $badges[] = $badgeInfo;
+        }
+
+        return [$changed, $badges];
+    }
+
+    private function isSkippedBadge(string $imageFirst): bool
+    {
+        foreach ($this->skipBadges as $skipBadge) {
+            if (!str_starts_with($imageFirst, $skipBadge)) {
+                continue;
+            }
+
+            if ($this->output->isVeryVerbose()) {
+                $this->io->info(sprintf('Item "%s" has been skipped', $skipBadge));
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isSkippedCategory(string $category, string $title): bool
+    {
         if (in_array($category, $this->skipCategories, true)) {
             if ($this->output->isVeryVerbose()) {
                 $this->io->info(
@@ -516,19 +532,11 @@ class UpdateBadgedataCommand extends Command
         }
 
         if (array_key_exists($category, $this->pickBadges)
-            && false === in_array(
-                $item->title,
-                $this->pickBadges[$category],
-                true
-            )
+            && false === in_array($title, $this->pickBadges[$category], true)
         ) {
             if ($this->output->isVeryVerbose()) {
                 $this->io->warning(
-                    sprintf(
-                        'badge %s/%s has not been picked',
-                        $category,
-                        $item->title
-                    )
+                    sprintf('badge %s/%s has not been picked', $category, $title)
                 );
             }
 
@@ -536,6 +544,54 @@ class UpdateBadgedataCommand extends Command
         }
 
         return false;
+    }
+
+    private function resolveImageName(string $imageName): string
+    {
+        if ($this->output->isVerbose()) {
+            $this->io->write($imageName.' - ');
+        }
+
+        if (!array_key_exists($imageName, $this->uglyDudes)) {
+            return $imageName;
+        }
+
+        $mapped = $this->uglyDudes[$imageName];
+
+        if ($this->output->isVerbose()) {
+            $this->io->write(' => '.$mapped);
+        }
+
+        return $mapped;
+    }
+
+    private function downloadBadgeImage(
+        string $imgPath,
+        string $imageUrl,
+        string $imageName,
+        string $category
+    ): bool {
+        if (file_exists($imgPath)) {
+            if ($this->output->isVerbose()) {
+                $this->io->writeln(' exists');
+            }
+
+            return false;
+        }
+
+        if ($this->output->isVerbose()) {
+            $this->io->writeln(' is NEW');
+        } else {
+            $this->io->warning('New badge: '.$imageName);
+            $this->io->writeln('Cat.: '.$category);
+        }
+
+        file_put_contents(
+            $imgPath,
+            file_get_contents($this->scrapeSite.'/files/'.$imageUrl)
+        );
+
+        return true;
     }
 
     private function cutHash(string $fileName): string

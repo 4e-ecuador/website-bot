@@ -23,10 +23,10 @@ class IngressEvent implements JsonSerializable
     #[Column]
     private string $type = '';
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $date_start = null;
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $date_end = null;
 
     #[Column(type: Types::TEXT, nullable: true)]

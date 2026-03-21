@@ -106,7 +106,7 @@ class AgentStatRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return AgentStat[]
+     * @return array<int, array<string, mixed>>
      */
     public function getAgentStatsForCsv(
         Agent $agent,
@@ -154,6 +154,7 @@ class AgentStatRepository extends ServiceEntityRepository
                 );
         }
 
+        /** @var \Doctrine\ORM\Query<int, AgentStat> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

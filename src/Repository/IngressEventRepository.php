@@ -85,6 +85,7 @@ class IngressEventRepository extends ServiceEntityRepository
 
         $query->orderBy('e.'.$options->getOrder(), $options->getOrderDir());
 
+        /** @var \Doctrine\ORM\Query<int, IngressEvent> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

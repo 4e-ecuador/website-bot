@@ -56,6 +56,7 @@ class UserRepository extends ServiceEntityRepository
                 );
         }
 
+        /** @var \Doctrine\ORM\Query<int, User> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

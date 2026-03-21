@@ -38,6 +38,7 @@ class LoginAttemptRepository extends ServiceEntityRepository
                 );
         }
 
+        /** @var \Doctrine\ORM\Query<int, LoginAttempt> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

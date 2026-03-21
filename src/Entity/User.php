@@ -122,6 +122,8 @@ class User implements UserInterface, \Stringable
 
     public function getUserIdentifier(): string
     {
+        assert($this->email !== '');
+
         return $this->email;
     }
 

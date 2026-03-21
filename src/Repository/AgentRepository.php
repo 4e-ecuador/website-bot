@@ -62,6 +62,7 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
+        /** @var \Doctrine\ORM\Query<int, Agent> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

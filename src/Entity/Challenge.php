@@ -19,10 +19,10 @@ class Challenge
     #[Column]
     private string $name = '';
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $date_start = null;
 
-    #[Column(type: Types::DATETIME_MUTABLE)]
+    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTimeInterface $date_end = null;
 
     #[Column(nullable: true)]

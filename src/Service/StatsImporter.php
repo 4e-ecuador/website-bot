@@ -81,7 +81,7 @@ class StatsImporter
         $previousEntry = $previousEntry
             ?: $this->agentStatRepository->getPrevious($statEntry);
 
-        if (!$previousEntry instanceof \App\Entity\AgentStat) {
+        if (!$previousEntry instanceof AgentStat) {
             // First import
             $importResult->currents = $this->medalChecker
                 ->checkLevels($statEntry);
@@ -163,7 +163,7 @@ class StatsImporter
         User $user
     ): void {
         $agent = $user->getAgent();
-        if (!$agent instanceof \App\Entity\Agent) {
+        if (!$agent instanceof Agent) {
             throw new UnexpectedValueException('Agent not found');
         }
 
@@ -178,7 +178,7 @@ class StatsImporter
 
     private function sendAdminMessages(
         User $user,
-        \App\Entity\Agent $agent,
+        Agent $agent,
         AgentStat $statEntry
     ): void {
         if ($statEntry->getFaction() !== 'Enlightened') {
@@ -205,7 +205,7 @@ class StatsImporter
     private function sendGroupMessages(
         ImportResult $result,
         AgentStat $statEntry,
-        \App\Entity\Agent $agent,
+        Agent $agent,
         string $groupName
     ): void {
         if ($result->medalUps) {

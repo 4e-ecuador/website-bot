@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Repository\AgentStatRepository;
+use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Service\EventHelper;
 use App\Service\TelegramBotHelper;
@@ -115,8 +116,8 @@ class SendEventUpdateCommand extends Command
     }
 
     /**
-     * @param array<\App\Entity\Event> $events
-     * @return array<\App\Entity\Event>
+     * @param array<Event> $events
+     * @return array<Event>
      */
     private function getCurrentEvents(array $events, DateTime $dateNow): array
     {

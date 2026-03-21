@@ -24,7 +24,7 @@ class FileUploader
             $this->logger->error(
                 'failed to upload image: '.$fileException->getMessage()
             );
-            throw new FileException('Failed to upload file');
+            throw new FileException('Failed to upload file', $fileException->getCode(), $fileException);
         }
     }
 }

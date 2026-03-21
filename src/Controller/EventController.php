@@ -19,7 +19,8 @@ class EventController extends BaseController
     public function __construct(
         private readonly EventRepository $eventRepository,
         private readonly AgentStatRepository $statRepository,
-        private readonly EventHelper $eventHelper
+        private readonly EventHelper $eventHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -38,15 +39,14 @@ class EventController extends BaseController
     #[Route(path: '/event/new', name: 'event_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($event);
-            $entityManager->flush();
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('event_index');
         }
@@ -95,13 +95,12 @@ class EventController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        Event $event,
-        EntityManagerInterface $entityManager
+        Event $event
     ): Response {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('event_index');
         }
@@ -119,16 +118,15 @@ class EventController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        Event $event,
-        EntityManagerInterface $entityManager
+        Event $event
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$event->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($event);
-            $entityManager->flush();
+            $this->entityManager->remove($event);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('event_index');

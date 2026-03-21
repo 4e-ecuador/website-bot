@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class HelpController extends BaseController
 {
     public function __construct(
-        private readonly HelpRepository $helpRepository
+        private readonly HelpRepository $helpRepository, private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -34,16 +34,15 @@ class HelpController extends BaseController
     #[Route(path: '/help/new', name: 'help_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_EDITOR')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $help = new Help();
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
-            $entityManager->persist($help);
-            $entityManager->flush();
+            $this->entityManager->persist($help);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('help_index');
         }
@@ -89,15 +88,14 @@ class HelpController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function edit(
         Request $request,
-        Help $help,
-        EntityManagerInterface $entityManager
+        Help $help
     ): Response {
         $form = $this->createForm(HelpType::class, $help);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $help->setSlug(Slugger::slugify($help->getTitle()));
 
-            $entityManager->flush();
+            $this->entityManager->flush();
             $this->addFlash('success', 'Item has been updated');
 
             return $this->redirectToRoute('help_index');
@@ -116,16 +114,15 @@ class HelpController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
-        Help $help,
-        EntityManagerInterface $entityManager
+        Help $help
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$help->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($help);
-            $entityManager->flush();
+            $this->entityManager->remove($help);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Item has been removed');
         }

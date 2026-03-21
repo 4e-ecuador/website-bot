@@ -42,7 +42,8 @@ class StatsController extends BaseController
         private readonly AgentStatRepository $repository,
         private readonly StatsImporter $statsImporter,
         private readonly TranslatorInterface $translator,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -285,7 +286,6 @@ class StatsController extends BaseController
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function statImport(
         Request $request,
-        EntityManagerInterface $entityManager,
         #[Autowire('%env(APP_ENV)%')] string $appEnv
     ): Response {
         /** @var User|null $user */
@@ -307,11 +307,11 @@ class StatsController extends BaseController
                 $csv,
                 $agent,
                 $user,
-                $entityManager,
+                $this->entityManager,
                 $appEnv,
                 $request
             );
-            if ($result instanceof \Symfony\Component\HttpFoundation\Response) {
+            if ($result instanceof Response) {
                 return $result;
             }
         }

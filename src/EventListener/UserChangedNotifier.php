@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Entity\Agent;
 use App\Entity\User;
 use App\Service\TelegramBotHelper;
 use Doctrine\Common\EventArgs;
@@ -54,7 +55,7 @@ class UserChangedNotifier
         $text[] = 'Email: '.$user->getEmail();
         $text[] = 'Username: '.$user->getUserAgentName();
         $text[] = 'Agent: '.(
-            $user->getAgent() instanceof \App\Entity\Agent
+            $user->getAgent() instanceof Agent
                 ? $user->getAgent()->getNickname()
                 : ''
             );

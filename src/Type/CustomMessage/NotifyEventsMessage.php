@@ -2,6 +2,7 @@
 
 namespace App\Type\CustomMessage;
 
+use App\Entity\IngressEvent;
 use App\Type\AbstractCustomMessage;
 use DateTime;
 
@@ -35,7 +36,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
     }
 
     /**
-     * @param array<\App\Entity\IngressEvent> $ingressFS
+     * @param array<IngressEvent> $ingressFS
      *
      * @return array<int, string>
      */
@@ -80,7 +81,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
     }
 
     /**
-     * @param array<\App\Entity\IngressEvent> $events
+     * @param array<IngressEvent> $events
      *
      * @return array<string>
      */

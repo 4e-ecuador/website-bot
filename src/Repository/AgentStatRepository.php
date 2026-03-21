@@ -9,6 +9,7 @@ use App\Helper\Paginator\PaginatorRepoTrait;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -154,7 +155,7 @@ class AgentStatRepository extends ServiceEntityRepository
                 );
         }
 
-        /** @var \Doctrine\ORM\Query<int, AgentStat> $query */
+        /** @var Query<int, AgentStat> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

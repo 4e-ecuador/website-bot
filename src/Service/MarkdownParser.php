@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Agent;
 use App\Repository\AgentRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use DOMDocument;
@@ -42,7 +43,7 @@ class MarkdownParser extends MarkdownExtra
                     $agentName[1]
                 );
 
-                if (!$agent instanceof \App\Entity\Agent) {
+                if (!$agent instanceof Agent) {
                     return '<code>'.$agentName[0].'</code>';
                 }
 

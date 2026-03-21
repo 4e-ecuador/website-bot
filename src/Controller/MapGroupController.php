@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MapGroupController extends BaseController
 {
     public function __construct(
-        private readonly MapGroupRepository $mapGroupRepository
+        private readonly MapGroupRepository $mapGroupRepository, private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -36,15 +36,14 @@ class MapGroupController extends BaseController
     ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $mapGroup = new MapGroup();
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($mapGroup);
-            $entityManager->flush();
+            $this->entityManager->persist($mapGroup);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('map_group_index');
         }
@@ -65,13 +64,12 @@ class MapGroupController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        MapGroup $mapGroup,
-        EntityManagerInterface $entityManager
+        MapGroup $mapGroup
     ): Response {
         $form = $this->createForm(MapGroupType::class, $mapGroup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('map_group_index');
         }
@@ -89,16 +87,15 @@ class MapGroupController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        MapGroup $mapGroup,
-        EntityManagerInterface $entityManager
+        MapGroup $mapGroup
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$mapGroup->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($mapGroup);
-            $entityManager->flush();
+            $this->entityManager->remove($mapGroup);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('map_group_index');

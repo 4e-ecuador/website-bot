@@ -23,7 +23,8 @@ class AccountController extends BaseController
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly MedalChecker $medalChecker,
-        private readonly TelegramBotHelper $telegramBotHelper
+        private readonly TelegramBotHelper $telegramBotHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -31,7 +32,6 @@ class AccountController extends BaseController
     #[IsGranted('ROLE_USER')]
     public function account(
         Request $request,
-        EntityManagerInterface $entityManager,
     ): Response {
         $user = $this->getUser();
         if (!$user) {
@@ -66,7 +66,7 @@ class AccountController extends BaseController
         $form = $this->createForm(AgentAccountType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
             $this->addFlash(
                 'success',
                 $this->translator->trans('Your profile has been updated.')
@@ -123,17 +123,16 @@ class AccountController extends BaseController
 
     #[Route(path: '/account/tg-disconnect', name: 'tg_disconnect', methods: ['GET'])]
     #[IsGranted('ROLE_INTRO_AGENT')]
-    public function telegramDisconnect(EntityManagerInterface $entityManager
-    ): RedirectResponse {
+    public function telegramDisconnect(): RedirectResponse
+    {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
             throw $this->createAccessDeniedException('not allowed');
         }
 
         $agent->setTelegramId(null);
-        $entityManager->persist($agent);
-        $entityManager->flush();
-
+        $this->entityManager->persist($agent);
+        $this->entityManager->flush();
         return $this->redirectToRoute('app_account');
     }
 

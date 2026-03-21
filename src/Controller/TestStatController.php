@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TestStatController extends BaseController
 {
     public function __construct(
-        private readonly TestStatRepository $testStatRepository
+        private readonly TestStatRepository $testStatRepository, private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -35,15 +35,14 @@ class TestStatController extends BaseController
         'POST',
     ])]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $testStat = new TestStat();
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($testStat);
-            $entityManager->flush();
+            $this->entityManager->persist($testStat);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('test_stat_index');
         }
@@ -74,13 +73,12 @@ class TestStatController extends BaseController
     ])]
     public function edit(
         Request $request,
-        TestStat $testStat,
-        EntityManagerInterface $entityManager
+        TestStat $testStat
     ): Response {
         $form = $this->createForm(TestStatType::class, $testStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('test_stat_index');
         }
@@ -97,16 +95,15 @@ class TestStatController extends BaseController
     #[Route(path: '/test/stat/{id}', name: 'test_stat_delete', methods: ['DELETE'])]
     public function delete(
         Request $request,
-        TestStat $testStat,
-        EntityManagerInterface $entityManager
+        TestStat $testStat
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$testStat->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($testStat);
-            $entityManager->flush();
+            $this->entityManager->remove($testStat);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('test_stat_index');

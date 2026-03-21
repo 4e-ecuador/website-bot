@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -56,7 +57,7 @@ class UserRepository extends ServiceEntityRepository
                 );
         }
 
-        /** @var \Doctrine\ORM\Query<int, User> $query */
+        /** @var Query<int, User> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

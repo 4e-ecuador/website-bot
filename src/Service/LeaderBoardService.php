@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Agent;
+use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Repository\AgentStatRepository;
 use App\Type\BoardEntry;
@@ -52,12 +54,12 @@ class LeaderBoardService
     private function processUserForBoard(User $user, array &$boardEntries): void
     {
         $agent = $user->getAgent();
-        if (!$agent instanceof \App\Entity\Agent) {
+        if (!$agent instanceof Agent) {
             return;
         }
 
         $agentEntry = $this->statRepository->getAgentLatest($agent);
-        if (!$agentEntry instanceof \App\Entity\AgentStat) {
+        if (!$agentEntry instanceof AgentStat) {
             return;
         }
 

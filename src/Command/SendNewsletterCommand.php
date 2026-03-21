@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Event;
 use App\Repository\EventRepository;
 use App\Repository\IngressEventRepository;
 use App\Service\TelegramBotHelper;
@@ -171,8 +172,8 @@ class SendNewsletterCommand extends Command
     }
 
     /**
-     * @param array<\App\Entity\Event> $events
-     * @return array{current: array<\App\Entity\Event>, future: array<\App\Entity\Event>}
+     * @param array<Event> $events
+     * @return array{current: array<Event>, future: array<Event>}
      */
     private function classifyEvents(array $events, DateTime $dateNow): array
     {
@@ -191,7 +192,7 @@ class SendNewsletterCommand extends Command
     }
 
     /**
-     * @param array<\App\Entity\Event> $currentEvents
+     * @param array<Event> $currentEvents
      * @return array<string>
      */
     private function buildCurrentEventsLines(
@@ -228,7 +229,7 @@ class SendNewsletterCommand extends Command
     }
 
     /**
-     * @param array<\App\Entity\Event> $futureEvents
+     * @param array<Event> $futureEvents
      * @return array<string>
      */
     private function buildFutureEventsLines(

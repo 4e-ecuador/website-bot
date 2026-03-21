@@ -7,6 +7,7 @@ use App\Entity\MapGroup;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -62,7 +63,7 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        /** @var \Doctrine\ORM\Query<int, Agent> $query */
+        /** @var Query<int, Agent> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

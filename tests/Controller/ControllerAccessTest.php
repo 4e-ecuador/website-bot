@@ -57,7 +57,8 @@ class ControllerAccessTest extends WebTestCase
 
             if (in_array(
                 $item->getBasename(),
-                ['.gitignore', 'GoogleController.php']
+                ['.gitignore', 'GoogleController.php'],
+                true
             )
             ) {
                 continue;

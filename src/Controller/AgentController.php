@@ -31,7 +31,8 @@ class AgentController extends BaseController
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly AgentRepository $agentRepository,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -46,7 +47,6 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager,
         #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
     ): Response {
@@ -59,8 +59,8 @@ class AgentController extends BaseController
             $secret = bin2hex(random_bytes(24));
             $agent->setTelegramConnectionSecret($secret);
 
-            $entityManager->persist($agent);
-            $entityManager->flush();
+            $this->entityManager->persist($agent);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('agent_index');
         }
@@ -105,7 +105,6 @@ class AgentController extends BaseController
     public function edit(
         Request $request,
         Agent $agent,
-        EntityManagerInterface $entityManager,
         #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
         #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
 
@@ -113,7 +112,7 @@ class AgentController extends BaseController
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('agent_index');
         }
@@ -132,16 +131,15 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
-        Agent $agent,
-        EntityManagerInterface $entityManager
+        Agent $agent
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agent->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($agent);
-            $entityManager->flush();
+            $this->entityManager->remove($agent);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('agent_index');
@@ -152,7 +150,6 @@ class AgentController extends BaseController
     public function addComment(
         Request $request,
         Agent $agent,
-        EntityManagerInterface $entityManager,
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
@@ -179,8 +176,8 @@ class AgentController extends BaseController
                 ->setText($text)
                 ->setDatetime(new DateTime());
 
-            $entityManager->persist($comment);
-            $entityManager->flush();
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
 
             $response = [
                 'id' => $comment->getId(),

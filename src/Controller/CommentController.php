@@ -20,7 +20,8 @@ class CommentController extends BaseController
     public function __construct(
         private readonly CommentRepository $commentRepository,
         private readonly MarkdownHelper $markdownHelper,
-        private readonly AgentRepository $agentRepository
+        private readonly AgentRepository $agentRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -42,15 +43,14 @@ class CommentController extends BaseController
     ])]
     #[IsGranted('ROLE_EDITOR')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($comment);
-            $entityManager->flush();
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('comment_index');
         }
@@ -108,13 +108,12 @@ class CommentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function edit(
         Request $request,
-        Comment $comment,
-        EntityManagerInterface $entityManager
+        Comment $comment
     ): Response {
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('comment_index');
         }
@@ -132,16 +131,15 @@ class CommentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function delete(
         Request $request,
-        Comment $comment,
-        EntityManagerInterface $entityManager
+        Comment $comment
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($comment);
-            $entityManager->flush();
+            $this->entityManager->remove($comment);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('comment_index');

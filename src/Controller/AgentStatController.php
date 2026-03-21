@@ -20,7 +20,8 @@ class AgentStatController extends BaseController
 
     public function __construct(
         private readonly AgentStatRepository $agentStatRepository,
-        private readonly AgentRepository $agentRepository
+        private readonly AgentRepository $agentRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -61,15 +62,14 @@ class AgentStatController extends BaseController
     ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $agentStat = new AgentStat();
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($agentStat);
-            $entityManager->flush();
+            $this->entityManager->persist($agentStat);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('agent_stat_index');
         }
@@ -102,13 +102,12 @@ class AgentStatController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        AgentStat $agentStat,
-        EntityManagerInterface $entityManager
+        AgentStat $agentStat
     ): Response {
         $form = $this->createForm(AgentStatType::class, $agentStat);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('agent_stat_index');
         }
@@ -126,16 +125,15 @@ class AgentStatController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        AgentStat $agentStat,
-        EntityManagerInterface $entityManager
+        AgentStat $agentStat
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agentStat->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($agentStat);
-            $entityManager->flush();
+            $this->entityManager->remove($agentStat);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('agent_stat_index');

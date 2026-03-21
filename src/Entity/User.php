@@ -129,7 +129,7 @@ class User implements UserInterface, \Stringable
 
     public function getUserAgentName(): string
     {
-        if ($this->agent instanceof \App\Entity\Agent) {
+        if ($this->agent instanceof Agent) {
             return sprintf(
                 '%s <%s>',
                 $this->agent->getNickname(),

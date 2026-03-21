@@ -18,7 +18,8 @@ class ChallengeController extends BaseController
     public function __construct(
         private readonly ChallengeRepository $challengeRepository,
         private readonly AgentStatRepository $statRepository,
-        private readonly ChallengeHelper $challengeHelper
+        private readonly ChallengeHelper $challengeHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -40,15 +41,14 @@ class ChallengeController extends BaseController
     ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $challenge = new Challenge();
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($challenge);
-            $entityManager->flush();
+            $this->entityManager->persist($challenge);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('challenge_index');
         }
@@ -88,13 +88,12 @@ class ChallengeController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        Challenge $challenge,
-        EntityManagerInterface $entityManager
+        Challenge $challenge
     ): Response {
         $form = $this->createForm(ChallengeType::class, $challenge);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('challenge_index');
         }
@@ -112,16 +111,15 @@ class ChallengeController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        Challenge $challenge,
-        EntityManagerInterface $entityManager
+        Challenge $challenge
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$challenge->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($challenge);
-            $entityManager->flush();
+            $this->entityManager->remove($challenge);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('challenge_index');

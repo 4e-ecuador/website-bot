@@ -459,7 +459,7 @@ class AgentStat implements ArrayAccess
         $class = new ReflectionClass(self::class);
 
         foreach ($class->getProperties() as $property) {
-            if (in_array($property->getName(), ['id', 'datetime', 'agent'])) {
+            if (in_array($property->getName(), ['id', 'datetime', 'agent'], true)) {
                 continue;
             }
 

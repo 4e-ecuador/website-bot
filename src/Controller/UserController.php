@@ -22,7 +22,8 @@ class UserController extends BaseController
 
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -147,15 +148,14 @@ class UserController extends BaseController
     #[Route(path: '/user/new', name: 'user_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('user_index');
         }
@@ -182,16 +182,15 @@ class UserController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        User $user,
-        EntityManagerInterface $entityManager
+        User $user
     ): Response {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Ensure array keys are lost...
             $user->setRoles(array_values($user->getRoles()));
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute(
                 'user_index',
@@ -214,16 +213,15 @@ class UserController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        User $user,
-        EntityManagerInterface $entityManager
+        User $user
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$user->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($user);
-            $entityManager->flush();
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('user_index');

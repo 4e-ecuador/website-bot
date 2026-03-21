@@ -6,6 +6,7 @@ use App\Entity\LoginAttempt;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,7 +39,7 @@ class LoginAttemptRepository extends ServiceEntityRepository
                 );
         }
 
-        /** @var \Doctrine\ORM\Query<int, LoginAttempt> $query */
+        /** @var Query<int, LoginAttempt> $query */
         $query = $query->getQuery();
 
         return $this->paginate(

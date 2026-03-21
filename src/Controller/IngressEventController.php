@@ -31,7 +31,8 @@ class IngressEventController extends BaseController
         private readonly AgentRepository $agentRepository,
         private readonly NotifyEventsMessage $notifyEventsMessage,
         private readonly FcmHelper $fbmHelper,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -66,8 +67,7 @@ class IngressEventController extends BaseController
     ])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response {
         $ingressEvent = new IngressEvent();
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
@@ -77,8 +77,8 @@ class IngressEventController extends BaseController
                 $ingressEvent->setDateEnd($ingressEvent->getDateStart());
             }
 
-            $entityManager->persist($ingressEvent);
-            $entityManager->flush();
+            $this->entityManager->persist($ingressEvent);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('ingress_event_index');
         }
@@ -122,13 +122,12 @@ class IngressEventController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        IngressEvent $ingressEvent,
-        EntityManagerInterface $entityManager
+        IngressEvent $ingressEvent
     ): Response {
         $form = $this->createForm(IngressEventType::class, $ingressEvent);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('ingress_event_index');
         }
@@ -146,16 +145,15 @@ class IngressEventController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        IngressEvent $ingressEvent,
-        EntityManagerInterface $entityManager
+        IngressEvent $ingressEvent
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$ingressEvent->getId(),
             (string)$request->request->get('_token')
         )
         ) {
-            $entityManager->remove($ingressEvent);
-            $entityManager->flush();
+            $this->entityManager->remove($ingressEvent);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('ingress_event_index');

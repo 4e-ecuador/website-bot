@@ -187,24 +187,6 @@ parameters:
 			path: src/Repository/AgentStatRepository.php
 
 		-
-			message: '#^Method App\\Repository\\LoginAttemptRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\LoginAttempt\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Repository/LoginAttemptRepository.php
-
-		-
-			message: '#^Parameter \#1 \$dql of method App\\Repository\\LoginAttemptRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Repository/LoginAttemptRepository.php
-
-		-
-			message: '#^Unable to resolve the template type T in call to method App\\Repository\\LoginAttemptRepository\:\:paginate\(\)$#'
-			identifier: argument.templateType
-			count: 1
-			path: src/Repository/LoginAttemptRepository.php
-
-		-
 			message: '#^Method App\\Repository\\IngressEventRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\IngressEvent\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
 			identifier: return.type
 			count: 1
@@ -221,6 +203,24 @@ parameters:
 			identifier: argument.templateType
 			count: 1
 			path: src/Repository/IngressEventRepository.php
+
+		-
+			message: '#^Method App\\Repository\\LoginAttemptRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\LoginAttempt\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
+
+		-
+			message: '#^Parameter \#1 \$dql of method App\\Repository\\LoginAttemptRepository\:\:paginate\(\) expects Doctrine\\ORM\\Query\<int, object\>, Doctrine\\ORM\\Query\<null, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to method App\\Repository\\LoginAttemptRepository\:\:paginate\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Repository/LoginAttemptRepository.php
 
 		-
 			message: '#^Method App\\Repository\\UserRepository\:\:getPaginatedList\(\) should return Doctrine\\ORM\\Tools\\Pagination\\Paginator\<App\\Entity\\User\> but returns Doctrine\\ORM\\Tools\\Pagination\\Paginator\<object\>\.$#'
@@ -271,13 +271,13 @@ parameters:
 			path: src/Service/MedalChecker.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalsGained\(\)" is 12, keep it under 8$#'
+			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalLevel\(\)" is 9, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/MedalChecker.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalLevel\(\)" is 9, keep it under 8$#'
+			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalsGained\(\)" is 12, keep it under 8$#'
 			identifier: complexity.functionLike
 			count: 1
 			path: src/Service/MedalChecker.php
@@ -305,3 +305,21 @@ parameters:
 			identifier: complexity.functionLike
 			count: 1
 			path: tests/Controller/ControllerAccessTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: tests/Repository/AgentRepositoryTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Repository/MapGroupRepositoryTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/Repository/UserRepositoryTest.php

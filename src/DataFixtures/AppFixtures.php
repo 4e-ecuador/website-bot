@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
         $challenge = new Challenge()
             ->setName('TestPresent')
             ->setDateStart(new DateTime('now', $tz))
-            ->setDateEnd(new DateTime('now', $tz));
+            ->setDateEnd(new DateTime('+1 day', $tz));
         $manager->persist($challenge);
 
         $comment = new Comment()

@@ -67,8 +67,9 @@ Doctrine intentionally maps `decimal` columns to PHP `string` to preserve precis
 `offsetSet()` and `offsetUnset()` now throw `BadMethodCallException` instead of being silent no-ops. The entity is read-only via ArrayAccess.
 Test: `tests/Entity/AgentStatComputeTest.php` (added `testOffsetSetThrows`, `testOffsetUnsetThrows`)
 
-### 14. Missing entity validation constraints
-Entities like `Agent`, `User` lack `#[Assert\*]` attributes (e.g., `NotBlank`, `Email`, `Length`). This is a larger task that could affect forms and data flow — best addressed incrementally.
+### ~~14. Missing entity validation constraints~~ PARTIALLY FIXED
+**Files:** `src/Entity/User.php`, `src/Entity/Agent.php`
+Added `#[Assert\NotBlank]` and `#[Assert\Email]` to `User.email`. Added `#[Assert\NotBlank]` to `Agent.nickname`. More constraints can be added incrementally.
 
 ---
 
@@ -76,5 +77,5 @@ Entities like `Agent`, `User` lack `#[Assert\*]` attributes (e.g., `NotBlank`, `
 
 - **Controllers**: 26 classes, ~5 have tests — critical paths like stats upload and login need integration tests
 - **Repositories**: 0 tests for custom query methods
-- **TelegramBotHelper**: Untested despite handling authorization logic
-- **FileUploader**: Security-sensitive, untested
+- ~~**TelegramBotHelper**: Untested despite handling authorization logic~~ FIXED — `tests/Service/TelegramBotHelperTest.php` (12 tests)
+- ~~**FileUploader**: Security-sensitive, untested~~ FIXED — `tests/Service/FileUploaderTest.php` (2 tests)

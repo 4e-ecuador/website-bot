@@ -37,7 +37,9 @@
                 {% if latest.monthsSubscribed >= 48 %}
                     <span class="medal50 medal-unique_badge_quad_core" title="CORE subscriptions (48 month)"></span>
                 {% endif %}
-
+                {% if latest.monthsSubscribed >= 60 %}
+                    <span class="medal50 medal-unique_badge_penta_core" title="CORE subscriptions (60 month)"></span>
+                {% endif %}
             {% endif %}
         {% endif %}
     </p>

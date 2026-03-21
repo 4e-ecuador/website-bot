@@ -263,6 +263,8 @@ class MedalChecker
             'Buried Memories Global Op Points'       => '',
             'Shared Memories Global Op Points'       => '',
             'Field Test Dispatch'                    => '',
+            '+Gamma Tokens'                          => '',
+            '+Gamma Link Points'                     => '',
 
             'Machina Links Destroyed'      => '',
             'Machina Resonators Destroyed' => '',
@@ -282,6 +284,8 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'plus_gamma_onsite'  => [''],
+                    'plus_gamma'         => ['bronze', 'silver', 'gold'],
                     'plus_beta'          => ['bronze', 'silver', 'gold'],
                     'plus_delta'         => ['bronze', 'silver', 'gold'],
                     'plus_theta'         => ['bronze', 'silver', 'gold'],
@@ -335,14 +339,12 @@ class MedalChecker
                 ],
             'event'   =>
                 [
-                    /*
-                    'polaris'             =>
+                    'plus_gamma'             =>
                         [
                             'bronze',
                             'silver',
                             'gold',
                         ],
-                    */
                     '2025_winter_solstice'   =>
                         [
                             'bronze',
@@ -780,8 +782,10 @@ class MedalChecker
      *
      * @return array{byDate: array<string, array<string, array<string, int>>>, byMedal: array<string, array<int, array{agent: string|null, level: int}>>}
      */
-    public function getMedalsGained(iterable $entries, AgentStatRepository $statRepository): array
-    {
+    public function getMedalsGained(
+        iterable $entries,
+        AgentStatRepository $statRepository
+    ): array {
         $medalsGained = [];
         $medalsGained1 = [];
         $previous = [];

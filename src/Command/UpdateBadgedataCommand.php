@@ -75,6 +75,7 @@ class UpdateBadgedataCommand extends Command
             'cryptic_memories_op_bronze.png'             => 'event_badge_cryptic_memories_bronze.png',
             'cryptic_memories_op_silver.png'             => 'event_badge_cryptic_memories_silver.png',
             'unique_core_year3.png'                      => 'unique_badge_core_year3.png',
+            'unique_pentacore.png'                       => 'unique_badge_penta_core.png',
             'buried_memories.png'                        => 'anomaly_buried_memories.png',
             'buried_memories_op_bronze.png'              => 'event_badge_buried_memories_bronze.png',
             'buried_memories_op_silver.png'              => 'event_badge_buried_memories_silver.png',
@@ -111,6 +112,13 @@ class UpdateBadgedataCommand extends Command
             'polaris_gold.png'                           => 'event_badge_polaris_gold.png',
             '2025_winter_solstice_bronze.png'            => 'event_badge_2025_winter_solstice_bronze.png',
             '2025_winter_solstice_silver.png'            => 'event_badge_2025_winter_solstice_silver.png',
+            'pgamma_op_bronze.png'                       => 'event_badge_plus_gamma_bronze.png',
+            'pgamma_op_silver.png'                       => 'event_badge_plus_gamma_silver.png',
+            'pgamma_op_gold.png'                         => 'event_badge_plus_gamma_gold.png',
+            'pgamma_onsite.png'                          => 'anomaly_plus_gamma_onsite.png',
+            'pgamma_season_bronze.png'                   => 'anomaly_plus_gamma_bronze.png',
+            'pgamma_season_silver.png'                   => 'anomaly_plus_gamma_silver.png',
+            'pgamma_season_gold.png'                     => 'anomaly_plus_gamma_gold.png',
         ];
 
     /**
@@ -132,6 +140,7 @@ class UpdateBadgedataCommand extends Command
             'Characters - Ingress Origins (2023)',
             'Characters - 2024',
             'Characters - 2025',
+            'Characters - 2026',
             'Corporation Medals',
             'Fan created - Single',
             'Fan created - Tiered',
@@ -164,6 +173,9 @@ class UpdateBadgedataCommand extends Command
             'unnamed',
             'placeholder_',
             'pbeta_placeholder',
+            'bad_cat',
+            'good_ca',
+            'special_itoen_2025',
         ];
 
     /**
@@ -292,7 +304,17 @@ class UpdateBadgedataCommand extends Command
                 $imageUrl = $item->collectionId.'/'.$item->id.'/'.$image;
                 $imgPath = $this->badgeRoot.'/'.$imageName;
 
-                if (false === file_exists($imgPath)) {
+                if (file_exists($imgPath)) {
+                    if ($this->output->isVerbose()) {
+                        $this->io->writeln(' exists');
+                    }
+                } else {
+                    if ($this->output->isVerbose()) {
+                        $this->io->writeln(' is NEW');
+                    } else {
+                        $this->io->warning('New badge: '.$imageName);
+                        $this->io->writeln('Cat.: '.$category);
+                    }
                     file_put_contents(
                         $imgPath,
                         file_get_contents(
@@ -300,11 +322,6 @@ class UpdateBadgedataCommand extends Command
                         )
                     );
                     $nothingHasChanged = false;
-                    if ($this->output->isVerbose()) {
-                        $this->io->writeln(' is NEW');
-                    }
-                } elseif ($this->output->isVerbose()) {
-                    $this->io->writeln(' exists');
                 }
 
                 $badgeInfo = new stdClass();

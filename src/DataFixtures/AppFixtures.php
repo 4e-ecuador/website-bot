@@ -38,6 +38,8 @@ class AppFixtures extends Fixture
 
         $manager->persist($agent);
 
+        $user->setAgent($agent);
+
         $event = new Event()
             ->setName('test')
             ->setDateStart(new \DateTime())

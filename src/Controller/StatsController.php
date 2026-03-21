@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Entity\User;
+use App\Exception\InvalidCsvException;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
 use App\Repository\AgentStatRepository;
@@ -358,7 +359,8 @@ class StatsController extends BaseController
 
                 );
             } catch (
-            StatsNotAllException
+            InvalidCsvException
+            |StatsNotAllException
             |StatsAlreadyAddedException
             |UnexpectedValueException
             $exception) {

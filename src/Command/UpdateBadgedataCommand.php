@@ -315,6 +315,7 @@ class UpdateBadgedataCommand extends Command
                         $this->io->warning('New badge: '.$imageName);
                         $this->io->writeln('Cat.: '.$category);
                     }
+
                     file_put_contents(
                         $imgPath,
                         file_get_contents(

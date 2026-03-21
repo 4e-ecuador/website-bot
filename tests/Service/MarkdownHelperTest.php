@@ -45,4 +45,19 @@ class MarkdownHelperTest extends TestCase
 
         self::assertSame('<p>Cached</p>', $helper->parse('Hello'));
     }
+
+    public function testParseReturnsFallbackMessageOnCacheException(): void
+    {
+        $exception = new class('cache error') extends \Exception implements \Psr\Cache\InvalidArgumentException {};
+
+        $cache = $this->createStub(CacheItemPoolInterface::class);
+        $cache->method('getItem')->willThrowException($exception);
+
+        $parser = $this->createStub(MarkdownParser::class);
+
+        $helper = new MarkdownHelper($cache, $parser);
+        $result = $helper->parse('hello');
+
+        self::assertSame('cache error', $result);
+    }
 }

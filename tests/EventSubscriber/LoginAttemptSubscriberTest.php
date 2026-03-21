@@ -4,11 +4,19 @@ namespace App\Tests\EventSubscriber;
 
 use App\Entity\LoginAttempt;
 use App\EventSubscriber\LoginAttemptSubscriber;
+use App\Repository\UserRepository;
+use App\Security\AppCustomAuthenticator;
+use App\Security\GoogleAuthenticator;
+use App\Security\GoogleIdentityAuthenticator;
+use App\Service\TelegramAdminMessageHelper;
+use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -188,5 +196,91 @@ class LoginAttemptSubscriberTest extends TestCase
             ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getEmail() === null));
 
         $this->subscriber->onLoginFailure($event);
+    }
+
+    public function testResolveAuthMethodWithGoogleAuthenticator(): void
+    {
+        $user = $this->createStub(UserInterface::class);
+        $user->method('getUserIdentifier')->willReturn('user@example.com');
+
+        $request = new Request(server: ['REMOTE_ADDR' => '127.0.0.1']);
+
+        // Must be a real instance (not a stub) so that ::class matches in the match() expression
+        $authenticator = new GoogleAuthenticator(
+            $this->createStub(ClientRegistry::class),
+            $this->createStub(EntityManagerInterface::class),
+            $this->createStub(UserRepository::class),
+            $this->createStub(UrlGeneratorInterface::class),
+            $this->createStub(TelegramBotHelper::class),
+            $this->createStub(TelegramAdminMessageHelper::class),
+        );
+
+        $event = $this->createStub(LoginSuccessEvent::class);
+        $event->method('getUser')->willReturn($user);
+        $event->method('getRequest')->willReturn($request);
+        $event->method('getAuthenticator')->willReturn($authenticator);
+
+        $this->entityManager->expects(self::once())
+            ->method('persist')
+            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'google'));
+        $this->entityManager->expects(self::once())->method('flush');
+
+        $this->subscriber->onLoginSuccess($event);
+    }
+
+    public function testResolveAuthMethodWithGoogleIdentityAuthenticator(): void
+    {
+        $user = $this->createStub(UserInterface::class);
+        $user->method('getUserIdentifier')->willReturn('user@example.com');
+
+        $request = new Request(server: ['REMOTE_ADDR' => '127.0.0.1']);
+
+        // Must be a real instance (not a stub) so that ::class matches in the match() expression
+        $authenticator = new GoogleIdentityAuthenticator(
+            $this->createStub(UserRepository::class),
+            $this->createStub(EntityManagerInterface::class),
+            $this->createStub(UrlGeneratorInterface::class),
+            $this->createStub(TelegramBotHelper::class),
+            $this->createStub(TelegramAdminMessageHelper::class),
+            'test-google-client-id',
+        );
+
+        $event = $this->createStub(LoginSuccessEvent::class);
+        $event->method('getUser')->willReturn($user);
+        $event->method('getRequest')->willReturn($request);
+        $event->method('getAuthenticator')->willReturn($authenticator);
+
+        $this->entityManager->expects(self::once())
+            ->method('persist')
+            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'google_identity'));
+        $this->entityManager->expects(self::once())->method('flush');
+
+        $this->subscriber->onLoginSuccess($event);
+    }
+
+    public function testResolveAuthMethodWithAppCustomAuthenticator(): void
+    {
+        $user = $this->createStub(UserInterface::class);
+        $user->method('getUserIdentifier')->willReturn('user@example.com');
+
+        $request = new Request(server: ['REMOTE_ADDR' => '127.0.0.1']);
+
+        // Must be a real instance (not a stub) so that ::class matches in the match() expression
+        $authenticator = new AppCustomAuthenticator(
+            $this->createStub(UrlGeneratorInterface::class),
+            'test',
+        );
+
+        $event = $this->createStub(LoginSuccessEvent::class);
+        $event->method('getUser')->willReturn($user);
+        $event->method('getRequest')->willReturn($request);
+        $event->method('getAuthenticator')->willReturn($authenticator);
+
+        $this->entityManager->expects(self::once())
+            ->method('persist')
+            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'form'));
+        $this->entityManager->expects(self::once())->method('flush');
+
+        $this->subscriber->onLoginSuccess($event);
     }
 }

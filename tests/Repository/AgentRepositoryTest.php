@@ -114,6 +114,24 @@ class AgentRepositoryTest extends KernelTestCase
         self::assertEmpty($results);
     }
 
+    public function testSearchByIdsReturnsMatchingAgents(): void
+    {
+        $agent = $this->repository->findOneByNickName('testAgent');
+        self::assertNotNull($agent);
+
+        $results = $this->repository->searchByIds([$agent->getId()]);
+
+        self::assertNotEmpty($results);
+        self::assertContainsOnlyInstancesOf(Agent::class, $results);
+    }
+
+    public function testSearchByIdsReturnsEmptyForUnknownId(): void
+    {
+        $results = $this->repository->searchByIds([99999]);
+
+        self::assertEmpty($results);
+    }
+
     public function testFindMapAgentsReturnsAgentsInGroup(): void
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');

@@ -92,4 +92,60 @@ class EventHelperTest extends KernelTestCase
         $expected = ['testAgent' => 1.5];
         self::assertSame($expected, $result);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetEventsInSpanReturnsPresent(): void
+    {
+        $events = $this->eventHelper->getEventsInSpan('present');
+
+        self::assertNotNull($events);
+        self::assertNotEmpty($events);
+        self::assertContainsOnlyInstancesOf(Event::class, $events);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetEventsInSpanInvalidSpanThrows(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+
+        $this->eventHelper->getEventsInSpan('invalid');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetChallengesInSpanReturnsPast(): void
+    {
+        $challenges = $this->eventHelper->getChallengesInSpan('past');
+
+        self::assertNotNull($challenges);
+        self::assertNotEmpty($challenges);
+        self::assertContainsOnlyInstancesOf(Challenge::class, $challenges);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetChallengesInSpanReturnsPresent(): void
+    {
+        $challenges = $this->eventHelper->getChallengesInSpan('present');
+
+        self::assertNotNull($challenges);
+        self::assertNotEmpty($challenges);
+        self::assertContainsOnlyInstancesOf(Challenge::class, $challenges);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetChallengesInSpanInvalidSpanThrows(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+
+        $this->eventHelper->getChallengesInSpan('invalid');
+    }
 }

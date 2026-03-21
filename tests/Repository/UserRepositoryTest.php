@@ -5,7 +5,9 @@ namespace App\Tests\Repository;
 use App\Entity\Agent;
 use App\Entity\Faction;
 use App\Entity\User;
+use App\Helper\Paginator\PaginatorOptions;
 use App\Repository\UserRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserRepositoryTest extends KernelTestCase
@@ -87,5 +89,50 @@ class UserRepositoryTest extends KernelTestCase
 
         self::assertNotNull($result);
         self::assertSame($email, $result->getEmail());
+    }
+
+    public function testGetPaginatedListReturnsPaginator(): void
+    {
+        $options = new PaginatorOptions();
+        $options->setOrder('id');
+        $options->setOrderDir('ASC');
+        $options->setPage(1);
+
+        $paginator = $this->repository->getPaginatedList($options);
+
+        self::assertInstanceOf(Paginator::class, $paginator);
+        self::assertGreaterThan(0, count($paginator));
+    }
+
+    public function testGetPaginatedListWithEmailFilter(): void
+    {
+        $options = new PaginatorOptions();
+        $options->setOrder('id');
+        $options->setOrderDir('ASC');
+        $options->setPage(1);
+        $options->setCriteria(['email' => 'admin']);
+
+        $paginator = $this->repository->getPaginatedList($options);
+
+        self::assertInstanceOf(Paginator::class, $paginator);
+        self::assertGreaterThan(0, count($paginator));
+
+        foreach ($paginator as $user) {
+            self::assertStringContainsStringIgnoringCase('admin', $user->getEmail());
+        }
+    }
+
+    public function testGetPaginatedListWithRolesFilter(): void
+    {
+        $options = new PaginatorOptions();
+        $options->setOrder('id');
+        $options->setOrderDir('ASC');
+        $options->setPage(1);
+        $options->setCriteria(['roles' => 'ROLE_ADMIN']);
+
+        // getPaginatedList returns a Paginator; the roles filter branch is exercised
+        $paginator = $this->repository->getPaginatedList($options);
+
+        self::assertInstanceOf(Paginator::class, $paginator);
     }
 }

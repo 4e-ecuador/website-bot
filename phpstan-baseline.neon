@@ -49,28 +49,10 @@ parameters:
 			path: src/Command/UpdateBadgedataCommand.php
 
 		-
-			message: '#^Cognitive complexity for "App\\Controller\\Admin\\LogviewController\:\:__invoke\(\)" is 20, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Controller/Admin/LogviewController.php
-
-		-
 			message: '#^Argument of an invalid type App\\Entity\\AgentStat supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
 			path: src/Controller/MigrateController.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Controller\\MigrateController\:\:upload\(\)" is 10, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Controller/MigrateController.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Controller\\StatsController\:\:statImport\(\)" is 11, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Controller/StatsController.php
 
 		-
 			message: '#^Property App\\Entity\\Agent\:\:\$faction type mapping mismatch\: property can contain App\\Entity\\Faction\|null but database expects App\\Entity\\Faction\.$#'
@@ -240,71 +222,6 @@ parameters:
 			count: 1
 			path: src/Repository/UserRepository.php
 
-		-
-			message: '#^Cognitive complexity for "App\\Service\\CsvParser\:\:parsePrimeCsv\(\)" is 12, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/CsvParser.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\EventHelper\:\:calculateResults\(\)" is 14, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/EventHelper.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\EventHelper\:\:getChallengesInSpan\(\)" is 9, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/EventHelper.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\LeaderBoardService\:\:getBoard\(\)" is 15, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/LeaderBoardService.php
-
-		-
-			message: '#^Class cognitive complexity is 55, keep it under 50$#'
-			identifier: complexity.classLike
-			count: 1
-			path: src/Service/MedalChecker.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalLevel\(\)" is 9, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/MedalChecker.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\MedalChecker\:\:getMedalsGained\(\)" is 12, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/MedalChecker.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:getImportResult\(\)" is 14, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/StatsImporter.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:sendResultMessages\(\)" is 10, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/StatsImporter.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Service\\StatsImporter\:\:updateEntryFromCsv\(\)" is 9, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: src/Service/StatsImporter.php
-
-		-
-			message: '#^Cognitive complexity for "App\\Tests\\Controller\\ControllerAccessTest\:\:processRoutes\(\)" is 16, keep it under 8$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: tests/Controller/ControllerAccessTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertIsArray\(\) with array will always evaluate to true\.$#'

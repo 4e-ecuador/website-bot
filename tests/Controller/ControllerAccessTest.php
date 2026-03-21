@@ -79,24 +79,7 @@ class ControllerAccessTest extends WebTestCase
     private function processRoutes(array $routes, KernelBrowser $browser): void
     {
         foreach ($routes as $routeName => $route) {
-            $defaultId = 1;
-            $expectedStatusCode = 302;
-            if (array_key_exists($routeName, $this->exceptions)) {
-                if (array_key_exists(
-                    'statusCode',
-                    $this->exceptions[$routeName]
-                )
-                ) {
-                    $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
-                }
-
-                if (array_key_exists('params', $this->exceptions[$routeName])) {
-                    $params = (array)$this->exceptions[$routeName]['params'];
-                    if (array_key_exists('id', $params)) {
-                        $defaultId = $params['id'];
-                    }
-                }
-            }
+            [$defaultId, $expectedStatusCode] = $this->getRouteConfig($routeName);
 
             $methods = $route->getMethods() ?: ['GET'];
             $path = str_replace('{id}', (string)$defaultId, $route->getPath());
@@ -118,5 +101,31 @@ class ControllerAccessTest extends WebTestCase
                 );
             }
         }
+    }
+
+    /**
+     * @return array{int, int|array<string, int>}
+     */
+    private function getRouteConfig(string $routeName): array
+    {
+        $defaultId = 1;
+        $expectedStatusCode = 302;
+
+        if (!array_key_exists($routeName, $this->exceptions)) {
+            return [$defaultId, $expectedStatusCode];
+        }
+
+        if (array_key_exists('statusCode', $this->exceptions[$routeName])) {
+            $expectedStatusCode = $this->exceptions[$routeName]['statusCode'];
+        }
+
+        if (array_key_exists('params', $this->exceptions[$routeName])) {
+            $params = (array)$this->exceptions[$routeName]['params'];
+            if (array_key_exists('id', $params)) {
+                $defaultId = $params['id'];
+            }
+        }
+
+        return [$defaultId, $expectedStatusCode];
     }
 }

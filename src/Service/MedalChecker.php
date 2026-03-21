@@ -655,22 +655,15 @@ class MedalChecker
             return 0;
         }
 
-        $medalLevel = 0;
-        $level = $this->medalLevels[$medal]['levels'];
+        $levels = (array) $this->medalLevels[$medal]['levels'];
 
-        if (null !== $level[4] && $value >= $level[4]) {
-            $medalLevel = 5;
-        } elseif (null !== $level[3] && $value >= $level[3]) {
-            $medalLevel = 4;
-        } elseif (null !== $level[2] && $value >= $level[2]) {
-            $medalLevel = 3;
-        } elseif ($value >= $level[1]) {
-            $medalLevel = 2;
-        } elseif ($value >= $level[0]) {
-            $medalLevel = 1;
+        for ($i = count($levels) - 1; $i >= 0; $i--) {
+            if (null !== $levels[$i] && $value >= $levels[$i]) {
+                return $i + 1;
+            }
         }
 
-        return $medalLevel;
+        return 0;
     }
 
     public function translateMedalLevel(int $level): string
@@ -804,22 +797,14 @@ class MedalChecker
             $levels = $this->checkLevels($entry);
             $dateString = $entry->getDatetime()?->format('Y-m-d');
 
-            foreach ($levels as $name => $level) {
-                if (!$level) {
-                    continue;
-                }
-
-                if (false === isset($previous[$agentName][$name])
-                    || $previous[$agentName][$name] < $level
-                ) {
-                    $medalsGained[$dateString][$agentName][$name] = $level;
-                    $medalsGained1[$name][] = [
-                        'agent' => $agentName,
-                        'level' => $level,
-                    ];
-                    $previous[$agentName][$name] = $level;
-                }
-            }
+            $this->processMedalLevels(
+                $medalsGained,
+                $medalsGained1,
+                $previous,
+                $agentName,
+                $dateString,
+                $levels
+            );
         }
 
         foreach ($medalsGained1 as $name => $items) {
@@ -831,6 +816,38 @@ class MedalChecker
         }
 
         return ['byDate' => $medalsGained, 'byMedal' => $medalsGained1];
+    }
+
+    /**
+     * @param array<string, array<string, array<string, int>>> $medalsGained
+     * @param array<string, array<int, array{agent: string|null, level: int}>> $medalsGained1
+     * @param array<string|null, array<string, int>> $previous
+     * @param array<string, int> $levels
+     */
+    private function processMedalLevels(
+        array &$medalsGained,
+        array &$medalsGained1,
+        array &$previous,
+        ?string $agentName,
+        ?string $dateString,
+        array $levels
+    ): void {
+        foreach ($levels as $name => $level) {
+            if (!$level) {
+                continue;
+            }
+
+            if (false === isset($previous[$agentName][$name])
+                || $previous[$agentName][$name] < $level
+            ) {
+                $medalsGained[$dateString][$agentName][$name] = $level;
+                $medalsGained1[$name][] = [
+                    'agent' => $agentName,
+                    'level' => $level,
+                ];
+                $previous[$agentName][$name] = $level;
+            }
+        }
     }
 
     public function getCleanName(string $name): string

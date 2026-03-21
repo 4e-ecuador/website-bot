@@ -48,43 +48,10 @@ class CsvParser
             }
 
             $vars = explode($sepChar, $line);
+            $this->validatePrimeCsvRow($vars, $headVars);
 
-            if (count($vars) !== count($headVars)) {
-                throw new UnexpectedValueException(
-                    'CSV field count does not match!'
-                );
-            }
-
-            if (false === in_array(
-                    $vars[0],
-                    [
-                        'GESAMT',
-                        'SIEMPRE',
-                        'ALL TIME',
-                    ],
-                    true
-                )
-            ) {
-                throw new StatsNotAllException('Prime stats not ALL');
-            }
-
-            $c = [];
             $dateTime = $vars[3].' '.$vars[4];
-
-            foreach ($headVars as $i1 => $headVar) {
-                $vName = $this->medalChecker->translatePrimeHeader($headVar);
-                if ($vName === '') {
-                    continue;
-                }
-
-                if ($vName === '0') {
-                    continue;
-                }
-
-                $c[$vName] = $vars[$i1];
-            }
-
-            $csv[$dateTime] = $c;
+            $csv[$dateTime] = $this->buildPrimeCsvRow($headVars, $vars);
         }
 
         if ($csv === []) {
@@ -92,6 +59,54 @@ class CsvParser
         }
 
         return $csv;
+    }
+
+    /**
+     * @param array<int, string> $vars
+     * @param array<int, string> $headVars
+     * @throws UnexpectedValueException
+     * @throws StatsNotAllException
+     */
+    private function validatePrimeCsvRow(array $vars, array $headVars): void
+    {
+        if (count($vars) !== count($headVars)) {
+            throw new UnexpectedValueException(
+                'CSV field count does not match!'
+            );
+        }
+
+        if (false === in_array(
+            $vars[0],
+            ['GESAMT', 'SIEMPRE', 'ALL TIME'],
+            true
+        )) {
+            throw new StatsNotAllException('Prime stats not ALL');
+        }
+    }
+
+    /**
+     * @param array<int, string> $headVars
+     * @param array<int, string> $vars
+     * @return array<string, string>
+     */
+    private function buildPrimeCsvRow(array $headVars, array $vars): array
+    {
+        $c = [];
+
+        foreach ($headVars as $i1 => $headVar) {
+            $vName = $this->medalChecker->translatePrimeHeader($headVar);
+            if ($vName === '') {
+                continue;
+            }
+
+            if ($vName === '0') {
+                continue;
+            }
+
+            $c[$vName] = $vars[$i1];
+        }
+
+        return $c;
     }
 
     /**

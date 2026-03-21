@@ -30,56 +30,12 @@ class LogviewController extends BaseController
         $filename = $projectDir.'/var/log/deploy.log';
 
         $entries = [];
-        $entry = null;
-        $dateTime = null;
 
         try {
             if ($filesystem->exists($filename)) {
-                $contents = $filesystem->readFile($filename);
-                $lines = explode("\n", $contents);
-                foreach ($lines as $line) {
-                    $line = trim($line);
-                    if ($line === '') {
-                        continue;
-                    }
-
-                    if ($line === '0') {
-                        continue;
-                    }
-
-                    if (str_starts_with($line, '>>>==============')) {
-                        if (is_null($entry)) {
-                            $entry = '';
-                        } else {
-                            throw new LogicException(
-                                'Entry finished string not found'
-                            );
-                        }
-
-                        continue;
-                    }
-
-                    if (str_starts_with($line, '<<<===========')) {
-                        if (is_null($entry)) {
-                            throw new LogicException('Entry not started.');
-                        }
-
-                        $entries[$dateTime] = $entry;
-                        $entry = null;
-
-                        continue;
-                    }
-
-                    if ('' === $entry) {
-                        //The first line contains the dateTime string
-                        $dateTime = $line;
-                        $entry = $line."\n";
-
-                        continue;
-                    }
-
-                    $entry .= $line."\n";
-                }
+                $entries = $this->parseLogFile(
+                    $filesystem->readFile($filename)
+                );
             }
         } catch (IOException $ioException) {
             $this->addFlash('danger', $ioException->getMessage());
@@ -95,5 +51,68 @@ class LogviewController extends BaseController
             'project_dir' => $projectDir,
             'logEntries'  => array_reverse($entries),
         ]);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function parseLogFile(string $contents): array
+    {
+        $entries = [];
+        $entry = null;
+        $dateTime = null;
+
+        foreach (explode("\n", $contents) as $rawLine) {
+            $line = trim($rawLine);
+            if ($line === '') {
+                continue;
+            }
+
+            if ($line === '0') {
+                continue;
+            }
+
+            if (str_starts_with($line, '>>>==============')) {
+                $entry = $this->openLogEntry($entry);
+
+                continue;
+            }
+
+            if (str_starts_with($line, '<<<===========')) {
+                $entries[$dateTime] = $this->closeLogEntry($entry);
+                $entry = null;
+
+                continue;
+            }
+
+            if ('' === $entry) {
+                $dateTime = $line;
+                $entry = $line."\n";
+
+                continue;
+            }
+
+            $entry .= $line."\n";
+        }
+
+        return $entries;
+    }
+
+    private function openLogEntry(?string $entry): string
+    {
+        if ($entry !== null) {
+            throw new LogicException('Entry finished string not found');
+        }
+
+        return '';
+    }
+
+    private function closeLogEntry(?string $entry): string
+    {
+        if ($entry === null) {
+            throw new LogicException('Entry not started.');
+        }
+
+        return $entry;
     }
 }

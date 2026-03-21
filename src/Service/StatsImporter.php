@@ -67,16 +67,7 @@ class StatsImporter
                 );
             }
 
-            foreach ($values as $vName => $value) {
-                $methodName = $this->getMethodName($vName);
-                if (method_exists($statEntry, $methodName)) {
-                    $statEntry->$methodName($value);
-                } else {
-                    throw new UnexpectedValueException(
-                        'Method not found: '.$methodName
-                    );
-                }
-            }
+            $this->applyValues($statEntry, $values);
         }
 
         return $statEntry;
@@ -111,35 +102,55 @@ class StatsImporter
             $importResult->newLevel = $statEntry->getLevel();
         }
 
-        $recursions = $statEntry->getRecursions();
-        if ($recursions) {
-            $previousRecursions = $previousEntry->getRecursions();
-            if (!$previousRecursions || $recursions > $previousRecursions) {
-                $importResult->recursions = $recursions;
-            }
-        }
-
-        $monthsSubscribed = $statEntry->getMonthsSubscribed();
-        if ($monthsSubscribed) {
-            $previousMonthsSubscribed = $previousEntry->getMonthsSubscribed();
-            if (!$previousMonthsSubscribed) {
-                $importResult->coreSubscribed[] = 'core';
-            }
-
-            if ($monthsSubscribed >= 24
-                && $monthsSubscribed !== $previousMonthsSubscribed
-            ) {
-                $importResult->coreSubscribed[] = 'dual_core';
-            }
-
-            if ($monthsSubscribed >= 36
-                && $monthsSubscribed !== $previousMonthsSubscribed
-            ) {
-                $importResult->coreSubscribed[] = 'core_year3';
-            }
-        }
+        $this->checkRecursions($importResult, $statEntry, $previousEntry);
+        $this->checkCoreSubscription($importResult, $statEntry, $previousEntry);
 
         return $importResult;
+    }
+
+    private function checkRecursions(
+        ImportResult $importResult,
+        AgentStat $statEntry,
+        AgentStat $previousEntry
+    ): void {
+        $recursions = $statEntry->getRecursions();
+        if (!$recursions) {
+            return;
+        }
+
+        $previousRecursions = $previousEntry->getRecursions();
+        if (!$previousRecursions || $recursions > $previousRecursions) {
+            $importResult->recursions = $recursions;
+        }
+    }
+
+    private function checkCoreSubscription(
+        ImportResult $importResult,
+        AgentStat $statEntry,
+        AgentStat $previousEntry
+    ): void {
+        $monthsSubscribed = $statEntry->getMonthsSubscribed();
+        if (!$monthsSubscribed) {
+            return;
+        }
+
+        $previousMonthsSubscribed = $previousEntry->getMonthsSubscribed();
+
+        if (!$previousMonthsSubscribed) {
+            $importResult->coreSubscribed[] = 'core';
+        }
+
+        if ($monthsSubscribed >= 24
+            && $monthsSubscribed !== $previousMonthsSubscribed
+        ) {
+            $importResult->coreSubscribed[] = 'dual_core';
+        }
+
+        if ($monthsSubscribed >= 36
+            && $monthsSubscribed !== $previousMonthsSubscribed
+        ) {
+            $importResult->coreSubscribed[] = 'core_year3';
+        }
     }
 
     /**
@@ -156,9 +167,20 @@ class StatsImporter
             throw new UnexpectedValueException('Agent not found');
         }
 
-        /*
-         * Admin messages
-         */
+        $this->sendAdminMessages($user, $agent, $statEntry);
+
+        $groupName = in_array('ROLE_INTRO_AGENT', $user->getRoles(), true)
+            ? 'intro'
+            : 'default';
+
+        $this->sendGroupMessages($result, $statEntry, $agent, $groupName);
+    }
+
+    private function sendAdminMessages(
+        User $user,
+        \App\Entity\Agent $agent,
+        AgentStat $statEntry
+    ): void {
         if ($statEntry->getFaction() !== 'Enlightened') {
             // Smurf detected!!!
             $this->telegramAdminMessageHelper->sendSmurfAlertMessage(
@@ -178,15 +200,14 @@ class StatsImporter
                 $statEntry
             );
         }
+    }
 
-        /*
-         * Group messages
-         */
-        $groupName = (in_array('ROLE_INTRO_AGENT', $user->getRoles(), true))
-            ? 'intro'
-            : 'default';
-
-        // Medal(s) gained
+    private function sendGroupMessages(
+        ImportResult $result,
+        AgentStat $statEntry,
+        \App\Entity\Agent $agent,
+        string $groupName
+    ): void {
         if ($result->medalUps) {
             $this->telegramMessageHelper->sendNewMedalMessage(
                 $groupName,
@@ -195,7 +216,6 @@ class StatsImporter
             );
         }
 
-        // Medal doubles
         if ($result->medalDoubles) {
             $this->telegramMessageHelper->sendMedalDoubleMessage(
                 $groupName,
@@ -204,7 +224,6 @@ class StatsImporter
             );
         }
 
-        // Level changed
         if ($result->newLevel) {
             $this->telegramMessageHelper->sendLevelUpMessage(
                 $groupName,
@@ -214,7 +233,6 @@ class StatsImporter
             );
         }
 
-        // Recursions
         if ($result->recursions) {
             $this->telegramMessageHelper->sendRecursionMessage(
                 $groupName,
@@ -222,15 +240,24 @@ class StatsImporter
                 $result->recursions
             );
         }
+    }
 
-        // CORE Subscription
-        // if ($result->coreSubscribed) {
-        //     $this->telegramMessageHelper->sendNewMedalMessage(
-        //         $groupName,
-        //         $agent,
-        //         $result->medalUps
-        //     );
-        // }
+    /**
+     * @param array<string, string> $values
+     * @throws UnexpectedValueException
+     */
+    private function applyValues(AgentStat $statEntry, array $values): void
+    {
+        foreach ($values as $vName => $value) {
+            $methodName = $this->getMethodName($vName);
+            if (method_exists($statEntry, $methodName)) {
+                $statEntry->$methodName($value);
+            } else {
+                throw new UnexpectedValueException(
+                    'Method not found: '.$methodName
+                );
+            }
+        }
     }
 
     private function getMethodName(string $vName): string

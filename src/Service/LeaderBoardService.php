@@ -25,51 +25,7 @@ class LeaderBoardService
         $boardEntries = [];
 
         foreach ($users as $user) {
-            $agent = $user->getAgent();
-
-            if (!$agent) {
-                continue;
-            }
-
-            $agentEntry = $this->statRepository->getAgentLatest($agent);
-
-            if (!$agentEntry instanceof \App\Entity\AgentStat) {
-                continue;
-            }
-
-            foreach ($agentEntry->findProperties() as $property) {
-                if (in_array(
-                    $property,
-                    [
-                        'current_challenge',
-                        'level',
-                        'faction',
-                        'nickname',
-                        'csv',
-                    ]
-                )
-                ) {
-                    continue;
-                }
-
-                $methodName = 'get'.str_replace('_', '', $property);
-                if ($agentEntry->$methodName()) {
-                    $boardEntries[$property][] = new BoardEntry(
-                        $agent,
-                        $user,
-                        $agentEntry->$methodName()
-                    );
-                }
-            }
-
-            $connector = $agentEntry->getConnector();
-            if ($connector) {
-                $boardEntries['Fields/Links'][] = new BoardEntry(
-                    $agent,
-                    $user,
-                    $agentEntry->getMindController() / $connector
-                );
-            }
+            $this->processUserForBoard($user, $boardEntries);
         }
 
         foreach (array_keys($boardEntries) as $type) {
@@ -88,5 +44,48 @@ class LeaderBoardService
         }
 
         return $boardEntries;
+    }
+
+    /**
+     * @param array<string, array<int, BoardEntry>> $boardEntries
+     */
+    private function processUserForBoard(User $user, array &$boardEntries): void
+    {
+        $agent = $user->getAgent();
+        if (!$agent instanceof \App\Entity\Agent) {
+            return;
+        }
+
+        $agentEntry = $this->statRepository->getAgentLatest($agent);
+        if (!$agentEntry instanceof \App\Entity\AgentStat) {
+            return;
+        }
+
+        foreach ($agentEntry->findProperties() as $property) {
+            if (in_array(
+                $property,
+                ['current_challenge', 'level', 'faction', 'nickname', 'csv']
+            )) {
+                continue;
+            }
+
+            $methodName = 'get'.str_replace('_', '', $property);
+            if ($agentEntry->$methodName()) {
+                $boardEntries[$property][] = new BoardEntry(
+                    $agent,
+                    $user,
+                    $agentEntry->$methodName()
+                );
+            }
+        }
+
+        $connector = $agentEntry->getConnector();
+        if ($connector) {
+            $boardEntries['Fields/Links'][] = new BoardEntry(
+                $agent,
+                $user,
+                $agentEntry->getMindController() / $connector
+            );
+        }
     }
 }

@@ -70,32 +70,40 @@ class MigrateController extends BaseController
         foreach ($csv as $item) {
             $stat = new AgentStat();
             $stat->setAgent($agent);
-
-            foreach ($header as $index) {
-                $method = match ($index) {
-                    'epoch' => 'setEpochHackstreaks',
-                    default => 'set'.ucfirst($index),
-                };
-
-                if (false === method_exists($stat, $method)) {
-                    throw new UnexpectedValueException(
-                        'Unknown property: '.$index
-                    );
-                }
-
-                match ($index) {
-                    'datetime' => $stat->setDatetime(
-                        new DateTime($item[$index])
-                    ),
-                    default => $stat->$method($item[$index]),
-                };
-            }
+            $this->applyStatRow($stat, $header, $item);
         }
 
         return new Response(
             "File uploaded", Response::HTTP_OK,
             ['content-type' => 'text/plain']
         );
+    }
+
+    /**
+     * @param array<int, string> $header
+     * @param array<string, string> $item
+     */
+    private function applyStatRow(AgentStat $stat, array $header, array $item): void
+    {
+        foreach ($header as $index) {
+            $method = match ($index) {
+                'epoch' => 'setEpochHackstreaks',
+                default => 'set'.ucfirst($index),
+            };
+
+            if (false === method_exists($stat, $method)) {
+                throw new UnexpectedValueException(
+                    'Unknown property: '.$index
+                );
+            }
+
+            match ($index) {
+                'datetime' => $stat->setDatetime(
+                    new DateTime($item[$index])
+                ),
+                default => $stat->$method($item[$index]),
+            };
+        }
     }
 
     #[Route('/migrate/csv', name: 'app_migrate_get_csv')]

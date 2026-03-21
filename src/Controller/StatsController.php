@@ -303,72 +303,85 @@ class StatsController extends BaseController
 
         $csv = $request->request->getString('csv');
         if ($csv !== '') {
-            try {
-                $statEntry = $this->statsImporter
-                    ->createEntryFromCsv($agent, $csv);
-
-                $entityManager->persist($statEntry);
-                $entityManager->flush();
-
-                // TODO TEST!!
-                // $testStat = (new TestStat())
-                //     ->setCsv($csv);
-                // $entityManager->persist($testStat);
-                // $entityManager->flush();
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('Stats upload successful!')
-                );
-
-                $result = $this->statsImporter->getImportResult($statEntry);
-
-                try {
-                    $this->statsImporter
-                        ->sendResultMessages($result, $statEntry, $user);
-                } catch (Exception $exception) {
-                    $this->logger->error('Failed to send result messages: '.$exception->getMessage(), ['exception' => $exception]);
-                    $this->addFlash(
-                        'warning',
-                        $this->translator->trans(
-                            'Sorry but the message has not been sent :('
-                        )
-                    );
-                    if ('dev' === $appEnv) {
-                        throw $exception;
-                    }
-                }
-
-                // @TODO temporal FireBase token store
-                $fireBaseToken = $request->request->getString(
-                    'fire_base_token'
-                );
-                if ($fireBaseToken !== '' && !$user->getFireBaseToken()) {
-                    $user->setFireBaseToken($fireBaseToken);
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-                }
-
-                return $this->render(
-                    'import/result.html.twig',
-                    [
-                        'statEntry' => $statEntry,
-                        'result'    => $result,
-                        'error'     => '',
-                    ]
-
-                );
-            } catch (
-            InvalidCsvException
-            |StatsNotAllException
-            |StatsAlreadyAddedException
-            |UnexpectedValueException
-            $exception) {
-                $this->addFlash('danger', $exception->getMessage());
+            $result = $this->handleCsvImport(
+                $csv,
+                $agent,
+                $user,
+                $entityManager,
+                $appEnv,
+                $request
+            );
+            if ($result instanceof \Symfony\Component\HttpFoundation\Response) {
+                return $result;
             }
         }
 
         return $this->render('import/agent_stats.html.twig');
+    }
+
+    private function handleCsvImport(
+        string $csv,
+        Agent $agent,
+        User $user,
+        EntityManagerInterface $entityManager,
+        string $appEnv,
+        Request $request
+    ): ?Response {
+        try {
+            $statEntry = $this->statsImporter->createEntryFromCsv($agent, $csv);
+
+            $entityManager->persist($statEntry);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('Stats upload successful!')
+            );
+
+            $result = $this->statsImporter->getImportResult($statEntry);
+
+            try {
+                $this->statsImporter->sendResultMessages($result, $statEntry, $user);
+            } catch (Exception $exception) {
+                $this->logger->error(
+                    'Failed to send result messages: '.$exception->getMessage(),
+                    ['exception' => $exception]
+                );
+                $this->addFlash(
+                    'warning',
+                    $this->translator->trans('Sorry but the message has not been sent :(')
+                );
+                if ('dev' === $appEnv) {
+                    throw $exception;
+                }
+            }
+
+            // @TODO temporal FireBase token store
+            $fireBaseToken = $request->request->getString('fire_base_token');
+            if ($fireBaseToken !== '' && !$user->getFireBaseToken()) {
+                $user->setFireBaseToken($fireBaseToken);
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+
+            return $this->render(
+                'import/result.html.twig',
+                [
+                    'statEntry' => $statEntry,
+                    'result'    => $result,
+                    'error'     => '',
+                ]
+            );
+        } catch (
+        InvalidCsvException
+        |StatsNotAllException
+        |StatsAlreadyAddedException
+        |UnexpectedValueException
+        $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return null;
     }
 }
 

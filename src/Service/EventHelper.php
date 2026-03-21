@@ -56,7 +56,7 @@ class EventHelper
     /**
      * @param iterable<AgentStat> $entries
      *
-     * @return array<string, int>
+     * @return array<string, float|int>
      */
     public function calculateResults(Event $event, iterable $entries): array
     {
@@ -76,31 +76,39 @@ class EventHelper
         $values = [];
 
         foreach (array_keys($currentEntries) as $agentName) {
-            if ('fieldslinks' === $event->getEventType()) {
-                $fields = $currentEntries[$agentName]->getMindController()
-                    - $previousEntries[$agentName]->getMindController();
-                $links = $currentEntries[$agentName]->getConnector()
-                    - $previousEntries[$agentName]->getConnector();
-                $values[$agentName] = $links !== 0 ? $fields / $links : 0;
-            } else {
-                $methodName = 'get'.$event->getEventType();
-
-                if (false
-                    === method_exists($currentEntries[$agentName], $methodName)
-                ) {
-                    throw new UnexpectedValueException(
-                        'Unknown event type: '.$event->getEventType()
-                    );
-                }
-
-                $values[$agentName] = $currentEntries[$agentName]->$methodName()
-                    - $previousEntries[$agentName]->$methodName();
-            }
+            $values[$agentName] = $this->calculateAgentValue(
+                $event,
+                $currentEntries[$agentName],
+                $previousEntries[$agentName]
+            );
         }
 
         arsort($values);
 
         return $values;
+    }
+
+    private function calculateAgentValue(
+        Event $event,
+        AgentStat $current,
+        AgentStat $previous
+    ): float|int {
+        if ('fieldslinks' === $event->getEventType()) {
+            $fields = $current->getMindController() - $previous->getMindController();
+            $links = $current->getConnector() - $previous->getConnector();
+
+            return $links !== 0 ? $fields / $links : 0;
+        }
+
+        $methodName = 'get'.$event->getEventType();
+
+        if (false === method_exists($current, $methodName)) {
+            throw new UnexpectedValueException(
+                'Unknown event type: '.$event->getEventType()
+            );
+        }
+
+        return $current->$methodName() - $previous->$methodName();
     }
 
     /**
@@ -154,34 +162,7 @@ class EventHelper
      */
     public function getChallengesInSpan(string $span): ?array
     {
-        if ($this->challengesBySpan === null) {
-            $this->challengesBySpan = ['past' => [], 'present' => [], 'future' => []];
-
-            $now = new DateTime('now', $this->timezone)
-                ->setTime(12, 0);
-
-            foreach ($this->challengeRepository->findAll() as $item) {
-                $item->setDateStart(
-                    new DateTime(
-                        $item->getDateStart()
-                            ->format('Y-m-d H:i:s'), $this->timezone
-                    )->setTime(12, 0)
-                );
-                $item->setDateEnd(
-                    new DateTime(
-                        $item->getDateEnd()
-                            ->format('Y-m-d H:i:s'), $this->timezone
-                    )->setTime(12, 0)
-                );
-                if ($item->getDateStart() > $now) {
-                    $this->challengesBySpan['future'][] = $item;
-                } elseif ($item->getDateEnd() < $now) {
-                    $this->challengesBySpan['past'][] = $item;
-                } else {
-                    $this->challengesBySpan['present'][] = $item;
-                }
-            }
-        }
+        $this->initChallengesBySpan();
 
         if (array_key_exists($span, $this->challengesBySpan)) {
             return $this->challengesBySpan[$span];
@@ -190,5 +171,40 @@ class EventHelper
         throw new UnexpectedValueException(
             'Unknown span (must be: past, present or future): '.$span
         );
+    }
+
+    private function initChallengesBySpan(): void
+    {
+        if ($this->challengesBySpan !== null) {
+            return;
+        }
+
+        $this->challengesBySpan = ['past' => [], 'present' => [], 'future' => []];
+
+        $now = new DateTime('now', $this->timezone)
+            ->setTime(12, 0);
+
+        foreach ($this->challengeRepository->findAll() as $item) {
+            $item->setDateStart(
+                new DateTime(
+                    $item->getDateStart()
+                        ->format('Y-m-d H:i:s'), $this->timezone
+                )->setTime(12, 0)
+            );
+            $item->setDateEnd(
+                new DateTime(
+                    $item->getDateEnd()
+                        ->format('Y-m-d H:i:s'), $this->timezone
+                )->setTime(12, 0)
+            );
+
+            if ($item->getDateStart() > $now) {
+                $this->challengesBySpan['future'][] = $item;
+            } elseif ($item->getDateEnd() < $now) {
+                $this->challengesBySpan['past'][] = $item;
+            } else {
+                $this->challengesBySpan['present'][] = $item;
+            }
+        }
     }
 }

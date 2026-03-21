@@ -446,10 +446,7 @@ class UpdateBadgedataCommand extends Command
     private function skipItem(object $item): bool
     {
         if (false === property_exists($item, 'expand')) {
-            if ($this->output->isVeryVerbose()) {
-                $this->io->warning('Item has no Category');
-                dump($item);
-            }
+            $this->logNoCategory($item);
 
             return true;
         }
@@ -509,9 +506,7 @@ class UpdateBadgedataCommand extends Command
                 continue;
             }
 
-            if ($this->output->isVeryVerbose()) {
-                $this->io->info(sprintf('Item "%s" has been skipped', $skipBadge));
-            }
+            $this->logSkippedBadge($skipBadge);
 
             return true;
         }
@@ -519,14 +514,17 @@ class UpdateBadgedataCommand extends Command
         return false;
     }
 
+    private function logSkippedBadge(string $skipBadge): void
+    {
+        if ($this->output->isVeryVerbose()) {
+            $this->io->info(sprintf('Item "%s" has been skipped', $skipBadge));
+        }
+    }
+
     private function isSkippedCategory(string $category, string $title): bool
     {
         if (in_array($category, $this->skipCategories, true)) {
-            if ($this->output->isVeryVerbose()) {
-                $this->io->info(
-                    sprintf('Category %s has been skipped', $category)
-                );
-            }
+            $this->logSkippedCategory($category);
 
             return true;
         }
@@ -534,16 +532,26 @@ class UpdateBadgedataCommand extends Command
         if (array_key_exists($category, $this->pickBadges)
             && false === in_array($title, $this->pickBadges[$category], true)
         ) {
-            if ($this->output->isVeryVerbose()) {
-                $this->io->warning(
-                    sprintf('badge %s/%s has not been picked', $category, $title)
-                );
-            }
+            $this->logNotPicked($category, $title);
 
             return true;
         }
 
         return false;
+    }
+
+    private function logSkippedCategory(string $category): void
+    {
+        if ($this->output->isVeryVerbose()) {
+            $this->io->info(sprintf('Category %s has been skipped', $category));
+        }
+    }
+
+    private function logNotPicked(string $category, string $title): void
+    {
+        if ($this->output->isVeryVerbose()) {
+            $this->io->warning(sprintf('badge %s/%s has not been picked', $category, $title));
+        }
     }
 
     private function resolveImageName(string $imageName): string
@@ -572,9 +580,7 @@ class UpdateBadgedataCommand extends Command
         string $category
     ): bool {
         if (file_exists($imgPath)) {
-            if ($this->output->isVerbose()) {
-                $this->io->writeln(' exists');
-            }
+            $this->logBadgeExists();
 
             return false;
         }
@@ -592,6 +598,21 @@ class UpdateBadgedataCommand extends Command
         );
 
         return true;
+    }
+
+    private function logNoCategory(object $item): void
+    {
+        if ($this->output->isVeryVerbose()) {
+            $this->io->warning('Item has no Category');
+            dump($item);
+        }
+    }
+
+    private function logBadgeExists(): void
+    {
+        if ($this->output->isVerbose()) {
+            $this->io->writeln(' exists');
+        }
     }
 
     private function cutHash(string $fileName): string

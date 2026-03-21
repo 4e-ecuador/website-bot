@@ -59,22 +59,9 @@ class SendNewsletterCommand extends Command
         OutputInterface $output
     ): int {
         $io = new SymfonyStyle($input, $output);
-        $groupId = $this->telegramBotHelper->getGroupId();
-
-        if ($input->getOption('group')) {
-            if ('test' === $input->getOption('group')) {
-                $groupId = $this->telegramBotHelper->getGroupId('test');
-            } else {
-                throw new UnexpectedValueException('Unknown group');
-            }
-
-            $io->writeln('group set to: '.$input->getOption('group'));
-        }
-
-        $message = [];
+        $groupId = $this->resolveGroupId($input, $io);
 
         $timeZone = new DateTimeZone($this->defaultTimeZone);
-
         $dateNow = new DateTime('now', $timeZone);
 
         $context = $this->router->getContext();
@@ -100,10 +87,6 @@ class SendNewsletterCommand extends Command
         );
 
         $fsDate = $this->getNextFS($timeZone);
-        $events = $this->eventRepository->findAll();
-        $currentEvents = [];
-        $futureEvents = [];
-
         $ingressFS = $this->ingressEventRepository->findFutureFS();
         $this->ingressEventRepository->findFutureMD();
 
@@ -113,16 +96,12 @@ class SendNewsletterCommand extends Command
             $fsStrings[] = sprintf('[%s](%s)', $fs->getName(), $fs->getLink());
         }
 
-        foreach ($events as $event) {
-            if ($event->getDateStart() > $dateNow) {
-                $futureEvents[] = $event;
-            } elseif ($event->getDateEnd() < $dateNow) {
-                // $pastEvents[] = $event;
-            } else {
-                $currentEvents[] = $event;
-            }
-        }
+        ['current' => $currentEvents, 'future' => $futureEvents] = $this->classifyEvents(
+            $this->eventRepository->findAll(),
+            $dateNow
+        );
 
+        $message = [];
         $message[] = '===========================';
         $message[] = '*Boletin 4E*';
         $message[] = $formatterDate->format($dateNow);
@@ -134,72 +113,18 @@ class SendNewsletterCommand extends Command
         $message[] = '';
         $message[] = '*Eventos Ingress*';
         $message[] = '';
-
         $message[] = sprintf(
             'Proximo FS: %s - Faltan %d dias!!!',
             $formatterDate->format($fsDate),
             $dateNow->diff($fsDate)->format('%a')
-        // $interval->format('%a')
         );
-
         $message[] = '';
-        // '(Links a las paginas de los eventos - TBD)';
         $message[] = 'Lugares: '.implode(', ', $fsStrings);
-
         $message[] = '';
         $message[] = '*Eventos 4E*';
 
-        if ($currentEvents !== []) {
-            $message[] = '';
-            $message[] = 'Eventos actuales:';
-            foreach ($currentEvents as $event) {
-                $link = $this->router->generate(
-                    'event_show',
-                    ['id' => $event->getId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
-
-                /**
-                 * @var DateTime $date
-                 */
-                $date = $event->getDateEnd();
-
-                $message[] = sprintf(
-                    '- [%s](%s) (tipo: *%s*) termina el dia %s',
-                    $event->getName(),
-                    $link,
-                    $event->getEventType(),
-                    $formatterDateFull->format(
-                        $date->setTimezone($timeZone)
-                    )
-                );
-            }
-        } else {
-            $message[] = 'Actualmente no hay eventos :(';
-        }
-
-        if ($futureEvents !== []) {
-            $message[] = '';
-            $message[] = 'Eventos futuros:';
-            foreach ($futureEvents as $event) {
-                $link = $this->router->generate(
-                    'event_show',
-                    ['id' => $event->getId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
-                $lll = new DateTime(
-                    $event->getDateStart()->format('Y-m-d H:i:s'), $timeZone
-                );
-                $message[] = sprintf(
-                    '- [%s](%s) (tipo: *%s*) empieza el dia %s',
-                    $event->getName(),
-                    $link,
-                    $event->getEventType(),
-                    $formatterDateFull->format($lll)
-                // $formatterDateFull->format($event->getDateStart()->setTimezone($timeZone))
-                );
-            }
-        }
+        array_push($message, ...$this->buildCurrentEventsLines($currentEvents, $formatterDateFull, $timeZone));
+        array_push($message, ...$this->buildFutureEventsLines($futureEvents, $formatterDateFull, $timeZone));
 
         $statsImportPage = $this->router->generate(
             'stat_import',
@@ -224,6 +149,118 @@ class SendNewsletterCommand extends Command
         $io->success('Finished!');
 
         return Command::SUCCESS;
+    }
+
+    private function resolveGroupId(InputInterface $input, SymfonyStyle $io): int
+    {
+        $groupId = $this->telegramBotHelper->getGroupId();
+
+        if (!$input->getOption('group')) {
+            return $groupId;
+        }
+
+        if ('test' === $input->getOption('group')) {
+            $groupId = $this->telegramBotHelper->getGroupId('test');
+        } else {
+            throw new UnexpectedValueException('Unknown group');
+        }
+
+        $io->writeln('group set to: '.$input->getOption('group'));
+
+        return $groupId;
+    }
+
+    /**
+     * @param array<\App\Entity\Event> $events
+     * @return array{current: array<\App\Entity\Event>, future: array<\App\Entity\Event>}
+     */
+    private function classifyEvents(array $events, DateTime $dateNow): array
+    {
+        $current = [];
+        $future = [];
+
+        foreach ($events as $event) {
+            if ($event->getDateStart() > $dateNow) {
+                $future[] = $event;
+            } elseif ($event->getDateEnd() >= $dateNow) {
+                $current[] = $event;
+            }
+        }
+
+        return ['current' => $current, 'future' => $future];
+    }
+
+    /**
+     * @param array<\App\Entity\Event> $currentEvents
+     * @return array<string>
+     */
+    private function buildCurrentEventsLines(
+        array $currentEvents,
+        IntlDateFormatter $formatter,
+        DateTimeZone $timeZone
+    ): array {
+        if ($currentEvents === []) {
+            return ['Actualmente no hay eventos :('];
+        }
+
+        $lines = ['', 'Eventos actuales:'];
+
+        foreach ($currentEvents as $event) {
+            $link = $this->router->generate(
+                'event_show',
+                ['id' => $event->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            /** @var DateTime $date */
+            $date = $event->getDateEnd();
+
+            $lines[] = sprintf(
+                '- [%s](%s) (tipo: *%s*) termina el dia %s',
+                $event->getName(),
+                $link,
+                $event->getEventType(),
+                $formatter->format($date->setTimezone($timeZone))
+            );
+        }
+
+        return $lines;
+    }
+
+    /**
+     * @param array<\App\Entity\Event> $futureEvents
+     * @return array<string>
+     */
+    private function buildFutureEventsLines(
+        array $futureEvents,
+        IntlDateFormatter $formatter,
+        DateTimeZone $timeZone
+    ): array {
+        if ($futureEvents === []) {
+            return [];
+        }
+
+        $lines = ['', 'Eventos futuros:'];
+
+        foreach ($futureEvents as $event) {
+            $link = $this->router->generate(
+                'event_show',
+                ['id' => $event->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            $lll = new DateTime(
+                $event->getDateStart()->format('Y-m-d H:i:s'), $timeZone
+            );
+            $lines[] = sprintf(
+                '- [%s](%s) (tipo: *%s*) empieza el dia %s',
+                $event->getName(),
+                $link,
+                $event->getEventType(),
+                $formatter->format($lll)
+            );
+        }
+
+        return $lines;
     }
 
     private function getNextFS(DateTimeZone $timeZone): DateTime

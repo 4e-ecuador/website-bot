@@ -56,32 +56,11 @@ class SendEventUpdateCommand extends Command
             new DateTimeZone($this->defaultTimeZone)
         );
 
-        if ($input->getOption('group')) {
-            if ('test' === $input->getOption('group')) {
-                $groupId = $this->telegramBotHelper->getGroupId('test');
-            } else {
-                throw new UnexpectedValueException('Unknown group');
-            }
-
-            $io->writeln('group set to: '.$input->getOption('group'));
-        } else {
-            $groupId = $this->telegramBotHelper->getGroupId('test');
-        }
-
-        $events = $this->eventRepository->findAll();
-        $currentEvents = [];
-
-        foreach ($events as $event) {
-            if ($event->getDateStart() > $dateNow) {
-                // $futureEvents[] = $event;
-            } elseif ($event->getDateEnd() < $dateNow) {
-                // $pastEvents[] = $event;
-            } else {
-                $currentEvents[] = $event;
-            }
-        }
-
-        // var_dump(count($currentEvents));
+        $groupId = $this->resolveGroupId($input, $io);
+        $currentEvents = $this->getCurrentEvents(
+            $this->eventRepository->findAll(),
+            $dateNow
+        );
 
         foreach ($currentEvents as $event) {
             $entries = $this->statRepository->findByDate(
@@ -116,6 +95,42 @@ class SendEventUpdateCommand extends Command
         $io->success('Finished!');
 
         return Command::SUCCESS;
+    }
+
+    private function resolveGroupId(InputInterface $input, SymfonyStyle $io): int
+    {
+        if ($input->getOption('group')) {
+            if ('test' === $input->getOption('group')) {
+                $groupId = $this->telegramBotHelper->getGroupId('test');
+            } else {
+                throw new UnexpectedValueException('Unknown group');
+            }
+
+            $io->writeln('group set to: '.$input->getOption('group'));
+
+            return $groupId;
+        }
+
+        return $this->telegramBotHelper->getGroupId('test');
+    }
+
+    /**
+     * @param array<\App\Entity\Event> $events
+     * @return array<\App\Entity\Event>
+     */
+    private function getCurrentEvents(array $events, DateTime $dateNow): array
+    {
+        $currentEvents = [];
+
+        foreach ($events as $event) {
+            if ($event->getDateStart() <= $dateNow
+                && $event->getDateEnd() >= $dateNow
+            ) {
+                $currentEvents[] = $event;
+            }
+        }
+
+        return $currentEvents;
     }
 
     private function createImage(): CURLFile

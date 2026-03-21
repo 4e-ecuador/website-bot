@@ -69,6 +69,37 @@ class CsvParserTest extends KernelTestCase
         self::assertNotEmpty($response);
     }
 
+    public function testParseAllTimeSpanSiempre(): void
+    {
+        $result = $this->csvParser->parse($this->switchCsv(['span' => 'SIEMPRE']));
+
+        self::assertNotEmpty($result);
+    }
+
+    public function testParseAllTimeSpanAllTime(): void
+    {
+        $result = $this->csvParser->parse($this->switchCsv(['span' => 'ALL TIME']));
+
+        self::assertNotEmpty($result);
+    }
+
+    public function testParseAgentStatsCsv(): void
+    {
+        $csv = "datetime\tap\tlevel\n2026-01-01 10:00:00\t100000\t5";
+
+        $result = $this->csvParser->parse($csv, 'agentstats');
+
+        self::assertNotEmpty($result);
+        self::assertArrayHasKey('2026-01-01 10:00:00', $result);
+    }
+
+    public function testParseAgentStatsCsvInvalidThrows(): void
+    {
+        $this->expectException(InvalidCsvException::class);
+
+        $this->csvParser->parse('only-a-header', 'agentstats');
+    }
+
     /**
      * @param array<string, string> $replacements
      */

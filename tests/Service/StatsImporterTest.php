@@ -140,4 +140,76 @@ class StatsImporterTest extends KernelTestCase
         self::assertSame(10000, $result->diff['ap']);
         self::assertEmpty($result->currents);
     }
+
+    public function testGetImportResultDetectsLevelUp(): void
+    {
+        $agent = $this->createUniqueAgent();
+
+        $first = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-06-01', 'ap' => 100000, 'level' => 5])
+        );
+
+        $second = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-06-02', 'ap' => 200000, 'level' => 6])
+        );
+
+        $result = $this->importer->getImportResult($second, $first);
+
+        self::assertSame(6, $result->newLevel);
+    }
+
+    public function testGetImportResultDetectsRecursion(): void
+    {
+        $agent = $this->createUniqueAgent();
+
+        $first = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-07-01', 'recursions' => 0])
+        );
+
+        $second = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-07-02', 'recursions' => 1])
+        );
+
+        $result = $this->importer->getImportResult($second, $first);
+
+        self::assertSame(1, $result->recursions);
+    }
+
+    public function testGetImportResultNoLevelChangeWhenSameLevel(): void
+    {
+        $agent = $this->createUniqueAgent();
+
+        $first = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-08-01', 'level' => 5])
+        );
+
+        $second = $this->importer->createEntryFromCsv(
+            $agent,
+            $this->buildCsv(['agent' => $agent->getNickname(), 'date' => '1996-08-02', 'level' => 5])
+        );
+
+        $result = $this->importer->getImportResult($second, $first);
+
+        self::assertSame(0, $result->newLevel);
+    }
+
+    private function createUniqueAgent(): \App\Entity\Agent
+    {
+        $em = self::getContainer()->get('doctrine.orm.entity_manager');
+        $faction = $em->getRepository(\App\Entity\Faction::class)->findOneBy([]);
+
+        $agent = new \App\Entity\Agent();
+        $agent->setNickname('test-'.uniqid());
+        $agent->setFaction($faction);
+
+        $em->persist($agent);
+        $em->flush();
+
+        return $agent;
+    }
 }

@@ -10,13 +10,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class StatImportControllerTest extends WebTestCase
 {
+    protected function tearDown(): void
+    {
+        // Remove test stats created during this test run
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $em->createQuery("DELETE FROM App\Entity\AgentStat s WHERE s.datetime IN ('1998-01-15 00:00:00', '1997-06-20 00:00:00')")->execute();
+        parent::tearDown();
+    }
+
     private function getAgentUser(): User
     {
         /** @var User $user */
         $user = static::getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository(User::class)
-            ->findOneBy([]);
+            ->findOneBy(['email' => 'admin@example.com']);
 
         return $user;
     }

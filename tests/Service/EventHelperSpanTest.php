@@ -20,20 +20,20 @@ class EventHelperSpanTest extends KernelTestCase
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $tz = new \DateTimeZone('UTC');
 
-        // Clear existing events so counts are predictable
+        // Clear all events so counts are predictable (tearDown restores fixture event)
         $em->createQuery('DELETE FROM App\Entity\Event')->execute();
 
-        $event = new Event()
+        $past = new Event()
             ->setName('PastEvent')
             ->setDateStart(new DateTime('now', $tz)->modify('-2 day'))
             ->setDateEnd(new DateTime('now', $tz)->modify('-2 day'));
-        $em->persist($event);
+        $em->persist($past);
 
-        $event = new Event()
+        $present = new Event()
             ->setName('PresentEvent')
             ->setDateStart(new DateTime('now', $tz))
             ->setDateEnd(new DateTime('now', $tz));
-        $em->persist($event);
+        $em->persist($present);
 
         $em->flush();
 
@@ -42,6 +42,23 @@ class EventHelperSpanTest extends KernelTestCase
             $em->getRepository(Challenge::class),
             'UTC'
         );
+    }
+
+    protected function tearDown(): void
+    {
+        $em = self::getContainer()->get('doctrine.orm.entity_manager');
+        // Remove test events and restore fixture event with ID=1 for other tests
+        $em->createQuery("DELETE FROM App\Entity\Event e WHERE e.name IN ('PastEvent', 'PresentEvent')")->execute();
+        if (!$em->getRepository(Event::class)->find(1)) {
+            $conn = $em->getConnection();
+            $now = new DateTime()->format('Y-m-d H:i:s');
+            $conn->executeStatement(
+                'INSERT INTO event (id, name, date_start, date_end) VALUES (1, :name, :ds, :de)',
+                ['name' => 'test', 'ds' => $now, 'de' => $now]
+            );
+        }
+
+        parent::tearDown();
     }
 
     /**

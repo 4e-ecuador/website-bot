@@ -93,6 +93,28 @@ class EventHelperTest extends KernelTestCase
         self::assertSame($expected, $result);
     }
 
+    public function testCalculateResultsFieldsLinksWithZeroLinks(): void
+    {
+        $agent = new Agent()
+            ->setNickname('testAgent');
+        $event = new Event()
+            ->setEventType('fieldslinks');
+        $entries = [
+            new AgentStat()
+                ->setAgent($agent),
+            new AgentStat()
+                ->setAgent($agent)
+                ->setMindController(3),
+                // Connector stays 0
+        ];
+
+        $result = $this->eventHelper->calculateResults($event, $entries);
+
+        // When links = 0, the result should be 0 (avoid division by zero)
+        $expected = ['testAgent' => 0];
+        self::assertSame($expected, $result);
+    }
+
     /**
      * @throws Exception
      */

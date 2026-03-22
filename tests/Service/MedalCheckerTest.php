@@ -2,7 +2,9 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Repository\AgentStatRepository;
 use App\Service\MedalChecker;
 use App\Util\BadgeData;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -184,5 +186,39 @@ class MedalCheckerTest extends KernelTestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('No data for code: TEST');
         $this->medalChecker->getBadgeData('TEST');
+    }
+
+    public function testGetGetterMethodName(): void
+    {
+        self::assertSame('getExplorer', $this->medalChecker->getGetterMethodName('explorer'));
+        self::assertSame('getMindController', $this->medalChecker->getGetterMethodName('mind-controller'));
+    }
+
+    public function testGetCleanName(): void
+    {
+        self::assertSame('nl-1331-meetups', $this->medalChecker->getCleanName('nl1331Meetups'));
+        self::assertSame('mind-controller', $this->medalChecker->getCleanName('mindController'));
+        self::assertSame('scout-controller', $this->medalChecker->getCleanName('scoutController'));
+        self::assertSame('second-sunday', $this->medalChecker->getCleanName('secondSunday'));
+        self::assertSame('explorer', $this->medalChecker->getCleanName('explorer'));
+    }
+
+    public function testGetMedalsGained(): void
+    {
+        $agent = new Agent();
+        $agent->setNickname('TestAgent');
+
+        $entry = new AgentStat();
+        $entry->setAgent($agent);
+        $entry->setExplorer(100);
+        $entry->setDatetime(new \DateTime('2024-01-01'));
+
+        $statRepository = $this->createStub(AgentStatRepository::class);
+        $statRepository->method('getPrevious')->willReturn(null);
+
+        $result = $this->medalChecker->getMedalsGained([$entry], $statRepository);
+
+        self::assertArrayHasKey('byDate', $result);
+        self::assertArrayHasKey('byMedal', $result);
     }
 }

@@ -26,6 +26,10 @@ class StatsImporterTest extends KernelTestCase
         /** @var Agent $agent */
         $agent = $em->getRepository(Agent::class)->findOneBy(['nickname' => 'testAgent']);
         $this->agent = $agent;
+
+        // Remove any test stats and agents from previous runs to ensure clean state
+        $em->createQuery("DELETE FROM App\Entity\AgentStat s WHERE s.datetime IN ('1996-03-10 08:00:00', '1996-04-01 08:00:00', '1996-05-01 08:00:00', '1996-05-02 08:00:00', '1996-08-01 08:00:00', '1996-08-02 08:00:00')")->execute();
+        $em->createQuery("DELETE FROM App\Entity\Agent a WHERE a.nickname LIKE 'test-%'")->execute();
     }
 
     /**

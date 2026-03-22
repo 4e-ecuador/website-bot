@@ -48,9 +48,7 @@ class AccountController extends BaseController
         $agentAccount = $request->request->all('agent_account');
         $customMedals = json_decode(
             (string)$agent->getCustomMedals(),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
+            true
         );
         if ($agentAccount !== []) {
             $customMedals = $request->request->all('customMedals');

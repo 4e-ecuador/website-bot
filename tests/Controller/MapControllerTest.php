@@ -2,7 +2,9 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Agent;
 use App\Entity\User;
+use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -68,13 +70,77 @@ class MapControllerTest extends WebTestCase
         $this->assertJson($client->getResponse()->getContent() ?: '[]');
     }
 
+    public function testMapRendersForAgent(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+        $client->request(Request::METHOD_GET, '/map');
+        self::assertResponseIsSuccessful();
+    }
+
+    public function testMapAgentInfoForEnlAgent(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+
+        $agent = $this->getFirstAgent();
+        if (!$agent instanceof Agent) {
+            $this->markTestSkipped('No agent found in database');
+        }
+
+        $client->request(Request::METHOD_GET, '/map/agent-info/'.$agent->getId());
+        self::assertResponseIsSuccessful();
+    }
+
+    public function testMap2RendersForAgent(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+        $client->request(Request::METHOD_GET, '/map2');
+        self::assertResponseIsSuccessful();
+    }
+
+    public function testMap2AgentInfoForEnlAgent(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+
+        $agent = $this->getFirstAgent();
+        if (!$agent instanceof Agent) {
+            $this->markTestSkipped('No agent found in database');
+        }
+
+        $client->request(Request::METHOD_GET, '/map2/agent-info/'.$agent->getId());
+        self::assertResponseIsSuccessful();
+    }
+
     private function getAuthenticatedUser(): ?User
     {
         $container = static::getContainer();
         /** @var UserRepository $userRepository */
         $userRepository = $container->get(UserRepository::class);
 
-        return $userRepository->findOneBy([]);
+        return $userRepository->findOneBy(['email' => 'admin@example.com']);
     }
 
     private function getFirstMapGroup(): ?string
@@ -85,5 +151,14 @@ class MapControllerTest extends WebTestCase
         $mapGroup = $mapGroupRepository->findOneBy([]);
 
         return $mapGroup?->getName();
+    }
+
+    private function getFirstAgent(): ?Agent
+    {
+        $container = static::getContainer();
+        /** @var AgentRepository $agentRepository */
+        $agentRepository = $container->get(AgentRepository::class);
+
+        return $agentRepository->findOneBy([]);
     }
 }

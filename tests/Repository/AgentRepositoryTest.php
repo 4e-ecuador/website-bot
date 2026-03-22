@@ -17,6 +17,11 @@ class AgentRepositoryTest extends KernelTestCase
         self::bootKernel();
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $this->repository = $em->getRepository(Agent::class);
+
+        // Remove accumulated test agents from previous runs that would pollute search results
+        // First delete related comments, then the agents
+        $em->createQuery("DELETE FROM App\Entity\Comment c WHERE c.agent IN (SELECT a FROM App\Entity\Agent a WHERE a.nickname LIKE 'TestResAgent%' OR a.nickname LIKE 'ResAgent%' OR a.nickname LIKE 'unlinked-%' OR a.nickname LIKE 'test-%' OR a.nickname = 'noStatsAgent')")->execute();
+        $em->createQuery("DELETE FROM App\Entity\Agent a WHERE a.nickname LIKE 'TestResAgent%' OR a.nickname LIKE 'ResAgent%' OR a.nickname LIKE 'unlinked-%' OR a.nickname LIKE 'test-%' OR a.nickname = 'noStatsAgent'")->execute();
     }
 
     public function testFindOneByNickNameReturnsAgent(): void

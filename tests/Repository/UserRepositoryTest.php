@@ -19,6 +19,9 @@ class UserRepositoryTest extends KernelTestCase
         self::bootKernel();
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $this->repository = $em->getRepository(User::class);
+
+        // Remove firebase test users from previous runs
+        $em->createQuery("DELETE FROM App\Entity\User u WHERE u.email LIKE 'firebase-%@example.com'")->execute();
     }
 
     public function testGetFireBaseUsersReturnsEmptyByDefault(): void

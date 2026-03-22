@@ -100,6 +100,16 @@ class CsvParserTest extends KernelTestCase
         $this->csvParser->parse('only-a-header', 'agentstats');
     }
 
+    public function testParseFieldCountMismatchThrows(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('CSV field count does not match!');
+
+        // Header has 2 columns but data row has 3 columns
+        $csv = "Time Span\tAgent Name\nGESAMT\textra1\textra2";
+        $this->csvParser->parse($csv);
+    }
+
     /**
      * @param array<string, string> $replacements
      */

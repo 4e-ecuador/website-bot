@@ -20,6 +20,36 @@ class TelegramBotHelperTest extends TestCase
             }
 
             public function __destruct() {}
+
+            public function sendMessage(
+                $chatId,
+                $text,
+                $parseMode = null,
+                $disablePreview = false,
+                $replyToMessageId = null,
+                $replyMarkup = null,
+                $disableNotification = false,
+                $messageThreadId = null,
+                $protectContent = null,
+                $allowSendingWithoutReply = null
+            ): \TelegramBot\Api\Types\Message {
+                return new \TelegramBot\Api\Types\Message();
+            }
+
+            public function sendPhoto(
+                $chatId,
+                $photo,
+                $caption = null,
+                $replyToMessageId = null,
+                $replyMarkup = null,
+                $disableNotification = false,
+                $parseMode = null,
+                $messageThreadId = null,
+                $protectContent = null,
+                $allowSendingWithoutReply = null
+            ): \TelegramBot\Api\Types\Message {
+                return new \TelegramBot\Api\Types\Message();
+            }
         };
 
         $this->helper = new TelegramBotHelper(
@@ -145,6 +175,59 @@ class TelegramBotHelperTest extends TestCase
         }
     }
 
+    public function testCheckUserIdReturnsTrueForAllowed(): void
+    {
+        $original = getenv('ALLOWED_TELEGRAM_USERS');
+        putenv('ALLOWED_TELEGRAM_USERS=100,200,300');
+
+        try {
+            self::assertTrue($this->helper->checkUserId(200));
+        } finally {
+            if ($original !== false) {
+                putenv('ALLOWED_TELEGRAM_USERS='.$original);
+            } else {
+                putenv('ALLOWED_TELEGRAM_USERS');
+            }
+        }
+    }
+
+    public function testCheckUserIdReturnsFalseForNotAllowed(): void
+    {
+        $original = getenv('ALLOWED_TELEGRAM_USERS');
+        putenv('ALLOWED_TELEGRAM_USERS=100,200,300');
+
+        try {
+            self::assertFalse($this->helper->checkUserId(999));
+        } finally {
+            if ($original !== false) {
+                putenv('ALLOWED_TELEGRAM_USERS='.$original);
+            } else {
+                putenv('ALLOWED_TELEGRAM_USERS');
+            }
+        }
+    }
+
+    public function testCheckTelegramIPReturnsFalseForLocalhost(): void
+    {
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
+        self::assertFalse($this->helper->checkTelegramIP());
+    }
+
+    public function testCheckTelegramIPReturnsTrueForValidTelegramIP(): void
+    {
+        $_SERVER['REMOTE_ADDR'] = '149.154.160.1';
+
+        self::assertTrue($this->helper->checkTelegramIP());
+    }
+
+    public function testCheckTelegramIPReturnsTrueForSecondRange(): void
+    {
+        $_SERVER['REMOTE_ADDR'] = '91.108.4.1';
+
+        self::assertTrue($this->helper->checkTelegramIP());
+    }
+
     public function testGetConnectLink(): void
     {
         $agent = new Agent();
@@ -163,5 +246,33 @@ class TelegramBotHelperTest extends TestCase
         $link = $this->helper->getConnectLink2($agent);
 
         self::assertSame('http://www.telegram.me/test_bot?start=secret456', $link);
+    }
+
+    public function testSendMessageReturnsMessage(): void
+    {
+        $result = $this->helper->sendMessage(123, 'Hello World');
+
+        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+    }
+
+    public function testSendMessageWithDisablePreview(): void
+    {
+        $result = $this->helper->sendMessage(123, 'Hello World', true);
+
+        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+    }
+
+    public function testSendPhotoReturnsMessage(): void
+    {
+        $result = $this->helper->sendPhoto(123, 'https://example.com/photo.jpg', 'Caption');
+
+        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+    }
+
+    public function testSendButtonMessageReturnsMessage(): void
+    {
+        $result = $this->helper->sendButtonMessage('default');
+
+        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
     }
 }

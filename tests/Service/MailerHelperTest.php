@@ -54,6 +54,18 @@ class MailerHelperTest extends TestCase
         self::assertSame('Confirmation mail has been sent to admin@test.com', $result);
     }
 
+    public function testSendNewCommentMailFailure(): void
+    {
+        $mailer = $this->createStub(MailerInterface::class);
+        $mailer->method('send')->willThrowException(new TransportException('SMTP error'));
+
+        $helper = new MailerHelper($mailer, 'admin@test.com', 'Admin', $this->createStub(LoggerInterface::class));
+
+        $result = $helper->sendNewCommentMail(new Comment());
+
+        self::assertSame('SMTP error', $result);
+    }
+
     public function testSendNewUserMailSuccess(): void
     {
         $mailer = $this->createMock(MailerInterface::class);

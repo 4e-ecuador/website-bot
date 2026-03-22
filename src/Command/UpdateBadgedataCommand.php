@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
     name: 'app:update:badgedata',
@@ -33,9 +34,11 @@ class UpdateBadgedataCommand extends Command
 
     private readonly string $badgeRoot;
 
-    private readonly string $scrapeSite;
+    private string $scrapeSite = 'https://ingress.dedo1911.xyz/api';
 
     private readonly string $assetRoot;
+
+    private HttpClientInterface $httpClient;
 
     /**
      * @var int[]
@@ -200,7 +203,7 @@ class UpdateBadgedataCommand extends Command
     ) {
         $this->assetRoot = $rootDir.'/assets';
         $this->badgeRoot = $rootDir.'/assets/images/badges';
-        $this->scrapeSite = 'https://ingress.dedo1911.xyz/api';
+        $this->httpClient = HttpClient::create();
 
         parent::__construct();
     }
@@ -254,8 +257,7 @@ class UpdateBadgedataCommand extends Command
         $uri = $this->scrapeSite
             .'/collections/badges/records?expand=category&perPage=500';
 
-        $client = HttpClient::create();
-        $response = $client->request('GET', $uri);
+        $response = $this->httpClient->request('GET', $uri);
 
         /** @var object{totalItems: int, perPage: int, items: list<object{image: list<string>, expand: object{category: object{title: string}}, collectionId: string, id: string, title: string, description: string}>} $result */
         $result = json_decode(

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
@@ -34,5 +35,11 @@ return RectorConfig::configure()
     ->withSets([
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+    ])
+    ->withSkip([
+        // $httpClient is intentionally non-readonly to allow mock injection in tests
+        ReadOnlyPropertyRector::class => [
+            __DIR__.'/src/Command/UpdateBadgedataCommand.php',
+        ],
     ])
     ->withRootFiles();

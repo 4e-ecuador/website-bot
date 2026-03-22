@@ -75,4 +75,65 @@ class MapGroupControllerTest extends WebTestCase
         ]);
         self::assertResponseRedirects('/map/group/');
     }
+
+    public function testNewMapGroupFormSubmission(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $crawler = $client->request(Request::METHOD_GET, '/map/group/new');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form')->eq(0)->form();
+        $form['map_group[name]'] = 'TestGroupSubmission';
+        $client->submit($form);
+
+        self::assertResponseRedirects('/map/group/');
+
+        // Clean up created map group
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $created = $em->getRepository(MapGroup::class)->findOneBy(['name' => 'TestGroupSubmission']);
+        if ($created) {
+            $em->remove($created);
+            $em->flush();
+        }
+    }
+
+    public function testEditMapGroupFormSubmission(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $mapGroup = $this->getMapGroup();
+        $originalName = $mapGroup->getName();
+        $crawler = $client->request(Request::METHOD_GET, '/map/group/'.$mapGroup->getId().'/edit');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form')->eq(1)->form();
+        $form['map_group[name]'] = $originalName;
+        $client->submit($form);
+
+        self::assertResponseRedirects('/map/group/');
+    }
+
+    public function testDeleteMapGroupWithValidToken(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $toDelete = new MapGroup();
+        $toDelete->setName('ToDeleteMapGroup');
+
+        $em->persist($toDelete);
+        $em->flush();
+
+        $crawler = $client->request(Request::METHOD_GET, '/map/group/'.$toDelete->getId().'/edit');
+        $token = $crawler->filter('input[name="_token"]')->attr('value');
+
+        $client->request(Request::METHOD_DELETE, '/map/group/'.$toDelete->getId(), [
+            '_token' => $token,
+        ]);
+        self::assertResponseRedirects('/map/group/');
+    }
 }

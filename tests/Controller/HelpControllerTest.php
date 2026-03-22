@@ -112,4 +112,57 @@ class HelpControllerTest extends WebTestCase
         $client->request(Request::METHOD_GET, '/help/page/test-slug-show2');
         self::assertResponseIsSuccessful();
     }
+
+    public function testNewHelpFormSubmission(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $crawler = $client->request(Request::METHOD_GET, '/help/new');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form')->eq(0)->form();
+        $form['help[title]'] = 'Test Help Title';
+        $form['help[text]'] = 'Test help body content.';
+        $client->submit($form);
+
+        self::assertResponseRedirects('/help/');
+    }
+
+    public function testEditHelpFormSubmission(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $help = $this->getHelp();
+        $crawler = $client->request(Request::METHOD_GET, '/help/'.$help->getId().'/edit');
+        self::assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form')->eq(1)->form();
+        $form['help[title]'] = 'Updated Help Title';
+        $form['help[text]'] = 'Updated help body content.';
+        $client->submit($form);
+
+        self::assertResponseRedirects('/help/');
+    }
+
+    public function testDeleteHelpWithValidToken(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $toDelete = new Help();
+        $toDelete->setTitle('ToDeleteHelp')->setSlug('to-delete-help')->setText('body');
+        $em->persist($toDelete);
+        $em->flush();
+
+        $crawler = $client->request(Request::METHOD_GET, '/help/'.$toDelete->getId().'/edit');
+        $token = $crawler->filter('input[name="_token"]')->attr('value');
+
+        $client->request(Request::METHOD_POST, '/help/'.$toDelete->getId().'/', [
+            '_token' => $token,
+        ]);
+        self::assertResponseRedirects('/help/');
+    }
 }

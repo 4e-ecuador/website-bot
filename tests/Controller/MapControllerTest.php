@@ -161,4 +161,73 @@ class MapControllerTest extends WebTestCase
 
         return $agentRepository->findOneBy([]);
     }
+
+    public function testMapJsonWithInvalidGroupThrows(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+        $client->request(Request::METHOD_GET, '/map_json', ['group' => 'nonexistent_group_xyz']);
+        self::assertResponseStatusCodeSame(500);
+    }
+
+    public function testMapAgentInfoForResAgent(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $resFaction = $em->getRepository(\App\Entity\Faction::class)->findOneBy(['name' => 'RES']);
+        if (!$resFaction instanceof \App\Entity\Faction) {
+            $resFaction = new \App\Entity\Faction();
+            $resFaction->setName('RES');
+            $em->persist($resFaction);
+            $em->flush();
+        }
+
+        $resAgent = new Agent();
+        $resAgent->setNickname('MapResAgent'.uniqid())->setFaction($resFaction);
+        $em->persist($resAgent);
+        $em->flush();
+
+        try {
+            $client->request(Request::METHOD_GET, '/map/agent-info/'.$resAgent->getId());
+            self::assertResponseIsSuccessful();
+        } finally {
+            $em->remove($resAgent);
+            $em->flush();
+        }
+    }
+
+    public function testMapAgentInfoWithRealName(): void
+    {
+        $client = static::createClient();
+        $user = $this->getAuthenticatedUser();
+        if (!$user instanceof User) {
+            $this->markTestSkipped('No user found in database');
+        }
+
+        $client->loginUser($user);
+        $agent = $this->getFirstAgent();
+        if (!$agent instanceof Agent) {
+            $this->markTestSkipped('No agent found in database');
+        }
+
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $agent->setRealName('Map Real Name Test');
+        $em->flush();
+
+        $client->request(Request::METHOD_GET, '/map/agent-info/'.$agent->getId());
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('Map Real Name Test', (string) $client->getResponse()->getContent());
+    }
 }

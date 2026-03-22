@@ -91,4 +91,15 @@ class TestControllerTest extends WebTestCase
         $client->request(Request::METHOD_GET, '/test/modify-stats/input', ['q' => 'no tabs here']);
         self::assertResponseStatusCodeSame(406);
     }
+
+    public function testModifyStatsInputWithKeyValueMismatch(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getUser());
+
+        // 2 keys but only 1 value → key/value count mismatch
+        $csv = "key1\tkey2\nval1";
+        $client->request(Request::METHOD_GET, '/test/modify-stats/input', ['q' => $csv]);
+        self::assertResponseStatusCodeSame(406);
+    }
 }

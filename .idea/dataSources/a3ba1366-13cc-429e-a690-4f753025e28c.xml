@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="app@localhost">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.54">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.55">
     <root id="1">
       <DateStyle>mdy</DateStyle>
       <Grants>1||-9223372036854775808|c|G
@@ -4579,7 +4579,7 @@ false posixrules
       <OwnerName>app</OwnerName>
     </table>
     <column id="306" parent="291" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>747</StateNumber>
@@ -4722,7 +4722,7 @@ false posixrules
       <UnderlyingIndexId>16533</UnderlyingIndexId>
     </key>
     <column id="327" parent="292" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>752</StateNumber>
@@ -5029,7 +5029,7 @@ false posixrules
       <UnderlyingIndexId>16535</UnderlyingIndexId>
     </key>
     <column id="376" parent="293" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>757</StateNumber>
@@ -5133,7 +5133,7 @@ false posixrules
       <UnderlyingIndexId>16537</UnderlyingIndexId>
     </key>
     <column id="390" parent="294" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>762</StateNumber>
@@ -5186,7 +5186,7 @@ false posixrules
       <UnderlyingIndexId>16539</UnderlyingIndexId>
     </key>
     <column id="397" parent="295" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>767</StateNumber>
@@ -5304,7 +5304,7 @@ false posixrules
       <UnderlyingIndexId>16543</UnderlyingIndexId>
     </key>
     <column id="413" parent="297" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>774</StateNumber>
@@ -5364,7 +5364,7 @@ false posixrules
       <UnderlyingIndexId>16545</UnderlyingIndexId>
     </key>
     <column id="421" parent="298" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>779</StateNumber>
@@ -5396,7 +5396,7 @@ false posixrules
       <UnderlyingIndexId>16547</UnderlyingIndexId>
     </key>
     <column id="425" parent="299" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>784</StateNumber>
@@ -5442,7 +5442,7 @@ false posixrules
       <UnderlyingIndexId>16549</UnderlyingIndexId>
     </key>
     <column id="431" parent="300" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>789</StateNumber>
@@ -5488,7 +5488,7 @@ false posixrules
       <UnderlyingIndexId>16551</UnderlyingIndexId>
     </key>
     <column id="437" parent="301" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>794</StateNumber>
@@ -5612,7 +5612,7 @@ false posixrules
       <UnderlyingIndexId>21623</UnderlyingIndexId>
     </key>
     <column id="454" parent="303" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>799</StateNumber>
@@ -5683,7 +5683,7 @@ false posixrules
       <UnderlyingIndexId>16557</UnderlyingIndexId>
     </key>
     <column id="463" parent="305" name="id">
-      <IdentityKind>by-default</IdentityKind>
+      <GeneratedKind>unknown-migrated</GeneratedKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>806</StateNumber>

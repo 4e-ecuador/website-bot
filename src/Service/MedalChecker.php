@@ -284,6 +284,10 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'apollo_onsite'      => [''],
+                    'apollo'             => ['bronze', 'silver', 'gold'],
+                    'orion_onsite'       => [''],
+                    'orion'              => ['bronze', 'silver', 'gold', 'platinum'],
                     'plus_gamma_onsite'  => [''],
                     'plus_gamma'         => ['bronze', 'silver', 'gold'],
                     'plus_beta'          => ['bronze', 'silver', 'gold'],
@@ -339,6 +343,17 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    '2026_summer_solstice'             =>
+                        [
+                            'bronze',
+                            'silver',
+                        ],
+                    'orion'             =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
                     'plus_gamma'             =>
                         [
                             'bronze',

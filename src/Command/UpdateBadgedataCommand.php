@@ -122,6 +122,20 @@ class UpdateBadgedataCommand extends Command
             'pgamma_season_bronze.png'                   => 'anomaly_plus_gamma_bronze.png',
             'pgamma_season_silver.png'                   => 'anomaly_plus_gamma_silver.png',
             'pgamma_season_gold.png'                     => 'anomaly_plus_gamma_gold.png',
+            'orion_onsite.png'                           => 'anomaly_orion_onsite.png',
+            'orion_bronze.png'                           => 'anomaly_orion_bronze.png',
+            'orion_silver.png'                           => 'anomaly_orion_silver.png',
+            'orion_gold.png'                             => 'anomaly_orion_gold.png',
+            'orion_plat.png'                             => 'anomaly_orion_platinum.png',
+            'medal_orion_global_bronze.png'              => 'event_badge_orion_bronze.png',
+            'medal_orion_global_silver.png'              => 'event_badge_orion_silver.png',
+            'medal_orion_global_gold.png'                => 'event_badge_orion_gold.png',
+            'apollo_anomaly.png'                         => 'anomaly_apollo_onsite.png',
+            'apollo_bronze.png'                          => 'anomaly_apollo_bronze.png',
+            'apollo_silver.png'                          => 'anomaly_apollo_silver.png',
+            'apollo_gold.png'                            => 'anomaly_apollo_gold.png',
+            'summer_solstice_2026_bronze.png'            => 'event_badge_2026_summer_solstice_bronze.png',
+            'summer_solstice_2026_silver.png'            => 'event_badge_2026_summer_solstice_silver.png',
         ];
 
     /**
@@ -160,6 +174,7 @@ class UpdateBadgedataCommand extends Command
             'Unused/Replaced',
             'Unused/Replaced - Single',
             'Ingress.Plus badges',
+            'Ingress Plus badges',
         ];
 
     /**

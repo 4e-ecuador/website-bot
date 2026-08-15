@@ -17,7 +17,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use UnexpectedValueException;
 
 /**
  * Class AppExtension
@@ -218,16 +217,7 @@ class AppExtension extends AbstractExtension
         string $badge,
         int|string $value
     ): string {
-        return match ($group) {
-            'anomaly' => 'anomaly_'.$badge.($value ? '_'.$value : ''),
-            'event' => 'event_badge_'.$badge.($value ? '_'.$value : ''),
-            'annual' => 'badge_'.$badge.'_'.$this->getMedalLevelName(
-                    (int)$value
-                ),
-            default => throw new UnexpectedValueException(
-                'Unknown group: '.$group
-            ),
-        };
+        return $this->medalChecker->getBadgeName($group, $badge, $value);
     }
 
     public function getBadgeData(

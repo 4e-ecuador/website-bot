@@ -9,7 +9,6 @@ use App\Twig\AppExtension;
 use App\Util\BadgeData;
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use UnexpectedValueException;
 
 class AppExtensionTest extends TestCase
 {
@@ -97,34 +96,11 @@ class AppExtensionTest extends TestCase
         self::assertSame('', $this->extension->displayRolesFilter(['ROLE_USER']));
     }
 
-    public function testGetBadgeNameAnomaly(): void
+    public function testGetBadgeNameDelegatesToMedalChecker(): void
     {
+        $this->medalChecker->method('getBadgeName')->willReturn('anomaly_cassandra_1');
+
         self::assertSame('anomaly_cassandra_1', $this->extension->getBadgeName('anomaly', 'cassandra', 1));
-    }
-
-    public function testGetBadgeNameAnomalyZeroValue(): void
-    {
-        self::assertSame('anomaly_cassandra', $this->extension->getBadgeName('anomaly', 'cassandra', 0));
-    }
-
-    public function testGetBadgeNameEvent(): void
-    {
-        self::assertSame('event_badge_fs_2', $this->extension->getBadgeName('event', 'fs', 2));
-    }
-
-    public function testGetBadgeNameAnnual(): void
-    {
-        $this->medalChecker->method('getMedalLevelName')->willReturn('gold');
-
-        self::assertSame('badge_anniversary_gold', $this->extension->getBadgeName('annual', 'anniversary', 3));
-    }
-
-    public function testGetBadgeNameUnknownGroupThrows(): void
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Unknown group: invalid');
-
-        $this->extension->getBadgeName('invalid', 'badge', 1);
     }
 
     public function testObjectFilter(): void

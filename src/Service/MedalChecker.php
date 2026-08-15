@@ -758,6 +758,23 @@ class MedalChecker
             ? $this->levelNames[$level] : '??';
     }
 
+    public function getBadgeName(
+        string $group,
+        string $badge,
+        int|string $value
+    ): string {
+        return match ($group) {
+            'anomaly' => 'anomaly_'.$badge.($value ? '_'.$value : ''),
+            'event' => 'event_badge_'.$badge.($value ? '_'.$value : ''),
+            'annual' => 'badge_'.$badge.'_'.$this->getMedalLevelName(
+                    (int)$value
+                ),
+            default => throw new UnexpectedValueException(
+                'Unknown group: '.$group
+            ),
+        };
+    }
+
     /**
      * @throws JsonException
      */

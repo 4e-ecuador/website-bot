@@ -170,6 +170,34 @@ class MedalCheckerTest extends KernelTestCase
         self::assertSame('bronze', $result);
     }
 
+    public function testGetBadgeNameAnomaly(): void
+    {
+        self::assertSame('anomaly_cassandra_1', $this->medalChecker->getBadgeName('anomaly', 'cassandra', 1));
+    }
+
+    public function testGetBadgeNameAnomalyZeroValue(): void
+    {
+        self::assertSame('anomaly_cassandra', $this->medalChecker->getBadgeName('anomaly', 'cassandra', 0));
+    }
+
+    public function testGetBadgeNameEvent(): void
+    {
+        self::assertSame('event_badge_fs_2', $this->medalChecker->getBadgeName('event', 'fs', 2));
+    }
+
+    public function testGetBadgeNameAnnual(): void
+    {
+        self::assertSame('badge_anniversary_bronze', $this->medalChecker->getBadgeName('annual', 'anniversary', 1));
+    }
+
+    public function testGetBadgeNameUnknownGroupThrows(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Unknown group: invalid');
+
+        $this->medalChecker->getBadgeName('invalid', 'badge', 1);
+    }
+
     public function testGetBadgeData(): void
     {
         $result = $this->medalChecker->getBadgeData('anomaly_kureze_effect');

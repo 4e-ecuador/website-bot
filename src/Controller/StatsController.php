@@ -76,6 +76,10 @@ class StatsController extends BaseController
             $customMedals = '';
         }
 
+        if (is_array($customMedals)) {
+            $customMedals = $this->removeInvalidCustomMedals($customMedals);
+        }
+
         return $this->render(
             'stats/agent-stats.html.twig',
             [
@@ -93,6 +97,55 @@ class StatsController extends BaseController
                 'agentCustomMedals' => $customMedals,
             ]
         );
+    }
+
+    /**
+     * Drops custom medals for which no badge data exists, so the template
+     * never has to render a broken lookup, and warns the user about it.
+     *
+     * @param array<string, array<string, int|string>> $customMedals
+     *
+     * @return array<string, array<string, int|string>>
+     */
+    private function removeInvalidCustomMedals(array $customMedals): array
+    {
+        $badgeErrors = [];
+
+        foreach ($customMedals as $group => $medals) {
+            if (!is_array($medals)) {
+                continue;
+            }
+
+            foreach ($medals as $medal => $value) {
+                try {
+                    $code = $this->medalChecker->getBadgeName(
+                        (string)$group,
+                        (string)$medal,
+                        $value
+                    );
+                    $this->medalChecker->getBadgeData($code);
+                } catch (UnexpectedValueException $exception) {
+                    $this->logger->error(
+                        'Invalid custom medal: '.$exception->getMessage(),
+                        ['exception' => $exception]
+                    );
+                    $badgeErrors[] = $code ?? $group.'_'.$medal;
+                    unset($customMedals[$group][$medal]);
+                }
+            }
+        }
+
+        if ($badgeErrors) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'Some badge data could not be found and has been skipped: {codes}',
+                    ['codes' => implode(', ', $badgeErrors)]
+                )
+            );
+        }
+
+        return $customMedals;
     }
 
     /**

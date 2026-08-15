@@ -3,15 +3,13 @@
         <div class="card-body">
             {% if app.user.agent %}
                 <b>{{ 'Import Stats'|trans }}</b>
-                <form method="post" action="{{ path('stat_import') }}" class="form-inline" id="stats-upload">
+                <form method="post" action="{{ path('stat_import') }}" class="d-flex" id="stats-upload">
                     <div class="input-group">
                         <textarea class="form-control" name="csv" id="csv" required="required"
                                   placeholder="{{ 'Prime export'|trans }}"></textarea>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-success" title="{{ 'Upload'|trans }}">
-                                <span class="oi oi-cloud-upload"></span>
-                            </button>
-                        </div>
+                        <button class="btn btn-outline-success" title="{{ 'Upload'|trans }}">
+                            <span class="oi oi-cloud-upload"></span>
+                        </button>
                     </div>
                     <input type="hidden" name="type" value="prime">
                     <!-- @todo FireBase token upload - to be filled by the app -->
@@ -21,16 +19,14 @@
 
             {% if is_granted('ROLE_AGENT') %}
                 <b>{{ 'Search agent'|trans }}</b>
-                <form method="post" action="{{ path('agent_index') }}" class="form-inline">
+                <form method="post" action="{{ path('agent_index') }}" class="d-flex">
                     <div class="input-group">
                         <input type="text" id="searchAgent" required="required"
                                name="paginatorOptions[criteria][nickname]"
                                class="form-control" placeholder="{{ 'Agent nickname'|trans }}">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-success" title="{{ 'Search'|trans }}">
-                                <span class="oi oi-magnifying-glass"></span>
-                            </button>
-                        </div>
+                        <button class="btn btn-outline-success" title="{{ 'Search'|trans }}">
+                            <span class="oi oi-magnifying-glass"></span>
+                        </button>
                     </div>
                 </form>
             {% endif %}

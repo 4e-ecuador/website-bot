@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') %}
-        <a href="{{ path('help_new') }}" class="float-right btn btn-outline-success" title="{{ 'Create new'|trans }}">
+        <a href="{{ path('help_new') }}" class="float-end btn btn-outline-success" title="{{ 'Create new'|trans }}">
             <span class="oi oi-plus"></span>
         </a>
     {% endif %}

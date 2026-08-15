@@ -5,13 +5,13 @@
 {% block body %}
 
     {% if 'dev' == app.environment %}
-        <div class="float-right">
+        <div class="float-end">
             <h3 class="alert-warning">Devs only..</h3>
             <form method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
-                <label for="inputEmail" class="sr-only">Email</label>
+                <label for="inputEmail" class="visually-hidden">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                        placeholder="e-mail" required autofocus>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('login') }}">
@@ -22,7 +22,7 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">{{ 'Please sign in'|trans }}</h1>
+    <h1 class="h3 mb-3 fw-normal">{{ 'Please sign in'|trans }}</h1>
 
     <a href="{{ path('connect_google_start') }}" title="{{ 'Google Login'|trans }}">
         <img src="{{ asset('images/login-buttons/btn_google_signin_dark_normal_web.png') }}"

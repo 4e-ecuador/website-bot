@@ -47,7 +47,7 @@
                 {% endif %}
                 <tr>
                     <th>{{ img|raw }}{{ cnt ~ '. ' ~name|raw }}</th>
-                    <td class="text-right">
+                    <td class="text-end">
                         {% if 'fieldslinks' == event.eventType %}
                             {{ value|number_format(2, '.', ',') }}
                         {% else %}

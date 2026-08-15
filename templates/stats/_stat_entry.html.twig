@@ -7,7 +7,7 @@
         {% if count < maxCount %}
             <div class="row">
                 <div class="col-sm-7">
-                    <span class="badge badge-pill text-bg-secondary">{{ count }}</span>
+                    <span class="badge rounded-pill text-bg-secondary">{{ count }}</span>
                     {% if 'recursions' == type %}
                         <span class="medal24 medal-unique_badge_simulacrum" title="Simulacrum"></span>
                         {% if entry.value > 1 %}
@@ -31,7 +31,7 @@
                         {{ entry.agent.nickname }}
                     </a>
                 </div>
-                <div class="col-sm-5 text-right">
+                <div class="col-sm-5 text-end">
                     {% if 'Fields/Links' == type  or 'Links/Fields' == type %}
                         {{ entry.value|number_format(2, '.', ',') }}
                     {% else %}

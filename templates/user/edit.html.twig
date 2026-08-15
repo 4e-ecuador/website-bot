@@ -5,7 +5,7 @@
 
 {% block body %}
     <div {{ stimulus_controller('user-edit', {'sendMailUrl': path('user_send_confirmation_mail', {id:user.id})}) }}>
-        <div class="btn-group float-right" role="group">
+        <div class="btn-group float-end" role="group">
             {{ buttons.back(path('user_index')) }}
             <button class="btn btn-outline-info"
                     title="{{ 'Send confirmation mail'|trans }}"
@@ -16,7 +16,7 @@
             {{ include('user/_delete_form.html.twig') }}
         </div>
         <h1>{{ 'Edit User'|trans }}</h1>
-        <div class="float-right"
+        <div class="float-end"
                 {{ stimulus_target('user-edit', 'resultContainer') }}
         ></div>
     </div>

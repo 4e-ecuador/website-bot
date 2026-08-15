@@ -6,7 +6,7 @@
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') %}
-        <div class="float-right">
+        <div class="float-end">
             {{ buttons.new(path('agent_new')) }}
         </div>
     {% endif %}

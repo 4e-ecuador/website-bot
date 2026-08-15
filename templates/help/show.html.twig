@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') %}
-        <div class="btn-group float-right">
+        <div class="btn-group float-end">
             <a class="btn btn-outline-secondary" href="{{ path('help_index') }}" title="{{ 'Back to list'|trans }}">
                 <span class="oi oi-arrow-left"></span>
             </a>

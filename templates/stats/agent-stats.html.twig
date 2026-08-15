@@ -4,9 +4,9 @@
 
 {% block body %}
     {% if user and user.avatarEncoded %}
-        <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
+        <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-start">
     {% endif %}
-    <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-right btn btn-outline-success"
+    <a href="{{ path('agent_show', {'id': agent.id}) }}" class="float-end btn btn-outline-success"
        title="{{ 'View Profile'|trans }}"
     >
         <span class="oi oi-person"></span>

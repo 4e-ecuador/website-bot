@@ -17,9 +17,9 @@
         'tributeLookupUrl': path('agent_lookup'),
     }) }}>
         {% if user and user.avatarEncoded %}
-            <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-left">
+            <img src="{{ user.avatarEncoded }}" height="100" alt="Avatar" class="float-start">
         {% endif %}
-        <div class="btn-group float-right" role="group">
+        <div class="btn-group float-end" role="group">
             {{ buttons.back(path('agent_index')) }}
             {% if is_granted('ROLE_EDITOR') %}
                 {{ buttons.edit(path('agent_edit', {'id': agent.id})) }}

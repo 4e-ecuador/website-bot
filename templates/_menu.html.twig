@@ -3,7 +3,7 @@
         <a class="navbar-brand text-success" href="{{ path('default') }}">4E</a>
 
         {% if is_granted('ROLE_AGENT') %}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             >
                 <span class="navbar-toggler-icon"></span>
@@ -141,8 +141,8 @@
             </div>
         {% endif %}
 
-        <div class="ml-auto">
-            <ul class="nav navbar-nav ml-auto">
+        <div class="ms-auto">
+            <ul class="nav navbar-nav ms-auto">
                 {% if is_granted('ROLE_USER') %}
                     {% if app.user.agent %}
                         <li class="nav-item dropdown">

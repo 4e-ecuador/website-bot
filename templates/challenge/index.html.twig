@@ -21,8 +21,9 @@
                 <td>{{ challenge.id }}</td>
                 <td>
                     <a href="{{ path('challenge_show', {'id': challenge.id}) }}">
-                    {{ challenge.name }}</td>
-                </a>
+                        {{ challenge.name }}
+                    </a>
+                </td>
                 <td>{{ challenge.dateStart ? challenge.dateStart|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ challenge.dateEnd ? challenge.dateEnd|date('Y-m-d H:i') : '' }}</td>
                 <td>

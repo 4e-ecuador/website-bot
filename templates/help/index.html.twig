@@ -29,8 +29,9 @@
                 </td>
                 {% if is_granted('ROLE_EDITOR') %}
                     <td>
-                        <a href="{{ path('help_edit', {'id': help.id}) }}" title="{{ 'Edit'|trans }}"><span
-                                    class="oi oi-pencil"></a>
+                        <a href="{{ path('help_edit', {'id': help.id}) }}" title="{{ 'Edit'|trans }}">
+                            <span class="oi oi-pencil"></span>
+                        </a>
                     </td>
                 {% endif %}
             </tr>

@@ -198,6 +198,9 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
         return $client;
     }
 
+    /**
+     * @param array<string, string> $columnOverrides Header name => new value
+     */
     private function csvWithOverrides(array $columnOverrides): string
     {
         $lines = explode("\n", trim((string)file_get_contents(self::CSV_FIXTURE)));

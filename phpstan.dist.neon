@@ -7,12 +7,12 @@ parameters:
 		- public/
 		- src/
 		- tests/
+	excludePaths:
+		- src/Kernel.php
 	symfony:
 		containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
 #	doctrine:
 #		objectManagerLoader: tests/object-manager.php
-	scanDirectories:
-		- var/cache/dev/Symfony/Config
 	editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 	cognitive_complexity:
 		class: 50

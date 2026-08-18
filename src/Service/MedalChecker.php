@@ -548,22 +548,29 @@ class MedalChecker
     {
         $levels = [];
         foreach (array_keys($this->medalLevels) as $name) {
-            $methodName = $this->getGetterMethodName($name);
-            if (method_exists($agentStat, $methodName)) {
-                $levels[$name] = $this->getMedalLevel(
-                    $name,
-                    $agentStat->$methodName() ?: 0
-                );
-
-                if (0 === $levels[$name]
-                    && in_array($name, $this->discontinuedMedals, true)
-                ) {
-                    unset($levels[$name]);
-                }
+            $level = $this->getMedalLevelForStat($agentStat, $name);
+            if (null !== $level) {
+                $levels[$name] = $level;
             }
         }
 
         return $levels;
+    }
+
+    private function getMedalLevelForStat(AgentStat $agentStat, string $name): ?int
+    {
+        $methodName = $this->getGetterMethodName($name);
+        if (!method_exists($agentStat, $methodName)) {
+            return null;
+        }
+
+        $level = $this->getMedalLevel($name, $agentStat->$methodName() ?: 0);
+
+        if (0 === $level && in_array($name, $this->discontinuedMedals, true)) {
+            return null;
+        }
+
+        return $level;
     }
 
     public function getLevelName(int $level): string
@@ -573,17 +580,17 @@ class MedalChecker
 
     public function translatePrimeHeader(string $name): string
     {
-        if (false === array_key_exists($name, $this->primeHeaders)) {
-            if ('dev' === $this->appEnv) {
-                throw new UnexpectedValueException(
-                    sprintf('Prime header not found: "%s"', $name)
-                );
-            }
-
-            return '';
+        if (array_key_exists($name, $this->primeHeaders)) {
+            return $this->primeHeaders[$name];
         }
 
-        return $this->primeHeaders[$name];
+        if ('dev' === $this->appEnv) {
+            throw new UnexpectedValueException(
+                sprintf('Prime header not found: "%s"', $name)
+            );
+        }
+
+        return '';
     }
 
     public function getGetterMethodName(string $vName): string

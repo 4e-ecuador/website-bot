@@ -70,7 +70,7 @@ class StatsController extends BaseController
                 (string)$agent->getCustomMedals(),
                 true,
                 512,
-                JSON_THROW_ON_ERROR | JSON_ERROR_NONE
+                JSON_THROW_ON_ERROR
             );
         } catch (JsonException) {
             $customMedals = '';

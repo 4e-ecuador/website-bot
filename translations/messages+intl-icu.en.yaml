@@ -147,7 +147,6 @@ notify.upload.reminder: __notify.upload.reminder
 account.link.text: here
 notify.events.days.remaining: __notify.events.days.remaining
 'Stats upload successful!': 'Stats upload successful!'
-'Some badge data could not be found and has been skipped: {codes}': 'Some badge data could not be found and has been skipped: {codes}'
 'Import result': 'Import result'
 Progress: Progress
 'Medal UPs': 'Medal UPs'

@@ -265,6 +265,11 @@ class MedalChecker
             'Field Test Dispatch'                    => '',
             '+Gamma Tokens'                          => '',
             '+Gamma Link Points'                     => '',
+            'Orion Tokens'                           => '',
+            'Orion Link And Field Points'            => '',
+            'Apollo Tokens'                          => '',
+
+            'Anomaly Unique Hacks'                   => '',
 
             'Machina Links Destroyed'      => '',
             'Machina Resonators Destroyed' => '',

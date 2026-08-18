@@ -400,10 +400,14 @@ class StatsController extends BaseController
                     'Failed to send result messages: '.$exception->getMessage(),
                     ['exception' => $exception]
                 );
-                $this->addFlash(
-                    'warning',
-                    $this->translator->trans('Sorry but the message has not been sent :(')
-                );
+                if ('test' !== $appEnv) {
+                    $this->addFlash(
+                        'warning',
+                        $this->translator->trans(
+                            'Sorry but the message has not been sent :('
+                        )
+                    );
+                }
                 if ('dev' === $appEnv) {
                     throw $exception;
                 }

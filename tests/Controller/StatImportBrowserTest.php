@@ -21,6 +21,18 @@ class StatImportBrowserTest extends PantherTestCase
 
     private const CSV_FIXTURE = __DIR__.'/../test-stats.csv';
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        // When run via "symfony php/console" (as make tests does) while a
+        // "symfony server:start" is running, Panther would otherwise adopt
+        // that server as an "external" one instead of spawning its own -
+        // pointing the browser at the real dev app/DB/session storage
+        // under APP_ENV=dev rather than this isolated test run.
+        unset($_SERVER['SYMFONY_PROJECT_DEFAULT_ROUTE_URL'], $_SERVER['PANTHER_EXTERNAL_BASE_URI']);
+    }
+
     protected function tearDown(): void
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
@@ -75,7 +87,12 @@ class StatImportBrowserTest extends PantherTestCase
     private function logIn(Client $client): void
     {
         // A page must be loaded before cookies can be set for its domain.
-        $client->request('GET', '/login');
+        // Uses a static asset rather than a route: if a later test in this
+        // class reuses the same (already-authenticated) browser session,
+        // hitting a route like "/login" while already logged in redirects
+        // to the "default" route - which is https-only and fails against
+        // this plain-http dev server.
+        $client->request('GET', '/favicon.ico');
 
         $user = self::getContainer()
             ->get('doctrine.orm.entity_manager')

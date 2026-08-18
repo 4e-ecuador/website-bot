@@ -140,16 +140,21 @@ class StatsImporter
             $importResult->coreSubscribed[] = 'core';
         }
 
-        if ($monthsSubscribed >= 24
-            && $monthsSubscribed !== $previousMonthsSubscribed
-        ) {
-            $importResult->coreSubscribed[] = 'dual_core';
-        }
+        $coreLevels = [
+            60 => 'penta_core',
+            48 => 'quad_core',
+            36 => 'core_year3',
+            24 => 'dual_core',
+        ];
 
-        if ($monthsSubscribed >= 36
-            && $monthsSubscribed !== $previousMonthsSubscribed
-        ) {
-            $importResult->coreSubscribed[] = 'core_year3';
+        foreach ($coreLevels as $coreLevel=>$levelName) {
+            if ($monthsSubscribed >= $coreLevel
+                && $previousMonthsSubscribed < $coreLevel
+            ) {
+                $importResult->coreSubscribed[] = $levelName;
+
+                return;
+            }
         }
     }
 

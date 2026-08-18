@@ -333,7 +333,8 @@ class StatsImporterSendTest extends TestCase
         $result = $importer->getImportResult($current, $previous);
 
         self::assertContains('core_year3', $result->coreSubscribed ?? []);
-        self::assertContains('dual_core', $result->coreSubscribed ?? []);
+        // Tiers are mutually exclusive - only the highest one crossed fires.
+        self::assertNotContains('dual_core', $result->coreSubscribed ?? []);
     }
 
     public function testSendResultMessagesWithIntroRoleUsesIntroGroup(): void

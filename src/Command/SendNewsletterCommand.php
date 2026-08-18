@@ -33,8 +33,8 @@ class SendNewsletterCommand extends Command
         private readonly EventRepository $eventRepository,
         private readonly IngressEventRepository $ingressEventRepository,
         private readonly UrlGeneratorInterface $router,
-        #[Autowire('%env(PAGE_BASE_URL)%')] private readonly string $pageBaseUrl,
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone,
+        #[Autowire(env: 'PAGE_BASE_URL')] private readonly string $pageBaseUrl,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone,
     ) {
         parent::__construct();
     }

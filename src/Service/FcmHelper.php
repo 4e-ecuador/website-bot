@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use RuntimeException;
@@ -18,8 +20,8 @@ class FcmHelper
     public string $type = '';
 
     public function __construct(
-        #[Autowire('%env(FCM_KEY)%')] private readonly string $fcmKey,
-        #[Autowire('%env(FCM_CHANNEL_ID)%')] private readonly string $channelId
+        #[Autowire(env: 'FCM_KEY')] private readonly string $fcmKey,
+        #[Autowire(env: 'FCM_CHANNEL_ID')] private readonly string $channelId
     ) {
     }
 

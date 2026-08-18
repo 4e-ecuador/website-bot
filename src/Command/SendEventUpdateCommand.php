@@ -30,8 +30,8 @@ class SendEventUpdateCommand extends Command
         private readonly EventHelper $eventHelper,
         private readonly EventRepository $eventRepository,
         private readonly AgentStatRepository $statRepository,
-        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

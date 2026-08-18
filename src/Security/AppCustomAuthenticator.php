@@ -22,7 +22,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv
+        #[Autowire(env: 'APP_ENV')] private readonly string $appEnv
     ) {
     }
 

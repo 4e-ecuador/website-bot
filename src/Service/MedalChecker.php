@@ -527,8 +527,8 @@ class MedalChecker
 
     public function __construct(
         TranslatorInterface $translator,
-        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
-        #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv,
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
+        #[Autowire(env: 'APP_ENV')] private readonly string $appEnv,
     ) {
         if ($translator instanceof LocaleAwareInterface) {
             $translator->setLocale('es');

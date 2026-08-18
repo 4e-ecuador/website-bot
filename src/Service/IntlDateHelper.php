@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use DateTime;
@@ -21,7 +23,7 @@ class IntlDateHelper
     private readonly string $timeZone;
 
     public function __construct(
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone,
         TranslatorInterface $translator
     ) {
         $locale = $translator->getLocale();

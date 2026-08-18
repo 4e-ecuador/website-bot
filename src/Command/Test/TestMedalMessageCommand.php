@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'bot:test:medalMessage')]
+#[AsCommand(name: 'bot:test:medalMessage', description: 'Send a bot message')]
 class TestMedalMessageCommand extends Command
 {
     public function __construct(
@@ -25,7 +25,6 @@ class TestMedalMessageCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send a bot message')
             ->addOption(
                 'group',
                 null,

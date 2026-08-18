@@ -21,7 +21,7 @@ class TelegramMessageHelper
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly MedalChecker $medalChecker,
-        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
         private readonly NewMedalMessage $newMedalMessage,
         private readonly MedalDoubleMessage $medalDoubleMessage,
         private readonly LevelUpMessage $levelUpMessage,

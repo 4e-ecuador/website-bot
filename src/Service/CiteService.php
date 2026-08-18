@@ -11,7 +11,7 @@ use UnexpectedValueException;
 final readonly class CiteService
 {
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private string $rootDir
+        #[Autowire(param: 'kernel.project_dir')] private string $rootDir
     ) {
     }
 

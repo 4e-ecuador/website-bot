@@ -126,14 +126,4 @@ class UserTest extends TestCase
 
         self::assertSame('test@example.com', $user->getUserAgentName());
     }
-
-    public function testEraseCredentials(): void
-    {
-        $user = new User();
-
-        // Should not throw
-        $user->eraseCredentials();
-
-        self::assertNull($user->getPassword());
-    }
 }

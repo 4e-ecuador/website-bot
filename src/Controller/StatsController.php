@@ -408,6 +408,7 @@ class StatsController extends BaseController
                         )
                     );
                 }
+
                 if ('dev' === $appEnv) {
                     throw $exception;
                 }

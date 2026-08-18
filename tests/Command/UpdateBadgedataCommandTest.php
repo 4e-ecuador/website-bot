@@ -24,6 +24,12 @@ class UpdateBadgedataCommandTest extends TestCase
 
     protected function setUp(): void
     {
+        // SymfonyStyle wraps block messages (warning/note/...) to the
+        // terminal width, which BufferedOutput otherwise inherits from
+        // whatever terminal phpunit happens to run in - making assertions
+        // on message substrings flaky wherever that wraps mid-phrase.
+        putenv('COLUMNS=200');
+
         $this->tmpDir = sys_get_temp_dir().'/badge_test_'.uniqid('', true);
         mkdir($this->tmpDir.'/assets/images/badges', 0777, true);
         mkdir($this->tmpDir.'/assets/images/sprites', 0777, true);
@@ -35,6 +41,7 @@ class UpdateBadgedataCommandTest extends TestCase
 
     protected function tearDown(): void
     {
+        putenv('COLUMNS');
         $this->removeDir($this->tmpDir);
     }
 
@@ -418,7 +425,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('An unknown error occurred');
+        $this->expectExceptionMessageIsOrContains('An unknown error occurred');
         $method->invoke($this->command, 'false');
     }
 
@@ -427,7 +434,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('error from cmd');
+        $this->expectExceptionMessageIsOrContains('error from cmd');
         $method->invoke($this->command, "sh -c 'echo error from cmd; exit 1'");
     }
 

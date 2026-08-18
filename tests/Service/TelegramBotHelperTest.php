@@ -85,7 +85,7 @@ class TelegramBotHelperTest extends TestCase
     public function testGetGroupIdUnknownThrows(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Unknown TG bot group name');
+        $this->expectExceptionMessageIsOrContains('Unknown TG bot group name');
 
         $this->helper->getGroupId('nonexistent');
     }
@@ -110,7 +110,7 @@ class TelegramBotHelperTest extends TestCase
         );
 
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Required TG bot env var has not been set up');
+        $this->expectExceptionMessageIsOrContains('Required TG bot env var has not been set up');
 
         $helper->getGroupId('default');
     }

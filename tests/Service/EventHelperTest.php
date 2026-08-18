@@ -41,7 +41,7 @@ class EventHelperTest extends KernelTestCase
     public function testCalculateResultsInvalidType(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Unknown event type: test');
+        $this->expectExceptionMessageIsOrContains('Unknown event type: test');
 
         $agent = new Agent()->setNickname('testAgent');
         $event = new Event()->setEventType('test');

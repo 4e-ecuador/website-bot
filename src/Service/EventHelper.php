@@ -30,7 +30,7 @@ class EventHelper
     public function __construct(
         private readonly EventRepository $eventRepository,
         private readonly ChallengeRepository $challengeRepository,
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

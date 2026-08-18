@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command\Test;
 
 use App\Service\TelegramBotHelper;
@@ -12,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use UnexpectedValueException;
 
-#[AsCommand(name: 'bot:test:message')]
+#[AsCommand(name: 'bot:test:message', description: 'Send a bot message')]
 class TestMessageCommand extends Command
 {
     public function __construct(
@@ -24,7 +26,6 @@ class TestMessageCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send a bot message')
             ->addOption(
                 'group',
                 null,

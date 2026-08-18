@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class SortLanguageFilesCommand extends Command
 {
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir,
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
         private readonly string $locale,
         /**
          * @var array<string>

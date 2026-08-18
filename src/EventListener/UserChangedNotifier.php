@@ -14,7 +14,7 @@ class UserChangedNotifier
     public function __construct(
         private readonly Security $security,
         private readonly TelegramBotHelper $telegramBotHelper,
-        #[Autowire('%env(APP_ENV)%')] private readonly string $appEnv
+        #[Autowire(env: 'APP_ENV')] private readonly string $appEnv
     ) {
     }
 

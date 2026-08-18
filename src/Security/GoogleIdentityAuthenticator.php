@@ -34,7 +34,7 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper,
-        #[Autowire('%env(OAUTH_GOOGLE_ID)%')] private readonly string $oauthGoogleId,
+        #[Autowire(env: 'OAUTH_GOOGLE_ID')] private readonly string $oauthGoogleId,
     ) {
     }
 

@@ -214,7 +214,7 @@ class UpdateBadgedataCommand extends Command
         ];
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private readonly string $rootDir
+        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir
     ) {
         $this->assetRoot = $rootDir.'/assets';
         $this->badgeRoot = $rootDir.'/assets/images/badges';

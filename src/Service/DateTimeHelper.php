@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use DateTime;
@@ -12,7 +14,7 @@ class DateTimeHelper
     private readonly DateTimeZone $timezone;
 
     public function __construct(
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

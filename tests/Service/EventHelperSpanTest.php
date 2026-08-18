@@ -67,7 +67,7 @@ class EventHelperSpanTest extends KernelTestCase
     public function testGetEventsInSpanInvalid(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'Unknown span (must be: past, present or future)'
         );
         $this->eventHelper->getEventsInSpan('test');

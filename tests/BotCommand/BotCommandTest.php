@@ -76,14 +76,13 @@ class BotCommandTest extends TestCase
         self::assertSame('Agents lookup command', $command->getDescription());
     }
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testAgentsCommandExecuteSendsMessage(): void
     {
         $command = new Agents();
         $api = $this->buildBotApi();
 
         $command->execute($api, $this->buildUpdate());
-        // No exception = pass
-        $this->addToAssertionCount(1);
     }
 
     public function testGuidesCommandMetadata(): void
@@ -93,13 +92,13 @@ class BotCommandTest extends TestCase
         self::assertSame('Guides command', $command->getDescription());
     }
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testGuidesCommandExecuteSendsMessage(): void
     {
         $command = new Guides();
         $api = $this->buildBotApi();
 
         $command->execute($api, $this->buildUpdate());
-        $this->addToAssertionCount(1);
     }
 
     public function testCiteCommandMetadata(): void
@@ -112,6 +111,7 @@ class BotCommandTest extends TestCase
         self::assertSame('Cites command', $command->getDescription());
     }
 
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCiteCommandExecuteSendsMessage(): void
     {
         $emojiService = new EmojiService();
@@ -121,7 +121,6 @@ class BotCommandTest extends TestCase
         $api = $this->buildBotApi();
 
         $command->execute($api, $this->buildUpdate('/cite'));
-        $this->addToAssertionCount(1);
     }
 
     public function testStartCommandMetadata(): void

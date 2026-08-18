@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: elkuku
  * Date: 05.10.18
  * Time: 12:55
  */
-
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;

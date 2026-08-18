@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class StatImportBrowserTest extends PantherTestCase
 {
-    private const SCREENSHOT_DIR = __DIR__.'/../../var/screenshots';
+    private const string SCREENSHOT_DIR = __DIR__.'/../../var/screenshots';
 
-    private const CSV_FIXTURE = __DIR__.'/../test-stats.csv';
+    private const string CSV_FIXTURE = __DIR__.'/../test-stats.csv';
 
     public static function setUpBeforeClass(): void
     {

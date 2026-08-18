@@ -9,6 +9,9 @@ use App\Twig\AppExtension;
 use App\Util\BadgeData;
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use Twig\Attribute\AsTwigFilter;
+use Twig\Attribute\AsTwigFunction;
 
 class AppExtensionTest extends TestCase
 {
@@ -32,12 +35,9 @@ class AppExtensionTest extends TestCase
 
     public function testGetFiltersReturnsArray(): void
     {
-        $filters = $this->extension->getFilters();
+        $names = $this->getAttributeNames(AsTwigFilter::class);
 
-        self::assertNotEmpty($filters);
-
-        $names = array_map(static fn($f) => $f->getName(), $filters);
-
+        self::assertNotEmpty($names);
         self::assertContains('stripGmail', $names);
         self::assertContains('ucfirst', $names);
         self::assertContains('displayRoles', $names);
@@ -46,14 +46,32 @@ class AppExtensionTest extends TestCase
 
     public function testGetFunctionsReturnsArray(): void
     {
-        $functions = $this->extension->getFunctions();
+        $names = $this->getAttributeNames(AsTwigFunction::class);
 
-        self::assertNotEmpty($functions);
-
-        $names = array_map(static fn($f) => $f->getName(), $functions);
-
+        self::assertNotEmpty($names);
         self::assertContains('defaultTimeZone', $names);
         self::assertContains('getBadgeName', $names);
+    }
+
+    /**
+     * AppExtension registers its filters/functions via per-method
+     * #[AsTwigFilter]/#[AsTwigFunction] attributes rather than
+     * getFilters()/getFunctions(), so that's what's checked here.
+     *
+     * @param class-string<AsTwigFilter>|class-string<AsTwigFunction> $attributeClass
+     *
+     * @return list<string>
+     */
+    private function getAttributeNames(string $attributeClass): array
+    {
+        $names = [];
+        foreach (new ReflectionClass(AppExtension::class)->getMethods() as $method) {
+            foreach ($method->getAttributes($attributeClass) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+
+        return $names;
     }
 
     public function testStripGmail(): void

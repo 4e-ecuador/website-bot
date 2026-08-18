@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Comment;
@@ -16,8 +18,8 @@ class MailerHelper
 {
     public function __construct(
         private readonly MailerInterface $mailer,
-        #[Autowire('%env(APP_EMAIL)%')] private readonly string $email,
-        #[Autowire('%env(APP_EMAIL_NAME)%')] private readonly string $emailName,
+        #[Autowire(env: 'APP_EMAIL')] private readonly string $email,
+        #[Autowire(env: 'APP_EMAIL_NAME')] private readonly string $emailName,
         private readonly LoggerInterface $logger,
     ) {
     }

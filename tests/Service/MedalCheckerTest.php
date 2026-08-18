@@ -193,7 +193,7 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetBadgeNameUnknownGroupThrows(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Unknown group: invalid');
+        $this->expectExceptionMessageIsOrContains('Unknown group: invalid');
 
         $this->medalChecker->getBadgeName('invalid', 'badge', 1);
     }
@@ -212,7 +212,7 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetBadgeDataException(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('No data for code: TEST');
+        $this->expectExceptionMessageIsOrContains('No data for code: TEST');
         $this->medalChecker->getBadgeData('TEST');
     }
 

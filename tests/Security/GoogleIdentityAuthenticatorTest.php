@@ -47,7 +47,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         $request = Request::create('/connect/google/verify', \Symfony\Component\HttpFoundation\Request::METHOD_POST);
 
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage('Missing credentials');
+        $this->expectExceptionMessageIsOrContains('Missing credentials');
 
         $this->authenticator->authenticate($request);
     }

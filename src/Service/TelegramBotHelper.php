@@ -21,11 +21,11 @@ class TelegramBotHelper
 
     public function __construct(
         private readonly BotApi $api,
-        #[Autowire('%env(TELEGRAM_BOT_NAME)%')] private readonly string $botName,
-        #[Autowire('%env(ANNOUNCE_GROUP_ID_1)%')] string $groupIdDefault,
-        #[Autowire('%env(ANNOUNCE_GROUP_ID_ADMIN)%')] string $groupIdAdmin,
-        #[Autowire('%env(ANNOUNCE_GROUP_ID_INTRO)%')] string $groupIdIntro,
-        #[Autowire('%env(ANNOUNCE_GROUP_ID_TEST)%')] string $groupIdTest
+        #[Autowire(env: 'TELEGRAM_BOT_NAME')] private readonly string $botName,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_1')] string $groupIdDefault,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_ADMIN')] string $groupIdAdmin,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_INTRO')] string $groupIdIntro,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_TEST')] string $groupIdTest
     ) {
         $this->groupIds = [
             'default' => $groupIdDefault,

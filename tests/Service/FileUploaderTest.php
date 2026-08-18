@@ -47,7 +47,7 @@ class FileUploaderTest extends TestCase
         $uploadedFile = new UploadedFile($tmpFile, 'test.txt', 'text/plain', null, true);
 
         $this->expectException(FileException::class);
-        $this->expectExceptionMessage('Failed to upload file');
+        $this->expectExceptionMessageIsOrContains('Failed to upload file');
 
         $uploader->upload('/nonexistent/directory/path', $uploadedFile, 'test.txt');
     }

@@ -33,7 +33,7 @@ class CsvParserTest extends KernelTestCase
     public function testParseUnknownType(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('unknown CSV type');
+        $this->expectExceptionMessageIsOrContains('unknown CSV type');
         $this->csvParser->parse('', 'INVALID');
     }
 
@@ -44,7 +44,7 @@ class CsvParserTest extends KernelTestCase
     public function testParseNotAll(): void
     {
         $this->expectException(StatsNotAllException::class);
-        $this->expectExceptionMessage('Prime stats not ALL');
+        $this->expectExceptionMessageIsOrContains('Prime stats not ALL');
         $this->csvParser->parse($this->switchCsv(['span' => 'TEST']));
     }
 
@@ -55,7 +55,7 @@ class CsvParserTest extends KernelTestCase
     public function testParseInvalid(): void
     {
         $this->expectException(InvalidCsvException::class);
-        $this->expectExceptionMessage('Invalid CSV');
+        $this->expectExceptionMessageIsOrContains('Invalid CSV');
         $this->csvParser->parse('test');
     }
 
@@ -103,7 +103,7 @@ class CsvParserTest extends KernelTestCase
     public function testParseFieldCountMismatchThrows(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('CSV field count does not match!');
+        $this->expectExceptionMessageIsOrContains('CSV field count does not match!');
 
         // Header has 2 columns but data row has 3 columns
         $csv = "Time Span\tAgent Name\nGESAMT\textra1\textra2";

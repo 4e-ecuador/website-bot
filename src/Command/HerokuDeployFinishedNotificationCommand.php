@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Exception\EmojiNotFoundException;
@@ -24,7 +26,7 @@ class HerokuDeployFinishedNotificationCommand extends Command
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly EmojiService $emojiService,
-        #[Autowire('%env(PAGE_BASE_URL)%')] private readonly string $pageBaseUrl
+        #[Autowire(env: 'PAGE_BASE_URL')] private readonly string $pageBaseUrl
     ) {
         parent::__construct();
     }

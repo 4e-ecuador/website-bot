@@ -21,7 +21,7 @@ use Twig\TwigFunction;
 /**
  * Class AppExtension
  */
-class AppExtension extends AbstractExtension
+class AppExtension
 {
     /**
      * @var array<string, string>
@@ -38,52 +38,8 @@ class AppExtension extends AbstractExtension
         private readonly MedalChecker $medalChecker,
         private readonly MarkdownHelper $markdownHelper,
         private readonly IntlDateHelper $intlDateHelper,
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] private readonly string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    #[\Override]
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('cast_to_array', $this->objectFilter(...)),
-            new TwigFilter('medalLevel', $this->medalLevelFilter(...)),
-            new TwigFilter('medalLevelName', $this->getMedalLevelName(...)),
-            new TwigFilter(
-                'translateMedalLevel', $this->translateMedalLevelFilter(...)
-            ),
-            new TwigFilter('medalDesc', $this->medalDescFilter(...)),
-            new TwigFilter('stripGmail', $this->stripGmail(...)),
-            new TwigFilter('displayRoles', $this->displayRolesFilter(...)),
-            new TwigFilter('ucfirst', $this->displayUcFirst(...)),
-            new TwigFilter('formatIntlDate', $this->formatIntlDate(...)),
-            new TwigFilter('intDateShort', $this->intlDateShort(...)),
-            new TwigFilter(
-                'md2html', $this->markdownToHtml(...), ['is_safe' => ['html']]
-            ),
-            new TwigFilter('stripTitle', $this->medalDescFilter(...)),
-            new TwigFilter('escape_bytecode', $this->escapeBytecode(...)),
-        ];
-    }
-
-    #[\Override]
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('medalValue', $this->getMedalValue(...)),
-            new TwigFunction('medalLevel', $this->getMedalLevel(...)),
-            new TwigFunction('medalLevelNames', $this->getMedalLevelNames(...)),
-            new TwigFunction('medalDoubleValue', $this->medalDoubleValue(...)),
-            new TwigFunction('getBadgePath', $this->getBadgePath(...)),
-            new TwigFunction('getChallengePath', $this->getChallengePath(...)),
-            new TwigFunction('getBadgeData', $this->getBadgeData(...)),
-            new TwigFunction('getBadgeName', $this->getBadgeName(...)),
-            new TwigFunction('intlDate', $this->intlDate(...)),
-            new TwigFunction('defaultTimeZone', $this->getDefaultTimeZone(...)),
-        ];
     }
 
     /**
@@ -91,6 +47,7 @@ class AppExtension extends AbstractExtension
      *
      * @return array<string, string|int>
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'cast_to_array')]
     public function objectFilter(object $classObject): array
     {
         $array = (array)$classObject;
@@ -105,11 +62,14 @@ class AppExtension extends AbstractExtension
         return $response;
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'medalLevel')]
     public function medalLevelFilter(int $level): string
     {
         return $this->medalChecker->getLevelName($level);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'medalDesc')]
+    #[\Twig\Attribute\AsTwigFilter(name: 'stripTitle')]
     public function medalDescFilter(string $medal): string
     {
         return $this->medalChecker->getDescription($medal);
@@ -118,6 +78,7 @@ class AppExtension extends AbstractExtension
     /**
      * @param array<string> $roles
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'displayRoles')]
     public function displayRolesFilter(array $roles): string
     {
         $roles = array_diff($roles, ['ROLE_USER']);
@@ -132,6 +93,7 @@ class AppExtension extends AbstractExtension
         return implode(', ', $displayRoles);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'ucfirst')]
     public function displayUcFirst(string $string): string
     {
         return ucfirst($string);
@@ -140,21 +102,25 @@ class AppExtension extends AbstractExtension
     /**
      * Transforms the given Markdown content into HTML content.
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'md2html', isSafe: ['html'])]
     public function markdownToHtml(string $content): string
     {
         return $this->markdownHelper->parse($content);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'medalValue')]
     public function getMedalValue(string $medal, int $level): int
     {
         return $this->medalChecker->getLevelValue($medal, $level);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'medalLevel')]
     public function getMedalLevel(string $medal, int $value): int
     {
         return $this->medalChecker->getMedalLevel($medal, $value);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'medalLevelName')]
     public function getMedalLevelName(int $level): string
     {
         return $this->medalChecker->getMedalLevelName($level);
@@ -163,21 +129,25 @@ class AppExtension extends AbstractExtension
     /**
      * @return array<int, string>
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'medalLevelNames')]
     public function getMedalLevelNames(): array
     {
         return $this->medalChecker->getMedalLevelNames();
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'translateMedalLevel')]
     public function translateMedalLevelFilter(int $level): string
     {
         return $this->medalChecker->translateMedalLevel($level);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'medalDoubleValue')]
     public function medalDoubleValue(string $medal, int $value): int
     {
         return $this->medalChecker->getDoubleValue($medal, $value);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgePath')]
     public function getBadgePath(
         string $medal,
         int $level,
@@ -192,26 +162,31 @@ class AppExtension extends AbstractExtension
         );
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getChallengePath')]
     public function getChallengePath(string $medal, int $level): string
     {
         return $this->medalChecker->getChallengePath($medal, $level);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'formatIntlDate')]
     public function formatIntlDate(DateTime $date): bool|string
     {
         return $this->intlDateHelper->format($date);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'intDateShort')]
     public function intlDateShort(DateTime $dateTime): string
     {
         return $this->intlDateHelper->formatShort($dateTime);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'intlDate')]
     public function intlDate(DateTime $date, string $format): string
     {
         return $this->intlDateHelper->formatCustom($date, $format);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgeName')]
     public function getBadgeName(
         string $group,
         string $badge,
@@ -220,6 +195,7 @@ class AppExtension extends AbstractExtension
         return $this->medalChecker->getBadgeName($group, $badge, $value);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgeData')]
     public function getBadgeData(
         string $group,
         string $badge,
@@ -230,16 +206,19 @@ class AppExtension extends AbstractExtension
         );
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'stripGmail')]
     public function stripGmail(string $string): string
     {
         return str_replace('@gmail.com', '', $string);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'escape_bytecode')]
     public function escapeBytecode(string $string): string
     {
         return str_replace('%', "\\x", $string);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'defaultTimeZone')]
     public function getDefaultTimeZone(): string
     {
         return $this->defaultTimeZone;

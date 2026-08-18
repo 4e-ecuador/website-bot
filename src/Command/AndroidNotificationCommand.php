@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class AndroidNotificationCommand extends Command
 {
     public function __construct(
-        #[Autowire('%env(FCM_KEY)%')] private readonly string $fcmKey
+        #[Autowire(env: 'FCM_KEY')] private readonly string $fcmKey
     ) {
         parent::__construct();
     }

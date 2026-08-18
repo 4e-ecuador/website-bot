@@ -27,9 +27,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 {
-    private const SCREENSHOT_DIR = __DIR__.'/../../var/screenshots';
+    private const string SCREENSHOT_DIR = __DIR__.'/../../var/screenshots';
 
-    private const CSV_FIXTURE = __DIR__.'/../test-stats.csv';
+    private const string CSV_FIXTURE = __DIR__.'/../test-stats.csv';
 
     /** @var array<int, string> */
     private array $seededDatetimes = [];
@@ -212,6 +212,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
             if ($index === false) {
                 throw new RuntimeException("Unknown CSV column: {$column}");
             }
+
             $data[$index] = $value;
         }
 

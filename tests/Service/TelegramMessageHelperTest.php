@@ -99,7 +99,7 @@ class TelegramMessageHelperTest extends TestCase
 
     public function testSendNotifyEventsMessageWithFirstAnnounce(): void
     {
-        $telegramBotHelper = $this->createMock(TelegramBotHelper::class);
+        $telegramBotHelper = $this->createStub(TelegramBotHelper::class);
         $telegramBotHelper->method('sendMessage')->willReturn(new Message());
 
         $notifyEventsMessage = $this->createStub(NotifyEventsMessage::class);

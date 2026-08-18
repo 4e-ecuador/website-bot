@@ -31,7 +31,7 @@ class UserChangedNotifierTest extends TestCase
 
     public function testPostUpdateDoesNothingWhenNoAdminUser(): void
     {
-        $security = $this->createMock(Security::class);
+        $security = $this->createStub(Security::class);
         $security->method('getUser')->willReturn(null);
 
         $telegramBotHelper = $this->createMock(TelegramBotHelper::class);
@@ -49,7 +49,7 @@ class UserChangedNotifierTest extends TestCase
     {
         $adminUser = new User();
 
-        $security = $this->createMock(Security::class);
+        $security = $this->createStub(Security::class);
         $security->method('getUser')->willReturn($adminUser);
 
         $telegramBotHelper = $this->createMock(TelegramBotHelper::class);
@@ -73,7 +73,7 @@ class UserChangedNotifierTest extends TestCase
 
         $changedUser->setAgent($agent);
 
-        $security = $this->createMock(Security::class);
+        $security = $this->createStub(Security::class);
         $security->method('getUser')->willReturn($adminUser);
 
         $telegramBotHelper = $this->createMock(TelegramBotHelper::class);
@@ -98,11 +98,11 @@ class UserChangedNotifierTest extends TestCase
 
         $changedUser->setAgent($agent);
 
-        $security = $this->createMock(Security::class);
+        $security = $this->createStub(Security::class);
         $security->method('getUser')->willReturn($adminUser);
 
         $sentMessage = '';
-        $telegramBotHelper = $this->createMock(TelegramBotHelper::class);
+        $telegramBotHelper = $this->createStub(TelegramBotHelper::class);
         $telegramBotHelper->method('getGroupId')->willReturn(-100);
         $telegramBotHelper->method('sendMessage')
             ->willReturnCallback(function (int $groupId, string $text) use (&$sentMessage): Message {
@@ -126,7 +126,7 @@ class UserChangedNotifierTest extends TestCase
         $changedUser = new User();
         // No agent set
 
-        $security = $this->createMock(Security::class);
+        $security = $this->createStub(Security::class);
         $security->method('getUser')->willReturn($adminUser);
 
         $telegramBotHelper = $this->createMock(TelegramBotHelper::class);

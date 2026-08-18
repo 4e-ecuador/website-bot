@@ -118,8 +118,6 @@ class FcmHelper
 
         $result = curl_exec($ch);
 
-        curl_close($ch);
-
         if (!$result) {
             throw new \UnexpectedValueException('Curl operation failed.');
         }

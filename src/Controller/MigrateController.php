@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\AgentStat;
 use App\Service\AgentStatCsvExporter;
+use App\Service\CustomMedalsExporter;
 use DateTime;
 use League\Csv\Reader;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -115,6 +117,27 @@ class MigrateController extends BaseController
         $response->headers->set('content-disposition', HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
             sprintf('agent-stats-%s.csv', $agent->getNickname())
+        ));
+
+        return $response;
+    }
+
+    #[Route('/migrate/custom-medals', name: 'app_migrate_get_custom_medals')]
+    public function getCustomMedals(CustomMedalsExporter $exporter): Response
+    {
+        $agent = $this->getUser()?->getAgent();
+        if (!$agent) {
+            throw new UnexpectedValueException(
+                'No agent found for current user'
+            );
+        }
+
+        // Objects for empty groups too, as they are stored
+        $response = new JsonResponse($exporter->export($agent), Response::HTTP_OK, [], false);
+        $response->setEncodingOptions(JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
+        $response->headers->set('content-disposition', HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            sprintf('agent-custom-medals-%s.json', $agent->getNickname())
         ));
 
         return $response;

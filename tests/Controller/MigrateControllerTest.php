@@ -114,4 +114,31 @@ class MigrateControllerTest extends WebTestCase
             $em->flush();
         }
     }
+
+    public function testExportsTheCustomMedals(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        self::assertInstanceOf(EntityManagerInterface::class, $em);
+        $agent = $this->getUser()->getAgent();
+        self::assertInstanceOf(Agent::class, $agent);
+        $agent->setCustomMedals('{"Annual":{"Resurgence":"3"},"anomaly":{"echo":""}}');
+        $em->flush();
+
+        try {
+            $client->loginUser($this->getUser());
+            $client->request(Request::METHOD_GET, '/migrate/custom-medals');
+
+            self::assertResponseIsSuccessful();
+            self::assertStringContainsString('attachment; filename=agent-custom-medals-testAgent.json', (string) $client->getResponse()->headers->get('content-disposition'));
+            // Objects for every group, the older record converted
+            self::assertSame(
+                '{"anomaly":{"echo":""},"annual":{"resurgence":3},"event":{}}',
+                json_encode(json_decode((string) $client->getResponse()->getContent()), JSON_THROW_ON_ERROR)
+            );
+        } finally {
+            $agent->setCustomMedals('');
+            $em->flush();
+        }
+    }
 }

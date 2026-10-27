@@ -3,11 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\AgentStat;
-use App\Repository\AgentStatRepository;
+use App\Service\AgentStatCsvExporter;
 use DateTime;
 use League\Csv\Reader;
-use League\Csv\Writer;
-use SplTempFileObject;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,11 +16,6 @@ use UnexpectedValueException;
 #[IsGranted('ROLE_AGENT')]
 class MigrateController extends BaseController
 {
-    public function __construct(
-        private readonly AgentStatRepository $agentStatRepository
-    ) {
-    }
-
     #[Route('/migrate/', name: 'app_migrate')]
     public function index(): Response
     {
@@ -107,7 +101,7 @@ class MigrateController extends BaseController
     }
 
     #[Route('/migrate/csv', name: 'app_migrate_get_csv')]
-    public function getCsv(): Response
+    public function getCsv(AgentStatCsvExporter $exporter): Response
     {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
@@ -116,28 +110,13 @@ class MigrateController extends BaseController
             );
         }
 
-        $stats = $this->agentStatRepository->getAgentStatsForCsv($agent);
-        $data = [];
-        foreach ($stats as $stat) {
-            $s = [];
-            foreach ($stat as $k => $v) {
-                if ($k === 'datetime') {
-                    $s[$k] = $v->format('Y-m-d H:i:s');
-                }
-            }
+        $response = new Response($exporter->export($agent), Response::HTTP_OK, ['content-type' => 'text/csv; charset=utf-8']);
+        // Agent names are ASCII: no UTF-8 file name needed
+        $response->headers->set('content-disposition', HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            sprintf('agent-stats-%s.csv', $agent->getNickname())
+        ));
 
-            $data[] = $s;
-        }
-
-        $csv = Writer::createFromFileObject(new SplTempFileObject());
-        // We insert the CSV header
-        $csv->insertOne(array_keys($data[0]));
-        $csv->insertAll($data);
-        // Because you are providing the filename you don't have to
-        // set the HTTP headers Writer::output can
-        // directly set them for you
-        // The file is downloadable
-        $csv->output('users.csv');
-        die;
+        return $response;
     }
 }

@@ -29,51 +29,73 @@
     </div>
 {% endif %}
 
+{#
+    The stats without a medal, by group as the stats page's Dronenet and Kinetics, with their unit: text
+    apart from the medals (as AgentTools' import result). The new level is shown above.
+#}
+{% set textStats = {
+    'Dronenet': {dronePortalsVisited: '', droneForcedRecalls: '', droneFlightDistance: 'km', dronesReturned: ''},
+    'Kinetics': {kineticCapsulesCompleted: ''},
+    'C.O.R.E': {monthsSubscribed: ''},
+    'More stats': {recursions: '', portalsDiscovered: '', longestLink: 'km', largestField: 'MUs', currentChallenge: ''},
+} %}
+{% set textNames = ['level'] %}
+{% for stats in textStats %}{% set textNames = textNames|merge(stats|keys) %}{% endfor %}
+
 {% if result.diff %}
-    {% for name, value in result.diff %}
+    {% for name, value in result.diff|filter((value, name) => name == 'ap') %}
+        <h5>AP: <span class="badge text-bg-success">+ {{ value|number_format }}</span></h5>
+    {% endfor %}
+
+    {# The medals, with what is missing for the next tier #}
+    {% for name, value in result.diff|filter((value, name) => name != 'ap' and name not in textNames and not (name starts with 'drone')) %}
+        {% set level = medalLevel(name, statEntry[name]) %}
+        {% set doubleCount = medalDoubleValue(name, statEntry[name]) %}
         <div class="row">
-            {% if 'ap' == name %}
-                <div class="col">
-                    <h5>AP: <span class="badge text-bg-success">+ {{ value|number_format }}</span></h5>
-                </div>
-            {% else %}
-                <div class="col-6">
-                    {% set level = medalLevel(name, statEntry[name]) %}
-                    {% if level %}
-                        <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"
-                              title="{{ name }} - {{ level|translateMedalLevel }}"
-                        ></span>
-                        {% set doubleCount = medalDoubleValue(name, statEntry[name]) %}
-                        {% if doubleCount > 1 %}
-                            <span class="text-warning">X {{ doubleCount }}</span>
-                        {% endif %}
-                    {% else %}
-                        {{ name }}
+            <div class="col-6">
+                {% if level %}
+                    <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"
+                          title="{{ name }} - {{ level|translateMedalLevel }}"
+                    ></span>
+                    {% if doubleCount > 1 %}
+                        <span class="text-warning">X {{ doubleCount }}</span>
                     {% endif %}
-                    <span class="badge text-bg-success">+ {{ value|number_format }}</span>
-                </div>
-                <div class="col-6">
-                    {% if name starts with 'drone' or name in[
-                        'kineticCapsulesCompleted', 'monthsSubscribed', 'recursions', 'currentChallenge', 'level',
-                        'longestLink', 'largestField', 'portalsDiscovered'
-                    ] %}
-                        {# No medals so far... #}
-                    {% else %}
-                        {% if level < 5 %}
-                            <span class="medal50 medal-{{ getBadgePath(name, level+1, 0, '') }}"
-                                  title="{{ name }} - {{ (level+1)|translateMedalLevel }}"
-                            ></span>
-                            <span class="badge text-bg-secondary">- {{ (medalValue(name,level + 1)-statEntry[name])|number_format }}</span>
-                        {% else %}
-                            <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"
-                                  title="{{ name }} - {{ (level)|translateMedalLevel }}"
-                            ></span>
-                            <span class="text-warning">X {{ doubleCount + 1 }}</span>
-                            <span class="badge text-bg-secondary">- {{ (((doubleCount + 1) * medalValue(name,level)) - statEntry[name])|number_format }}</span>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            {% endif %}
+                {% else %}
+                    {# Below bronze, as on the stats page #}
+                    <img src="{{ asset('images/ico/padlock.png') }}" alt="{{ name }} - locked" title="{{ name }}" style="width: 50px;">
+                {% endif %}
+                <span class="badge text-bg-success">+ {{ value|number_format }}</span>
+            </div>
+            <div class="col-6">
+                {% if level < 5 %}
+                    <span class="medal50 medal-{{ getBadgePath(name, level+1, 0, '') }}"
+                          title="{{ name }} - {{ (level+1)|translateMedalLevel }}"
+                    ></span>
+                    <span class="badge text-bg-secondary">- {{ (medalValue(name,level + 1)-statEntry[name])|number_format }}</span>
+                {% else %}
+                    <span class="medal50 medal-{{ getBadgePath(name, level, 0, '') }}"
+                          title="{{ name }} - {{ (level)|translateMedalLevel }}"
+                    ></span>
+                    <span class="text-warning">X {{ doubleCount + 1 }}</span>
+                    <span class="badge text-bg-secondary">- {{ (((doubleCount + 1) * medalValue(name,level)) - statEntry[name])|number_format }}</span>
+                {% endif %}
+            </div>
         </div>
+    {% endfor %}
+
+    {# The other stats as text, by group (drone stats AgentTools does not know yet go with the Dronenet) #}
+    {% for group, stats in textStats %}
+        {% set gains = result.diff|filter((value, name) => name in stats|keys or (group == 'Dronenet' and name starts with 'drone' and name not in textNames)) %}
+        {% if gains %}
+            <h6 class="mt-3 mb-1">{{ group|trans }}</h6>
+            <table class="table table-sm w-auto mb-1">
+                {% for name, value in gains %}
+                    <tr>
+                        <td>{{ name|u.snake|replace({'_': ' '})|capitalize }}</td>
+                        <td class="text-end"><span class="badge text-bg-success">+ {{ value|number_format }}{{ stats[name] ?? '' ? ' ' ~ stats[name] }}</span></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     {% endfor %}
 {% endif %}

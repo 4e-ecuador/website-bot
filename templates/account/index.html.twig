@@ -45,30 +45,32 @@
 
         <h4>{{ 'Custom medals'|trans }}</h4>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {# By section: the anomaly seasons apart from the anomalies, saved under anomaly #}
             {% for group, medals in customMedals %}
                 <li class="nav-item">
-                    <a class="nav-link {{ group == 'anomaly' ? 'active' : '' }}" id="{{ group }}-tab"
+                    <a class="nav-link {{ loop.first ? 'active' : '' }}" id="{{ group }}-tab"
                        data-bs-toggle="tab"
                        href="#{{ group }}" role="tab" aria-controls="home" aria-selected="true"
-                    >{{ group }}</a>
+                    >{{ group == 'season' ? 'anomaly season' : group }}</a>
                 </li>
             {% endfor %}
         </ul>
         <div class="tab-content" id="myTabContent">
             {% for group, medals in customMedals %}
-                <div class="tab-pane fade {{ group == 'anomaly' ? 'show active' : '' }}" id="{{ group }}"
+                {% set store = group == 'season' ? 'anomaly' : group %}
+                <div class="tab-pane fade {{ loop.first ? 'show active' : '' }}" id="{{ group }}"
                      role="tabpanel"
                      aria-labelledby="{{ group }}-tab"
                 >
                     {% for medal, tiers in medals %}
                         <div class="row">
-                            {% if agentCustomMedals[group][medal] is defined %}
-                                {% set selectedValue = agentCustomMedals[group][medal] %}
+                            {% if agentCustomMedals[store][medal] is defined %}
+                                {% set selectedValue = agentCustomMedals[store][medal] %}
                             {% else %}
                                 {% set selectedValue = 0 %}
                             {% endif %}
-                            {% if group == 'annual' %}
-                                {% set badgeData = getBadgeData(group, medal, 1) %}
+                            {% if store == 'annual' %}
+                                {% set badgeData = getBadgeData(store, medal, 1) %}
                                 <div class="col">
                                     <h4>{{ badgeData.title }}</h4>
                                     {{ badgeData.description }}
@@ -84,14 +86,14 @@
                                               title="{{ medal~' - '~i|translateMedalLevel }}"
                                         ></span>
                                         </label>
-                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                        <input type="radio" name="customMedals[{{ store }}][{{ medal }}]"
                                                id="{{ 'medal-'~group~medal~i }}"
                                                value="{{ i }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
                                 </div>
-                            {% elseif 'anomaly' == group %}
-                                {% set badgeData = getBadgeData(group, medal, tiers[0]) %}
+                            {% elseif 'anomaly' == store %}
+                                {% set badgeData = getBadgeData(store, medal, tiers[0]) %}
                                 <div class="col">
                                     <h4>{{ badgeData.title }}</h4>
                                     {{ badgeData.description }}
@@ -107,15 +109,15 @@
                                               title="{{ medal~' '~tier }}"
                                         ></span>
                                         </label>
-                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                        <input type="radio" name="customMedals[{{ store }}][{{ medal }}]"
                                                id="{{ 'medal-'~group~medal~tier }}"
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>
                                     {% endfor %}
                                 </div>
 
-                            {% elseif 'event' == group %}
-                                {% set badgeData = getBadgeData(group, medal, tiers[0]) %}
+                            {% elseif 'event' == store %}
+                                {% set badgeData = getBadgeData(store, medal, tiers[0]) %}
                                 <div class="col">
                                     <h4>{{ badgeData.title }}</h4>
                                     {{ badgeData.description }}
@@ -127,11 +129,11 @@
                                                class="medalsLabel{{ checked ? ' medalSelected' : '' }}"
                                                 {{ stimulus_action('account', 'updateMedals', 'click') }}
                                         >
-                                            <span class="medal50 medal-{{ getBadgeName(group, medal, tier) }}"
+                                            <span class="medal50 medal-{{ getBadgeName(store, medal, tier) }}"
                                                   title="{{ medal~' '~tier }}"
                                             ></span>
                                         </label>
-                                        <input type="radio" name="customMedals[{{ group }}][{{ medal }}]"
+                                        <input type="radio" name="customMedals[{{ store }}][{{ medal }}]"
                                                id="{{ 'medal-'~group~medal~tier }}"
                                                value="{{ tier }}" class="hiddenCheckBox"
                                                 {{ checked }}>

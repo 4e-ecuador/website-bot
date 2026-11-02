@@ -112,8 +112,9 @@ class AccountController extends BaseController
                     $this->telegramBotHelper->getConnectLink($agent),
                 'telegramConnectLink2' =>
                     $this->telegramBotHelper->getConnectLink2($agent),
+                // The anomaly seasons apart from the anomalies, stored under anomaly
                 'customMedals'         =>
-                    $this->medalChecker->getCustomMedalGroups(),
+                    $this->medalChecker->getCustomMedalSections(),
                 'map'                  => $map,
             ]
         );

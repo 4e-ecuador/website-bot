@@ -94,7 +94,10 @@ class StatsController extends BaseController
                     true
                 ),
 
-                'agentCustomMedals' => $customMedals,
+                // The anomaly seasons apart from the anomalies
+                'agentCustomMedals' => is_array($customMedals)
+                    ? $this->medalChecker->sectionCustomMedals($customMedals)
+                    : $customMedals,
             ]
         );
     }

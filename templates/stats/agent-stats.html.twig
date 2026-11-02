@@ -49,10 +49,12 @@
         <div {{ stimulus_controller('stats--agent-stats-medals') }}>
             <hr>
             {% if agentCustomMedals %}
+                {# By section: the anomaly seasons apart from the anomalies (stored under anomaly) #}
                 {% for group, medals in agentCustomMedals %}
+                    {% set store = group == 'season' ? 'anomaly' : group %}
                     <div>
                         {% for medal, value in medals %}
-                            {% set badgeData = getBadgeData(group, medal, value) %}
+                            {% set badgeData = getBadgeData(store, medal, value) %}
                             <span
                               {{ stimulus_action('stats--agent-stats-medals', 'showCustomModal', 'click', {
                                   name: badgeData.title,
@@ -60,12 +62,12 @@
                               }) }}
                         >
                             <span class="medal-image">
-                            {% if 'anomaly' == group %}
+                            {% if 'anomaly' == store %}
                                 <span class="medal50 medal-anomaly_{{ medal~(value?'_'~value:'') }}"
                                       title="{{ badgeData.title }}"
                                 ></span>
-                            {% elseif 'event' == group %}
-                                <span class="medal50 medal-{{ getBadgeName(group, medal, value) }}"
+                            {% elseif 'event' == store %}
+                                <span class="medal50 medal-{{ getBadgeName(store, medal, value) }}"
                                       title="{{ badgeData.title }}"
                                 ></span>
                             {% else %}

@@ -249,4 +249,31 @@ class MedalCheckerTest extends KernelTestCase
         self::assertArrayHasKey('byDate', $result);
         self::assertArrayHasKey('byMedal', $result);
     }
+
+    public function testTheAnomalySeasonsAreShownApart(): void
+    {
+        $sections = $this->medalChecker->getCustomMedalSections();
+
+        self::assertSame(['season', 'anomaly', 'annual', 'event'], array_keys($sections));
+        self::assertSame(MedalChecker::ANOMALY_SEASONS, array_keys($sections['season']));
+        self::assertArrayNotHasKey('cygnus', $sections['anomaly']);
+        self::assertArrayHasKey('apollo_onsite', $sections['anomaly']);
+
+        // Every anomaly season's description says so, and no other anomaly's
+        foreach ($this->medalChecker->getCustomMedalGroups()['anomaly'] as $medal => $tiers) {
+            $tier = is_array($tiers) ? (string)($tiers[0] ?? '') : '';
+            $description = $this->medalChecker->getBadgeData($this->medalChecker->getBadgeName('anomaly', (string)$medal, $tier))->description;
+            self::assertSame(
+                in_array($medal, MedalChecker::ANOMALY_SEASONS, true),
+                str_contains($description, 'Season'),
+                $medal.': '.$description
+            );
+        }
+
+        // An agent's medals: stored under anomaly, shown as a season
+        self::assertSame(
+            ['season' => ['orion' => 'gold'], 'anomaly' => ['echo' => ''], 'event' => ['orion' => 'silver']],
+            $this->medalChecker->sectionCustomMedals(['anomaly' => ['orion' => 'gold', 'echo' => ''], 'event' => ['orion' => 'silver']])
+        );
+    }
 }

@@ -770,6 +770,55 @@ class MedalChecker
     }
 
     /**
+     * The anomaly medals of an anomaly season ("Anomaly Season" in their description), shown
+     * apart from the XM anomalies as in the Ingress profile; they are stored under "anomaly".
+     *
+     * @var list<string>
+     */
+    public const array ANOMALY_SEASONS = ['cygnus', 'apollo', 'orion', 'plus_gamma', 'plus_beta', 'plus_delta', 'plus_theta'];
+
+    /**
+     * The section a stored group's medal is shown in: "season" for the anomaly seasons.
+     */
+    public static function customMedalSection(string $group, string $medal): string
+    {
+        return 'anomaly' === $group && in_array($medal, self::ANOMALY_SEASONS, true) ? 'season' : $group;
+    }
+
+    /**
+     * The custom medals by section as shown: the anomaly seasons first, then the anomaly,
+     * annual and event medals. A section's medals are stored in its group (season: anomaly).
+     *
+     * @return array<string, array<int|string, array<int, string>|string>>
+     */
+    public function getCustomMedalSections(): array
+    {
+        return $this->sectionCustomMedals($this->customMedals);
+    }
+
+    /**
+     * Medals by group (the definitions or an agent's stored medals) by section, as
+     * getCustomMedalSections().
+     *
+     * @template T
+     *
+     * @param array<string, array<int|string, T>> $groups
+     *
+     * @return array<string, array<int|string, T>>
+     */
+    public function sectionCustomMedals(array $groups): array
+    {
+        $sections = ['season' => []];
+        foreach ($groups as $group => $medals) {
+            foreach ($medals as $medal => $value) {
+                $sections[self::customMedalSection($group, (string)$medal)][$medal] = $value;
+            }
+        }
+
+        return array_filter($sections, static fn (array $medals): bool => [] !== $medals);
+    }
+
+    /**
      * @return array<int, string>
      */
     public function getMedalLevelNames(): array

@@ -34,7 +34,7 @@ class UpdateBadgedataCommand extends Command
 
     private readonly string $badgeRoot;
 
-    private string $scrapeSite = 'https://ingress.dedo1911.xyz/api';
+    private string $scrapeSite = 'https://ingress.plus/api';
 
     private readonly string $assetRoot;
 
@@ -136,6 +136,15 @@ class UpdateBadgedataCommand extends Command
             'apollo_gold.png'                            => 'anomaly_apollo_gold.png',
             'summer_solstice_2026_bronze.png'            => 'event_badge_2026_summer_solstice_bronze.png',
             'summer_solstice_2026_silver.png'            => 'event_badge_2026_summer_solstice_silver.png',
+            'cygnus_bronze.png'                          => 'anomaly_cygnus_bronze.png',
+            'cygnus_silver.png'                          => 'anomaly_cygnus_silver.png',
+            'cygnus_gold.png'                            => 'anomaly_cygnus_gold.png',
+            'medal_apollo_op_bronze.png'                 => 'event_badge_apollo_bronze.png',
+            'medal_apollo_op_silver.png'                 => 'event_badge_apollo_silver.png',
+            'medal_apollo_op_gold.png'                   => 'event_badge_apollo_gold.png',
+            'medal_cygnus_battle_bronze.png'             => 'event_badge_cygnus_bronze.png',
+            'medal_cygnus_battle_silver.png'             => 'event_badge_cygnus_silver.png',
+            'medal_cygnus_battle_gold.png'               => 'event_badge_cygnus_gold.png',
         ];
 
     /**
@@ -159,9 +168,11 @@ class UpdateBadgedataCommand extends Command
             'Characters - 2025',
             'Characters - 2026',
             'Corporation Medals',
+            'Corporation Badges',
             'Fan created - Single',
             'Fan created - Tiered',
             'Festive Medals',
+            'Festive Badges',
             'Field Test: Hexathlon',
             'Intel Ops',
             'NL-1331',
@@ -170,6 +181,7 @@ class UpdateBadgedataCommand extends Command
             'Prime Challenge',
             'Stealth Ops',
             'Supporter Medals',
+            'Supporter Badges',
             'Urban Ops',
             'Unused/Replaced',
             'Unused/Replaced - Single',
@@ -201,16 +213,26 @@ class UpdateBadgedataCommand extends Command
      */
     private array $pickBadges
         = [
-            'Unique Medals' => [
-                'Simulacrum',
-                'Avenir Shard Challenge',
-                'Tessellation Paragon',
-                'C.O.R.E.',
-                'Solstice Recharge Challenge',
-                'Peace Day 2022',
-                'Dual-Core',
-                'Core³',
-            ],
+            'Unique Medals' => self::UNIQUE_BADGES,
+            // The categories were renamed from "... Medals"
+            'Unique Badges' => self::UNIQUE_BADGES,
+        ];
+
+    /**
+     * The unique badges 4e-website shows.
+     *
+     * @var list<string>
+     */
+    private const array UNIQUE_BADGES
+        = [
+            'Simulacrum',
+            'Avenir Shard Challenge',
+            'Tessellation Paragon',
+            'C.O.R.E.',
+            'Solstice Recharge Challenge',
+            'Peace Day 2022',
+            'Dual-Core',
+            'Core³',
         ];
 
     public function __construct(

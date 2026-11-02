@@ -289,6 +289,7 @@ class MedalChecker
         = [
             'anomaly' =>
                 [
+                    'cygnus'             => ['bronze', 'silver', 'gold'],
                     'apollo_onsite'      => [''],
                     'apollo'             => ['bronze', 'silver', 'gold'],
                     'orion_onsite'       => [''],
@@ -348,6 +349,18 @@ class MedalChecker
                 ],
             'event'   =>
                 [
+                    'cygnus'             =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
+                    'apollo'             =>
+                        [
+                            'bronze',
+                            'silver',
+                            'gold',
+                        ],
                     '2026_summer_solstice'             =>
                         [
                             'bronze',

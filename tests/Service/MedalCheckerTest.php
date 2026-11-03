@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Repository\AgentStatRepository;
 use App\Service\MedalChecker;
+use App\Service\MedalGainsCalculator;
 use App\Util\BadgeData;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -245,7 +246,7 @@ class MedalCheckerTest extends KernelTestCase
         $statRepository = $this->createStub(AgentStatRepository::class);
         $statRepository->method('getPrevious')->willReturn(null);
 
-        $result = $this->medalChecker->getMedalsGained([$entry], $statRepository);
+        $result = new MedalGainsCalculator($this->medalChecker)->getMedalsGained([$entry], $statRepository);
 
         self::assertArrayHasKey('byDate', $result);
         self::assertArrayHasKey('byMedal', $result);

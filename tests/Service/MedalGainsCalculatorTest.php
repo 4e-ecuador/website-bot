@@ -6,14 +6,15 @@ use App\Entity\Agent;
 use App\Entity\AgentStat;
 use App\Repository\AgentStatRepository;
 use App\Service\MedalChecker;
+use App\Service\MedalGainsCalculator;
 use DateTime;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MedalCheckerGetMedalsGainedTest extends TestCase
+class MedalGainsCalculatorTest extends TestCase
 {
-    private MedalChecker $medalChecker;
+    private MedalGainsCalculator $calculator;
 
     private AgentStatRepository&Stub $statRepository;
 
@@ -22,18 +23,18 @@ class MedalCheckerGetMedalsGainedTest extends TestCase
         $translator = $this->createStub(TranslatorInterface::class);
         $translator->method('trans')->willReturnArgument(0);
 
-        $this->medalChecker = new MedalChecker(
+        $this->calculator = new MedalGainsCalculator(new MedalChecker(
             $translator,
             dirname(__DIR__, 2),
             'test',
-        );
+        ));
 
         $this->statRepository = $this->createStub(AgentStatRepository::class);
     }
 
     public function testEmptyEntriesReturnsEmptyResults(): void
     {
-        $result = $this->medalChecker->getMedalsGained([], $this->statRepository);
+        $result = $this->calculator->getMedalsGained([], $this->statRepository);
 
         self::assertSame([], $result['byDate']);
         self::assertSame([], $result['byMedal']);
@@ -55,7 +56,7 @@ class MedalCheckerGetMedalsGainedTest extends TestCase
 
         $this->statRepository->method('getPrevious')->willReturn($previousStat);
 
-        $result = $this->medalChecker->getMedalsGained(
+        $result = $this->calculator->getMedalsGained(
             [$previousStat, $currentStat],
             $this->statRepository,
         );
@@ -84,7 +85,7 @@ class MedalCheckerGetMedalsGainedTest extends TestCase
 
         $this->statRepository->method('getPrevious')->willReturn($stat1);
 
-        $result = $this->medalChecker->getMedalsGained(
+        $result = $this->calculator->getMedalsGained(
             [$stat1, $stat2],
             $this->statRepository,
         );
@@ -126,7 +127,7 @@ class MedalCheckerGetMedalsGainedTest extends TestCase
 
         $this->statRepository->method('getPrevious')->willReturn(null);
 
-        $result = $this->medalChecker->getMedalsGained(
+        $result = $this->calculator->getMedalsGained(
             [$stat1a, $stat1b, $stat2a, $stat2b],
             $this->statRepository,
         );

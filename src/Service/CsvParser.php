@@ -119,17 +119,11 @@ class CsvParser
     private function parseAgentStatsCsv(string $csvString): array
     {
         $csv = [];
-        $headVars = [];
 
         $lines = explode("\n", trim($csvString));
+        $headVars = explode("\t", array_shift($lines));
 
-        foreach ($lines as $i => $line) {
-            if (0 === $i) {
-                $headVars = explode("\t", $line);
-
-                continue;
-            }
-
+        foreach ($lines as $line) {
             $vars = explode("\t", $line);
 
             $c = [];

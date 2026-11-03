@@ -65,11 +65,7 @@ class LogviewController extends BaseController
 
         foreach (explode("\n", $contents) as $rawLine) {
             $line = trim($rawLine);
-            if ('' === $line) {
-                continue;
-            }
-
-            if ('0' === $line) {
+            if ('' === $line || '0' === $line) {
                 continue;
             }
 
@@ -86,17 +82,22 @@ class LogviewController extends BaseController
                 continue;
             }
 
-            if ('' === $entry) {
-                $dateTime = $line;
-                $entry = $line."\n";
-
-                continue;
-            }
-
-            $entry .= $line."\n";
+            $entry = $this->appendToLogEntry($entry, $line, $dateTime);
         }
 
         return $entries;
+    }
+
+    /**
+     * Adds a line to the open entry; the first line of an entry is its date.
+     */
+    private function appendToLogEntry(?string $entry, string $line, ?string &$dateTime): string
+    {
+        if ('' === $entry) {
+            $dateTime = $line;
+        }
+
+        return $entry.$line."\n";
     }
 
     private function openLogEntry(?string $entry): string

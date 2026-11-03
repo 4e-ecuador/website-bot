@@ -12,6 +12,7 @@ use App\Repository\AgentStatRepository;
 use App\Repository\UserRepository;
 use App\Service\LeaderBoardService;
 use App\Service\MedalChecker;
+use App\Service\MedalGainsCalculator;
 use App\Service\StatsImporter;
 use App\Type\BoardEntry;
 use App\Type\ImportResult;
@@ -65,20 +66,7 @@ class StatsController extends BaseController
 
         $dateEnd = new DateTime();
         $dateStart = new DateTime()->sub(new DateInterval('P30D'));
-        try {
-            $customMedals = json_decode(
-                (string) $agent->getCustomMedals(),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-        } catch (JsonException) {
-            $customMedals = '';
-        }
-
-        if (is_array($customMedals)) {
-            $customMedals = $this->removeInvalidCustomMedals($customMedals);
-        }
+        $customMedals = $this->decodeCustomMedals($agent);
 
         return $this->render(
             'stats/agent-stats.html.twig',
@@ -95,11 +83,32 @@ class StatsController extends BaseController
                 ),
 
                 // The anomaly seasons apart from the anomalies
-                'agentCustomMedals' => is_array($customMedals)
+                'agentCustomMedals' => null !== $customMedals
                     ? $this->medalChecker->sectionCustomMedals($customMedals)
-                    : $customMedals,
+                    : '',
             ]
         );
+    }
+
+    /**
+     * The agent's custom medals without invalid entries, or null if none are stored.
+     *
+     * @return array<string, array<string, int|string>>|null
+     */
+    private function decodeCustomMedals(Agent $agent): ?array
+    {
+        try {
+            $customMedals = json_decode(
+                (string) $agent->getCustomMedals(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (JsonException) {
+            return null;
+        }
+
+        return is_array($customMedals) ? $this->removeInvalidCustomMedals($customMedals) : null;
     }
 
     /**
@@ -120,35 +129,59 @@ class StatsController extends BaseController
             }
 
             foreach ($medals as $medal => $value) {
-                try {
-                    $code = $this->medalChecker->getBadgeName(
-                        (string) $group,
-                        (string) $medal,
-                        $value
-                    );
-                    $this->medalChecker->getBadgeData($code);
-                } catch (UnexpectedValueException $exception) {
-                    $this->logger->error(
-                        'Invalid custom medal: '.$exception->getMessage(),
-                        ['exception' => $exception]
-                    );
-                    $badgeErrors[] = $code ?? $group.'_'.$medal;
+                $error = $this->findCustomMedalError((string) $group, (string) $medal, $value);
+
+                if (null !== $error) {
+                    $badgeErrors[] = $error;
                     unset($customMedals[$group][$medal]);
                 }
             }
         }
 
-        if ([] !== $badgeErrors) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans(
-                    'Some badge data could not be found and has been skipped: {codes}',
-                    ['codes' => implode(', ', $badgeErrors)]
-                )
-            );
-        }
+        $this->warnAboutSkippedBadges($badgeErrors);
 
         return $customMedals;
+    }
+
+    /**
+     * @param list<string> $badgeCodes
+     */
+    private function warnAboutSkippedBadges(array $badgeCodes): void
+    {
+        if ([] === $badgeCodes) {
+            return;
+        }
+
+        $this->addFlash(
+            'warning',
+            $this->translator->trans(
+                'Some badge data could not be found and has been skipped: {codes}',
+                ['codes' => implode(', ', $badgeCodes)]
+            )
+        );
+    }
+
+    /**
+     * Returns the badge code (or "group_medal" if even that is unknown) when no
+     * badge data exists for the medal, or null when it is valid.
+     */
+    private function findCustomMedalError(string $group, string $medal, int|string $value): ?string
+    {
+        $code = null;
+
+        try {
+            $code = $this->medalChecker->getBadgeName($group, $medal, $value);
+            $this->medalChecker->getBadgeData($code);
+
+            return null;
+        } catch (UnexpectedValueException $unexpectedValueException) {
+            $this->logger->error(
+                'Invalid custom medal: '.$unexpectedValueException->getMessage(),
+                ['exception' => $unexpectedValueException]
+            );
+
+            return $code ?? $group.'_'.$medal;
+        }
     }
 
     /**
@@ -239,7 +272,8 @@ class StatsController extends BaseController
     #[Route(path: '/stats/by-date', name: 'stats_by_date', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function byDate(
-        Request $request
+        Request $request,
+        MedalGainsCalculator $medalGainsCalculator,
     ): Response {
         $startDate = $request->query->get('start_date');
         $endDate = $request->query->get('end_date');
@@ -252,7 +286,7 @@ class StatsController extends BaseController
                 new DateTime($endDate.' 23:59:59')
             );
 
-            $result = $this->medalChecker->getMedalsGained($entries, $this->statRepository);
+            $result = $medalGainsCalculator->getMedalsGained($entries, $this->statRepository);
             $medalsGained = $result['byDate'];
             $medalsGained1 = $result['byMedal'];
         }

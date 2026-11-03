@@ -117,36 +117,7 @@ class EventHelper
      */
     public function getEventsInSpan(string $span): ?array
     {
-        if (null === $this->eventsBySpan) {
-            $this->eventsBySpan = ['past' => [], 'present' => [], 'future' => []];
-
-            $now = new DateTime('now', $this->timezone)
-                ->setTime(12, 0);
-
-            foreach ($this->eventRepository->findAll() as $event) {
-                $event->setDateStart(
-                    new DateTime(
-                        $event->getDateStart()
-                            ->format('Y-m-d H:i:s'),
-                        $this->timezone
-                    )->setTime(12, 0)
-                );
-                $event->setDateEnd(
-                    new DateTime(
-                        $event->getDateEnd()
-                            ->format('Y-m-d H:i:s'),
-                        $this->timezone
-                    )->setTime(12, 0)
-                );
-                if ($event->getDateStart() > $now) {
-                    $this->eventsBySpan['future'][] = $event;
-                } elseif ($event->getDateEnd() < $now) {
-                    $this->eventsBySpan['past'][] = $event;
-                } else {
-                    $this->eventsBySpan['present'][] = $event;
-                }
-            }
-        }
+        $this->eventsBySpan ??= $this->groupEventsBySpan();
 
         return match ($span) {
             'past' => $this->eventsBySpan['past'],
@@ -154,6 +125,48 @@ class EventHelper
             'future' => $this->eventsBySpan['future'],
             default => throw new UnexpectedValueException('Unknown span (must be: past, present or future)'),
         };
+    }
+
+    /**
+     * Sorts all events into past, present and future, comparing their days at noon in the app's timezone.
+     *
+     * @return array<string, array<Event>>
+     *
+     * @throws Exception
+     */
+    private function groupEventsBySpan(): array
+    {
+        $eventsBySpan = ['past' => [], 'present' => [], 'future' => []];
+
+        $now = new DateTime('now', $this->timezone)
+            ->setTime(12, 0);
+
+        foreach ($this->eventRepository->findAll() as $event) {
+            $event->setDateStart(
+                new DateTime(
+                    $event->getDateStart()
+                        ->format('Y-m-d H:i:s'),
+                    $this->timezone
+                )->setTime(12, 0)
+            );
+            $event->setDateEnd(
+                new DateTime(
+                    $event->getDateEnd()
+                        ->format('Y-m-d H:i:s'),
+                    $this->timezone
+                )->setTime(12, 0)
+            );
+
+            if ($event->getDateStart() > $now) {
+                $eventsBySpan['future'][] = $event;
+            } elseif ($event->getDateEnd() < $now) {
+                $eventsBySpan['past'][] = $event;
+            } else {
+                $eventsBySpan['present'][] = $event;
+            }
+        }
+
+        return $eventsBySpan;
     }
 
     /**

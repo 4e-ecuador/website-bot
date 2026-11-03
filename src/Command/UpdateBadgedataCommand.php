@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Exception\NothingHasChangedException;
+use App\Util\MedalSpriteCss;
 use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use Exception;
 use RuntimeException;
@@ -432,52 +433,24 @@ class UpdateBadgedataCommand extends Command
         $resultImageName = 'medals_'.$size.'.png';
         $resultImageFile = $this->assetRoot.'/images/sprites/'.$resultImageName;
         $resultCssFile = $this->assetRoot.'/css/medals_'.$size.'.css';
-        $fileNames = [];
 
-        $cssLines = [
-            '.medal'.$size.' {',
-            '	width: '.$size.'px;',
-            '	height: '.$size.'px;',
-            '	display: inline-block;',
-            '	background:url(../images/sprites/'.$resultImageName.') no-repeat',
-            '}',
-        ];
-
-        $colCount = 0;
-        $rowCount = 0;
-
-        $files = new Finder()->files()->in($this->badgeRoot.'/'.$size)->sortByName();
-
-        foreach ($files as $file) {
-            $fileNames[] = $file->getRealPath();
-
-            $xPos = 0 !== $colCount ? '-'.$colCount * $size.'px' : '0';
-            $yPos = 0 !== $rowCount ? '-'.$rowCount * $size.'px' : '0';
-            $name = str_replace('.png', '', $file->getBasename());
-            $cssLines[] = sprintf(
-                '.medal'.$size.'.medal-%s {background-position: %s %s}',
-                $name,
-                $xPos,
-                $yPos
-            );
-            ++$colCount;
-
-            if ($colCount >= $imagesPerRow) {
-                $colCount = 0;
-                ++$rowCount;
-            }
-        }
+        $sprite = new MedalSpriteCss()->generate(
+            new Finder()->files()->in($this->badgeRoot.'/'.$size)->sortByName(),
+            $size,
+            $imagesPerRow,
+            $resultImageName,
+        );
 
         $command = sprintf(
             'montage %s -background none -tile %sx -geometry +0+0 %s %s',
-            implode(' ', $fileNames),
+            implode(' ', $sprite['paths']),
             $imagesPerRow,
             implode(' ', $flags),
             $resultImageFile
         );
 
         $this->execCommand($command);
-        file_put_contents($resultCssFile, implode("\n", $cssLines));
+        file_put_contents($resultCssFile, $sprite['css']);
     }
 
     /**

@@ -171,27 +171,7 @@ class IngressEventController extends BaseController
             return $this->redirectToRoute('ingress_event_index');
         }
 
-        $agents = $this->agentRepository->findNotifyAgents();
-        $count = 0;
-        foreach ($agents as $agent) {
-            if ($agent->getHasNotifyEvents()) {
-                try {
-                    $this->telegramBotHelper->sendMessage(
-                        $agent->getTelegramId(),
-                        $message,
-                        true
-                    );
-
-                    ++$count;
-                } catch (Exception $exception) {
-                    $this->addFlash(
-                        'warning',
-                        $exception->getMessage().' - Agent: '
-                        .$agent->getNickname()
-                    );
-                }
-            }
-        }
+        $count = $this->sendAnnouncements($message);
 
         if (0 !== $count) {
             $this->addFlash(
@@ -201,6 +181,38 @@ class IngressEventController extends BaseController
         }
 
         return $this->redirectToRoute('ingress_event_index');
+    }
+
+    /**
+     * Sends the message to every agent who wants event notifications and returns how many got it.
+     */
+    private function sendAnnouncements(string $message): int
+    {
+        $count = 0;
+
+        foreach ($this->agentRepository->findNotifyAgents() as $agent) {
+            if (!$agent->getHasNotifyEvents()) {
+                continue;
+            }
+
+            try {
+                $this->telegramBotHelper->sendMessage(
+                    $agent->getTelegramId(),
+                    $message,
+                    true
+                );
+
+                ++$count;
+            } catch (Exception $exception) {
+                $this->addFlash(
+                    'warning',
+                    $exception->getMessage().' - Agent: '
+                    .$agent->getNickname()
+                );
+            }
+        }
+
+        return $count;
     }
 
     #[Route(path: '/ingress/event/announce-fbm', name: 'ingress_event_announce_fbm', methods: ['GET'])]

@@ -1,11 +1,19 @@
 name: GitHub Pages
 
+# Publish the reports only after CI has passed on master.
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [master]
   workflow_dispatch:
 
+env:
+  APP_ENV: test
+  DATABASE_URL: 'postgresql://app:password@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
+
 permissions:
+  contents: read
   pages: write
   id-token: write
 
@@ -15,6 +23,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
     runs-on: ubuntu-latest
 
     environment:
@@ -27,7 +36,7 @@ jobs:
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
-          POSTGRES_PASSWORD: '!ChangeMe!'
+          POSTGRES_PASSWORD: password
         options: >-
           --health-cmd="pg_isready -d app -U app"
           --health-interval=10s
@@ -38,32 +47,44 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Build exactly the commit that CI tested.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           extensions: pdo_pgsql, intl, gd, curl, dom, iconv, ctype, json, libxml
           coverage: pcov
 
       - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+        with:
+          require-lock-file: true
 
       - name: Setup database
-        env:
-          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app?serverVersion=16&charset=utf8
         run: |
-          php bin/console doctrine:database:create --env=test
-          php bin/console doctrine:migrations:migrate --no-interaction --env=test
-          php bin/console doctrine:fixtures:load --no-interaction --env=test
+          php bin/console doctrine:database:create
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console doctrine:fixtures:load --no-interaction
 
+      # The Panther browser tests need a ChromeDriver matching the runner's Chrome.
+      - name: Install browser drivers
+        run: vendor/bin/bdi detect drivers
+
+      # The report steps never fail the build: CI already enforces them, these only collect the output.
       - name: Run PHPUnit with coverage
         env:
-          DATABASE_URL: postgresql://app:!ChangeMe!@localhost:5432/app?serverVersion=16&charset=utf8
+          PANTHER_NO_SANDBOX: 1
         run: |
           mkdir -p build/coverage
           php vendor/bin/phpunit --coverage-html build/coverage --coverage-text 2>&1 | tee build/phpunit-output.txt || true
+
+      # phpstan.dist.neon reads the dev container XML from var/cache/dev.
+      - name: Warm dev cache
+        run: php bin/console cache:warmup --env=dev
 
       - name: Run PHPStan
         run: |
@@ -77,13 +98,13 @@ jobs:
         run: php .github/scripts/generate-pages.php
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: build
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -1,0 +1,247 @@
+name: CI
+
+# Based on https://symfonycasts.com/blog/ideal-github-actions-symfony-apps
+
+env:
+    APP_ENV: test
+    # Test the PHP version we actually use in production.
+    PHP_VERSION: '8.5'
+    # Matches docker-compose.yaml.
+    DATABASE_URL: 'postgresql://app:password@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
+
+# Run for every pull request, plus the final commit that lands on master.
+on:
+    push:
+        branches: [master]
+    pull_request:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+# If we push again, cancel the now-outdated run.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    tests:
+        name: Tests
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_DB: app
+                    POSTGRES_USER: app
+                    POSTGRES_PASSWORD: password
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -d app -U app"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, gd, pdo_pgsql
+                  coverage: none
+
+            # Install the exact locked dependencies and cache Composer downloads.
+            - name: Install dependencies
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
+
+            - name: Setup database
+              run: |
+                  php bin/console doctrine:database:create --if-not-exists
+                  php bin/console doctrine:migrations:migrate --no-interaction
+
+            # Verify that the migrations and Doctrine mapping agree. If not, show the missing SQL.
+            - name: Validate database schema
+              run: |
+                  php bin/console doctrine:schema:validate || {
+                    echo "::group::Schema changes"
+                    php bin/console doctrine:schema:update --dump-sql
+                    echo "::endgroup::"
+                    exit 1
+                  }
+
+            - name: Load fixtures
+              run: php bin/console doctrine:fixtures:load --no-interaction
+
+            # The Panther browser tests need a ChromeDriver matching the runner's Chrome.
+            - name: Install browser drivers
+              run: vendor/bin/bdi detect drivers
+
+            - name: Run tests
+              run: vendor/bin/phpunit --display-deprecations
+              env:
+                  PANTHER_NO_SANDBOX: 1
+
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, gd, pdo_pgsql
+                  tools: symfony-cli
+                  coverage: none
+
+            # Make sure composer.json is valid and composer.lock is in sync.
+            - name: Validate Composer files
+              run: composer validate --strict --no-check-publish
+
+            - name: Install dependencies
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
+
+            # Make sure the production service container compiles correctly.
+            - name: Lint container
+              run: php bin/console lint:container --env=prod
+
+            # Only our own templates: bundle templates (profiler, email) need dev-only extensions.
+            - name: Lint Twig
+              run: php bin/console lint:twig templates --env=prod
+
+            - name: Lint YAML
+              run: php bin/console lint:yaml config --parse-tags
+
+            # No enabled_locales are configured, so lint each translated locale explicitly.
+            - name: Lint translations
+              run: |
+                  for locale in de en es; do
+                    php bin/console lint:translations --locale="$locale"
+                  done
+
+            # Catch Symfony-specific problems like unknown routes, templates and services.
+            - name: Symfony diagnostics
+              run: symfony lsp:check --format=github
+
+            # Make sure production assets can be compiled.
+            - name: Compile assets
+              run: php bin/console asset-map:compile --env=prod
+
+            # Exercise the production cache warmers before deployment.
+            - name: Warm production cache
+              run: APP_DEBUG=0 php bin/console cache:warmup --env=prod
+
+            # The Makefile's check: classes in src/ must be imported, not fully qualified.
+            - name: Check for fully-qualified class names
+              run: |
+                  matches=$(grep -rPn '(?<![A-Za-z0-9_])\\[A-Z][A-Za-z0-9_]+\\[A-Z]' src/ --include="*.php" \
+                    | grep -vP '^[^:]+:\d+:\s*(use |namespace |//)' \
+                    | grep -vP '(@var|@param|@return|@throws|@extends|@implements|#\[)' || true)
+                  if [ -n "$matches" ]; then
+                    echo "$matches"
+                    echo "::error::Fully-qualified class names found in src/ - use import statements instead"
+                    exit 1
+                  fi
+
+    rector:
+        name: Rector
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, gd, pdo_pgsql
+                  coverage: none
+
+            - name: Install dependencies
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
+
+            - name: Check Rector suggestions
+              run: vendor/bin/rector process --dry-run --no-progress-bar
+
+    php-cs-fixer:
+        name: PHP CS Fixer
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, gd
+                  coverage: none
+
+            - name: Install dependencies
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
+
+            # Check code style without changing files, and show the diff when it fails.
+            - name: Check code style
+              run: vendor/bin/php-cs-fixer check --diff --using-cache=no
+
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: intl, gd, pdo_pgsql
+                  coverage: none
+
+            - name: Install dependencies
+              uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+              with:
+                  require-lock-file: true
+
+            # phpstan.dist.neon reads the dev container XML from var/cache/dev.
+            - name: Warm dev cache
+              run: php bin/console cache:warmup --env=dev
+
+            # Reuse the result cache from a previous run so PHPStan only re-analyzes what changed.
+            - name: Restore PHPStan result cache
+              uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              with:
+                  path: /tmp/phpstan
+                  key: phpstan-result-cache-v1-${{ env.PHP_VERSION }}-${{ github.run_id }}
+                  restore-keys: |
+                      phpstan-result-cache-v1-${{ env.PHP_VERSION }}-
+
+            - name: Run PHPStan
+              run: php -d memory_limit=4G vendor/bin/phpstan analyse --no-progress
+
+            # Save the result cache, even when the analysis found errors.
+            - name: Save PHPStan result cache
+              uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              if: ${{ !cancelled() }}
+              with:
+                  path: /tmp/phpstan
+                  key: phpstan-result-cache-v1-${{ env.PHP_VERSION }}-${{ github.run_id }}

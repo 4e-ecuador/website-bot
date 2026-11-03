@@ -22,11 +22,13 @@ symfony server:start -d
 
 ### Testing
 ```bash
-make tests                        # Full CI: PHPUnit + PHPStan + Rector
+make tests                        # Full check: PHPUnit + PHPStan + Rector + PHP CS Fixer
+make cs                           # Fix code style with PHP CS Fixer
 symfony php vendor/bin/phpunit    # Run tests only
 symfony php vendor/bin/phpunit --filter=TestName  # Single test
 vendor/bin/phpstan analyse        # Static analysis (level 7)
 vendor/bin/rector process --dry-run  # Check code modernization
+vendor/bin/php-cs-fixer check --diff  # Check code style (@Symfony)
 ```
 
 ### Database

@@ -1,0 +1,30 @@
+name: Composer Security Audit
+
+on:
+    # Every Monday at noon UTC. Scheduled runs only trigger from the default branch.
+    schedule:
+        - cron: '0 12 * * 1'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    composer-audit:
+        name: Composer Audit
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+            # Only Composer is needed; no project dependencies are installed.
+            - name: Setup Composer
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  tools: composer
+                  coverage: none
+
+            # Fail on security advisories while still reporting abandoned packages.
+            - name: Run Composer audit
+              run: composer audit --locked --abandoned=report

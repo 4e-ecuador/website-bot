@@ -1,0 +1,25 @@
+version: 2
+updates:
+    # Keeps the SHA-pinned actions in .github/workflows up to date.
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: weekly
+      groups:
+          github-actions:
+              patterns: ['*']
+
+    - package-ecosystem: composer
+      directory: /
+      schedule:
+          interval: weekly
+      groups:
+          symfony:
+              patterns: ['symfony/*']
+          dev-tools:
+              dependency-type: development
+          # Dependabot picks the most specific group, and dependency-type beats
+          # a name pattern, so symfony/* must be excluded explicitly.
+          production:
+              dependency-type: production
+              exclude-patterns: ['symfony/*']

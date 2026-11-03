@@ -22,7 +22,7 @@ export default class extends Controller {
             iconAnchor: [11, 36],
         })
 
-        definition.rawOptions = {
+        definition.bridgeOptions = {
             icon: icon,
         }
     }

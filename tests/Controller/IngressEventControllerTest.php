@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\IngressEvent;
 use App\Entity\User;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,7 +16,7 @@ class IngressEventControllerTest extends WebTestCase
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
         if (!$em->getRepository(IngressEvent::class)->find(1)) {
             $conn = $em->getConnection();
-            $now = new \DateTime()->format('Y-m-d H:i:s');
+            $now = new DateTime()->format('Y-m-d H:i:s');
             $conn->executeStatement(
                 'INSERT INTO ingress_event (id, name, type, date_start, date_end, description) VALUES (1, :name, :type, :ds, :de, :desc)',
                 ['name' => 'test', 'type' => 'fs', 'ds' => $now, 'de' => $now, 'desc' => 'test']
@@ -188,8 +189,8 @@ class IngressEventControllerTest extends WebTestCase
         $toDelete = new IngressEvent();
         $toDelete->setName('ToDeleteEvent')
             ->setType('fs')
-            ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime());
+            ->setDateStart(new DateTime())
+            ->setDateEnd(new DateTime());
         $em->persist($toDelete);
         $em->flush();
 

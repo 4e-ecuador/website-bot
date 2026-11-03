@@ -22,7 +22,8 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(
         Request $request,
-        #[Autowire('%env(OAUTH_GOOGLE_ID)%')] string $oauthGoogleId,
+        #[Autowire('%env(OAUTH_GOOGLE_ID)%')]
+        string $oauthGoogleId,
         ?UserInterface $user = null,
     ): Response {
         if ($user instanceof UserInterface) {
@@ -40,8 +41,8 @@ class SecurityController extends AbstractController
             'security/login.html.twig',
             [
                 'last_username' => $lastUsername,
-                'error'         => $error,
-                'referer'       => $referer,
+                'error' => $error,
+                'referer' => $referer,
                 'oauthGoogleId' => $oauthGoogleId,
             ]
         );

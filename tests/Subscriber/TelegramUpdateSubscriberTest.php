@@ -17,7 +17,6 @@ class TelegramUpdateSubscriberTest extends TestCase
     private function buildBotApi(?User $meUser = null, ?callable $onSendMessage = null): BotApi
     {
         return new class($meUser, $onSendMessage) extends BotApi {
-
             /** @var callable|null */
             private $onSendMessage;
 
@@ -41,12 +40,12 @@ class TelegramUpdateSubscriberTest extends TestCase
                 $messageThreadId = null,
                 $protectContent = null,
                 $allowSendingWithoutReply = null
-            ): \TelegramBot\Api\Types\Message {
-                if ($this->onSendMessage !== null) {
+            ): Message {
+                if (null !== $this->onSendMessage) {
                     ($this->onSendMessage)();
                 }
 
-                return new \TelegramBot\Api\Types\Message();
+                return new Message();
             }
 
             public function getMe(): User

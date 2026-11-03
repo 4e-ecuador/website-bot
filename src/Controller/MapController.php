@@ -30,8 +30,10 @@ class MapController extends AbstractController
     #[Route(path: '/map', name: 'agent-map', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function map(
-        #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
-        #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')]
+        float $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')]
+        float $defaultLon,
     ): Response {
         return $this->render(
             'map/index.html.twig',
@@ -120,7 +122,7 @@ class MapController extends AbstractController
             $response[] = $agent->getRealName();
         }
 
-        if ($statsLink !== '' && $statsLink !== '0') {
+        if ('' !== $statsLink && '0' !== $statsLink) {
             $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
         }
 

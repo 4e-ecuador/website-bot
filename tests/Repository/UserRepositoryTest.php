@@ -35,7 +35,7 @@ class UserRepositoryTest extends KernelTestCase
     public function testGetFireBaseUsersFindsUserWithToken(): void
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $email = 'firebase-' . uniqid() . '@example.com';
+        $email = 'firebase-'.uniqid().'@example.com';
 
         $user = new User();
         $user->setEmail($email);
@@ -47,7 +47,7 @@ class UserRepositoryTest extends KernelTestCase
         $results = $this->repository->getFireBaseUsers();
 
         self::assertNotEmpty($results);
-        $found = array_any($results, fn($u) => $u->getFireBaseToken() !== null);
+        $found = array_any($results, fn ($u) => null !== $u->getFireBaseToken());
 
         self::assertTrue($found);
     }
@@ -58,7 +58,7 @@ class UserRepositoryTest extends KernelTestCase
         $faction = $em->getRepository(Faction::class)->findOneBy([]);
 
         $agent = new Agent();
-        $agent->setNickname('unlinked-' . uniqid());
+        $agent->setNickname('unlinked-'.uniqid());
         $agent->setFaction($faction);
 
         $em->persist($agent);
@@ -75,12 +75,12 @@ class UserRepositoryTest extends KernelTestCase
         $faction = $em->getRepository(Faction::class)->findOneBy([]);
 
         $agent = new Agent();
-        $agent->setNickname('linked-' . uniqid());
+        $agent->setNickname('linked-'.uniqid());
         $agent->setFaction($faction);
 
         $em->persist($agent);
 
-        $email = 'agentuser-' . uniqid() . '@example.com';
+        $email = 'agentuser-'.uniqid().'@example.com';
         $user = new User();
         $user->setEmail($email);
         $user->setAgent($agent);

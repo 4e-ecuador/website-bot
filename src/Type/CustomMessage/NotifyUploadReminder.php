@@ -18,8 +18,8 @@ class NotifyUploadReminder extends AbstractCustomMessage
         $message = [];
 
         $message[] = $bulb.' '.$this->translator->trans(
-                'notify.upload.reminder'
-            );
+            'notify.upload.reminder'
+        );
 
         return $message;
     }

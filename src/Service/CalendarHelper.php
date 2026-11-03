@@ -13,7 +13,8 @@ class CalendarHelper
     private readonly DateTimeZone $timezone;
 
     public function __construct(
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        string $defaultTimeZone,
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }

@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\Agent;
 use App\Entity\Comment;
 use App\Entity\User;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,7 +31,7 @@ class CommentControllerTest extends WebTestCase
             $agent = $this->getAgent();
             $user = $this->getUser();
             $comment = new Comment();
-            $comment->setAgent($agent)->setCommenter($user)->setText('test')->setDatetime(new \DateTime());
+            $comment->setAgent($agent)->setCommenter($user)->setText('test')->setDatetime(new DateTime());
             $em->persist($comment);
             $em->flush();
         }
@@ -179,8 +180,8 @@ class CommentControllerTest extends WebTestCase
         $agent = $this->getAgent();
         $user = $this->getUser();
 
-        $comment = new \App\Entity\Comment();
-        $comment->setAgent($agent)->setCommenter($user)->setText('To be deleted')->setDatetime(new \DateTime());
+        $comment = new Comment();
+        $comment->setAgent($agent)->setCommenter($user)->setText('To be deleted')->setDatetime(new DateTime());
         $em->persist($comment);
         $em->flush();
 

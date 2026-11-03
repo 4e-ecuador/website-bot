@@ -59,7 +59,7 @@ class CommentController extends BaseController
             'comment/new.html.twig',
             [
                 'comment' => $comment,
-                'form'    => $form,
+                'form' => $form,
             ]
         );
     }
@@ -122,7 +122,7 @@ class CommentController extends BaseController
             'comment/edit.html.twig',
             [
                 'comment' => $comment,
-                'form'    => $form,
+                'form' => $form,
             ]
         );
     }
@@ -135,7 +135,7 @@ class CommentController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$comment->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($comment);

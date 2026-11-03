@@ -14,6 +14,7 @@ use App\Entity\MapGroup;
 use App\Entity\TestStat;
 use App\Entity\User;
 use DateTime;
+use DateTimeZone;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -42,8 +43,8 @@ class AppFixtures extends Fixture
 
         $event = new Event()
             ->setName('test')
-            ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime());
+            ->setDateStart(new DateTime())
+            ->setDateEnd(new DateTime());
 
         $manager->persist($event);
 
@@ -58,19 +59,19 @@ class AppFixtures extends Fixture
         $manager->persist($testStat);
 
         $agentStat = new AgentStat()
-            ->setDatetime(new \DateTime())
+            ->setDatetime(new DateTime())
             ->setAgent($agent)
             ->setAp(123);
 
         $manager->persist($agentStat);
 
         $ingressEvent = new IngressEvent()
-            ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime());
+            ->setDateStart(new DateTime())
+            ->setDateEnd(new DateTime());
 
         $manager->persist($ingressEvent);
 
-        $tz = new \DateTimeZone('UTC');
+        $tz = new DateTimeZone('UTC');
 
         $challenge = new Challenge()
             ->setName('TestPast')
@@ -88,12 +89,12 @@ class AppFixtures extends Fixture
             ->setText('test')
             ->setAgent($agent)
             ->setCommenter($user)
-            ->setDatetime(new \DateTime());
+            ->setDatetime(new DateTime());
 
         $manager->persist($comment);
 
         $manager->persist(
-            (new Help())
+            new Help()
         );
 
         $manager->flush();

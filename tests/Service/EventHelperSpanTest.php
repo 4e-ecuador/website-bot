@@ -6,6 +6,7 @@ use App\Entity\Challenge;
 use App\Entity\Event;
 use App\Service\EventHelper;
 use DateTime;
+use DateTimeZone;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
@@ -18,7 +19,7 @@ class EventHelperSpanTest extends KernelTestCase
     {
         self::bootKernel();
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $tz = new \DateTimeZone('UTC');
+        $tz = new DateTimeZone('UTC');
 
         // Clear all events so counts are predictable (tearDown restores fixture event)
         $em->createQuery('DELETE FROM App\Entity\Event')->execute();

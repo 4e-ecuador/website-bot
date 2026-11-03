@@ -17,7 +17,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class UploadStatsReminder extends Command
 {
-
     public function __construct(
         private readonly TelegramMessageHelper $telegramMessageHelper,
         private readonly AgentRepository $agentRepository

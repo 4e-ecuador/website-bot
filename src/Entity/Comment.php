@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
-use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;

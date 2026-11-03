@@ -31,6 +31,7 @@ class StatsControllerTest extends WebTestCase
             ->get('doctrine.orm.entity_manager')
             ->getRepository(Agent::class)
             ->findOneBy([]);
+
         return $agent;
     }
 
@@ -41,6 +42,7 @@ class StatsControllerTest extends WebTestCase
             ->get('doctrine.orm.entity_manager')
             ->getRepository(AgentStat::class)
             ->findOneBy([]);
+
         return $stat;
     }
 
@@ -51,7 +53,7 @@ class StatsControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_GET, '/stats/by-date', [
             'start_date' => '2024-01-01',
-            'end_date'   => '2024-01-31',
+            'end_date' => '2024-01-31',
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -137,7 +139,7 @@ class StatsControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_GET, '/stats/in-between-result', [
             'dateStart' => $datetime,
-            'dateEnd'   => $datetime,
+            'dateEnd' => $datetime,
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -150,7 +152,7 @@ class StatsControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_GET, '/stats/in-between-result', [
             'dateStart' => '1900-01-01',
-            'dateEnd'   => '1900-01-02',
+            'dateEnd' => '1900-01-02',
         ]);
 
         $this->assertResponseIsSuccessful();

@@ -109,7 +109,7 @@ class StatImportBrowserTest extends PantherTestCase
 
     private function csvContent(): string
     {
-        return (string)file_get_contents(self::CSV_FIXTURE);
+        return (string) file_get_contents(self::CSV_FIXTURE);
     }
 
     /**

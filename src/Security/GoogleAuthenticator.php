@@ -8,8 +8,8 @@ use App\Service\TelegramAdminMessageHelper;
 use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,7 +41,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): bool
     {
-        return $request->attributes->get('_route') === 'connect_google_check';
+        return 'connect_google_check' === $request->attributes->get('_route');
     }
 
     public function onAuthenticationSuccess(
@@ -87,7 +87,8 @@ class GoogleAuthenticator extends AbstractAuthenticator
         $user = $this->getUser($googleUser);
 
         return new SelfValidatingPassport(
-            new UserBadge($user->getEmail()), [new RememberMeBadge()]
+            new UserBadge($user->getEmail()),
+            [new RememberMeBadge()]
         );
     }
 

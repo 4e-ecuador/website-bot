@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Event;
 use App\Entity\User;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -119,8 +120,8 @@ class EventControllerTest extends WebTestCase
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
         $toEdit = new Event();
         $toEdit->setName('EditSubmissionEvent')
-            ->setDateStart(new \DateTime('2099-01-01'))
-            ->setDateEnd(new \DateTime('2099-01-01'));
+            ->setDateStart(new DateTime('2099-01-01'))
+            ->setDateEnd(new DateTime('2099-01-01'));
         $em->persist($toEdit);
         $em->flush();
 
@@ -145,8 +146,8 @@ class EventControllerTest extends WebTestCase
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
         $toDelete = new Event();
         $toDelete->setName('ToDeleteEvent')
-            ->setDateStart(new \DateTime('2099-01-01'))
-            ->setDateEnd(new \DateTime('2099-01-01'));
+            ->setDateStart(new DateTime('2099-01-01'))
+            ->setDateEnd(new DateTime('2099-01-01'));
         $em->persist($toDelete);
         $em->flush();
 

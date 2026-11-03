@@ -14,7 +14,8 @@ class UserChangedNotifier
     public function __construct(
         private readonly Security $security,
         private readonly TelegramBotHelper $telegramBotHelper,
-        #[Autowire(env: 'APP_ENV')] private readonly string $appEnv
+        #[Autowire(env: 'APP_ENV')]
+        private readonly string $appEnv
     ) {
     }
 
@@ -46,8 +47,7 @@ class UserChangedNotifier
         $text[] = '*User account changed.*';
         $text[] = '';
         $text[] = sprintf(
-            'A user account has been changed by %s'
-            ,
+            'A user account has been changed by %s',
             $adminUser->getUserAgentName()
         );
         $text[] = '';
@@ -58,7 +58,7 @@ class UserChangedNotifier
             $user->getAgent() instanceof Agent
                 ? $user->getAgent()->getNickname()
                 : ''
-            );
+        );
         $text[] = str_replace(
             '_',
             '\\_',

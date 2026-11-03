@@ -9,7 +9,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class Templater
 {
     public function __construct(
-        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $rootDir,
         private readonly Filesystem $filesystem
     ) {
     }
@@ -19,7 +20,7 @@ class Templater
         $path = $this->rootDir.'/text-files/'.$templateName;
 
         if ($this->filesystem->exists($path)) {
-            return (string)file_get_contents($path);
+            return (string) file_get_contents($path);
         }
 
         return 'File not found';
@@ -34,10 +35,10 @@ class Templater
         $replacements = [
             '{agent_nick}' => $agent->getNickname(),
             '{agent_name}' => $agent->getRealName() ?: 'Desconocido',
-            '{faction}'    => $agent->getFaction()->getName(),
-            '{lat}'        => $agent->getLat() ?: 'Desconocida',
-            '{lon}'        => $agent->getLon(),
-            '{gmap_link}'  => $agent->getLat() ? sprintf(
+            '{faction}' => $agent->getFaction()->getName(),
+            '{lat}' => $agent->getLat() ?: 'Desconocida',
+            '{lon}' => $agent->getLon(),
+            '{gmap_link}' => $agent->getLat() ? sprintf(
                 '[gmap](https://www.google.com/maps/@%s,%s,17z)',
                 $agent->getLat(),
                 $agent->getLon()
@@ -47,7 +48,7 @@ class Templater
                 $agent->getLat(),
                 $agent->getLon()
             ) : '',
-            '{osm_link}'   => $agent->getLat() ? sprintf(
+            '{osm_link}' => $agent->getLat() ? sprintf(
                 '[osm](https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=10/%s/%s)',
                 $agent->getLat(),
                 $agent->getLon(),
@@ -57,10 +58,9 @@ class Templater
         ];
 
         foreach ($replacements as $search => $replacement) {
-            $template = str_replace($search, (string)$replacement, $template);
+            $template = str_replace($search, (string) $replacement, $template);
         }
 
         return $template;
     }
-
 }

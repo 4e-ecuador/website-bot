@@ -52,7 +52,7 @@ class StatsImporter
     ): AgentStat {
         $parsed = $this->csvParser->parse($csv);
 
-        if (count($parsed) !== 1) {
+        if (1 !== count($parsed)) {
             throw new RuntimeException('CSV is BAD: '.count($parsed));
         }
 
@@ -62,9 +62,7 @@ class StatsImporter
                 ->setAgent($agent);
 
             if ($this->agentStatRepository->has($statEntry)) {
-                throw new StatsAlreadyAddedException(
-                    $this->translator->trans('Stat entry already added!')
-                );
+                throw new StatsAlreadyAddedException($this->translator->trans('Stat entry already added!'));
             }
 
             $this->applyValues($statEntry, $values);
@@ -147,7 +145,7 @@ class StatsImporter
             24 => 'dual_core',
         ];
 
-        foreach ($coreLevels as $coreLevel=>$levelName) {
+        foreach ($coreLevels as $coreLevel => $levelName) {
             if ($monthsSubscribed >= $coreLevel
                 && $previousMonthsSubscribed < $coreLevel
             ) {
@@ -186,7 +184,7 @@ class StatsImporter
         Agent $agent,
         AgentStat $statEntry
     ): void {
-        if ($statEntry->getFaction() !== 'Enlightened') {
+        if ('Enlightened' !== $statEntry->getFaction()) {
             // Smurf detected!!!
             $this->telegramAdminMessageHelper->sendSmurfAlertMessage(
                 'admin',
@@ -249,6 +247,7 @@ class StatsImporter
 
     /**
      * @param array<string, string> $values
+     *
      * @throws UnexpectedValueException
      */
     private function applyValues(AgentStat $statEntry, array $values): void
@@ -258,9 +257,7 @@ class StatsImporter
             if (method_exists($statEntry, $methodName)) {
                 $statEntry->$methodName($value);
             } else {
-                throw new UnexpectedValueException(
-                    'Method not found: '.$methodName
-                );
+                throw new UnexpectedValueException('Method not found: '.$methodName);
             }
         }
     }

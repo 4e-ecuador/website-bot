@@ -7,10 +7,10 @@ use App\Entity\User;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -27,7 +27,8 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return Paginator<User>
      */
-    public function getPaginatedList(PaginatorOptions $paginatorOptions
+    public function getPaginatedList(
+        PaginatorOptions $paginatorOptions
     ): Paginator {
         $query = $this->createQueryBuilder('a');
 
@@ -36,8 +37,8 @@ class UserRepository extends ServiceEntityRepository
             $paginatorOptions->getOrderDir()
         );
 
-        if ($paginatorOptions->searchCriteria('email') !== ''
-            && $paginatorOptions->searchCriteria('email') !== '0'
+        if ('' !== $paginatorOptions->searchCriteria('email')
+            && '0' !== $paginatorOptions->searchCriteria('email')
         ) {
             $query->andWhere('LOWER(a.email) LIKE LOWER(:email)')
                 ->setParameter(
@@ -46,8 +47,8 @@ class UserRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($paginatorOptions->searchCriteria('roles') !== ''
-            && $paginatorOptions->searchCriteria('roles') !== '0'
+        if ('' !== $paginatorOptions->searchCriteria('roles')
+            && '0' !== $paginatorOptions->searchCriteria('roles')
         ) {
             // var_dump($paginatorOptions->searchCriteria('roles'));
             $query->andWhere('a.roles LIKE :roles')

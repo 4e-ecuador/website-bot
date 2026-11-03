@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use function count;
 
 class AgentStatController extends BaseController
 {
@@ -38,7 +37,7 @@ class AgentStatController extends BaseController
             $paginatorOptions
         );
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($stats) / $paginatorOptions->getLimit())
+            (int) ceil(\count($stats) / $paginatorOptions->getLimit())
         );
         $agents = [];
         $agents[0] = '';
@@ -78,7 +77,7 @@ class AgentStatController extends BaseController
             'agent_stat/new.html.twig',
             [
                 'agent_stat' => $agentStat,
-                'form'       => $form,
+                'form' => $form,
             ]
         );
     }
@@ -116,7 +115,7 @@ class AgentStatController extends BaseController
             'agent_stat/edit.html.twig',
             [
                 'agent_stat' => $agentStat,
-                'form'       => $form,
+                'form' => $form,
             ]
         );
     }
@@ -129,7 +128,7 @@ class AgentStatController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agentStat->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($agentStat);

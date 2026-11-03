@@ -17,7 +17,7 @@ class CustomMedalsExporter
     /** Older keys of medals that were renamed. */
     private const array RENAMED = [
         '13_magnus_reawakens' => '13_magnusreawakens',
-        'avenir_shard'        => 'avenir_shard_challenge',
+        'avenir_shard' => 'avenir_shard_challenge',
     ];
 
     public function __construct(private readonly MedalChecker $medalChecker)
@@ -30,7 +30,7 @@ class CustomMedalsExporter
     public function export(Agent $agent): array
     {
         try {
-            $stored = json_decode((string)$agent->getCustomMedals(), true, 512, JSON_THROW_ON_ERROR);
+            $stored = json_decode((string) $agent->getCustomMedals(), true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException) {
             $stored = null;
         }
@@ -49,7 +49,7 @@ class CustomMedalsExporter
         $medals = array_fill_keys(array_keys($known), []);
 
         foreach ($stored as $group => $values) {
-            $group = strtolower((string)$group);
+            $group = strtolower((string) $group);
             if (isset($known[$group]) && is_array($values)) {
                 $medals[$group] = $this->group($group, $known[$group], $values);
             }
@@ -68,9 +68,9 @@ class CustomMedalsExporter
     {
         $medals = [];
         foreach ($values as $medal => $value) {
-            $medal = $this->key((string)$medal);
+            $medal = $this->key((string) $medal);
             $tier = array_key_exists($medal, $known)
-                ? $this->tier($group, (array)$known[$medal], is_scalar($value) ? (string)$value : '')
+                ? $this->tier($group, (array) $known[$medal], is_scalar($value) ? (string) $value : '')
                 : null;
             if (null !== $tier) {
                 $medals[$medal] = $tier;
@@ -83,15 +83,15 @@ class CustomMedalsExporter
     /** An annual medal's level, 1 (bronze) to 5 (onyx). */
     private function level(string $value): ?int
     {
-        $level = (int)$value;
+        $level = (int) $value;
 
-        return (string)$level === $value && $level >= 1 && $level <= 5 ? $level : null;
+        return (string) $level === $value && $level >= 1 && $level <= 5 ? $level : null;
     }
 
     /** NemesisMyriad → nemesis_myriad, and the renamed ones. */
     private function key(string $medal): string
     {
-        $key = strtolower((string)preg_replace('/(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/', '_', $medal));
+        $key = strtolower((string) preg_replace('/(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/', '_', $medal));
 
         return self::RENAMED[$key] ?? $key;
     }

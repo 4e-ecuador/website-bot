@@ -10,8 +10,8 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<AgentStat>
@@ -145,8 +145,8 @@ class AgentStatRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('agent') !== ''
-            && $options->searchCriteria('agent') !== '0'
+        if ('' !== $options->searchCriteria('agent')
+            && '0' !== $options->searchCriteria('agent')
         ) {
             $query->andWhere('a.agent = :agent')
                 ->setParameter(

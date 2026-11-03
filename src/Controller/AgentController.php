@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use function count;
 
 class AgentController extends BaseController
 {
@@ -47,8 +46,10 @@ class AgentController extends BaseController
     #[IsGranted('ROLE_EDITOR')]
     public function new(
         Request $request,
-        #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
-        #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')]
+        string $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')]
+        string $defaultLon,
     ): Response {
         $agent = new Agent()
             ->setLat($defaultLat)
@@ -68,8 +69,8 @@ class AgentController extends BaseController
         return $this->render(
             'agent/new.html.twig',
             [
-                'agent'      => $agent,
-                'form'       => $form,
+                'agent' => $agent,
+                'form' => $form,
                 'defaultLat' => $defaultLat,
                 'defaultLon' => $defaultLon,
             ]
@@ -91,8 +92,8 @@ class AgentController extends BaseController
             'agent/show.html.twig',
             [
                 'agent' => $agent,
-                'user'  => $this->userRepository->findByAgent($agent),
-                'map'   => $map,
+                'user' => $this->userRepository->findByAgent($agent),
+                'map' => $map,
             ]
         );
     }
@@ -105,9 +106,10 @@ class AgentController extends BaseController
     public function edit(
         Request $request,
         Agent $agent,
-        #[Autowire('%env(APP_DEFAULT_LAT)%')] string $defaultLat,
-        #[Autowire('%env(APP_DEFAULT_LON)%')] string $defaultLon,
-
+        #[Autowire('%env(APP_DEFAULT_LAT)%')]
+        string $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')]
+        string $defaultLon,
     ): Response {
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
@@ -120,7 +122,7 @@ class AgentController extends BaseController
         return $this->render(
             'agent/edit.html.twig',
             [
-                'form'       => $form,
+                'form' => $form,
                 'defaultLat' => $defaultLat,
                 'defaultLon' => $defaultLon,
             ]
@@ -135,7 +137,7 @@ class AgentController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$agent->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($agent);
@@ -153,20 +155,20 @@ class AgentController extends BaseController
     ): JsonResponse {
         if ($this->isCsrfTokenValid(
             'addcomment'.$agent->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $commenter = $this->userRepository->findOneBy(
-                ['id' => (int)$request->request->get('commenter')]
+                ['id' => (int) $request->request->get('commenter')]
             );
 
             if (!$commenter instanceof User) {
                 return $this->json(['error' => 'invalid commenter']);
             }
 
-            $text = (string)$request->request->get('comment');
+            $text = (string) $request->request->get('comment');
 
-            if ($text === '' || $text === '0') {
+            if ('' === $text || '0' === $text) {
                 return $this->json(['error' => 'no comment...']);
             }
 
@@ -201,7 +203,7 @@ class AgentController extends BaseController
         $results = $this->agentRepository->searchByAgentName($query);
         foreach ($results as $result) {
             $list[] = [
-                'name'    => $result->getNickname(),
+                'name' => $result->getNickname(),
                 'faction' => $result->getFaction()->getName(),
             ];
         }
@@ -216,7 +218,7 @@ class AgentController extends BaseController
     ): Response {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
-            'page'     => $page,
+            'page' => $page,
             'criteria' => [
                 'nickname' => $request->query->get('q', ''),
             ],
@@ -227,32 +229,32 @@ class AgentController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
         $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($agents) / $paginatorOptions->getLimit())
+            (int) ceil(\count($agents) / $paginatorOptions->getLimit())
         );
 
         return $this->json(
             [
                 'msgSearchResultCount' => $this->translator->trans(
                     'search.result.agent',
-                    ['count' => count($agents)]
+                    ['count' => \count($agents)]
                 ),
-                'msgPageCounter'       => $this->translator->trans(
+                'msgPageCounter' => $this->translator->trans(
                     'page.counter',
                     [
-                        'page'     => $page,
+                        'page' => $page,
                         'maxPages' => $paginatorOptions->getMaxPages(),
                     ]
                 ),
 
-                'totalItems' => count($agents),
-                'previous'   => ($page > 1)
+                'totalItems' => \count($agents),
+                'previous' => ($page > 1)
                     ? 'X'
                     : null,
-                'next'       => $page < $paginatorOptions->getMaxPages()
+                'next' => $page < $paginatorOptions->getMaxPages()
                     ? 'X'
                     : null,
-                'last'       => $paginatorOptions->getMaxPages(),
-                'list'       => $this->renderView(
+                'last' => $paginatorOptions->getMaxPages(),
+                'list' => $this->renderView(
                     'agent/_list.html.twig',
                     [
                         'agents' => $agents,
@@ -269,7 +271,7 @@ class AgentController extends BaseController
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
-            'page'     => $page,
+            'page' => $page,
             'criteria' => [
                 'nickname' => $request->query->get('nickname', ''),
             ],
@@ -280,14 +282,14 @@ class AgentController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
         $agents = $this->agentRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($agents) / $paginatorOptions->getLimit())
+            (int) ceil(\count($agents) / $paginatorOptions->getLimit())
         );
 
         $list = [];
 
         foreach ($agents as $agent) {
             $list[] = [
-                'id'       => $agent->getId(),
+                'id' => $agent->getId(),
                 'nickname' => $agent->getNickname(),
                 'realName' => $agent->getRealName(),
             ];
@@ -304,7 +306,7 @@ class AgentController extends BaseController
         $view->{'hydra:last'} = $paginatorOptions->getMaxPages();
 
         $response->{'hydra:view'} = $view;
-        $response->{'hydra:totalItems'} = count($agents);
+        $response->{'hydra:totalItems'} = \count($agents);
 
         return $this->json($response);
     }

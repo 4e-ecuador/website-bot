@@ -15,7 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TestStatController extends BaseController
 {
     public function __construct(
-        private readonly TestStatRepository $testStatRepository, private readonly EntityManagerInterface $entityManager
+        private readonly TestStatRepository $testStatRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -51,7 +52,7 @@ class TestStatController extends BaseController
             'test_stat/new.html.twig',
             [
                 'test_stat' => $testStat,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -87,7 +88,7 @@ class TestStatController extends BaseController
             'test_stat/edit.html.twig',
             [
                 'test_stat' => $testStat,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -99,7 +100,7 @@ class TestStatController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$testStat->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($testStat);

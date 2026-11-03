@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Event;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class EventTest extends TestCase
@@ -22,8 +23,8 @@ class EventTest extends TestCase
     public function testSettersAndGetters(): void
     {
         $event = new Event();
-        $start = new \DateTime('2025-06-01');
-        $end = new \DateTime('2025-06-02');
+        $start = new DateTime('2025-06-01');
+        $end = new DateTime('2025-06-02');
 
         $event->setName('Farm Night')
             ->setDateStart($start)
@@ -44,8 +45,8 @@ class EventTest extends TestCase
 
         $result = $event
             ->setName('Test')
-            ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime())
+            ->setDateStart(new DateTime())
+            ->setDateEnd(new DateTime())
             ->setEventType('type')
             ->setRecurring('monthly');
 

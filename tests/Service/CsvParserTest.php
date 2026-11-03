@@ -120,14 +120,14 @@ class CsvParserTest extends KernelTestCase
 
         $dateTime = new DateTime('1999-11-11 11:11:11');
         $vars = [
-            'span'       => 'GESAMT',
-            'agent'      => 'testAgent',
-            'faction'    => 'Enlightened',
-            'date'       => $dateTime->format('Y-m-d'),
-            'time'       => $dateTime->format('h:i:s'),
-            'level'      => 1,
-            'ap'         => 1,
-            'explorer'   => 1,
+            'span' => 'GESAMT',
+            'agent' => 'testAgent',
+            'faction' => 'Enlightened',
+            'date' => $dateTime->format('Y-m-d'),
+            'time' => $dateTime->format('h:i:s'),
+            'level' => 1,
+            'ap' => 1,
+            'explorer' => 1,
             'recursions' => 0,
         ];
 
@@ -135,7 +135,7 @@ class CsvParserTest extends KernelTestCase
             if (array_key_exists($key, $replacements)) {
                 $csv = str_replace('{'.$key.'}', $replacements[$key], $csv);
             } else {
-                $csv = str_replace('{'.$key.'}', (string)$var, $csv);
+                $csv = str_replace('{'.$key.'}', (string) $var, $csv);
             }
         }
 

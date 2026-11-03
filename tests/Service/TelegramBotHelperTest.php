@@ -19,7 +19,9 @@ class TelegramBotHelperTest extends TestCase
             {
             }
 
-            public function __destruct() {}
+            public function __destruct()
+            {
+            }
 
             public function sendMessage(
                 $chatId,
@@ -97,7 +99,9 @@ class TelegramBotHelperTest extends TestCase
             {
             }
 
-            public function __destruct() {}
+            public function __destruct()
+            {
+            }
         };
 
         $helper = new TelegramBotHelper(
@@ -123,7 +127,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertFalse($this->helper->checkChatId('123'));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_CHATS='.$original);
             }
         }
@@ -137,7 +141,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertTrue($this->helper->checkChatId('200'));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_CHATS='.$original);
             } else {
                 putenv('ALLOWED_TELEGRAM_CHATS');
@@ -153,7 +157,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertFalse($this->helper->checkChatId('999'));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_CHATS='.$original);
             } else {
                 putenv('ALLOWED_TELEGRAM_CHATS');
@@ -169,7 +173,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertFalse($this->helper->checkUserId(123));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_USERS='.$original);
             }
         }
@@ -183,7 +187,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertTrue($this->helper->checkUserId(200));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_USERS='.$original);
             } else {
                 putenv('ALLOWED_TELEGRAM_USERS');
@@ -199,7 +203,7 @@ class TelegramBotHelperTest extends TestCase
         try {
             self::assertFalse($this->helper->checkUserId(999));
         } finally {
-            if ($original !== false) {
+            if (false !== $original) {
                 putenv('ALLOWED_TELEGRAM_USERS='.$original);
             } else {
                 putenv('ALLOWED_TELEGRAM_USERS');

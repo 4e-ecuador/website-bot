@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\IngressEvent;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class IngressEventTest extends TestCase
@@ -23,8 +24,8 @@ class IngressEventTest extends TestCase
     public function testSettersAndGetters(): void
     {
         $event = new IngressEvent();
-        $start = new \DateTime('2025-01-01');
-        $end = new \DateTime('2025-01-02');
+        $start = new DateTime('2025-01-01');
+        $end = new DateTime('2025-01-02');
 
         $event->setName('Anomaly')
             ->setType('anomaly')

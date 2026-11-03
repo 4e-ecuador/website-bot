@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\IngressEventRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
-use App\Repository\IngressEventRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;

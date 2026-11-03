@@ -7,6 +7,7 @@ use App\Repository\AgentRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use DOMDocument;
 use Michelf\MarkdownExtra;
+use Override;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MarkdownParser extends MarkdownExtra
@@ -21,7 +22,7 @@ class MarkdownParser extends MarkdownExtra
     /**
      * @throws NonUniqueResultException
      */
-    #[\Override]
+    #[Override]
     public function transform($text): string
     {
         $text = parent::transform($text);

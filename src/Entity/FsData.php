@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\FsDataRepository;
-use DateTimeInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -22,11 +22,11 @@ class FsData
     private ?string $data = null;
 
     #[Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setCreatedAt(new DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -58,12 +58,12 @@ class FsData
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

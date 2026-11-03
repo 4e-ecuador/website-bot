@@ -6,6 +6,7 @@ use App\Entity\IngressEvent;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -100,8 +101,8 @@ class IngressEventRepository extends ServiceEntityRepository
      * @return IngressEvent[]
      */
     public function findBetween(
-        \DateTimeInterface $start,
-        \DateTimeInterface $end
+        DateTimeInterface $start,
+        DateTimeInterface $end
     ): array {
         return $this
             ->createQueryBuilder('event')

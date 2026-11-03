@@ -34,20 +34,21 @@ class GoogleIdentityAuthenticator extends AbstractAuthenticator
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly TelegramAdminMessageHelper $telegramAdminMessageHelper,
-        #[Autowire(env: 'OAUTH_GOOGLE_ID')] private readonly string $oauthGoogleId,
+        #[Autowire(env: 'OAUTH_GOOGLE_ID')]
+        private readonly string $oauthGoogleId,
     ) {
     }
 
     public function supports(Request $request): bool
     {
-        return $request->getPathInfo() === '/connect/google/verify';
+        return '/connect/google/verify' === $request->getPathInfo();
     }
 
     public function authenticate(Request $request): Passport
     {
-        $idToken = (string)$request->request->get('credential');
+        $idToken = (string) $request->request->get('credential');
 
-        if ($idToken === '' || $idToken === '0') {
+        if ('' === $idToken || '0' === $idToken) {
             throw new AuthenticationException('Missing credentials :(');
         }
 

@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\AgentStat;
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 
 class AgentStatComputeTest extends TestCase
@@ -100,7 +101,7 @@ class AgentStatComputeTest extends TestCase
     {
         $stat = new AgentStat();
 
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $stat->offsetSet('ap', 100); // @phpstan-ignore argument.type
     }
@@ -109,7 +110,7 @@ class AgentStatComputeTest extends TestCase
     {
         $stat = new AgentStat();
 
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $stat->offsetUnset('ap'); // @phpstan-ignore argument.type
     }

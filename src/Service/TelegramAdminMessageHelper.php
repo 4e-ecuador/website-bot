@@ -19,7 +19,8 @@ class TelegramAdminMessageHelper
 {
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
-        #[Autowire(env: 'ANNOUNCE_ADMIN_CC')] private readonly string $announceAdminCc,
+        #[Autowire(env: 'ANNOUNCE_ADMIN_CC')]
+        private readonly string $announceAdminCc,
         private readonly NewUserMessage $newUserMessage,
         private readonly NicknameMismatchMessage $nicknameMismatchMessage,
         private readonly SmurfAlertMessage $smurfAlertMessage

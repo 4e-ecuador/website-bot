@@ -9,6 +9,7 @@ use App\Service\EmojiService;
 use App\Service\MedalChecker;
 use App\Type\AbstractCustomMessage;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AbstractCustomMessageTest extends TestCase
@@ -26,15 +27,7 @@ class AbstractCustomMessageTest extends TestCase
         $medalChecker = $this->createStub(MedalChecker::class);
         $ingressEventRepository = $this->createStub(IngressEventRepository::class);
 
-        return new class(
-            $emojiService,
-            $translator,
-            $medalChecker,
-            $ingressEventRepository,
-            'admin@example.com',
-            'https://example.com',
-            $messageLines,
-        ) extends AbstractCustomMessage {
+        return new class($emojiService, $translator, $medalChecker, $ingressEventRepository, 'admin@example.com', 'https://example.com', $messageLines) extends AbstractCustomMessage {
             /** @param array<int, string> $lines */
             public function __construct(
                 EmojiService $emojiService,
@@ -91,7 +84,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentTelegramName');
+        $method = new ReflectionMethod($message, 'getAgentTelegramName');
         $result = $method->invoke($message, $agent);
 
         self::assertSame('test\\_agent', $result);
@@ -105,7 +98,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentTelegramName');
+        $method = new ReflectionMethod($message, 'getAgentTelegramName');
         $result = $method->invoke($message, $agent);
 
         self::assertSame('tg\\_handle\\_name', $result);
@@ -118,7 +111,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentTelegramName');
+        $method = new ReflectionMethod($message, 'getAgentTelegramName');
         $result = $method->invoke($message, $agent);
 
         self::assertSame('my\\_cool\\_agent', $result);
@@ -131,7 +124,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentTelegramName');
+        $method = new ReflectionMethod($message, 'getAgentTelegramName');
         $result = $method->invoke($message, $agent);
 
         self::assertSame('SimpleAgent', $result);
@@ -147,7 +140,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentUserData');
+        $method = new ReflectionMethod($message, 'getAgentUserData');
         $result = $method->invoke($message, $agent, $user);
 
         self::assertIsArray($result);
@@ -163,7 +156,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentUserData');
+        $method = new ReflectionMethod($message, 'getAgentUserData');
         $result = $method->invoke($message, $agent, $user);
 
         self::assertStringContainsString('test_agent', $result[0]);
@@ -179,7 +172,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentUserData');
+        $method = new ReflectionMethod($message, 'getAgentUserData');
         $result = $method->invoke($message, $agent, $user);
 
         // getUserAgentName() returns email when no agent is set on user
@@ -204,7 +197,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentUserData');
+        $method = new ReflectionMethod($message, 'getAgentUserData');
         $result = $method->invoke($message, $agent, $user);
 
         self::assertContains('Please verify!', $result);
@@ -220,7 +213,7 @@ class AbstractCustomMessageTest extends TestCase
 
         $message = $this->buildMessage();
 
-        $method = new \ReflectionMethod($message, 'getAgentUserData');
+        $method = new ReflectionMethod($message, 'getAgentUserData');
         $result = $method->invoke($message, $agent, $user);
 
         // The array should have exactly 7 elements as per the implementation:

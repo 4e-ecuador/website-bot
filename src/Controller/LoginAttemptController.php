@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use function count;
 
 class LoginAttemptController extends BaseController
 {
@@ -34,7 +33,7 @@ class LoginAttemptController extends BaseController
             $paginatorOptions
         );
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($attempts) / $paginatorOptions->getLimit())
+            (int) ceil(\count($attempts) / $paginatorOptions->getLimit())
         );
 
         return $this->render(

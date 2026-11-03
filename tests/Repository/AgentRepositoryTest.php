@@ -3,7 +3,6 @@
 namespace App\Tests\Repository;
 
 use App\Entity\Agent;
-use App\Entity\Faction;
 use App\Entity\MapGroup;
 use App\Repository\AgentRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

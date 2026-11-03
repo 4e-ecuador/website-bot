@@ -169,9 +169,9 @@ class AgentControllerTest extends WebTestCase
         $token = $crawler->filter('input[name="_token"]')->last()->attr('value');
 
         $client->request(Request::METHOD_POST, '/agent/'.$agent->getId().'/add_comment', [
-            '_token'    => $token,
+            '_token' => $token,
             'commenter' => $this->getUser()->getId(),
-            'comment'   => '',
+            'comment' => '',
         ]);
         self::assertResponseIsSuccessful();
         $data = json_decode((string) $client->getResponse()->getContent(), true);
@@ -190,9 +190,9 @@ class AgentControllerTest extends WebTestCase
         $token = $crawler->filter('input[name="_token"]')->last()->attr('value');
 
         $client->request(Request::METHOD_POST, '/agent/'.$agent->getId().'/add_comment', [
-            '_token'    => $token,
+            '_token' => $token,
             'commenter' => 999999,
-            'comment'   => 'Test comment',
+            'comment' => 'Test comment',
         ]);
         self::assertResponseIsSuccessful();
         $data = json_decode((string) $client->getResponse()->getContent(), true);
@@ -212,9 +212,9 @@ class AgentControllerTest extends WebTestCase
         $token = $crawler->filter('input[name="_token"]')->last()->attr('value');
 
         $client->request(Request::METHOD_POST, '/agent/'.$agent->getId().'/add_comment', [
-            '_token'    => $token,
+            '_token' => $token,
             'commenter' => $user->getId(),
-            'comment'   => 'Test comment from test',
+            'comment' => 'Test comment from test',
         ]);
         self::assertResponseIsSuccessful();
         $data = json_decode((string) $client->getResponse()->getContent(), true);

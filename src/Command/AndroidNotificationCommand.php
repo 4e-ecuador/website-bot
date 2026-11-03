@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use UnexpectedValueException;
 
 #[AsCommand(
     name: 'android-app:notify',
@@ -18,7 +19,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class AndroidNotificationCommand extends Command
 {
     public function __construct(
-        #[Autowire(env: 'FCM_KEY')] private readonly string $fcmKey
+        #[Autowire(env: 'FCM_KEY')]
+        private readonly string $fcmKey
     ) {
         parent::__construct();
     }
@@ -34,12 +36,12 @@ class AndroidNotificationCommand extends Command
 
         $data = json_encode(
             [
-                'to'   => '/topics/allDevices',
+                'to' => '/topics/allDevices',
                 'data' => [
-                    'title'      => $title,
-                    'message'    => $message,
+                    'title' => $title,
+                    'message' => $message,
                     'channel_id' => 'WEB APP CHANNEL ID',
-                    'sound'      => 'default',
+                    'sound' => 'default',
                 ],
             ],
             JSON_THROW_ON_ERROR
@@ -52,7 +54,7 @@ class AndroidNotificationCommand extends Command
         ];
 
         if (!$ch) {
-            throw new \UnexpectedValueException('Can not init Curl.');
+            throw new UnexpectedValueException('Can not init Curl.');
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);

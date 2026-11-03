@@ -15,7 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class HelpController extends BaseController
 {
     public function __construct(
-        private readonly HelpRepository $helpRepository, private readonly EntityManagerInterface $entityManager
+        private readonly HelpRepository $helpRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -78,7 +79,7 @@ class HelpController extends BaseController
             throw $this->createNotFoundException();
         }
 
-        return $this->render('help/show.html.twig', ['help' => $help,]);
+        return $this->render('help/show.html.twig', ['help' => $help]);
     }
 
     #[Route(path: '/help/{id}/edit', name: 'help_edit', methods: [
@@ -118,7 +119,7 @@ class HelpController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$help->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($help);

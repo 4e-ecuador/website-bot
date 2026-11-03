@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Service\DateTimeHelper;
+use DateTime;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
 class DateTimeHelperTest extends TestCase
@@ -20,7 +22,7 @@ class DateTimeHelperTest extends TestCase
     {
         $result = $this->helper->getNextFS();
 
-        self::assertInstanceOf(\DateTime::class, $result);
+        self::assertInstanceOf(DateTime::class, $result);
     }
 
     public function testGetNextFsReturnsSaturday(): void
@@ -33,7 +35,7 @@ class DateTimeHelperTest extends TestCase
     public function testGetNextFsIsInFuture(): void
     {
         $result = $this->helper->getNextFS();
-        $now = new \DateTime('now', new \DateTimeZone('America/Guayaquil'));
+        $now = new DateTime('now', new DateTimeZone('America/Guayaquil'));
 
         self::assertGreaterThanOrEqual($now->format('Y-m-d'), $result->format('Y-m-d'));
     }

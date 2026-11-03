@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://apps.timwhitlock.info/emoji/tables/unicode
  */
@@ -9,7 +10,7 @@ use App\Exception\EmojiNotFoundException;
 use App\Type\Emoji;
 
 /**
- *                                     ☺
+ *                                     ☺.
  *
  * 😀😃😄😁😆😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟
  * 😕🙁☹😣😖😫😩🥺😢😭😤😠😡🤬 🤯😳🥵 🥶😱😨😰😥😓🤗🤔🤭 🤫🤥😶😐😑😬🙄😯😦😧
@@ -22,60 +23,60 @@ final class EmojiService
      */
     private array $emojies
         = [
-            'tadaa'       => [
+            'tadaa' => [
                 'description' => 'party popper',
-                'unicode'     => 'U+1F389',
-                'bytecode'    => "\xF0\x9F\x8E\x89",
+                'unicode' => 'U+1F389',
+                'bytecode' => "\xF0\x9F\x8E\x89",
             ],
-            'redlight'    => [
+            'redlight' => [
                 'description' => 'police cars revolving light',
-                'unicode'     => 'U+1F6A8',
-                'bytecode'    => "\xF0\x9F\x9A\xA8",
+                'unicode' => 'U+1F6A8',
+                'bytecode' => "\xF0\x9F\x9A\xA8",
             ],
             // ❌
-            'cross-mark'  => [
+            'cross-mark' => [
                 'description' => 'cross mark',
-                'unicode'     => 'U+274C',
-                'bytecode'    => "\xE2\x9D\x8C",
-                'native'      => '❌',
+                'unicode' => 'U+274C',
+                'bytecode' => "\xE2\x9D\x8C",
+                'native' => '❌',
             ],
             // ✅
-            'check-mark'  => [
+            'check-mark' => [
                 'description' => 'white heavy check mark',
-                'unicode'     => 'U+2705',
-                'bytecode'    => "\xE2\x9C\x85",
-                'native'      => '✅',
+                'unicode' => 'U+2705',
+                'bytecode' => "\xE2\x9C\x85",
+                'native' => '✅',
             ],
             // ✨
-            'sparkles'    => [
+            'sparkles' => [
                 'description' => 'sparkles',
-                'unicode'     => 'U+2728',
-                'bytecode'    => "\xE2\x9C\xA8",
-                'native'      => '✨',
+                'unicode' => 'U+2728',
+                'bytecode' => "\xE2\x9C\xA8",
+                'native' => '✨',
             ],
             'loudspeaker' => [
                 'description' => 'public address loudspeaker',
-                'unicode'     => 'U+1F4E2',
-                'bytecode'    => "\xF0\x9F\x93\xA2",
+                'unicode' => 'U+1F4E2',
+                'bytecode' => "\xF0\x9F\x93\xA2",
             ],
             // 📊
-            'bar-chart'   => [
+            'bar-chart' => [
                 'description' => 'bar chart',
-                'unicode'     => 'U+1F4CA',
-                'bytecode'    => "\xF0\x9F\x93\x8A",
-                'native'      => '📊',
+                'unicode' => 'U+1F4CA',
+                'bytecode' => "\xF0\x9F\x93\x8A",
+                'native' => '📊',
             ],
             // 💡
-            'light-bulb'  => [
+            'light-bulb' => [
                 'description' => 'electric light bulb',
-                'unicode'     => 'U+1F4A1',
-                'bytecode'    => "\xF0\x9F\x92\xA1",
-                'native'      => '💡',
+                'unicode' => 'U+1F4A1',
+                'bytecode' => "\xF0\x9F\x92\xA1",
+                'native' => '💡',
             ],
-            'silhouette'  => [
+            'silhouette' => [
                 'description' => 'bust in silhouette',
-                'unicode'     => 'U+1F464',
-                'bytecode'    => "\xF0\x9F\x91\xA4",
+                'unicode' => 'U+1F464',
+                'bytecode' => "\xF0\x9F\x91\xA4",
             ],
             // '' => [
             //     'description' => '',
@@ -112,6 +113,7 @@ final class EmojiService
 
     /**
      * @return Emoji[]
+     *
      * @throws EmojiNotFoundException
      */
     public function getAll(): array

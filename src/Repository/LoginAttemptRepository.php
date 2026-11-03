@@ -31,7 +31,7 @@ class LoginAttemptRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('email') !== '') {
+        if ('' !== $options->searchCriteria('email')) {
             $query->andWhere('a.email LIKE :email')
                 ->setParameter(
                     'email',

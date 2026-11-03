@@ -2,14 +2,15 @@
 
 namespace App\Command;
 
-use App\Repository\AgentStatRepository;
 use App\Entity\Event;
+use App\Repository\AgentStatRepository;
 use App\Repository\EventRepository;
 use App\Service\EventHelper;
 use App\Service\TelegramBotHelper;
 use CURLFile;
 use DateTime;
 use DateTimeZone;
+use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,8 +31,10 @@ class SendEventUpdateCommand extends Command
         private readonly EventHelper $eventHelper,
         private readonly EventRepository $eventRepository,
         private readonly AgentStatRepository $statRepository,
-        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $rootDir,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }
@@ -117,6 +120,7 @@ class SendEventUpdateCommand extends Command
 
     /**
      * @param array<Event> $events
+     *
      * @return array<Event>
      */
     private function getCurrentEvents(array $events, DateTime $dateNow): array
@@ -139,7 +143,7 @@ class SendEventUpdateCommand extends Command
         $my_img = imagecreate(230, 140);
 
         if (!$my_img) {
-            throw new \RuntimeException('Can not create image');
+            throw new RuntimeException('Can not create image');
         }
 
         $medal1 = imagecreatefrompng(
@@ -160,7 +164,7 @@ class SendEventUpdateCommand extends Command
         // $line_colour = imagecolorallocate( $my_img, 128, 255, 0 );
 
         // $grey = imagecolorallocate($my_img, 128, 128, 128);
-        $black = (int)imagecolorallocate($my_img, 0, 0, 0);
+        $black = (int) imagecolorallocate($my_img, 0, 0, 0);
 
         // imagestring( $my_img, 5, 40, 20, "AlexinhoTreSant", $text_colour );
         // imagestring( $my_img, 5, 40, 61, "crispin14cpw", $text_colour );
@@ -175,7 +179,7 @@ class SendEventUpdateCommand extends Command
         // $font2 = '/home/elkuku/repos/symf-postgre-heroku-test/assets/fonts/SouthDjakartaDemo.ttf';
         $font3 = $this->rootDir.'/assets/fonts/Clone Machine.otf';
         // Add some shadow to the text
-        //imagettftext($my_img, 20, 0, 11, 21, $grey, $font, $text);
+        // imagettftext($my_img, 20, 0, 11, 21, $grey, $font, $text);
 
         // Add the text
         imagettftext($my_img, 16, 0, 40, 35, $black, $font3, $name1);
@@ -185,11 +189,11 @@ class SendEventUpdateCommand extends Command
         imagecopy($my_img, $medal1, 3, 5, 0, 0, 36, 36);
         imagecopy($my_img, $medal2, 3, 46, 0, 0, 36, 36);
         imagecopy($my_img, $medal3, 3, 87, 0, 0, 36, 36);
-        //imagesetthickness ( $my_img, 5 );
-        //imageline( $my_img, 30, 45, 165, 45, $line_colour );
+        // imagesetthickness ( $my_img, 5 );
+        // imageline( $my_img, 30, 45, 165, 45, $line_colour );
 
-        //$text_colour = imagecolorallocate( $my_img, 255, 255, 0 );
-        //imagestring( $my_img, 4, 30, 25, "thesitewizard.com", $text_colour );
+        // $text_colour = imagecolorallocate( $my_img, 255, 255, 0 );
+        // imagestring( $my_img, 4, 30, 25, "thesitewizard.com", $text_colour );
 
         // header( "Content-type: image/png" );
         // imagepng( $my_img );

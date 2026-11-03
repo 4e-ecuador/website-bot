@@ -11,7 +11,7 @@ class NewMedalMessage extends AbstractCustomMessage
     private Agent $agent;
 
     /**
-     * @var array<string, int> $medalUps
+     * @var array<string, int>
      */
     private array $medalUps;
 
@@ -33,7 +33,7 @@ class NewMedalMessage extends AbstractCustomMessage
             'new.medal.text.1',
             [
                 'medals' => count($this->medalUps),
-                'agent'  => $this->getAgentTelegramName($this->agent),
+                'agent' => $this->getAgentTelegramName($this->agent),
             ]
         );
 

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\AgentStatRepository;
 use ArrayAccess;
+use BadMethodCallException;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -11,7 +13,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
-use App\Repository\AgentStatRepository;
 use ReflectionClass;
 
 /**
@@ -470,69 +471,69 @@ class AgentStat implements ArrayAccess
     }
 
     /**
-     * Whether a offset exists
+     * Whether a offset exists.
      *
-     * @link  https://php.net/manual/en/arrayaccess.offsetexists.php
+     * @see  https://php.net/manual/en/arrayaccess.offsetexists.php
      *
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
+     * @return bool true on success or false on failure.
+     *              </p>
+     *              <p>
+     *              The return value will be casted to boolean if non-boolean was returned.
+     *
      * @since 5.0.0
      */
     public function offsetExists(mixed $offset): bool
     {
-        if (strpos((string)$offset, '-')) {
+        if (strpos((string) $offset, '-')) {
             $offset = lcfirst(
                 implode(
                     '',
-                    array_map(ucfirst(...), explode('-', (string)$offset))
+                    array_map(ucfirst(...), explode('-', (string) $offset))
                 )
             );
         }
 
-        return property_exists($this, (string)$offset);
+        return property_exists($this, (string) $offset);
     }
 
     /**
-     * Offset to retrieve
+     * Offset to retrieve.
      *
-     * @link  https://php.net/manual/en/arrayaccess.offsetget.php
+     * @see  https://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @return mixed Can return all value types.
+     * @return mixed can return all value types
+     *
      * @since 5.0.0
      */
     public function offsetGet(mixed $offset): mixed
     {
         $offset = lcfirst(
-            implode('', array_map(ucfirst(...), explode('-', (string)$offset)))
+            implode('', array_map(ucfirst(...), explode('-', (string) $offset)))
         );
 
         return $this->$offset;
     }
 
     /**
-     * Offset to set
+     * Offset to set.
      *
-     * @link  https://php.net/manual/en/arrayaccess.offsetset.php
-     *
+     * @see  https://php.net/manual/en/arrayaccess.offsetset.php
      * @since 5.0.0
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new \BadMethodCallException('AgentStat is read-only via ArrayAccess');
+        throw new BadMethodCallException('AgentStat is read-only via ArrayAccess');
     }
 
     /**
-     * Offset to unset
+     * Offset to unset.
      *
-     * @link  https://php.net/manual/en/arrayaccess.offsetunset.php
-     *
+     * @see  https://php.net/manual/en/arrayaccess.offsetunset.php
      * @since 5.0.0
      */
     public function offsetUnset(mixed $offset): void
     {
-        throw new \BadMethodCallException('AgentStat is read-only via ArrayAccess');
+        throw new BadMethodCallException('AgentStat is read-only via ArrayAccess');
     }
 
     /**
@@ -725,7 +726,8 @@ class AgentStat implements ArrayAccess
         return $this->kineticCapsulesCompleted;
     }
 
-    public function setKineticCapsulesCompleted(?int $kineticCapsulesCompleted
+    public function setKineticCapsulesCompleted(
+        ?int $kineticCapsulesCompleted
     ): self {
         $this->kineticCapsulesCompleted = $kineticCapsulesCompleted;
 

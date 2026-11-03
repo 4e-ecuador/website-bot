@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use function count;
 
 class IngressEventController extends BaseController
 {
@@ -49,7 +48,7 @@ class IngressEventController extends BaseController
             $paginatorOptions
         );
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($events) / $paginatorOptions->getLimit())
+            (int) ceil(\count($events) / $paginatorOptions->getLimit())
         );
 
         return $this->render(
@@ -87,7 +86,7 @@ class IngressEventController extends BaseController
             'ingress_event/new.html.twig',
             [
                 'ingress_event' => $ingressEvent,
-                'form'          => $form,
+                'form' => $form,
             ]
         );
     }
@@ -136,7 +135,7 @@ class IngressEventController extends BaseController
             'ingress_event/edit.html.twig',
             [
                 'ingress_event' => $ingressEvent,
-                'form'          => $form,
+                'form' => $form,
             ]
         );
     }
@@ -149,7 +148,7 @@ class IngressEventController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$ingressEvent->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($ingressEvent);
@@ -166,7 +165,7 @@ class IngressEventController extends BaseController
         $message = $this->notifyEventsMessage
             ->setFirstAnnounce(true)
             ->getText();
-        if ($message === '' || $message === '0') {
+        if ('' === $message || '0' === $message) {
             $this->addFlash('warning', 'No events to announce ;(');
 
             return $this->redirectToRoute('ingress_event_index');
@@ -194,7 +193,7 @@ class IngressEventController extends BaseController
             }
         }
 
-        if ($count !== 0) {
+        if (0 !== $count) {
             $this->addFlash(
                 'success',
                 sprintf('Announcements sent to %d agents!', $count)
@@ -213,7 +212,7 @@ class IngressEventController extends BaseController
                 ->setFirstAnnounce(true)
                 ->getText();
 
-            if ($message === '' || $message === '0') {
+            if ('' === $message || '0' === $message) {
                 throw new RuntimeException('No events to announce ;(');
             }
 
@@ -237,7 +236,7 @@ class IngressEventController extends BaseController
                 ->setFirstAnnounce(true)
                 ->getText();
 
-            if ($message === '' || $message === '0') {
+            if ('' === $message || '0' === $message) {
                 throw new RuntimeException('No events to announce ;(');
             }
 
@@ -263,7 +262,7 @@ class IngressEventController extends BaseController
                 );
             }
 
-            if ($count !== 0) {
+            if (0 !== $count) {
                 $this->addFlash(
                     'success',
                     sprintf('Announcements sent to %d agents!', $count)

@@ -19,8 +19,10 @@ abstract class AbstractCustomMessage
         protected TranslatorInterface $translator,
         protected MedalChecker $medalChecker,
         protected IngressEventRepository $ingressEventRepository,
-        #[Autowire(env: 'ANNOUNCE_ADMIN_CC')] protected string $announceAdminCc,
-        #[Autowire(env: 'PAGE_BASE_URL')] protected string $pageBaseUrl,
+        #[Autowire(env: 'ANNOUNCE_ADMIN_CC')]
+        protected string $announceAdminCc,
+        #[Autowire(env: 'PAGE_BASE_URL')]
+        protected string $pageBaseUrl,
     ) {
     }
 

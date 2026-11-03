@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Challenge;
 use App\Entity\User;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -120,8 +121,8 @@ class ChallengeControllerTest extends WebTestCase
         $toEdit = new Challenge();
         $toEdit->setName('EditSubmissionChallenge')
             ->setCodeName('edit-submission')
-            ->setDateStart(new \DateTime('2099-01-01'))
-            ->setDateEnd(new \DateTime('2099-01-01'));
+            ->setDateStart(new DateTime('2099-01-01'))
+            ->setDateEnd(new DateTime('2099-01-01'));
         $em->persist($toEdit);
         $em->flush();
 
@@ -147,8 +148,8 @@ class ChallengeControllerTest extends WebTestCase
         $toDelete = new Challenge();
         $toDelete->setName('ToDeleteChallenge')
             ->setCodeName('to-delete')
-            ->setDateStart(new \DateTime('2099-01-01'))
-            ->setDateEnd(new \DateTime('2099-01-01'));
+            ->setDateStart(new DateTime('2099-01-01'))
+            ->setDateEnd(new DateTime('2099-01-01'));
         $em->persist($toDelete);
         $em->flush();
 

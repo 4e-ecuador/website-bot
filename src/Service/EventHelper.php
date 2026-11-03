@@ -30,7 +30,8 @@ class EventHelper
     public function __construct(
         private readonly EventRepository $eventRepository,
         private readonly ChallengeRepository $challengeRepository,
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        string $defaultTimeZone
     ) {
         $this->timezone = new DateTimeZone($defaultTimeZone);
     }
@@ -97,15 +98,13 @@ class EventHelper
             $fields = $current->getMindController() - $previous->getMindController();
             $links = $current->getConnector() - $previous->getConnector();
 
-            return $links !== 0 ? $fields / $links : 0;
+            return 0 !== $links ? $fields / $links : 0;
         }
 
         $methodName = 'get'.$event->getEventType();
 
         if (false === method_exists($current, $methodName)) {
-            throw new UnexpectedValueException(
-                'Unknown event type: '.$event->getEventType()
-            );
+            throw new UnexpectedValueException('Unknown event type: '.$event->getEventType());
         }
 
         return $current->$methodName() - $previous->$methodName();
@@ -113,11 +112,12 @@ class EventHelper
 
     /**
      * @return array<Event>
+     *
      * @throws Exception
      */
     public function getEventsInSpan(string $span): ?array
     {
-        if ($this->eventsBySpan === null) {
+        if (null === $this->eventsBySpan) {
             $this->eventsBySpan = ['past' => [], 'present' => [], 'future' => []];
 
             $now = new DateTime('now', $this->timezone)
@@ -127,13 +127,15 @@ class EventHelper
                 $event->setDateStart(
                     new DateTime(
                         $event->getDateStart()
-                            ->format('Y-m-d H:i:s'), $this->timezone
+                            ->format('Y-m-d H:i:s'),
+                        $this->timezone
                     )->setTime(12, 0)
                 );
                 $event->setDateEnd(
                     new DateTime(
                         $event->getDateEnd()
-                            ->format('Y-m-d H:i:s'), $this->timezone
+                            ->format('Y-m-d H:i:s'),
+                        $this->timezone
                     )->setTime(12, 0)
                 );
                 if ($event->getDateStart() > $now) {
@@ -150,14 +152,13 @@ class EventHelper
             'past' => $this->eventsBySpan['past'],
             'present' => $this->eventsBySpan['present'],
             'future' => $this->eventsBySpan['future'],
-            default => throw new UnexpectedValueException(
-                'Unknown span (must be: past, present or future)'
-            ),
+            default => throw new UnexpectedValueException('Unknown span (must be: past, present or future)'),
         };
     }
 
     /**
      * @return array<Challenge>|null
+     *
      * @throws Exception
      */
     public function getChallengesInSpan(string $span): ?array
@@ -168,14 +169,12 @@ class EventHelper
             return $this->challengesBySpan[$span];
         }
 
-        throw new UnexpectedValueException(
-            'Unknown span (must be: past, present or future): '.$span
-        );
+        throw new UnexpectedValueException('Unknown span (must be: past, present or future): '.$span);
     }
 
     private function initChallengesBySpan(): void
     {
-        if ($this->challengesBySpan !== null) {
+        if (null !== $this->challengesBySpan) {
             return;
         }
 
@@ -188,13 +187,15 @@ class EventHelper
             $item->setDateStart(
                 new DateTime(
                     $item->getDateStart()
-                        ->format('Y-m-d H:i:s'), $this->timezone
+                        ->format('Y-m-d H:i:s'),
+                    $this->timezone
                 )->setTime(12, 0)
             );
             $item->setDateEnd(
                 new DateTime(
                     $item->getDateEnd()
-                        ->format('Y-m-d H:i:s'), $this->timezone
+                        ->format('Y-m-d H:i:s'),
+                    $this->timezone
                 )->setTime(12, 0)
             );
 

@@ -20,8 +20,8 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
-use Psr\Log\LoggerInterface;
 use JsonException;
+use Psr\Log\LoggerInterface;
 use stdClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -67,7 +67,7 @@ class StatsController extends BaseController
         $dateStart = new DateTime()->sub(new DateInterval('P30D'));
         try {
             $customMedals = json_decode(
-                (string)$agent->getCustomMedals(),
+                (string) $agent->getCustomMedals(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
@@ -83,13 +83,13 @@ class StatsController extends BaseController
         return $this->render(
             'stats/agent-stats.html.twig',
             [
-                'agent'       => $agent,
-                'user'        => $this->userRepository->findByAgent($agent),
+                'agent' => $agent,
+                'user' => $this->userRepository->findByAgent($agent),
                 'medalGroups' => $medalGroups,
-                'latest'      => $latest,
-                'dateStart'   => $dateStart,
-                'dateEnd'     => $dateEnd,
-                'first'       => $this->statRepository->getAgentLatest(
+                'latest' => $latest,
+                'dateStart' => $dateStart,
+                'dateEnd' => $dateEnd,
+                'first' => $this->statRepository->getAgentLatest(
                     $agent,
                     true
                 ),
@@ -122,8 +122,8 @@ class StatsController extends BaseController
             foreach ($medals as $medal => $value) {
                 try {
                     $code = $this->medalChecker->getBadgeName(
-                        (string)$group,
-                        (string)$medal,
+                        (string) $group,
+                        (string) $medal,
                         $value
                     );
                     $this->medalChecker->getBadgeData($code);
@@ -173,7 +173,7 @@ class StatsController extends BaseController
         foreach ($entries as $entry) {
             // Get the correct datetime format for highcharts
             // See: https://stackoverflow.com/a/29234143/1906767
-            $date = (int)($entry->getDatetime()?->format('U')) * 1000;
+            $date = (int) $entry->getDatetime()?->format('U') * 1000;
             $data->ap[] = [$date, $entry->getAp()];
             $data->hacker[] = [$date, $entry->getHacker()];
         }
@@ -188,7 +188,7 @@ class StatsController extends BaseController
         return $this->render(
             'stats/leaderboard.html.twig',
             [
-                'board'    => $this->getBoardEntries(
+                'board' => $this->getBoardEntries(
                     $this->userRepository,
                     $this->leaderBoardService,
                 ),
@@ -202,7 +202,7 @@ class StatsController extends BaseController
     public function leaderBoardDetail(
         Request $request
     ): Response {
-        $item = (string)$request->request->get('item', 'ap');
+        $item = (string) $request->request->get('item', 'ap');
         $entries = $this->getBoardEntries(
             $this->userRepository,
             $this->leaderBoardService,
@@ -212,11 +212,10 @@ class StatsController extends BaseController
         return $this->render(
             'stats/_stat_entry.html.twig',
             [
-                'type'     => $item,
-                'entries'  => $entries,
+                'type' => $item,
+                'entries' => $entries,
                 'maxCount' => 999999,
                 'cssClass' => '',
-
             ]
         );
     }
@@ -261,10 +260,10 @@ class StatsController extends BaseController
         return $this->render(
             'stats/by_date.html.twig',
             [
-                'startDate'     => new DateTime($startDate ?? 'now'),
-                'endDate'       => new DateTime($endDate ?? 'now'),
-                'stats'         => $stats,
-                'medalsGained'  => $medalsGained,
+                'startDate' => new DateTime($startDate ?? 'now'),
+                'endDate' => new DateTime($endDate ?? 'now'),
+                'stats' => $stats,
+                'medalsGained' => $medalsGained,
                 'medalsGained1' => $medalsGained1,
             ]
         );
@@ -283,16 +282,16 @@ class StatsController extends BaseController
         $dates = [];
         foreach ($stats as $stat) {
             $dateString = $stat->getDatetime()?->format('Y n j H:i:s');
-            [$year, $month, $day, $time] = explode(' ', (string)$dateString);
+            [$year, $month, $day, $time] = explode(' ', (string) $dateString);
             $dates[$year][$month][$day][] = $time;
         }
 
         return $this->render('stats/in-between.html.twig', [
-            'dates'     => $dates,
+            'dates' => $dates,
             'firstDate' => $stats[count($stats) - 1]->getDatetime()?->format(
                 'Y-n-j H:i:s'
             ),
-            'lastDate'  => $stats[0]->getDatetime()?->format('Y-n-j H:i:s'),
+            'lastDate' => $stats[0]->getDatetime()?->format('Y-n-j H:i:s'),
         ]);
     }
 
@@ -327,8 +326,8 @@ class StatsController extends BaseController
 
         return $this->render('import/_result.html.twig', [
             'statEntry' => $endEntry,
-            'result'    => $result,
-            'error'     => $error,
+            'result' => $result,
+            'error' => $error,
         ]);
     }
 
@@ -342,7 +341,8 @@ class StatsController extends BaseController
     #[IsGranted('ROLE_INTRO_AGENT')]
     public function statImport(
         Request $request,
-        #[Autowire('%env(APP_ENV)%')] string $appEnv
+        #[Autowire('%env(APP_ENV)%')]
+        string $appEnv
     ): Response {
         /** @var User|null $user */
         $user = $this->getUser();
@@ -352,13 +352,11 @@ class StatsController extends BaseController
 
         $agent = $user->getAgent();
         if (!$agent) {
-            throw $this->createAccessDeniedException(
-                $this->translator->trans('user.not.verified.2')
-            );
+            throw $this->createAccessDeniedException($this->translator->trans('user.not.verified.2'));
         }
 
         $csv = $request->request->getString('csv');
-        if ($csv !== '') {
+        if ('' !== $csv) {
             $result = $this->handleCsvImport(
                 $csv,
                 $agent,
@@ -419,7 +417,7 @@ class StatsController extends BaseController
 
             // @TODO temporal FireBase token store
             $fireBaseToken = $request->request->getString('fire_base_token');
-            if ($fireBaseToken !== '' && !$user->getFireBaseToken()) {
+            if ('' !== $fireBaseToken && !$user->getFireBaseToken()) {
                 $user->setFireBaseToken($fireBaseToken);
                 $entityManager->persist($user);
                 $entityManager->flush();
@@ -429,20 +427,19 @@ class StatsController extends BaseController
                 'import/result.html.twig',
                 [
                     'statEntry' => $statEntry,
-                    'result'    => $result,
-                    'error'     => '',
+                    'result' => $result,
+                    'error' => '',
                 ]
             );
         } catch (
-        InvalidCsvException
-        |StatsNotAllException
-        |StatsAlreadyAddedException
-        |UnexpectedValueException
-        $exception) {
-            $this->addFlash('danger', $exception->getMessage());
-        }
+            InvalidCsvException
+            |StatsNotAllException
+            |StatsAlreadyAddedException
+            |UnexpectedValueException
+            $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            }
 
         return null;
     }
 }
-

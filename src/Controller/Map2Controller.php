@@ -32,8 +32,10 @@ class Map2Controller extends AbstractController
     #[Route(path: '/map2', name: 'agent-map2', methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function map(
-        #[Autowire('%env(APP_DEFAULT_LAT)%')] float $defaultLat,
-        #[Autowire('%env(APP_DEFAULT_LON)%')] float $defaultLon,
+        #[Autowire('%env(APP_DEFAULT_LAT)%')]
+        float $defaultLat,
+        #[Autowire('%env(APP_DEFAULT_LON)%')]
+        float $defaultLon,
     ): Response {
         $map = new Map()
             ->center(new Point($defaultLat, $defaultLon))
@@ -52,7 +54,7 @@ class Map2Controller extends AbstractController
                     $this->mapGroupRepository->getNames(),
                     'name'
                 ),
-                'map'       => $map,
+                'map' => $map,
             ]
         );
     }
@@ -131,7 +133,7 @@ class Map2Controller extends AbstractController
             $response[] = $agent->getRealName();
         }
 
-        if ($statsLink !== '' && $statsLink !== '0') {
+        if ('' !== $statsLink && '0' !== $statsLink) {
             $response[] = sprintf('<a href="%s">Stats</a>', $statsLink);
         }
 

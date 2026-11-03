@@ -6,8 +6,9 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: elkuku
  * Date: 05.10.18
- * Time: 12:55
+ * Time: 12:55.
  */
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -29,7 +30,7 @@ class ImportFormType extends AbstractType
                 'agentsJSON',
                 TextareaType::class,
                 [
-                    'attr'     => ['cols' => '30', 'rows' => '5'],
+                    'attr' => ['cols' => '30', 'rows' => '5'],
                     'required' => false,
                 ]
             )
@@ -37,7 +38,7 @@ class ImportFormType extends AbstractType
                 'agentsCSV',
                 TextareaType::class,
                 [
-                    'attr'     => ['cols' => '30', 'rows' => '5'],
+                    'attr' => ['cols' => '30', 'rows' => '5'],
                     'required' => false,
                 ]
             );

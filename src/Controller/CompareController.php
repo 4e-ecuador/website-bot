@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use function array_map;
 
 #[IsGranted('ROLE_AGENT')]
 class CompareController extends AbstractController
@@ -112,6 +111,7 @@ class CompareController extends AbstractController
 
     /**
      * @return int[]
+     *
      * @throws JsonException
      */
     private function getIdsFromRequest(
@@ -119,7 +119,7 @@ class CompareController extends AbstractController
         string $key = 'agents'
     ): array {
         $ids = json_decode(
-            (string)$request->query->get($key),
+            (string) $request->query->get($key),
             true,
             512,
             JSON_THROW_ON_ERROR
@@ -129,6 +129,6 @@ class CompareController extends AbstractController
             return [];
         }
 
-        return array_map(static fn(string $id): int => (int)$id, $ids);
+        return \array_map(static fn (string $id): int => (int) $id, $ids);
     }
 }

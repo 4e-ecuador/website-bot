@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,8 +21,8 @@ class EventRepository extends ServiceEntityRepository
      * @return array<Event>
      */
     public function findBetween(
-        \DateTimeInterface $start,
-        \DateTimeInterface $end
+        DateTimeInterface $start,
+        DateTimeInterface $end
     ): array {
         return $this
             ->createQueryBuilder('event')

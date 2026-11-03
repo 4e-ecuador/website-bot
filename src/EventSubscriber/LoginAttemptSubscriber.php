@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use Throwable;
 
 class LoginAttemptSubscriber implements EventSubscriberInterface
 {
@@ -64,7 +65,7 @@ class LoginAttemptSubscriber implements EventSubscriberInterface
         if ($passport instanceof Passport) {
             try {
                 return $passport->getUser()->getUserIdentifier();
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 $badge = $passport->getBadge(UserBadge::class);
                 if ($badge instanceof UserBadge) {
                     return $badge->getUserIdentifier();

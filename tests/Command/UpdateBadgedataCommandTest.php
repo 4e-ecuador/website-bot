@@ -4,6 +4,10 @@ namespace App\Tests\Command;
 
 use App\Command\UpdateBadgedataCommand;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use RuntimeException;
+use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -31,10 +35,10 @@ class UpdateBadgedataCommandTest extends TestCase
         putenv('COLUMNS=200');
 
         $this->tmpDir = sys_get_temp_dir().'/badge_test_'.uniqid('', true);
-        mkdir($this->tmpDir.'/assets/images/badges', 0777, true);
-        mkdir($this->tmpDir.'/assets/images/sprites', 0777, true);
-        mkdir($this->tmpDir.'/assets/css', 0777, true);
-        mkdir($this->tmpDir.'/text-files', 0777, true);
+        mkdir($this->tmpDir.'/assets/images/badges', 0o777, true);
+        mkdir($this->tmpDir.'/assets/images/sprites', 0o777, true);
+        mkdir($this->tmpDir.'/assets/css', 0o777, true);
+        mkdir($this->tmpDir.'/text-files', 0o777, true);
 
         $this->command = new UpdateBadgedataCommand($this->tmpDir);
     }
@@ -52,11 +56,11 @@ class UpdateBadgedataCommandTest extends TestCase
         }
 
         foreach ((array) scandir($dir) as $item) {
-            if ($item === '.') {
+            if ('.' === $item) {
                 continue;
             }
 
-            if ($item === '..') {
+            if ('..' === $item) {
                 continue;
             }
 
@@ -73,7 +77,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $output ??= new NullOutput();
         $io = new SymfonyStyle($input, $output);
 
-        $ref = new \ReflectionClass($this->command);
+        $ref = new ReflectionClass($this->command);
         $ref->getProperty('input')->setValue($this->command, $input);
         $ref->getProperty('output')->setValue($this->command, $output);
         $ref->getProperty('io')->setValue($this->command, $io);
@@ -87,14 +91,14 @@ class UpdateBadgedataCommandTest extends TestCase
 
     private function injectMockClient(MockHttpClient $client): void
     {
-        new \ReflectionClass($this->command)
+        new ReflectionClass($this->command)
             ->getProperty('httpClient')
             ->setValue($this->command, $client);
     }
 
     private function setScrapeSite(string $url): void
     {
-        new \ReflectionClass($this->command)
+        new ReflectionClass($this->command)
             ->getProperty('scrapeSite')
             ->setValue($this->command, $url);
     }
@@ -121,7 +125,7 @@ class UpdateBadgedataCommandTest extends TestCase
 
     public function testCutHash(): void
     {
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'cutHash');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'cutHash');
 
         self::assertSame('badge_name.png', $method->invoke($this->command, 'badge_name_abc123.png'));
         self::assertSame('badge_explorer.png', $method->invoke($this->command, 'badge_explorer_def456.png'));
@@ -133,7 +137,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedBadgeReturnsTrueForKnownSkipped(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
 
         self::assertTrue($method->invoke($this->command, 'badge_intel_ops_bronze.png'));
         self::assertTrue($method->invoke($this->command, 'unnamed_badge.png'));
@@ -144,7 +148,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedBadgeReturnsFalseForRegularBadge(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
 
         self::assertFalse($method->invoke($this->command, 'badge_explorer_bronze.png'));
         self::assertFalse($method->invoke($this->command, 'badge_recon_silver.png'));
@@ -155,7 +159,7 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
 
         self::assertTrue($method->invoke($this->command, 'unnamed_badge.png'));
         self::assertStringContainsString('skipped', $output->fetch());
@@ -166,7 +170,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedCategoryReturnsTrueForSkippedCategory(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
 
         self::assertTrue($method->invoke($this->command, 'Characters', 'Any Badge'));
         self::assertTrue($method->invoke($this->command, 'Characters - 2020', 'Some Badge'));
@@ -177,7 +181,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedCategoryReturnsFalseForAllowedCategory(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
 
         self::assertFalse($method->invoke($this->command, 'Regular Medals', 'Explorer'));
         self::assertFalse($method->invoke($this->command, 'Tiered Medals', 'Recon'));
@@ -186,7 +190,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedCategoryReturnsTrueForUnpickedUniquesMedal(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
 
         self::assertTrue($method->invoke($this->command, 'Unique Medals', 'Some Unknown Badge'));
     }
@@ -194,7 +198,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testIsSkippedCategoryReturnsFalseForPickedUniqueMedal(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
 
         self::assertFalse($method->invoke($this->command, 'Unique Medals', 'C.O.R.E.'));
         self::assertFalse($method->invoke($this->command, 'Unique Medals', 'Simulacrum'));
@@ -204,7 +208,7 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedCategory');
 
         $method->invoke($this->command, 'Characters', 'Any Badge');
         self::assertStringContainsString('skipped', $output->fetch());
@@ -219,9 +223,9 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['some_badge_abc123.png'];
         $item->title = 'Some Badge';
 
@@ -232,9 +236,9 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testSkipItemReturnsTrueForSkippedBadge(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['unnamed_badge_abc123.png'];
         $item->title = 'Some Badge';
         $item->expand = (object) ['category' => (object) ['title' => 'Regular Medals']];
@@ -245,9 +249,9 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testSkipItemReturnsTrueForSkippedCategory(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['badge_explorer_abc123.png'];
         $item->title = 'Some Badge';
         $item->expand = (object) ['category' => (object) ['title' => 'Characters']];
@@ -258,9 +262,9 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testSkipItemReturnsFalseForNormalItem(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['badge_explorer_abc123.png'];
         $item->title = 'Explorer';
         $item->expand = (object) ['category' => (object) ['title' => 'Tiered Medals']];
@@ -273,7 +277,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testResolveImageNameReturnsUnmappedName(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
 
         self::assertSame('badge_explorer.png', $method->invoke($this->command, 'badge_explorer.png'));
     }
@@ -281,7 +285,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testResolveImageNameReturnsMappedName(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
 
         self::assertSame('event_badge_paragon.png', $method->invoke($this->command, 'unique_badge_paragon.png'));
     }
@@ -290,7 +294,7 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'resolveImageName');
 
         $method->invoke($this->command, 'badge_explorer.png');
         self::assertStringContainsString('badge_explorer.png', $output->fetch());
@@ -306,7 +310,7 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testDownloadBadgeImageReturnsFalseWhenExists(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
 
         $existingFile = $this->tmpDir.'/assets/images/badges/badge_existing.png';
         file_put_contents($existingFile, 'fake png data');
@@ -319,7 +323,7 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
 
         $existingFile = $this->tmpDir.'/assets/images/badges/badge_existing2.png';
         file_put_contents($existingFile, 'fake png data');
@@ -332,12 +336,12 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testDownloadBadgeImageDownloadsNewBadgeNonVerbose(): void
     {
         $sourceDir = $this->tmpDir.'/fake-server/files/col1/id1';
-        mkdir($sourceDir, 0777, true);
+        mkdir($sourceDir, 0o777, true);
         file_put_contents($sourceDir.'/badge_new_abc123.png', 'fake png content');
 
         $this->setScrapeSite('file://'.$this->tmpDir.'/fake-server');
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
 
         $destFile = $this->tmpDir.'/assets/images/badges/badge_new.png';
         $result = $method->invoke($this->command, $destFile, 'col1/id1/badge_new_abc123.png', 'badge_new.png', 'Test Category');
@@ -349,13 +353,13 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testDownloadBadgeImageDownloadsNewBadgeVerbose(): void
     {
         $sourceDir = $this->tmpDir.'/fake-server/files/col1/id1';
-        mkdir($sourceDir, 0777, true);
+        mkdir($sourceDir, 0o777, true);
         file_put_contents($sourceDir.'/badge_verbose_abc123.png', 'fake png content');
 
         $this->setScrapeSite('file://'.$this->tmpDir.'/fake-server');
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'downloadBadgeImage');
 
         $destFile = $this->tmpDir.'/assets/images/badges/badge_verbose.png';
         $result = $method->invoke($this->command, $destFile, 'col1/id1/badge_verbose_abc123.png', 'badge_verbose.png', 'Test Category');
@@ -369,11 +373,11 @@ class UpdateBadgedataCommandTest extends TestCase
     public function testProcessItemWithExistingBadge(): void
     {
         $this->setUpCommandIo();
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'processItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'processItem');
 
         file_put_contents($this->tmpDir.'/assets/images/badges/badge_explorer.png', 'fake');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['badge_explorer_abc123.png'];
         $item->title = 'Explorer';
         $item->description = 'An explorer badge';
@@ -394,11 +398,11 @@ class UpdateBadgedataCommandTest extends TestCase
     {
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERBOSE);
         $this->setUpCommandIo($output);
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'processItem');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'processItem');
 
         file_put_contents($this->tmpDir.'/assets/images/badges/badge_recon.png', 'fake');
 
-        $item = new \stdClass();
+        $item = new stdClass();
         $item->image = ['badge_recon_xyz789.png'];
         $item->title = 'Recon';
         $item->description = 'Recon badge';
@@ -414,7 +418,7 @@ class UpdateBadgedataCommandTest extends TestCase
 
     public function testExecCommandReturnsOutputOnSuccess(): void
     {
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
 
         $result = $method->invoke($this->command, 'true');
         self::assertSame('', $result);
@@ -422,18 +426,18 @@ class UpdateBadgedataCommandTest extends TestCase
 
     public function testExecCommandThrowsUnknownErrorOnFailure(): void
     {
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessageIsOrContains('An unknown error occurred');
         $method->invoke($this->command, 'false');
     }
 
     public function testExecCommandThrowsWithMessageOnFailure(): void
     {
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'execCommand');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessageIsOrContains('error from cmd');
         $method->invoke($this->command, "sh -c 'echo error from cmd; exit 1'");
     }
@@ -454,7 +458,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $progressBar = new ProgressBar(new NullOutput());
         $progressBar->start();
 
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'resizeBadgesForSize');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'resizeBadgesForSize');
         $method->invoke($this->command, 50, new Filesystem(), $progressBar);
 
         self::assertSame('already resized', file_get_contents($destDir.'/badge_skip_test.png'));
@@ -470,7 +474,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $progressBar = new ProgressBar(new NullOutput());
         $progressBar->start();
 
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'resizeBadgesForSize');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'resizeBadgesForSize');
         $method->invoke($this->command, 50, new Filesystem(), $progressBar);
 
         self::assertFileExists($badgeRoot.'/50/badge_resize_test.png');
@@ -485,7 +489,7 @@ class UpdateBadgedataCommandTest extends TestCase
         mkdir($sizeDir);
         $this->createMinimalPng($sizeDir.'/badge_sprite_test.png');
 
-        $method = new \ReflectionMethod(UpdateBadgedataCommand::class, 'buildSpriteForSize');
+        $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'buildSpriteForSize');
         $method->invoke($this->command, 50, 15, []);
 
         self::assertFileExists($this->tmpDir.'/assets/images/sprites/medals_50.png');

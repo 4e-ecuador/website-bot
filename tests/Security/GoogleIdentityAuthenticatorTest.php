@@ -30,21 +30,21 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testSupportsCorrectPath(): void
     {
-        $request = Request::create('/connect/google/verify', \Symfony\Component\HttpFoundation\Request::METHOD_POST);
+        $request = Request::create('/connect/google/verify', Request::METHOD_POST);
 
         self::assertTrue($this->authenticator->supports($request));
     }
 
     public function testDoesNotSupportOtherPaths(): void
     {
-        $request = Request::create('/login', \Symfony\Component\HttpFoundation\Request::METHOD_POST);
+        $request = Request::create('/login', Request::METHOD_POST);
 
         self::assertFalse($this->authenticator->supports($request));
     }
 
     public function testAuthenticateThrowsOnEmptyCredential(): void
     {
-        $request = Request::create('/connect/google/verify', \Symfony\Component\HttpFoundation\Request::METHOD_POST);
+        $request = Request::create('/connect/google/verify', Request::METHOD_POST);
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessageIsOrContains('Missing credentials');
@@ -54,7 +54,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
 
     public function testAuthenticateThrowsOnInvalidToken(): void
     {
-        $request = Request::create('/connect/google/verify', \Symfony\Component\HttpFoundation\Request::METHOD_POST, [
+        $request = Request::create('/connect/google/verify', Request::METHOD_POST, [
             'credential' => 'invalid-token',
         ]);
 
@@ -78,7 +78,7 @@ class GoogleIdentityAuthenticatorTest extends TestCase
             'test-google-client-id',
         );
 
-        $request = Request::create('/connect/google/verify', \Symfony\Component\HttpFoundation\Request::METHOD_POST);
+        $request = Request::create('/connect/google/verify', Request::METHOD_POST);
         $request->setSession(new \Symfony\Component\HttpFoundation\Session\Session(
             new \Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage()
         ));

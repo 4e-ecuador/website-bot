@@ -29,7 +29,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     {
         $start = $setDataEvent->getStart();
         $end = $setDataEvent->getEnd();
-        //$filters = $setDataEvent->getFilters();
+        // $filters = $setDataEvent->getFilters();
         $next = clone $start;
         foreach (range(0, 2) as $x) {
             $setDataEvent->addEvent(
@@ -40,7 +40,7 @@ class CalendarSubscriber implements EventSubscriberInterface
                     ),
                     options: [
                         'backgroundColor' => 'green',
-                        'borderColor'     => 'green',
+                        'borderColor' => 'green',
                     ]
                 )
             );
@@ -52,7 +52,7 @@ class CalendarSubscriber implements EventSubscriberInterface
                     ),
                     options: [
                         'backgroundColor' => 'green',
-                        'borderColor'     => 'green',
+                        'borderColor' => 'green',
                     ]
                 )
             );
@@ -75,8 +75,8 @@ class CalendarSubscriber implements EventSubscriberInterface
                     $event->getDateEnd()->setTimezone(new DateTimeZone('UTC')),
                     options: [
                         'backgroundColor' => 'red',
-                        'borderColor'     => 'red',
-                        'url'             => $this->router->generate(
+                        'borderColor' => 'red',
+                        'url' => $this->router->generate(
                             'ingress_event_public_show',
                             [
                                 'id' => $event->getId(),

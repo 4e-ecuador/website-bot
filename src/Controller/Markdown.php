@@ -26,11 +26,11 @@ class Markdown extends AbstractController
     public function preview(
         Request $request
     ): JsonResponse {
-        $text = (string)$request->request->get('text');
+        $text = (string) $request->request->get('text');
 
         return $this->json(
             [
-                'data' => $text !== '' && $text !== '0'
+                'data' => '' !== $text && '0' !== $text
                     ? $this->markdownHelper->parse($text)
                     : ':(',
             ]

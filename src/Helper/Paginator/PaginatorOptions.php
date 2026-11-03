@@ -1,18 +1,18 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: elkuku
  * Date: 19.03.17
- * Time: 12:40
+ * Time: 12:40.
  */
 
 namespace App\Helper\Paginator;
 
 use UnexpectedValueException;
-use function in_array;
 
 /**
- * Class PaginatorOptions
+ * Class PaginatorOptions.
  */
 class PaginatorOptions
 {
@@ -60,10 +60,8 @@ class PaginatorOptions
         $dirs = ['ASC', 'DESC'];
         $dir = strtoupper($orderDir);
 
-        if (false === in_array($dir, $dirs, true)) {
-            throw new UnexpectedValueException(
-                sprintf('Order dir must be %s', implode(', ', $dirs))
-            );
+        if (false === \in_array($dir, $dirs, true)) {
+            throw new UnexpectedValueException(sprintf('Order dir must be %s', implode(', ', $dirs)));
         }
 
         $this->orderDir = $orderDir;

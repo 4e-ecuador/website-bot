@@ -23,7 +23,8 @@ class AboutController extends BaseController
     }
 
     public function __invoke(
-        #[Autowire('%kernel.project_dir%')] string $projectDir
+        #[Autowire('%kernel.project_dir%')]
+        string $projectDir
     ): Response {
         $output = new BufferedOutput();
 
@@ -33,7 +34,7 @@ class AboutController extends BaseController
 
         return $this->render('admin/about.html.twig', [
             'project_dir' => $projectDir,
-            'systemInfo'  => $output->fetch(),
+            'systemInfo' => $output->fetch(),
         ]);
     }
 }

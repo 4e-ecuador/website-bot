@@ -6,9 +6,9 @@ namespace App\Service;
 
 use App\Entity\Comment;
 use App\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -18,8 +18,10 @@ class MailerHelper
 {
     public function __construct(
         private readonly MailerInterface $mailer,
-        #[Autowire(env: 'APP_EMAIL')] private readonly string $email,
-        #[Autowire(env: 'APP_EMAIL_NAME')] private readonly string $emailName,
+        #[Autowire(env: 'APP_EMAIL')]
+        private readonly string $email,
+        #[Autowire(env: 'APP_EMAIL_NAME')]
+        private readonly string $emailName,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -31,7 +33,7 @@ class MailerHelper
                 ->to(new Address($user->getEmail(), $user->getUserAgentName()))
                 ->subject($subject)
                 ->htmlTemplate('emails/confirmation.html.twig')
-                ->context(['user' => $user,]);
+                ->context(['user' => $user]);
 
             $this->mailer->send($message);
 
@@ -51,7 +53,7 @@ class MailerHelper
                 ->to($this->email)
                 ->subject('New Comment')
                 ->htmlTemplate('emails/new_comment.html.twig')
-                ->context(['comment' => $comment,]);
+                ->context(['comment' => $comment]);
 
             $this->mailer->send($message);
 
@@ -71,7 +73,7 @@ class MailerHelper
                 ->to($this->email)
                 ->subject('New User')
                 ->htmlTemplate('emails/new_user.html.twig')
-                ->context(['user' => $user,]);
+                ->context(['user' => $user]);
 
             $this->mailer->send($message);
 

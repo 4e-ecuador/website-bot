@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class EmojiNotFoundException extends \Exception
+use Exception;
+
+class EmojiNotFoundException extends Exception
 {
 }

@@ -6,8 +6,9 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: test
  * Date: 18.06.18
- * Time: 07:54
+ * Time: 07:54.
  */
+
 namespace App\Helper\Paginator;
 
 use Doctrine\ORM\Query;
@@ -17,7 +18,9 @@ trait PaginatorRepoTrait
 {
     /**
      * @template T of object
+     *
      * @param Query<int, T> $dql
+     *
      * @return Paginator<T>
      */
     public function paginate(

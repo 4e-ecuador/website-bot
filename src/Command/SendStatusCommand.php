@@ -28,7 +28,8 @@ class SendStatusCommand extends Command
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly AgentStatRepository $agentStatRepository,
         private readonly EmojiService $emojiService,
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        private readonly string $defaultTimeZone
     ) {
         parent::__construct();
     }

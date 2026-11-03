@@ -14,6 +14,7 @@ class CsvParser
 
     /**
      * @return array<string, array<string, string>>
+     *
      * @throws InvalidCsvException
      * @throws StatsNotAllException
      */
@@ -28,6 +29,7 @@ class CsvParser
 
     /**
      * @return array<string, array<string, string>>
+     *
      * @throws InvalidCsvException
      * @throws StatsNotAllException
      */
@@ -54,7 +56,7 @@ class CsvParser
             $csv[$dateTime] = $this->buildPrimeCsvRow($headVars, $vars);
         }
 
-        if ($csv === []) {
+        if ([] === $csv) {
             throw new InvalidCsvException('Invalid CSV');
         }
 
@@ -64,15 +66,14 @@ class CsvParser
     /**
      * @param array<int, string> $vars
      * @param array<int, string> $headVars
+     *
      * @throws UnexpectedValueException
      * @throws StatsNotAllException
      */
     private function validatePrimeCsvRow(array $vars, array $headVars): void
     {
         if (count($vars) !== count($headVars)) {
-            throw new UnexpectedValueException(
-                'CSV field count does not match!'
-            );
+            throw new UnexpectedValueException('CSV field count does not match!');
         }
 
         if (false === in_array(
@@ -87,6 +88,7 @@ class CsvParser
     /**
      * @param array<int, string> $headVars
      * @param array<int, string> $vars
+     *
      * @return array<string, string>
      */
     private function buildPrimeCsvRow(array $headVars, array $vars): array
@@ -95,11 +97,11 @@ class CsvParser
 
         foreach ($headVars as $i1 => $headVar) {
             $vName = $this->medalChecker->translatePrimeHeader($headVar);
-            if ($vName === '') {
+            if ('' === $vName) {
                 continue;
             }
 
-            if ($vName === '0') {
+            if ('0' === $vName) {
                 continue;
             }
 
@@ -111,6 +113,7 @@ class CsvParser
 
     /**
      * @return array<string, array<string, string>>
+     *
      * @throws InvalidCsvException
      */
     private function parseAgentStatsCsv(string $csvString): array
@@ -141,7 +144,7 @@ class CsvParser
             $csv[$dateTime] = $c;
         }
 
-        if ($csv === []) {
+        if ([] === $csv) {
             throw new InvalidCsvException('Invalid CSV');
         }
 

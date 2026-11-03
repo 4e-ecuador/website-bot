@@ -55,7 +55,7 @@ class EventController extends BaseController
             'event/new.html.twig',
             [
                 'event' => $event,
-                'form'  => $form,
+                'form' => $form,
             ]
         );
     }
@@ -109,7 +109,7 @@ class EventController extends BaseController
             'event/edit.html.twig',
             [
                 'event' => $event,
-                'form'  => $form,
+                'form' => $form,
             ]
         );
     }
@@ -122,7 +122,7 @@ class EventController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$event->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($event);

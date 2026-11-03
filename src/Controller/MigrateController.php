@@ -27,11 +27,12 @@ class MigrateController extends BaseController
     #[Route('/migrate/upload', name: 'app_migrate_upload')]
     public function upload(Request $request): Response
     {
-        $token = $request->request->getString("token") ?: null;
+        $token = $request->request->getString('token') ?: null;
 
         if (!$this->isCsrfTokenValid('app_migrate_upload', $token)) {
             return new Response(
-                "Operation not allowed", Response::HTTP_BAD_REQUEST,
+                'Operation not allowed',
+                Response::HTTP_BAD_REQUEST,
                 ['content-type' => 'text/plain']
             );
         }
@@ -40,7 +41,7 @@ class MigrateController extends BaseController
 
         if (empty($file)) {
             return new Response(
-                "No file specified",
+                'No file specified',
                 Response::HTTP_UNPROCESSABLE_ENTITY,
                 ['content-type' => 'text/plain']
             );
@@ -49,9 +50,7 @@ class MigrateController extends BaseController
         $agent = $this->getUser()?->getAgent();
 
         if (!$agent) {
-            throw new UnexpectedValueException(
-                'No agent found for current user'
-            );
+            throw new UnexpectedValueException('No agent found for current user');
         }
 
         $csv = Reader::createFromPath($file->getRealPath());
@@ -70,13 +69,14 @@ class MigrateController extends BaseController
         }
 
         return new Response(
-            "File uploaded", Response::HTTP_OK,
+            'File uploaded',
+            Response::HTTP_OK,
             ['content-type' => 'text/plain']
         );
     }
 
     /**
-     * @param array<int, string> $header
+     * @param array<int, string>    $header
      * @param array<string, string> $item
      */
     private function applyStatRow(AgentStat $stat, array $header, array $item): void
@@ -88,9 +88,7 @@ class MigrateController extends BaseController
             };
 
             if (false === method_exists($stat, $method)) {
-                throw new UnexpectedValueException(
-                    'Unknown property: '.$index
-                );
+                throw new UnexpectedValueException('Unknown property: '.$index);
             }
 
             match ($index) {
@@ -107,9 +105,7 @@ class MigrateController extends BaseController
     {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
-            throw new UnexpectedValueException(
-                'No agent found for current user'
-            );
+            throw new UnexpectedValueException('No agent found for current user');
         }
 
         $response = new Response($exporter->export($agent), Response::HTTP_OK, ['content-type' => 'text/csv; charset=utf-8']);
@@ -127,9 +123,7 @@ class MigrateController extends BaseController
     {
         $agent = $this->getUser()?->getAgent();
         if (!$agent) {
-            throw new UnexpectedValueException(
-                'No agent found for current user'
-            );
+            throw new UnexpectedValueException('No agent found for current user');
         }
 
         // Objects for empty groups too, as they are stored

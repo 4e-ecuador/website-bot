@@ -26,13 +26,13 @@ class EventType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => [
-                        'AP'           => 'ap',
-                        'Hacker'       => 'hacker',
-                        'Builder'      => 'builder',
-                        'Trekker'      => 'trekker',
-                        'Purifier'     => 'purifier',
-                        'Recharger'    => 'recharger',
-                        'OPR'          => 'recon',
+                        'AP' => 'ap',
+                        'Hacker' => 'hacker',
+                        'Builder' => 'builder',
+                        'Trekker' => 'trekker',
+                        'Purifier' => 'purifier',
+                        'Recharger' => 'recharger',
+                        'OPR' => 'recon',
                         'Fields/Links' => 'fieldslinks',
                     ],
                 ]

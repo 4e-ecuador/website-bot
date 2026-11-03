@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Challenge;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class ChallengeTest extends TestCase
@@ -21,8 +22,8 @@ class ChallengeTest extends TestCase
     public function testSettersAndGetters(): void
     {
         $challenge = new Challenge();
-        $start = new \DateTime('2025-03-01');
-        $end = new \DateTime('2025-03-31');
+        $start = new DateTime('2025-03-01');
+        $end = new DateTime('2025-03-31');
 
         $challenge->setName('March Challenge')
             ->setDateStart($start)
@@ -41,8 +42,8 @@ class ChallengeTest extends TestCase
 
         $result = $challenge
             ->setName('Test')
-            ->setDateStart(new \DateTime())
-            ->setDateEnd(new \DateTime())
+            ->setDateStart(new DateTime())
+            ->setDateEnd(new DateTime())
             ->setCodeName('test');
 
         self::assertSame($challenge, $result);

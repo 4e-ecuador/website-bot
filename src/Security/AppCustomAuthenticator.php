@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +23,12 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        #[Autowire(env: 'APP_ENV')] private readonly string $appEnv
+        #[Autowire(env: 'APP_ENV')]
+        private readonly string $appEnv
     ) {
     }
 
-    #[\Override]
+    #[Override]
     public function supports(Request $request): bool
     {
         return 'app_login' === $request->attributes->get('_route')
@@ -62,8 +64,8 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         Request $request
     ): array {
         return [
-            'email'      => (string)$request->request->get('email'),
-            'csrf_token' => (string)$request->request->get('_csrf_token'),
+            'email' => (string) $request->request->get('email'),
+            'csrf_token' => (string) $request->request->get('_csrf_token'),
         ];
     }
 

@@ -108,7 +108,7 @@ class AgentStatRepositoryTest extends KernelTestCase
 
         // Create a dedicated agent with exactly 2 stats
         $agent = new Agent();
-        $agent->setNickname('prev-stat-' . uniqid());
+        $agent->setNickname('prev-stat-'.uniqid());
         $agent->setFaction($faction);
 
         $em->persist($agent);

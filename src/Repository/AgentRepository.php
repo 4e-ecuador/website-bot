@@ -7,8 +7,8 @@ use App\Entity\MapGroup;
 use App\Helper\Paginator\PaginatorOptions;
 use App\Helper\Paginator\PaginatorRepoTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,8 +33,8 @@ class AgentRepository extends ServiceEntityRepository
 
         $query->orderBy('a.'.$options->getOrder(), $options->getOrderDir());
 
-        if ($options->searchCriteria('nickname') !== ''
-            && $options->searchCriteria('nickname') !== '0'
+        if ('' !== $options->searchCriteria('nickname')
+            && '0' !== $options->searchCriteria('nickname')
         ) {
             $query->andWhere('LOWER(a.nickname) LIKE LOWER(:nickname)')
                 ->setParameter(
@@ -43,8 +43,8 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('realName') !== ''
-            && $options->searchCriteria('realName') !== '0'
+        if ('' !== $options->searchCriteria('realName')
+            && '0' !== $options->searchCriteria('realName')
         ) {
             $query->andWhere('LOWER(a.realName) LIKE LOWER(:realName)')
                 ->setParameter(
@@ -53,8 +53,8 @@ class AgentRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($options->searchCriteria('faction') !== ''
-            && $options->searchCriteria('faction') !== '0'
+        if ('' !== $options->searchCriteria('faction')
+            && '0' !== $options->searchCriteria('faction')
         ) {
             $query->andWhere('a.faction = :faction')
                 ->setParameter(
@@ -88,7 +88,7 @@ class AgentRepository extends ServiceEntityRepository
             ->orderBy('a.nickname', 'ASC')
             ->setMaxResults(10);
 
-        if ($excludes !== []) {
+        if ([] !== $excludes) {
             $query->andWhere('a.id NOT IN (:excludes)')
                 ->setParameter('excludes', $excludes);
         }

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\AgentStatRepository;
 use App\Service\LeaderBoardService;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 class LeaderBoardServiceTest extends TestCase
 {
@@ -138,7 +139,7 @@ class LeaderBoardServiceTest extends TestCase
 
         $this->statRepository->method('getAgentLatest')->willReturn($stat);
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
 
         $this->service->getBoard([$user], 'nonexistent_type');
     }

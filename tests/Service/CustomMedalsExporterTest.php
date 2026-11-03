@@ -30,13 +30,13 @@ class CustomMedalsExporterTest extends KernelTestCase
         self::assertSame(
             [
                 'anomaly' => ['nemesis_myriad' => '', '13_magnusreawakens' => ''],
-                'annual'  => ['resurgence' => 3],
-                'event'   => ['didact_field' => 'gold', 'avenir_shard_challenge' => ''],
+                'annual' => ['resurgence' => 3],
+                'event' => ['didact_field' => 'gold', 'avenir_shard_challenge' => ''],
             ],
             $this->exporter()->normalize([
                 'Anomaly' => ['NemesisMyriad' => '1', '13MagnusReawakens' => '1'],
-                'Annual'  => ['Resurgence' => '3'],
-                'Event'   => ['DidactField' => 'Gold', 'AvenirShard' => ''],
+                'Annual' => ['Resurgence' => '3'],
+                'Event' => ['DidactField' => 'Gold', 'AvenirShard' => ''],
             ])
         );
     }
@@ -47,9 +47,9 @@ class CustomMedalsExporterTest extends KernelTestCase
             ['anomaly' => [], 'annual' => [], 'event' => []],
             $this->exporter()->normalize([
                 'anomaly' => ['requiem' => '1', 'orion' => 'diamond'],
-                'annual'  => ['voyager' => '6'],
-                'secret'  => ['x' => 'y'],
-                'event'   => 'not a group',
+                'annual' => ['voyager' => '6'],
+                'secret' => ['x' => 'y'],
+                'event' => 'not a group',
             ])
         );
     }

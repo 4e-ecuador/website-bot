@@ -7,6 +7,7 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Repository\AgentStatRepository;
 use App\Type\BoardEntry;
+use UnexpectedValueException;
 
 class LeaderBoardService
 {
@@ -33,16 +34,16 @@ class LeaderBoardService
         foreach (array_keys($boardEntries) as $type) {
             usort(
                 $boardEntries[$type],
-                static fn($a, $b) => $b->getValue() <=> $a->getValue()
+                static fn ($a, $b) => $b->getValue() <=> $a->getValue()
             );
         }
 
-        if ($typeOnly && $typeOnly !== 'all') {
+        if ($typeOnly && 'all' !== $typeOnly) {
             if (array_key_exists($typeOnly, $boardEntries)) {
                 return $boardEntries[$typeOnly];
             }
 
-            throw new \UnexpectedValueException('Unknown type'.$typeOnly);
+            throw new UnexpectedValueException('Unknown type'.$typeOnly);
         }
 
         return $boardEntries;

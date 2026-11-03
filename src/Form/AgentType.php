@@ -35,7 +35,7 @@ class AgentType extends AbstractType
                 'faction',
                 EntityType::class,
                 [
-                    'class'        => Faction::class,
+                    'class' => Faction::class,
                     'choice_label' => 'name',
                 ]
             )
@@ -45,10 +45,10 @@ class AgentType extends AbstractType
                 NumberType::class,
                 [
                     'required' => false,
-                    'scale'    => 7,
-                    'attr'     => [
-                        'min'  => -90,
-                        'max'  => 90,
+                    'scale' => 7,
+                    'attr' => [
+                        'min' => -90,
+                        'max' => 90,
                         'step' => 0.0000001,
                     ],
                 ]
@@ -58,10 +58,10 @@ class AgentType extends AbstractType
                 NumberType::class,
                 [
                     'required' => false,
-                    'scale'    => 7,
-                    'attr'     => [
-                        'min'  => -90,
-                        'max'  => 90,
+                    'scale' => 7,
+                    'attr' => [
+                        'min' => -90,
+                        'max' => 90,
                         'step' => 0.0000001,
                     ],
                 ]
@@ -72,9 +72,9 @@ class AgentType extends AbstractType
                 'mapGroup',
                 EntityType::class,
                 [
-                    'class'        => MapGroup::class,
+                    'class' => MapGroup::class,
                     'choice_label' => 'name',
-                    'required'     => false,
+                    'required' => false,
                 ]
             );
     }

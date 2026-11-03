@@ -42,17 +42,17 @@ class StatsImporterTest extends KernelTestCase
 
         $dateTime = new DateTime('1996-03-10 08:00:00');
         $vars = [
-            'span'       => 'GESAMT',
-            'agent'      => 'testAgent',
-            'date'       => $dateTime->format('Y-m-d'),
-            'time'       => $dateTime->format('H:i:s'),
-            'level'      => 5,
-            'ap'         => 250000,
+            'span' => 'GESAMT',
+            'agent' => 'testAgent',
+            'date' => $dateTime->format('Y-m-d'),
+            'time' => $dateTime->format('H:i:s'),
+            'level' => 5,
+            'ap' => 250000,
             'recursions' => 0,
         ];
 
         foreach (array_merge($vars, $replacements) as $key => $var) {
-            $csv = str_replace('{'.$key.'}', (string)$var, $csv);
+            $csv = str_replace('{'.$key.'}', (string) $var, $csv);
         }
 
         return $csv;
@@ -202,12 +202,12 @@ class StatsImporterTest extends KernelTestCase
         self::assertSame(0, $result->newLevel);
     }
 
-    private function createUniqueAgent(): \App\Entity\Agent
+    private function createUniqueAgent(): Agent
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
         $faction = $em->getRepository(\App\Entity\Faction::class)->findOneBy([]);
 
-        $agent = new \App\Entity\Agent();
+        $agent = new Agent();
         $agent->setNickname('test-'.uniqid());
         $agent->setFaction($faction);
 

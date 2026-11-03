@@ -21,7 +21,8 @@ class TelegramMessageHelper
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly MedalChecker $medalChecker,
-        #[Autowire(param: 'kernel.project_dir')] private readonly string $rootDir,
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $rootDir,
         private readonly NewMedalMessage $newMedalMessage,
         private readonly MedalDoubleMessage $medalDoubleMessage,
         private readonly LevelUpMessage $levelUpMessage,
@@ -55,7 +56,7 @@ class TelegramMessageHelper
             ->setFirstAnnounce($firstAnnounce)
             ->getText();
 
-        if ($message === '' || $message === '0') {
+        if ('' === $message || '0' === $message) {
             throw new UnexpectedValueException('No events :(');
         }
 
@@ -103,8 +104,8 @@ class TelegramMessageHelper
             ->setMedalUps($medalUps)
             ->getText();
 
-        $firstValue = (int)reset($medalUps);
-        $firstMedal = (string)key($medalUps);
+        $firstValue = (int) reset($medalUps);
+        $firstMedal = (string) key($medalUps);
 
         $photo = new CURLFile(
             $this->rootDir.'/assets/images/badges/'
@@ -175,5 +176,4 @@ class TelegramMessageHelper
             $message
         );
     }
-
 }

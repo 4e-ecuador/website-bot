@@ -52,7 +52,7 @@ class Start extends AbstractCommand implements PublicCommandInterface
 
             if (!preg_match(
                 self::REGEXP,
-                (string)$update->getMessage()->getText(),
+                (string) $update->getMessage()->getText(),
                 $matches
             )
             ) {
@@ -64,14 +64,11 @@ class Start extends AbstractCommand implements PublicCommandInterface
                 ->findOneBy(['telegram_connection_secret' => $code]);
 
             if (!$agent instanceof Agent) {
-                throw new UnexpectedValueException(
-                    $this->translator
-                        ->trans('bot.message.missing.agent')
-                );
+                throw new UnexpectedValueException($this->translator->trans('bot.message.missing.agent'));
             }
 
             $agent->setTelegramName($tgUser->getUsername())
-                ->setTelegramId((int)$tgUser->getId());
+                ->setTelegramId((int) $tgUser->getId());
 
             $this->entityManager->persist($agent);
             $this->entityManager->flush();

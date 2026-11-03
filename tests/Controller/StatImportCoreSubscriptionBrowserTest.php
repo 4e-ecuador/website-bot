@@ -48,7 +48,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
     protected function tearDown(): void
     {
-        if ($this->seededDatetimes !== []) {
+        if ([] !== $this->seededDatetimes) {
             self::getContainer()->get('doctrine.orm.entity_manager')
                 ->createQuery('DELETE FROM App\Entity\AgentStat s WHERE s.datetime IN (:dates)')
                 ->setParameter('dates', $this->seededDatetimes)
@@ -64,7 +64,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
         $client = $this->import([
             'Date (yyyy-mm-dd)' => '2020-01-02',
-            'Time (hh:mm:ss)'   => '00:00:00',
+            'Time (hh:mm:ss)' => '00:00:00',
             'Months Subscribed' => '1',
         ]);
 
@@ -82,7 +82,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
         $client = $this->import([
             'Date (yyyy-mm-dd)' => '2021-01-02',
-            'Time (hh:mm:ss)'   => '00:00:00',
+            'Time (hh:mm:ss)' => '00:00:00',
             'Months Subscribed' => '24',
         ]);
 
@@ -101,7 +101,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
         $client = $this->import([
             'Date (yyyy-mm-dd)' => '2022-01-02',
-            'Time (hh:mm:ss)'   => '00:00:00',
+            'Time (hh:mm:ss)' => '00:00:00',
             'Months Subscribed' => '36',
         ]);
 
@@ -122,7 +122,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
         $client = $this->import([
             'Date (yyyy-mm-dd)' => '2023-01-02',
-            'Time (hh:mm:ss)'   => '00:00:00',
+            'Time (hh:mm:ss)' => '00:00:00',
             'Months Subscribed' => '48',
         ]);
 
@@ -141,7 +141,7 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
 
         $client = $this->import([
             'Date (yyyy-mm-dd)' => '2024-01-02',
-            'Time (hh:mm:ss)'   => '00:00:00',
+            'Time (hh:mm:ss)' => '00:00:00',
             'Months Subscribed' => '60',
         ]);
 
@@ -203,13 +203,13 @@ class StatImportCoreSubscriptionBrowserTest extends PantherTestCase
      */
     private function csvWithOverrides(array $columnOverrides): string
     {
-        $lines = explode("\n", trim((string)file_get_contents(self::CSV_FIXTURE)));
+        $lines = explode("\n", trim((string) file_get_contents(self::CSV_FIXTURE)));
         $header = explode("\t", $lines[0]);
         $data = explode("\t", $lines[1]);
 
         foreach ($columnOverrides as $column => $value) {
             $index = array_search($column, $header, true);
-            if ($index === false) {
+            if (false === $index) {
                 throw new RuntimeException("Unknown CSV column: {$column}");
             }
 

@@ -10,6 +10,7 @@ use App\Util\BadgeData;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use stdClass;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 
@@ -123,7 +124,7 @@ class AppExtensionTest extends TestCase
 
     public function testObjectFilter(): void
     {
-        $obj = new \stdClass();
+        $obj = new stdClass();
         $obj->name = 'test';
         $obj->value = 42;
 

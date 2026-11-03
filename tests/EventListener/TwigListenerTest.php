@@ -27,7 +27,7 @@ class TwigListenerTest extends TestCase
         $kernel = $this->createStub(HttpKernelInterface::class);
         $event = new ControllerEvent(
             $kernel,
-            static fn() => null,
+            static fn () => null,
             new Request(),
             HttpKernelInterface::MAIN_REQUEST,
         );

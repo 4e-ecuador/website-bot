@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: elkuku
  * Date: 19.03.17
- * Time: 12:40
+ * Time: 12:40.
  */
 
 namespace App\Twig;
@@ -14,12 +15,9 @@ use App\Service\MedalChecker;
 use App\Util\BadgeData;
 use DateTime;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 /**
- * Class AppExtension
+ * Class AppExtension.
  */
 class AppExtension
 {
@@ -28,17 +26,18 @@ class AppExtension
      */
     public array $roleFilters
         = [
-            'ROLE_AGENT'       => 'Agent',
+            'ROLE_AGENT' => 'Agent',
             'ROLE_INTRO_AGENT' => 'Intro Agent',
-            'ROLE_EDITOR'      => 'Editor',
-            'ROLE_ADMIN'       => 'Admin',
+            'ROLE_EDITOR' => 'Editor',
+            'ROLE_ADMIN' => 'Admin',
         ];
 
     public function __construct(
         private readonly MedalChecker $medalChecker,
         private readonly MarkdownHelper $markdownHelper,
         private readonly IntlDateHelper $intlDateHelper,
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        private readonly string $defaultTimeZone
     ) {
     }
 
@@ -50,7 +49,7 @@ class AppExtension
     #[\Twig\Attribute\AsTwigFilter(name: 'cast_to_array')]
     public function objectFilter(object $classObject): array
     {
-        $array = (array)$classObject;
+        $array = (array) $classObject;
         $response = [];
 
         $className = $classObject::class;
@@ -215,7 +214,7 @@ class AppExtension
     #[\Twig\Attribute\AsTwigFilter(name: 'escape_bytecode')]
     public function escapeBytecode(string $string): string
     {
-        return str_replace('%', "\\x", $string);
+        return str_replace('%', '\\x', $string);
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'defaultTimeZone')]

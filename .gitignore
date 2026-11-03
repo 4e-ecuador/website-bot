@@ -40,3 +40,8 @@ phpstan.neon
 ###> symfony/panther ###
 /drivers/
 ###< symfony/panther ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###

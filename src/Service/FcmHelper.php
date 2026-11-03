@@ -6,9 +6,10 @@ namespace App\Service;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use UnexpectedValueException;
 
 /**
- * FireBase Messaging helper
+ * FireBase Messaging helper.
  */
 class FcmHelper
 {
@@ -20,8 +21,10 @@ class FcmHelper
     public string $type = '';
 
     public function __construct(
-        #[Autowire(env: 'FCM_KEY')] private readonly string $fcmKey,
-        #[Autowire(env: 'FCM_CHANNEL_ID')] private readonly string $channelId
+        #[Autowire(env: 'FCM_KEY')]
+        private readonly string $fcmKey,
+        #[Autowire(env: 'FCM_CHANNEL_ID')]
+        private readonly string $channelId
     ) {
     }
 
@@ -31,12 +34,12 @@ class FcmHelper
         string $to = '/topics/allDevices'
     ): bool {
         $data = [
-            'to'   => $to,
+            'to' => $to,
             'data' => [
-                'title'      => $title,
-                'message'    => $message,
+                'title' => $title,
+                'message' => $message,
                 'channel_id' => $this->channelId,
-                'sound'      => 'default',
+                'sound' => 'default',
             ],
         ];
 
@@ -54,16 +57,16 @@ class FcmHelper
         if (is_array($to)) {
             $data = [
                 'registration_ids' => $to,
-                'data'             => [
-                    'title'   => $title,
+                'data' => [
+                    'title' => $title,
                     'message' => $message,
                 ],
             ];
         } else {
             $data = [
-                'to'   => $to,
+                'to' => $to,
                 'data' => [
-                    'title'   => $title,
+                    'title' => $title,
                     'message' => $message,
                 ],
             ];
@@ -80,10 +83,10 @@ class FcmHelper
         // ];
 
         $prio = [
-            "priority" => "high",
+            'priority' => 'high',
             // legacy HTTP protocol (this can also be set to 10)
-            "android"  => [
-                "priority" => "high", // HTTP v1 protocol
+            'android' => [
+                'priority' => 'high', // HTTP v1 protocol
             ],
         ];
 
@@ -107,7 +110,7 @@ class FcmHelper
         $ch = curl_init('https://fcm.googleapis.com/fcm/send');
 
         if (!$ch) {
-            throw new \UnexpectedValueException('Can not init Curl.');
+            throw new UnexpectedValueException('Can not init Curl.');
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
@@ -119,11 +122,11 @@ class FcmHelper
         $result = curl_exec($ch);
 
         if (!$result) {
-            throw new \UnexpectedValueException('Curl operation failed.');
+            throw new UnexpectedValueException('Curl operation failed.');
         }
 
         $decoded = json_decode(
-            (string)$result,
+            (string) $result,
             false,
             512,
             JSON_THROW_ON_ERROR
@@ -133,7 +136,7 @@ class FcmHelper
             throw new RuntimeException('Something went wrong with FCM :(');
         }
 
-        return (bool)$result;
+        return (bool) $result;
     }
 
     /**
@@ -146,44 +149,44 @@ class FcmHelper
         // ];
 
         if (!$this->tokens) {
-            if ($this->type === 'bigtext') {
+            if ('bigtext' === $this->type) {
                 $data = [
-                    'title'      => $title,
-                    'message'    => $message,
-                    'not_type'   => 'bigtext',
+                    'title' => $title,
+                    'message' => $message,
+                    'not_type' => 'bigtext',
                     'extra_data' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
                 ];
             }
 
-            if ($this->type === 'bigimage') {
+            if ('bigimage' === $this->type) {
                 $data = json_encode(
                     [
-                        'to'   => '/topics/allDevices',
+                        'to' => '/topics/allDevices',
                         'data' => [
-                            'title'      => $_REQUEST['title'],
-                            'message'    => $_REQUEST['message'],
-                            'not_type'   => 'bigimage',
+                            'title' => $_REQUEST['title'],
+                            'message' => $_REQUEST['message'],
+                            'not_type' => 'bigimage',
                             'extra_data' => 'https://i.picsum.photos/id/638/200/200.jpg',
                         ],
                     ]
                 );
             }
 
-            if ($this->type === 'bigimage_withoutsideicon') {
+            if ('bigimage_withoutsideicon' === $this->type) {
                 $data = json_encode(
                     [
-                        'to'   => '/topics/allDevices',
+                        'to' => '/topics/allDevices',
                         'data' => [
-                            'title'      => $_REQUEST['title'],
-                            'message'    => $_REQUEST['message'],
-                            'not_type'   => 'bigimage_withoutsideicon',
+                            'title' => $_REQUEST['title'],
+                            'message' => $_REQUEST['message'],
+                            'not_type' => 'bigimage_withoutsideicon',
                             'extra_data' => 'https://i.picsum.photos/id/638/200/200.jpg',
                         ],
                     ]
                 );
             }
 
-            if ($this->type === 'inbox_style') {
+            if ('inbox_style' === $this->type) {
                 $array_message = [
                     'Rahul : Hi How Are You?',
                     'Aman : I am Fine ',
@@ -193,25 +196,25 @@ class FcmHelper
 
                 $data = json_encode(
                     [
-                        'to'   => '/topics/allDevices',
+                        'to' => '/topics/allDevices',
                         'data' => [
-                            'title'      => $_REQUEST['title'],
-                            'message'    => $_REQUEST['message'],
-                            'not_type'   => 'inbox_style',
+                            'title' => $_REQUEST['title'],
+                            'message' => $_REQUEST['message'],
+                            'not_type' => 'inbox_style',
                             'extra_data' => $json_message,
                         ],
                     ]
                 );
             }
 
-            if ($this->type === 'message_style') {
+            if ('message_style' === $this->type) {
                 $data = json_encode(
                     [
-                        'to'   => '/topics/allDevices',
+                        'to' => '/topics/allDevices',
                         'data' => [
-                            'title'      => $_REQUEST['title'],
-                            'message'    => $_REQUEST['message'],
-                            'not_type'   => 'message_style',
+                            'title' => $_REQUEST['title'],
+                            'message' => $_REQUEST['message'],
+                            'not_type' => 'message_style',
                             'extra_data' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
                         ],
                     ]
@@ -221,22 +224,22 @@ class FcmHelper
             $data = json_encode(
                 [
                     'registation_ids' => [$this->tokens],
-                    'data'            => [
-                        'title'   => $_REQUEST['title'],
+                    'data' => [
+                        'title' => $_REQUEST['title'],
                         'message' => $_REQUEST['message'],
                     ],
                 ]
             );
         }
 
-        //now let's see data message
+        // now let's see data message
         $data = [
-            'to'   => '/topics/allDevices',
+            'to' => '/topics/allDevices',
             'data' => [
-                'title'      => $title,
-                'message'    => $message,
+                'title' => $title,
+                'message' => $message,
                 'channel_id' => 'WEB APP CHANNEL ID',
-                'sound'      => 'default',
+                'sound' => 'default',
             ],
         ];
 

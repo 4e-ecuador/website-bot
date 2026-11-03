@@ -20,7 +20,6 @@ final class Version20191126181944 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-
     }
 
     public function down(Schema $schema): void

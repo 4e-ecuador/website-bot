@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\LoginAttempt;
+use DateTime;
+use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
 
 class LoginAttemptTest extends TestCase
@@ -18,7 +20,7 @@ class LoginAttemptTest extends TestCase
         self::assertFalse($attempt->isSuccess());
         self::assertNull($attempt->getIpAddress());
         self::assertSame('unknown', $attempt->getAuthMethod());
-        self::assertInstanceOf(\DateTimeInterface::class, $attempt->getCreatedAt());
+        self::assertInstanceOf(DateTimeInterface::class, $attempt->getCreatedAt());
     }
 
     public function testSettersAndGetters(): void
@@ -53,9 +55,9 @@ class LoginAttemptTest extends TestCase
 
     public function testCreatedAtIsSetOnConstruction(): void
     {
-        $before = new \DateTime();
+        $before = new DateTime();
         $attempt = new LoginAttempt();
-        $after = new \DateTime();
+        $after = new DateTime();
 
         self::assertGreaterThanOrEqual($before, $attempt->getCreatedAt());
         self::assertLessThanOrEqual($after, $attempt->getCreatedAt());

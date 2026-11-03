@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
+use UnexpectedValueException;
 
 class AvatarHelper
 {
@@ -17,28 +19,28 @@ class AvatarHelper
         $curl = curl_init($user->getAvatar());
 
         if (!$curl) {
-            throw new \UnexpectedValueException('Can not init Curl.');
+            throw new UnexpectedValueException('Can not init Curl.');
         }
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $returnValue = curl_exec($curl);
 
         if (!$returnValue) {
-            throw new \RuntimeException('Failed fetching image');
+            throw new RuntimeException('Failed fetching image');
         }
 
         curl_close($curl);
 
-        $image = imagecreatefromstring((string)$returnValue);
+        $image = imagecreatefromstring((string) $returnValue);
 
         if (!$image) {
-            throw new \RuntimeException('Can not create image from string');
+            throw new RuntimeException('Can not create image from string');
         }
 
         $imgResized = imagescale($image, 100, 100);
 
         if (!$imgResized) {
-            throw new \UnexpectedValueException('Can not resize image');
+            throw new UnexpectedValueException('Can not resize image');
         }
 
         ob_start();
@@ -46,7 +48,7 @@ class AvatarHelper
         $contents = ob_get_clean();
 
         if (!$contents) {
-            throw new \UnexpectedValueException('Failed obtaining avatar');
+            throw new UnexpectedValueException('Failed obtaining avatar');
         }
 
         $imageData = chunk_split(base64_encode($contents));

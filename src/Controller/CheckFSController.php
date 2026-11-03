@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckFSController extends AbstractController
 {
-    //#[Route('/check/fs', name: 'app_check_fs')]
+    // #[Route('/check/fs', name: 'app_check_fs')]
     public function index(): Response
     {
         /*

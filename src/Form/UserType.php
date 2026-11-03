@@ -33,10 +33,10 @@ class UserType extends AbstractType
                 'agent',
                 EntityType::class,
                 [
-                    'class'       => Agent::class,
+                    'class' => Agent::class,
                     'placeholder' => '',
-                    'required'    => false,
-                    'choices'     => $this->agentRepository->findAllAlphabetical(
+                    'required' => false,
+                    'choices' => $this->agentRepository->findAllAlphabetical(
                     ),
                 ]
             )
@@ -44,12 +44,12 @@ class UserType extends AbstractType
                 'roles',
                 ChoiceType::class,
                 [
-                    'choices'  => [
-                        'Admin'       => 'ROLE_ADMIN',
-                        'Editor'      => 'ROLE_EDITOR',
-                        'Agent'       => 'ROLE_AGENT',
+                    'choices' => [
+                        'Admin' => 'ROLE_ADMIN',
+                        'Editor' => 'ROLE_EDITOR',
+                        'Agent' => 'ROLE_AGENT',
                         'Intro Agent' => 'ROLE_INTRO_AGENT',
-                        'User'        => 'ROLE_USER',
+                        'User' => 'ROLE_USER',
                     ],
                     'multiple' => true,
                 ]

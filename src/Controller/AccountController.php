@@ -40,17 +40,15 @@ class AccountController extends BaseController
 
         $agent = $user->getAgent();
         if (!$agent) {
-            throw $this->createAccessDeniedException(
-                $this->translator->trans('user.not.verified.2')
-            );
+            throw $this->createAccessDeniedException($this->translator->trans('user.not.verified.2'));
         }
 
         $agentAccount = $request->request->all('agent_account');
         $customMedals = json_decode(
-            (string)$agent->getCustomMedals(),
+            (string) $agent->getCustomMedals(),
             true
         );
-        if ($agentAccount !== []) {
+        if ([] !== $agentAccount) {
             $customMedals = $request->request->all('customMedals');
 
             $agentAccount['customMedals'] = json_encode(
@@ -105,17 +103,14 @@ class AccountController extends BaseController
         return $this->render(
             'account/index.html.twig',
             [
-                'agent'                => $agent,
-                'agentCustomMedals'    => $customMedals,
-                'form'                 => $form,
-                'telegramConnectLink'  =>
-                    $this->telegramBotHelper->getConnectLink($agent),
-                'telegramConnectLink2' =>
-                    $this->telegramBotHelper->getConnectLink2($agent),
+                'agent' => $agent,
+                'agentCustomMedals' => $customMedals,
+                'form' => $form,
+                'telegramConnectLink' => $this->telegramBotHelper->getConnectLink($agent),
+                'telegramConnectLink2' => $this->telegramBotHelper->getConnectLink2($agent),
                 // The anomaly seasons apart from the anomalies, stored under anomaly
-                'customMedals'         =>
-                    $this->medalChecker->getCustomMedalSections(),
-                'map'                  => $map,
+                'customMedals' => $this->medalChecker->getCustomMedalSections(),
+                'map' => $map,
             ]
         );
     }
@@ -132,6 +127,7 @@ class AccountController extends BaseController
         $agent->setTelegramId(null);
         $this->entityManager->persist($agent);
         $this->entityManager->flush();
+
         return $this->redirectToRoute('app_account');
     }
 

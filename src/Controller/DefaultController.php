@@ -36,7 +36,8 @@ class DefaultController extends AbstractController
 
     #[Route(path: '/', name: 'default', methods: ['GET'], schemes: ['https'])]
     public function index(
-        #[Autowire('%env(DEFAULT_TIMEZONE)%')] string $defaultTimeZone,
+        #[Autowire('%env(DEFAULT_TIMEZONE)%')]
+        string $defaultTimeZone,
     ): Response {
         $this->calendarHelper->getEvents();
         $comments = [];
@@ -70,18 +71,18 @@ class DefaultController extends AbstractController
         return $this->render(
             'default/index.html.twig',
             [
-                'now'            => $now,
-                'now2'           => $now2,
-                'agents'         => $this->agentRepository->findAll(),
+                'now' => $now,
+                'now2' => $now2,
+                'agents' => $this->agentRepository->findAll(),
                 'latestComments' => $comments,
-                'pastEvents'     => $pastEvents,
-                'currentEvents'  => $currentEvents,
-                'futureEvents'   => $futureEvents,
-                'ingressFS'      => $ingressFS,
-                'ingressMD'      => $ingressMD,
-                'nextFs'         => $this->dateTimeHelper->getNextFS(),
-                'challenges'     => $challenges,
-                'cite'           => $this->citeService->getRandomCite(),
+                'pastEvents' => $pastEvents,
+                'currentEvents' => $currentEvents,
+                'futureEvents' => $futureEvents,
+                'ingressFS' => $ingressFS,
+                'ingressMD' => $ingressMD,
+                'nextFs' => $this->dateTimeHelper->getNextFS(),
+                'challenges' => $challenges,
+                'cite' => $this->citeService->getRandomCite(),
             ]
         );
     }
@@ -99,22 +100,14 @@ class DefaultController extends AbstractController
         return $this->render(
             'default/events.html.twig',
             [
-                'ingressFS'         =>
-                    $this->ingressEventRepository->findFutureFS(),
-                'ingressMD'         =>
-                    $this->ingressEventRepository->findFutureMD(),
-                'pastEvents'        =>
-                    $this->eventHelper->getEventsInSpan('past'),
-                'currentEvents'     =>
-                    $this->eventHelper->getEventsInSpan('present'),
-                'futureEvents'      =>
-                    $this->eventHelper->getEventsInSpan('future'),
-                'pastChallenges'    =>
-                    $this->eventHelper->getChallengesInSpan('past'),
-                'currentChallenges' =>
-                    $this->eventHelper->getChallengesInSpan('present'),
-                'futureChallenges'  =>
-                    $this->eventHelper->getChallengesInSpan('future'),
+                'ingressFS' => $this->ingressEventRepository->findFutureFS(),
+                'ingressMD' => $this->ingressEventRepository->findFutureMD(),
+                'pastEvents' => $this->eventHelper->getEventsInSpan('past'),
+                'currentEvents' => $this->eventHelper->getEventsInSpan('present'),
+                'futureEvents' => $this->eventHelper->getEventsInSpan('future'),
+                'pastChallenges' => $this->eventHelper->getChallengesInSpan('past'),
+                'currentChallenges' => $this->eventHelper->getChallengesInSpan('present'),
+                'futureChallenges' => $this->eventHelper->getChallengesInSpan('future'),
             ]
         );
     }

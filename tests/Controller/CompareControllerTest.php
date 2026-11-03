@@ -59,7 +59,7 @@ class CompareControllerTest extends WebTestCase
         $client = static::createClient();
         $client->loginUser($this->getUser());
         $client->request(Request::METHOD_GET, '/compare-preview', [
-            'q'        => 'test',
+            'q' => 'test',
             'excludes' => '[]',
         ]);
         self::assertResponseIsSuccessful();

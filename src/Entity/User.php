@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -9,15 +10,15 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
+use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\UserRepository;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'agent_user')]
 #[UniqueEntity(fields: 'email', message: 'This email is already in use')]
-class User implements UserInterface, \Stringable
+class User implements UserInterface, Stringable
 {
     #[Column, Id, GeneratedValue(strategy: 'SEQUENCE')]
     private ?int $id = null;
@@ -113,7 +114,7 @@ class User implements UserInterface, \Stringable
 
     public function getUserIdentifier(): string
     {
-        assert($this->email !== '');
+        assert('' !== $this->email);
 
         return $this->email;
     }

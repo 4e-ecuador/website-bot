@@ -11,7 +11,8 @@ use UnexpectedValueException;
 final readonly class CiteService
 {
     public function __construct(
-        #[Autowire(param: 'kernel.project_dir')] private string $rootDir
+        #[Autowire(param: 'kernel.project_dir')]
+        private string $rootDir
     ) {
     }
 
@@ -46,9 +47,7 @@ final readonly class CiteService
             );
 
             if (!array_key_exists('cites', $values)) {
-                throw new UnexpectedValueException(
-                    "Cites file must contain an array with a key 'cites'."
-                );
+                throw new UnexpectedValueException("Cites file must contain an array with a key 'cites'.");
             }
 
             $cites = $values['cites'];

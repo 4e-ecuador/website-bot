@@ -16,26 +16,26 @@ class TemplaterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tmpDir = sys_get_temp_dir() . '/templater_test_' . uniqid();
-        mkdir($this->tmpDir . '/text-files', 0o777, true);
+        $this->tmpDir = sys_get_temp_dir().'/templater_test_'.uniqid();
+        mkdir($this->tmpDir.'/text-files', 0o777, true);
 
         $this->templater = new Templater($this->tmpDir, new Filesystem());
     }
 
     protected function tearDown(): void
     {
-        $files = glob($this->tmpDir . '/text-files/*');
+        $files = glob($this->tmpDir.'/text-files/*');
         if ($files) {
             array_map(unlink(...), $files);
         }
 
-        @rmdir($this->tmpDir . '/text-files');
+        @rmdir($this->tmpDir.'/text-files');
         @rmdir($this->tmpDir);
     }
 
     public function testGetTemplateReturnsFileContents(): void
     {
-        file_put_contents($this->tmpDir . '/text-files/welcome.txt', 'Hello {agent_nick}!');
+        file_put_contents($this->tmpDir.'/text-files/welcome.txt', 'Hello {agent_nick}!');
 
         $result = $this->templater->getTemplate('welcome.txt');
 
@@ -52,7 +52,7 @@ class TemplaterTest extends TestCase
     public function testReplaceAgentTemplateBasic(): void
     {
         file_put_contents(
-            $this->tmpDir . '/text-files/test.txt',
+            $this->tmpDir.'/text-files/test.txt',
             'Welcome {agent_nick} ({agent_name}) of {faction}!'
         );
 
@@ -72,7 +72,7 @@ class TemplaterTest extends TestCase
     public function testReplaceAgentTemplateWithCoordinates(): void
     {
         file_put_contents(
-            $this->tmpDir . '/text-files/location.txt',
+            $this->tmpDir.'/text-files/location.txt',
             'Lat: {lat} Lon: {lon} {gmap_link} {intel_link} {osm_link}'
         );
 
@@ -97,7 +97,7 @@ class TemplaterTest extends TestCase
     public function testReplaceAgentTemplateWithoutCoordinates(): void
     {
         file_put_contents(
-            $this->tmpDir . '/text-files/noloc.txt',
+            $this->tmpDir.'/text-files/noloc.txt',
             '{lat} {gmap_link} {intel_link} {osm_link}'
         );
 
@@ -117,7 +117,7 @@ class TemplaterTest extends TestCase
     public function testReplaceAgentTemplateWithoutRealName(): void
     {
         file_put_contents(
-            $this->tmpDir . '/text-files/name.txt',
+            $this->tmpDir.'/text-files/name.txt',
             '{agent_name}'
         );
 

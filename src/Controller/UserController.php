@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use function count;
 
 class UserController extends BaseController
 {
@@ -41,7 +40,7 @@ class UserController extends BaseController
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
-            'page'     => $page,
+            'page' => $page,
             'criteria' => [
                 'email' => $request->query->get('q', ''),
             ],
@@ -52,32 +51,32 @@ class UserController extends BaseController
         $paginatorOptions = $this->getPaginatorOptions($modRequest);
         $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($users) / $paginatorOptions->getLimit())
+            (int) ceil(\count($users) / $paginatorOptions->getLimit())
         );
 
         return $this->json(
             [
                 'msgSearchResultCount' => $this->translator->trans(
                     'search.result.user',
-                    ['count' => count($users)]
+                    ['count' => \count($users)]
                 ),
-                'msgPageCounter'       => $this->translator->trans(
+                'msgPageCounter' => $this->translator->trans(
                     'page.counter',
                     [
-                        'page'     => $page,
+                        'page' => $page,
                         'maxPages' => $paginatorOptions->getMaxPages(),
                     ]
                 ),
 
-                'totalItems' => count($users),
-                'previous'   => ($page > 1)
+                'totalItems' => \count($users),
+                'previous' => ($page > 1)
                     ? 'X'
                     : null,
-                'next'       => $page < $paginatorOptions->getMaxPages()
+                'next' => $page < $paginatorOptions->getMaxPages()
                     ? 'X'
                     : null,
-                'last'       => $paginatorOptions->getMaxPages(),
-                'list'       => $this->renderView(
+                'last' => $paginatorOptions->getMaxPages(),
+                'list' => $this->renderView(
                     'user/_list.html.twig',
                     [
                         'users' => $users,
@@ -94,7 +93,7 @@ class UserController extends BaseController
     ): JsonResponse {
         $page = $request->query->getInt('page', 1);
         $paginatorOptions = [
-            'page'     => $page,
+            'page' => $page,
             'criteria' => [
                 'email' => $request->query->get('email', ''),
             ],
@@ -106,7 +105,7 @@ class UserController extends BaseController
 
         $users = $this->userRepository->getPaginatedList($paginatorOptions);
         $paginatorOptions->setMaxPages(
-            (int)ceil(count($users) / $paginatorOptions->getLimit())
+            (int) ceil(\count($users) / $paginatorOptions->getLimit())
         );
 
         $list = [];
@@ -122,7 +121,7 @@ class UserController extends BaseController
             }
 
             $list[] = [
-                'id'    => $user->getId(),
+                'id' => $user->getId(),
                 'roles' => $user->getRoles(),
                 'email' => $user->getEmail(),
                 'agent' => $ag,
@@ -140,7 +139,7 @@ class UserController extends BaseController
         $view->{'hydra:last'} = $paginatorOptions->getMaxPages();
 
         $response->{'hydra:view'} = $view;
-        $response->{'hydra:totalItems'} = count($users);
+        $response->{'hydra:totalItems'} = \count($users);
 
         return $this->json($response);
     }
@@ -176,7 +175,10 @@ class UserController extends BaseController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    #[Route(path: '/user/{id}/edit', name: 'user_edit', requirements: ['id' => '\d+'],
+    #[Route(
+        path: '/user/{id}/edit',
+        name: 'user_edit',
+        requirements: ['id' => '\d+'],
         methods: ['GET', 'POST']
     )]
     #[IsGranted('ROLE_ADMIN')]
@@ -217,7 +219,7 @@ class UserController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$user->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($user);

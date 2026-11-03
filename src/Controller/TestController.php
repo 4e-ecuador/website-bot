@@ -37,7 +37,6 @@ class TestController extends AbstractController
     }
 
     /**
-     *
      * @throws \TelegramBot\Api\Exception
      * @throws InvalidArgumentException
      */
@@ -134,9 +133,7 @@ class TestController extends AbstractController
             $values = explode("\t", trim($lines[1]));
 
             if (count($keys) !== count($values)) {
-                throw new UnexpectedValueException(
-                    'Key/Value count mismatch!'
-                );
+                throw new UnexpectedValueException('Key/Value count mismatch!');
             }
 
             $data = [];

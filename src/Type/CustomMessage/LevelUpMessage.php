@@ -40,7 +40,7 @@ class LevelUpMessage extends AbstractCustomMessage
 
         $message[] = '';
 
-        if ($this->recursions !== 0) {
+        if (0 !== $this->recursions) {
             $message[] = str_repeat('16+', $this->recursions);
         }
 

@@ -57,7 +57,7 @@ class ChallengeController extends BaseController
             'challenge/new.html.twig',
             [
                 'challenge' => $challenge,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -76,7 +76,7 @@ class ChallengeController extends BaseController
             'challenge/show.html.twig',
             [
                 'challenge' => $challenge,
-                'entries'   => $this->challengeHelper->getResults($entries),
+                'entries' => $this->challengeHelper->getResults($entries),
             ]
         );
     }
@@ -102,7 +102,7 @@ class ChallengeController extends BaseController
             'challenge/edit.html.twig',
             [
                 'challenge' => $challenge,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -115,7 +115,7 @@ class ChallengeController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$challenge->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($challenge);

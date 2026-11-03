@@ -5,6 +5,7 @@ namespace App\Tests\Entity;
 use App\Entity\Agent;
 use App\Entity\Comment;
 use App\Entity\User;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class CommentTest extends TestCase
@@ -25,7 +26,7 @@ class CommentTest extends TestCase
         $comment = new Comment();
         $agent = new Agent();
         $user = new User();
-        $datetime = new \DateTime('2025-06-15 10:30:00');
+        $datetime = new DateTime('2025-06-15 10:30:00');
 
         $comment->setText('Great agent!')
             ->setAgent($agent)
@@ -45,7 +46,7 @@ class CommentTest extends TestCase
         $result = $comment
             ->setText('text')
             ->setAgent(new Agent())
-            ->setDatetime(new \DateTime())
+            ->setDatetime(new DateTime())
             ->setCommenter(new User());
 
         self::assertSame($comment, $result);

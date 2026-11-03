@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\ChallengeRepository;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
-use App\Repository\ChallengeRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;

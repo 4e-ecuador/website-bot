@@ -9,8 +9,8 @@ use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRect
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ])
     ->withPreparedSets(
         deadCode: true,

@@ -21,17 +21,22 @@ class TelegramBotHelper
 
     public function __construct(
         private readonly BotApi $api,
-        #[Autowire(env: 'TELEGRAM_BOT_NAME')] private readonly string $botName,
-        #[Autowire(env: 'ANNOUNCE_GROUP_ID_1')] string $groupIdDefault,
-        #[Autowire(env: 'ANNOUNCE_GROUP_ID_ADMIN')] string $groupIdAdmin,
-        #[Autowire(env: 'ANNOUNCE_GROUP_ID_INTRO')] string $groupIdIntro,
-        #[Autowire(env: 'ANNOUNCE_GROUP_ID_TEST')] string $groupIdTest
+        #[Autowire(env: 'TELEGRAM_BOT_NAME')]
+        private readonly string $botName,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_1')]
+        string $groupIdDefault,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_ADMIN')]
+        string $groupIdAdmin,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_INTRO')]
+        string $groupIdIntro,
+        #[Autowire(env: 'ANNOUNCE_GROUP_ID_TEST')]
+        string $groupIdTest
     ) {
         $this->groupIds = [
             'default' => $groupIdDefault,
-            'admin'   => $groupIdAdmin,
-            'intro'   => $groupIdIntro,
-            'test'    => $groupIdTest,
+            'admin' => $groupIdAdmin,
+            'intro' => $groupIdIntro,
+            'test' => $groupIdTest,
         ];
     }
 
@@ -40,18 +45,14 @@ class TelegramBotHelper
         if (array_key_exists($name, $this->groupIds)) {
             $id = $this->groupIds[$name];
         } else {
-            throw new UnexpectedValueException(
-                'Unknown TG bot group name'.$name
-            );
+            throw new UnexpectedValueException('Unknown TG bot group name'.$name);
         }
 
-        if ($id === '' || $id === '0') {
-            throw new UnexpectedValueException(
-                'Required TG bot env var has not been set up: '.$name
-            );
+        if ('' === $id || '0' === $id) {
+            throw new UnexpectedValueException('Required TG bot env var has not been set up: '.$name);
         }
 
-        return (int)$id;
+        return (int) $id;
     }
 
     public function checkChatId(string $chatId): bool
@@ -91,17 +92,17 @@ class TelegramBotHelper
             // literally 91.108.4.0/22
         ];
 
-        $ip_dec = (float)sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
+        $ip_dec = (float) sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
         $ok = false;
 
         foreach ($telegram_ip_ranges as $telegram_ip_range) {
             if (!$ok) {
                 // Make sure the IP is valid.
-                $lower_dec = (float)sprintf(
+                $lower_dec = (float) sprintf(
                     '%u',
                     ip2long($telegram_ip_range['lower'])
                 );
-                $upper_dec = (float)sprintf(
+                $upper_dec = (float) sprintf(
                     '%u',
                     ip2long($telegram_ip_range['upper'])
                 );
@@ -183,7 +184,7 @@ class TelegramBotHelper
         $buttons = [];
 
         $buttons[] = [
-            'text'          => 'Hello TEST',
+            'text' => 'Hello TEST',
             'callback_data' => '/post_'.$prev,
         ];
 

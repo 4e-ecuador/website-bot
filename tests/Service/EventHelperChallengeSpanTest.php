@@ -7,7 +7,6 @@ use App\Entity\Event;
 use App\Service\EventHelper;
 use DateTime;
 use Exception;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
 

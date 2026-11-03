@@ -33,7 +33,7 @@ class MedalDoubleMessage extends AbstractCustomMessage
             'new.medal.text.1',
             [
                 'medals' => count($this->medalDoubles),
-                'agent'  => $this->getAgentTelegramName($this->agent),
+                'agent' => $this->getAgentTelegramName($this->agent),
             ]
         );
 

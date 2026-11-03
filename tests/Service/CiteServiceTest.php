@@ -45,7 +45,7 @@ class CiteServiceTest extends TestCase
     public function testGetRandomCiteWithWrongYamlStructure(): void
     {
         $tmpDir = sys_get_temp_dir().'/cite_test_'.uniqid();
-        mkdir($tmpDir.'/text-files', 0777, true);
+        mkdir($tmpDir.'/text-files', 0o777, true);
         file_put_contents(
             $tmpDir.'/text-files/warrior-cites-es.yaml',
             "wrong_key:\n  - some item\n"
@@ -55,7 +55,7 @@ class CiteServiceTest extends TestCase
         $result = $service->getRandomCite();
 
         // Should return error message from UnexpectedValueException
-        self::assertStringContainsString("cites", $result);
+        self::assertStringContainsString('cites', $result);
 
         // Cleanup
         unlink($tmpDir.'/text-files/warrior-cites-es.yaml');

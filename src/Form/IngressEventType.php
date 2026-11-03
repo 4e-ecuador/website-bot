@@ -27,8 +27,8 @@ class IngressEventType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => [
-                        'IFS'   => 'fs',
-                        'MD'    => 'md',
+                        'IFS' => 'fs',
+                        'MD' => 'md',
                         'EVENT' => 'event',
                     ],
                 ]
@@ -52,7 +52,7 @@ class IngressEventType extends AbstractType
                 'description',
                 null,
                 [
-                    'attr'  => ['rows' => 10],
+                    'attr' => ['rows' => 10],
                     'label' => 'label.content',
                 ]
             );

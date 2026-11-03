@@ -12,12 +12,12 @@ use App\Service\CiteService;
 use App\Service\EmojiService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Types\Chat;
 use TelegramBot\Api\Types\Message;
 use TelegramBot\Api\Types\Update;
 use TelegramBot\Api\Types\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BotCommandTest extends TestCase
 {

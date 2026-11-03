@@ -6,6 +6,7 @@ namespace App\Tests\Type;
 
 use App\Type\AgentFsInfo;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class AgentFsInfoTest extends TestCase
 {
@@ -30,7 +31,7 @@ class AgentFsInfoTest extends TestCase
     {
         $info = new AgentFsInfo('A', 'B', 'C', 'D', 1);
 
-        $ref = new \ReflectionClass($info);
+        $ref = new ReflectionClass($info);
         foreach ($ref->getProperties() as $property) {
             self::assertTrue($property->isReadOnly());
         }

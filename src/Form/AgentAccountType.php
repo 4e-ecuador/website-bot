@@ -41,10 +41,10 @@ class AgentAccountType extends AbstractType
                 NumberType::class,
                 [
                     'required' => false,
-                    'scale'    => 7,
-                    'attr'     => [
-                        'min'  => -90,
-                        'max'  => 90,
+                    'scale' => 7,
+                    'attr' => [
+                        'min' => -90,
+                        'max' => 90,
                         'step' => 0.0000001,
                     ],
                 ]
@@ -54,10 +54,10 @@ class AgentAccountType extends AbstractType
                 NumberType::class,
                 [
                     'required' => false,
-                    'scale'    => 7,
-                    'attr'     => [
-                        'min'  => -90,
-                        'max'  => 90,
+                    'scale' => 7,
+                    'attr' => [
+                        'min' => -90,
+                        'max' => 90,
                         'step' => 0.0000001,
                     ],
                 ]
@@ -87,8 +87,8 @@ class AgentAccountType extends AbstractType
                 'locale',
                 ChoiceType::class,
                 [
-                    'label'        => 'select.locale',
-                    'choices'      => $this->locales,
+                    'label' => 'select.locale',
+                    'choices' => $this->locales,
                     'choice_label' => static function ($value) {
                         $name = Languages::getName($value);
                         $localName = Languages::getName($value, $value);
@@ -97,7 +97,7 @@ class AgentAccountType extends AbstractType
                         $name = ucfirst($name);
                         $localName = ucfirst($localName);
 
-                        return $name !== '' && $name !== '0'
+                        return '' !== $name && '0' !== $name
                             ? sprintf('%s - %s (%s)', $value, $localName, $name)
                             : $value;
                     },

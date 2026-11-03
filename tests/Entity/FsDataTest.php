@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\FsData;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class FsDataTest extends TestCase
@@ -20,9 +21,9 @@ class FsDataTest extends TestCase
 
     public function testCreatedAtIsSetOnConstruction(): void
     {
-        $before = new \DateTimeImmutable();
+        $before = new DateTimeImmutable();
         $fsData = new FsData();
-        $after = new \DateTimeImmutable();
+        $after = new DateTimeImmutable();
 
         self::assertGreaterThanOrEqual($before, $fsData->getCreatedAt());
         self::assertLessThanOrEqual($after, $fsData->getCreatedAt());
@@ -46,7 +47,7 @@ class FsDataTest extends TestCase
         $result = $fsData
             ->setAttendeesCount(10)
             ->setData('data')
-            ->setCreatedAt(new \DateTimeImmutable('2025-01-01'));
+            ->setCreatedAt(new DateTimeImmutable('2025-01-01'));
 
         self::assertSame($fsData, $result);
     }

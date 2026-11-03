@@ -17,7 +17,7 @@ class GoogleController extends AbstractController
     }
 
     /**
-     * Link to this controller to start the "connect" process
+     * Link to this controller to start the "connect" process.
      */
     #[Route(path: '/connect/google', name: 'connect_google_start')]
     public function connect(): RedirectResponse
@@ -36,7 +36,7 @@ class GoogleController extends AbstractController
     /**
      * After going to Google, you're redirected back here
      * because this is the "redirect_route" you configured
-     * in config/packages/knpu_oauth2_client.yaml
+     * in config/packages/knpu_oauth2_client.yaml.
      */
     #[Route(path: '/connect/google/check', name: 'connect_google_check')]
     public function connectCheck(): RedirectResponse

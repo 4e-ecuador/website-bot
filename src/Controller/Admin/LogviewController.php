@@ -24,7 +24,8 @@ class LogviewController extends BaseController
     }
 
     public function __invoke(
-        #[Autowire('%kernel.project_dir%')] string $projectDir
+        #[Autowire('%kernel.project_dir%')]
+        string $projectDir
     ): Response {
         $filesystem = new Filesystem();
         $filename = $projectDir.'/var/log/deploy.log';
@@ -49,7 +50,7 @@ class LogviewController extends BaseController
 
         return $this->render('admin/logview.html.twig', [
             'project_dir' => $projectDir,
-            'logEntries'  => array_reverse($entries),
+            'logEntries' => array_reverse($entries),
         ]);
     }
 
@@ -64,11 +65,11 @@ class LogviewController extends BaseController
 
         foreach (explode("\n", $contents) as $rawLine) {
             $line = trim($rawLine);
-            if ($line === '') {
+            if ('' === $line) {
                 continue;
             }
 
-            if ($line === '0') {
+            if ('0' === $line) {
                 continue;
             }
 
@@ -100,7 +101,7 @@ class LogviewController extends BaseController
 
     private function openLogEntry(?string $entry): string
     {
-        if ($entry !== null) {
+        if (null !== $entry) {
             throw new LogicException('Entry finished string not found');
         }
 
@@ -109,7 +110,7 @@ class LogviewController extends BaseController
 
     private function closeLogEntry(?string $entry): string
     {
-        if ($entry === null) {
+        if (null === $entry) {
             throw new LogicException('Entry not started.');
         }
 

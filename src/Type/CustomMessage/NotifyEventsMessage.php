@@ -15,9 +15,9 @@ class NotifyEventsMessage extends AbstractCustomMessage
         $message = [];
 
         $ingressFS = $this->ingressEventRepository->findFutureFS();
-        if ($ingressFS !== []) {
+        if ([] !== $ingressFS) {
             $fsMessage = $this->buildFsMessage($ingressFS, $useLinks);
-            if ($fsMessage === []) {
+            if ([] === $fsMessage) {
                 return [];
             }
 
@@ -25,7 +25,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
         }
 
         $ingressMD = $this->ingressEventRepository->findFutureMD();
-        if ($ingressMD !== []) {
+        if ([] !== $ingressMD) {
             $message[] = 'HAY MD!!! - contacte un dev =;)';
             if ($this->firstAnnounce) {
                 $message[] = 'YAY!!!';
@@ -65,7 +65,7 @@ class NotifyEventsMessage extends AbstractCustomMessage
         $message[] = '';
 
         $msgExtra = $this->translator->trans('notify.events.events.fs.extra');
-        if ($msgExtra !== '' && $msgExtra !== '0') {
+        if ('' !== $msgExtra && '0' !== $msgExtra) {
             $message[] = $msgExtra;
             $message[] = '';
         }

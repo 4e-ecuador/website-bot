@@ -3,11 +3,11 @@
 namespace App\Tests\Type;
 
 use App\Entity\Agent;
+use App\Entity\AgentStat;
+use App\Entity\User;
 use App\Repository\IngressEventRepository;
 use App\Service\EmojiService;
 use App\Service\MedalChecker;
-use App\Entity\AgentStat;
-use App\Entity\User;
 use App\Type\CustomMessage\LevelUpMessage;
 use App\Type\CustomMessage\MedalDoubleMessage;
 use App\Type\CustomMessage\NewMedalMessage;

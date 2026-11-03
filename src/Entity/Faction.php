@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use App\Repository\FactionRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;

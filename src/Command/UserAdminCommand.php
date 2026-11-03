@@ -113,9 +113,7 @@ class UserAdminCommand extends Command
                     $io->text('have Fun =;)');
                     break;
                 default:
-                    throw new UnexpectedValueException(
-                        'Unknown answer: '.$answer
-                    );
+                    throw new UnexpectedValueException('Unknown answer: '.$answer);
             }
         } catch (Exception $exception) {
             $io->error($exception->getMessage());
@@ -140,7 +138,7 @@ class UserAdminCommand extends Command
                     $user->getId(),
                     $user->getUserAgentName(),
                     $user->getEmail(),
-                    implode(", ", $user->getRoles()),
+                    implode(', ', $user->getRoles()),
                 ]
             );
         }

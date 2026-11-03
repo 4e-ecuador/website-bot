@@ -8,7 +8,6 @@ use App\Entity\Challenge;
 use App\Entity\Event;
 use App\Service\EventHelper;
 use Exception;
-use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
 
@@ -105,7 +104,7 @@ class EventHelperTest extends KernelTestCase
             new AgentStat()
                 ->setAgent($agent)
                 ->setMindController(3),
-                // Connector stays 0
+            // Connector stays 0
         ];
 
         $result = $this->eventHelper->calculateResults($event, $entries);

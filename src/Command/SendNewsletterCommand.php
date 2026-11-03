@@ -27,14 +27,15 @@ use UnexpectedValueException;
 )]
 class SendNewsletterCommand extends Command
 {
-
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly EventRepository $eventRepository,
         private readonly IngressEventRepository $ingressEventRepository,
         private readonly UrlGeneratorInterface $router,
-        #[Autowire(env: 'PAGE_BASE_URL')] private readonly string $pageBaseUrl,
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] private readonly string $defaultTimeZone,
+        #[Autowire(env: 'PAGE_BASE_URL')]
+        private readonly string $pageBaseUrl,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        private readonly string $defaultTimeZone,
     ) {
         parent::__construct();
     }
@@ -173,6 +174,7 @@ class SendNewsletterCommand extends Command
 
     /**
      * @param array<Event> $events
+     *
      * @return array{current: array<Event>, future: array<Event>}
      */
     private function classifyEvents(array $events, DateTime $dateNow): array
@@ -193,6 +195,7 @@ class SendNewsletterCommand extends Command
 
     /**
      * @param array<Event> $currentEvents
+     *
      * @return array<string>
      */
     private function buildCurrentEventsLines(
@@ -200,7 +203,7 @@ class SendNewsletterCommand extends Command
         IntlDateFormatter $formatter,
         DateTimeZone $timeZone
     ): array {
-        if ($currentEvents === []) {
+        if ([] === $currentEvents) {
             return ['Actualmente no hay eventos :('];
         }
 
@@ -230,6 +233,7 @@ class SendNewsletterCommand extends Command
 
     /**
      * @param array<Event> $futureEvents
+     *
      * @return array<string>
      */
     private function buildFutureEventsLines(
@@ -237,7 +241,7 @@ class SendNewsletterCommand extends Command
         IntlDateFormatter $formatter,
         DateTimeZone $timeZone
     ): array {
-        if ($futureEvents === []) {
+        if ([] === $futureEvents) {
             return [];
         }
 
@@ -250,7 +254,8 @@ class SendNewsletterCommand extends Command
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
             $lll = new DateTime(
-                $event->getDateStart()->format('Y-m-d H:i:s'), $timeZone
+                $event->getDateStart()->format('Y-m-d H:i:s'),
+                $timeZone
             );
             $lines[] = sprintf(
                 '- [%s](%s) (tipo: *%s*) empieza el dia %s',

@@ -16,7 +16,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MapGroupController extends BaseController
 {
     public function __construct(
-        private readonly MapGroupRepository $mapGroupRepository, private readonly EntityManagerInterface $entityManager
+        private readonly MapGroupRepository $mapGroupRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -54,7 +55,7 @@ class MapGroupController extends BaseController
             'map_group/new.html.twig',
             [
                 'map_group' => $mapGroup,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -80,7 +81,7 @@ class MapGroupController extends BaseController
             'map_group/edit.html.twig',
             [
                 'map_group' => $mapGroup,
-                'form'      => $form,
+                'form' => $form,
             ]
         );
     }
@@ -93,7 +94,7 @@ class MapGroupController extends BaseController
     ): Response {
         if ($this->isCsrfTokenValid(
             'delete'.$mapGroup->getId(),
-            (string)$request->request->get('_token')
+            (string) $request->request->get('_token')
         )
         ) {
             $this->entityManager->remove($mapGroup);

@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
+use App\Repository\MapGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
-use App\Repository\MapGroupRepository;
 
 #[Entity(repositoryClass: MapGroupRepository::class)]
 class MapGroup

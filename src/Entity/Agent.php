@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\AgentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -14,7 +15,6 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\AgentRepository;
 
 #[Entity(repositoryClass: AgentRepository::class)]
 class Agent implements Stringable

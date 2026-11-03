@@ -15,22 +15,22 @@ class ControllerAccessTest extends WebTestCase
      */
     private array $exceptions
         = [
-            'default'                   => [
+            'default' => [
                 'statusCode' => 200,
             ],
-            'app_login'                 => [
+            'app_login' => [
                 'statusCode' => ['GET' => 200, 'POST' => 302],
             ],
-            'connect_google_api_token'  => [
+            'connect_google_api_token' => [
                 'statusCode' => 200,
             ],
-            'event_calendar'            => [
+            'event_calendar' => [
                 'statusCode' => 200,
             ],
             'ingress_event_public_show' => [
                 'statusCode' => 200,
             ],
-            'app_privacy'               => [
+            'app_privacy' => [
                 'statusCode' => 200,
             ],
         ];
@@ -65,9 +65,9 @@ class ControllerAccessTest extends WebTestCase
             }
 
             $routerClass = 'App\Controller\\'.basename(
-                    $item->getBasename(),
-                    '.php'
-                );
+                $item->getBasename(),
+                '.php'
+            );
             $routes = $routeLoader->load($routerClass)->all();
 
             $this->processRoutes($routes, $client);
@@ -83,7 +83,7 @@ class ControllerAccessTest extends WebTestCase
             [$defaultId, $expectedStatusCode] = $this->getRouteConfig($routeName);
 
             $methods = $route->getMethods() ?: ['GET'];
-            $path = str_replace('{id}', (string)$defaultId, $route->getPath());
+            $path = str_replace('{id}', (string) $defaultId, $route->getPath());
             foreach ($methods as $method) {
                 $code = is_array($expectedStatusCode)
                     ? $expectedStatusCode[$method] : $expectedStatusCode;
@@ -121,7 +121,7 @@ class ControllerAccessTest extends WebTestCase
         }
 
         if (array_key_exists('params', $this->exceptions[$routeName])) {
-            $params = (array)$this->exceptions[$routeName]['params'];
+            $params = (array) $this->exceptions[$routeName]['params'];
             if (array_key_exists('id', $params)) {
                 $defaultId = $params['id'];
             }

@@ -23,7 +23,8 @@ class IntlDateHelper
     private readonly string $timeZone;
 
     public function __construct(
-        #[Autowire(env: 'DEFAULT_TIMEZONE')] string $defaultTimeZone,
+        #[Autowire(env: 'DEFAULT_TIMEZONE')]
+        string $defaultTimeZone,
         TranslatorInterface $translator
     ) {
         $locale = $translator->getLocale();
@@ -52,12 +53,12 @@ class IntlDateHelper
 
     public function format(DateTime $date): string
     {
-        return (string)$this->formatterLong->format($date);
+        return (string) $this->formatterLong->format($date);
     }
 
     public function formatShort(DateTime $date): string
     {
-        return (string)$this->formatterShort->format($date);
+        return (string) $this->formatterShort->format($date);
     }
 
     public function getDefaultTimezone(): DateTimeZone
@@ -68,10 +69,14 @@ class IntlDateHelper
     public function formatCustom(DateTime $date, string $format): string
     {
         $fmt = new IntlDateFormatter(
-            $this->locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL,
-            $this->timeZone, IntlDateFormatter::GREGORIAN, $format
+            $this->locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            $this->timeZone,
+            IntlDateFormatter::GREGORIAN,
+            $format
         );
 
-        return (string)$fmt->format($date);
+        return (string) $fmt->format($date);
     }
 }

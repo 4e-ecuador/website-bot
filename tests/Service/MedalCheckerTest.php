@@ -7,6 +7,7 @@ use App\Entity\AgentStat;
 use App\Repository\AgentStatRepository;
 use App\Service\MedalChecker;
 use App\Util\BadgeData;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use UnexpectedValueException;
 
@@ -81,8 +82,8 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetMedalLevel(): void
     {
         $medals = [
-            'explorer'       => 100,
-            'nl1331Meetups'  => 1,
+            'explorer' => 100,
+            'nl1331Meetups' => 1,
             'mindController' => 100,
         ];
 
@@ -130,9 +131,9 @@ class MedalCheckerTest extends KernelTestCase
     public function testGetBadgePath(): void
     {
         $badges = [
-            'explorer'        => 'badge_explorer_bronze.png',
+            'explorer' => 'badge_explorer_bronze.png',
             'mind-controller' => 'badge_mind_controller_bronze.png',
-            'Recon'           => 'badge_Recon_bronze.png',
+            'Recon' => 'badge_Recon_bronze.png',
         ];
         foreach ($badges as $badge => $image) {
             $result = $this->medalChecker->getBadgePath($badge, 1);
@@ -239,7 +240,7 @@ class MedalCheckerTest extends KernelTestCase
         $entry = new AgentStat();
         $entry->setAgent($agent);
         $entry->setExplorer(100);
-        $entry->setDatetime(new \DateTime('2024-01-01'));
+        $entry->setDatetime(new DateTime('2024-01-01'));
 
         $statRepository = $this->createStub(AgentStatRepository::class);
         $statRepository->method('getPrevious')->willReturn(null);
@@ -261,8 +262,8 @@ class MedalCheckerTest extends KernelTestCase
 
         // Every anomaly season's description says so, and no other anomaly's
         foreach ($this->medalChecker->getCustomMedalGroups()['anomaly'] as $medal => $tiers) {
-            $tier = is_array($tiers) ? (string)($tiers[0] ?? '') : '';
-            $description = $this->medalChecker->getBadgeData($this->medalChecker->getBadgeName('anomaly', (string)$medal, $tier))->description;
+            $tier = is_array($tiers) ? (string) ($tiers[0] ?? '') : '';
+            $description = $this->medalChecker->getBadgeData($this->medalChecker->getBadgeName('anomaly', (string) $medal, $tier))->description;
             self::assertSame(
                 in_array($medal, MedalChecker::ANOMALY_SEASONS, true),
                 str_contains($description, 'Season'),

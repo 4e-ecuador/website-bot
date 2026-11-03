@@ -15,6 +15,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -63,9 +64,9 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->isSuccess()
-                && $attempt->getEmail() === 'user@example.com'
-                && $attempt->getIpAddress() === '127.0.0.1'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => $attempt->isSuccess()
+                && 'user@example.com' === $attempt->getEmail()
+                && '127.0.0.1' === $attempt->getIpAddress()));
         $this->entityManager->expects(self::once())->method('flush');
 
         $this->subscriber->onLoginSuccess($event);
@@ -90,9 +91,9 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => !$attempt->isSuccess()
-                && $attempt->getEmail() === 'failed@example.com'
-                && $attempt->getIpAddress() === '10.0.0.1'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => !$attempt->isSuccess()
+                && 'failed@example.com' === $attempt->getEmail()
+                && '10.0.0.1' === $attempt->getIpAddress()));
         $this->entityManager->expects(self::once())->method('flush');
 
         $this->subscriber->onLoginFailure($event);
@@ -103,7 +104,7 @@ class LoginAttemptSubscriberTest extends TestCase
         $userBadge = new UserBadge('badge@example.com', fn () => $this->createStub(UserInterface::class));
 
         $passport = $this->createMock(Passport::class);
-        $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
+        $passport->method('getUser')->willThrowException(new RuntimeException('No user'));
         $passport->expects(self::once())
             ->method('getBadge')
             ->with(UserBadge::class)
@@ -120,7 +121,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getEmail() === 'badge@example.com'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'badge@example.com' === $attempt->getEmail()));
 
         $this->subscriber->onLoginFailure($event);
     }
@@ -128,7 +129,7 @@ class LoginAttemptSubscriberTest extends TestCase
     public function testOnLoginFailureWithRequestEmailFallback(): void
     {
         $passport = $this->createStub(Passport::class);
-        $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
+        $passport->method('getUser')->willThrowException(new RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
         $request = new Request(
@@ -145,8 +146,8 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getEmail() === 'request@example.com'
-                && $attempt->getAuthMethod() === 'unknown'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'request@example.com' === $attempt->getEmail()
+                && 'unknown' === $attempt->getAuthMethod()));
 
         $this->subscriber->onLoginFailure($event);
     }
@@ -154,7 +155,7 @@ class LoginAttemptSubscriberTest extends TestCase
     public function testOnLoginFailureWithUsernameFallback(): void
     {
         $passport = $this->createStub(Passport::class);
-        $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
+        $passport->method('getUser')->willThrowException(new RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
         $request = new Request(
@@ -171,7 +172,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getEmail() === 'username@example.com'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'username@example.com' === $attempt->getEmail()));
 
         $this->subscriber->onLoginFailure($event);
     }
@@ -179,7 +180,7 @@ class LoginAttemptSubscriberTest extends TestCase
     public function testOnLoginFailureWithNoEmailResolvable(): void
     {
         $passport = $this->createStub(Passport::class);
-        $passport->method('getUser')->willThrowException(new \RuntimeException('No user'));
+        $passport->method('getUser')->willThrowException(new RuntimeException('No user'));
         $passport->method('getBadge')->willReturn(null);
 
         $request = new Request(server: ['REMOTE_ADDR' => '10.10.10.10']);
@@ -193,7 +194,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getEmail() === null));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => null === $attempt->getEmail()));
 
         $this->subscriber->onLoginFailure($event);
     }
@@ -222,7 +223,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'google'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'google' === $attempt->getAuthMethod()));
         $this->entityManager->expects(self::once())->method('flush');
 
         $this->subscriber->onLoginSuccess($event);
@@ -252,7 +253,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'google_identity'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'google_identity' === $attempt->getAuthMethod()));
         $this->entityManager->expects(self::once())->method('flush');
 
         $this->subscriber->onLoginSuccess($event);
@@ -278,7 +279,7 @@ class LoginAttemptSubscriberTest extends TestCase
 
         $this->entityManager->expects(self::once())
             ->method('persist')
-            ->with(self::callback(fn(LoginAttempt $attempt): bool => $attempt->getAuthMethod() === 'form'));
+            ->with(self::callback(fn (LoginAttempt $attempt): bool => 'form' === $attempt->getAuthMethod()));
         $this->entityManager->expects(self::once())->method('flush');
 
         $this->subscriber->onLoginSuccess($event);

@@ -22,11 +22,11 @@ use TelegramBot\Api\InvalidArgumentException;
 )]
 class HerokuDeployFinishedNotificationCommand extends Command
 {
-
     public function __construct(
         private readonly TelegramBotHelper $telegramBotHelper,
         private readonly EmojiService $emojiService,
-        #[Autowire(env: 'PAGE_BASE_URL')] private readonly string $pageBaseUrl
+        #[Autowire(env: 'PAGE_BASE_URL')]
+        private readonly string $pageBaseUrl
     ) {
         parent::__construct();
     }

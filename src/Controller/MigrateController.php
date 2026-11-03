@@ -53,7 +53,7 @@ class MigrateController extends BaseController
             throw new UnexpectedValueException('No agent found for current user');
         }
 
-        $csv = Reader::createFromPath($file->getRealPath());
+        $csv = Reader::from($file->getRealPath());
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader();

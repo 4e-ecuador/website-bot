@@ -31,7 +31,7 @@ class AgentStatCsvExporter
     {
         $columns = $this->columns();
 
-        $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv = Writer::from(new SplTempFileObject());
         $csv->insertOne(array_values($columns));
 
         foreach ($this->statRepository->getAgentStatsForCsv($agent, 'ASC') as $stat) {

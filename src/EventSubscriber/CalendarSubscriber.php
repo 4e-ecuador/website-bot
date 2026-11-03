@@ -7,10 +7,10 @@ use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\SetDataEvent;
 use DateTime;
 use DateTimeZone;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CalendarSubscriber implements EventSubscriberInterface
+class CalendarSubscriber
 {
     public function __construct(
         private readonly UrlGeneratorInterface $router,
@@ -18,13 +18,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            SetDataEvent::class => 'onCalendarSetData',
-        ];
-    }
-
+    #[AsEventListener(event: SetDataEvent::class)]
     public function onCalendarSetData(SetDataEvent $setDataEvent): void
     {
         $start = $setDataEvent->getStart();

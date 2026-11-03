@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Entity\MapGroup;
+use App\Entity\User;
 use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
 use App\Repository\UserRepository;
@@ -104,7 +105,7 @@ class MapController extends AbstractController
         }
 
         $user = $this->userRepository->findByAgent($agent);
-        $userPic = $user && $user->getAvatarEncoded()
+        $userPic = $user instanceof User && $user->getAvatarEncoded()
             ? sprintf(
                 '<img src="%s" alt="Avatar" style="height: 32px;">',
                 $user->getAvatarEncoded()

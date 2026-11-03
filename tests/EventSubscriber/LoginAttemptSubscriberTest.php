@@ -38,16 +38,6 @@ class LoginAttemptSubscriberTest extends TestCase
     }
 
     #[AllowMockObjectsWithoutExpectations]
-    public function testGetSubscribedEvents(): void
-    {
-        $events = LoginAttemptSubscriber::getSubscribedEvents();
-
-        self::assertArrayHasKey(LoginSuccessEvent::class, $events);
-        self::assertArrayHasKey(LoginFailureEvent::class, $events);
-        self::assertSame('onLoginSuccess', $events[LoginSuccessEvent::class]);
-        self::assertSame('onLoginFailure', $events[LoginFailureEvent::class]);
-    }
-
     public function testOnLoginSuccess(): void
     {
         $user = $this->createStub(UserInterface::class);

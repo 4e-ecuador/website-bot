@@ -8,6 +8,7 @@ use App\Service\MedalChecker;
 use App\Twig\AppExtension;
 use App\Util\BadgeData;
 use DateTime;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use stdClass;
@@ -18,7 +19,7 @@ class AppExtensionTest extends TestCase
 {
     private AppExtension $extension;
 
-    private MedalChecker&\PHPUnit\Framework\MockObject\Stub $medalChecker;
+    private MedalChecker&Stub $medalChecker;
 
     protected function setUp(): void
     {

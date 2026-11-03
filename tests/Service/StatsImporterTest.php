@@ -4,6 +4,7 @@ namespace App\Tests\Service;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Entity\Faction;
 use App\Exception\InvalidCsvException;
 use App\Exception\StatsAlreadyAddedException;
 use App\Exception\StatsNotAllException;
@@ -205,7 +206,7 @@ class StatsImporterTest extends KernelTestCase
     private function createUniqueAgent(): Agent
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $faction = $em->getRepository(\App\Entity\Faction::class)->findOneBy([]);
+        $faction = $em->getRepository(Faction::class)->findOneBy([]);
 
         $agent = new Agent();
         $agent->setNickname('test-'.uniqid());

@@ -15,6 +15,8 @@ use App\Service\MedalChecker;
 use App\Util\BadgeData;
 use DateTime;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Twig\Attribute\AsTwigFilter;
+use Twig\Attribute\AsTwigFunction;
 
 /**
  * Class AppExtension.
@@ -46,7 +48,7 @@ class AppExtension
      *
      * @return array<string, string|int>
      */
-    #[\Twig\Attribute\AsTwigFilter(name: 'cast_to_array')]
+    #[AsTwigFilter(name: 'cast_to_array')]
     public function objectFilter(object $classObject): array
     {
         $array = (array) $classObject;
@@ -61,14 +63,14 @@ class AppExtension
         return $response;
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'medalLevel')]
+    #[AsTwigFilter(name: 'medalLevel')]
     public function medalLevelFilter(int $level): string
     {
         return $this->medalChecker->getLevelName($level);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'medalDesc')]
-    #[\Twig\Attribute\AsTwigFilter(name: 'stripTitle')]
+    #[AsTwigFilter(name: 'medalDesc')]
+    #[AsTwigFilter(name: 'stripTitle')]
     public function medalDescFilter(string $medal): string
     {
         return $this->medalChecker->getDescription($medal);
@@ -77,7 +79,7 @@ class AppExtension
     /**
      * @param array<string> $roles
      */
-    #[\Twig\Attribute\AsTwigFilter(name: 'displayRoles')]
+    #[AsTwigFilter(name: 'displayRoles')]
     public function displayRolesFilter(array $roles): string
     {
         $roles = array_diff($roles, ['ROLE_USER']);
@@ -92,7 +94,7 @@ class AppExtension
         return implode(', ', $displayRoles);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'ucfirst')]
+    #[AsTwigFilter(name: 'ucfirst')]
     public function displayUcFirst(string $string): string
     {
         return ucfirst($string);
@@ -101,25 +103,25 @@ class AppExtension
     /**
      * Transforms the given Markdown content into HTML content.
      */
-    #[\Twig\Attribute\AsTwigFilter(name: 'md2html', isSafe: ['html'])]
+    #[AsTwigFilter(name: 'md2html', isSafe: ['html'])]
     public function markdownToHtml(string $content): string
     {
         return $this->markdownHelper->parse($content);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'medalValue')]
+    #[AsTwigFunction(name: 'medalValue')]
     public function getMedalValue(string $medal, int $level): int
     {
         return $this->medalChecker->getLevelValue($medal, $level);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'medalLevel')]
+    #[AsTwigFunction(name: 'medalLevel')]
     public function getMedalLevel(string $medal, int $value): int
     {
         return $this->medalChecker->getMedalLevel($medal, $value);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'medalLevelName')]
+    #[AsTwigFilter(name: 'medalLevelName')]
     public function getMedalLevelName(int $level): string
     {
         return $this->medalChecker->getMedalLevelName($level);
@@ -128,25 +130,25 @@ class AppExtension
     /**
      * @return array<int, string>
      */
-    #[\Twig\Attribute\AsTwigFunction(name: 'medalLevelNames')]
+    #[AsTwigFunction(name: 'medalLevelNames')]
     public function getMedalLevelNames(): array
     {
         return $this->medalChecker->getMedalLevelNames();
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'translateMedalLevel')]
+    #[AsTwigFilter(name: 'translateMedalLevel')]
     public function translateMedalLevelFilter(int $level): string
     {
         return $this->medalChecker->translateMedalLevel($level);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'medalDoubleValue')]
+    #[AsTwigFunction(name: 'medalDoubleValue')]
     public function medalDoubleValue(string $medal, int $value): int
     {
         return $this->medalChecker->getDoubleValue($medal, $value);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgePath')]
+    #[AsTwigFunction(name: 'getBadgePath')]
     public function getBadgePath(
         string $medal,
         int $level,
@@ -161,31 +163,31 @@ class AppExtension
         );
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'getChallengePath')]
+    #[AsTwigFunction(name: 'getChallengePath')]
     public function getChallengePath(string $medal, int $level): string
     {
         return $this->medalChecker->getChallengePath($medal, $level);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'formatIntlDate')]
+    #[AsTwigFilter(name: 'formatIntlDate')]
     public function formatIntlDate(DateTime $date): bool|string
     {
         return $this->intlDateHelper->format($date);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'intDateShort')]
+    #[AsTwigFilter(name: 'intDateShort')]
     public function intlDateShort(DateTime $dateTime): string
     {
         return $this->intlDateHelper->formatShort($dateTime);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'intlDate')]
+    #[AsTwigFunction(name: 'intlDate')]
     public function intlDate(DateTime $date, string $format): string
     {
         return $this->intlDateHelper->formatCustom($date, $format);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgeName')]
+    #[AsTwigFunction(name: 'getBadgeName')]
     public function getBadgeName(
         string $group,
         string $badge,
@@ -194,7 +196,7 @@ class AppExtension
         return $this->medalChecker->getBadgeName($group, $badge, $value);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'getBadgeData')]
+    #[AsTwigFunction(name: 'getBadgeData')]
     public function getBadgeData(
         string $group,
         string $badge,
@@ -205,19 +207,19 @@ class AppExtension
         );
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'stripGmail')]
+    #[AsTwigFilter(name: 'stripGmail')]
     public function stripGmail(string $string): string
     {
         return str_replace('@gmail.com', '', $string);
     }
 
-    #[\Twig\Attribute\AsTwigFilter(name: 'escape_bytecode')]
+    #[AsTwigFilter(name: 'escape_bytecode')]
     public function escapeBytecode(string $string): string
     {
         return str_replace('%', '\\x', $string);
     }
 
-    #[\Twig\Attribute\AsTwigFunction(name: 'defaultTimeZone')]
+    #[AsTwigFunction(name: 'defaultTimeZone')]
     public function getDefaultTimeZone(): string
     {
         return $this->defaultTimeZone;

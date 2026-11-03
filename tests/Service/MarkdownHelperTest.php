@@ -8,6 +8,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 
 class MarkdownHelperTest extends TestCase
 {
@@ -49,7 +50,7 @@ class MarkdownHelperTest extends TestCase
 
     public function testParseReturnsFallbackMessageOnCacheException(): void
     {
-        $exception = new class('cache error') extends Exception implements \Psr\Cache\InvalidArgumentException {};
+        $exception = new class('cache error') extends Exception implements InvalidArgumentException {};
 
         $cache = $this->createStub(CacheItemPoolInterface::class);
         $cache->method('getItem')->willThrowException($exception);

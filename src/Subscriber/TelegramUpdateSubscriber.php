@@ -5,12 +5,12 @@ namespace App\Subscriber;
 use BoShurik\TelegramBotBundle\Event\UpdateEvent;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
-class TelegramUpdateSubscriber implements EventSubscriberInterface
+class TelegramUpdateSubscriber
 {
     use LoggerAwareTrait;
 
@@ -23,32 +23,24 @@ class TelegramUpdateSubscriber implements EventSubscriberInterface
         $this->setLogger($logger);
     }
 
+    #[AsEventListener(event: UpdateEvent::class, priority: 99)]
     public function check(UpdateEvent $event): void
     {
         $this->isAllowedChat = true;
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            UpdateEvent::class => [
-                ['check', 99],
-                ['processUpdate', 0],
-                ['writeLog', -10],
-            ],
-        ];
     }
 
     /**
      * @throws Exception
      * @throws InvalidArgumentException
      */
+    #[AsEventListener(event: UpdateEvent::class, priority: 0)]
     public function processUpdate(UpdateEvent $event): void
     {
         $this->respondWelcome($event);
         $this->respondInlineQuery();
     }
 
+    #[AsEventListener(event: UpdateEvent::class, priority: -10)]
     public function writeLog(UpdateEvent $event): void
     {
         $message = $event->getUpdate()->getMessage();

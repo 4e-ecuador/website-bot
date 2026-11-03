@@ -1,6 +1,8 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
+declare(strict_types=1);
+
+$finder = new PhpCsFixer\Finder()
     ->in(__DIR__)
     ->exclude('var')
     ->notPath([
@@ -9,7 +11,7 @@ $finder = (new PhpCsFixer\Finder())
     ])
 ;
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setRules([
         '@Symfony' => true,
         '@PHP8x4Migration' => true,
@@ -19,6 +21,7 @@ return (new PhpCsFixer\Config())
             'import_constants' => false,
             'import_functions' => false,
         ],
+        'fully_qualified_strict_types' => ['import_symbols' => true],
         // Keep inline /** @var */ hints as docblocks, PHPStan reads them
         'phpdoc_to_comment' => ['ignored_tags' => ['var']],
     ])

@@ -9,6 +9,8 @@ use App\Service\TelegramBotHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
@@ -79,8 +81,8 @@ class GoogleIdentityAuthenticatorTest extends TestCase
         );
 
         $request = Request::create('/connect/google/verify', Request::METHOD_POST);
-        $request->setSession(new \Symfony\Component\HttpFoundation\Session\Session(
-            new \Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage()
+        $request->setSession(new Session(
+            new MockArraySessionStorage()
         ));
 
         $response = $authenticator->onAuthenticationFailure(

@@ -6,6 +6,7 @@ use App\Entity\Agent;
 use App\Service\TelegramBotHelper;
 use PHPUnit\Framework\TestCase;
 use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Types\Message;
 use UnexpectedValueException;
 
 class TelegramBotHelperTest extends TestCase
@@ -34,8 +35,8 @@ class TelegramBotHelperTest extends TestCase
                 $messageThreadId = null,
                 $protectContent = null,
                 $allowSendingWithoutReply = null
-            ): \TelegramBot\Api\Types\Message {
-                return new \TelegramBot\Api\Types\Message();
+            ): Message {
+                return new Message();
             }
 
             public function sendPhoto(
@@ -49,8 +50,8 @@ class TelegramBotHelperTest extends TestCase
                 $messageThreadId = null,
                 $protectContent = null,
                 $allowSendingWithoutReply = null
-            ): \TelegramBot\Api\Types\Message {
-                return new \TelegramBot\Api\Types\Message();
+            ): Message {
+                return new Message();
             }
         };
 
@@ -256,27 +257,27 @@ class TelegramBotHelperTest extends TestCase
     {
         $result = $this->helper->sendMessage(123, 'Hello World');
 
-        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+        self::assertInstanceOf(Message::class, $result);
     }
 
     public function testSendMessageWithDisablePreview(): void
     {
         $result = $this->helper->sendMessage(123, 'Hello World', true);
 
-        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+        self::assertInstanceOf(Message::class, $result);
     }
 
     public function testSendPhotoReturnsMessage(): void
     {
         $result = $this->helper->sendPhoto(123, 'https://example.com/photo.jpg', 'Caption');
 
-        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+        self::assertInstanceOf(Message::class, $result);
     }
 
     public function testSendButtonMessageReturnsMessage(): void
     {
         $result = $this->helper->sendButtonMessage('default');
 
-        self::assertInstanceOf(\TelegramBot\Api\Types\Message::class, $result);
+        self::assertInstanceOf(Message::class, $result);
     }
 }

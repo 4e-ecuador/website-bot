@@ -12,13 +12,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriberTest extends TestCase
 {
-    public function testGetSubscribedEventsContainsSetDataEvent(): void
-    {
-        $subscribed = CalendarSubscriber::getSubscribedEvents();
-        self::assertArrayHasKey(SetDataEvent::class, $subscribed);
-        self::assertSame('onCalendarSetData', $subscribed[SetDataEvent::class]);
-    }
-
     public function testOnCalendarSetDataAddsFirstSaturdayAndSecondSundayEvents(): void
     {
         $router = $this->createStub(UrlGeneratorInterface::class);

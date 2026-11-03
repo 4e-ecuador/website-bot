@@ -7,6 +7,7 @@ use App\Entity\AgentStat;
 use App\Repository\AgentStatRepository;
 use App\Service\MedalChecker;
 use DateTime;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -14,7 +15,7 @@ class MedalCheckerGetMedalsGainedTest extends TestCase
 {
     private MedalChecker $medalChecker;
 
-    private AgentStatRepository&\PHPUnit\Framework\MockObject\Stub $statRepository;
+    private AgentStatRepository&Stub $statRepository;
 
     protected function setUp(): void
     {

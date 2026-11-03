@@ -9,7 +9,7 @@ use App\Security\AppCustomAuthenticator;
 use App\Security\GoogleAuthenticator;
 use App\Security\GoogleIdentityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -17,21 +17,14 @@ use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Throwable;
 
-class LoginAttemptSubscriber implements EventSubscriberInterface
+class LoginAttemptSubscriber
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            LoginSuccessEvent::class => 'onLoginSuccess',
-            LoginFailureEvent::class => 'onLoginFailure',
-        ];
-    }
-
+    #[AsEventListener(event: LoginSuccessEvent::class)]
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $loginAttempt = new LoginAttempt();
@@ -44,6 +37,7 @@ class LoginAttemptSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
     }
 
+    #[AsEventListener(event: LoginFailureEvent::class)]
     public function onLoginFailure(LoginFailureEvent $event): void
     {
         $email = $this->resolveFailedEmail($event);

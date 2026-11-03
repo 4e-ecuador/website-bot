@@ -138,7 +138,7 @@ class StatsController extends BaseController
             }
         }
 
-        if ($badgeErrors) {
+        if ([] !== $badgeErrors) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans(

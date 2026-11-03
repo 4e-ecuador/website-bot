@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Agent;
+use App\Entity\Faction;
 use App\Entity\User;
 use App\Repository\AgentRepository;
 use App\Repository\MapGroupRepository;
@@ -186,9 +187,9 @@ class MapControllerTest extends WebTestCase
         $client->loginUser($user);
 
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
-        $resFaction = $em->getRepository(\App\Entity\Faction::class)->findOneBy(['name' => 'RES']);
-        if (!$resFaction instanceof \App\Entity\Faction) {
-            $resFaction = new \App\Entity\Faction();
+        $resFaction = $em->getRepository(Faction::class)->findOneBy(['name' => 'RES']);
+        if (!$resFaction instanceof Faction) {
+            $resFaction = new Faction();
             $resFaction->setName('RES');
             $em->persist($resFaction);
             $em->flush();

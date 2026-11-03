@@ -7,6 +7,7 @@ use App\Entity\AgentStat;
 use App\Entity\User;
 use App\Repository\AgentStatRepository;
 use App\Service\LeaderBoardService;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 
@@ -14,7 +15,7 @@ class LeaderBoardServiceTest extends TestCase
 {
     private LeaderBoardService $service;
 
-    private AgentStatRepository&\PHPUnit\Framework\MockObject\Stub $statRepository;
+    private AgentStatRepository&Stub $statRepository;
 
     protected function setUp(): void
     {

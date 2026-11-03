@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Agent;
+use App\Entity\Faction;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,9 +85,9 @@ class Map2ControllerTest extends WebTestCase
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
 
         // Get or create RES faction
-        $resFaction = $em->getRepository(\App\Entity\Faction::class)->findOneBy(['name' => 'RES']);
-        if (!$resFaction instanceof \App\Entity\Faction) {
-            $resFaction = new \App\Entity\Faction();
+        $resFaction = $em->getRepository(Faction::class)->findOneBy(['name' => 'RES']);
+        if (!$resFaction instanceof Faction) {
+            $resFaction = new Faction();
             $resFaction->setName('RES');
             $em->persist($resFaction);
             $em->flush();

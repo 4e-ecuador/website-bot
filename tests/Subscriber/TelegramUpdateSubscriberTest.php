@@ -55,14 +55,6 @@ class TelegramUpdateSubscriberTest extends TestCase
         };
     }
 
-    public function testGetSubscribedEventsReturnsCorrectEvents(): void
-    {
-        $subscribed = TelegramUpdateSubscriber::getSubscribedEvents();
-
-        self::assertArrayHasKey(UpdateEvent::class, $subscribed);
-        self::assertCount(1, $subscribed);
-    }
-
     public function testCheckSetsAllowedChatFlag(): void
     {
         $logger = $this->createStub(LoggerInterface::class);

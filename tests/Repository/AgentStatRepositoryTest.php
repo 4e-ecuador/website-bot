@@ -4,6 +4,7 @@ namespace App\Tests\Repository;
 
 use App\Entity\Agent;
 use App\Entity\AgentStat;
+use App\Entity\Faction;
 use App\Repository\AgentStatRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -75,7 +76,7 @@ class AgentStatRepositoryTest extends KernelTestCase
     public function testGetAgentLatestReturnsNullForAgentWithNoStats(): void
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $faction = $em->getRepository(\App\Entity\Faction::class)->findOneBy([]);
+        $faction = $em->getRepository(Faction::class)->findOneBy([]);
 
         $agent = new Agent();
         $agent->setNickname('noStatsAgent');
@@ -104,7 +105,7 @@ class AgentStatRepositoryTest extends KernelTestCase
     public function testGetPreviousReturnsPreviousStat(): void
     {
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $faction = $em->getRepository(\App\Entity\Faction::class)->findOneBy([]);
+        $faction = $em->getRepository(Faction::class)->findOneBy([]);
 
         // Create a dedicated agent with exactly 2 stats
         $agent = new Agent();

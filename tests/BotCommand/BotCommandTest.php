@@ -11,6 +11,7 @@ use App\Repository\AgentRepository;
 use App\Service\CiteService;
 use App\Service\EmojiService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TelegramBot\Api\BotApi;
@@ -76,7 +77,7 @@ class BotCommandTest extends TestCase
         self::assertSame('Agents lookup command', $command->getDescription());
     }
 
-    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+    #[DoesNotPerformAssertions]
     public function testAgentsCommandExecuteSendsMessage(): void
     {
         $command = new Agents();
@@ -92,7 +93,7 @@ class BotCommandTest extends TestCase
         self::assertSame('Guides command', $command->getDescription());
     }
 
-    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+    #[DoesNotPerformAssertions]
     public function testGuidesCommandExecuteSendsMessage(): void
     {
         $command = new Guides();
@@ -111,7 +112,7 @@ class BotCommandTest extends TestCase
         self::assertSame('Cites command', $command->getDescription());
     }
 
-    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+    #[DoesNotPerformAssertions]
     public function testCiteCommandExecuteSendsMessage(): void
     {
         $emojiService = new EmojiService();

@@ -83,6 +83,14 @@ jobs:
             - name: Install browser drivers
               run: vendor/bin/bdi detect drivers
 
+            # UpdateBadgedataCommand shells out to ImageMagick. Ubuntu ships ImageMagick 6,
+            # whose convert takes the same arguments as ImageMagick 7's magick for these calls.
+            - name: Install ImageMagick
+              run: |
+                  sudo apt-get update -q
+                  sudo apt-get install -yq imagemagick
+                  sudo ln -sf /usr/bin/convert /usr/local/bin/magick
+
             - name: Run tests
               run: vendor/bin/phpunit --display-deprecations
               env:

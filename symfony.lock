@@ -12,9 +12,6 @@
             "config/routes/boshurik_telegram_bot.yaml"
         ]
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.3"
-    },
     "doctrine/collections": {
         "version": "1.6.8"
     },
@@ -251,9 +248,6 @@
     },
     "psr/log": {
         "version": "3.0.0"
-    },
-    "ralouphie/getallheaders": {
-        "version": "3.0.3"
     },
     "rector/rector": {
         "version": "0.12.15"
@@ -720,9 +714,6 @@
     },
     "telegram-bot/api": {
         "version": "v2.3.24"
-    },
-    "theseer/tokenizer": {
-        "version": "1.2.1"
     },
     "tijsverkoyen/css-to-inline-styles": {
         "version": "2.2.4"

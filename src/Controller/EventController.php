@@ -60,7 +60,7 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/event/{id}', name: 'event_show', methods: ['GET'])]
+    #[Route(path: '/event/{id}', name: 'event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     #[IsGranted('ROLE_AGENT')]
     public function show(Event $event): Response
     {
@@ -88,7 +88,7 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/event/{id}/edit', name: 'event_edit', methods: [
+    #[Route(path: '/event/{id}/edit', name: 'event_edit', requirements: ['id' => '\d+'], methods: [
         'GET',
         'POST',
     ])]
@@ -114,7 +114,7 @@ class EventController extends BaseController
         );
     }
 
-    #[Route(path: '/event/{id}', name: 'event_delete', methods: ['DELETE'])]
+    #[Route(path: '/event/{id}', name: 'event_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,

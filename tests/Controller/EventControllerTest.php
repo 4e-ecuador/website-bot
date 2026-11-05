@@ -7,6 +7,7 @@ use App\Entity\User;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EventControllerTest extends WebTestCase
 {
@@ -158,5 +159,13 @@ class EventControllerTest extends WebTestCase
             '_token' => $token,
         ]);
         self::assertResponseRedirects('/event/');
+    }
+
+    public function testAWordIsNoEventId(): void
+    {
+        $client = static::createClient();
+        $client->request(Request::METHOD_GET, '/event/calendar');
+
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

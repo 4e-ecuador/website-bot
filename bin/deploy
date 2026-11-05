@@ -12,6 +12,11 @@ COMPOSER="/usr/lib/plesk-9.0/composer.phar"
 echo ">>>============================================================================="
 date
 
+# The old compiled container may list bundles of removed packages, which breaks
+# composer's cache:clear; Symfony builds a new one
+echo "**** Removing the prod cache..."
+rm -rf var/cache/prod
+
 echo "**** Installing composer dependencies..."
 $PHP $COMPOSER install --no-dev --optimize-autoloader
 

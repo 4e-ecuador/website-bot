@@ -371,6 +371,11 @@ class MedalChecker
                     'silver',
                     'gold',
                 ],
+                'polaris' => [
+                    'bronze',
+                    'silver',
+                    'gold',
+                ],
                 '2025_winter_solstice' => [
                     'bronze',
                     'silver',
@@ -416,12 +421,12 @@ class MedalChecker
                     'silver',
                     'gold',
                 ],
-                'courier_challenge' => [
+                'kinetic_challenge' => [
                     'bronze',
                     'silver',
                     'gold',
                 ],
-                'kinetic_challenge' => [
+                'courier_challenge' => [
                     'bronze',
                     'silver',
                     'gold',
@@ -432,6 +437,10 @@ class MedalChecker
                 ],
                 'paragon' => [
                     '',
+                ],
+                'perpetua' => [
+                    'standard',
+                    'elite',
                 ],
                 'didact_field' => [
                     'bronze',
@@ -445,6 +454,10 @@ class MedalChecker
                 ],
                 'avenir_shard_challenge' => [
                     '',
+                ],
+                'field_test_hexathlon' => [
+                    'standard',
+                    'elite',
                 ],
                 'aurora_glyph' => [
                     'bronze',

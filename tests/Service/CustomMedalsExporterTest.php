@@ -17,6 +17,14 @@ class CustomMedalsExporterTest extends KernelTestCase
         return $exporter;
     }
 
+    public function testKeepsTheTiersOfTheNewEventMedals(): void
+    {
+        self::assertSame(
+            ['anomaly' => [], 'annual' => [], 'event' => ['polaris' => 'gold', 'perpetua' => 'elite', 'field_test_hexathlon' => 'standard']],
+            $this->exporter()->normalize(['event' => ['polaris' => 'gold', 'perpetua' => 'elite', 'field_test_hexathlon' => 'standard']]),
+        );
+    }
+
     public function testKeepsTheCurrentFormat(): void
     {
         self::assertSame(

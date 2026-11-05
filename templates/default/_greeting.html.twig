@@ -28,10 +28,3 @@
 {% endif %}
 
 <p>{{ 'agents.in.database'|trans({'count': agents|length}) }}</p>
-
-{# check for APP @todo ugly! #}
-{% if '4emanager' != app.request.headers.get('User-Agent') %}
-    <a href="https://play.google.com/store/apps/details?id=org.elkuku.a4emanager">
-        <img src="{{ asset('images/ico/google-play-badge/128x128.png') }}" alt="4E App on Play Store">
-    </a>
-{% endif %}

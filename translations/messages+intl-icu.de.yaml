@@ -76,8 +76,8 @@ Save: __Save
 'Search agent': '__Search agent'
 'Agent nickname': '__Agent nickname'
 Search: __Search
-'Please sign in': '__Please sign in'
-'Google Login': '__Google Login'
+'Please sign in': 'Bitte anmelden'
+'Sign in with your Google account': 'Melde dich mit deinem Google-Konto an'
 medal.level.bronce: __medal.level.bronce
 medal.level.silver: Silber
 medal.level.gold: Gold

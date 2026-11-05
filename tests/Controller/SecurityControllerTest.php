@@ -13,6 +13,7 @@ class SecurityControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(Request::METHOD_GET, '/login');
         self::assertResponseIsSuccessful();
+        self::assertSelectorExists('.login-card .g_id_signin[data-controller="google-button"]');
     }
 
     public function testLoginRedirectsForAuthenticatedUser(): void

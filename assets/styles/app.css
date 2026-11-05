@@ -177,3 +177,32 @@ div.cite-body {
     background-color: #2e2e2e;
     color: #fff;
 }
+
+/* The sign-in page: a card with a green top edge; the space of the Google button is kept
+   while its script loads */
+.login-card {
+    border-top: 4px solid #1ab60d;
+}
+
+/* The logo is white */
+[data-bs-theme=light] .login-logo {
+    filter: invert(1);
+}
+
+.login-card h1 {
+    color: var(--bs-emphasis-color);
+}
+
+.login-google {
+    min-height: 44px;
+}
+
+/* Google's button is a light page, also the dark button: with the dark theme's color scheme
+   the browser would paint a white box behind its frame */
+.login-google iframe {
+    color-scheme: light;
+}
+
+.login-dev {
+    border-style: dashed;
+}

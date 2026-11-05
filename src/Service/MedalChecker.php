@@ -299,6 +299,7 @@ class MedalChecker
                 'plus_theta' => ['bronze', 'silver', 'gold'],
                 'plus_alpha' => [''],
                 'erased_memories' => [''],
+                'shared_memories' => [''],
                 'buried_memories' => [''],
                 'cryptic_memories' => [''],
                 'discoverie' => [''],
@@ -331,6 +332,7 @@ class MedalChecker
                 'recursion' => [''],
             ],
             'annual' => [
+                'vector' => [],
                 'voyager' => [],
                 'catalyst' => [],
                 'paragon' => [],

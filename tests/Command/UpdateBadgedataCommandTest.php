@@ -140,7 +140,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
 
         self::assertTrue($method->invoke($this->command, 'badge_intel_ops_bronze.png'));
-        self::assertTrue($method->invoke($this->command, 'unnamed_badge.png'));
+        self::assertTrue($method->invoke($this->command, 'unnamed_27.png'));
         self::assertTrue($method->invoke($this->command, 'placeholder_foo.png'));
         self::assertTrue($method->invoke($this->command, 'bad_cat_bar.png'));
     }
@@ -161,7 +161,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $this->setUpCommandIo($output);
         $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'isSkippedBadge');
 
-        self::assertTrue($method->invoke($this->command, 'unnamed_badge.png'));
+        self::assertTrue($method->invoke($this->command, 'unnamed_27.png'));
         self::assertStringContainsString('skipped', $output->fetch());
     }
 
@@ -239,7 +239,7 @@ class UpdateBadgedataCommandTest extends TestCase
         $method = new ReflectionMethod(UpdateBadgedataCommand::class, 'skipItem');
 
         $item = new stdClass();
-        $item->image = ['unnamed_badge_abc123.png'];
+        $item->image = ['unnamed_27_abc123.png'];
         $item->title = 'Some Badge';
         $item->expand = (object) ['category' => (object) ['title' => 'Regular Medals']];
 

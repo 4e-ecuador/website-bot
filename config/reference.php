@@ -1445,15 +1445,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         guard_route?: scalar|Param|null,
  *     },
  * }
- * @psalm-type KnpuOauth2ClientConfig = array{
- *     http_client?: scalar|Param|null, // Service id of HTTP client to use (must implement GuzzleHttp\ClientInterface) // Default: null
- *     http_client_options?: array{
- *         timeout?: int|Param,
- *         proxy?: scalar|Param|null,
- *         verify?: bool|Param, // Use only with proxy option set
- *     },
- *     clients?: array<string, array<string, mixed>>,
- * }
  * @psalm-type TwigExtraConfig = array{
  *     cache?: bool|array{
  *         enabled?: bool|Param, // Default: false
@@ -1579,7 +1570,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     twig?: TwigConfig,
  *     monolog?: MonologConfig,
  *     boshurik_telegram_bot?: BoshurikTelegramBotConfig,
- *     knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *     twig_extra?: TwigExtraConfig,
  *     nelmio_cors?: NelmioCorsConfig,
  *     calendar?: CalendarConfig,
@@ -1599,7 +1589,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         debug?: DebugConfig,
  *         maker?: MakerConfig,
  *         boshurik_telegram_bot?: BoshurikTelegramBotConfig,
- *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         twig_extra?: TwigExtraConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         calendar?: CalendarConfig,
@@ -1618,7 +1607,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig?: TwigConfig,
  *         monolog?: MonologConfig,
  *         boshurik_telegram_bot?: BoshurikTelegramBotConfig,
- *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         twig_extra?: TwigExtraConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         calendar?: CalendarConfig,
@@ -1638,7 +1626,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         debug?: DebugConfig,
  *         boshurik_telegram_bot?: BoshurikTelegramBotConfig,
- *         knpu_oauth2_client?: KnpuOauth2ClientConfig,
  *         twig_extra?: TwigExtraConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         calendar?: CalendarConfig,

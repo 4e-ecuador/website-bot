@@ -18,7 +18,6 @@ security:
             entry_point: App\Security\AppCustomAuthenticator
             custom_authenticators:
                 - App\Security\AppCustomAuthenticator
-                - App\Security\GoogleAuthenticator
                 - App\Security\GoogleIdentityAuthenticator
 
             form_login:

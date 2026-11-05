@@ -21,9 +21,6 @@ class ControllerAccessTest extends WebTestCase
             'app_login' => [
                 'statusCode' => ['GET' => 200, 'POST' => 302],
             ],
-            'connect_google_api_token' => [
-                'statusCode' => 200,
-            ],
             'event_calendar' => [
                 'statusCode' => 200,
             ],
@@ -55,12 +52,7 @@ class ControllerAccessTest extends WebTestCase
                 continue;
             }
 
-            if (in_array(
-                $item->getBasename(),
-                ['.gitignore', 'GoogleController.php'],
-                true
-            )
-            ) {
+            if ('.gitignore' === $item->getBasename()) {
                 continue;
             }
 

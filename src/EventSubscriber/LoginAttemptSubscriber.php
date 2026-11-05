@@ -6,7 +6,6 @@ namespace App\EventSubscriber;
 
 use App\Entity\LoginAttempt;
 use App\Security\AppCustomAuthenticator;
-use App\Security\GoogleAuthenticator;
 use App\Security\GoogleIdentityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -76,7 +75,6 @@ class LoginAttemptSubscriber
     private function resolveAuthMethod(AuthenticatorInterface $authenticator): string
     {
         return match ($authenticator::class) {
-            GoogleAuthenticator::class => 'google',
             GoogleIdentityAuthenticator::class => 'google_identity',
             AppCustomAuthenticator::class => 'form',
             default => 'unknown',

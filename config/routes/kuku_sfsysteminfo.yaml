@@ -1,3 +1,8 @@
 _kuku_sfsysinfo:
   resource: '@KuKuSFSystemToolsBundle/config/routes.yaml'
   prefix: /system/info
+
+# /admin/about and /admin/logview
+_kuku_sfsys_admin:
+  resource: '@KuKuSFSystemToolsBundle/config/routes/admin.yaml'
+  prefix: /admin

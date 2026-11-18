@@ -19,4 +19,5 @@ return [
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['dev' => true, 'test' => true],
     Symfony\UX\Map\UXMapBundle::class => ['all' => true],
+    KuKu\SFSystemToolsBundle\KuKuSFSystemToolsBundle::class => ['all' => true],
 ];

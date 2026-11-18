@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "931e3beae88d10d7b2a7e402fac6263c",
+    "content-hash": "ac76039ef2e39da30cd2007b0c904cc4",
     "packages": [
         {
             "name": "boshurik/telegram-bot-bundle",
@@ -1526,6 +1526,55 @@
             ],
             "time": "2025-03-06T22:45:56+00:00",
             "published-time": "2025-03-20T21:39:03+00:00"
+        },
+        {
+            "name": "elkuku/kuku-sf-system-tools-bundle",
+            "version": "1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elkuku/SFSystemToolsBundle.git",
+                "reference": "3e3264d6315230cd6501a32289b60b2345de3400"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elkuku/SFSystemToolsBundle/zipball/3e3264d6315230cd6501a32289b60b2345de3400",
+                "reference": "3e3264d6315230cd6501a32289b60b2345de3400",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "symfony/config": "^7.2|^8.0",
+                "symfony/dependency-injection": "^7.2|^8.0",
+                "symfony/framework-bundle": "^7.2|^8.0",
+                "symfony/http-kernel": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^12",
+                "symplify/config-transformer": "^12.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KuKu\\SFSystemToolsBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Nikolai Plath",
+                    "email": "der.el.kuku@gmail.com"
+                }
+            ],
+            "description": "System tools for Symfony",
+            "support": {
+                "issues": "https://github.com/elkuku/SFSystemToolsBundle/issues",
+                "source": "https://github.com/elkuku/SFSystemToolsBundle/tree/1.3"
+            },
+            "time": "2025-12-09T19:44:46+00:00",
+            "published-time": "2025-12-09T19:46:59+00:00"
         },
         {
             "name": "firebase/php-jwt",

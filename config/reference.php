@@ -1559,6 +1559,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default_map_id?: scalar|Param|null, // Default: null
  *     },
  * }
+ * @psalm-type KukuSfSystemToolsConfig = array{
+ *     expose_sf_version?: bool|Param, // Default: false
+ *     expose_php_version?: bool|Param, // Default: false
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1575,6 +1579,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     calendar?: CalendarConfig,
  *     stimulus?: StimulusConfig,
  *     ux_map?: UxMapConfig,
+ *     kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1595,6 +1600,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         stimulus?: StimulusConfig,
  *         doctrine_diagram?: DoctrineDiagramConfig,
  *         ux_map?: UxMapConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1612,6 +1618,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         calendar?: CalendarConfig,
  *         stimulus?: StimulusConfig,
  *         ux_map?: UxMapConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1632,6 +1639,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         stimulus?: StimulusConfig,
  *         doctrine_diagram?: DoctrineDiagramConfig,
  *         ux_map?: UxMapConfig,
+ *         kuku_sf_system_tools?: KukuSfSystemToolsConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

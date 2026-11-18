@@ -1,0 +1,3 @@
+kuku_sf_system_tools:
+  expose_sf_version: true
+  expose_php_version: true

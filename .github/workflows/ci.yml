@@ -7,7 +7,7 @@ env:
     # Test the PHP version we actually use in production.
     PHP_VERSION: '8.5'
     # Matches docker-compose.yaml.
-    DATABASE_URL: 'postgresql://app:password@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
+    DATABASE_URL: 'postgresql://app:password@127.0.0.1:5432/app?serverVersion=15&charset=utf8'
 
 # Run for every pull request, plus the final commit that lands on master.
 on:
@@ -31,7 +31,7 @@ jobs:
 
         services:
             postgres:
-                image: postgres:16-alpine
+                image: postgres:15-alpine
                 env:
                     POSTGRES_DB: app
                     POSTGRES_USER: app

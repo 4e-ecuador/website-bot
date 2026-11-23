@@ -1562,6 +1562,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type KukuSfSystemToolsConfig = array{
  *     expose_sf_version?: bool|Param, // Default: false
  *     expose_php_version?: bool|Param, // Default: false
+ *     expose_db_version?: bool|Param, // Adds db_platform and db_version to /system/info/. Needs Doctrine DBAL. // Default: false
+ *     expose_last_deploy?: bool|Param, // Adds last_deploy (time and status of the newest run in admin.deploy_log) to /system/info/. // Default: false
  *     admin?: bool|array{ // The About and deploy log pages. They need symfony/twig-bundle and symfony/security-bundle.
  *         enabled?: bool|Param, // Default: false
  *         role?: scalar|Param|null, // The role a user needs to see the pages. // Default: "ROLE_ADMIN"

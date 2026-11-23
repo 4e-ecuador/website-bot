@@ -1,5 +1,7 @@
 kuku_sf_system_tools:
   expose_sf_version: true
   expose_php_version: true
+  expose_db_version: true
+  expose_last_deploy: true
   # The About and deploy log pages, see config/routes/kuku_sfsysteminfo.yaml.
   admin: ~

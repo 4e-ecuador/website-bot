@@ -17,9 +17,14 @@ class SystemInfoTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('Content-Type', 'application/json');
-        self::assertSame(
-            ['sf_version' => Kernel::VERSION, 'php_version' => PHP_VERSION],
-            json_decode((string) $client->getResponse()->getContent(), true),
-        );
+        $info = json_decode((string) $client->getResponse()->getContent(), true);
+        self::assertIsArray($info);
+
+        self::assertSame(Kernel::VERSION, $info['sf_version'] ?? null);
+        self::assertSame(PHP_VERSION, $info['php_version'] ?? null);
+        // The database the tests run on, and the last deploy (none in the tests).
+        self::assertSame('postgresql', $info['db_platform'] ?? null);
+        self::assertIsString($info['db_version'] ?? null);
+        self::assertArrayHasKey('last_deploy', $info);
     }
 }

@@ -21,7 +21,11 @@ trait PaginatorTrait
      */
     protected function getPaginatorOptions(Request $request): PaginatorOptions
     {
-        $options = $request->query->all('paginatorOptions');
+        // The paginator forms are submitted via POST; query values win, as with the old Request::get().
+        $options = array_replace(
+            $request->request->all('paginatorOptions'),
+            $request->query->all('paginatorOptions'),
+        );
 
         return new PaginatorOptions()
             ->setPage(

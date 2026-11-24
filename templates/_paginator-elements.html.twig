@@ -47,10 +47,10 @@
                     </li>
                 {% endfor %}
                 {% if endString %}
-                    <li class="disabled"><a class="page-link" href="#">{{ endString }}</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="#">{{ endString }}</a></li>
                 {% endif %}
                 <li class="page-item{{ page == maxPages ? ' disabled' }}">
-                    <button class="page-link disabled"
+                    <button class="page-link"
                             {{ stimulus_action('paginator', 'goToPage', 'click', {page: page + 1 <= maxPages ? page + 1 : page}) }}
                     >&rArr;</button>
                 </li>

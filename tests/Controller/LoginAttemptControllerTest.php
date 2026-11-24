@@ -43,4 +43,25 @@ class LoginAttemptControllerTest extends WebTestCase
         ]);
         self::assertResponseIsSuccessful();
     }
+
+    public function testIndexReadsPostedPaginatorOptions(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getAdminUser());
+        $client->request(Request::METHOD_POST, '/login-attempt/', [
+            'paginatorOptions' => [
+                'page' => '3',
+                'limit' => '5',
+                'order' => 'email',
+                'orderDir' => 'DESC',
+                'criteria' => ['email' => 'nobody'],
+            ],
+        ]);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('input[name="paginatorOptions[page]"][value="3"]');
+        self::assertSelectorExists('input[name="paginatorOptions[order]"][value="email"]');
+        self::assertSelectorExists('input[name="paginatorOptions[orderDir]"][value="DESC"]');
+        self::assertSelectorTextSame('select[name="paginatorOptions[limit]"] option[selected]', '5');
+        self::assertInputValueSame('paginatorOptions[criteria][email]', 'nobody');
+    }
 }
